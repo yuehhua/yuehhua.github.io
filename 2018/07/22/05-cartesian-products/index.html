@@ -1,0 +1,493 @@
+
+<!DOCTYPE html>
+<html lang="en">
+    
+<head>
+    <!-- hexo-inject:begin --><!-- hexo-inject:end --><meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="generator" content="Dream Maker">
+    <title>Cartesian products - Dream Maker</title>
+    <meta name="author" content="Yueh-Hua Tu">
+    
+    
+    
+        <link rel="alternate" type="application/atom+xml" title="RSS" href="/atom.xml">
+    
+    <script type="application/ld+json">{"@context":"http://schema.org","@type":"BlogPosting","author":{"@type":"Person","name":"Yueh-Hua Tu","sameAs":["https://github.com/yuehhua/","https://facebook.com/","https://www.linkedin.com/profile/","mailto"]},"articleBody":"前面我們定義了集合的笛卡爾積，這邊我們來定義一個更廣義的，$\\mathcal{A}$ 是一個非空集合（collection of sets）：\n\n Def.\n\n$$A \\enspace indexing \\enspace function \\enspace is \\enspace a \\enspace surjective \\enspace function \\enspace f: J \\rightarrow \\mathcal{A},$$\n$$J \\enspace is \\enspace called \\enspace index \\enspace set.$$\n$$The \\enspace collection \\enspace with \\enspace the \\enspace indexing \\enspace function \\enspace f \\enspace is \\enspace called \\enspace indexed \\enspace family \\enspace of \\enspace sets.$$\n所以如果有 $\\alpha \\in J$ ，我們會把 $f(\\alpha)$ 寫成 $A_\\alpha$。那麼 indexed family 本身可以寫成 $\\{A_\\alpha\\}_{\\alpha \\in J}$。\n這個概念有點類似在電腦科學中的 hash function/dictionary 或是指標的意味，有了一個函數可以對某個集合做 indexing。然而他必須是滿射的（surjective），而不是單射的（injective）。\n應用這樣的概念來描述以往的概念就會有點不太一樣：\n$f: J \\rightarrow \\mathcal{A} \\enspace is \\enspace an \\enspace indexing \\enspace function \\enspace for \\enspace \\mathcal{A}$\n$\\bigcup_{\\alpha \\in J} A_\\alpha = \\{ x \\mid at \\enspace least \\enspace one \\enspace \\alpha \\in J, x \\in A_\\alpha \\}$\n$\\bigcap_{\\alpha \\in J} A_\\alpha = \\{ x \\mid for \\enspace every \\enspace \\alpha \\in J, x \\in A_\\alpha \\}$\n我們進一步定義m-元組（m-tuple）：\n\n Def.\n\n$$m \\in \\mathbb{N}, a \\enspace set \\enspace X, m-tuple \\enspace of \\enspace elements \\enspace of \\enspace X \\enspace is$$\n$$x: \\{1, …, m\\} \\rightarrow X$$\n這邊 $x$ 是個 m-tuple，我們通常描述 $x$ 的第 i 個值會寫成 $x_i$ ，也就是第 i 分量，也就是座標（coordinate）。那表示 $x$ 本身則會寫成：\n$$(x_1, …, x_m)$$\n接下來，我們讓 $\\{ A_1, …, A_m \\}$ 是一個 family of indexed sets。 $X = A_1 \\cup A_2 \\cup … \\cup A_m$。我們定義這個 indexed family 的 cartesian product 為：\n$$\\prod_{i = 1}^{m} A_i \\enspace or \\enspace A_1 \\times A_2 \\times … \\times A_m$$\n也就是所有 m-tuple $(x_1, …, x_m)$ 的集合。\n我們有了 m-tuple 就可以來定義一個常用的概念，$\\omega-tuple$。\n\n Def.\n\n$$A \\enspace set \\enspace X, \\omega-tuple \\enspace of \\enspace elements \\enspace of \\enspace X \\enspace is \\enspace a \\enspace function:$$\n$$x: \\mathbb{N} \\rightarrow X$$\n這也是微積分當中的 數列（sequence），或是 無限數列（infinite sequence）。我們也可以把 $\\omega$-tuple $x$ 看成座標，則會表示成：\n$$(x_1, x_2, …)$$\n而 cartesian product 則是：\n$$\\prod_{i \\in \\mathbb{N}} A_i \\enspace or \\enspace A_1 \\times A_2 \\times …$$\n這邊大家可能會疑惑，不同的 $A_i$ 之間有什麼不一樣嗎？其實他們都可能是一樣的，跟 $X$ 一樣，只是去表示位在不同的分量上。如果是 $X$ 的元素的 $m$-tuple 的話，就可以簡寫成 $X^m$。如果是 $X$ 的元素的 $\\omega$-tuple 的話，就可以簡寫成 $X^\\omega$。\nex.如果 $\\mathbb{R}$ 代表實數，那麼 $\\mathbb{R}^m$ 就代表所有實數的 $m$-tuple 的集合，也就是歐幾里得空間（Euclidean m-space）。那 $\\mathbb{R}^\\omega$ 就是無限維度歐氏空間（infinite-dimensional Euclidean space）。\n","dateCreated":"2018-07-22T00:26:26+08:00","dateModified":"2018-07-22T14:27:49+08:00","datePublished":"2018-07-22T00:26:26+08:00","description":"","headline":"Cartesian products","image":[],"mainEntityOfPage":{"@type":"WebPage","@id":"https://yuehhua.github.io/2018/07/22/05-cartesian-products/"},"publisher":{"@type":"Organization","name":"Yueh-Hua Tu","sameAs":["https://github.com/yuehhua/","https://facebook.com/","https://www.linkedin.com/profile/","mailto"]},"url":"https://yuehhua.github.io/2018/07/22/05-cartesian-products/"}</script>
+    <meta name="description" content="前面我們定義了集合的笛卡爾積，這邊我們來定義一個更廣義的，$\mathcal{A}$ 是一個非空集合（collection of sets）：   Def.  $$A \enspace indexing \enspace function \enspace is \enspace a \enspace surjective \enspace function \enspace f: J \righ">
+<meta property="og:type" content="blog">
+<meta property="og:title" content="Cartesian products">
+<meta property="og:url" content="https://yuehhua.github.io/2018/07/22/05-cartesian-products/index.html">
+<meta property="og:site_name" content="Dream Maker">
+<meta property="og:description" content="前面我們定義了集合的笛卡爾積，這邊我們來定義一個更廣義的，$\mathcal{A}$ 是一個非空集合（collection of sets）：   Def.  $$A \enspace indexing \enspace function \enspace is \enspace a \enspace surjective \enspace function \enspace f: J \righ">
+<meta property="og:locale" content="en">
+<meta property="og:updated_time" content="2018-07-22T06:27:49.290Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Cartesian products">
+<meta name="twitter:description" content="前面我們定義了集合的笛卡爾積，這邊我們來定義一個更廣義的，$\mathcal{A}$ 是一個非空集合（collection of sets）：   Def.  $$A \enspace indexing \enspace function \enspace is \enspace a \enspace surjective \enspace function \enspace f: J \righ">
+    
+    
+        
+    
+    
+    
+    
+    
+    <!--STYLES-->
+    <link rel="stylesheet" href="/assets/css/style-3frockyt2j28isvdztjchy5nhkz8tjki9ermufc1ckptmvjdftux94m2ahub.min.css">
+    <!--STYLES END--><!-- hexo-inject:begin --><!-- hexo-inject:end -->
+    
+
+    
+</head>
+
+    <body>
+        <!-- hexo-inject:begin --><!-- hexo-inject:end --><div id="blog">
+            <!-- Define author's picture -->
+
+
+    
+
+<header id="header" data-behavior="4">
+    <i id="btn-open-sidebar" class="fa fa-lg fa-bars"></i>
+    <div class="header-title">
+        <a class="header-title-link" href="/ ">Dream Maker</a>
+    </div>
+    
+        
+            <a  class="header-right-picture "
+                href="#about">
+        
+        
+        </a>
+    
+</header>
+
+            <!-- Define author's picture -->
+
+
+<nav id="sidebar" data-behavior="4">
+    <div class="sidebar-container">
+        
+        
+            <ul class="sidebar-buttons">
+            
+                <li class="sidebar-button">
+                    
+                        <a  class="sidebar-button-link "
+                             href="/ "
+                            
+                            title="Home"
+                        >
+                    
+                        <i class="sidebar-button-icon fa fa-home" aria-hidden="true"></i>
+                        <span class="sidebar-button-desc">Home</span>
+                    </a>
+            </li>
+            
+                <li class="sidebar-button">
+                    
+                        <a  class="sidebar-button-link "
+                             href="/all-categories"
+                            
+                            title="Categories"
+                        >
+                    
+                        <i class="sidebar-button-icon fa fa-bookmark" aria-hidden="true"></i>
+                        <span class="sidebar-button-desc">Categories</span>
+                    </a>
+            </li>
+            
+                <li class="sidebar-button">
+                    
+                        <a  class="sidebar-button-link "
+                             href="/all-tags"
+                            
+                            title="Tags"
+                        >
+                    
+                        <i class="sidebar-button-icon fa fa-tags" aria-hidden="true"></i>
+                        <span class="sidebar-button-desc">Tags</span>
+                    </a>
+            </li>
+            
+                <li class="sidebar-button">
+                    
+                        <a  class="sidebar-button-link "
+                             href="/all-archives"
+                            
+                            title="Archives"
+                        >
+                    
+                        <i class="sidebar-button-icon fa fa-archive" aria-hidden="true"></i>
+                        <span class="sidebar-button-desc">Archives</span>
+                    </a>
+            </li>
+            
+                <li class="sidebar-button">
+                    
+                        <a  class="sidebar-button-link open-algolia-search"
+                             href="#search"
+                            
+                            title="Search"
+                        >
+                    
+                        <i class="sidebar-button-icon fa fa-search" aria-hidden="true"></i>
+                        <span class="sidebar-button-desc">Search</span>
+                    </a>
+            </li>
+            
+                <li class="sidebar-button">
+                    
+                        <a  class="sidebar-button-link "
+                             href="#about"
+                            
+                            title="About"
+                        >
+                    
+                        <i class="sidebar-button-icon fa fa-question" aria-hidden="true"></i>
+                        <span class="sidebar-button-desc">About</span>
+                    </a>
+            </li>
+            
+        </ul>
+        
+            <ul class="sidebar-buttons">
+            
+                <li class="sidebar-button">
+                    
+                        <a  class="sidebar-button-link " href="https://github.com/yuehhua/" target="_blank" rel="noopener" title="GitHub">
+                    
+                        <i class="sidebar-button-icon fab fa-github" aria-hidden="true"></i>
+                        <span class="sidebar-button-desc">GitHub</span>
+                    </a>
+            </li>
+            
+                <li class="sidebar-button">
+                    
+                        <a  class="sidebar-button-link " href="https://facebook.com/" target="_blank" rel="noopener" title="Facebook">
+                    
+                        <i class="sidebar-button-icon fab fa-facebook" aria-hidden="true"></i>
+                        <span class="sidebar-button-desc">Facebook</span>
+                    </a>
+            </li>
+            
+                <li class="sidebar-button">
+                    
+                        <a  class="sidebar-button-link " href="https://www.linkedin.com/profile/" target="_blank" rel="noopener" title="LinkedIn">
+                    
+                        <i class="sidebar-button-icon fab fa-linkedin" aria-hidden="true"></i>
+                        <span class="sidebar-button-desc">LinkedIn</span>
+                    </a>
+            </li>
+            
+                <li class="sidebar-button">
+                    
+                        <a  class="sidebar-button-link "
+                             href="/mailto"
+                            title="Mail"
+                        >
+                    
+                        <i class="sidebar-button-icon fab fa-envelope" aria-hidden="true"></i>
+                        <span class="sidebar-button-desc">Mail</span>
+                    </a>
+            </li>
+            
+        </ul>
+        
+            <ul class="sidebar-buttons">
+            
+                <li class="sidebar-button">
+                    
+                        <a  class="sidebar-button-link "
+                             href="/atom.xml"
+                            
+                            title="RSS"
+                        >
+                    
+                        <i class="sidebar-button-icon fa fa-rss" aria-hidden="true"></i>
+                        <span class="sidebar-button-desc">RSS</span>
+                    </a>
+            </li>
+            
+        </ul>
+        
+    </div>
+</nav>
+
+            
+            <div id="main" data-behavior="4"
+                 class="
+                        hasCoverMetaIn
+                        ">
+                
+<article class="post">
+    
+    
+        <div class="post-header main-content-wrap text-left">
+    
+        <h1 class="post-title">
+            Cartesian products
+        </h1>
+    
+    
+        <div class="post-meta">
+    <time datetime="2018-07-22T00:26:26+08:00">
+	
+		    Jul 22, 2018
+    	
+    </time>
+    
+        <span>in </span>
+        
+    <a class="category-link" href="/categories/Topology/">Topology</a>
+
+
+    
+</div>
+
+    
+</div>
+
+    
+    <div class="post-content markdown">
+        <div class="main-content-wrap">
+            <p>前面我們定義了集合的笛卡爾積，這邊我們來定義一個更廣義的，$\mathcal{A}$ 是一個非空集合（collection of sets）：</p>
+<blockquote>
+<p> <strong><em>Def.</em></strong></p>
+</blockquote>
+<p>$$<br>A \enspace indexing \enspace function \enspace is \enspace a \enspace surjective \enspace function \enspace f: J \rightarrow \mathcal{A},<br>$$</p>
+<p>$$<br>J \enspace is \enspace called \enspace index \enspace set.<br>$$</p>
+<p>$$<br>The \enspace collection \enspace with \enspace the \enspace indexing \enspace function \enspace f \enspace is \enspace called \enspace indexed \enspace family \enspace of \enspace sets.<br>$$</p>
+<p>所以如果有 $\alpha \in J$ ，我們會把 $f(\alpha)$ 寫成 $A_\alpha$。那麼 indexed family 本身可以寫成 $\{A_\alpha\}_{\alpha \in J}$。</p>
+<p>這個概念有點類似在電腦科學中的 hash function/dictionary 或是指標的意味，有了一個函數可以對某個集合做 indexing。然而他必須是滿射的（surjective），而不是單射的（injective）。</p>
+<p>應用這樣的概念來描述以往的概念就會有點不太一樣：</p>
+<p>$f: J \rightarrow \mathcal{A} \enspace is \enspace an \enspace indexing \enspace function \enspace for \enspace \mathcal{A}$</p>
+<p>$\bigcup_{\alpha \in J} A_\alpha = \{ x \mid at \enspace least \enspace one \enspace \alpha \in J, x \in A_\alpha \}$</p>
+<p>$\bigcap_{\alpha \in J} A_\alpha = \{ x \mid for \enspace every \enspace \alpha \in J, x \in A_\alpha \}$</p>
+<p>我們進一步定義<strong>m-元組（m-tuple）</strong>：</p>
+<blockquote>
+<p> <strong><em>Def.</em></strong></p>
+</blockquote>
+<p>$$<br>m \in \mathbb{N}, a \enspace set \enspace X, m-tuple \enspace of \enspace elements \enspace of \enspace X \enspace is<br>$$</p>
+<p>$$<br>x: \{1, …, m\} \rightarrow X<br>$$</p>
+<p>這邊 $x$ 是個 m-tuple，我們通常描述 $x$ 的第 i 個值會寫成 $x_i$ ，也就是第 i 分量，也就是<strong>座標（coordinate）</strong>。那表示 $x$ 本身則會寫成：</p>
+<p>$$<br>(x_1, …, x_m)<br>$$</p>
+<p>接下來，我們讓 $\{ A_1, …, A_m \}$ 是一個 <em>family of indexed sets</em>。 $X = A_1 \cup A_2 \cup … \cup A_m$。我們定義這個 <em>indexed family</em> 的 cartesian product 為：</p>
+<p>$$<br>\prod_{i = 1}^{m} A_i \enspace or \enspace A_1 \times A_2 \times … \times A_m<br>$$</p>
+<p>也就是所有 m-tuple $(x_1, …, x_m)$ 的集合。</p>
+<p>我們有了 m-tuple 就可以來定義一個常用的概念，$\omega-tuple$。</p>
+<blockquote>
+<p> <strong><em>Def.</em></strong></p>
+</blockquote>
+<p>$$<br>A \enspace set \enspace X, \omega-tuple \enspace of \enspace elements \enspace of \enspace X \enspace is \enspace a \enspace function:<br>$$</p>
+<p>$$<br>x: \mathbb{N} \rightarrow X<br>$$</p>
+<p>這也是微積分當中的 <strong>數列（sequence）</strong>，或是 <strong>無限數列（infinite sequence）</strong>。我們也可以把 $\omega$-tuple $x$ 看成座標，則會表示成：</p>
+<p>$$<br>(x_1, x_2, …)<br>$$</p>
+<p>而 <em>cartesian product</em> 則是：</p>
+<p>$$<br>\prod_{i \in \mathbb{N}} A_i \enspace or \enspace A_1 \times A_2 \times …<br>$$</p>
+<p>這邊大家可能會疑惑，不同的 $A_i$ 之間有什麼不一樣嗎？其實他們都可能是一樣的，跟 $X$ 一樣，只是去表示位在不同的分量上。如果是 $X$ 的元素的 $m$-tuple 的話，就可以簡寫成 $X^m$。如果是 $X$ 的元素的 $\omega$-tuple 的話，就可以簡寫成 $X^\omega$。</p>
+<h4 id="ex"><a href="#ex" class="headerlink" title="ex."></a><em>ex.</em></h4><p>如果 $\mathbb{R}$ 代表實數，那麼 $\mathbb{R}^m$ 就代表所有實數的 $m$-tuple 的集合，也就是歐幾里得空間（Euclidean m-space）。那 $\mathbb{R}^\omega$ 就是無限維度歐氏空間（infinite-dimensional Euclidean space）。</p>
+
+            
+
+        </div>
+    </div>
+    <div id="post-footer" class="post-footer main-content-wrap">
+        
+        
+            <div class="post-actions-wrap">
+    <nav>
+        <ul class="post-actions post-action-nav">
+            <li class="post-action">
+                
+                    
+                    <a class="post-action-btn btn btn--default tooltip--top" href="/2018/07/22/06-finite-sets/" data-tooltip="Finite sets" aria-label="PREVIOUS: Finite sets">
+                
+                    <i class="fa fa-angle-left" aria-hidden="true"></i>
+                    <span class="hide-xs hide-sm text-small icon-ml">PREVIOUS</span>
+                </a>
+            </li>
+            <li class="post-action">
+                
+                    
+                    <a class="post-action-btn btn btn--default tooltip--top" href="/2018/07/22/04-integer-real-numbers/" data-tooltip="The Integers and the Real Numbers" aria-label="NEXT: The Integers and the Real Numbers">
+                
+                    <span class="hide-xs hide-sm text-small icon-mr">NEXT</span>
+                    <i class="fa fa-angle-right" aria-hidden="true"></i>
+                </a>
+            </li>
+        </ul>
+    </nav>
+    <ul class="post-actions post-action-share">
+        <li class="post-action hide-lg hide-md hide-sm">
+            <a class="post-action-btn btn btn--default btn-open-shareoptions" href="#btn-open-shareoptions" aria-label="Share this post">
+                <i class="fa fa-share-alt" aria-hidden="true"></i>
+            </a>
+        </li>
+        
+            
+            
+            <li class="post-action hide-xs">
+                <a class="post-action-btn btn btn--default" target="new" href="https://www.facebook.com/sharer/sharer.php?u=https://yuehhua.github.io/2018/07/22/05-cartesian-products/" title="Share on Facebook">
+                    <i class="fa fa-facebook-official" aria-hidden="true"></i>
+                </a>
+            </li>
+        
+        
+            
+        
+        <li class="post-action">
+            
+                <a class="post-action-btn btn btn--default" href="#" aria-label="Back to top">
+            
+                <i class="fa fa-list" aria-hidden="true"></i>
+            </a>
+        </li>
+    </ul>
+</div>
+
+
+        
+        
+            
+        
+    </div>
+</article>
+
+
+
+                <footer id="footer" class="main-content-wrap">
+    <span class="copyrights">
+        Copyrights &copy; 2018 Yueh-Hua Tu. All Rights Reserved.
+    </span>
+</footer>
+
+            </div>
+            
+                <div id="bottom-bar" class="post-bottom-bar" data-behavior="4">
+                    <div class="post-actions-wrap">
+    <nav>
+        <ul class="post-actions post-action-nav">
+            <li class="post-action">
+                
+                    
+                    <a class="post-action-btn btn btn--default tooltip--top" href="/2018/07/22/06-finite-sets/" data-tooltip="Finite sets" aria-label="PREVIOUS: Finite sets">
+                
+                    <i class="fa fa-angle-left" aria-hidden="true"></i>
+                    <span class="hide-xs hide-sm text-small icon-ml">PREVIOUS</span>
+                </a>
+            </li>
+            <li class="post-action">
+                
+                    
+                    <a class="post-action-btn btn btn--default tooltip--top" href="/2018/07/22/04-integer-real-numbers/" data-tooltip="The Integers and the Real Numbers" aria-label="NEXT: The Integers and the Real Numbers">
+                
+                    <span class="hide-xs hide-sm text-small icon-mr">NEXT</span>
+                    <i class="fa fa-angle-right" aria-hidden="true"></i>
+                </a>
+            </li>
+        </ul>
+    </nav>
+    <ul class="post-actions post-action-share">
+        <li class="post-action hide-lg hide-md hide-sm">
+            <a class="post-action-btn btn btn--default btn-open-shareoptions" href="#btn-open-shareoptions" aria-label="Share this post">
+                <i class="fa fa-share-alt" aria-hidden="true"></i>
+            </a>
+        </li>
+        
+            
+            
+            <li class="post-action hide-xs">
+                <a class="post-action-btn btn btn--default" target="new" href="https://www.facebook.com/sharer/sharer.php?u=https://yuehhua.github.io/2018/07/22/05-cartesian-products/" title="Share on Facebook">
+                    <i class="fa fa-facebook-official" aria-hidden="true"></i>
+                </a>
+            </li>
+        
+        
+            
+        
+        <li class="post-action">
+            
+                <a class="post-action-btn btn btn--default" href="#" aria-label="Back to top">
+            
+                <i class="fa fa-list" aria-hidden="true"></i>
+            </a>
+        </li>
+    </ul>
+</div>
+
+
+                </div>
+                <div id="share-options-bar" class="share-options-bar" data-behavior="4">
+    <i id="btn-close-shareoptions" class="fa fa-close"></i>
+    <ul class="share-options">
+        
+            
+            
+            <li class="share-option">
+                <a class="share-option-btn" target="new" href="https://www.facebook.com/sharer/sharer.php?u=https://yuehhua.github.io/2018/07/22/05-cartesian-products/">
+                    <i class="fa fa-facebook-official" aria-hidden="true"></i><span>Share on Facebook</span>
+                </a>
+            </li>
+        
+    </ul>
+</div>
+
+            
+        </div>
+        
+
+
+<div id="about">
+    <div id="about-card">
+        <div id="about-btn-close">
+            <i class="fa fa-remove"></i>
+        </div>
+        
+            <h4 id="about-card-name">Yueh-Hua Tu</h4>
+        
+            <div id="about-card-bio"><p>author.bio</p>
+</div>
+        
+        
+            <div id="about-card-job">
+                <i class="fa fa-briefcase"></i>
+                <br/>
+                <p>author.job</p>
+
+            </div>
+        
+        
+    </div>
+</div>
+
+        
+        
+<div id="cover" style="background-image:url('/assets/images/cover.jpg');"></div>
+        <!--SCRIPTS-->
+<script src="/assets/js/script-xzfezjobyekpxrjktw5tz6muvzqfsbmo5n6atk3p5om9ulfptldi3p7cyqd8.min.js"></script>
+<!--SCRIPTS END-->
+
+    
+
+
+
+    <script type="text/x-mathjax-config">
+    MathJax.Hub.Config({
+        tex2jax: {
+            inlineMath: [ ["$","$"], ["\\(","\\)"] ],
+            skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code'],
+            processEscapes: true
+        }
+    });
+    MathJax.Hub.Queue(function() {
+        var all = MathJax.Hub.getAllJax();
+        for (var i = 0; i < all.length; ++i)
+            all[i].SourceElement().parentNode.className += ' has-jax';
+    });
+</script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-MML-AM_CHTML"></script><!-- hexo-inject:begin --><!-- hexo-inject:end -->
+
+</body>
+</html>

@@ -1,0 +1,488 @@
+<?xml version="1.0" encoding="utf-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom">
+  <title>Dream Maker</title>
+  
+  
+  <link href="/atom.xml" rel="self"/>
+  
+  <link href="https://yuehhua.github.io/"/>
+  <updated>2018-07-22T11:03:54.136Z</updated>
+  <id>https://yuehhua.github.io/</id>
+  
+  <author>
+    <name>Yueh-Hua Tu</name>
+    
+  </author>
+  
+  <generator uri="http://hexo.io/">Hexo</generator>
+  
+  <entry>
+    <title>Topology space and topology</title>
+    <link href="https://yuehhua.github.io/2018/07/22/09-topology/"/>
+    <id>https://yuehhua.github.io/2018/07/22/09-topology/</id>
+    <published>2018-07-21T16:32:23.000Z</published>
+    <updated>2018-07-22T11:03:54.136Z</updated>
+    
+    <content type="html"><![CDATA[<p>我們終於來到拓樸學的大門口了！</p><p>（謎：前面走那麼多圈是在幹什麼的！</p><p>拓樸其實是幾何學的拓展，他往更基礎的方向去，當我們在探討幾何學的時候，其實我們研究的是空間關係。</p><p><img src="https://upload.wikimedia.org/wikipedia/commons/8/85/Stereographic_projection_in_3D.png" alt=""></p><p>空間關係裏面，我們研究大小、位置、角度、維度，再到比較高階的概念：面積或體積。</p><p>這邊需要一些線性代數的基礎進來，我們知道高階的概念是建立在較基礎的概念上，像是在有面積跟體積之前，要先定義長度，而長度則是由線性代數的範數（norm）給出，而角度的概念也是要先定義範數。</p><p>賦範空間（normed space）則是有定義範數的座標系。</p><p>空間中的位置與維度則是由座標系定義，而座標系則是我們先前定義的 m-tuple 的集合（所構成的空間）。</p><p>那麼最基礎的東西是什麼呢？</p><p>座標系中的 m-tuple，每個元素是由實數定義的。前面我們花時間討論了實數與整數。</p><p>在實數當中，我們之能知道兩個實數之間的關係，只能是大於、小於或等於三者其中之一。</p><p>但是當我們想討論空間中的 <strong>連續性</strong>，或是空間中的 <strong>鄰近</strong> 關係的時候，我們不知道到底什麼是連續？什麼是鄰近？</p><p>或許你可以說連續就是一個挨著一個，緊接著的元素或是數字，那這樣整數是連續的嗎？</p><p>數字 1 下一個是 2？</p><p>或是 1.0 的下一個是 1.000000000000000000000000000000001？</p><p>不對阿！那你把 1.0000000000000000000000000000000005 放到哪裡去了？</p><p>我們會認為實數是連續的，但整數不是，可是我們在整數中可以找到 <strong>下一個</strong>，可是實數當中不行。</p><p>所以 <em>找不到下一個人的系統</em> 就是連續？當然不是阿！我可以不要定義下一個人是誰就不會有下一個人阿！</p><p>所以拓樸學研究的就是空間上的連續跟鄰近關係。</p><hr><p>我們會先討論 <strong>鄰近</strong>，或是 <strong>鄰居</strong> 的概念。</p><p>近代分析學的基礎是極限，微分跟積分都是根基於這個概念之上，而對於極限的探討跟嚴謹程度造就了拓樸學這個領域。在極限的概念之中，我們談的是逼近，在 $\epsilon - \delta$ 的證明當中，不難發覺他其實給了一個不定的範圍，可大可小，那逼近的程度就可以計算得出來了，而 <strong>鄰近</strong> 的概念正是可以在這邊發揮作用的。</p><p><img src="/pics/topology1.svg" alt=""></p><p>一條直線，我們可以把他想成一條軟繩子，繩子上的任何一點，無論繩子怎麼扭曲，點鄰近的區域是不變的。不過這時候如果我們把繩子的兩頭相接起來那就不一樣了。</p><p><img src="/pics/topology2.svg" alt=""></p><p>我們可以看上面這個圖，當繩子繞成一個圓的時候，相接的黑點的鄰近區域是黑點的左右兩塊。黑點剛好對應到線段的兩個端點，兩個端點的鄰近區域是上圖中紅色所顯示的。你可以看到繩子因為被接起來，所以改變了他的鄰近區域，而這個改變我們可以用一個函數來把他對映起來：</p><p>$$<br>f(x) = x \enspace mod \enspace 12<br>$$</p><p>你可以想像有類似時鐘的 12 個數字擺在圓的線上，而線段上也有 1~12 的數字，在時鐘上的 12 鄰近有 11 跟 1，但是在線段上的 12 的鄰近只有 11，上述的函數則是可以把線段對映到圓上。</p><div style="text-align:center">線 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 圓</div><p>$$<br>\begin{bmatrix}<br>\vdots \\<br>10 \\<br>11 \\<br>12 \\<br>13 \\<br>14 \\<br>\vdots<br>\end{bmatrix}<br>\rightarrow<br>\begin{bmatrix}<br>\vdots \\<br>10 \\<br>11 \\<br>0 \\<br>1 \\<br>2 \\<br>\vdots<br>\end{bmatrix}<br>$$</p><p>原本在空間上，線段是無法由一頭持續走向另一頭的，但是卻可以透過函數來把兩頭接起來，這樣鄰近的空間也改變了，這時候我們想要描述空間中的鄰近關係，我們透過集合論給出了以下的特性：</p><p>一個鄰近區域（neighborhood） $X$，$\forall x \in X$，我們說 $X$ 是 $x$ 的鄰近區域，他需要滿足：</p><ol><li>$x$ 在它自己的鄰近區域中</li><li>兩個 $x$ 的鄰近區域的交集仍然是 $x$ 的鄰近區域</li><li>若 $X$ 的子集包含了 $x$ 的鄰近區域，那麼他也是 $x$ 的鄰近區域</li><li>$x$ 的鄰近區域的內部也是 $x$ 的鄰近區域</li></ol><p><img src="/pics/topology3.svg" alt=""></p><p>這些特性含蠻直觀的。$x$ 要在它自己的鄰近區域中，不滿足的話會導致很多運算都沒有封閉性。鄰近區域的交集仍是 $x$ 的鄰近區域也是很直觀的特性。最後兩條其實是有點相對的概念，第 3 條描述到一個比 $x$ 的鄰近區域大的，他也要是 $x$ 的鄰近區域，而第 4 條則是比 $x$ 的鄰近區域更小的，也要是 $x$ 的鄰近區域。</p><p>不過這樣的定義很複雜，不好用，所以後續引出了 <strong>拓樸（topology）</strong> 的定義，來代表鄰近區域：</p><blockquote><p> <strong><em>Def.</em></strong></p></blockquote><p>A topology on a set $X$ is a collection $\mathcal{T}$ of subsets of $X$ having the following properties:</p><ol><li>$\emptyset, X \in \mathcal{T}$</li><li>$\bigcup_{A \in \mathcal{T}} A \in \mathcal{T}$</li><li>$\bigcap_{A_i \in \mathcal{T}} A_i \in \mathcal{T}$, $i$ is finite</li></ol><p>來解釋一下，一個是需要定義在一個集合 $X$ 上的，而拓樸是 $X$ 的子集合的集合 $\mathcal{T}$。這個拓樸 $\mathcal{T}$ 需要滿足一些特性。空集合跟集合 $X$ 本身也在 $\mathcal{T}$ 中，這應該蠻直覺的，也就是集合 $X$ 是在自己的鄰近區域，有時候自己的鄰近區域沒有人也是很正常的。接著是，拓樸中的元素互相取聯集，仍然在這個拓樸中，也就是，鄰近區域的聯集仍然是鄰近區域。最後，拓樸中的元素互相取交集，仍然在這個拓樸中，也就是，鄰近區域的交集仍然是鄰近區域。不過要注意的是，聯集可以取無限聯集，但交集只能有限次數，主要是取無限次的交集很有可能都變成空集合，他就沒有意義，而且我們不知道無限次的交集到底是長什麼樣子。</p><p>這時候我們就會稱這個集合 $X$ 為 <strong>拓樸空間（topological space）</strong>。</p><p>更好的說法是，拓樸空間其實是集合跟拓樸的配對 $(X, \mathcal{T})$，所以他應該包含一個集合跟一個拓樸，但沒有異議的話，常常省略 $\mathcal{T}$ 不講。</p><p>這時候就需要來點例題幫助理解這個抽象概念。</p><h4 id="ex"><a href="#ex" class="headerlink" title="ex."></a><em>ex.</em></h4><p>$X = \{A, B, C\}$ 是一個 3 個元素的集合，以下哪些是一個佈於 $X$ 上的拓樸？</p><ol><li>$\mathcal{T} = \{\emptyset, X\}$ 是一個拓樸</li><li>$\mathcal{T} = \{\emptyset, \{A\}, \{A, B\}, X\}$ 是一個拓樸</li><li>$\mathcal{T} = \{\emptyset, \{B\}, \{A, B\}, \{B, C\}, X\}$ 是一個拓樸</li><li>$\mathcal{T} = \{\emptyset, \{A\}, X\}$ 是一個拓樸</li><li>$\mathcal{T} = \{\emptyset, \{A, B\}, \{C\}, X\}$ 是一個拓樸</li><li>$\mathcal{T} = \{\emptyset, \{A\}, \{B\}, \{A, B\}, X\}$ 是一個拓樸</li><li>$\mathcal{T} = \{\emptyset, \{A\}, \{B\}, X\}$ 不是一個拓樸<ul><li>$\{A\}, \{B\}$ 的聯集不在 $\mathcal{T}$ 中</li></ul></li><li>$\mathcal{T} = \{\emptyset, \{A, B\}, \{B, C\}, X\}$ 不是一個拓樸<ul><li>$\{A, B\}, \{B, C\}$ 的交集不在 $\mathcal{T}$ 中</li></ul></li></ol><p>接下來就來名詞解釋拉！</p><blockquote><p> <strong><em>Def.</em></strong></p></blockquote><p>$X$ 是一個集合</p><ol><li>The collection of all subsets of $X$ (the power set of $X$, $\mathcal{P}(X)$) is called <strong>discrete topology（離散拓樸）</strong></li><li>$\{ \emptyset, X \}$ is called <strong>trivial topology</strong> or <strong>indiscrete topology</strong></li></ol><p>我們可以來比較看看這兩個拓樸：$\{\emptyset, X\}, \{\emptyset, \{A\}, \{A, B\}, X\}$（用上面例子的集合定義）。</p><p>兩者都是佈於 $X$ 的拓樸，那他們有什麼差別呢？我們可以這樣說：</p><blockquote><p> <strong><em>Def.</em></strong></p></blockquote><p>$\mathcal{T}, \mathcal{T}’$ 是兩個佈於集合$X$ 的拓樸：</p><ol><li>If $\mathcal{T}’ \supseteq \mathcal{T}$, $\mathcal{T}’$ is <strong>finer（細緻）</strong> than $\mathcal{T}$.</li><li>If $\mathcal{T}’ \subseteq \mathcal{T}$, $\mathcal{T}’$ is <strong>coarser（粗略）</strong> than $\mathcal{T}$.</li></ol><p>引入了這樣的描述方式，我們一樣可以用集合中的 strictly（嚴格）finer or coarser 來描述他們。如果兩個拓樸可以用以上兩種關係來描述的話，我們就說他們是 <strong>comparable</strong>。</p><p>有的人會以 smaller, larger 或是 weaker, stronger 來描述，只是這樣沒有那麼的傳神。</p>]]></content>
+    
+    <summary type="html">
+    
+      
+      
+        &lt;p&gt;我們終於來到拓樸學的大門口了！&lt;/p&gt;
+&lt;p&gt;（謎：前面走那麼多圈是在幹什麼的！&lt;/p&gt;
+&lt;p&gt;拓樸其實是幾何學的拓展，他往更基礎的方向去，當我們在探討幾何學的時候，其實我們研究的是空間關係。&lt;/p&gt;
+&lt;p&gt;&lt;img src=&quot;https://upload.wikimedi
+      
+    
+    </summary>
+    
+      <category term="Topology" scheme="https://yuehhua.github.io/categories/Topology/"/>
+    
+    
+  </entry>
+  
+  <entry>
+    <title>Infinite sets</title>
+    <link href="https://yuehhua.github.io/2018/07/22/08-infinite-sets/"/>
+    <id>https://yuehhua.github.io/2018/07/22/08-infinite-sets/</id>
+    <published>2018-07-21T16:31:24.000Z</published>
+    <updated>2018-07-22T06:27:33.034Z</updated>
+    
+    <content type="html"><![CDATA[<p>我們已經遇到一些無限集（infinite set），接下來會討論他的一些特性，然後會自然地討論到選擇公理（axiom of choice）。</p><blockquote><p> <strong><em>Theorem</em></strong></p></blockquote><p>$A$ 是一個集合，以下的命題等價：</p><ol><li>$\exists \enspace injective \enspace f: \mathbb{N} \rightarrow A$</li><li>$B \subset A, \exists \enspace bijective \enspace f: A \rightarrow B$</li><li>$A$ is infinite</li></ol><p>直觀來說，第一點還蠻直覺的，因為 $\mathbb{N}$ 本身就是無限集，如果要滿足有單射函數存在的話，也就意味著 $A$ 至少跟 $\mathbb{N}$ 一樣大。第二點來說，一開始會覺得有點弔詭，怎麼有人跟自身的嚴格子集一樣大，也就是說，這樣的集合即便多一個或是少一個元素都無所謂，反正都是無限大，當然這是直觀上的推論，並非正式推導。</p><p>比較有趣的是要從第三點推導出第一點，證明邏輯是這樣的，因為 $A$ 本身不是有限集，那他就不會是空集合。我們的目標是要證明存在一個單射函數滿足第一點的條件，那我們可以從 $A$ 取一個元素 $a_1$ 他叫作 $f(1)$，那麼根據歸納法，我們可以跳到假設 $f(1), … , f(n-1)$ 都存在，我們來檢查一下 $A - \{f(1), … , f(n-1)\}$ 仍然不是空集合，那這樣我們就可以再拿出一個元素定義 $a_n = f(n)$，這樣我就根據歸納法造出了一個單射函數了。</p><p>證明圓滿結束！嗯？有問題？哪裡有問題？</p><p>如果我每次從 $A$ 當中取出來的元素，他有可能不是唯一的，不是唯一的有什麼樣的問題呢？不是唯一的，那就有可能會重複被選到，那這樣我們不能接受他是個好的歸納法。也就是，$f(n)$ 要相對 $f(1), … , f(n-1)$ 是唯一的。</p><p>要處理唯一的問題，我只要引進唯一就好了阿！像是我可以定義從 $A$ 中取元素的時候只取最小的。如果最小元素存在的話，$A$ 勢必要是有定義次序關係才行！但是純粹的集合是沒有的。</p><p>這時候我們引進選擇公理來幫我們解決這個問題：</p><blockquote><p> <strong><em>Axiom of choice</em></strong></p></blockquote><p>給一個 collection $\mathcal{A}$ 是非空集合的集合，$\exists C \subseteq \bigcup_{A \in \mathcal{A}} A, \forall A \in \mathcal{A}, C \cap A$ contains only one element.</p><p>以上公理我解釋一下，也就是存在一個集合 $C$，他從 $\mathcal{A}$ 的每一個元素 $A$ 中都取一個元素進來。</p><p>接下來就會有以下的引理：</p><blockquote><p> <strong><em>Lemma</em></strong></p></blockquote><p>給一個 collection $\mathcal{B}$ 是非空集合的集合，$\exists c: \mathcal{B} \rightarrow \bigcup_{B \in \mathcal{B}} B$ s.t. $\forall B \in \mathcal{B}, c(B) \in B.$</p><p>目前先寫到這邊，下面的解釋還有構造方法我還沒理解………..嗚嗚。</p>]]></content>
+    
+    <summary type="html">
+    
+      
+      
+        &lt;p&gt;我們已經遇到一些無限集（infinite set），接下來會討論他的一些特性，然後會自然地討論到選擇公理（axiom of choice）。&lt;/p&gt;
+&lt;blockquote&gt;
+&lt;p&gt; &lt;strong&gt;&lt;em&gt;Theorem&lt;/em&gt;&lt;/strong&gt;&lt;/p&gt;
+&lt;/block
+      
+    
+    </summary>
+    
+      <category term="Topology" scheme="https://yuehhua.github.io/categories/Topology/"/>
+    
+    
+  </entry>
+  
+  <entry>
+    <title>Countable sets</title>
+    <link href="https://yuehhua.github.io/2018/07/22/07-countable-sets/"/>
+    <id>https://yuehhua.github.io/2018/07/22/07-countable-sets/</id>
+    <published>2018-07-21T16:29:45.000Z</published>
+    <updated>2018-07-22T06:37:43.065Z</updated>
+    
+    <content type="html"><![CDATA[<p>前面有提到正整數可以用來作為有限集的原型，我們會把所有正整數的集合稱為 <strong>可數無限集（countably infinite sets）</strong>。</p><blockquote><p> <strong><em>Def.</em></strong></p></blockquote><p>A set A is <strong><em>infinite</em></strong> if not finite.</p><blockquote><p> <strong><em>Def.</em></strong></p></blockquote><p>A set A is <strong><em>countably infinite</em></strong> if<br>$$<br>\exists f: A \rightarrow \mathbb{N}, f \enspace is \enspace bijective.<br>$$</p><h4 id="ex"><a href="#ex" class="headerlink" title="ex."></a><em>ex.</em></h4><p>像是整數本身就是 countably infinite，$f: \mathbb{Z} \rightarrow \mathbb{N}$</p><p>$$<br>f(n) = \begin{cases}<br>2n &amp; n\gt 0 \<br>-2n+1 &amp; n \le 0<br>\end{cases}<br>$$</p><h4 id="ex-1"><a href="#ex-1" class="headerlink" title="ex."></a><em>ex.</em></h4><p>$\mathbb{N} \times \mathbb{N}$ 也是 countably infinite，那要如何證明呢？</p><p>我們需要證明 $f: \mathbb{N} \times \mathbb{N} \rightarrow \mathbb{N}$，由於 $\mathbb{N} \times \mathbb{N}$ 是在座標系的第1象限上的格子點，我們先把他向下圖一樣定一個順序，下圖的順序也包含 0，但是在我們的例子中不包含 0，但概念是一樣的。</p><p><img src="https://upload.wikimedia.org/wikipedia/commons/6/6f/Pairing_natural.svg" alt=""></p><p>我們希望像這樣把 $\mathbb{N}$ 一個一個擺到 $\mathbb{N} \times \mathbb{N}$，這樣我們就可以確認兩者的對應關係了，那要怎麼做呢？</p><p>我們先定個函數 $g(x, y) = (x + y - 1 , y)$，這會把每串黑色箭頭都擺直。</p><p>接著可以用另一個函數 $h(x , y) = \frac{1}{2}(x - 1)x + y$ 幫我們對映到數字。</p><p>對映關係會看起來像這樣：</p><p>$(1, 1) \rightarrow (1, 1) \rightarrow 1$</p><p>$(2, 1) \rightarrow (2, 1) \rightarrow 2$</p><p>$(1, 2) \rightarrow (2, 2) \rightarrow 3$</p><p>$(3, 1) \rightarrow (3, 1) \rightarrow 4$</p><p>$(2, 2) \rightarrow (3, 2) \rightarrow 5$</p><p>如此對映起來之後，再證明這兩個函數的組合是雙射的，就可以證明 $\mathbb{N} \times \mathbb{N}$ 是 countably infinite。</p><p>所以我們就可以給可數下個定義：</p><blockquote><p> <strong><em>Def.</em></strong></p></blockquote><p>A set A is <strong><em>countable</em></strong> if it is finite or countably infinite.</p><p>A set A is <strong><em>uncountable</em></strong> if it is not countable.</p><p>那如果我們每次都要證明一個集合是不是可數的就會比較麻煩，以下有些等價的敘述：</p><blockquote><p> <strong><em>Theroem</em></strong></p></blockquote><p>A is a nonempty set.</p><ol><li>A is countable</li><li>$\exists f: \mathbb{N} \rightarrow A$, f is surjective</li><li>$\exists g: A \rightarrow \mathbb{N}$, g is injective</li></ol><p>我們有其他定理：</p><blockquote><p> <strong><em>Theroem</em></strong></p></blockquote><p>$$<br>C \subseteq \mathbb{N}, C \enspace is \enspace infinite, then \enspace C \enspace is \enspace countably \enspace infinite.<br>$$</p><p>跟其他結論：</p><blockquote><p> <strong><em>Corollary</em></strong></p></blockquote><p>A subset of a countable set is countable.</p><blockquote><p> <strong><em>Corollary</em></strong></p></blockquote><p>$\mathbb{N} \times \mathbb{N}$ is countably infinite.</p><blockquote><p> <strong><em>Theroem</em></strong></p></blockquote><p>A countable union of countable sets is countable.</p><p>看到這邊大家不知道有沒有跟我一樣的疑問，為什麼會有 <em>countable union</em> 這樣的敘述呢？</p><p>如果有個集合 $A_n$ 是可數的，$f_n$ is surjective，$f_n: \mathbb{N} \rightarrow A_n$，我們可以選另一個函數 $g$ is surjective，$g: \mathbb{N} \rightarrow J$，使得</p><p>$$<br>h: \mathbb{N} \times \mathbb{N} \rightarrow \bigcup_{n \in J} A_n<br>$$</p><p>所以我們把 <em>countable union</em> 看成在 $n \in J$ 的 $J$，$h$ 可以看成 $f_n$ 跟 $g$ 的合成函數 $h(k, m) = f_{g(k)}(m)$，如此一來，我們已經知道 surjective 函數的合成還是 surjective，而 $\mathbb{N} \times \mathbb{N}$ 也是 countable，這樣我們就可以證明 $\bigcup_{n \in J} A_n$ 是 countable。</p><blockquote><p> <strong><em>Theroem</em></strong></p></blockquote><p>A finite product of countable sets is countable.</p><p>也就是說，$A_1 \times A_2 \times … \times A_n$ 是 countable。</p><blockquote><p> <strong><em>Theroem</em></strong></p></blockquote><p>$$<br>X = \{ 0, 1 \}, then \enspace X^\omega \enspace is \enspace uncountable.<br>$$</p><p>這邊描述了一個特例，以下是比較廣義的敘述：</p><blockquote><p> <strong><em>Theroem</em></strong></p></blockquote><p>$A$ is a set,</p><p>$$<br>\nexists \enspace injective \enspace f: \mathcal{P}(A) \rightarrow A<br>$$</p><p>$$<br>\nexists \enspace surjective \enspace g: A \rightarrow \mathcal{P}(A)<br>$$</p><p>這代表著一個集合的冪集是 <em>uncountable set</em>，無論集合裏面長什麼樣子。</p>]]></content>
+    
+    <summary type="html">
+    
+      
+      
+        &lt;p&gt;前面有提到正整數可以用來作為有限集的原型，我們會把所有正整數的集合稱為 &lt;strong&gt;可數無限集（countably infinite sets）&lt;/strong&gt;。&lt;/p&gt;
+&lt;blockquote&gt;
+&lt;p&gt; &lt;strong&gt;&lt;em&gt;Def.&lt;/em&gt;&lt;/strong&gt;&lt;
+      
+    
+    </summary>
+    
+      <category term="Topology" scheme="https://yuehhua.github.io/categories/Topology/"/>
+    
+    
+  </entry>
+  
+  <entry>
+    <title>Finite sets</title>
+    <link href="https://yuehhua.github.io/2018/07/22/06-finite-sets/"/>
+    <id>https://yuehhua.github.io/2018/07/22/06-finite-sets/</id>
+    <published>2018-07-21T16:27:18.000Z</published>
+    <updated>2018-07-22T06:27:43.960Z</updated>
+    
+    <content type="html"><![CDATA[<p>接下來我們會來討論幾個常見的概念，像是有限集及無限集、可數集及不可數集。</p><p>有限集（finite set）：</p><blockquote><p> <strong><em>Def.</em></strong></p></blockquote><p>A set A is <strong><em>finite</em></strong> if</p><p>$$<br>\exists f: A \rightarrow \{ 1, …, n \}, f \enspace is \enspace bijective.<br>$$</p><p>這時我們會說 <em>set</em> $A$ 的 cardinality 是 n。</p><p>在這其中，這個定義的結果是不是唯一的？也就是，有沒有一個可能存在一個集合，兩個人數當中的元素個數結果不一樣（一個數到 $m$，一個數到 $n$），但兩個人都是對的？在真實世界，你可能會覺得這根本不可能，但是為了這點，數學家做了一些基礎工作。</p><blockquote><p> <strong><em>Lemma</em></strong></p></blockquote><p>$$<br>A \enspace is \enspace a \enspace set, n \in \mathbb{N}, a_0 \in A, \exists f: A \rightarrow \{ 1, … , n+1\}, f \enspace is \enspace bijective<br>$$</p><p>$$<br>\Leftrightarrow \exists g: A - \{ a_0 \} \rightarrow \{ 1, … , n\}, g \enspace is \enspace bijective<br>$$</p><p>也就是呢，當 $A$ 可以對映到 $n+1$ 個元素的集合的時候，把 $A$ 當中的一個元素拿掉，就必須對映到 $n$ 個元素的集合。</p><p>那接下來我們就可以有這個定理：</p><blockquote><p> <strong><em>Theorem</em></strong></p></blockquote><p>$$<br>A \enspace is \enspace a \enspace set, f: A \rightarrow \{ 1, … , n\}, n \in \mathbb{N}, f \enspace is \enspace bijective, B \subset A<br>$$</p><p>$$<br>then \enspace \nexists g: B \rightarrow \{ 1, … , n\}, g \enspace is \enspace bijective<br>$$</p><p>$$<br>\exists h: B \rightarrow \{ 1, … , m\}, h \enspace is \enspace bijective, m &lt; n<br>$$</p><p>所以是說，$B$ 是 $A$ 的嚴格子集，那麼 $B$ 的 cardinality 就必須跟 $A$ 的不同，並且要比較小。</p><p>以此，我們可以導出以下結論：</p><blockquote><p> <strong><em>Corollary</em></strong></p></blockquote><p>$$<br>If \enspace A \enspace is \enspace finite, B \subset A, \nexists f: A \rightarrow B, f \enspace is \enspace bijective<br>$$</p><blockquote><p> <strong><em>Corollary</em></strong></p></blockquote><p>$$<br>\mathbb{N} \enspace is \enspace not \enspace finite<br>$$</p><blockquote><p> <strong><em>Corollary</em></strong></p></blockquote><p>$$<br>The \enspace cardinality \enspace of \enspace a \enspace finite \enspace set \enspace A \enspace is \enspace uniquely \enspace determined \enspace by \enspace A<br>$$</p><blockquote><p> <strong><em>Corollary</em></strong></p></blockquote><p>$$<br>A \enspace is \enspace finite, B \subset A, B \enspace is \enspace finite<br>$$</p><p>有限集，以下等價：</p><blockquote><p> <strong><em>Corollary</em></strong></p></blockquote><ol><li>$A$ is finite</li><li>Exists a surjective function from a section of $\mathbb{N}$ to $A$</li><li>Exists a injective function from $A$ to a section of $\mathbb{N}$</li></ol><blockquote><p> <strong><em>Corollary</em></strong></p></blockquote><p>$$<br>Finite \enspace unions \enspace and \enspace finite \enspace cartesian \enspace products \enspace of \enspace finite \enspace sets \enspace are \enspace finite<br>$$</p>]]></content>
+    
+    <summary type="html">
+    
+      
+      
+        &lt;p&gt;接下來我們會來討論幾個常見的概念，像是有限集及無限集、可數集及不可數集。&lt;/p&gt;
+&lt;p&gt;有限集（finite set）：&lt;/p&gt;
+&lt;blockquote&gt;
+&lt;p&gt; &lt;strong&gt;&lt;em&gt;Def.&lt;/em&gt;&lt;/strong&gt;&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;p&gt;A s
+      
+    
+    </summary>
+    
+      <category term="Topology" scheme="https://yuehhua.github.io/categories/Topology/"/>
+    
+    
+  </entry>
+  
+  <entry>
+    <title>Cartesian products</title>
+    <link href="https://yuehhua.github.io/2018/07/22/05-cartesian-products/"/>
+    <id>https://yuehhua.github.io/2018/07/22/05-cartesian-products/</id>
+    <published>2018-07-21T16:26:26.000Z</published>
+    <updated>2018-07-22T06:27:49.290Z</updated>
+    
+    <content type="html"><![CDATA[<p>前面我們定義了集合的笛卡爾積，這邊我們來定義一個更廣義的，$\mathcal{A}$ 是一個非空集合（collection of sets）：</p><blockquote><p> <strong><em>Def.</em></strong></p></blockquote><p>$$<br>A \enspace indexing \enspace function \enspace is \enspace a \enspace surjective \enspace function \enspace f: J \rightarrow \mathcal{A},<br>$$</p><p>$$<br>J \enspace is \enspace called \enspace index \enspace set.<br>$$</p><p>$$<br>The \enspace collection \enspace with \enspace the \enspace indexing \enspace function \enspace f \enspace is \enspace called \enspace indexed \enspace family \enspace of \enspace sets.<br>$$</p><p>所以如果有 $\alpha \in J$ ，我們會把 $f(\alpha)$ 寫成 $A_\alpha$。那麼 indexed family 本身可以寫成 $\{A_\alpha\}_{\alpha \in J}$。</p><p>這個概念有點類似在電腦科學中的 hash function/dictionary 或是指標的意味，有了一個函數可以對某個集合做 indexing。然而他必須是滿射的（surjective），而不是單射的（injective）。</p><p>應用這樣的概念來描述以往的概念就會有點不太一樣：</p><p>$f: J \rightarrow \mathcal{A} \enspace is \enspace an \enspace indexing \enspace function \enspace for \enspace \mathcal{A}$</p><p>$\bigcup_{\alpha \in J} A_\alpha = \{ x \mid at \enspace least \enspace one \enspace \alpha \in J, x \in A_\alpha \}$</p><p>$\bigcap_{\alpha \in J} A_\alpha = \{ x \mid for \enspace every \enspace \alpha \in J, x \in A_\alpha \}$</p><p>我們進一步定義<strong>m-元組（m-tuple）</strong>：</p><blockquote><p> <strong><em>Def.</em></strong></p></blockquote><p>$$<br>m \in \mathbb{N}, a \enspace set \enspace X, m-tuple \enspace of \enspace elements \enspace of \enspace X \enspace is<br>$$</p><p>$$<br>x: \{1, …, m\} \rightarrow X<br>$$</p><p>這邊 $x$ 是個 m-tuple，我們通常描述 $x$ 的第 i 個值會寫成 $x_i$ ，也就是第 i 分量，也就是<strong>座標（coordinate）</strong>。那表示 $x$ 本身則會寫成：</p><p>$$<br>(x_1, …, x_m)<br>$$</p><p>接下來，我們讓 $\{ A_1, …, A_m \}$ 是一個 <em>family of indexed sets</em>。 $X = A_1 \cup A_2 \cup … \cup A_m$。我們定義這個 <em>indexed family</em> 的 cartesian product 為：</p><p>$$<br>\prod_{i = 1}^{m} A_i \enspace or \enspace A_1 \times A_2 \times … \times A_m<br>$$</p><p>也就是所有 m-tuple $(x_1, …, x_m)$ 的集合。</p><p>我們有了 m-tuple 就可以來定義一個常用的概念，$\omega-tuple$。</p><blockquote><p> <strong><em>Def.</em></strong></p></blockquote><p>$$<br>A \enspace set \enspace X, \omega-tuple \enspace of \enspace elements \enspace of \enspace X \enspace is \enspace a \enspace function:<br>$$</p><p>$$<br>x: \mathbb{N} \rightarrow X<br>$$</p><p>這也是微積分當中的 <strong>數列（sequence）</strong>，或是 <strong>無限數列（infinite sequence）</strong>。我們也可以把 $\omega$-tuple $x$ 看成座標，則會表示成：</p><p>$$<br>(x_1, x_2, …)<br>$$</p><p>而 <em>cartesian product</em> 則是：</p><p>$$<br>\prod_{i \in \mathbb{N}} A_i \enspace or \enspace A_1 \times A_2 \times …<br>$$</p><p>這邊大家可能會疑惑，不同的 $A_i$ 之間有什麼不一樣嗎？其實他們都可能是一樣的，跟 $X$ 一樣，只是去表示位在不同的分量上。如果是 $X$ 的元素的 $m$-tuple 的話，就可以簡寫成 $X^m$。如果是 $X$ 的元素的 $\omega$-tuple 的話，就可以簡寫成 $X^\omega$。</p><h4 id="ex"><a href="#ex" class="headerlink" title="ex."></a><em>ex.</em></h4><p>如果 $\mathbb{R}$ 代表實數，那麼 $\mathbb{R}^m$ 就代表所有實數的 $m$-tuple 的集合，也就是歐幾里得空間（Euclidean m-space）。那 $\mathbb{R}^\omega$ 就是無限維度歐氏空間（infinite-dimensional Euclidean space）。</p>]]></content>
+    
+    <summary type="html">
+    
+      
+      
+        &lt;p&gt;前面我們定義了集合的笛卡爾積，這邊我們來定義一個更廣義的，$\mathcal{A}$ 是一個非空集合（collection of sets）：&lt;/p&gt;
+&lt;blockquote&gt;
+&lt;p&gt; &lt;strong&gt;&lt;em&gt;Def.&lt;/em&gt;&lt;/strong&gt;&lt;/p&gt;
+&lt;/blockqu
+      
+    
+    </summary>
+    
+      <category term="Topology" scheme="https://yuehhua.github.io/categories/Topology/"/>
+    
+    
+  </entry>
+  
+  <entry>
+    <title>The Integers and the Real Numbers</title>
+    <link href="https://yuehhua.github.io/2018/07/22/04-integer-real-numbers/"/>
+    <id>https://yuehhua.github.io/2018/07/22/04-integer-real-numbers/</id>
+    <published>2018-07-21T16:25:40.000Z</published>
+    <updated>2018-07-22T06:27:58.349Z</updated>
+    
+    <content type="html"><![CDATA[<p>以上我們談了一些 <em>邏輯的基礎</em>，接下來我們會談一些 <em>數學的基礎</em>，也就是整數與實數系統。其實我們已經用了很多，非正式地，接下來我們會正式地討論他們。</p><p>要 <strong><em>建構</em></strong> 實數系統的一個方法就是利用公理跟集合論來建構。</p><p>首先我們需要從集合論出發，定義在 <em>set</em> $A$ 上的 <strong>二元運算子（binary operator）</strong>：</p><blockquote><p> <strong><em>Def.</em></strong></p></blockquote><p>$$<br>f: A \times A \rightarrow A<br>$$</p><p>我們在描述一個二元運算子的時候並不會如同以往的函數一樣， $f(a, a’)$，而是會把運算子寫在中間， $afa’$。一般來說，我們會用符號來表示，而不是字母，像是加號 $+$、乘號 $\cdot$。</p><h4 id="假設"><a href="#假設" class="headerlink" title="假設"></a>假設</h4><p>我們假設存在一個 <em>set</em> $\mathbb{R}$，代表實數，有兩個運算子分別是加法運算子 $+$、乘法運算子 $\cdot$，以及一個次序關係 $\lt$ 定義於 $\mathbb{R}$ 上，會有以下特性：</p><p><em>代數特性（Algebraic Properties）</em></p><ol><li>$(x + y) + z = x + (y + z), \forall x, y, z \in \mathbb{R}$</li></ol><p>$(x \cdot y) \cdot z = x \cdot (y \cdot z), \forall x, y, z \in \mathbb{R}$</p><ol start="2"><li>$x + y = y + x, \forall x, y, z \in \mathbb{R}$</li></ol><p>$x \cdot y = y \cdot x, \forall x, y, z \in \mathbb{R}$</p><ol start="3"><li>$\exists! 0 \in \mathbb{R}, \forall x \in \mathbb{R}, s.t. \enspace x + 0 = x$</li></ol><p>$\exists! 1 \in \mathbb{R}, \forall x \in \mathbb{R}, s.t. \enspace x \cdot 1 = x$</p><ol start="4"><li>$for \enspace each \enspace x, \exists! y, s.t. \enspace x + y = 0$</li></ol><p>$for \enspace each \enspace x, \exists! y, s.t. \enspace x \cdot y = 1$</p><ol start="5"><li>$x \cdot (y + z) = (x \cdot y) + (x \cdot z), \forall x, y, z \in \mathbb{R}$</li></ol><p><em>混合代數與次序特性（A Mixed Algebraic and Order Property）</em></p><ol start="6"><li>$If \enspace x \gt y, then \enspace x + z \gt y + z$</li></ol><p>$If \enspace x \gt y, z \gt 0, then \enspace x \cdot z \gt y \cdot z$</p><p><em>次序特性（Order Properties）</em></p><ol start="7"><li>次序關係 $\lt$ 有最小上界性</li><li>$If \enspace x \lt y, then \enspace \exists z \enspace s.t. \enspace x \lt z, z \lt y$</li></ol><p>由 1~5 點我們可以導出一些代數性質，像是負數、減法運算、倒數跟商的概念。我們可以定義正數（$x \gt 0$）跟負數（$x \lt 0$）。在代數領域，擁有 1~5 點特性的代數結構，我們會稱為域（field）。如果有包含第六點就稱為有序域（ordered field）。在拓樸領域我們通常會討論的是第7、8點，他只牽涉到次序關係，同時擁有這兩點的集合稱為線性連續統（linear continuum）。</p><p>說到這邊我們還沒提到整數呢！我們就用前6點來定義整數（integer）。</p><blockquote><p> <strong><em>Def.</em></strong></p></blockquote><p>$A \subseteq \mathbb{R} \enspace is \enspace inductive:$</p><ol><li>$1 \in A$</li><li>$\forall x \in A \enspace s.t. \enspace x + 1 \in A$</li></ol><blockquote><p> <strong><em>Def.</em></strong></p></blockquote><p>$\mathcal{A} \enspace is \enspace a \enspace collection \enspace of \enspace all \enspace inductive \enspace subsets \enspace of \enspace \mathbb{R}$<br>$positive \enspace integers \enspace is \enspace a \enspace set \enspace \mathbb{N} = \bigcap_{A \in \mathcal{A}} A$</p><p>這樣的定義是很巧妙的，他其實只有明確的定義了1是在這個集合裡，後面都以 $x+ 1$ 的形式去推演，這稱為可歸納。而正整數是眾多可歸納集合的交集，可見正整數是最小的子集。</p><p>正整數有些特性：</p><ol><li>正整數是可歸納的（inductive）</li><li>（Principle of inductive）如果 <em>set</em> $A$ 是可歸納的，而且含正整數的集合，那麼 $A = \mathbb{N}$</li></ol><p>與實數不同的是，他不會有第八點特性，也就是，$for \enspace each \enspace n \in \mathbb{N}, \nexists a \in \mathbb{N} \enspace s.t. \enspace n \lt a \lt n + 1$。</p><hr><p>如果有個正整數 $n$，我們用 $S_{n}$ 來代表所有小於 $n$ 的正整數的集合，我們稱他為 <em>section</em>：</p><p>$$<br>S_{n + 1} = \{1, \dots , n\}<br>$$</p><p>接下來我們會描述 <del>證明</del> 兩個可能不是很熟悉但很有用的特性，你可以看成是另一個版本的數學歸納法：</p><blockquote><p> <strong><em>Theorem: Well-ordering property</em></strong></p></blockquote><p>$$<br>S \subseteq \mathbb{N}, S \neq \emptyset, S \enspace has \enspace smallest \enspace element.<br>$$</p><p>他描述了 $\mathbb{N}$ 的非空子集，一定有最小元素。</p><blockquote><p> <strong><em>Theorem: Strong induction principle</em></strong></p></blockquote><p>$$<br>A \enspace is \enspace a \enspace set \enspace of \enspace positive \enspace integers,<br>$$</p><p>$$<br>for \enspace each \enspace n, S_n \subseteq A \enspace s.t. \enspace n \in A, then \enspace A = \mathbb{N}<br>$$</p><p>這邊描述了，對每個 $n$ 來說，由 $S_n \subseteq A$ 可以推出 $n \in A$ 的話，那麼 $A$ 就是 $\mathbb{N}$。</p><p>以上我們用了有序域中的第 1~6 點公理，那第 7 點呢？</p><p>你用會用到第 7 點（最小上界公理）來證明，正整數集合 $\mathbb{N}$ 在實數的集合 $\mathbb{R}$ 中是沒有上界的。</p><blockquote><p><strong><em>Theorom: Archimedean ordering property</em></strong></p></blockquote><p>$$<br>the \enspace  set \enspace  \mathbb{N} \enspace  has \enspace  no \enspace  upper \enspace  bound \enspace  in \enspace  \mathbb{R}.<br>$$</p>]]></content>
+    
+    <summary type="html">
+    
+      
+      
+        &lt;p&gt;以上我們談了一些 &lt;em&gt;邏輯的基礎&lt;/em&gt;，接下來我們會談一些 &lt;em&gt;數學的基礎&lt;/em&gt;，也就是整數與實數系統。其實我們已經用了很多，非正式地，接下來我們會正式地討論他們。&lt;/p&gt;
+&lt;p&gt;要 &lt;strong&gt;&lt;em&gt;建構&lt;/em&gt;&lt;/strong&gt; 實數系統的一個方
+      
+    
+    </summary>
+    
+      <category term="Topology" scheme="https://yuehhua.github.io/categories/Topology/"/>
+    
+    
+  </entry>
+  
+  <entry>
+    <title>Relations</title>
+    <link href="https://yuehhua.github.io/2018/07/22/03-relations/"/>
+    <id>https://yuehhua.github.io/2018/07/22/03-relations/</id>
+    <published>2018-07-21T16:24:38.000Z</published>
+    <updated>2018-07-22T06:28:02.419Z</updated>
+    
+    <content type="html"><![CDATA[<p>我們有比函數還要更有彈性、更一般化的概念，稱為 <strong>關係（relations）</strong> 。</p><p>我們會定義數學上的關係，並且談到在數學上大量使用的兩個關係：等價關係及次序關係。次序關係將會貫穿整個拓樸學領域。</p><p><strong>關係（relations）</strong> 的定義如下：</p><blockquote><p> <strong><em>Def.</em></strong></p></blockquote><p>$$<br>A \enspace relation \enspace on \enspace set \enspace A \enspace is<br>$$</p><p>$$<br>a \enspace subset \enspace C \subseteq A \times A<br>$$</p><p>這時候我們會把 <em>relation</em> $C$ 表示成 $xCy$ ，來代表 $(x, y) \in C$。</p><p>這時我們會理解成，$x$ 跟 $y$ 有 $C$ 的關係。</p><p>一個函數 $f: A \rightarrow A$ 是 $A \times A$ 的子集，所以函數也是一種關係。</p><p>任何是 $A \times A$ 的子集，都可以被視為一種關係。</p><h4 id="ex"><a href="#ex" class="headerlink" title="ex."></a><em>ex.</em></h4><p>$P$ 代表世界上全人類的集合，我們定義 $D \subseteq P \times P$ 為一種關係：</p><p>$$<br>D = \{ (x, y) \mid x \enspace is \enspace a \enspace descendant \enspace of \enspace y \}<br>$$</p><p>$D$ 代表的是子孫關係，$xDy$ 代表 $x$ 是 $y$ 的子孫。</p><p>我們也可以定義血緣關係 $B$：</p><p>$$<br>B= \{ (x, y) \mid x \enspace has \enspace an \enspace ancestor \enspace who \enspace is \enspace also \enspace an \enspace ancestor \enspace of \enspace y \}<br>$$</p><p>也就是，$x$ 跟 $y$ 有共同的祖先的話，那代表 $x$ 跟 $y$ 有血緣關係。如此一來，血緣關係就會是對稱的，子孫關係則不是。</p><h2 id="Equivalence-relations"><a href="#Equivalence-relations" class="headerlink" title="Equivalence relations"></a>Equivalence relations</h2><p>在 <em>set</em> $A$ 上的等價關係，是在 <em>set</em> $A$ 上的一種關係 $C$，並且滿足以下條件：</p><ol><li>Reflexivity（自身性）： $\forall x \in A, xCx$</li><li>Symmetry（對稱性）： If $xCy$, then $yCx$</li><li>Transitivity（遞移性）： If $xCy$ and $yCz$, then $xCz$</li></ol><p>關係並沒有強制規定說要用大寫字母表示，所以我們後面改成用大家比較常用的 $\sim$ （tilde）。</p><ol><li>$\forall x \in A, x \sim x$</li><li>If $x \sim y$, then $y \sim x$</li><li>If $x \sim y$ and $y \sim z$, then $x \sim z$</li></ol><h4 id="ex-1"><a href="#ex-1" class="headerlink" title="ex."></a><em>ex.</em></h4><p>我們可以檢驗看看 $\leq$ 在正整數（$\mathbb{N}$）上是不是一種等價關係？</p><ol><li>Reflexivity（自身性）： $\forall x \in \mathbb{N}, x \leq x$ <strong>成立</strong><ul><li>$1 \leq 1, 2 \leq 2, 3 \leq 3, …$</li></ul></li><li>Symmetry（對稱性）： If $x \leq y$, then $y \leq x$ <strong>不成立</strong><ul><li>$1 \leq 2, but \enspace not \enspace 2 \leq 1$</li></ul></li><li>Transitivity（遞移性）： If $x \leq y$ and $y \leq z$, then $x \leq z$ <strong>成立</strong><ul><li>$1 \leq 2, 2 \leq 4, then \enspace 1 \leq 4$</li></ul></li></ol><p>故 $\leq$ 不是等價關係。</p><h4 id="ex-2"><a href="#ex-2" class="headerlink" title="ex."></a><em>ex.</em></h4><p>假設一種等價關係是 $x \sim y$ ，定義為 $x \enspace (mod \enspace 3) = y \enspace (mod \enspace 3)$ ，那麼在 $\mathbb{N}$ 上，我們有 $5 \enspace (mod \enspace 3) = 2 = 8 \enspace (mod \enspace 3)$ 。那這有滿足等價關係嗎？</p><ol><li>Reflexivity（自身性）： $\forall x \in \mathbb{N}, x \sim x$ <strong>成立</strong><ul><li>$1 \enspace (mod \enspace 3) = 1 \enspace (mod \enspace 3), …$</li></ul></li><li>Symmetry（對稱性）： If $x \sim y$, then $y \sim x$ <strong>成立</strong><ul><li>$1 \enspace (mod \enspace 3) = 4 \enspace (mod \enspace 3)$</li><li>$4 \enspace (mod \enspace 3) = 1 \enspace (mod \enspace 3)$</li></ul></li><li>Transitivity（遞移性）： If $x \sim y$ and $y \sim z$, then $x \sim z$ <strong>成立</strong><ul><li>$1 \enspace (mod \enspace 3) = 4 \enspace (mod \enspace 3), 4 \enspace (mod \enspace 3) = 7 \enspace (mod \enspace 3),$</li><li>$then \enspace 1 \enspace (mod \enspace 3) = 7 \enspace (mod \enspace 3)$</li></ul></li></ol><p>故 $\leq$ 是等價關係。（以上非嚴謹證明）</p><p>所以可以把 $5 \sim 8$ 這兩者視為等價。</p><p>如果存在一種等價關係，那麼 <em>set</em> $A$ 裡的元素可以歸類成不同的 <strong>等價類（equivalent class）</strong>，假設 $x \in A, E \subseteq A$ ，我們有：</p><blockquote><p> <strong><em>Def.</em></strong></p></blockquote><p>$$<br>E = \{ y \mid y \sim x \}<br>$$</p><h4 id="ex-3"><a href="#ex-3" class="headerlink" title="ex."></a><em>ex.</em></h4><p>延續上面一個例子，$x \sim y$ 是等價關係，那麼我們就可以把 $\mathbb{N}$ 拆成不同的等價類：</p><p>$$<br>1 \sim 4, 4 \sim 7, 7 \sim 10, …<br>$$</p><p>$$<br>E_1 = \{1, 4, 7, 10, …\}<br>$$</p><p>$$<br>2 \sim 5, 5 \sim 8, 8 \sim 11, …<br>$$</p><p>$$<br>E_2 = \{2, 5, 8, 11, …\}<br>$$</p><p>$$<br>3 \sim 6, 6 \sim 9, 9 \sim 12, …<br>$$</p><p>$$<br>E_3 = \{3, 6, 9, 12, …\}<br>$$</p><p>等價類有以下的特性：</p><blockquote><p> <strong><em>Lemma</em></strong></p></blockquote><p>$$<br>Two \enspace equivalent \enspace classes \enspace E \enspace and \enspace E’ \enspace are \enspace either \enspace disjoint \enspace or \enspace equal.<br>$$</p><p>白話文就是兩個等價類不是一樣就是互斥的。</p><p>有這樣的等價類，我們可以用 $\mathscr{E}$ 來表示所有等價類的集合（collection）。藉由以上的 Lemma，我們知道每個等價類都是互斥的。這樣我們可以把他看成是對 <em>set</em> $A$ 的<strong>分割（partition）</strong>。</p><blockquote><p> <strong><em>Def.</em></strong></p></blockquote><p>$$<br>A \enspace partition \enspace of \enspace a \enspace set \enspace A \enspace is \enspace a \enspace collection \enspace of \enspace disjoint \enspace nonempty \enspace subsets \enspace of \enspace A<br>$$</p><p>$$<br>whose \enspace union \enspace is \enspace all \enspace of \enspace A.<br>$$</p><p>研究 <em>set</em> $A$ 上的等價關係等同於是研究 <em>set</em> $A$ 的分割。</p><h2 id="Order-relations"><a href="#Order-relations" class="headerlink" title="Order relations"></a>Order relations</h2><p>在 <em>set</em> $A$ 上的 <strong>次序關係（order relations, simple order or linear order）</strong>，是在 <em>set</em> $A$ 上的一種關係 $\lt$，並且滿足以下條件：</p><ol><li>Comparability（可比性）： $\forall x, y \in A, x \neq y, either \enspace x \lt y \enspace or \enspace y \lt x$</li><li>Nonreflexivity（非自身性）： $\nexists x \in A, x \lt x$</li><li>Transitivity（遞移性）： If $x \lt y$ and $y \lt z$, then $x \lt z$</li></ol><hr><blockquote><p> <strong><em>Def.</em></strong></p></blockquote><p>$$<br>\lt \enspace is \enspace an \enspace order \enspace relation \enspace on \enspace set \enspace X, a \lt b<br>$$</p><p>$$<br>(a, b) = \{ x \mid a \lt x \lt b \} \enspace is \enspace an \enspace open \enspace interval \enspace on \enspace X<br>$$</p><p>我們可以像這樣去定義 <strong>開區間（open interval）</strong>。如果 $(a, b) = \emptyset$，那稱 $a$ 是 $b$ 的 <strong>緊鄰前元（immediate predecessor）</strong>，而 $b$ 是 $a$ 的 <strong>緊鄰後元（immediate successor）</strong>。</p><hr><p>假定有 $A$ 跟 $B$ 兩個集合，有兩個相對應的次序關係 $\lt_A$ 跟 $\lt_B$。我們說這兩個集合有相同的 <strong>次序類型（order type）</strong>：</p><blockquote><p> <strong><em>Def.</em></strong></p></blockquote><p>$$<br>\exists f: A \rightarrow B, f \enspace is \enspace bijective<br>$$</p><p>$$<br>s.t. \enspace a_1 \lt_A a_2, then \enspace f(a_1) \lt_B f(a_2)<br>$$</p><p>這樣的雙射函數有<strong>保留</strong>次序關係。</p><h4 id="ex-4"><a href="#ex-4" class="headerlink" title="ex."></a><em>ex.</em></h4><p>在實數區間 $(1, -1)$ 有跟 $\mathbb{R}$ 相同的次序類型。</p><p>考慮函數 $f: (1, -1) \rightarrow \mathbb{R}$：</p><p>$$<br>f(x) = \frac{x}{1 - x^2}<br>$$</p><p>他是一個嚴格遞增函數（保留次序關係）且為雙射。</p><hr><p>接下來我們談談 <strong>字典序關係（dictionary order relation）</strong>，他是定義在 $A \times B$ 上的次序關係，假定 $A$ 跟 $B$ 集合上有次序關係 $\lt_A$ 跟 $\lt_B$。</p><blockquote><p> <strong><em>Def.</em></strong></p></blockquote><p>$$<br>\lt \enspace on \enspace A \times B \enspace is \enspace a_1 \times b_1 \lt a_2 \times b_2<br>$$</p><p>$$<br>if \enspace a_1 \lt_A a_2, or \enspace a_1 = a_2 \enspace and \enspace b_1 \lt_B b_2<br>$$</p><h4 id="ex-5"><a href="#ex-5" class="headerlink" title="ex."></a><em>ex.</em></h4><p>所謂的字典序就是先比較第一個字元，如果一樣再比較第二的字元的次序，如此繼續下去。</p><p>$$<br>aaa &lt; aab &lt; abb<br>$$</p><p>如此一來，就可以為 $A \times B \times \dots$ 這樣子的集合定義次序了。</p><hr><p>在實數中，你或許以前看過最小上界的特性。你可以為任意的有序集合定義這樣的特性。</p><p>假設 <em>set</em> $A$ 有次序關係 $\lt$，$A_0 \subseteq A$，</p><blockquote><p> <strong><em>Def.</em></strong></p></blockquote><p>$$<br>b \in A_0, \forall x \in A_0, x \le b<br>$$</p><p>$$<br>b \enspace is \enspace the \enspace largest \enspace element \enspace of \enspace A_0<br>$$</p><p>如果相反的話，</p><blockquote><p> <strong><em>Def.</em></strong></p></blockquote><p>$$<br>a \in A_0, \forall x \in A_0, x \ge a<br>$$</p><p>$$<br>a \enspace is \enspace the \enspace smallest \enspace element \enspace of \enspace A_0<br>$$</p><p>我們很簡單可以知道，一個集合會有最多一個最大的元素，以及最多一個最小的元素。</p><p>那如果我們要說，$A_0$ 有<strong>上界（bounded above）</strong>：</p><blockquote><p> <strong><em>Def.</em></strong></p></blockquote><p>$$<br>b \in A, \forall x \in A_0, x \le b<br>$$</p><p>$$<br>b \enspace is \enspace an \enspace upper \enspace bound \enspace for \enspace A_0<br>$$</p><p>而上界的元素中，最小的稱為<strong>最小上界（least upper bound）</strong>，或是 <strong>supremum</strong>，記為 $sup \enspace A_0$：</p><blockquote><p> <strong><em>Def.</em></strong></p></blockquote><p>$$<br>X = \{ x \mid \forall x \enspace is \enspace upper \enspace bound \enspace for \enspace A_0 \}<br>$$</p><p>$$<br>The \enspace smallest \enspace element \enspace of \enspace X \enspace is \enspace least \enspace upper \enspace bound<br>$$</p><p>他有可能屬於 $A_0$，如果 $sup \enspace A_0 \in A_0$，他同時也是 $A_0$ 最大的元素。</p><p>相反，$A_0$ 有<strong>下界（bounded below）</strong>：</p><blockquote><p> <strong><em>Def.</em></strong></p></blockquote><p>$$<br>a \in A, \forall x \in A_0, x \ge a<br>$$</p><p>$$<br>a \enspace is \enspace an \enspace lower \enspace bound \enspace for \enspace A_0<br>$$</p><p>而下界的元素中，最大的稱為<strong>最大下界（greatest lower bound）</strong>，或是 <strong>infimum</strong>，記為 $inf \enspace A_0$：</p><blockquote><p> <strong><em>Def.</em></strong></p></blockquote><p>$$<br>Y = \{ y \mid \forall y \enspace is \enspace lower \enspace bound \enspace for \enspace A_0 \}<br>$$</p><p>$$<br>The \enspace greatest \enspace element \enspace of \enspace Y \enspace is \enspace greatest \enspace lower \enspace bound<br>$$</p><p>他有可能屬於 $A_0$，如果 $inf \enspace A_0 \in A_0$，他同時也是 $A_0$ 最小的元素。</p><p>這些跟所謂的 <strong>最大值（maximum）</strong> 或是 <strong>最小值（minimum）</strong> 不太一樣：</p><blockquote><p> <strong><em>Def.</em></strong></p></blockquote><p>$$<br>b \in A_0, \forall x \in A_0, x \le b<br>$$</p><p>$$<br>b \enspace is \enspace the \enspace maximum \enspace of \enspace A_0<br>$$</p><blockquote><p> <strong><em>Def.</em></strong></p></blockquote><p>$$<br>a \in A_0, \forall x \in A_0, x \ge a<br>$$</p><p>$$<br>a \enspace is \enspace the \enspace minimum \enspace of \enspace A_0<br>$$</p><p>主要差別會是值是否在 $A_0$ 裏面。</p><p>這時候就可以來定義 <strong>最小上界性（least upper bound property）</strong>：</p><blockquote><p> <strong><em>Def.</em></strong></p></blockquote><p>$$<br>\forall A_0 \subseteq A, A_0 \enspace has \enspace a \enspace least \enspace upper \enspace bound<br>$$</p><p>$$<br>A \enspace has \enspace least \enspace upper \enspace bound \enspace property.<br>$$</p><p>相反則是，<strong>最大下界性（greatest lower bound property）</strong>。</p>]]></content>
+    
+    <summary type="html">
+    
+      
+      
+        &lt;p&gt;我們有比函數還要更有彈性、更一般化的概念，稱為 &lt;strong&gt;關係（relations）&lt;/strong&gt; 。&lt;/p&gt;
+&lt;p&gt;我們會定義數學上的關係，並且談到在數學上大量使用的兩個關係：等價關係及次序關係。次序關係將會貫穿整個拓樸學領域。&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;關
+      
+    
+    </summary>
+    
+      <category term="Topology" scheme="https://yuehhua.github.io/categories/Topology/"/>
+    
+    
+  </entry>
+  
+  <entry>
+    <title>Functions</title>
+    <link href="https://yuehhua.github.io/2018/07/22/02-functions/"/>
+    <id>https://yuehhua.github.io/2018/07/22/02-functions/</id>
+    <published>2018-07-21T16:21:18.000Z</published>
+    <updated>2018-07-22T06:39:17.196Z</updated>
+    
+    <content type="html"><![CDATA[<p>Function 會是在數學上常常看到的概念，但他到底是什麼？Function 常常被視為兩個集合之間<strong>對映的規則</strong>。我們先來定義<strong>對映的規則（rule of assignment）</strong>：</p><blockquote><p> <strong><em>Def.</em></strong></p></blockquote><p>$$<br>two \enspace sets \enspace C, D, r \subseteq C \times D, \forall c \in C , d \in D,<br>$$</p><p>$$<br>\exists \enspace at \enspace most \enspace one \enspace (c, d) \in r<br>$$</p><p>所以如果當兩個對映關係（如下）有相同的第一分量 $c$，那他們其實是同一個對映關係，並且第二分量也會相同。</p><p>$$<br>[ (c, d) \in r, (c, d’) \in r ] \rightarrow [ d = d’ ]<br>$$</p><p>給定一個對映規則 $r$，<strong>定義域（domain）</strong> 也就是 $C$ 的子集合，他包含了所有 $r$ 中的第一分量。</p><blockquote><p> <strong><em>Def.</em></strong></p></blockquote><p>$$<br>domain \enspace r = \{c \mid \exists d \in D \enspace s.t. \enspace (c, d) \in r \}<br>$$</p><p>相對，<strong>值域（image）</strong>是 $D$ 的子集合，他包含了所有 $r$ 中的第二分量。</p><blockquote><p> <strong><em>Def.</em></strong></p></blockquote><p>$$<br>image \enspace r = \{d \mid \exists c \in C \enspace s.t. \enspace (c, d) \in r \}<br>$$</p><p>現在我們把所有需要的東西都定義好了，那<strong>函數（function）</strong> 的定義就會是一個對映規則，以及一個 <em>set</em> $B$ 包含了 $image \enspace r$，稱為函數的 <strong>對應域（codomain）</strong> ，而函數的 <em>domain</em> $A$ 也就是 $domain \enspace r$，函數的值域就是 $image \enspace r$ ，我們會以下列表示法表示：</p><p>$$<br>f: A \rightarrow B<br>$$</p><p>這表示他是一個從 $A$ map 到 $B$ 的函數。有時候我們會想像成在空間上的轉換，將 $A$ 上的點對映到 $B$ 上的點。我們會以 $f(a)$ 來代表 $f$ 在 $a$ 點的<strong>值（value）</strong>。</p><p>我們可以在函數上定義<strong>限制（restriction）</strong>：</p><blockquote><p> <strong><em>Def.</em></strong></p></blockquote><p>$$<br>A_0 \enspace is \enspace the \enspace restriction \enspace of \enspace f<br>$$</p><p>$$<br>f: A \rightarrow B, A_0 \subseteq A \enspace s.t. \enspace f = \{ (a, f(a)) \mid a \in A_0 \}<br>$$</p><p>我們可以藉由限制（restriction）來限制我們的函數形式。我們還有另外一個方法，<strong>合成函數（function composition）</strong>：</p><blockquote><p> <strong><em>Def.</em></strong></p></blockquote><p>$$<br>g \circ f \enspace is \enspace the \enspace composite \enspace of \enspace function \enspace f \enspace and \enspace g<br>$$</p><p>$$<br>f: A \rightarrow B, g: B \rightarrow C, g \circ f: A \rightarrow C, (g \circ f)(a) = g(f(a))<br>$$</p><p>$$<br>g \circ f = \{(a, c) \mid b \in B, f(a) = b, g(b) = c \}<br>$$</p><p><img src="https://upload.wikimedia.org/wikipedia/commons/3/38/Example_for_a_composition_of_two_functions.svg" alt="Function composition"></p><blockquote><p> <small>from Wikipedia</small></p></blockquote><p>接著我們來討論一些不同的函數。</p><p>如果一個函數 $f: A \rightarrow B$ 是<strong>單射的（injective）</strong>，或是<strong>一對一（one-to-one）</strong>，那也就是說在 $A$ 中，不同的點會對映到不同的 <strong>像（image）</strong> 的。</p><p><img src="https://upload.wikimedia.org/wikipedia/commons/thumb/0/02/Injection.svg/240px-Injection.svg.png" alt="Injection"></p><blockquote><p> <small>from Wikipedia</small></p></blockquote><p>如果一個函數 $f: A \rightarrow B$ 是<strong>滿射的（surjective）</strong>，或是<strong>映成（onto）</strong>，那也就是說每個在 $B$ 中的元素都有被對映到。</p><p><img src="https://upload.wikimedia.org/wikipedia/commons/thumb/6/6c/Surjection.svg/240px-Surjection.svg.png" alt="Surjection"></p><blockquote><p> <small>from Wikipedia</small></p></blockquote><p>如果一個函數 $f: A \rightarrow B$ 是<strong>雙射的（bijective）</strong>，那也就是說這個函數同時滿足 <strong>單射的（injective）</strong> 以及 <strong>滿射的（surjective）</strong>。</p><p><img src="https://upload.wikimedia.org/wikipedia/commons/thumb/a/a5/Bijection.svg/240px-Bijection.svg.png" alt="Bijection"></p><blockquote><p> <small>from Wikipedia</small></p></blockquote><p>兩個 injective function 的 composite 是個 injective function。兩個 surjective function 的 composite 是個 surjective function。兩個 bijective function 的 composite 是個 bijective function。</p><p>那如果 <em>function</em> $f$ 是 bijective，那麼他的 <strong>反函數（inverse）</strong> 存在，也就是：<br>$$<br>f: A \rightarrow B, f \enspace is \enspace bijective, \exists<br> f^{-1}<br>$$</p><p>$$<br>s.t. \enspace f^{-1}(b) = a, a \in A, b \in B<br>$$</p><p>反函數有一個特性就是， $f$ 的反函數為 $f^{-1}$，而 $f^{-1}$ 本身也是雙射的，所以他的反函數也存在，他的反函數則是 $f$。</p><p>那如果要證明一個函數是 bijective 的話，那以下Lemma 會有幫助：</p><blockquote><p> <strong><em>Lemma</em></strong></p></blockquote><p>$$<br>f: A \rightarrow B, \exists g: B \rightarrow A, \exists h: B \rightarrow A<br>$$</p><p>$$<br>s.t. \enspace \forall a \in A, g(f(a)) = a, \forall b \in B, f(h(b)) = b,<br>$$</p><p>$$<br>then \enspace g = h = f^{-1} \enspace is \enspace bijective.<br>$$</p><p><img src="/pics/bijective_function.svg" alt=""></p><p>接下來，我們來討論一下 <strong>像（image）</strong>：</p><blockquote><p> <strong><em>Def.</em></strong></p></blockquote><p>$$<br>f: A \rightarrow B, A_0 \subseteq A, the \enspace image \enspace of \enspace A_0 \enspace of \enspace f \enspace is<br>$$</p><p>$$<br>f(A_0) = \{ b \mid b = f(a) \enspace for \enspace at \enspace least \enspace one \enspace a \in A_0 \}<br>$$</p><p><img src="/pics/image.svg" alt=""></p><p>另一方面，我們可以討論像的 <strong>原像（preimage）</strong>：</p><blockquote><p> <strong><em>Def.</em></strong></p></blockquote><p>$$<br>f: A \rightarrow B, B_0 \subseteq B, f^{-1}(B_0) = \{ a \mid f(a) \in B_0\}<br>$$</p><p>$$<br>f^{-1}(B_0) \enspace is \enspace the \enspace preimage \enspace of \enspace B_0 \enspace under \enspace f.<br>$$</p><p><img src="/pics/preimage.svg" alt=""></p><p>如果 $f: A \rightarrow B$ 是 bijective， $B_0 \subseteq B$，我們對 $f^{-1}(B_0)$ 有兩種解釋，他可以是 preimage of $B_0$ under $f$ ，或者是 image of $B_0$ under $f^{-1}: B \rightarrow A$。</p><p>在使用 $f$ 及 $f^{-1}$ 上需要小心。如果是 $f^{-1}$ 應用在 $B$ 的子集合上，他有很好的行為，他保留了包含、聯集、交集、差集的特性。我們應該要常用他。如果是 $f$ 應用在 $A$ 的子集合上，他只保留了包含及聯集的特性。</p><p>另一個需要小心的，以下兩個並不是總是為真：</p><p>$$<br>f^{-1}(f(A_0)) = A_0<br>$$</p><p>$$<br>f(f^{-1}(B_0)) = B_0<br>$$</p><p>結論是這樣的，如果 $f: A \rightarrow B, A_0 \subseteq A, B_0 \subseteq B$，則以下成立：</p><p>$$<br>A_0 \subseteq f^{-1}(f(A_0))<br>$$</p><p>$$<br>f(f^{-1}(B_0)) \subseteq B_0<br>$$</p><p>第一條式子的等號成立的條件為 $f$ 是 injective，第二條式子的等號成立的條件為 $f$ 是 surjective。</p>]]></content>
+    
+    <summary type="html">
+    
+      
+      
+        &lt;p&gt;Function 會是在數學上常常看到的概念，但他到底是什麼？Function 常常被視為兩個集合之間&lt;strong&gt;對映的規則&lt;/strong&gt;。我們先來定義&lt;strong&gt;對映的規則（rule of assignment）&lt;/strong&gt;：&lt;/p&gt;
+&lt;blockquo
+      
+    
+    </summary>
+    
+      <category term="Topology" scheme="https://yuehhua.github.io/categories/Topology/"/>
+    
+    
+  </entry>
+  
+  <entry>
+    <title>Set theory (集合論)</title>
+    <link href="https://yuehhua.github.io/2018/07/22/01-set-theory/"/>
+    <id>https://yuehhua.github.io/2018/07/22/01-set-theory/</id>
+    <published>2018-07-21T16:19:48.000Z</published>
+    <updated>2018-07-22T06:28:14.842Z</updated>
+    
+    <content type="html"><![CDATA[<p>先以集合論開始切入，集合論是以後各門數學相關學科的根基，也就是很多數學的分支都會定義在集合論上。</p><p>在數學上，集合就是一群不重複的物件（object）或是元素（element）。像我們可以定義<strong>一個set A當中的elements有a、b、c</strong>，寫成：</p><p>$$<br>A = \{ a, b, c \}<br>$$</p><p>但有時候我們想表達一個set，可是卻無法將裡面的elements一一列出，像是我們定義一個只有偶數的set B，我們會寫成以下的方式：</p><p>$$<br>B = \{x \mid x \enspace is \enspace even \enspace integer.\}<br>$$</p><p>裡頭的$x$代表著一個變數，後面會描述這變數的特質，所以在這邊的描述是$x$是一個偶數，那如果我們收集這樣的變數成為一個集合，我們就有了所有偶數的集合了。</p><p>我們在描述<em>element</em>及<em>set</em>的關係的時候會使用<strong>屬於</strong>，<strong>一個element a屬於set A</strong>，則會表示成：</p><blockquote><p> <strong><em>Def.</em></strong></p></blockquote><p>$$<br>a \in A<br>$$</p><p>相對，<strong>不屬於</strong>則會寫成以下的形式：</p><blockquote><p> <strong><em>Def.</em></strong></p></blockquote><p>$$<br>d \notin A<br>$$</p><p><strong>等於</strong>的符號是會視為<em>邏輯上的相等（logical identity）</em>，如果我們說$a = b$，那麼$a$跟$b$就是兩個完全一樣的東西。如果是不一樣的東西，則寫成$a \neq b$。</p><p>同樣的，集合也可以同等起來，如果我們說$A = B$，就表示$A$跟$B$這兩個集合內的東西完全相同。如果有一個element不同，則$A \neq B$。</p><p>如果$A$有的elements，在$B$中也有，那我們會說<strong>A是B的子集合（subset）</strong>：</p><blockquote><p> <strong><em>Def.</em></strong></p></blockquote><p>$$<br>A \subseteq B<br>$$</p><p>從定義當中我們無法區分出$A$跟$B$是否相同。那前面講到的$A = B$也就等同於是$A \subseteq B$及$B \subseteq A$兩者都要成立。</p><p>那如果$A \subseteq B$且$A \neq B$，那我們稱<strong>A為B的嚴格子集（proper subset）</strong>：</p><blockquote><p> <strong><em>Def.</em></strong></p></blockquote><p>$$<br>A \subset B<br>$$</p><p>$\subseteq$及$\subset$關係則分別稱為<strong>包含（inclusion）</strong> 及 <strong>嚴格包含（proper inclusion）</strong>。</p><p>如果我們有兩個集合$A$跟$B$，如果有一個集合包含了所有$A$和$B$的元素，那我們稱它為$A$和$B$的<strong>聯集（union）</strong>：</p><blockquote><p> <strong><em>Def.</em></strong></p></blockquote><p>$$<br>A \cup B = \{x \mid x \in A \enspace or \enspace x \in B\}<br>$$</p><div style="text-align:center"><img src="https://upload.wikimedia.org/wikipedia/commons/3/30/Venn0111.svg" alt="Union"></div><blockquote><p> <small>from Wikipedia</small></p></blockquote><p>如果我們有兩個集合$A$跟$B$，如果有一個集合只包含$A$和$B$的共同元素，那我們稱它為$A$和$B$的<strong>交集（intersection）</strong>：</p><blockquote><p> <strong><em>Def.</em></strong></p></blockquote><p>$$<br>A \cap B = \{x \mid x \in A \enspace and \enspace x \in B\}<br>$$</p><div style="text-align:center"><img src="https://upload.wikimedia.org/wikipedia/commons/9/99/Venn0001.svg" alt="Intersection"></div><blockquote><p> <small>from Wikipedia</small></p></blockquote><p>如果一個集合裏面沒有任何元素，那我們定義這樣的集合為<strong>空集合（empty set）</strong>，$\emptyset$。</p><p>若是兩個集合沒有共同的元素，我們會說這兩個集合是<strong>互斥的（disjoint）</strong>：</p><blockquote><p> <strong><em>Def.</em></strong></p></blockquote><p>$$<br>A \cap B = \emptyset<br>$$</p><div style="text-align:center"><img src="https://upload.wikimedia.org/wikipedia/commons/d/df/Disjunkte_Mengen.svg" alt="Disjoint sets"></div><blockquote><p> <small>from Wikipedia</small></p></blockquote><p>由於空集合這個概念非常簡單，就是集合內沒有任何元素，我們可以把他跟之前介紹過的概念結合起來。像是，如果我們讓 $x$ 是某個元素，</p><p>$$<br>x \in \emptyset<br>$$</p><p>是不會成立的。對於任何一個set $A$，我們有</p><p>$$<br>A \cap \emptyset = \emptyset<br>$$</p><p>和</p><p>$$<br>A \cup \emptyset = A<br>$$<br>。</p><p>包含的關係就有點微妙，像是 $\emptyset \subseteq A$ ，我們會考慮很多的實例，要讓每一個實例都成立，這個式子才算是成立。不過討論這件事本身就蠻無趣的，他基本上是成立的。</p><p>在這邊我們可以再定義新的運算，那就是<strong>差集（difference）</strong>，他的定義如下：</p><blockquote><p> <strong><em>Def.</em></strong></p></blockquote><p>$$<br>A - B = \{x \mid x \in A \enspace and \enspace x \notin B\}<br>$$</p><div style="text-align:center"><img src="https://upload.wikimedia.org/wikipedia/commons/5/5a/Venn0010.svg" alt="Difference set"></div><blockquote><p> <small>from Wikipedia</small></p></blockquote><hr><h2 id="Rules"><a href="#Rules" class="headerlink" title="Rules"></a>Rules</h2><p>在集合論中，有些跟我們一般的算術運算很像的性質，像是以下的<strong>分配律（distributive law）</strong>：</p><p>$$<br>A \cap (B \cup C) = (A \cap B) \cup (A \cap C)<br>$$</p><p>$$<br>A \cup (B \cap C) = (A \cup B) \cap (A \cup C)<br>$$</p><p>以及<strong>狄莫根定律（DeMorgan ‘s laws）</strong>：</p><p>$$<br>A - (B \cap C) = (A - B) \cup (A - C)<br>$$</p><p>$$<br>A - (B \cup C) = (A - B) \cap (A - C)<br>$$</p><hr><p>我們在緊接著介紹一個有趣的概念，<strong>冪集（power set）</strong>，<strong>$A$的冪集（$\mathcal{P}(A)$）是指所有$A$的子集的所有排列組合所成的集合</strong>，像是假設$A = \{1, 2, 3\}$，那麼$\mathcal{P}(A) = \{ \emptyset, \{1\}, \{2\}, \{3\}, \{1, 2\}, \{1, 3\}, \{2, 3\}, \{1, 2, 3\} \}$。</p><p>往後，當我們在描述一個 <em>set</em>，他的 <em>element</em> 也是 <em>set</em> 的時候，我們會稱他為 <em>collection of sets</em>，並且會以書寫體$\mathcal{A}$、$\mathcal{B}$表示，以示區別。</p><p>我們已經定義了任兩個集合的交集跟聯集。那如果我們想要聯集或是交集任意多數量的集合，$\mathcal{A}$為一 <em>collection of sets</em>，我們可以用以下表示法：</p><p>$$<br>\bigcup_{A \in \mathcal{A}} A = \{ x \mid x \in A, for \enspace at \enspace least \enspace one \enspace A \in \mathcal{A} \}<br>$$</p><p>直白的說，就是這個聯集會將在$\mathcal{A}$中，至少出現過一次的$A$，將$A$中的元素$x$都蒐集起來。</p><p>$$<br>\bigcap_{A \in \mathcal{A}} A = \{ x \mid x \in A, for \enspace every \enspace A \in \mathcal{A} \}<br>$$</p><p>這個交集則是會將在$\mathcal{A}$中，每個$A$，將$A$中都出現的元素$x$蒐集起來。</p><p>這些定義都沒什麼大問題。不過當$\mathcal{A}$是個空的 <em>collection</em> 的時候就會顯的比較特別，根據字面定義，這個情況下沒有任何人可以符合這樣的定義，所以我們可以說：</p><p>$$<br>\bigcup_{A \in \mathcal{A}} A = \emptyset<br>$$</p><p>接下來我們來定義一個重要的東西，<strong>笛卡爾積（Cartesian product）</strong>，數學上常常會用這樣的概念來為其他概念下定義，例如空間上的座標位置。</p><blockquote><p> <strong><em>Def.</em></strong></p></blockquote><p>$$<br>A \times B = \{(a, b) \mid a \in A \enspace and \enspace b \in B\}<br>$$</p><p>像是當 $A = \{ a, b, c\}$， $B = \{1, 2\}$，那麼 $A \times B = \{(a, 1), (a, 2), (b, 1), (b, 2), (c, 1), (c, 2)\}$ 。</p><p>這在概念上非常直覺，可以把他想成是在 <em>set</em> $A$ 中的元素跟在 <em>set</em> $B$ 中的元素，拿出來一一做排列組合，所有的排列組合所成的集合就是 $A \times B$。</p>]]></content>
+    
+    <summary type="html">
+    
+      
+      
+        &lt;p&gt;先以集合論開始切入，集合論是以後各門數學相關學科的根基，也就是很多數學的分支都會定義在集合論上。&lt;/p&gt;
+&lt;p&gt;在數學上，集合就是一群不重複的物件（object）或是元素（element）。像我們可以定義&lt;strong&gt;一個set A當中的elements有a、b、c&lt;/s
+      
+    
+    </summary>
+    
+      <category term="Topology" scheme="https://yuehhua.github.io/categories/Topology/"/>
+    
+    
+  </entry>
+  
+  <entry>
+    <title>Reference commands</title>
+    <link href="https://yuehhua.github.io/2018/07/21/04-reference/"/>
+    <id>https://yuehhua.github.io/2018/07/21/04-reference/</id>
+    <published>2018-07-21T14:59:51.000Z</published>
+    <updated>2018-07-21T16:19:12.240Z</updated>
+    
+    <content type="html"><![CDATA[<pre><code>attach    Attach to a running containerbuild     Build an image from a Dockerfilecommit    Create a new image from a container&apos;s changescp        Copy files/folders from the containers filesystem to the host pathdiff      Inspect changes on a container&apos;s filesystemevents    Get real time events from the serverexport    Stream the contents of a container as a tar archivehistory   Show the history of an imageimages    List imagesimport    Create a new filesystem image from the contents of a tarballinfo      Display system-wide informationinspect   Return low-level information on a containerkill      Kill a running containerload      Load an image from a tar archivelogin     Register or Login to the docker registry serverlogs      Fetch the logs of a containerport      Lookup the public-facing port which is NAT-ed to PRIVATE_PORTpause     Pause all processes within a containerps        List containerspull      Pull an image or a repository from the docker registry serverpush      Push an image or a repository to the docker registry serverrestart   Restart a running containerrm        Remove one or more containersrmi       Remove one or more imagesrun       Run a command in a new containersave      Save an image to a tar archivesearch    Search for an image in the docker indexstart     Start a stopped containerstop      Stop a running containertag       Tag an image into a repositorytop       Lookup the running processes of a containerunpause   Unpause a paused containerversion   Show the docker version informationwait      Block until a container stops, then print its exit code</code></pre><h2 id="Docker-Commands-Diagram"><a href="#Docker-Commands-Diagram" class="headerlink" title="Docker Commands Diagram"></a><strong>Docker Commands Diagram</strong></h2><p><img src="https://raw.githubusercontent.com/philipz/docker_practice/master/_images/cmd_logic.png" alt="Docker Commands Diagram"></p>]]></content>
+    
+    <summary type="html">
+    
+      
+      
+        &lt;pre&gt;&lt;code&gt;attach    Attach to a running container
+build     Build an image from a Dockerfile
+commit    Create a new image from a container&amp;
+      
+    
+    </summary>
+    
+      <category term="Docker" scheme="https://yuehhua.github.io/categories/Docker/"/>
+    
+    
+  </entry>
+  
+  <entry>
+    <title>Recommended docker apps</title>
+    <link href="https://yuehhua.github.io/2018/07/21/03-recommend/"/>
+    <id>https://yuehhua.github.io/2018/07/21/03-recommend/</id>
+    <published>2018-07-21T14:58:45.000Z</published>
+    <updated>2018-07-21T16:19:14.220Z</updated>
+    
+    <content type="html"><![CDATA[<pre><code>docker pull sequenceiq/hadoop-ubuntudocker pull nginx  # official reposdocker pull php  # official reposdocker pull dockerfile/javadocker pull dockerfile/pythondocker pull pypy  # official reposdocker pull rocker/rstudio:latest</code></pre>]]></content>
+    
+    <summary type="html">
+    
+      
+      
+        &lt;pre&gt;&lt;code&gt;docker pull sequenceiq/hadoop-ubuntu
+docker pull nginx  # official repos
+docker pull php  # official repos
+docker pull dockerfile
+      
+    
+    </summary>
+    
+      <category term="Docker" scheme="https://yuehhua.github.io/categories/Docker/"/>
+    
+    
+  </entry>
+  
+  <entry>
+    <title>Writing a Dockerfile</title>
+    <link href="https://yuehhua.github.io/2018/07/21/02-dockerfiles/"/>
+    <id>https://yuehhua.github.io/2018/07/21/02-dockerfiles/</id>
+    <published>2018-07-21T14:49:48.000Z</published>
+    <updated>2018-07-21T14:50:16.713Z</updated>
+    
+    <content type="html"><![CDATA[<p>We already know how to get a image and modify it, then share it through Docker Hub. It can be more portable and easy to customize. Just write a script in Dockerfile, and then use <code>docker build</code> to build an image following the script in Dockerfile!</p><p>A demo of a Dockerfile:</p><pre><code>FROM tutum/apache-php:latestMAINTAINER Huang AMing RUN sed -i &apos;s/archive.ubuntu.com/free.nchc.org.tw/g&apos; \  /etc/apt/sources.listRUN apt-get update \  &amp;&amp; apt-get install -y php5-xdebugADD https://phar.phpunit.de/phpunit.phar /usr/local/bin/RUN cd /usr/local/bin \   &amp;&amp; chmod +x phpunit.phar \   &amp;&amp; mv phpunit.phar phpunit</code></pre><blockquote><p><strong>FROM</strong>: what image would be the base to build<br><strong>MAINTAINER</strong>: declare the maintainer<br><strong>RUN</strong>: to run command in the container in order to build image<br><strong>ADD</strong>: to add file from <em>host OS</em> or <em>remote directory</em> to the specified <em>directory of  image</em>, the file would be unziped automatically if it is compressed</p></blockquote><p>Build the image:</p><pre><code>docker build &lt;the-Dockerfile-placed&gt;example&gt; # build image following the Dockerfile in the current directory and tag as ymhuang0808/phpunit-testing:php5.5.9example&gt; docker build -t=&quot;ymhuang0808/phpunit-testing:php5.5.9&quot; .</code></pre><blockquote><p><strong>Flags:</strong><br><code>-t</code> flag assign the new image a tag</p></blockquote>]]></content>
+    
+    <summary type="html">
+    
+      
+      
+        &lt;p&gt;We already know how to get a image and modify it, then share it through Docker Hub. It can be more portable and easy to customize. Just w
+      
+    
+    </summary>
+    
+      <category term="Docker" scheme="https://yuehhua.github.io/categories/Docker/"/>
+    
+    
+  </entry>
+  
+  <entry>
+    <title>Basic commands</title>
+    <link href="https://yuehhua.github.io/2018/07/21/01-basic-commands/"/>
+    <id>https://yuehhua.github.io/2018/07/21/01-basic-commands/</id>
+    <published>2018-07-21T14:48:11.000Z</published>
+    <updated>2018-07-21T14:49:01.047Z</updated>
+    
+    <content type="html"><![CDATA[<p>Usage:  <code>[sudo] docker [command] [flags] [arguments] ..</code></p><h2 id="Get-information"><a href="#Get-information" class="headerlink" title="Get information"></a>Get information</h2><p>The version of docker:</p><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">example&gt; docker version</span><br><span class="line">Client version: 1.4.1</span><br><span class="line">Client API version: 1.16</span><br><span class="line">Go version (client): go1.3.3</span><br><span class="line">Git commit (client): 5bc2ff8</span><br><span class="line">OS/Arch (client): linux/amd64</span><br><span class="line">Server version: 1.4.1</span><br><span class="line">Server API version: 1.16</span><br><span class="line">Go version (server): go1.3.3</span><br><span class="line">Git commit (server): 5bc2ff8</span><br></pre></td></tr></table></figure><p>Show the information about docker status:</p><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">example&gt; docker info</span><br><span class="line">Containers: 5</span><br><span class="line">Images: 5</span><br><span class="line">Storage Driver: aufs</span><br><span class="line">Root Dir: /var/lib/docker/aufs</span><br><span class="line">Dirs: 15</span><br><span class="line">Execution Driver: native-0.2</span><br><span class="line">Kernel Version: 3.13.0-32-generic</span><br><span class="line">WARNING: No swap <span class="built_in">limit</span> support</span><br></pre></td></tr></table></figure><h2 id="Basic-operations"><a href="#Basic-operations" class="headerlink" title="Basic operations"></a>Basic operations</h2><p>Download image file provided from Docker Hub:</p><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">docker pull &lt;image-name&gt;</span><br><span class="line">example&gt; docker pull ubuntu:14.04</span><br></pre></td></tr></table></figure><p>Run specified cmd on this image:</p><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">docker run &lt;image-name&gt; &lt;cmd&gt;</span><br><span class="line">example&gt; <span class="comment"># Run interactively in the foreground</span></span><br><span class="line">example&gt; docker run -i -t ubuntu /bin/bash</span><br></pre></td></tr></table></figure><blockquote><p><strong>Flags:</strong></p></blockquote><blockquote><p><code>-t</code> flag assigns a terminal inside our new container.</p></blockquote><blockquote><p><code>-i</code> flag allows us to make an interactive connection by grabbing the standard in (<code>STDIN</code>) of the container.</p></blockquote><blockquote><p><code>-d</code> flag tells Docker to run the container and put it in the background, to daemonize it.</p></blockquote><blockquote><p><code>-p</code> flag is new and tells Docker to map any required network ports inside our container to our host.</p></blockquote><blockquote><p><code>-P</code> flag, a shortcut for <code>-p</code>,  maps any required network ports exposed in our image to a high port (from the range 49153 to 65535) on the local Docker host.</p></blockquote><blockquote><p><code>-v</code> flag mount the host directory into container directory, ex <code>-v &lt;host-dir&gt;:&lt;container-dir&gt;</code> or <code>-v &lt;container-dir&gt;</code></p></blockquote><blockquote><p><code>--name</code> flag assigns a name to this container</p></blockquote><blockquote><p><code>&lt;image-name&gt;</code>: ubuntu:14.04</p></blockquote><blockquote><p><code>&lt;cmd&gt;</code>: /bin/echo “hello world”</p></blockquote><p>View info of container:</p><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">docker inspect &lt;container-id-or-name&gt;</span><br><span class="line">example&gt;</span><br></pre></td></tr></table></figure><p>Lists containers:</p><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">example&gt; <span class="comment"># To check which docker is running</span></span><br><span class="line">example&gt; docker ps</span><br><span class="line">example&gt; <span class="comment"># </span></span><br><span class="line">example&gt; docker ps -l</span><br><span class="line">example&gt; <span class="comment"># Show all docker in execution</span></span><br><span class="line">example&gt; docker ps -a</span><br></pre></td></tr></table></figure><p>Stops running containers:</p><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">docker stop &lt;container-id-or-name&gt;</span><br><span class="line">example&gt; <span class="comment"># This will stop the container id of cfc68</span></span><br><span class="line">example&gt; docker stop cfc68</span><br></pre></td></tr></table></figure><p>Commit a modified image:</p><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">docker commit &lt;container-id-or-name&gt; &lt;image-name&gt;</span><br><span class="line">example&gt; docker commit -m=<span class="string">"Add PHPUnit and xdebug"</span> \</span><br><span class="line">example&gt; -a=<span class="string">"Huang Yi-Ming"</span> aeeb1980c96e \</span><br><span class="line">example&gt; ymhuang0808/phpunit-testing:php5.5.9</span><br></pre></td></tr></table></figure><blockquote><p><strong>Flags:</strong></p></blockquote><blockquote><p><code>-m</code> flag is used to give a comment to this commit.</p></blockquote><blockquote><p><code>-a</code> flag declare the maintainer’s name.</p></blockquote><p>Remove the image:</p><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">docker rmi &lt;image-id&gt;</span><br></pre></td></tr></table></figure><p>Login Docker Hub (before you push a image to repository):</p><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">example&gt; docker login</span><br><span class="line">Username: [ENTER YOUR USERNAME] Password:</span><br><span class="line">Email: [ENTER YOUR EMAIL] Login Succeeded</span><br></pre></td></tr></table></figure><p>Push image to the repository (usually on Docker Hub):</p><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">docker push &lt;image-name&gt;</span><br><span class="line">example&gt; docker push a504082002/ubuntu:14.04</span><br></pre></td></tr></table></figure><p>Shows us the standard output of a container:</p><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">docker logs</span><br></pre></td></tr></table></figure><h2 id="Some-advanced-applications"><a href="#Some-advanced-applications" class="headerlink" title="Some advanced applications"></a>Some advanced applications</h2><p>Query the port mapping of a container:</p><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">docker port &lt;container-id-or-name&gt; &lt;port-exposed&gt;</span><br><span class="line">example&gt; <span class="comment"># which port was mapped to the port 5000 on container named of nostalgic_morse</span></span><br><span class="line">example&gt; docker port nostalgic_morse 5000</span><br><span class="line">0.0.0.0:49155</span><br></pre></td></tr></table></figure><p>Running a web application in docker:</p><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">example&gt; <span class="comment"># we're going to run a Python Flask application with image: training/webapp</span></span><br><span class="line">example&gt; docker run -d -P training/webapp python app.py</span><br></pre></td></tr></table></figure><p>Assign command to specific docker:</p><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">example&gt; <span class="comment"># Return to docker again after exit</span></span><br><span class="line">example&gt; docker <span class="built_in">exec</span> -t -i 0f83f1728262 bash</span><br></pre></td></tr></table></figure><p>To remove docker that you don’t need anymore:</p><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">example&gt; docker rm 0f83f1728262</span><br></pre></td></tr></table></figure><p>To mount a host directory as a disk in docker:</p><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">example&gt; <span class="comment"># Mount /myData into docker</span></span><br><span class="line">example&gt; docker run -t -i -v /myData centos:centos6 bash</span><br></pre></td></tr></table></figure>]]></content>
+    
+    <summary type="html">
+    
+      
+      
+        &lt;p&gt;Usage:  &lt;code&gt;[sudo] docker [command] [flags] [arguments] ..&lt;/code&gt;&lt;/p&gt;
+&lt;h2 id=&quot;Get-information&quot;&gt;&lt;a href=&quot;#Get-information&quot; class=&quot;header
+      
+    
+    </summary>
+    
+      <category term="Docker" scheme="https://yuehhua.github.io/categories/Docker/"/>
+    
+    
+  </entry>
+  
+  <entry>
+    <title>Mindset（中譯：心態致勝）</title>
+    <link href="https://yuehhua.github.io/2018/07/21/mindset/"/>
+    <id>https://yuehhua.github.io/2018/07/21/mindset/</id>
+    <published>2018-07-21T14:46:01.000Z</published>
+    <updated>2018-07-22T06:41:51.164Z</updated>
+    
+    <content type="html"><![CDATA[<p><img src="https://im1.book.com.tw/image/getImage?i=https://www.books.com.tw/img/001/074/84/0010748470.jpg&amp;v=58d4f5ad&amp;w=348&amp;h=348" alt="心態致勝：全新成功心理學"></p><blockquote><p>圖片取自博客來</p></blockquote><p>今天看到書的前三分之一，但是忍不住要來跟大家分享書中的內容。這本看名字跟外表很容易被埋沒那些講成功的商業書籍中，但是這本可是史丹佛大學的心理學權威 Dr. Carol Dweck 的研究成果阿！他也有在 TED 發表過演講，是很值得看的一本書！</p><iframe width="560" height="315" class="center" src="https://www.youtube.com/embed/PfX1YpHzr64" frameborder="0" allow="autoplay; encrypted-media" allowfullscreen></iframe><p>他把人的心態分成兩種：成長心態與定型心態。教授的觀察來自一群面對難題的十歲男孩</p><blockquote><p>面對費解謎題時，一位十歲男孩把椅子往前拉，搓揉雙手，咂嘴喊道：「我愛挑戰！」另一個孩子在為難題傷腦筋時，抬起頭，露出愉悅表情，自信地說：「你知道嗎？我原本就期待這會很有教育性！」</p></blockquote><p>教授把人分為這樣的兩種心態。</p><p>對定型心態的人來說，他相信他自身的素質是天生、無法改變的，那人要不就是聰明要不就是不聰明，失敗意味著不聰明。這種心態使得自己需要一再的證明自己，證明自己是聰明的。若是你有一定程度的智力、一種特定性格、一種特定品性，你最好證明你自己是聰明的，不然就大事不妙。</p><p>成長心態剛好相反，這些人認為可以透過努力、策略與他人的幫助，培養或是加強個人的素質。每個人的生長環境、資質、興趣跟性格可能各自不同，但是大家都可以透過努力進而改變成長，他們樂於接受挑戰並拓展自己的領域。</p><h2 id="反應"><a href="#反應" class="headerlink" title="反應"></a>反應</h2><p>兩種心態的人面對同一件糟糕的事情反應有所不同，定型心態的人會認為自己被否定、是個失敗者，但他們在面對失敗之前都跟成長心態者一樣的樂觀。成長心態面對同樣的事情，同樣會有低落的情緒反應，但是除了情緒反應會開始思考要如何突破這樣的困境，他們知道可以藉由努力的方式幫助自己，他們面對挫折跟失敗的態度相當坦然。</p><p>定型心態者他們不相信一些對於冒險及毅力的格言，例如，失敗為成功之母。對他們來說，失敗只不是一再的證明了他們的資質差與不聰慧。人們對於風險與努力的看法源自於他們的基本心態，成長心態的人重視自我挑戰的價值與努力的重要性，然而定型心態的人不喜歡挑戰與努力，因為他們認為人的特質是不變的，努力沒辦法改變什麼，他們很快就會畏懼挑戰，並認為努力的人都像是笨蛋。</p><h2 id="低努力"><a href="#低努力" class="headerlink" title="低努力"></a>低努力</h2><p>研究發現，有定型心態的青少年對於資源的運用，不是用於學習，而是用來保護自尊。他們在學校中的主要目標，除了讓自己看起來比較聰明，另外一個就是儘可能的不費力。這些人會試圖降低自己努力的程度，好讓考試無法真正測驗出他們的實力，進而讓自己有理由看起來不愚蠢。但在成長心態的學生看來，停止嘗試努力是無法理解的，這絕對是一段探索自己喜歡什麼、學習新科目，並思考將來想做什麼的好時機。</p><h2 id="天份"><a href="#天份" class="headerlink" title="天份"></a>天份</h2><p>書中也談到關於藝術天份，有些人可能不需要怎麼努力就可以畫的很好，但有些人總是不論怎麼嘗試努力就是無法開竅。書中談到一個例子，是一些人在去上某個課程前都拙於繪畫，但是在掌握方法之後，他們都可以畫出一定水準的畫作來。因為大多數人不了解繪畫的構成要素，繪畫的重點不在於繪畫技巧，而是在於如何『看』，在於感知光影的變化、邊緣輪廓與空間關係。有些人能夠在生活中掌握這些方法，其他人則是需要下功夫去學習他，但只要掌握方法，人人都可以做的到。</p><h2 id="讚美"><a href="#讚美" class="headerlink" title="讚美"></a>讚美</h2><p>書中提到，讚美一個人的「能力」，與讚美一個人的「努力」會得到不一樣的效果。實驗結果顯示，讚美一個人的能力，會讓他認知到自己的成功來自於自身的能力，所以需要繼續保有這樣的能力，但是這樣使學生進入定型心態，後續即便測試同樣難度的題目，表現就不如前次好。如果讚美一個人的努力，會讓他認知到這次的成功是來自自身的努力，所以他們也更願意努力更富挑戰性的任務。</p><p>讚美一個人的能力，使他們拒絕了富挑戰性的任務，他們儘可能的不想暴露缺點、使才能遭受懷疑。這使得他們更願意嘗試作弊、撒謊來確保他們的成功。對那些被讚美很努力的學生來說，困難意味著需要更多的努力，但是失敗並不意味著他們的不聰慧，他們更能享受挑戰所帶來的樂趣。</p><h2 id="負標籤"><a href="#負標籤" class="headerlink" title="負標籤"></a>負標籤</h2><p>負標籤也會在這個地方發揮作用。作者陳述到自身高中的數學成績非常好，但後來遇上了一個認為女性就是不擅長數學的老師，接著，作者的數學成績就下滑了。在刻版印象中認為女性是不擅長數學與科學的，這樣的負標籤會讓人們產生種種分心的想法，即便是一名女性與多名男性在同一間教室，都會讓女性的數學成績下滑。但這並不是對所有人都這樣，他只對定型心態者有影響，當人們認知到素質是不變的，那麼刻版印象就會發生作用。在定型心態下，好評跟負標籤都會發生作用，但是在成長心態下，卻可以不受影響，他們不相信永遠的低劣，他們相信只要經過努力便可以迎頭趕上。</p><p>這邊大致摘要了書中前三分之一的內容，如果大家有興趣，請取找書來看吧！</p>]]></content>
+    
+    <summary type="html">
+    
+      
+      
+        &lt;p&gt;&lt;img src=&quot;https://im1.book.com.tw/image/getImage?i=https://www.books.com.tw/img/001/074/84/0010748470.jpg&amp;amp;v=58d4f5ad&amp;amp;w=348&amp;amp;h=
+      
+    
+    </summary>
+    
+    
+  </entry>
+  
+  <entry>
+    <title>About me</title>
+    <link href="https://yuehhua.github.io/2018/07/21/about/"/>
+    <id>https://yuehhua.github.io/2018/07/21/about/</id>
+    <published>2018-07-21T14:38:00.000Z</published>
+    <updated>2018-07-21T14:38:29.283Z</updated>
+    
+    <content type="html"><![CDATA[<h2 id="杜岳華"><a href="#杜岳華" class="headerlink" title="杜岳華"></a>杜岳華</h2><p>Yueh-Hua Tu</p><p>兼俱科學家與工程師思維</p><p>熱愛數學、科學、生物學、電腦科學</p><p>專業是Computational Biology, Systems Biology, Network Biology</p><p>我要成為生醫資料科學家！</p><h3 id="學歷："><a href="#學歷：" class="headerlink" title="學歷："></a>學歷：</h3><ul><li>國立陽明大學 生物醫學資訊所 碩士 第1名畢業</li><li>國立成功大學 醫學檢驗生物技術學系 學士</li><li>國立成功大學 資訊工程學系 學士</li></ul>]]></content>
+    
+    <summary type="html">
+    
+      
+      
+        &lt;h2 id=&quot;杜岳華&quot;&gt;&lt;a href=&quot;#杜岳華&quot; class=&quot;headerlink&quot; title=&quot;杜岳華&quot;&gt;&lt;/a&gt;杜岳華&lt;/h2&gt;&lt;p&gt;Yueh-Hua Tu&lt;/p&gt;
+&lt;p&gt;兼俱科學家與工程師思維&lt;/p&gt;
+&lt;p&gt;熱愛數學、科學、生物學、電腦科學&lt;/p&gt;
+&lt;p&gt;專業是C
+      
+    
+    </summary>
+    
+    
+  </entry>
+  
+  <entry>
+    <title>RNN 的意義</title>
+    <link href="https://yuehhua.github.io/2018/07/21/why-rnn/"/>
+    <id>https://yuehhua.github.io/2018/07/21/why-rnn/</id>
+    <published>2018-07-21T14:21:30.000Z</published>
+    <updated>2018-07-22T15:49:06.453Z</updated>
+    
+    <content type="html"><![CDATA[<p>今天又是個長長的故事。</p><p>上次我們講完在空間上，我們可以知道資料的區域性，並且利用 convolution 來萃取特徵。</p><p>這次我們來講時間，其實不一定要是”時間”序列資料，只要是有先後順序的資料就可以。</p><p>在時間序列分析及統計的領域中，我們有基礎的馬可夫模型（Markov chain）。</p><h2 id="Markov-chain"><a href="#Markov-chain" class="headerlink" title="Markov chain"></a>Markov chain</h2><p>馬可夫模型是這樣的，他假設一個變數有不同種的狀態，例如下圖：</p><p><br></p><p><img src="/pics/markov_model.svg" alt=""></p><p><br></p><p>在這邊有4個狀態，一個圓圈代表一個狀態，狀態跟狀態之間會隨著時間改變，每個狀態會有一定機率變成其他狀態，或是維持原本的狀態不變。</p><p>我們可以把目前的狀態用一個向量來表達：</p><p>$$<br>\mathbf{y} =<br>\begin{bmatrix}<br>y_1 \\<br>y_2 \\<br>y_3 \\<br>y_4 \\<br>\end{bmatrix}<br>$$</p><p>我們這邊用 $\mathbf{y}$ 代表他是可以被觀察到的。狀態變化我們可以用一個矩陣來表達：</p><p>$$<br>A = [a_{ij}] =<br>\begin{bmatrix}<br>a_{11}&amp; a_{12}&amp; a_{13}&amp; a_{14} \\<br>a_{21}&amp; a_{22}&amp; a_{23}&amp; a_{24} \\<br>a_{31}&amp; a_{32}&amp; a_{33}&amp; a_{34} \\<br>a_{41}&amp; a_{42}&amp; a_{43}&amp; a_{44} \\<br>\end{bmatrix}<br>$$</p><p>其中 $a_{ij}$ 代表的是由狀態 $j$ 變成狀態 $i$ 的機率，這邊要注意的是，每一個列（row）的機率總和要是 1。</p><p>所以不同時間點的狀態變化關係可以寫成以下式子：</p><p>$$<br>\mathbf{y^{(t)}} = A \mathbf{y^{(t-1)}}<br>$$</p><p>$\mathbf{y^{(t)}}$ 的意思是第 t 次（或是時間為 t）的狀態，$\mathbf{y^{(t-1)}}$ 狀態會經過一次轉換或是運算轉變成 $\mathbf{y^{(t)}}$。</p><p>如果你把其中的第一項的運算拆開來看就會長這樣，可以自行檢驗狀態的變化：</p><p>$$<br>y_1^{(t)} = a_{11}y_1^{(t-1)} + a_{12}y_2^{(t-1)} + a_{13}y_3^{(t-1)} + a_{14}y_4^{(t-1)}<br>$$</p><p>從時間軸上來看，我們可以把狀態的轉變畫出來像是這樣：</p><p><br></p><p><img src="/pics/markov_model_expand_time.svg" alt=""></p><p><br></p><p>每次的轉變我們都可以看成一個函數 $f$，他其實等同於上面提到的矩陣：</p><p>$$<br>\mathbf{y^{(t)}} = f(\mathbf{y^{(t-1)}}) = A \mathbf{y^{(t-1)}}<br>$$</p><p>所以他的意思是，$\mathbf{y^{(t-1)}}$ 會經由 $f$ 變成 $\mathbf{y^{(t)}}$，所以這是單純的狀態變化。</p><p>上面的矩陣當中其實內容是機率，我們也可以把他轉成機率的寫法，但是解釋會變得不太一樣：</p><p>$$<br>p = f(\mathbf{y^{(t)}} \mid \mathbf{y^{(t-1)}}) = P(\mathbf{y^{(t)}} \mid \mathbf{y^{(t-1)}})<br>$$</p><p>這邊的解釋是，$\mathbf{y^{(t-1)}}$ 會經由 $f$ 變成 $\mathbf{y^{(t)}}$ <strong>的機率</strong>。</p><p>下句跟上句的不同在於，上句的描述是肯定的，他只描述了狀態的改變，但是下句多加描述了 <strong>這件事會發生的機率</strong>，所以應該要把 $\mathbf{y^{(t)}} \mid \mathbf{y^{(t-1)}}$ 理解成 <strong>這一件事</strong>，那麼 $f$ 的輸出就是機率了。</p><p>我們可以把上圖 <em>收起來</em>，所以看起來會像這樣：</p><p><br></p><p><img src="/pics/markov_model_time.svg" alt=""></p><p><br></p><p>花了點時間把一些符號跟數學概念講完了，來談談他的假設，一般來說，馬可夫模型最大的假設在於：</p><p>$$<br>P(\mathbf{y^{(t)}} \mid \mathbf{y^{(1)}}, \mathbf{y^{(2)}}, \dots, \mathbf{y^{(t-1)}}) = P(\mathbf{y^{(t)}} \mid \mathbf{y^{(t-1)}})<br>$$</p><p>也就是要預測第 t 單位時間的狀態，我們經歷了第 1~(t - 1) 單位時間，但是他只需要用前一個時間單位的狀態就可以預測下一個狀態，前面很多狀態都是不必要的，這我們稱為一階馬可夫模型（first-order Markov chain）。</p><p>當然可以推廣到 m 階馬可夫模型（m th-order Markov chain），那代表需要前 m 個狀態來預測下一個狀態，順帶一提，有零階馬可夫模型，那就跟我們一般的機率分佈模型（$P(\mathbf{y^{(t)}}）$）一樣。</p><p>沒有特別提的話，通常大家談的馬可夫模型都是一階馬可夫模型。一般來說，他有個非常重要的特性，就是 <strong>無記憶性</strong>，也就是他不會去記住他所經歷的狀態，他只需要用現在的狀態就可以預測下一個狀態。</p><p>不過我要特別提一下這個模型的一些其他假設：</p><ul><li>狀態是離散的。在馬可夫模型的狀態空間中是離散的，也就是你可以用一個正整數來數出有幾種狀態存在。</li><li>時間是離散的。我們剛剛有看到他計算的是第 t 單位時間，下一次就是乘上一個矩陣之後成為第 t+1 單位時間。</li><li>狀態是可被觀察的。</li><li>以一個隨機變數作為一個狀態。</li></ul><p>接下來我們來談談另一個模型。</p><p><br></p><h2 id="Hidden-Markov-model"><a href="#Hidden-Markov-model" class="headerlink" title="Hidden Markov model"></a>Hidden Markov model</h2><p>接下來是進階版的隱馬可夫模型（hidden Markov model），他的假設是這樣的，在一個系統中存在一些我們看不到的狀態，是系統的內在狀態，隨著系統的內在狀態不同，他所表現出來的外在狀態也不同，而外在狀態是我們可以觀測到的。</p><p><br></p><p><img src="/pics/hmm.svg" alt=""></p><p><br></p><p>大家可以看到這個圖跟剛剛的很相似，帶是又多了一些東西。較大的圈圈是內在狀態，小的圈圈是外在狀態。隨著時間改變，內在狀態會隨著變動，內在狀態的變動我們可以用一個矩陣來表示：</p><p>$$<br>A = [a_{ij}] =<br>\begin{bmatrix}<br>a_{11}&amp; a_{12}&amp; a_{13}&amp; a_{14} \\<br>a_{21}&amp; a_{22}&amp; a_{23}&amp; a_{24} \\<br>a_{31}&amp; a_{32}&amp; a_{33}&amp; a_{34} \\<br>a_{41}&amp; a_{42}&amp; a_{43}&amp; a_{44} \\<br>\end{bmatrix}<br>$$</p><p>裏面裝的一樣是機率。接下來，不同的內在狀態有不同的機率會噴出（emit）外在狀態，這也會用另一個矩陣表示：</p><p>$$<br>B = [b_{ij}] =<br>\begin{bmatrix}<br>b_{11}&amp; b_{12}&amp; b_{13}&amp; b_{14} \\<br>b_{21}&amp; b_{22}&amp; b_{23}&amp; b_{24} \\<br>b_{31}&amp; b_{32}&amp; b_{33}&amp; b_{34} \\<br>\end{bmatrix}<br>$$</p><p>寫成狀態轉移的關係式的話會變成：</p><p>$$<br>\mathbf{h^{(t)}} = A \mathbf{h^{(t-1)}}<br>$$</p><p>$\mathbf{h^{(t)}}$ 代表在第 t 單位時間的內在狀態。</p><p>$$<br>\mathbf{y^{(t)}} = B \mathbf{h^{(t)}}<br>$$</p><p>$\mathbf{y^{(t)}}$ 代表在第 t 單位時間根據內在狀態噴出的外在狀態。</p><p>如果在時間軸上表達的話是這個樣子：</p><p><br></p><p><img src="/pics/hmm_expand_time.svg" alt=""></p><p><br></p><p><img src="/pics/hmm_time.svg" alt=""></p><p><br></p><p>由於在這邊又多了一個內在狀態，所以在模型的表達力上遠遠超越馬可夫模型。舉個例子好了，假設小明很好奇在不同天氣的時候外面的人吃冰淇淋的狀況是如何，但是小明又很懶得出門看天氣，這時候他就假設天氣（晴天、陰天、雨天）是內在狀態（看不到），然後他觀察路上的人吃冰淇淋（外在狀態，吃、不吃）的多寡，這時候這麼模型就可以派上用場，他藉由持續觀察路人有沒有吃冰淇淋，可以推論外面天氣的變化狀況。</p><p>這時候我們也來總結一下，這個模型的假設：</p><ul><li>內在狀態跟外在狀態都是離散的。</li><li>時間是離散的。</li><li>內在狀態是不能被觀察的，外在狀態是可被觀察的。</li><li>以一個隨機變數作為一個狀態。</li></ul><p><br></p><h2 id="Recurrent-neural-network"><a href="#Recurrent-neural-network" class="headerlink" title="Recurrent neural network"></a>Recurrent neural network</h2><p>那大家所熟知的 RNN 是怎麼回事呢？我們把假設改了一下：</p><ul><li>狀態都是 <strong>連續</strong> 的。</li><li>時間是離散的。</li><li>內在狀態是不能被觀察的，外在狀態是可被觀察的。</li><li>以一個 <strong>隨機向量</strong> 作為一個狀態。</li><li><strong>允許在每個時間點給輸入</strong></li><li><strong>引入非線性</strong></li></ul><p>首先，在這邊的狀態會以一個向量做表示，大家應該也知道 RNN 的 input 是一個向量，當中的狀態也是一個向量，最後的 output 也是一個向量。而這些向量當中的的值都是連續的 $\mathbb{R}^n$（假設向量大小為 n），不像上面的模型都是離散的 $k$（假設有 k 個狀態），所以在空間上的大小可以說是擴大非常多。</p><p>接下來我們來看看時間的狀態轉換：</p><p><br></p><p><img src="/pics/rnn_time.svg" alt=""></p><p><br></p><p><img src="/pics/rnn_expand_time.svg" alt=""></p><p><br></p><p>在 RNN 中一樣含有內在狀態，但不同的是 RNN 可以在每個時間點上給輸入向量（$\mathbf{x^{(t)}}$），所以可以根據前一個時間點的內在狀態（$\mathbf{h^{(t)}}$）跟輸入向量去計算輸出，或是外在狀態（$\mathbf{y^{(t)}}$）。</p><p>所以大家會在一些論文上看到模型的狀態關係式長下面這個樣子：</p><p>$$<br>\mathbf{y^{(t)}} = f(\mathbf{x^{(t)}}, \mathbf{h^{(t-1)}}) = sigm(W_x\mathbf{x^{(t)}} + W_h\mathbf{h^{(t-1)}} + \mathbf{b})<br>$$</p><p>這邊特別引入了非線性的轉換（$sigm$）來讓模型更強大。</p><p>隨著從一開始的馬可夫模型到這邊應該對這幾個模型有點感覺，其實 RNN 可以說是很大的突破，在假設上放了很多元素讓模型變得更強大。</p><h2 id="Long-short-term-memory"><a href="#Long-short-term-memory" class="headerlink" title="Long short-term memory"></a>Long short-term memory</h2><p>人們為了改進 RNN這個模型的記憶性，希望他可以記住更遠以前的東西，所以設計了 LSTM 來替換他的 hidden layer 的運作模式，後期更有 GRU，還有人說只需要 forget gate 就有很強大的效能的 MGU。這些都是對於記憶性做的改進，個人覺得這些在工程上的貢獻比較大，真正學術上的突破其實還好。</p><p>今天的整理就先到這邊啦！</p>]]></content>
+    
+    <summary type="html">
+    
+      
+      
+        &lt;p&gt;今天又是個長長的故事。&lt;/p&gt;
+&lt;p&gt;上次我們講完在空間上，我們可以知道資料的區域性，並且利用 convolution 來萃取特徵。&lt;/p&gt;
+&lt;p&gt;這次我們來講時間，其實不一定要是”時間”序列資料，只要是有先後順序的資料就可以。&lt;/p&gt;
+&lt;p&gt;在時間序列分析及統計的領域中，
+      
+    
+    </summary>
+    
+      <category term="Deep Learning" scheme="https://yuehhua.github.io/categories/Deep-Learning/"/>
+    
+    
+  </entry>
+  
+  <entry>
+    <title>CNN 的意義</title>
+    <link href="https://yuehhua.github.io/2018/07/21/why-cnn/"/>
+    <id>https://yuehhua.github.io/2018/07/21/why-cnn/</id>
+    <published>2018-07-21T14:19:44.000Z</published>
+    <updated>2018-07-22T06:42:42.908Z</updated>
+    
+    <content type="html"><![CDATA[<p>前面大致介紹完了 Deep learning 跟 MLP 的設計，我們接下來介紹在影像處理上的重要技術。</p><p>Convolutional neural network，顧名思義，他是一種神經網路架構，裡頭包含著 convolution 的運算。</p><p>那為什麼 convolution 這麼重要，重要到要放在名稱上呢？</p><p>我先推荐大家去看台大李宏毅老師的介紹，看完再繼續往下看文章。</p><iframe width="560" height="315" src="https://www.youtube.com/embed/FrKWiRv254g" frameborder="0" allow="autoplay; encrypted-media" allowfullscreen></iframe><hr><h2 id="影像處理中的祕密"><a href="#影像處理中的祕密" class="headerlink" title="影像處理中的祕密"></a>影像處理中的祕密</h2><p>我們希望從資料當中找到某種規律，這種規律我們叫作模式（pattern），模式是會重複出現的特徵，像是你可以辨識出蘋果，因為一顆蘋果有他特定的特徵，像是顏色、形狀、大小等等，當這些組合起來，並且他們都會一起出現而且重複出現，我們就可以稱他為模式。</p><p>在影片當中有提到在影像處理上有幾個特點：</p><ol><li>一些模式比整張圖小</li><li>同樣的模式可能出現在圖片的不同地方</li><li>縮放圖片不影響圖片中物件的辨識</li></ol><p>第 1 點講的是，要去辨識一個模式並不需要整張圖，也就是，<strong>local 的資訊比 global 的資訊重要</strong>。在影片中有舉例，一隻鳥的特徵有鳥喙、羽毛、翅膀等等特徵，你並不會去在意他背景的圖片長什麼樣子。鳥喙這樣的特徵他是 <strong>區域性的</strong>，你不需要整張圖片的資訊去判斷這張圖是不是鳥喙，所以在設計模型的原則上需要去擷取區域性的資訊。</p><p>第 2 點講的是，同樣的模式可能會出現在不同圖片的不同地方，這邊其實隱含了一個概念，就是 <strong>位移不變性（translation invariance）</strong>。由於同樣模式可以在不同地方上被找到，所以我們只需要一個 node 去偵測他就好了 ，這樣的話可以節省非常多的 node（或是 weight），這稱為 shared weight。</p><p>第 3 點，如果圖片縮放不影響圖片辨識，那麼。這時候我們可以做 subsampling，除了可以減少資料處理的量，也不會影響圖片的辨識結果。</p><h2 id="Convolution"><a href="#Convolution" class="headerlink" title="Convolution"></a>Convolution</h2><p>相信很多人並沒有真正理解這個運算到底在做什麼就拿來用了……</p><p>我們說到 convolution layer，他真正的作用是用來做什麼的呢？他其實是用來 <strong>擷取 local 的資訊</strong> 的。</p><p>承接前面第一點提到的，在圖片當中，pattern 是 local 的資訊而不是 global 的，而 pattern 是我們想抓的資訊，所以我們要的資訊只有 local 的而已。</p><p>那麼 convolution 要如何擷取 local 的資訊呢？</p><h2 id="Convolution-運算"><a href="#Convolution-運算" class="headerlink" title="Convolution 運算"></a>Convolution 運算</h2><p>我們先來看 convolution 的原始定義，這邊假設兩個函數 $f$、$g$，則兩個函數的 convolution 為：</p><p>$$<br>(f * g)(t) = \int_{-\infty}^{\infty} f(\tau)g(t - \tau) d\tau<br>$$</p><p>以上我們看到他是一個積分式，當中引入了另一個變數 $\tau$，他代表的是<em>一個時間區間</em>，那接下來是兩個函數的<em>相乘</em>，然後將他們對變數 $\tau$ <em>積分</em>。我們來想想看，先不管變數 $\tau$，相乘後積分的運算跟什麼樣的運算很像？</p><p>是的！內積！我們來看看函數的內積長什麼樣子。</p><p>$$</p><p>&lt;f, g&gt; = \int_{-\infty}^{\infty} f(t)g(t)dt<br>$$</p><p>什麼？你跟我說這不是你認識的內積？不不不，你認識的內積其實是這個內積的離散版本。</p><p>$$</p><p>&lt;f, g&gt; = \sum_{i=1}^{n} f_i g_i<br>$$</p><p>$$<br>&lt;a, b&gt; = \sum_{i=1}^{n} a_i b_i = \mathbf{a}^T\mathbf{b}<br>$$</p><p>這樣是不是比較清楚一點了？我們來比較一下，因為積分是在 <strong>連續空間的加總</strong>，相對應的加總就是在 <strong>離散空間</strong> 的版本，那麼在連續空間上需要一個 $d\tau$ 來把連續空間切成一片一片的，但是在離散空間上，他很自然的就是 $1$ 了。這樣是不是又發覺他們根本是一樣的呢？</p><p>那你知道函數其實是一種向量嗎？不知道的同學表示沒有讀過或是沒有認真讀線性代數。</p><p>那這樣大家應該接受了函數的內積以及向量的內積其實是一樣的。接下來我們來討論一下那個神奇的 $\tau$。</p><p>$\tau$ 是一個時間區間，而積分其實是在對這個時間區間做切片然後加總，他其實跟我們在做訊號處理上的 window 的概念是一樣的，所以他其實是在某個 window 中做內積的意思。我們先來看看有 window 的內積長什麼樣子。</p><p>$$<br>(a * b)[n] = \sum_{m=1}^{k} a[m] b[n + m]<br>$$</p><p>在下圖我們可以假想左邊的向量是 $b$，右邊的是 $a$，而向量 $a$ 是有被 window 給限定範圍的（m = 1…k），所以在下面這張圖就是當 n = 1、m = 1…4 的時候的情境。箭頭則是向量元素相乘的對象，每次內積完，n 就會往下移動一個元素。</p><p><img src="/pics/ccor1d.svg" alt=""></p><p>計算完之後就變成一個新的向量，這就是 window 版本的內積的運作原理了！他其實有一個正式的名字，稱為 cross-correlation。</p><p>我們來看看把 convolution 離散化來看看是長什麼樣子。剛剛我們看到的 convolution 是連續的版本，是函數的版本，那我們實際上的運算是以向量去操作的，那麼離散版本的 convolution 是：</p><p>$$<br>(a * b)[n] = \sum_{m=-\infty}^{\infty} a[m] b[n - m]<br>$$</p><p>這邊的 window 就是 $m$ 這個參數，其實我們可以給他一個區間，不要是負無限大到正無限大。</p><p>$$<br>(a * b)[n] = \sum_{m=1}^{k} a[m] b[n - m]<br>$$</p><p>所以這邊的 window 大小調成是 $k$ 了！</p><p><img src="/pics/conv1d.svg" alt=""></p><p>你會發現，convolution 會跟 cross-correlation 很像，差別在於順序，也就是 convolution 內積的順序是相反的，所以他在數學式上的表達是用相減的，這邊的情境是 n = 6、m = 1…4。</p><p>我們來總結一下 convolution 這個運算，他其實是 local 版本的內積運算，而且他的內積方向是反序的。</p><h2 id="Convolution-layer"><a href="#Convolution-layer" class="headerlink" title="Convolution layer"></a>Convolution layer</h2><p>這邊我們回到我們的 convolution layer，如果把以上的一維向量拓展到二維的矩陣資料會長什麼樣子呢？</p><p>我們先來看二維的 cross-correlation 長什麼樣子。</p><p><img src="/pics/ccor2d.svg" alt=""></p><p>然後是反序的 convolution。</p><p><img src="/pics/conv2d.svg" alt=""></p><p>這樣有沒有搞懂一點 convolution 的運算了呢？</p><p>接著，想像在右手邊比較小的方框就是你的 filter （或是 kernel），然後他會沿著兩個軸去移動，去掃描看看有沒有跟 filter 的 pattern 很像的，當他偵測到很像的 pattern 的時候，輸出的 feature map 的值就會很高，所以這樣就可以做到上面講的第二點，也就是位移的不變性。不過說起來也不是真的有什麼位移不變性啦！他只是沿著軸去做掃描可以減少訓練的參數，這樣 filter 還是有在位移阿！只是對於要偵測的 pattern 看起來好像有”位移不變性”一樣。到這邊我們第一點跟第二點都解決了，剩下第三點。</p><h2 id="Subsampling"><a href="#Subsampling" class="headerlink" title="Subsampling"></a>Subsampling</h2><p>跟第三點相關的就是 subsampling，也就是如果讓圖片變小，不只可以降低要辨識的區塊大小，還可以降低需要訓練的參數量。那要怎麼讓圖片變小？</p><p>Maxpooling 是目前主流的方法，也就是在一個 window 的範圍內去找最大值，只保留最大值。還有一種是 meanpooling，顧名思義，他取整個 window 的平均值作為保留值。</p><p>所以 subsampling 在一些應用場景是需要的，有些是不需要的，像是有些 pattern 的辨識是不能去除細節的，一旦去除細節就會造成辨識困難，那就代表他沒有辦法用 subsampling。有時候照片縮小到一定程度人類也會無法辨識當中的圖像是什麼，所以也不要用過頭。</p><h2 id="Feature-extractor-classifier-架構"><a href="#Feature-extractor-classifier-架構" class="headerlink" title="Feature extractor-classifier 架構"></a>Feature extractor-classifier 架構</h2><p>經過以上介紹後，我們可以把 convolution layer 跟 subsampling 結合起來，成為所謂的 feature extractor。</p><p>經由以上三點特性，這些 layer 的巧妙運用可以是非常棒的 feature extractor。不同種的資料特性需要不同設計的 feature extractor，接下來就是 classifier 上場了。</p><p>典型的 classifier 可以是 SVM，或是要用比較潮的 deep learning 也可以，最單純的就是前一篇提到的 MLP 了。</p><p>這樣前後組合好就是個 CNN 的雛型了！</p><h2 id="MLP-做不好的事情"><a href="#MLP-做不好的事情" class="headerlink" title="MLP 做不好的事情"></a>MLP 做不好的事情</h2><p>前一篇我們有提到 MLP 因為會從整體特徵去做內積，所以整體的模式會優先被考慮，如果有區域性的特徵並不一定會被凸顯出來。在 MLP 相對上會比較注重整體性而不是區域性，所以使用 MLP 在影像處理上就比 CNN 不是那麼有利。</p><h2 id="關鍵在哪裡？"><a href="#關鍵在哪裡？" class="headerlink" title="關鍵在哪裡？"></a>關鍵在哪裡？</h2><p>我個人認為關鍵在資料的 <strong>區域性</strong>，也就是你想做的事情其實是跟資料的區域性有關係，或是你的資料是週期性資料（週期性出現的模式也可以視為是一種區域性模式重複出現），這樣你就可以用 convolution layer！（注意！不是 CNN！）</p><p>像是音樂當中有週期性的模式就可以用，在生物領域，蛋白質會去辨認 DNA 序列，有被辨認到的部份就會有蛋白質黏附上去，生物學家會想知道到底哪些地方有蛋白質黏附，黏附的序列是區域性的，所以也有應用 CNN 技術在這方面上。</p><p>最重要的還是去了解你的資料的特性，然後了解模型當中各元件的性質跟數學特性，這樣才能正確地使用這些技術解決問題，走到這邊需要同時是領域知識的專家，也同時是 DL 的專家才行阿！</p>]]></content>
+    
+    <summary type="html">
+    
+      
+      
+        &lt;p&gt;前面大致介紹完了 Deep learning 跟 MLP 的設計，我們接下來介紹在影像處理上的重要技術。&lt;/p&gt;
+&lt;p&gt;Convolutional neural network，顧名思義，他是一種神經網路架構，裡頭包含著 convolution 的運算。&lt;/p&gt;
+&lt;p&gt;那為
+      
+    
+    </summary>
+    
+      <category term="Deep Learning" scheme="https://yuehhua.github.io/categories/Deep-Learning/"/>
+    
+    
+  </entry>
+  
+  <entry>
+    <title>Multi-Layer Preceptron 的意義</title>
+    <link href="https://yuehhua.github.io/2018/07/21/why-mlp/"/>
+    <id>https://yuehhua.github.io/2018/07/21/why-mlp/</id>
+    <published>2018-07-21T14:15:58.000Z</published>
+    <updated>2018-07-21T14:24:22.959Z</updated>
+    
+    <content type="html"><![CDATA[<p>在前一篇講完了 deep learning 的意義之後我們來更具體一點講 multi-layer perceptron (MLP)。</p><p>最簡單的版本莫過於 linear MLP，不過不太會有人去用他，其實只是每層 layer 的 activation function 都是採用 identity。你可以想像他是有很多的線性轉換所疊起來的模型。</p><hr><p>一般線性模型：$f(\mathbf{x}) = W^{\prime T}\mathbf{x} + b = W^T\mathbf{x}$</p><p>Linear MLP：</p><p>$f_1(\mathbf{x}) = W_1^T\mathbf{x}$</p><p>$f_2(\mathbf{x}) = W_2^Tf_1(\mathbf{x})$</p><p>$f_3(\mathbf{x}) = W_3^Tf_2(\mathbf{x})$</p><p>…</p><p>$f_n(\mathbf{x}) = W_n^Tf_{n-1}(\mathbf{x})$</p><hr><p>那這樣這個有什麼好講的呢？</p><p>大家應該有看到在這邊唯一的運算：內積（inner product）</p><h2 id="內積的意義"><a href="#內積的意義" class="headerlink" title="內積的意義"></a>內積的意義</h2><p>有念過線性代數的人應該對內積這個運算還算熟悉（在這邊都假設大家有一定線性代數基礎）。</p><p>$$<br>&lt;\mathbf{x}, \mathbf{y}&gt; = \mathbf{x}^T \mathbf{y}<br>$$</p><p>$$<br>= \begin{bmatrix}<br>x_1 \<br>x_2 \<br>\vdots \<br>x_n<br>\end{bmatrix}^T</p><p>\begin{bmatrix}<br>y_1 \<br>y_2 \<br>\vdots \<br>y_n<br>\end{bmatrix}</p><p>=<br>\begin{bmatrix}<br>x_1, x_2, \cdots, x_n<br>\end{bmatrix}</p><p>\begin{bmatrix}<br>y_1 \<br>y_2 \<br>\vdots \<br>y_n<br>\end{bmatrix}<br>$$</p><p>內積，要先定義矩陣相乘的運算，而矩陣的相乘其實是一種線性轉換。</p><p>$$<br>f(\mathbf{x}) = A\mathbf{x}<br>$$</p><p>我們來觀察一下內積這個運算，這兩個向量會先把相對應的分量相乘。</p><p>$$<br>\begin{bmatrix}<br>x_1 \<br>x_2 \<br>\vdots \<br>x_n<br>\end{bmatrix}</p><p>\leftrightarrow</p><p>\begin{bmatrix}<br>y_1 \<br>y_2 \<br>\vdots \<br>y_n<br>\end{bmatrix}<br>$$</p><p>接著，再相加。</p><p>$$<br>x_1y_1 + x_2y_2 + \cdots + x_ny_n<br>$$</p><p>這時候我們可以想想看，如果當一邊是權重另一邊是資料的時候所代表的意義是什麼？</p><p>當兩個分量的大小都很大的時候，相乘會讓整個值變很大，相對，如果兩個都很接近零的話，結果值就不大。如果很多分量乘積結果都很大，相加會讓整體結果變得很大。</p><p>內積，其實隱含了 <strong>相似性</strong> 的概念在裡面，也就是說，如果你的權重跟資料很匹配的話，計算出來的值會很大。大家有沒有從裏面看出些端倪呢？</p><p>我們再由另一個角度切入看內積，內積我們可以把他寫成另一種形式，這個應該在大家的高中數學課本當中都有：</p><p>$$<br>\mathbf{x}^T \mathbf{y} = ||\mathbf{x}|| ||\mathbf{y}|| cos \theta<br>$$</p><p>這時候我們就可以看到內積可以被拆成3個部份：分別是兩個向量的大小跟向量夾角的 $cos \theta$ 值。</p><p>而當中 $cos \theta$ 就隱含著相似性在裡頭，也就是說，當兩個向量的夾角愈小，$cos \theta$ 會愈接近 1。相反，如果兩個向量夾角愈接近 180 度，那 $cos \theta$ 會愈接近 -1。剛好呈現 90 度就代表這兩個向量是 <strong>沒有關係的</strong>。</p><p>這時候可能有人會說內積又不是完全反應相似性而已，沒錯！因為他也考慮了兩個向量的長度，當一組向量夾角與另一組向量夾角相同，但是第1組的向量長度都比較長，那內積的結果第1組向量就會比較大。</p><p>所以內積是沒有去除掉向量長度因素的運算，如果單純想要用向量夾角來當成相似性的度量的話可以考慮用 cos similarity。</p><p>$$<br>cos \theta = \frac{\mathbf{x}^T \mathbf{y}}{||\mathbf{x}|| ||\mathbf{y}||}<br>$$</p><h2 id="內積與-MLP"><a href="#內積與-MLP" class="headerlink" title="內積與 MLP"></a>內積與 MLP</h2><p>那 MLP 當中內積扮演了什麼樣的角色呢？</p><p>在純粹線性的 MLP 當中，多層的 $f(\mathbf{x})$ 疊起來，我們可以把他看做是做非常多次的線性轉換或是座標轉換（change of basis），但是這是在 inference 階段的解釋。</p><p>那在 training 階段內積扮演了什麼樣的角色呢？</p><p>這邊提供一個新的想法：在 training 的過程中，我們的 dataset 是不變的，會變動的是 weight ，而內積則是在衡量這兩者之間的 feature norm 及向量夾角，所以 weight 會調整成匹配這樣特性的樣子。換句話說，內積考慮了 data 與 weight 之間的相似性與大小，並且藉由 training 去調整 weight 讓他與資料匹配。</p><p>在 inference 階段，你就可以把他看成是，weight 正在幫你做出某種程度的篩選，跟 weight 匹配的資料，內積值就會比較大，相對的是，weight 不匹配的資料，內積值就會比較小，藉由這樣將內積結果遞進到下一層的運算。</p><h2 id="機率與內積"><a href="#機率與內積" class="headerlink" title="機率與內積"></a>機率與內積</h2><p>其實還有一個觀點，就是機率觀點，機率要求一個 distribution 的長度為 1，$\int_{-\infty}^{\infty} P(X) = 1$。在這邊我們的 distribution 常常以一個 vector（或是 random variable）的形式呈現。事實上就是把一個計算好的向量去除以他的長度。如此一來，我們就去除了長度影響的因素，以符合機率的要求。</p><p>那機率當中的內積指的是什麼呢？</p><p>你如果動動手 google 一下就會發現在機率當中的內積就是這個運算</p><p>$$<br>\mathbb{E}[XY] = \int XY dP<br>$$</p><p>如果有念過統計的人，是不是覺得這東西很眼熟呢？</p><p>$$<br>cov(X, Y) = \mathbb{E}[XY] - \mathbb{E}[X]\mathbb{E}[Y]<br>$$</p><p>是的！他跟共變異數是有相關的，共變異數還是跟我們要去度量兩個隨機變數之間的 <strong>相似性</strong> 有關係。</p><p>$$<br>\rho = \frac{cov(X, Y)}{\sigma_X \sigma_Y}<br>$$</p><p>只要把他除以隨機變數的標準差就可以得到相關係數了呢！</p><h2 id="加入非線性"><a href="#加入非線性" class="headerlink" title="加入非線性"></a>加入非線性</h2><p>事實上，在我們生活中遇到的事物都是非線性的居多，線性模型可以施展手腳的範疇就不大了。</p><p>這時我們就希望在 MLP 中加入非線性的元素以增加模型的表達力。這時候模型的每一層就變成了：</p><p>$$<br>f(\mathbf{x}) = \sigma (W^T \mathbf{x})<br>$$</p><p>而當中的 $\sigma$ 就成了我們的 activation function 了，也就是非線性的來源！</p><h2 id="Fully-connected-layer"><a href="#Fully-connected-layer" class="headerlink" title="Fully connected layer"></a>Fully connected layer</h2><p>當這些層的 node 都互相連接，就代表了所有 node 都參與了計算，這個計算所考慮的資料是 <strong>global</strong> 的。</p><p>這些層所做的運算是相對 <strong>簡單</strong> 的（相對 convolution 來說）。</p><p>每個 node 對每一層運算所做的貢獻是 <strong>弱</strong> 的。當一層的 node 數很多，e.g. 上千個 node，每個 node 的運算結果就會被稀釋掉了。即便內積運算有包含個別值的大小的成份在裡頭，當 node 數一多，這樣的影響也會被減弱，剩下的是整體向量與向量之間的相似性。但有一個情況例外，當有 node 的值極大，e.g. $x_i / x_j = 1000$，當有人是別人的千倍以上的話就要注意一下了，這也是很常在機器學習當中會遇到的問題，這時候就會需要做 normalization 來處理。</p><p>最後提醒，內積的運算中雖然有隱含相似性在其中，但是他 <em>不等同</em> 於 <strong>去計算相似性</strong>。</p><p>今天的討論就到這邊告一個段落，希望在大家思考 deep learning 模型的時候，這些東西有幫上一些忙。</p>]]></content>
+    
+    <summary type="html">
+    
+      
+      
+        &lt;p&gt;在前一篇講完了 deep learning 的意義之後我們來更具體一點講 multi-layer perceptron (MLP)。&lt;/p&gt;
+&lt;p&gt;最簡單的版本莫過於 linear MLP，不過不太會有人去用他，其實只是每層 layer 的 activation funct
+      
+    
+    </summary>
+    
+      <category term="Deep Learning" scheme="https://yuehhua.github.io/categories/Deep-Learning/"/>
+    
+    
+  </entry>
+  
+  <entry>
+    <title>我們為什麼需要 Deep Learning？</title>
+    <link href="https://yuehhua.github.io/2018/07/21/why-deep-learning/"/>
+    <id>https://yuehhua.github.io/2018/07/21/why-deep-learning/</id>
+    <published>2018-07-21T14:04:31.000Z</published>
+    <updated>2018-07-22T06:43:29.032Z</updated>
+    
+    <content type="html"><![CDATA[<p>目前我們 machine learning 的技術已經發展了非常久的時間，我們有非常多的模型可以幫我們做預測，包含像是 regression、classification、clustering、semi-supervised learning、reinforcement learning。這些都可以幫助我們去做出預測，或是從資料當中去挖掘知識跟資訊。這些模型需要數學與統計作為基礎。</p><p>當你使用這些模型之後你會發現，你輸入的資料會大大的影響整個 performance，像是你給的 feature 不夠好，模型的表現就變得很糟糕，或是模型要預測的資訊根本不在這些 data 當中，那麼模型根本就預測不出來，所以玩過 machine learning 的人就會知道 feature engineering 的重要性。</p><p>以往 feature engineering 是需要人自己手動處理的，如今我們也希望由 machine learning 的模型中自動學出來。大家可以看到我們的技術進展：從以往的手寫程式進展到經典的 machine learning 技術，這是一個巨大的飛躍。</p><p><img src="/pics/diagram-deep-learning.png" alt=""></p><blockquote><p>From <a href="https://www.amazon.com/Deep-Learning-Adaptive-Computation-Machine/dp/0262035618/ref=sr_1_1?ie=UTF8&amp;qid=1472485235&amp;sr=8-1&amp;keywords=deep+learning+book" target="_blank" rel="noopener"><em>Deep Learning</em></a> by Ian Goodfellow and Yoshua Bengio and Aaron Courville</p></blockquote><hr><p><br><br></p><h2 id="他幫我們解決了什麼問題呢？"><a href="#他幫我們解決了什麼問題呢？" class="headerlink" title="他幫我們解決了什麼問題呢？"></a>他幫我們解決了什麼問題呢？</h2><p>以往的手寫程式需要工程師非常的聰明，他需要知道在 input 與 output 之間的所有規則，然後把這些規則化成可以執行的程式，這些實作的過程需要花非常大量的人力跟腦力。</p><p><br></p><p><img src="/pics/before_ml.svg" alt=""></p><p><br></p><p>然而，我們進展到 machine learning 的技術，我們試圖去收集一些資料，這些資料符合我們預期的 input 與 output 之間的關係。</p><p><br></p><p><img src="/pics/after_ml.svg" alt=""></p><p><br></p><p>他可以幫我們將中間的 <strong>過程</strong> 連接起來，我們不需要去 <em>手刻</em> 或是 <em>事先知道</em> 這些過程，更何況自然界很多過程都是 <strong><em>人類沒辦法理解的</em></strong> 或是 <strong><em>還不知道的</em></strong>。</p><p><br></p><p><img src="/pics/mnist.svg" alt=""></p><p><br></p><p>這些過程在數學家的眼中就稱為 <strong>函數</strong>，對於機器學習專家來說，input 與 output 之間有無限多種函數的可能。哪一種可能才是最符合我們資料的長相的？我們希望挑出最有可能的那一種，就把那就把那一種當成是模型，並且輸出，這樣我們就能讓機器自動去學出 input 與 output 的對應關係，這是一個飛躍性的進展。</p><p><br></p><h2 id="Feature-engineering"><a href="#Feature-engineering" class="headerlink" title="Feature engineering"></a>Feature engineering</h2><p>接著我們意識到：我們還是需要手動去處理 feature。經典的 machine learning 模型只幫我們處理了 <strong>將 feature 對應到 output 的關係</strong>，我們還是得藉由 feature extraction 的技術來轉換，而我們很難知道什麼樣的feature extraction 才真正能夠把資料中我們想要的資訊萃取出來，這部分就進到 representation Learning 的範疇。</p><p><br></p><h2 id="Automatic-feature-extraction"><a href="#Automatic-feature-extraction" class="headerlink" title="Automatic feature extraction"></a>Automatic feature extraction</h2><p>在 feature extraction 的過程中，常常我們面對的是高維度的向量，由於我們很難去理解高維度的向量之間的轉換，導致我們在轉換的時候會遇上困難，我們根本不知道需要轉換成什麼樣維度的向量，我們也不知道中間需要什麼樣的轉換函數。在數學領域當中，有相關的領域稱為微分幾何，所以常常我們會討論在數學上的 manifold，representation learning 就是希望連同 feature extraction 以及 modeling 可以一併處理，也就是藉由 modeling 的過程會到回饋（從 gradient descent 等等方法），去引導 feature extraction 的過程，進而去學到 feature-feature 之間轉換的 <strong>模式</strong>。</p><p><br></p><h2 id="Deep-learning"><a href="#Deep-learning" class="headerlink" title="Deep learning"></a>Deep learning</h2><p>Deep learning 就是一種 representation Learning。他希望 data 在高維度的轉換當中，可以去萃取出足夠而抽象的資訊，去進行預測。而 deep learning 只是將 feature-feature 之間的轉換模式以 layer-layer 之間的轉換實現，而高維的 feature vector 以 layer 的形式呈現。所以越深的網路代表著經過多次的函數處理跟萃取，所萃取的資訊的抽象程度越高，抽象程度越高，就越接近人類所想像的。</p>]]></content>
+    
+    <summary type="html">
+    
+      
+      
+        &lt;p&gt;目前我們 machine learning 的技術已經發展了非常久的時間，我們有非常多的模型可以幫我們做預測，包含像是 regression、classification、clustering、semi-supervised learning、reinforcement l
+      
+    
+    </summary>
+    
+      <category term="Deep Learning" scheme="https://yuehhua.github.io/categories/Deep-Learning/"/>
+    
+    
+  </entry>
+  
+</feed>

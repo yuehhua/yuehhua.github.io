@@ -1,0 +1,564 @@
+
+<!DOCTYPE html>
+<html lang="en">
+    
+<head>
+    <!-- hexo-inject:begin --><!-- hexo-inject:end --><meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="generator" content="Dream Maker">
+    <title>Set theory (集合論) - Dream Maker</title>
+    <meta name="author" content="Yueh-Hua Tu">
+    
+    
+    
+        <link rel="alternate" type="application/atom+xml" title="RSS" href="/atom.xml">
+    
+    <script type="application/ld+json">{"@context":"http://schema.org","@type":"BlogPosting","author":{"@type":"Person","name":"Yueh-Hua Tu","sameAs":["https://github.com/yuehhua/","https://facebook.com/","https://www.linkedin.com/profile/","mailto"]},"articleBody":"先以集合論開始切入，集合論是以後各門數學相關學科的根基，也就是很多數學的分支都會定義在集合論上。\n在數學上，集合就是一群不重複的物件（object）或是元素（element）。像我們可以定義一個set A當中的elements有a、b、c，寫成：\n$$A = \\{ a, b, c \\}$$\n但有時候我們想表達一個set，可是卻無法將裡面的elements一一列出，像是我們定義一個只有偶數的set B，我們會寫成以下的方式：\n$$B = \\{x \\mid x \\enspace is \\enspace even \\enspace integer.\\}$$\n裡頭的$x$代表著一個變數，後面會描述這變數的特質，所以在這邊的描述是$x$是一個偶數，那如果我們收集這樣的變數成為一個集合，我們就有了所有偶數的集合了。\n我們在描述element及set的關係的時候會使用屬於，一個element a屬於set A，則會表示成：\n\n Def.\n\n$$a \\in A$$\n相對，不屬於則會寫成以下的形式：\n\n Def.\n\n$$d \\notin A$$\n等於的符號是會視為邏輯上的相等（logical identity），如果我們說$a = b$，那麼$a$跟$b$就是兩個完全一樣的東西。如果是不一樣的東西，則寫成$a \\neq b$。\n同樣的，集合也可以同等起來，如果我們說$A = B$，就表示$A$跟$B$這兩個集合內的東西完全相同。如果有一個element不同，則$A \\neq B$。\n如果$A$有的elements，在$B$中也有，那我們會說A是B的子集合（subset）：\n\n Def.\n\n$$A \\subseteq B$$\n從定義當中我們無法區分出$A$跟$B$是否相同。那前面講到的$A = B$也就等同於是$A \\subseteq B$及$B \\subseteq A$兩者都要成立。\n那如果$A \\subseteq B$且$A \\neq B$，那我們稱A為B的嚴格子集（proper subset）：\n\n Def.\n\n$$A \\subset B$$\n$\\subseteq$及$\\subset$關係則分別稱為包含（inclusion） 及 嚴格包含（proper inclusion）。\n如果我們有兩個集合$A$跟$B$，如果有一個集合包含了所有$A$和$B$的元素，那我們稱它為$A$和$B$的聯集（union）：\n\n Def.\n\n$$A \\cup B = \\{x \\mid x \\in A \\enspace or \\enspace x \\in B\\}$$\n\n\n\n from Wikipedia\n\n如果我們有兩個集合$A$跟$B$，如果有一個集合只包含$A$和$B$的共同元素，那我們稱它為$A$和$B$的交集（intersection）：\n\n Def.\n\n$$A \\cap B = \\{x \\mid x \\in A \\enspace and \\enspace x \\in B\\}$$\n\n\n\n from Wikipedia\n\n如果一個集合裏面沒有任何元素，那我們定義這樣的集合為空集合（empty set），$\\emptyset$。\n若是兩個集合沒有共同的元素，我們會說這兩個集合是互斥的（disjoint）：\n\n Def.\n\n$$A \\cap B = \\emptyset$$\n\n\n\n from Wikipedia\n\n由於空集合這個概念非常簡單，就是集合內沒有任何元素，我們可以把他跟之前介紹過的概念結合起來。像是，如果我們讓 $x$ 是某個元素，\n$$x \\in \\emptyset$$\n是不會成立的。對於任何一個set $A$，我們有\n$$A \\cap \\emptyset = \\emptyset$$\n和\n$$A \\cup \\emptyset = A$$。\n包含的關係就有點微妙，像是 $\\emptyset \\subseteq A$ ，我們會考慮很多的實例，要讓每一個實例都成立，這個式子才算是成立。不過討論這件事本身就蠻無趣的，他基本上是成立的。\n在這邊我們可以再定義新的運算，那就是差集（difference），他的定義如下：\n\n Def.\n\n$$A - B = \\{x \\mid x \\in A \\enspace and \\enspace x \\notin B\\}$$\n\n\n\n from Wikipedia\n\n\nRules在集合論中，有些跟我們一般的算術運算很像的性質，像是以下的分配律（distributive law）：\n$$A \\cap (B \\cup C) = (A \\cap B) \\cup (A \\cap C)$$\n$$A \\cup (B \\cap C) = (A \\cup B) \\cap (A \\cup C)$$\n以及狄莫根定律（DeMorgan ‘s laws）：\n$$A - (B \\cap C) = (A - B) \\cup (A - C)$$\n$$A - (B \\cup C) = (A - B) \\cap (A - C)$$\n\n我們在緊接著介紹一個有趣的概念，冪集（power set），$A$的冪集（$\\mathcal{P}(A)$）是指所有$A$的子集的所有排列組合所成的集合，像是假設$A = \\{1, 2, 3\\}$，那麼$\\mathcal{P}(A) = \\{ \\emptyset, \\{1\\}, \\{2\\}, \\{3\\}, \\{1, 2\\}, \\{1, 3\\}, \\{2, 3\\}, \\{1, 2, 3\\} \\}$。\n往後，當我們在描述一個 set，他的 element 也是 set 的時候，我們會稱他為 collection of sets，並且會以書寫體$\\mathcal{A}$、$\\mathcal{B}$表示，以示區別。\n我們已經定義了任兩個集合的交集跟聯集。那如果我們想要聯集或是交集任意多數量的集合，$\\mathcal{A}$為一 collection of sets，我們可以用以下表示法：\n$$\\bigcup_{A \\in \\mathcal{A}} A = \\{ x \\mid x \\in A, for \\enspace at \\enspace least \\enspace one \\enspace A \\in \\mathcal{A} \\}$$\n直白的說，就是這個聯集會將在$\\mathcal{A}$中，至少出現過一次的$A$，將$A$中的元素$x$都蒐集起來。\n$$\\bigcap_{A \\in \\mathcal{A}} A = \\{ x \\mid x \\in A, for \\enspace every \\enspace A \\in \\mathcal{A} \\}$$\n這個交集則是會將在$\\mathcal{A}$中，每個$A$，將$A$中都出現的元素$x$蒐集起來。\n這些定義都沒什麼大問題。不過當$\\mathcal{A}$是個空的 collection 的時候就會顯的比較特別，根據字面定義，這個情況下沒有任何人可以符合這樣的定義，所以我們可以說：\n$$\\bigcup_{A \\in \\mathcal{A}} A = \\emptyset$$\n接下來我們來定義一個重要的東西，笛卡爾積（Cartesian product），數學上常常會用這樣的概念來為其他概念下定義，例如空間上的座標位置。\n\n Def.\n\n$$A \\times B = \\{(a, b) \\mid a \\in A \\enspace and \\enspace b \\in B\\}$$\n像是當 $A = \\{ a, b, c\\}$， $B = \\{1, 2\\}$，那麼 $A \\times B = \\{(a, 1), (a, 2), (b, 1), (b, 2), (c, 1), (c, 2)\\}$ 。\n這在概念上非常直覺，可以把他想成是在 set $A$ 中的元素跟在 set $B$ 中的元素，拿出來一一做排列組合，所有的排列組合所成的集合就是 $A \\times B$。\n","dateCreated":"2018-07-22T00:19:48+08:00","dateModified":"2018-07-22T14:28:14+08:00","datePublished":"2018-07-22T00:19:48+08:00","description":"","headline":"Set theory (集合論)","image":[],"mainEntityOfPage":{"@type":"WebPage","@id":"https://yuehhua.github.io/2018/07/22/01-set-theory/"},"publisher":{"@type":"Organization","name":"Yueh-Hua Tu","sameAs":["https://github.com/yuehhua/","https://facebook.com/","https://www.linkedin.com/profile/","mailto"]},"url":"https://yuehhua.github.io/2018/07/22/01-set-theory/"}</script>
+    <meta name="description" content="先以集合論開始切入，集合論是以後各門數學相關學科的根基，也就是很多數學的分支都會定義在集合論上。 在數學上，集合就是一群不重複的物件（object）或是元素（element）。像我們可以定義一個set A當中的elements有a、b、c，寫成： $$A = \{ a, b, c \}$$ 但有時候我們想表達一個set，可是卻無法將裡面的elements一一列出，像是我們定義一個只有偶數的set">
+<meta property="og:type" content="blog">
+<meta property="og:title" content="Set theory (集合論)">
+<meta property="og:url" content="https://yuehhua.github.io/2018/07/22/01-set-theory/index.html">
+<meta property="og:site_name" content="Dream Maker">
+<meta property="og:description" content="先以集合論開始切入，集合論是以後各門數學相關學科的根基，也就是很多數學的分支都會定義在集合論上。 在數學上，集合就是一群不重複的物件（object）或是元素（element）。像我們可以定義一個set A當中的elements有a、b、c，寫成： $$A = \{ a, b, c \}$$ 但有時候我們想表達一個set，可是卻無法將裡面的elements一一列出，像是我們定義一個只有偶數的set">
+<meta property="og:locale" content="en">
+<meta property="og:image" content="https://upload.wikimedia.org/wikipedia/commons/3/30/Venn0111.svg">
+<meta property="og:image" content="https://upload.wikimedia.org/wikipedia/commons/9/99/Venn0001.svg">
+<meta property="og:image" content="https://upload.wikimedia.org/wikipedia/commons/d/df/Disjunkte_Mengen.svg">
+<meta property="og:image" content="https://upload.wikimedia.org/wikipedia/commons/5/5a/Venn0010.svg">
+<meta property="og:updated_time" content="2018-07-22T06:28:14.842Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Set theory (集合論)">
+<meta name="twitter:description" content="先以集合論開始切入，集合論是以後各門數學相關學科的根基，也就是很多數學的分支都會定義在集合論上。 在數學上，集合就是一群不重複的物件（object）或是元素（element）。像我們可以定義一個set A當中的elements有a、b、c，寫成： $$A = \{ a, b, c \}$$ 但有時候我們想表達一個set，可是卻無法將裡面的elements一一列出，像是我們定義一個只有偶數的set">
+<meta name="twitter:image" content="https://upload.wikimedia.org/wikipedia/commons/3/30/Venn0111.svg">
+    
+    
+        
+    
+    
+    
+    
+    
+    <!--STYLES-->
+    <link rel="stylesheet" href="/assets/css/style-3frockyt2j28isvdztjchy5nhkz8tjki9ermufc1ckptmvjdftux94m2ahub.min.css">
+    <!--STYLES END--><!-- hexo-inject:begin --><!-- hexo-inject:end -->
+    
+
+    
+</head>
+
+    <body>
+        <!-- hexo-inject:begin --><!-- hexo-inject:end --><div id="blog">
+            <!-- Define author's picture -->
+
+
+    
+
+<header id="header" data-behavior="4">
+    <i id="btn-open-sidebar" class="fa fa-lg fa-bars"></i>
+    <div class="header-title">
+        <a class="header-title-link" href="/ ">Dream Maker</a>
+    </div>
+    
+        
+            <a  class="header-right-picture "
+                href="#about">
+        
+        
+        </a>
+    
+</header>
+
+            <!-- Define author's picture -->
+
+
+<nav id="sidebar" data-behavior="4">
+    <div class="sidebar-container">
+        
+        
+            <ul class="sidebar-buttons">
+            
+                <li class="sidebar-button">
+                    
+                        <a  class="sidebar-button-link "
+                             href="/ "
+                            
+                            title="Home"
+                        >
+                    
+                        <i class="sidebar-button-icon fa fa-home" aria-hidden="true"></i>
+                        <span class="sidebar-button-desc">Home</span>
+                    </a>
+            </li>
+            
+                <li class="sidebar-button">
+                    
+                        <a  class="sidebar-button-link "
+                             href="/all-categories"
+                            
+                            title="Categories"
+                        >
+                    
+                        <i class="sidebar-button-icon fa fa-bookmark" aria-hidden="true"></i>
+                        <span class="sidebar-button-desc">Categories</span>
+                    </a>
+            </li>
+            
+                <li class="sidebar-button">
+                    
+                        <a  class="sidebar-button-link "
+                             href="/all-tags"
+                            
+                            title="Tags"
+                        >
+                    
+                        <i class="sidebar-button-icon fa fa-tags" aria-hidden="true"></i>
+                        <span class="sidebar-button-desc">Tags</span>
+                    </a>
+            </li>
+            
+                <li class="sidebar-button">
+                    
+                        <a  class="sidebar-button-link "
+                             href="/all-archives"
+                            
+                            title="Archives"
+                        >
+                    
+                        <i class="sidebar-button-icon fa fa-archive" aria-hidden="true"></i>
+                        <span class="sidebar-button-desc">Archives</span>
+                    </a>
+            </li>
+            
+                <li class="sidebar-button">
+                    
+                        <a  class="sidebar-button-link open-algolia-search"
+                             href="#search"
+                            
+                            title="Search"
+                        >
+                    
+                        <i class="sidebar-button-icon fa fa-search" aria-hidden="true"></i>
+                        <span class="sidebar-button-desc">Search</span>
+                    </a>
+            </li>
+            
+                <li class="sidebar-button">
+                    
+                        <a  class="sidebar-button-link "
+                             href="#about"
+                            
+                            title="About"
+                        >
+                    
+                        <i class="sidebar-button-icon fa fa-question" aria-hidden="true"></i>
+                        <span class="sidebar-button-desc">About</span>
+                    </a>
+            </li>
+            
+        </ul>
+        
+            <ul class="sidebar-buttons">
+            
+                <li class="sidebar-button">
+                    
+                        <a  class="sidebar-button-link " href="https://github.com/yuehhua/" target="_blank" rel="noopener" title="GitHub">
+                    
+                        <i class="sidebar-button-icon fab fa-github" aria-hidden="true"></i>
+                        <span class="sidebar-button-desc">GitHub</span>
+                    </a>
+            </li>
+            
+                <li class="sidebar-button">
+                    
+                        <a  class="sidebar-button-link " href="https://facebook.com/" target="_blank" rel="noopener" title="Facebook">
+                    
+                        <i class="sidebar-button-icon fab fa-facebook" aria-hidden="true"></i>
+                        <span class="sidebar-button-desc">Facebook</span>
+                    </a>
+            </li>
+            
+                <li class="sidebar-button">
+                    
+                        <a  class="sidebar-button-link " href="https://www.linkedin.com/profile/" target="_blank" rel="noopener" title="LinkedIn">
+                    
+                        <i class="sidebar-button-icon fab fa-linkedin" aria-hidden="true"></i>
+                        <span class="sidebar-button-desc">LinkedIn</span>
+                    </a>
+            </li>
+            
+                <li class="sidebar-button">
+                    
+                        <a  class="sidebar-button-link "
+                             href="/mailto"
+                            title="Mail"
+                        >
+                    
+                        <i class="sidebar-button-icon fab fa-envelope" aria-hidden="true"></i>
+                        <span class="sidebar-button-desc">Mail</span>
+                    </a>
+            </li>
+            
+        </ul>
+        
+            <ul class="sidebar-buttons">
+            
+                <li class="sidebar-button">
+                    
+                        <a  class="sidebar-button-link "
+                             href="/atom.xml"
+                            
+                            title="RSS"
+                        >
+                    
+                        <i class="sidebar-button-icon fa fa-rss" aria-hidden="true"></i>
+                        <span class="sidebar-button-desc">RSS</span>
+                    </a>
+            </li>
+            
+        </ul>
+        
+    </div>
+</nav>
+
+            
+            <div id="main" data-behavior="4"
+                 class="
+                        hasCoverMetaIn
+                        ">
+                
+<article class="post">
+    
+    
+        <div class="post-header main-content-wrap text-left">
+    
+        <h1 class="post-title">
+            Set theory (集合論)
+        </h1>
+    
+    
+        <div class="post-meta">
+    <time datetime="2018-07-22T00:19:48+08:00">
+	
+		    Jul 22, 2018
+    	
+    </time>
+    
+        <span>in </span>
+        
+    <a class="category-link" href="/categories/Topology/">Topology</a>
+
+
+    
+</div>
+
+    
+</div>
+
+    
+    <div class="post-content markdown">
+        <div class="main-content-wrap">
+            <p>先以集合論開始切入，集合論是以後各門數學相關學科的根基，也就是很多數學的分支都會定義在集合論上。</p>
+<p>在數學上，集合就是一群不重複的物件（object）或是元素（element）。像我們可以定義<strong>一個set A當中的elements有a、b、c</strong>，寫成：</p>
+<p>$$<br>A = \{ a, b, c \}<br>$$</p>
+<p>但有時候我們想表達一個set，可是卻無法將裡面的elements一一列出，像是我們定義一個只有偶數的set B，我們會寫成以下的方式：</p>
+<p>$$<br>B = \{x \mid x \enspace is \enspace even \enspace integer.\}<br>$$</p>
+<p>裡頭的$x$代表著一個變數，後面會描述這變數的特質，所以在這邊的描述是$x$是一個偶數，那如果我們收集這樣的變數成為一個集合，我們就有了所有偶數的集合了。</p>
+<p>我們在描述<em>element</em>及<em>set</em>的關係的時候會使用<strong>屬於</strong>，<strong>一個element a屬於set A</strong>，則會表示成：</p>
+<blockquote>
+<p> <strong><em>Def.</em></strong></p>
+</blockquote>
+<p>$$<br>a \in A<br>$$</p>
+<p>相對，<strong>不屬於</strong>則會寫成以下的形式：</p>
+<blockquote>
+<p> <strong><em>Def.</em></strong></p>
+</blockquote>
+<p>$$<br>d \notin A<br>$$</p>
+<p><strong>等於</strong>的符號是會視為<em>邏輯上的相等（logical identity）</em>，如果我們說$a = b$，那麼$a$跟$b$就是兩個完全一樣的東西。如果是不一樣的東西，則寫成$a \neq b$。</p>
+<p>同樣的，集合也可以同等起來，如果我們說$A = B$，就表示$A$跟$B$這兩個集合內的東西完全相同。如果有一個element不同，則$A \neq B$。</p>
+<p>如果$A$有的elements，在$B$中也有，那我們會說<strong>A是B的子集合（subset）</strong>：</p>
+<blockquote>
+<p> <strong><em>Def.</em></strong></p>
+</blockquote>
+<p>$$<br>A \subseteq B<br>$$</p>
+<p>從定義當中我們無法區分出$A$跟$B$是否相同。那前面講到的$A = B$也就等同於是$A \subseteq B$及$B \subseteq A$兩者都要成立。</p>
+<p>那如果$A \subseteq B$且$A \neq B$，那我們稱<strong>A為B的嚴格子集（proper subset）</strong>：</p>
+<blockquote>
+<p> <strong><em>Def.</em></strong></p>
+</blockquote>
+<p>$$<br>A \subset B<br>$$</p>
+<p>$\subseteq$及$\subset$關係則分別稱為<strong>包含（inclusion）</strong> 及 <strong>嚴格包含（proper inclusion）</strong>。</p>
+<p>如果我們有兩個集合$A$跟$B$，如果有一個集合包含了所有$A$和$B$的元素，那我們稱它為$A$和$B$的<strong>聯集（union）</strong>：</p>
+<blockquote>
+<p> <strong><em>Def.</em></strong></p>
+</blockquote>
+<p>$$<br>A \cup B = \{x \mid x \in A \enspace or \enspace x \in B\}<br>$$</p>
+<div style="text-align:center"><img src="https://upload.wikimedia.org/wikipedia/commons/3/30/Venn0111.svg" alt="Union"></div>
+
+<blockquote>
+<p> <small>from Wikipedia</small></p>
+</blockquote>
+<p>如果我們有兩個集合$A$跟$B$，如果有一個集合只包含$A$和$B$的共同元素，那我們稱它為$A$和$B$的<strong>交集（intersection）</strong>：</p>
+<blockquote>
+<p> <strong><em>Def.</em></strong></p>
+</blockquote>
+<p>$$<br>A \cap B = \{x \mid x \in A \enspace and \enspace x \in B\}<br>$$</p>
+<div style="text-align:center"><img src="https://upload.wikimedia.org/wikipedia/commons/9/99/Venn0001.svg" alt="Intersection"></div>
+
+<blockquote>
+<p> <small>from Wikipedia</small></p>
+</blockquote>
+<p>如果一個集合裏面沒有任何元素，那我們定義這樣的集合為<strong>空集合（empty set）</strong>，$\emptyset$。</p>
+<p>若是兩個集合沒有共同的元素，我們會說這兩個集合是<strong>互斥的（disjoint）</strong>：</p>
+<blockquote>
+<p> <strong><em>Def.</em></strong></p>
+</blockquote>
+<p>$$<br>A \cap B = \emptyset<br>$$</p>
+<div style="text-align:center"><img src="https://upload.wikimedia.org/wikipedia/commons/d/df/Disjunkte_Mengen.svg" alt="Disjoint sets"></div>
+
+<blockquote>
+<p> <small>from Wikipedia</small></p>
+</blockquote>
+<p>由於空集合這個概念非常簡單，就是集合內沒有任何元素，我們可以把他跟之前介紹過的概念結合起來。像是，如果我們讓 $x$ 是某個元素，</p>
+<p>$$<br>x \in \emptyset<br>$$</p>
+<p>是不會成立的。對於任何一個set $A$，我們有</p>
+<p>$$<br>A \cap \emptyset = \emptyset<br>$$</p>
+<p>和</p>
+<p>$$<br>A \cup \emptyset = A<br>$$<br>。</p>
+<p>包含的關係就有點微妙，像是 $\emptyset \subseteq A$ ，我們會考慮很多的實例，要讓每一個實例都成立，這個式子才算是成立。不過討論這件事本身就蠻無趣的，他基本上是成立的。</p>
+<p>在這邊我們可以再定義新的運算，那就是<strong>差集（difference）</strong>，他的定義如下：</p>
+<blockquote>
+<p> <strong><em>Def.</em></strong></p>
+</blockquote>
+<p>$$<br>A - B = \{x \mid x \in A \enspace and \enspace x \notin B\}<br>$$</p>
+<div style="text-align:center"><img src="https://upload.wikimedia.org/wikipedia/commons/5/5a/Venn0010.svg" alt="Difference set"></div>
+
+<blockquote>
+<p> <small>from Wikipedia</small></p>
+</blockquote>
+<hr>
+<h2 id="Rules"><a href="#Rules" class="headerlink" title="Rules"></a>Rules</h2><p>在集合論中，有些跟我們一般的算術運算很像的性質，像是以下的<strong>分配律（distributive law）</strong>：</p>
+<p>$$<br>A \cap (B \cup C) = (A \cap B) \cup (A \cap C)<br>$$</p>
+<p>$$<br>A \cup (B \cap C) = (A \cup B) \cap (A \cup C)<br>$$</p>
+<p>以及<strong>狄莫根定律（DeMorgan ‘s laws）</strong>：</p>
+<p>$$<br>A - (B \cap C) = (A - B) \cup (A - C)<br>$$</p>
+<p>$$<br>A - (B \cup C) = (A - B) \cap (A - C)<br>$$</p>
+<hr>
+<p>我們在緊接著介紹一個有趣的概念，<strong>冪集（power set）</strong>，<strong>$A$的冪集（$\mathcal{P}(A)$）是指所有$A$的子集的所有排列組合所成的集合</strong>，像是假設$A = \{1, 2, 3\}$，那麼$\mathcal{P}(A) = \{ \emptyset, \{1\}, \{2\}, \{3\}, \{1, 2\}, \{1, 3\}, \{2, 3\}, \{1, 2, 3\} \}$。</p>
+<p>往後，當我們在描述一個 <em>set</em>，他的 <em>element</em> 也是 <em>set</em> 的時候，我們會稱他為 <em>collection of sets</em>，並且會以書寫體$\mathcal{A}$、$\mathcal{B}$表示，以示區別。</p>
+<p>我們已經定義了任兩個集合的交集跟聯集。那如果我們想要聯集或是交集任意多數量的集合，$\mathcal{A}$為一 <em>collection of sets</em>，我們可以用以下表示法：</p>
+<p>$$<br>\bigcup_{A \in \mathcal{A}} A = \{ x \mid x \in A, for \enspace at \enspace least \enspace one \enspace A \in \mathcal{A} \}<br>$$</p>
+<p>直白的說，就是這個聯集會將在$\mathcal{A}$中，至少出現過一次的$A$，將$A$中的元素$x$都蒐集起來。</p>
+<p>$$<br>\bigcap_{A \in \mathcal{A}} A = \{ x \mid x \in A, for \enspace every \enspace A \in \mathcal{A} \}<br>$$</p>
+<p>這個交集則是會將在$\mathcal{A}$中，每個$A$，將$A$中都出現的元素$x$蒐集起來。</p>
+<p>這些定義都沒什麼大問題。不過當$\mathcal{A}$是個空的 <em>collection</em> 的時候就會顯的比較特別，根據字面定義，這個情況下沒有任何人可以符合這樣的定義，所以我們可以說：</p>
+<p>$$<br>\bigcup_{A \in \mathcal{A}} A = \emptyset<br>$$</p>
+<p>接下來我們來定義一個重要的東西，<strong>笛卡爾積（Cartesian product）</strong>，數學上常常會用這樣的概念來為其他概念下定義，例如空間上的座標位置。</p>
+<blockquote>
+<p> <strong><em>Def.</em></strong></p>
+</blockquote>
+<p>$$<br>A \times B = \{(a, b) \mid a \in A \enspace and \enspace b \in B\}<br>$$</p>
+<p>像是當 $A = \{ a, b, c\}$， $B = \{1, 2\}$，那麼 $A \times B = \{(a, 1), (a, 2), (b, 1), (b, 2), (c, 1), (c, 2)\}$ 。</p>
+<p>這在概念上非常直覺，可以把他想成是在 <em>set</em> $A$ 中的元素跟在 <em>set</em> $B$ 中的元素，拿出來一一做排列組合，所有的排列組合所成的集合就是 $A \times B$。</p>
+
+            
+
+        </div>
+    </div>
+    <div id="post-footer" class="post-footer main-content-wrap">
+        
+        
+            <div class="post-actions-wrap">
+    <nav>
+        <ul class="post-actions post-action-nav">
+            <li class="post-action">
+                
+                    
+                    <a class="post-action-btn btn btn--default tooltip--top" href="/2018/07/22/02-functions/" data-tooltip="Functions" aria-label="PREVIOUS: Functions">
+                
+                    <i class="fa fa-angle-left" aria-hidden="true"></i>
+                    <span class="hide-xs hide-sm text-small icon-ml">PREVIOUS</span>
+                </a>
+            </li>
+            <li class="post-action">
+                
+                    
+                    <a class="post-action-btn btn btn--default tooltip--top" href="/2018/07/21/04-reference/" data-tooltip="Reference commands" aria-label="NEXT: Reference commands">
+                
+                    <span class="hide-xs hide-sm text-small icon-mr">NEXT</span>
+                    <i class="fa fa-angle-right" aria-hidden="true"></i>
+                </a>
+            </li>
+        </ul>
+    </nav>
+    <ul class="post-actions post-action-share">
+        <li class="post-action hide-lg hide-md hide-sm">
+            <a class="post-action-btn btn btn--default btn-open-shareoptions" href="#btn-open-shareoptions" aria-label="Share this post">
+                <i class="fa fa-share-alt" aria-hidden="true"></i>
+            </a>
+        </li>
+        
+            
+            
+            <li class="post-action hide-xs">
+                <a class="post-action-btn btn btn--default" target="new" href="https://www.facebook.com/sharer/sharer.php?u=https://yuehhua.github.io/2018/07/22/01-set-theory/" title="Share on Facebook">
+                    <i class="fa fa-facebook-official" aria-hidden="true"></i>
+                </a>
+            </li>
+        
+        
+            
+        
+        <li class="post-action">
+            
+                <a class="post-action-btn btn btn--default" href="#" aria-label="Back to top">
+            
+                <i class="fa fa-list" aria-hidden="true"></i>
+            </a>
+        </li>
+    </ul>
+</div>
+
+
+        
+        
+            
+        
+    </div>
+</article>
+
+
+
+                <footer id="footer" class="main-content-wrap">
+    <span class="copyrights">
+        Copyrights &copy; 2018 Yueh-Hua Tu. All Rights Reserved.
+    </span>
+</footer>
+
+            </div>
+            
+                <div id="bottom-bar" class="post-bottom-bar" data-behavior="4">
+                    <div class="post-actions-wrap">
+    <nav>
+        <ul class="post-actions post-action-nav">
+            <li class="post-action">
+                
+                    
+                    <a class="post-action-btn btn btn--default tooltip--top" href="/2018/07/22/02-functions/" data-tooltip="Functions" aria-label="PREVIOUS: Functions">
+                
+                    <i class="fa fa-angle-left" aria-hidden="true"></i>
+                    <span class="hide-xs hide-sm text-small icon-ml">PREVIOUS</span>
+                </a>
+            </li>
+            <li class="post-action">
+                
+                    
+                    <a class="post-action-btn btn btn--default tooltip--top" href="/2018/07/21/04-reference/" data-tooltip="Reference commands" aria-label="NEXT: Reference commands">
+                
+                    <span class="hide-xs hide-sm text-small icon-mr">NEXT</span>
+                    <i class="fa fa-angle-right" aria-hidden="true"></i>
+                </a>
+            </li>
+        </ul>
+    </nav>
+    <ul class="post-actions post-action-share">
+        <li class="post-action hide-lg hide-md hide-sm">
+            <a class="post-action-btn btn btn--default btn-open-shareoptions" href="#btn-open-shareoptions" aria-label="Share this post">
+                <i class="fa fa-share-alt" aria-hidden="true"></i>
+            </a>
+        </li>
+        
+            
+            
+            <li class="post-action hide-xs">
+                <a class="post-action-btn btn btn--default" target="new" href="https://www.facebook.com/sharer/sharer.php?u=https://yuehhua.github.io/2018/07/22/01-set-theory/" title="Share on Facebook">
+                    <i class="fa fa-facebook-official" aria-hidden="true"></i>
+                </a>
+            </li>
+        
+        
+            
+        
+        <li class="post-action">
+            
+                <a class="post-action-btn btn btn--default" href="#" aria-label="Back to top">
+            
+                <i class="fa fa-list" aria-hidden="true"></i>
+            </a>
+        </li>
+    </ul>
+</div>
+
+
+                </div>
+                <div id="share-options-bar" class="share-options-bar" data-behavior="4">
+    <i id="btn-close-shareoptions" class="fa fa-close"></i>
+    <ul class="share-options">
+        
+            
+            
+            <li class="share-option">
+                <a class="share-option-btn" target="new" href="https://www.facebook.com/sharer/sharer.php?u=https://yuehhua.github.io/2018/07/22/01-set-theory/">
+                    <i class="fa fa-facebook-official" aria-hidden="true"></i><span>Share on Facebook</span>
+                </a>
+            </li>
+        
+    </ul>
+</div>
+
+            
+        </div>
+        
+
+
+<div id="about">
+    <div id="about-card">
+        <div id="about-btn-close">
+            <i class="fa fa-remove"></i>
+        </div>
+        
+            <h4 id="about-card-name">Yueh-Hua Tu</h4>
+        
+            <div id="about-card-bio"><p>author.bio</p>
+</div>
+        
+        
+            <div id="about-card-job">
+                <i class="fa fa-briefcase"></i>
+                <br/>
+                <p>author.job</p>
+
+            </div>
+        
+        
+    </div>
+</div>
+
+        
+        
+<div id="cover" style="background-image:url('/assets/images/cover.jpg');"></div>
+        <!--SCRIPTS-->
+<script src="/assets/js/script-xzfezjobyekpxrjktw5tz6muvzqfsbmo5n6atk3p5om9ulfptldi3p7cyqd8.min.js"></script>
+<!--SCRIPTS END-->
+
+    
+
+
+
+    <script type="text/x-mathjax-config">
+    MathJax.Hub.Config({
+        tex2jax: {
+            inlineMath: [ ["$","$"], ["\\(","\\)"] ],
+            skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code'],
+            processEscapes: true
+        }
+    });
+    MathJax.Hub.Queue(function() {
+        var all = MathJax.Hub.getAllJax();
+        for (var i = 0; i < all.length; ++i)
+            all[i].SourceElement().parentNode.className += ' has-jax';
+    });
+</script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-MML-AM_CHTML"></script><!-- hexo-inject:begin --><!-- hexo-inject:end -->
+
+</body>
+</html>
