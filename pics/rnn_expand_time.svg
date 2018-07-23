@@ -33,6 +33,8 @@
    <glyph unicode="−" horiz-adv-x="1191" d="M 221,543 L 221,641 1405,641 1405,543 221,543 Z"/>
    <glyph unicode="⃗" horiz-adv-x="954" d="M 98,1313 L 98,1425 686,1425 645,1575 1026,1368 645,1163 686,1313 98,1313 Z"/>
    <glyph unicode="+" horiz-adv-x="980" d="M 512,115 L 512,516 115,516 115,684 512,684 512,1083 682,1083 682,684 1081,684 1081,516 682,516 682,115 512,115 Z"/>
+   <glyph unicode=")" horiz-adv-x="424" d="M 123,-434 C 318,-246 416,112 416,641 416,1162 318,1521 123,1716 L 123,1767 C 269,1651 375,1480 442,1253 497,1074 524,870 524,641 524,109 390,-266 123,-483 L 123,-434 Z"/>
+   <glyph unicode="(" horiz-adv-x="424" d="M 573,-434 L 573,-483 C 306,-259 172,116 172,641 172,1172 306,1548 573,1767 L 573,1716 C 378,1524 281,1166 281,641 281,111 378,-247 573,-434 Z"/>
   </font>
  </defs>
  <defs class="TextShapeIndex">
@@ -84,16 +86,18 @@
       </g>
       <g class="OLE2">
        <g id="id4">
-        <rect class="BoundingBox" stroke="none" fill="none" x="15900" y="20401" width="616" height="616"/>
+        <rect class="BoundingBox" stroke="none" fill="none" x="15885" y="20400" width="836" height="779"/>
         <defs>
          <clipPath id="clip_path_1" clipPathUnits="userSpaceOnUse">
-          <path d="M 15901,20399 L 16510,20399 16510,21008 15901,21008 15901,20399 Z"/>
+          <path d="M 15875,20399 L 16722,20399 16722,21167 15875,21167 15875,20399 Z"/>
          </clipPath>
         </defs>
         <g clip-path="url(#clip_path_1)">
-         <text class="TextShape"><tspan class="TextParagraph" font-family="OpenSymbol" font-size="492px" font-weight="400"><tspan class="TextPosition" x="16059" y="20851"><tspan fill="rgb(0,0,0)" stroke="none">⃗</tspan></tspan></tspan></text>
-         <text class="TextShape"><tspan class="TextParagraph" font-family="Liberation Serif, serif" font-size="492px" font-style="italic" font-weight="400"><tspan class="TextPosition" x="16059" y="20851"><tspan fill="rgb(0,0,0)" stroke="none">y</tspan></tspan></tspan></text>
-         <text class="TextShape"><tspan class="TextParagraph" font-family="Liberation Serif, serif" font-size="295px" font-style="italic" font-weight="400"><tspan class="TextPosition" x="16323" y="20957"><tspan fill="rgb(0,0,0)" stroke="none">t</tspan></tspan></tspan></text>
+         <text class="TextShape"><tspan class="TextParagraph" font-family="OpenSymbol" font-size="492px" font-weight="400"><tspan class="TextPosition" x="16150" y="20797"><tspan fill="rgb(0,0,0)" stroke="none">⃗</tspan></tspan></tspan></text>
+         <text class="TextShape"><tspan class="TextParagraph" font-family="Liberation Serif, serif" font-size="492px" font-style="italic" font-weight="400"><tspan class="TextPosition" x="16044" y="21061"><tspan fill="rgb(0,0,0)" stroke="none">y</tspan></tspan></tspan></text>
+         <text class="TextShape"><tspan class="TextParagraph" font-family="OpenSymbol" font-size="295px" font-weight="400"><tspan class="TextPosition" x="16282" y="20823"><tspan fill="rgb(0,0,0)" stroke="none">(</tspan></tspan></tspan></text>
+         <text class="TextShape"><tspan class="TextParagraph" font-family="Liberation Serif, serif" font-size="295px" font-style="italic" font-weight="400"><tspan class="TextPosition" x="16414" y="20823"><tspan fill="rgb(0,0,0)" stroke="none">t</tspan></tspan></tspan></text>
+         <text class="TextShape"><tspan class="TextParagraph" font-family="OpenSymbol" font-size="295px" font-weight="400"><tspan class="TextPosition" x="16520" y="20823"><tspan fill="rgb(0,0,0)" stroke="none">)</tspan></tspan></tspan></text>
         </g>
        </g>
       </g>
@@ -105,18 +109,20 @@
       </g>
       <g class="OLE2">
        <g id="id6">
-        <rect class="BoundingBox" stroke="none" fill="none" x="17700" y="20401" width="971" height="616"/>
+        <rect class="BoundingBox" stroke="none" fill="none" x="17600" y="20401" width="1191" height="779"/>
         <defs>
          <clipPath id="clip_path_2" clipPathUnits="userSpaceOnUse">
-          <path d="M 17701,20399 L 18680,20399 18680,21008 17701,21008 17701,20399 Z"/>
+          <path d="M 17595,20399 L 18785,20399 18785,21167 17595,21167 17595,20399 Z"/>
          </clipPath>
         </defs>
         <g clip-path="url(#clip_path_2)">
-         <text class="TextShape"><tspan class="TextParagraph" font-family="OpenSymbol" font-size="492px" font-weight="400"><tspan class="TextPosition" x="18044" y="20851"><tspan fill="rgb(0,0,0)" stroke="none">⃗</tspan></tspan></tspan></text>
-         <text class="TextShape"><tspan class="TextParagraph" font-family="Liberation Serif, serif" font-size="492px" font-style="italic" font-weight="400"><tspan class="TextPosition" x="17859" y="20851"><tspan fill="rgb(0,0,0)" stroke="none">y</tspan></tspan></tspan></text>
-         <text class="TextShape"><tspan class="TextParagraph" font-family="Liberation Serif, serif" font-size="295px" font-style="italic" font-weight="400"><tspan class="TextPosition" x="18123" y="20957"><tspan fill="rgb(0,0,0)" stroke="none">t</tspan></tspan></tspan></text>
-         <text class="TextShape"><tspan class="TextParagraph" font-family="OpenSymbol" font-size="295px" font-weight="400"><tspan class="TextPosition" x="18229" y="20957"><tspan fill="rgb(0,0,0)" stroke="none">+</tspan></tspan></tspan></text>
-         <text class="TextShape"><tspan class="TextParagraph" font-family="Liberation Serif, serif" font-size="295px" font-weight="400"><tspan class="TextPosition" x="18414" y="20957"><tspan fill="rgb(0,0,0)" stroke="none">1</tspan></tspan></tspan></text>
+         <text class="TextShape"><tspan class="TextParagraph" font-family="OpenSymbol" font-size="492px" font-weight="400"><tspan class="TextPosition" x="18050" y="20798"><tspan fill="rgb(0,0,0)" stroke="none">⃗</tspan></tspan></tspan></text>
+         <text class="TextShape"><tspan class="TextParagraph" font-family="Liberation Serif, serif" font-size="492px" font-style="italic" font-weight="400"><tspan class="TextPosition" x="17759" y="21062"><tspan fill="rgb(0,0,0)" stroke="none">y</tspan></tspan></tspan></text>
+         <text class="TextShape"><tspan class="TextParagraph" font-family="OpenSymbol" font-size="295px" font-weight="400"><tspan class="TextPosition" x="17997" y="20824"><tspan fill="rgb(0,0,0)" stroke="none">(</tspan></tspan></tspan></text>
+         <text class="TextShape"><tspan class="TextParagraph" font-family="Liberation Serif, serif" font-size="295px" font-style="italic" font-weight="400"><tspan class="TextPosition" x="18129" y="20824"><tspan fill="rgb(0,0,0)" stroke="none">t</tspan></tspan></tspan></text>
+         <text class="TextShape"><tspan class="TextParagraph" font-family="OpenSymbol" font-size="295px" font-weight="400"><tspan class="TextPosition" x="18235" y="20824"><tspan fill="rgb(0,0,0)" stroke="none">+</tspan></tspan></tspan></text>
+         <text class="TextShape"><tspan class="TextParagraph" font-family="Liberation Serif, serif" font-size="295px" font-weight="400"><tspan class="TextPosition" x="18420" y="20824"><tspan fill="rgb(0,0,0)" stroke="none">1</tspan></tspan></tspan></text>
+         <text class="TextShape"><tspan class="TextParagraph" font-family="OpenSymbol" font-size="295px" font-weight="400"><tspan class="TextPosition" x="18579" y="20824"><tspan fill="rgb(0,0,0)" stroke="none">)</tspan></tspan></tspan></text>
         </g>
        </g>
       </g>
@@ -128,18 +134,20 @@
       </g>
       <g class="OLE2">
        <g id="id8">
-        <rect class="BoundingBox" stroke="none" fill="none" x="13885" y="20401" width="1016" height="616"/>
+        <rect class="BoundingBox" stroke="none" fill="none" x="13785" y="20401" width="1236" height="779"/>
         <defs>
          <clipPath id="clip_path_3" clipPathUnits="userSpaceOnUse">
-          <path d="M 13891,20399 L 14896,20399 14896,21008 13891,21008 13891,20399 Z"/>
+          <path d="M 13785,20399 L 15028,20399 15028,21167 13785,21167 13785,20399 Z"/>
          </clipPath>
         </defs>
         <g clip-path="url(#clip_path_3)">
-         <text class="TextShape"><tspan class="TextParagraph" font-family="OpenSymbol" font-size="492px" font-weight="400"><tspan class="TextPosition" x="14255" y="20851"><tspan fill="rgb(0,0,0)" stroke="none">⃗</tspan></tspan></tspan></text>
-         <text class="TextShape"><tspan class="TextParagraph" font-family="Liberation Serif, serif" font-size="492px" font-style="italic" font-weight="400"><tspan class="TextPosition" x="14044" y="20851"><tspan fill="rgb(0,0,0)" stroke="none">y</tspan></tspan></tspan></text>
-         <text class="TextShape"><tspan class="TextParagraph" font-family="Liberation Serif, serif" font-size="295px" font-style="italic" font-weight="400"><tspan class="TextPosition" x="14308" y="20957"><tspan fill="rgb(0,0,0)" stroke="none">t</tspan></tspan></tspan></text>
-         <text class="TextShape"><tspan class="TextParagraph" font-family="OpenSymbol" font-size="295px" font-weight="400"><tspan class="TextPosition" x="14414" y="20957"><tspan fill="rgb(0,0,0)" stroke="none">−</tspan></tspan></tspan></text>
-         <text class="TextShape"><tspan class="TextParagraph" font-family="Liberation Serif, serif" font-size="295px" font-weight="400"><tspan class="TextPosition" x="14652" y="20957"><tspan fill="rgb(0,0,0)" stroke="none">1</tspan></tspan></tspan></text>
+         <text class="TextShape"><tspan class="TextParagraph" font-family="OpenSymbol" font-size="492px" font-weight="400"><tspan class="TextPosition" x="14261" y="20798"><tspan fill="rgb(0,0,0)" stroke="none">⃗</tspan></tspan></tspan></text>
+         <text class="TextShape"><tspan class="TextParagraph" font-family="Liberation Serif, serif" font-size="492px" font-style="italic" font-weight="400"><tspan class="TextPosition" x="13944" y="21062"><tspan fill="rgb(0,0,0)" stroke="none">y</tspan></tspan></tspan></text>
+         <text class="TextShape"><tspan class="TextParagraph" font-family="OpenSymbol" font-size="295px" font-weight="400"><tspan class="TextPosition" x="14182" y="20824"><tspan fill="rgb(0,0,0)" stroke="none">(</tspan></tspan></tspan></text>
+         <text class="TextShape"><tspan class="TextParagraph" font-family="Liberation Serif, serif" font-size="295px" font-style="italic" font-weight="400"><tspan class="TextPosition" x="14314" y="20824"><tspan fill="rgb(0,0,0)" stroke="none">t</tspan></tspan></tspan></text>
+         <text class="TextShape"><tspan class="TextParagraph" font-family="OpenSymbol" font-size="295px" font-weight="400"><tspan class="TextPosition" x="14420" y="20824"><tspan fill="rgb(0,0,0)" stroke="none">−</tspan></tspan></tspan></text>
+         <text class="TextShape"><tspan class="TextParagraph" font-family="Liberation Serif, serif" font-size="295px" font-weight="400"><tspan class="TextPosition" x="14658" y="20824"><tspan fill="rgb(0,0,0)" stroke="none">1</tspan></tspan></tspan></text>
+         <text class="TextShape"><tspan class="TextParagraph" font-family="OpenSymbol" font-size="295px" font-weight="400"><tspan class="TextPosition" x="14817" y="20824"><tspan fill="rgb(0,0,0)" stroke="none">)</tspan></tspan></tspan></text>
         </g>
        </g>
       </g>
@@ -172,16 +180,18 @@
       </g>
       <g class="OLE2">
        <g id="id13">
-        <rect class="BoundingBox" stroke="none" fill="none" x="15900" y="22301" width="566" height="698"/>
+        <rect class="BoundingBox" stroke="none" fill="none" x="15900" y="22301" width="786" height="779"/>
         <defs>
          <clipPath id="clip_path_4" clipPathUnits="userSpaceOnUse">
-          <path d="M 15901,22304 L 16457,22304 16457,22992 15901,22992 15901,22304 Z"/>
+          <path d="M 15901,22304 L 16695,22304 16695,23072 15901,23072 15901,22304 Z"/>
          </clipPath>
         </defs>
         <g clip-path="url(#clip_path_4)">
-         <text class="TextShape"><tspan class="TextParagraph" font-family="OpenSymbol" font-size="492px" font-weight="400"><tspan class="TextPosition" x="16059" y="22698"><tspan fill="rgb(0,0,0)" stroke="none">⃗</tspan></tspan></tspan></text>
-         <text class="TextShape"><tspan class="TextParagraph" font-family="Liberation Serif, serif" font-size="492px" font-style="italic" font-weight="400"><tspan class="TextPosition" x="16006" y="22830"><tspan fill="rgb(0,0,0)" stroke="none">h</tspan></tspan></tspan></text>
-         <text class="TextShape"><tspan class="TextParagraph" font-family="Liberation Serif, serif" font-size="295px" font-style="italic" font-weight="400"><tspan class="TextPosition" x="16270" y="22936"><tspan fill="rgb(0,0,0)" stroke="none">t</tspan></tspan></tspan></text>
+         <text class="TextShape"><tspan class="TextParagraph" font-family="OpenSymbol" font-size="492px" font-weight="400"><tspan class="TextPosition" x="16138" y="22698"><tspan fill="rgb(0,0,0)" stroke="none">⃗</tspan></tspan></tspan></text>
+         <text class="TextShape"><tspan class="TextParagraph" font-family="Liberation Serif, serif" font-size="492px" font-style="italic" font-weight="400"><tspan class="TextPosition" x="16006" y="22962"><tspan fill="rgb(0,0,0)" stroke="none">h</tspan></tspan></tspan></text>
+         <text class="TextShape"><tspan class="TextParagraph" font-family="OpenSymbol" font-size="295px" font-weight="400"><tspan class="TextPosition" x="16244" y="22724"><tspan fill="rgb(0,0,0)" stroke="none">(</tspan></tspan></tspan></text>
+         <text class="TextShape"><tspan class="TextParagraph" font-family="Liberation Serif, serif" font-size="295px" font-style="italic" font-weight="400"><tspan class="TextPosition" x="16376" y="22724"><tspan fill="rgb(0,0,0)" stroke="none">t</tspan></tspan></tspan></text>
+         <text class="TextShape"><tspan class="TextParagraph" font-family="OpenSymbol" font-size="295px" font-weight="400"><tspan class="TextPosition" x="16482" y="22724"><tspan fill="rgb(0,0,0)" stroke="none">)</tspan></tspan></tspan></text>
         </g>
        </g>
       </g>
@@ -193,18 +203,20 @@
       </g>
       <g class="OLE2">
        <g id="id15">
-        <rect class="BoundingBox" stroke="none" fill="none" x="17700" y="22301" width="921" height="698"/>
+        <rect class="BoundingBox" stroke="none" fill="none" x="17600" y="22301" width="1141" height="779"/>
         <defs>
          <clipPath id="clip_path_5" clipPathUnits="userSpaceOnUse">
-          <path d="M 17701,22304 L 18627,22304 18627,22992 17701,22992 17701,22304 Z"/>
+          <path d="M 17595,22304 L 18733,22304 18733,23072 17595,23072 17595,22304 Z"/>
          </clipPath>
         </defs>
         <g clip-path="url(#clip_path_5)">
-         <text class="TextShape"><tspan class="TextParagraph" font-family="OpenSymbol" font-size="492px" font-weight="400"><tspan class="TextPosition" x="18018" y="22698"><tspan fill="rgb(0,0,0)" stroke="none">⃗</tspan></tspan></tspan></text>
-         <text class="TextShape"><tspan class="TextParagraph" font-family="Liberation Serif, serif" font-size="492px" font-style="italic" font-weight="400"><tspan class="TextPosition" x="17806" y="22830"><tspan fill="rgb(0,0,0)" stroke="none">h</tspan></tspan></tspan></text>
-         <text class="TextShape"><tspan class="TextParagraph" font-family="Liberation Serif, serif" font-size="295px" font-style="italic" font-weight="400"><tspan class="TextPosition" x="18070" y="22936"><tspan fill="rgb(0,0,0)" stroke="none">t</tspan></tspan></tspan></text>
-         <text class="TextShape"><tspan class="TextParagraph" font-family="OpenSymbol" font-size="295px" font-weight="400"><tspan class="TextPosition" x="18176" y="22936"><tspan fill="rgb(0,0,0)" stroke="none">+</tspan></tspan></tspan></text>
-         <text class="TextShape"><tspan class="TextParagraph" font-family="Liberation Serif, serif" font-size="295px" font-weight="400"><tspan class="TextPosition" x="18361" y="22936"><tspan fill="rgb(0,0,0)" stroke="none">1</tspan></tspan></tspan></text>
+         <text class="TextShape"><tspan class="TextParagraph" font-family="OpenSymbol" font-size="492px" font-weight="400"><tspan class="TextPosition" x="18023" y="22698"><tspan fill="rgb(0,0,0)" stroke="none">⃗</tspan></tspan></tspan></text>
+         <text class="TextShape"><tspan class="TextParagraph" font-family="Liberation Serif, serif" font-size="492px" font-style="italic" font-weight="400"><tspan class="TextPosition" x="17706" y="22962"><tspan fill="rgb(0,0,0)" stroke="none">h</tspan></tspan></tspan></text>
+         <text class="TextShape"><tspan class="TextParagraph" font-family="OpenSymbol" font-size="295px" font-weight="400"><tspan class="TextPosition" x="17944" y="22724"><tspan fill="rgb(0,0,0)" stroke="none">(</tspan></tspan></tspan></text>
+         <text class="TextShape"><tspan class="TextParagraph" font-family="Liberation Serif, serif" font-size="295px" font-style="italic" font-weight="400"><tspan class="TextPosition" x="18076" y="22724"><tspan fill="rgb(0,0,0)" stroke="none">t</tspan></tspan></tspan></text>
+         <text class="TextShape"><tspan class="TextParagraph" font-family="OpenSymbol" font-size="295px" font-weight="400"><tspan class="TextPosition" x="18182" y="22724"><tspan fill="rgb(0,0,0)" stroke="none">+</tspan></tspan></tspan></text>
+         <text class="TextShape"><tspan class="TextParagraph" font-family="Liberation Serif, serif" font-size="295px" font-weight="400"><tspan class="TextPosition" x="18367" y="22724"><tspan fill="rgb(0,0,0)" stroke="none">1</tspan></tspan></tspan></text>
+         <text class="TextShape"><tspan class="TextParagraph" font-family="OpenSymbol" font-size="295px" font-weight="400"><tspan class="TextPosition" x="18526" y="22724"><tspan fill="rgb(0,0,0)" stroke="none">)</tspan></tspan></tspan></text>
         </g>
        </g>
       </g>
@@ -216,18 +228,20 @@
       </g>
       <g class="OLE2">
        <g id="id17">
-        <rect class="BoundingBox" stroke="none" fill="none" x="13900" y="22285" width="966" height="698"/>
+        <rect class="BoundingBox" stroke="none" fill="none" x="13800" y="22285" width="1186" height="779"/>
         <defs>
          <clipPath id="clip_path_6" clipPathUnits="userSpaceOnUse">
-          <path d="M 13891,22278 L 14870,22278 14870,22992 13891,22992 13891,22278 Z"/>
+          <path d="M 13811,22278 L 14975,22278 14975,23072 13811,23072 13811,22278 Z"/>
          </clipPath>
         </defs>
         <g clip-path="url(#clip_path_6)">
-         <text class="TextShape"><tspan class="TextParagraph" font-family="OpenSymbol" font-size="492px" font-weight="400"><tspan class="TextPosition" x="14244" y="22682"><tspan fill="rgb(0,0,0)" stroke="none">⃗</tspan></tspan></tspan></text>
-         <text class="TextShape"><tspan class="TextParagraph" font-family="Liberation Serif, serif" font-size="492px" font-style="italic" font-weight="400"><tspan class="TextPosition" x="14006" y="22814"><tspan fill="rgb(0,0,0)" stroke="none">h</tspan></tspan></tspan></text>
-         <text class="TextShape"><tspan class="TextParagraph" font-family="Liberation Serif, serif" font-size="295px" font-style="italic" font-weight="400"><tspan class="TextPosition" x="14270" y="22920"><tspan fill="rgb(0,0,0)" stroke="none">t</tspan></tspan></tspan></text>
-         <text class="TextShape"><tspan class="TextParagraph" font-family="OpenSymbol" font-size="295px" font-weight="400"><tspan class="TextPosition" x="14376" y="22920"><tspan fill="rgb(0,0,0)" stroke="none">−</tspan></tspan></tspan></text>
-         <text class="TextShape"><tspan class="TextParagraph" font-family="Liberation Serif, serif" font-size="295px" font-weight="400"><tspan class="TextPosition" x="14614" y="22920"><tspan fill="rgb(0,0,0)" stroke="none">1</tspan></tspan></tspan></text>
+         <text class="TextShape"><tspan class="TextParagraph" font-family="OpenSymbol" font-size="492px" font-weight="400"><tspan class="TextPosition" x="14250" y="22682"><tspan fill="rgb(0,0,0)" stroke="none">⃗</tspan></tspan></tspan></text>
+         <text class="TextShape"><tspan class="TextParagraph" font-family="Liberation Serif, serif" font-size="492px" font-style="italic" font-weight="400"><tspan class="TextPosition" x="13906" y="22946"><tspan fill="rgb(0,0,0)" stroke="none">h</tspan></tspan></tspan></text>
+         <text class="TextShape"><tspan class="TextParagraph" font-family="OpenSymbol" font-size="295px" font-weight="400"><tspan class="TextPosition" x="14144" y="22708"><tspan fill="rgb(0,0,0)" stroke="none">(</tspan></tspan></tspan></text>
+         <text class="TextShape"><tspan class="TextParagraph" font-family="Liberation Serif, serif" font-size="295px" font-style="italic" font-weight="400"><tspan class="TextPosition" x="14276" y="22708"><tspan fill="rgb(0,0,0)" stroke="none">t</tspan></tspan></tspan></text>
+         <text class="TextShape"><tspan class="TextParagraph" font-family="OpenSymbol" font-size="295px" font-weight="400"><tspan class="TextPosition" x="14382" y="22708"><tspan fill="rgb(0,0,0)" stroke="none">−</tspan></tspan></tspan></text>
+         <text class="TextShape"><tspan class="TextParagraph" font-family="Liberation Serif, serif" font-size="295px" font-weight="400"><tspan class="TextPosition" x="14620" y="22708"><tspan fill="rgb(0,0,0)" stroke="none">1</tspan></tspan></tspan></text>
+         <text class="TextShape"><tspan class="TextParagraph" font-family="OpenSymbol" font-size="295px" font-weight="400"><tspan class="TextPosition" x="14779" y="22708"><tspan fill="rgb(0,0,0)" stroke="none">)</tspan></tspan></tspan></text>
         </g>
        </g>
       </g>
@@ -267,16 +281,18 @@
       </g>
       <g class="OLE2">
        <g id="id23">
-        <rect class="BoundingBox" stroke="none" fill="none" x="15900" y="24201" width="578" height="616"/>
+        <rect class="BoundingBox" stroke="none" fill="none" x="15900" y="24201" width="798" height="779"/>
         <defs>
          <clipPath id="clip_path_7" clipPathUnits="userSpaceOnUse">
-          <path d="M 15901,24209 L 16484,24209 16484,24818 15901,24818 15901,24209 Z"/>
+          <path d="M 15901,24209 L 16695,24209 16695,24977 15901,24977 15901,24209 Z"/>
          </clipPath>
         </defs>
         <g clip-path="url(#clip_path_7)">
-         <text class="TextShape"><tspan class="TextParagraph" font-family="OpenSymbol" font-size="492px" font-weight="400"><tspan class="TextPosition" x="16059" y="24651"><tspan fill="rgb(0,0,0)" stroke="none">⃗</tspan></tspan></tspan></text>
-         <text class="TextShape"><tspan class="TextParagraph" font-family="Liberation Serif, serif" font-size="492px" font-style="italic" font-weight="400"><tspan class="TextPosition" x="16032" y="24651"><tspan fill="rgb(0,0,0)" stroke="none">x</tspan></tspan></tspan></text>
-         <text class="TextShape"><tspan class="TextParagraph" font-family="Liberation Serif, serif" font-size="295px" font-style="italic" font-weight="400"><tspan class="TextPosition" x="16270" y="24757"><tspan fill="rgb(0,0,0)" stroke="none">t</tspan></tspan></tspan></text>
+         <text class="TextShape"><tspan class="TextParagraph" font-family="OpenSymbol" font-size="492px" font-weight="400"><tspan class="TextPosition" x="16165" y="24598"><tspan fill="rgb(0,0,0)" stroke="none">⃗</tspan></tspan></tspan></text>
+         <text class="TextShape"><tspan class="TextParagraph" font-family="Liberation Serif, serif" font-size="492px" font-style="italic" font-weight="400"><tspan class="TextPosition" x="16032" y="24862"><tspan fill="rgb(0,0,0)" stroke="none">x</tspan></tspan></tspan></text>
+         <text class="TextShape"><tspan class="TextParagraph" font-family="OpenSymbol" font-size="295px" font-weight="400"><tspan class="TextPosition" x="16270" y="24624"><tspan fill="rgb(0,0,0)" stroke="none">(</tspan></tspan></tspan></text>
+         <text class="TextShape"><tspan class="TextParagraph" font-family="Liberation Serif, serif" font-size="295px" font-style="italic" font-weight="400"><tspan class="TextPosition" x="16376" y="24624"><tspan fill="rgb(0,0,0)" stroke="none">t</tspan></tspan></tspan></text>
+         <text class="TextShape"><tspan class="TextParagraph" font-family="OpenSymbol" font-size="295px" font-weight="400"><tspan class="TextPosition" x="16509" y="24624"><tspan fill="rgb(0,0,0)" stroke="none">)</tspan></tspan></tspan></text>
         </g>
        </g>
       </g>
@@ -288,18 +304,20 @@
       </g>
       <g class="OLE2">
        <g id="id25">
-        <rect class="BoundingBox" stroke="none" fill="none" x="17700" y="24185" width="933" height="616"/>
+        <rect class="BoundingBox" stroke="none" fill="none" x="17700" y="24185" width="1153" height="779"/>
         <defs>
          <clipPath id="clip_path_8" clipPathUnits="userSpaceOnUse">
-          <path d="M 17701,24183 L 18627,24183 18627,24791 17701,24791 17701,24183 Z"/>
+          <path d="M 17701,24183 L 18865,24183 18865,24950 17701,24950 17701,24183 Z"/>
          </clipPath>
         </defs>
         <g clip-path="url(#clip_path_8)">
-         <text class="TextShape"><tspan class="TextParagraph" font-family="OpenSymbol" font-size="492px" font-weight="400"><tspan class="TextPosition" x="18018" y="24635"><tspan fill="rgb(0,0,0)" stroke="none">⃗</tspan></tspan></tspan></text>
-         <text class="TextShape"><tspan class="TextParagraph" font-family="Liberation Serif, serif" font-size="492px" font-style="italic" font-weight="400"><tspan class="TextPosition" x="17832" y="24635"><tspan fill="rgb(0,0,0)" stroke="none">x</tspan></tspan></tspan></text>
-         <text class="TextShape"><tspan class="TextParagraph" font-family="Liberation Serif, serif" font-size="295px" font-style="italic" font-weight="400"><tspan class="TextPosition" x="18070" y="24741"><tspan fill="rgb(0,0,0)" stroke="none">t</tspan></tspan></tspan></text>
-         <text class="TextShape"><tspan class="TextParagraph" font-family="OpenSymbol" font-size="295px" font-weight="400"><tspan class="TextPosition" x="18203" y="24741"><tspan fill="rgb(0,0,0)" stroke="none">+</tspan></tspan></tspan></text>
-         <text class="TextShape"><tspan class="TextParagraph" font-family="Liberation Serif, serif" font-size="295px" font-weight="400"><tspan class="TextPosition" x="18388" y="24741"><tspan fill="rgb(0,0,0)" stroke="none">1</tspan></tspan></tspan></text>
+         <text class="TextShape"><tspan class="TextParagraph" font-family="OpenSymbol" font-size="492px" font-weight="400"><tspan class="TextPosition" x="18123" y="24582"><tspan fill="rgb(0,0,0)" stroke="none">⃗</tspan></tspan></tspan></text>
+         <text class="TextShape"><tspan class="TextParagraph" font-family="Liberation Serif, serif" font-size="492px" font-style="italic" font-weight="400"><tspan class="TextPosition" x="17832" y="24846"><tspan fill="rgb(0,0,0)" stroke="none">x</tspan></tspan></tspan></text>
+         <text class="TextShape"><tspan class="TextParagraph" font-family="OpenSymbol" font-size="295px" font-weight="400"><tspan class="TextPosition" x="18070" y="24608"><tspan fill="rgb(0,0,0)" stroke="none">(</tspan></tspan></tspan></text>
+         <text class="TextShape"><tspan class="TextParagraph" font-family="Liberation Serif, serif" font-size="295px" font-style="italic" font-weight="400"><tspan class="TextPosition" x="18176" y="24608"><tspan fill="rgb(0,0,0)" stroke="none">t</tspan></tspan></tspan></text>
+         <text class="TextShape"><tspan class="TextParagraph" font-family="OpenSymbol" font-size="295px" font-weight="400"><tspan class="TextPosition" x="18309" y="24608"><tspan fill="rgb(0,0,0)" stroke="none">+</tspan></tspan></tspan></text>
+         <text class="TextShape"><tspan class="TextParagraph" font-family="Liberation Serif, serif" font-size="295px" font-weight="400"><tspan class="TextPosition" x="18494" y="24608"><tspan fill="rgb(0,0,0)" stroke="none">1</tspan></tspan></tspan></text>
+         <text class="TextShape"><tspan class="TextParagraph" font-family="OpenSymbol" font-size="295px" font-weight="400"><tspan class="TextPosition" x="18653" y="24608"><tspan fill="rgb(0,0,0)" stroke="none">)</tspan></tspan></tspan></text>
         </g>
        </g>
       </g>
@@ -311,18 +329,20 @@
       </g>
       <g class="OLE2">
        <g id="id27">
-        <rect class="BoundingBox" stroke="none" fill="none" x="13923" y="24200" width="978" height="616"/>
+        <rect class="BoundingBox" stroke="none" fill="none" x="13823" y="24200" width="1198" height="779"/>
         <defs>
          <clipPath id="clip_path_9" clipPathUnits="userSpaceOnUse">
-          <path d="M 13917,24209 L 14896,24209 14896,24818 13917,24818 13917,24209 Z"/>
+          <path d="M 13811,24209 L 15028,24209 15028,24977 13811,24977 13811,24209 Z"/>
          </clipPath>
         </defs>
         <g clip-path="url(#clip_path_9)">
-         <text class="TextShape"><tspan class="TextParagraph" font-family="OpenSymbol" font-size="492px" font-weight="400"><tspan class="TextPosition" x="14267" y="24650"><tspan fill="rgb(0,0,0)" stroke="none">⃗</tspan></tspan></tspan></text>
-         <text class="TextShape"><tspan class="TextParagraph" font-family="Liberation Serif, serif" font-size="492px" font-style="italic" font-weight="400"><tspan class="TextPosition" x="14055" y="24650"><tspan fill="rgb(0,0,0)" stroke="none">x</tspan></tspan></tspan></text>
-         <text class="TextShape"><tspan class="TextParagraph" font-family="Liberation Serif, serif" font-size="295px" font-style="italic" font-weight="400"><tspan class="TextPosition" x="14293" y="24756"><tspan fill="rgb(0,0,0)" stroke="none">t</tspan></tspan></tspan></text>
-         <text class="TextShape"><tspan class="TextParagraph" font-family="OpenSymbol" font-size="295px" font-weight="400"><tspan class="TextPosition" x="14399" y="24756"><tspan fill="rgb(0,0,0)" stroke="none">−</tspan></tspan></tspan></text>
-         <text class="TextShape"><tspan class="TextParagraph" font-family="Liberation Serif, serif" font-size="295px" font-weight="400"><tspan class="TextPosition" x="14664" y="24756"><tspan fill="rgb(0,0,0)" stroke="none">1</tspan></tspan></tspan></text>
+         <text class="TextShape"><tspan class="TextParagraph" font-family="OpenSymbol" font-size="492px" font-weight="400"><tspan class="TextPosition" x="14273" y="24597"><tspan fill="rgb(0,0,0)" stroke="none">⃗</tspan></tspan></tspan></text>
+         <text class="TextShape"><tspan class="TextParagraph" font-family="Liberation Serif, serif" font-size="492px" font-style="italic" font-weight="400"><tspan class="TextPosition" x="13955" y="24861"><tspan fill="rgb(0,0,0)" stroke="none">x</tspan></tspan></tspan></text>
+         <text class="TextShape"><tspan class="TextParagraph" font-family="OpenSymbol" font-size="295px" font-weight="400"><tspan class="TextPosition" x="14193" y="24623"><tspan fill="rgb(0,0,0)" stroke="none">(</tspan></tspan></tspan></text>
+         <text class="TextShape"><tspan class="TextParagraph" font-family="Liberation Serif, serif" font-size="295px" font-style="italic" font-weight="400"><tspan class="TextPosition" x="14299" y="24623"><tspan fill="rgb(0,0,0)" stroke="none">t</tspan></tspan></tspan></text>
+         <text class="TextShape"><tspan class="TextParagraph" font-family="OpenSymbol" font-size="295px" font-weight="400"><tspan class="TextPosition" x="14405" y="24623"><tspan fill="rgb(0,0,0)" stroke="none">−</tspan></tspan></tspan></text>
+         <text class="TextShape"><tspan class="TextParagraph" font-family="Liberation Serif, serif" font-size="295px" font-weight="400"><tspan class="TextPosition" x="14670" y="24623"><tspan fill="rgb(0,0,0)" stroke="none">1</tspan></tspan></tspan></text>
+         <text class="TextShape"><tspan class="TextParagraph" font-family="OpenSymbol" font-size="295px" font-weight="400"><tspan class="TextPosition" x="14828" y="24623"><tspan fill="rgb(0,0,0)" stroke="none">)</tspan></tspan></tspan></text>
         </g>
        </g>
       </g>
