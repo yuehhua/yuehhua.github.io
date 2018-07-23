@@ -283,12 +283,30 @@
 <p>一條直線，我們可以把他想成一條軟繩子，繩子上的任何一點，無論繩子怎麼扭曲，點鄰近的區域是不變的。不過這時候如果我們把繩子的兩頭相接起來那就不一樣了。</p>
 <p><img src="/pics/topology2.svg" alt=""></p>
 <p>我們可以看上面這個圖，當繩子繞成一個圓的時候，相接的黑點的鄰近區域是黑點的左右兩塊。黑點剛好對應到線段的兩個端點，兩個端點的鄰近區域是上圖中紅色所顯示的。你可以看到繩子因為被接起來，所以改變了他的鄰近區域，而這個改變我們可以用一個函數來把他對映起來：</p>
-<p>$$<br>f(x) = x \enspace mod \enspace 12<br>$$</p>
-<p>你可以想像有類似時鐘的 12 個數字擺在圓的線上，而線段上也有 1~12 的數字，在時鐘上的 12 鄰近有 11 跟 1，但是在線段上的 12 的鄰近只有 11，上述的函數則是可以把線段對映到圓上。</p>
+<script type="math/tex; mode=display">
+f(x) = x \enspace mod \enspace 12</script><p>你可以想像有類似時鐘的 12 個數字擺在圓的線上，而線段上也有 1~12 的數字，在時鐘上的 12 鄰近有 11 跟 1，但是在線段上的 12 的鄰近只有 11，上述的函數則是可以把線段對映到圓上。</p>
 <div style="text-align:center">線 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 圓</div>
 
-<p>$$<br>\begin{bmatrix}<br>\vdots \\<br>10 \\<br>11 \\<br>12 \\<br>13 \\<br>14 \\<br>\vdots<br>\end{bmatrix}<br>\rightarrow<br>\begin{bmatrix}<br>\vdots \\<br>10 \\<br>11 \\<br>0 \\<br>1 \\<br>2 \\<br>\vdots<br>\end{bmatrix}<br>$$</p>
-<p>原本在空間上，線段是無法由一頭持續走向另一頭的，但是卻可以透過函數來把兩頭接起來，這樣鄰近的空間也改變了，這時候我們想要描述空間中的鄰近關係，我們透過集合論給出了以下的特性：</p>
+<script type="math/tex; mode=display">
+\begin{bmatrix}
+\vdots \\\\
+10 \\\\
+11 \\\\
+12 \\\\
+13 \\\\
+14 \\\\
+\vdots
+\end{bmatrix}
+\rightarrow
+\begin{bmatrix}
+\vdots \\\\
+10 \\\\
+11 \\\\
+0 \\\\
+1 \\\\
+2 \\\\
+\vdots
+\end{bmatrix}</script><p>原本在空間上，線段是無法由一頭持續走向另一頭的，但是卻可以透過函數來把兩頭接起來，這樣鄰近的空間也改變了，這時候我們想要描述空間中的鄰近關係，我們透過集合論給出了以下的特性：</p>
 <p>一個鄰近區域（neighborhood） $X$，$\forall x \in X$，我們說 $X$ 是 $x$ 的鄰近區域，他需要滿足：</p>
 <ol>
 <li>$x$ 在它自己的鄰近區域中</li>
@@ -481,10 +499,14 @@
 <blockquote>
 <p> <strong><em>Def.</em></strong></p>
 </blockquote>
-<p>A set A is <strong><em>countably infinite</em></strong> if<br>$$<br>\exists f: A \rightarrow \mathbb{N}, f \enspace is \enspace bijective.<br>$$</p>
-<h4 id="ex"><a href="#ex" class="headerlink" title="ex."></a><em>ex.</em></h4><p>像是整數本身就是 countably infinite，$f: \mathbb{Z} \rightarrow \mathbb{N}$</p>
-<p>$$<br>f(n) = \begin{cases}<br>2n &amp; n\gt 0 \<br>-2n+1 &amp; n \le 0<br>\end{cases}<br>$$</p>
-<h4 id="ex-1"><a href="#ex-1" class="headerlink" title="ex."></a><em>ex.</em></h4><p>$\mathbb{N} \times \mathbb{N}$ 也是 countably infinite，那要如何證明呢？</p>
+<p>A set A is <strong><em>countably infinite</em></strong> if</p>
+<script type="math/tex; mode=display">
+\exists f: A \rightarrow \mathbb{N}, f \enspace is \enspace bijective.</script><h4 id="ex"><a href="#ex" class="headerlink" title="ex."></a><em>ex.</em></h4><p>像是整數本身就是 countably infinite，$f: \mathbb{Z} \rightarrow \mathbb{N}$</p>
+<script type="math/tex; mode=display">
+f(n) = \begin{cases} 
+2n & n\gt 0 \\
+-2n+1 & n \le 0
+\end{cases}</script><h4 id="ex-1"><a href="#ex-1" class="headerlink" title="ex."></a><em>ex.</em></h4><p>$\mathbb{N} \times \mathbb{N}$ 也是 countably infinite，那要如何證明呢？</p>
 <p>我們需要證明 $f: \mathbb{N} \times \mathbb{N} \rightarrow \mathbb{N}$，由於 $\mathbb{N} \times \mathbb{N}$ 是在座標系的第1象限上的格子點，我們先把他向下圖一樣定一個順序，下圖的順序也包含 0，但是在我們的例子中不包含 0，但概念是一樣的。</p>
 <p><img src="https://upload.wikimedia.org/wikipedia/commons/6/6f/Pairing_natural.svg" alt=""></p>
 <p>我們希望像這樣把 $\mathbb{N}$ 一個一個擺到 $\mathbb{N} \times \mathbb{N}$，這樣我們就可以確認兩者的對應關係了，那要怎麼做呢？</p>
@@ -517,8 +539,8 @@
 <blockquote>
 <p> <strong><em>Theroem</em></strong></p>
 </blockquote>
-<p>$$<br>C \subseteq \mathbb{N}, C \enspace is \enspace infinite, then \enspace C \enspace is \enspace countably \enspace infinite.<br>$$</p>
-<p>跟其他結論：</p>
+<script type="math/tex; mode=display">
+C \subseteq \mathbb{N}, C \enspace is \enspace infinite, then \enspace C \enspace is \enspace countably \enspace infinite.</script><p>跟其他結論：</p>
 <blockquote>
 <p> <strong><em>Corollary</em></strong></p>
 </blockquote>
@@ -533,8 +555,8 @@
 <p>A countable union of countable sets is countable.</p>
 <p>看到這邊大家不知道有沒有跟我一樣的疑問，為什麼會有 <em>countable union</em> 這樣的敘述呢？</p>
 <p>如果有個集合 $A_n$ 是可數的，$f_n$ is surjective，$f_n: \mathbb{N} \rightarrow A_n$，我們可以選另一個函數 $g$ is surjective，$g: \mathbb{N} \rightarrow J$，使得</p>
-<p>$$<br>h: \mathbb{N} \times \mathbb{N} \rightarrow \bigcup_{n \in J} A_n<br>$$</p>
-<p>所以我們把 <em>countable union</em> 看成在 $n \in J$ 的 $J$，$h$ 可以看成 $f_n$ 跟 $g$ 的合成函數 $h(k, m) = f_{g(k)}(m)$，如此一來，我們已經知道 surjective 函數的合成還是 surjective，而 $\mathbb{N} \times \mathbb{N}$ 也是 countable，這樣我們就可以證明 $\bigcup_{n \in J} A_n$ 是 countable。</p>
+<script type="math/tex; mode=display">
+h: \mathbb{N} \times \mathbb{N} \rightarrow \bigcup_{n \in J} A_n</script><p>所以我們把 <em>countable union</em> 看成在 $n \in J$ 的 $J$，$h$ 可以看成 $f<em>n$ 跟 $g$ 的合成函數 $h(k, m) = f</em>{g(k)}(m)$，如此一來，我們已經知道 surjective 函數的合成還是 surjective，而 $\mathbb{N} \times \mathbb{N}$ 也是 countable，這樣我們就可以證明 $\bigcup_{n \in J} A_n$ 是 countable。</p>
 <blockquote>
 <p> <strong><em>Theroem</em></strong></p>
 </blockquote>
@@ -543,15 +565,15 @@
 <blockquote>
 <p> <strong><em>Theroem</em></strong></p>
 </blockquote>
-<p>$$<br>X = \{ 0, 1 \}, then \enspace X^\omega \enspace is \enspace uncountable.<br>$$</p>
-<p>這邊描述了一個特例，以下是比較廣義的敘述：</p>
+<script type="math/tex; mode=display">
+X = \\{ 0, 1 \\}, then \enspace X^\omega \enspace is \enspace uncountable.</script><p>這邊描述了一個特例，以下是比較廣義的敘述：</p>
 <blockquote>
 <p> <strong><em>Theroem</em></strong></p>
 </blockquote>
 <p>$A$ is a set,</p>
-<p>$$<br>\nexists \enspace injective \enspace f: \mathcal{P}(A) \rightarrow A<br>$$</p>
-<p>$$<br>\nexists \enspace surjective \enspace g: A \rightarrow \mathcal{P}(A)<br>$$</p>
-<p>這代表著一個集合的冪集是 <em>uncountable set</em>，無論集合裏面長什麼樣子。</p>
+<script type="math/tex; mode=display">
+\nexists \enspace injective \enspace f: \mathcal{P}(A) \rightarrow A</script><script type="math/tex; mode=display">
+\nexists \enspace surjective \enspace g: A \rightarrow \mathcal{P}(A)</script><p>這代表著一個集合的冪集是 <em>uncountable set</em>，無論集合裏面長什麼樣子。</p>
 
                     
                         
@@ -606,41 +628,41 @@
 <p> <strong><em>Def.</em></strong></p>
 </blockquote>
 <p>A set A is <strong><em>finite</em></strong> if</p>
-<p>$$<br>\exists f: A \rightarrow \{ 1, …, n \}, f \enspace is \enspace bijective.<br>$$</p>
-<p>這時我們會說 <em>set</em> $A$ 的 cardinality 是 n。</p>
+<script type="math/tex; mode=display">
+\exists f: A \rightarrow \\{ 1, ..., n \\}, f \enspace is \enspace bijective.</script><p>這時我們會說 <em>set</em> $A$ 的 cardinality 是 n。</p>
 <p>在這其中，這個定義的結果是不是唯一的？也就是，有沒有一個可能存在一個集合，兩個人數當中的元素個數結果不一樣（一個數到 $m$，一個數到 $n$），但兩個人都是對的？在真實世界，你可能會覺得這根本不可能，但是為了這點，數學家做了一些基礎工作。</p>
 <blockquote>
 <p> <strong><em>Lemma</em></strong></p>
 </blockquote>
-<p>$$<br>A \enspace is \enspace a \enspace set, n \in \mathbb{N}, a_0 \in A, \exists f: A \rightarrow \{ 1, … , n+1\}, f \enspace is \enspace bijective<br>$$</p>
-<p>$$<br>\Leftrightarrow \exists g: A - \{ a_0 \} \rightarrow \{ 1, … , n\}, g \enspace is \enspace bijective<br>$$</p>
-<p>也就是呢，當 $A$ 可以對映到 $n+1$ 個元素的集合的時候，把 $A$ 當中的一個元素拿掉，就必須對映到 $n$ 個元素的集合。</p>
+<script type="math/tex; mode=display">
+A \enspace is \enspace a \enspace set, n \in \mathbb{N}, a_0 \in A, \exists f: A \rightarrow \\{ 1, ... , n+1\\}, f \enspace is \enspace bijective</script><script type="math/tex; mode=display">
+\Leftrightarrow \exists g: A - \\{ a_0 \\} \rightarrow \\{ 1, ... , n\\}, g \enspace is \enspace bijective</script><p>也就是呢，當 $A$ 可以對映到 $n+1$ 個元素的集合的時候，把 $A$ 當中的一個元素拿掉，就必須對映到 $n$ 個元素的集合。</p>
 <p>那接下來我們就可以有這個定理：</p>
 <blockquote>
 <p> <strong><em>Theorem</em></strong></p>
 </blockquote>
-<p>$$<br>A \enspace is \enspace a \enspace set, f: A \rightarrow \{ 1, … , n\}, n \in \mathbb{N}, f \enspace is \enspace bijective, B \subset A<br>$$</p>
-<p>$$<br>then \enspace \nexists g: B \rightarrow \{ 1, … , n\}, g \enspace is \enspace bijective<br>$$</p>
-<p>$$<br>\exists h: B \rightarrow \{ 1, … , m\}, h \enspace is \enspace bijective, m &lt; n<br>$$</p>
-<p>所以是說，$B$ 是 $A$ 的嚴格子集，那麼 $B$ 的 cardinality 就必須跟 $A$ 的不同，並且要比較小。</p>
+<script type="math/tex; mode=display">
+A \enspace is \enspace a \enspace set, f: A \rightarrow \\{ 1, ... , n\\}, n \in \mathbb{N}, f \enspace is \enspace bijective, B \subset A</script><script type="math/tex; mode=display">
+then \enspace \nexists g: B \rightarrow \\{ 1, ... , n\\}, g \enspace is \enspace bijective</script><script type="math/tex; mode=display">
+\exists h: B \rightarrow \\{ 1, ... , m\\}, h \enspace is \enspace bijective, m < n</script><p>所以是說，$B$ 是 $A$ 的嚴格子集，那麼 $B$ 的 cardinality 就必須跟 $A$ 的不同，並且要比較小。</p>
 <p>以此，我們可以導出以下結論：</p>
 <blockquote>
 <p> <strong><em>Corollary</em></strong></p>
 </blockquote>
-<p>$$<br>If \enspace A \enspace is \enspace finite, B \subset A, \nexists f: A \rightarrow B, f \enspace is \enspace bijective<br>$$</p>
-<blockquote>
+<script type="math/tex; mode=display">
+If \enspace A \enspace is \enspace finite, B \subset A, \nexists f: A \rightarrow B, f \enspace is \enspace bijective</script><blockquote>
 <p> <strong><em>Corollary</em></strong></p>
 </blockquote>
-<p>$$<br>\mathbb{N} \enspace is \enspace not \enspace finite<br>$$</p>
-<blockquote>
+<script type="math/tex; mode=display">
+\mathbb{N} \enspace is \enspace not \enspace finite</script><blockquote>
 <p> <strong><em>Corollary</em></strong></p>
 </blockquote>
-<p>$$<br>The \enspace cardinality \enspace of \enspace a \enspace finite \enspace set \enspace A \enspace is \enspace uniquely \enspace determined \enspace by \enspace A<br>$$</p>
-<blockquote>
+<script type="math/tex; mode=display">
+The \enspace cardinality \enspace of \enspace a \enspace finite \enspace set \enspace A \enspace is \enspace uniquely \enspace determined \enspace by \enspace A</script><blockquote>
 <p> <strong><em>Corollary</em></strong></p>
 </blockquote>
-<p>$$<br>A \enspace is \enspace finite, B \subset A, B \enspace is \enspace finite<br>$$</p>
-<p>有限集，以下等價：</p>
+<script type="math/tex; mode=display">
+A \enspace is \enspace finite, B \subset A, B \enspace is \enspace finite</script><p>有限集，以下等價：</p>
 <blockquote>
 <p> <strong><em>Corollary</em></strong></p>
 </blockquote>
@@ -652,8 +674,8 @@
 <blockquote>
 <p> <strong><em>Corollary</em></strong></p>
 </blockquote>
-<p>$$<br>Finite \enspace unions \enspace and \enspace finite \enspace cartesian \enspace products \enspace of \enspace finite \enspace sets \enspace are \enspace finite<br>$$</p>
-
+<script type="math/tex; mode=display">
+Finite \enspace unions \enspace and \enspace finite \enspace cartesian \enspace products \enspace of \enspace finite \enspace sets \enspace are \enspace finite</script>
                     
                         
 
@@ -705,37 +727,37 @@
 <blockquote>
 <p> <strong><em>Def.</em></strong></p>
 </blockquote>
-<p>$$<br>A \enspace indexing \enspace function \enspace is \enspace a \enspace surjective \enspace function \enspace f: J \rightarrow \mathcal{A},<br>$$</p>
-<p>$$<br>J \enspace is \enspace called \enspace index \enspace set.<br>$$</p>
-<p>$$<br>The \enspace collection \enspace with \enspace the \enspace indexing \enspace function \enspace f \enspace is \enspace called \enspace indexed \enspace family \enspace of \enspace sets.<br>$$</p>
-<p>所以如果有 $\alpha \in J$ ，我們會把 $f(\alpha)$ 寫成 $A_\alpha$。那麼 indexed family 本身可以寫成 $\{A_\alpha\}_{\alpha \in J}$。</p>
+<script type="math/tex; mode=display">
+A \enspace indexing \enspace function \enspace is \enspace a \enspace surjective \enspace function \enspace f: J \rightarrow \mathcal{A},</script><script type="math/tex; mode=display">
+J \enspace is \enspace called \enspace index \enspace set.</script><script type="math/tex; mode=display">
+The \enspace collection \enspace with \enspace the \enspace indexing \enspace function \enspace f \enspace is \enspace called \enspace indexed \enspace family \enspace of \enspace sets.</script><p>所以如果有 $\alpha \in J$ ，我們會把 $f(\alpha)$ 寫成 $A<em>\alpha$。那麼 indexed family 本身可以寫成 $\{A</em>\alpha\}_{\alpha \in J}$。</p>
 <p>這個概念有點類似在電腦科學中的 hash function/dictionary 或是指標的意味，有了一個函數可以對某個集合做 indexing。然而他必須是滿射的（surjective），而不是單射的（injective）。</p>
 <p>應用這樣的概念來描述以往的概念就會有點不太一樣：</p>
 <p>$f: J \rightarrow \mathcal{A} \enspace is \enspace an \enspace indexing \enspace function \enspace for \enspace \mathcal{A}$</p>
-<p>$\bigcup_{\alpha \in J} A_\alpha = \{ x \mid at \enspace least \enspace one \enspace \alpha \in J, x \in A_\alpha \}$</p>
-<p>$\bigcap_{\alpha \in J} A_\alpha = \{ x \mid for \enspace every \enspace \alpha \in J, x \in A_\alpha \}$</p>
+<p>$\bigcup<em>{\alpha \in J} A</em>\alpha = \{ x \mid at \enspace least \enspace one \enspace \alpha \in J, x \in A_\alpha \}$</p>
+<p>$\bigcap<em>{\alpha \in J} A</em>\alpha = \{ x \mid for \enspace every \enspace \alpha \in J, x \in A_\alpha \}$</p>
 <p>我們進一步定義<strong>m-元組（m-tuple）</strong>：</p>
 <blockquote>
 <p> <strong><em>Def.</em></strong></p>
 </blockquote>
-<p>$$<br>m \in \mathbb{N}, a \enspace set \enspace X, m-tuple \enspace of \enspace elements \enspace of \enspace X \enspace is<br>$$</p>
-<p>$$<br>x: \{1, …, m\} \rightarrow X<br>$$</p>
-<p>這邊 $x$ 是個 m-tuple，我們通常描述 $x$ 的第 i 個值會寫成 $x_i$ ，也就是第 i 分量，也就是<strong>座標（coordinate）</strong>。那表示 $x$ 本身則會寫成：</p>
-<p>$$<br>(x_1, …, x_m)<br>$$</p>
-<p>接下來，我們讓 $\{ A_1, …, A_m \}$ 是一個 <em>family of indexed sets</em>。 $X = A_1 \cup A_2 \cup … \cup A_m$。我們定義這個 <em>indexed family</em> 的 cartesian product 為：</p>
-<p>$$<br>\prod_{i = 1}^{m} A_i \enspace or \enspace A_1 \times A_2 \times … \times A_m<br>$$</p>
-<p>也就是所有 m-tuple $(x_1, …, x_m)$ 的集合。</p>
+<script type="math/tex; mode=display">
+m \in \mathbb{N}, a \enspace set \enspace X, m-tuple \enspace of \enspace elements \enspace of \enspace X \enspace is</script><script type="math/tex; mode=display">
+x: \\{1, ..., m\\} \rightarrow X</script><p>這邊 $x$ 是個 m-tuple，我們通常描述 $x$ 的第 i 個值會寫成 $x_i$ ，也就是第 i 分量，也就是<strong>座標（coordinate）</strong>。那表示 $x$ 本身則會寫成：</p>
+<script type="math/tex; mode=display">
+(x_1, ..., x_m)</script><p>接下來，我們讓 $\{ A_1, …, A_m \}$ 是一個 <em>family of indexed sets</em>。 $X = A_1 \cup A_2 \cup … \cup A_m$。我們定義這個 <em>indexed family</em> 的 cartesian product 為：</p>
+<script type="math/tex; mode=display">
+\prod_{i = 1}^{m} A_i \enspace or \enspace A_1 \times A_2 \times ... \times A_m</script><p>也就是所有 m-tuple $(x_1, …, x_m)$ 的集合。</p>
 <p>我們有了 m-tuple 就可以來定義一個常用的概念，$\omega-tuple$。</p>
 <blockquote>
 <p> <strong><em>Def.</em></strong></p>
 </blockquote>
-<p>$$<br>A \enspace set \enspace X, \omega-tuple \enspace of \enspace elements \enspace of \enspace X \enspace is \enspace a \enspace function:<br>$$</p>
-<p>$$<br>x: \mathbb{N} \rightarrow X<br>$$</p>
-<p>這也是微積分當中的 <strong>數列（sequence）</strong>，或是 <strong>無限數列（infinite sequence）</strong>。我們也可以把 $\omega$-tuple $x$ 看成座標，則會表示成：</p>
-<p>$$<br>(x_1, x_2, …)<br>$$</p>
-<p>而 <em>cartesian product</em> 則是：</p>
-<p>$$<br>\prod_{i \in \mathbb{N}} A_i \enspace or \enspace A_1 \times A_2 \times …<br>$$</p>
-<p>這邊大家可能會疑惑，不同的 $A_i$ 之間有什麼不一樣嗎？其實他們都可能是一樣的，跟 $X$ 一樣，只是去表示位在不同的分量上。如果是 $X$ 的元素的 $m$-tuple 的話，就可以簡寫成 $X^m$。如果是 $X$ 的元素的 $\omega$-tuple 的話，就可以簡寫成 $X^\omega$。</p>
+<script type="math/tex; mode=display">
+A \enspace set \enspace X, \omega-tuple \enspace of \enspace elements \enspace of \enspace X \enspace is \enspace a \enspace function:</script><script type="math/tex; mode=display">
+x: \mathbb{N} \rightarrow X</script><p>這也是微積分當中的 <strong>數列（sequence）</strong>，或是 <strong>無限數列（infinite sequence）</strong>。我們也可以把 $\omega$-tuple $x$ 看成座標，則會表示成：</p>
+<script type="math/tex; mode=display">
+(x_1, x_2, ...)</script><p>而 <em>cartesian product</em> 則是：</p>
+<script type="math/tex; mode=display">
+\prod_{i \in \mathbb{N}} A_i \enspace or \enspace A_1 \times A_2 \times ...</script><p>這邊大家可能會疑惑，不同的 $A_i$ 之間有什麼不一樣嗎？其實他們都可能是一樣的，跟 $X$ 一樣，只是去表示位在不同的分量上。如果是 $X$ 的元素的 $m$-tuple 的話，就可以簡寫成 $X^m$。如果是 $X$ 的元素的 $\omega$-tuple 的話，就可以簡寫成 $X^\omega$。</p>
 <h4 id="ex"><a href="#ex" class="headerlink" title="ex."></a><em>ex.</em></h4><p>如果 $\mathbb{R}$ 代表實數，那麼 $\mathbb{R}^m$ 就代表所有實數的 $m$-tuple 的集合，也就是歐幾里得空間（Euclidean m-space）。那 $\mathbb{R}^\omega$ 就是無限維度歐氏空間（infinite-dimensional Euclidean space）。</p>
 
                     
@@ -791,36 +813,36 @@
 <blockquote>
 <p> <strong><em>Def.</em></strong></p>
 </blockquote>
-<p>$$<br>f: A \times A \rightarrow A<br>$$</p>
-<p>我們在描述一個二元運算子的時候並不會如同以往的函數一樣， $f(a, a’)$，而是會把運算子寫在中間， $afa’$。一般來說，我們會用符號來表示，而不是字母，像是加號 $+$、乘號 $\cdot$。</p>
+<script type="math/tex; mode=display">
+f: A \times A \rightarrow A</script><p>我們在描述一個二元運算子的時候並不會如同以往的函數一樣， $f(a, a’)$，而是會把運算子寫在中間， $afa’$。一般來說，我們會用符號來表示，而不是字母，像是加號 $+$、乘號 $\cdot$。</p>
 <h4 id="假設"><a href="#假設" class="headerlink" title="假設"></a>假設</h4><p>我們假設存在一個 <em>set</em> $\mathbb{R}$，代表實數，有兩個運算子分別是加法運算子 $+$、乘法運算子 $\cdot$，以及一個次序關係 $\lt$ 定義於 $\mathbb{R}$ 上，會有以下特性：</p>
 <p><em>代數特性（Algebraic Properties）</em></p>
 <ol>
 <li>$(x + y) + z = x + (y + z), \forall x, y, z \in \mathbb{R}$</li>
 </ol>
 <p>$(x \cdot y) \cdot z = x \cdot (y \cdot z), \forall x, y, z \in \mathbb{R}$</p>
-<ol start="2">
+<ol>
 <li>$x + y = y + x, \forall x, y, z \in \mathbb{R}$</li>
 </ol>
 <p>$x \cdot y = y \cdot x, \forall x, y, z \in \mathbb{R}$</p>
-<ol start="3">
+<ol>
 <li>$\exists! 0 \in \mathbb{R}, \forall x \in \mathbb{R}, s.t. \enspace x + 0 = x$</li>
 </ol>
 <p>$\exists! 1 \in \mathbb{R}, \forall x \in \mathbb{R}, s.t. \enspace x \cdot 1 = x$</p>
-<ol start="4">
+<ol>
 <li>$for \enspace each \enspace x, \exists! y, s.t. \enspace x + y = 0$</li>
 </ol>
 <p>$for \enspace each \enspace x, \exists! y, s.t. \enspace x \cdot y = 1$</p>
-<ol start="5">
+<ol>
 <li>$x \cdot (y + z) = (x \cdot y) + (x \cdot z), \forall x, y, z \in \mathbb{R}$</li>
 </ol>
 <p><em>混合代數與次序特性（A Mixed Algebraic and Order Property）</em></p>
-<ol start="6">
+<ol>
 <li>$If \enspace x \gt y, then \enspace x + z \gt y + z$</li>
 </ol>
 <p>$If \enspace x \gt y, z \gt 0, then \enspace x \cdot z \gt y \cdot z$</p>
 <p><em>次序特性（Order Properties）</em></p>
-<ol start="7">
+<ol>
 <li>次序關係 $\lt$ 有最小上界性</li>
 <li>$If \enspace x \lt y, then \enspace \exists z \enspace s.t. \enspace x \lt z, z \lt y$</li>
 </ol>
@@ -847,26 +869,26 @@
 <p>與實數不同的是，他不會有第八點特性，也就是，$for \enspace each \enspace n \in \mathbb{N}, \nexists a \in \mathbb{N} \enspace s.t. \enspace n \lt a \lt n + 1$。</p>
 <hr>
 <p>如果有個正整數 $n$，我們用 $S_{n}$ 來代表所有小於 $n$ 的正整數的集合，我們稱他為 <em>section</em>：</p>
-<p>$$<br>S_{n + 1} = \{1, \dots , n\}<br>$$</p>
-<p>接下來我們會描述 <del>證明</del> 兩個可能不是很熟悉但很有用的特性，你可以看成是另一個版本的數學歸納法：</p>
+<script type="math/tex; mode=display">
+S_{n + 1} = \\{1, \dots , n\\}</script><p>接下來我們會描述 <del>證明</del> 兩個可能不是很熟悉但很有用的特性，你可以看成是另一個版本的數學歸納法：</p>
 <blockquote>
 <p> <strong><em>Theorem: Well-ordering property</em></strong></p>
 </blockquote>
-<p>$$<br>S \subseteq \mathbb{N}, S \neq \emptyset, S \enspace has \enspace smallest \enspace element.<br>$$</p>
-<p>他描述了 $\mathbb{N}$ 的非空子集，一定有最小元素。</p>
+<script type="math/tex; mode=display">
+S \subseteq \mathbb{N}, S \neq \emptyset, S \enspace has \enspace smallest \enspace element.</script><p>他描述了 $\mathbb{N}$ 的非空子集，一定有最小元素。</p>
 <blockquote>
 <p> <strong><em>Theorem: Strong induction principle</em></strong></p>
 </blockquote>
-<p>$$<br>A \enspace is \enspace a \enspace set \enspace of \enspace positive \enspace integers,<br>$$</p>
-<p>$$<br>for \enspace each \enspace n, S_n \subseteq A \enspace s.t. \enspace n \in A, then \enspace A = \mathbb{N}<br>$$</p>
-<p>這邊描述了，對每個 $n$ 來說，由 $S_n \subseteq A$ 可以推出 $n \in A$ 的話，那麼 $A$ 就是 $\mathbb{N}$。</p>
+<script type="math/tex; mode=display">
+A \enspace is \enspace a \enspace set \enspace of \enspace positive \enspace integers,</script><script type="math/tex; mode=display">
+for \enspace each \enspace n, S_n \subseteq A \enspace s.t. \enspace n \in A, then \enspace A = \mathbb{N}</script><p>這邊描述了，對每個 $n$ 來說，由 $S_n \subseteq A$ 可以推出 $n \in A$ 的話，那麼 $A$ 就是 $\mathbb{N}$。</p>
 <p>以上我們用了有序域中的第 1~6 點公理，那第 7 點呢？</p>
 <p>你用會用到第 7 點（最小上界公理）來證明，正整數集合 $\mathbb{N}$ 在實數的集合 $\mathbb{R}$ 中是沒有上界的。</p>
 <blockquote>
 <p><strong><em>Theorom: Archimedean ordering property</em></strong></p>
 </blockquote>
-<p>$$<br>the \enspace  set \enspace  \mathbb{N} \enspace  has \enspace  no \enspace  upper \enspace  bound \enspace  in \enspace  \mathbb{R}.<br>$$</p>
-
+<script type="math/tex; mode=display">
+the \enspace  set \enspace  \mathbb{N} \enspace  has \enspace  no \enspace  upper \enspace  bound \enspace  in \enspace  \mathbb{R}.</script>
                     
                         
 
@@ -920,18 +942,18 @@
 <blockquote>
 <p> <strong><em>Def.</em></strong></p>
 </blockquote>
-<p>$$<br>A \enspace relation \enspace on \enspace set \enspace A \enspace is<br>$$</p>
-<p>$$<br>a \enspace subset \enspace C \subseteq A \times A<br>$$</p>
-<p>這時候我們會把 <em>relation</em> $C$ 表示成 $xCy$ ，來代表 $(x, y) \in C$。</p>
+<script type="math/tex; mode=display">
+A \enspace relation \enspace on \enspace set \enspace A \enspace is</script><script type="math/tex; mode=display">
+a \enspace subset \enspace C \subseteq A \times A</script><p>這時候我們會把 <em>relation</em> $C$ 表示成 $xCy$ ，來代表 $(x, y) \in C$。</p>
 <p>這時我們會理解成，$x$ 跟 $y$ 有 $C$ 的關係。</p>
 <p>一個函數 $f: A \rightarrow A$ 是 $A \times A$ 的子集，所以函數也是一種關係。</p>
 <p>任何是 $A \times A$ 的子集，都可以被視為一種關係。</p>
 <h4 id="ex"><a href="#ex" class="headerlink" title="ex."></a><em>ex.</em></h4><p>$P$ 代表世界上全人類的集合，我們定義 $D \subseteq P \times P$ 為一種關係：</p>
-<p>$$<br>D = \{ (x, y) \mid x \enspace is \enspace a \enspace descendant \enspace of \enspace y \}<br>$$</p>
-<p>$D$ 代表的是子孫關係，$xDy$ 代表 $x$ 是 $y$ 的子孫。</p>
+<script type="math/tex; mode=display">
+D = \\{ (x, y) \mid x \enspace is \enspace a \enspace descendant \enspace of \enspace y \\}</script><p>$D$ 代表的是子孫關係，$xDy$ 代表 $x$ 是 $y$ 的子孫。</p>
 <p>我們也可以定義血緣關係 $B$：</p>
-<p>$$<br>B= \{ (x, y) \mid x \enspace has \enspace an \enspace ancestor \enspace who \enspace is \enspace also \enspace an \enspace ancestor \enspace of \enspace y \}<br>$$</p>
-<p>也就是，$x$ 跟 $y$ 有共同的祖先的話，那代表 $x$ 跟 $y$ 有血緣關係。如此一來，血緣關係就會是對稱的，子孫關係則不是。</p>
+<script type="math/tex; mode=display">
+B= \\{ (x, y) \mid x \enspace has \enspace an \enspace ancestor \enspace who \enspace is \enspace also \enspace an \enspace ancestor \enspace of \enspace y \\}</script><p>也就是，$x$ 跟 $y$ 有共同的祖先的話，那代表 $x$ 跟 $y$ 有血緣關係。如此一來，血緣關係就會是對稱的，子孫關係則不是。</p>
 <h2 id="Equivalence-relations"><a href="#Equivalence-relations" class="headerlink" title="Equivalence relations"></a>Equivalence relations</h2><p>在 <em>set</em> $A$ 上的等價關係，是在 <em>set</em> $A$ 上的一種關係 $C$，並且滿足以下條件：</p>
 <ol>
 <li>Reflexivity（自身性）： $\forall x \in A, xCx$</li>
@@ -983,27 +1005,27 @@
 <blockquote>
 <p> <strong><em>Def.</em></strong></p>
 </blockquote>
-<p>$$<br>E = \{ y \mid y \sim x \}<br>$$</p>
-<h4 id="ex-3"><a href="#ex-3" class="headerlink" title="ex."></a><em>ex.</em></h4><p>延續上面一個例子，$x \sim y$ 是等價關係，那麼我們就可以把 $\mathbb{N}$ 拆成不同的等價類：</p>
-<p>$$<br>1 \sim 4, 4 \sim 7, 7 \sim 10, …<br>$$</p>
-<p>$$<br>E_1 = \{1, 4, 7, 10, …\}<br>$$</p>
-<p>$$<br>2 \sim 5, 5 \sim 8, 8 \sim 11, …<br>$$</p>
-<p>$$<br>E_2 = \{2, 5, 8, 11, …\}<br>$$</p>
-<p>$$<br>3 \sim 6, 6 \sim 9, 9 \sim 12, …<br>$$</p>
-<p>$$<br>E_3 = \{3, 6, 9, 12, …\}<br>$$</p>
-<p>等價類有以下的特性：</p>
+<script type="math/tex; mode=display">
+E = \\{ y \mid y \sim x \\}</script><h4 id="ex-3"><a href="#ex-3" class="headerlink" title="ex."></a><em>ex.</em></h4><p>延續上面一個例子，$x \sim y$ 是等價關係，那麼我們就可以把 $\mathbb{N}$ 拆成不同的等價類：</p>
+<script type="math/tex; mode=display">
+1 \sim 4, 4 \sim 7, 7 \sim 10, ...</script><script type="math/tex; mode=display">
+E_1 = \\{1, 4, 7, 10, ...\\}</script><script type="math/tex; mode=display">
+2 \sim 5, 5 \sim 8, 8 \sim 11, ...</script><script type="math/tex; mode=display">
+E_2 = \\{2, 5, 8, 11, ...\\}</script><script type="math/tex; mode=display">
+3 \sim 6, 6 \sim 9, 9 \sim 12, ...</script><script type="math/tex; mode=display">
+E_3 = \\{3, 6, 9, 12, ...\\}</script><p>等價類有以下的特性：</p>
 <blockquote>
 <p> <strong><em>Lemma</em></strong></p>
 </blockquote>
-<p>$$<br>Two \enspace equivalent \enspace classes \enspace E \enspace and \enspace E’ \enspace are \enspace either \enspace disjoint \enspace or \enspace equal.<br>$$</p>
-<p>白話文就是兩個等價類不是一樣就是互斥的。</p>
+<script type="math/tex; mode=display">
+Two \enspace equivalent \enspace classes \enspace E \enspace and \enspace E' \enspace are \enspace either \enspace disjoint \enspace or \enspace equal.</script><p>白話文就是兩個等價類不是一樣就是互斥的。</p>
 <p>有這樣的等價類，我們可以用 $\mathscr{E}$ 來表示所有等價類的集合（collection）。藉由以上的 Lemma，我們知道每個等價類都是互斥的。這樣我們可以把他看成是對 <em>set</em> $A$ 的<strong>分割（partition）</strong>。</p>
 <blockquote>
 <p> <strong><em>Def.</em></strong></p>
 </blockquote>
-<p>$$<br>A \enspace partition \enspace of \enspace a \enspace set \enspace A \enspace is \enspace a \enspace collection \enspace of \enspace disjoint \enspace nonempty \enspace subsets \enspace of \enspace A<br>$$</p>
-<p>$$<br>whose \enspace union \enspace is \enspace all \enspace of \enspace A.<br>$$</p>
-<p>研究 <em>set</em> $A$ 上的等價關係等同於是研究 <em>set</em> $A$ 的分割。</p>
+<script type="math/tex; mode=display">
+A \enspace partition \enspace of \enspace a \enspace set \enspace A \enspace is \enspace a \enspace collection \enspace of \enspace disjoint \enspace nonempty \enspace subsets \enspace of \enspace A</script><script type="math/tex; mode=display">
+whose \enspace union \enspace is \enspace all \enspace of \enspace A.</script><p>研究 <em>set</em> $A$ 上的等價關係等同於是研究 <em>set</em> $A$ 的分割。</p>
 <h2 id="Order-relations"><a href="#Order-relations" class="headerlink" title="Order relations"></a>Order relations</h2><p>在 <em>set</em> $A$ 上的 <strong>次序關係（order relations, simple order or linear order）</strong>，是在 <em>set</em> $A$ 上的一種關係 $\lt$，並且滿足以下條件：</p>
 <ol>
 <li>Comparability（可比性）： $\forall x, y \in A, x \neq y, either \enspace x \lt y \enspace or \enspace y \lt x$</li>
@@ -1014,91 +1036,91 @@
 <blockquote>
 <p> <strong><em>Def.</em></strong></p>
 </blockquote>
-<p>$$<br>\lt \enspace is \enspace an \enspace order \enspace relation \enspace on \enspace set \enspace X, a \lt b<br>$$</p>
-<p>$$<br>(a, b) = \{ x \mid a \lt x \lt b \} \enspace is \enspace an \enspace open \enspace interval \enspace on \enspace X<br>$$</p>
-<p>我們可以像這樣去定義 <strong>開區間（open interval）</strong>。如果 $(a, b) = \emptyset$，那稱 $a$ 是 $b$ 的 <strong>緊鄰前元（immediate predecessor）</strong>，而 $b$ 是 $a$ 的 <strong>緊鄰後元（immediate successor）</strong>。</p>
+<script type="math/tex; mode=display">
+\lt \enspace is \enspace an \enspace order \enspace relation \enspace on \enspace set \enspace X, a \lt b</script><script type="math/tex; mode=display">
+(a, b) = \\{ x \mid a \lt x \lt b \\} \enspace is \enspace an \enspace open \enspace interval \enspace on \enspace X</script><p>我們可以像這樣去定義 <strong>開區間（open interval）</strong>。如果 $(a, b) = \emptyset$，那稱 $a$ 是 $b$ 的 <strong>緊鄰前元（immediate predecessor）</strong>，而 $b$ 是 $a$ 的 <strong>緊鄰後元（immediate successor）</strong>。</p>
 <hr>
 <p>假定有 $A$ 跟 $B$ 兩個集合，有兩個相對應的次序關係 $\lt_A$ 跟 $\lt_B$。我們說這兩個集合有相同的 <strong>次序類型（order type）</strong>：</p>
 <blockquote>
 <p> <strong><em>Def.</em></strong></p>
 </blockquote>
-<p>$$<br>\exists f: A \rightarrow B, f \enspace is \enspace bijective<br>$$</p>
-<p>$$<br>s.t. \enspace a_1 \lt_A a_2, then \enspace f(a_1) \lt_B f(a_2)<br>$$</p>
-<p>這樣的雙射函數有<strong>保留</strong>次序關係。</p>
+<script type="math/tex; mode=display">
+\exists f: A \rightarrow B, f \enspace is \enspace bijective</script><script type="math/tex; mode=display">
+s.t. \enspace a_1 \lt_A a_2, then \enspace f(a_1) \lt_B f(a_2)</script><p>這樣的雙射函數有<strong>保留</strong>次序關係。</p>
 <h4 id="ex-4"><a href="#ex-4" class="headerlink" title="ex."></a><em>ex.</em></h4><p>在實數區間 $(1, -1)$ 有跟 $\mathbb{R}$ 相同的次序類型。</p>
 <p>考慮函數 $f: (1, -1) \rightarrow \mathbb{R}$：</p>
-<p>$$<br>f(x) = \frac{x}{1 - x^2}<br>$$</p>
-<p>他是一個嚴格遞增函數（保留次序關係）且為雙射。</p>
+<script type="math/tex; mode=display">
+f(x) = \frac{x}{1 - x^2}</script><p>他是一個嚴格遞增函數（保留次序關係）且為雙射。</p>
 <hr>
 <p>接下來我們談談 <strong>字典序關係（dictionary order relation）</strong>，他是定義在 $A \times B$ 上的次序關係，假定 $A$ 跟 $B$ 集合上有次序關係 $\lt_A$ 跟 $\lt_B$。</p>
 <blockquote>
 <p> <strong><em>Def.</em></strong></p>
 </blockquote>
-<p>$$<br>\lt \enspace on \enspace A \times B \enspace is \enspace a_1 \times b_1 \lt a_2 \times b_2<br>$$</p>
-<p>$$<br>if \enspace a_1 \lt_A a_2, or \enspace a_1 = a_2 \enspace and \enspace b_1 \lt_B b_2<br>$$</p>
-<h4 id="ex-5"><a href="#ex-5" class="headerlink" title="ex."></a><em>ex.</em></h4><p>所謂的字典序就是先比較第一個字元，如果一樣再比較第二的字元的次序，如此繼續下去。</p>
-<p>$$<br>aaa &lt; aab &lt; abb<br>$$</p>
-<p>如此一來，就可以為 $A \times B \times \dots$ 這樣子的集合定義次序了。</p>
+<script type="math/tex; mode=display">
+\lt \enspace on \enspace A \times B \enspace is \enspace a_1 \times b_1 \lt a_2 \times b_2</script><script type="math/tex; mode=display">
+if \enspace a_1 \lt_A a_2, or \enspace a_1 = a_2 \enspace and \enspace b_1 \lt_B b_2</script><h4 id="ex-5"><a href="#ex-5" class="headerlink" title="ex."></a><em>ex.</em></h4><p>所謂的字典序就是先比較第一個字元，如果一樣再比較第二的字元的次序，如此繼續下去。</p>
+<script type="math/tex; mode=display">
+aaa < aab < abb</script><p>如此一來，就可以為 $A \times B \times \dots$ 這樣子的集合定義次序了。</p>
 <hr>
 <p>在實數中，你或許以前看過最小上界的特性。你可以為任意的有序集合定義這樣的特性。</p>
 <p>假設 <em>set</em> $A$ 有次序關係 $\lt$，$A_0 \subseteq A$，</p>
 <blockquote>
 <p> <strong><em>Def.</em></strong></p>
 </blockquote>
-<p>$$<br>b \in A_0, \forall x \in A_0, x \le b<br>$$</p>
-<p>$$<br>b \enspace is \enspace the \enspace largest \enspace element \enspace of \enspace A_0<br>$$</p>
-<p>如果相反的話，</p>
+<script type="math/tex; mode=display">
+b \in A_0, \forall x \in A_0, x \le b</script><script type="math/tex; mode=display">
+b \enspace is \enspace the \enspace largest \enspace element \enspace of \enspace A_0</script><p>如果相反的話，</p>
 <blockquote>
 <p> <strong><em>Def.</em></strong></p>
 </blockquote>
-<p>$$<br>a \in A_0, \forall x \in A_0, x \ge a<br>$$</p>
-<p>$$<br>a \enspace is \enspace the \enspace smallest \enspace element \enspace of \enspace A_0<br>$$</p>
-<p>我們很簡單可以知道，一個集合會有最多一個最大的元素，以及最多一個最小的元素。</p>
+<script type="math/tex; mode=display">
+a \in A_0, \forall x \in A_0, x \ge a</script><script type="math/tex; mode=display">
+a \enspace is \enspace the \enspace smallest \enspace element \enspace of \enspace A_0</script><p>我們很簡單可以知道，一個集合會有最多一個最大的元素，以及最多一個最小的元素。</p>
 <p>那如果我們要說，$A_0$ 有<strong>上界（bounded above）</strong>：</p>
 <blockquote>
 <p> <strong><em>Def.</em></strong></p>
 </blockquote>
-<p>$$<br>b \in A, \forall x \in A_0, x \le b<br>$$</p>
-<p>$$<br>b \enspace is \enspace an \enspace upper \enspace bound \enspace for \enspace A_0<br>$$</p>
-<p>而上界的元素中，最小的稱為<strong>最小上界（least upper bound）</strong>，或是 <strong>supremum</strong>，記為 $sup \enspace A_0$：</p>
+<script type="math/tex; mode=display">
+b \in A, \forall x \in A_0, x \le b</script><script type="math/tex; mode=display">
+b \enspace is \enspace an \enspace upper \enspace bound \enspace for \enspace A_0</script><p>而上界的元素中，最小的稱為<strong>最小上界（least upper bound）</strong>，或是 <strong>supremum</strong>，記為 $sup \enspace A_0$：</p>
 <blockquote>
 <p> <strong><em>Def.</em></strong></p>
 </blockquote>
-<p>$$<br>X = \{ x \mid \forall x \enspace is \enspace upper \enspace bound \enspace for \enspace A_0 \}<br>$$</p>
-<p>$$<br>The \enspace smallest \enspace element \enspace of \enspace X \enspace is \enspace least \enspace upper \enspace bound<br>$$</p>
-<p>他有可能屬於 $A_0$，如果 $sup \enspace A_0 \in A_0$，他同時也是 $A_0$ 最大的元素。</p>
+<script type="math/tex; mode=display">
+X = \\{ x \mid \forall x \enspace is \enspace upper \enspace bound \enspace for \enspace A_0 \\}</script><script type="math/tex; mode=display">
+The \enspace smallest \enspace element \enspace of \enspace X \enspace is \enspace least \enspace upper \enspace bound</script><p>他有可能屬於 $A_0$，如果 $sup \enspace A_0 \in A_0$，他同時也是 $A_0$ 最大的元素。</p>
 <p>相反，$A_0$ 有<strong>下界（bounded below）</strong>：</p>
 <blockquote>
 <p> <strong><em>Def.</em></strong></p>
 </blockquote>
-<p>$$<br>a \in A, \forall x \in A_0, x \ge a<br>$$</p>
-<p>$$<br>a \enspace is \enspace an \enspace lower \enspace bound \enspace for \enspace A_0<br>$$</p>
-<p>而下界的元素中，最大的稱為<strong>最大下界（greatest lower bound）</strong>，或是 <strong>infimum</strong>，記為 $inf \enspace A_0$：</p>
+<script type="math/tex; mode=display">
+a \in A, \forall x \in A_0, x \ge a</script><script type="math/tex; mode=display">
+a \enspace is \enspace an \enspace lower \enspace bound \enspace for \enspace A_0</script><p>而下界的元素中，最大的稱為<strong>最大下界（greatest lower bound）</strong>，或是 <strong>infimum</strong>，記為 $inf \enspace A_0$：</p>
 <blockquote>
 <p> <strong><em>Def.</em></strong></p>
 </blockquote>
-<p>$$<br>Y = \{ y \mid \forall y \enspace is \enspace lower \enspace bound \enspace for \enspace A_0 \}<br>$$</p>
-<p>$$<br>The \enspace greatest \enspace element \enspace of \enspace Y \enspace is \enspace greatest \enspace lower \enspace bound<br>$$</p>
-<p>他有可能屬於 $A_0$，如果 $inf \enspace A_0 \in A_0$，他同時也是 $A_0$ 最小的元素。</p>
+<script type="math/tex; mode=display">
+Y = \\{ y \mid \forall y \enspace is \enspace lower \enspace bound \enspace for \enspace A_0 \\}</script><script type="math/tex; mode=display">
+The \enspace greatest \enspace element \enspace of \enspace Y \enspace is \enspace greatest \enspace lower \enspace bound</script><p>他有可能屬於 $A_0$，如果 $inf \enspace A_0 \in A_0$，他同時也是 $A_0$ 最小的元素。</p>
 <p>這些跟所謂的 <strong>最大值（maximum）</strong> 或是 <strong>最小值（minimum）</strong> 不太一樣：</p>
 <blockquote>
 <p> <strong><em>Def.</em></strong></p>
 </blockquote>
-<p>$$<br>b \in A_0, \forall x \in A_0, x \le b<br>$$</p>
-<p>$$<br>b \enspace is \enspace the \enspace maximum \enspace of \enspace A_0<br>$$</p>
-<blockquote>
+<script type="math/tex; mode=display">
+b \in A_0, \forall x \in A_0, x \le b</script><script type="math/tex; mode=display">
+b \enspace is \enspace the \enspace maximum \enspace of \enspace A_0</script><blockquote>
 <p> <strong><em>Def.</em></strong></p>
 </blockquote>
-<p>$$<br>a \in A_0, \forall x \in A_0, x \ge a<br>$$</p>
-<p>$$<br>a \enspace is \enspace the \enspace minimum \enspace of \enspace A_0<br>$$</p>
-<p>主要差別會是值是否在 $A_0$ 裏面。</p>
+<script type="math/tex; mode=display">
+a \in A_0, \forall x \in A_0, x \ge a</script><script type="math/tex; mode=display">
+a \enspace is \enspace the \enspace minimum \enspace of \enspace A_0</script><p>主要差別會是值是否在 $A_0$ 裏面。</p>
 <p>這時候就可以來定義 <strong>最小上界性（least upper bound property）</strong>：</p>
 <blockquote>
 <p> <strong><em>Def.</em></strong></p>
 </blockquote>
-<p>$$<br>\forall A_0 \subseteq A, A_0 \enspace has \enspace a \enspace least \enspace upper \enspace bound<br>$$</p>
-<p>$$<br>A \enspace has \enspace least \enspace upper \enspace bound \enspace property.<br>$$</p>
-<p>相反則是，<strong>最大下界性（greatest lower bound property）</strong>。</p>
+<script type="math/tex; mode=display">
+\forall A_0 \subseteq A, A_0 \enspace has \enspace a \enspace least \enspace upper \enspace bound</script><script type="math/tex; mode=display">
+A \enspace has \enspace least \enspace upper \enspace bound \enspace property.</script><p>相反則是，<strong>最大下界性（greatest lower bound property）</strong>。</p>
 
                     
                         
@@ -1151,37 +1173,37 @@
 <blockquote>
 <p> <strong><em>Def.</em></strong></p>
 </blockquote>
-<p>$$<br>two \enspace sets \enspace C, D, r \subseteq C \times D, \forall c \in C , d \in D,<br>$$</p>
-<p>$$<br>\exists \enspace at \enspace most \enspace one \enspace (c, d) \in r<br>$$</p>
-<p>所以如果當兩個對映關係（如下）有相同的第一分量 $c$，那他們其實是同一個對映關係，並且第二分量也會相同。</p>
-<p>$$<br>[ (c, d) \in r, (c, d’) \in r ] \rightarrow [ d = d’ ]<br>$$</p>
-<p>給定一個對映規則 $r$，<strong>定義域（domain）</strong> 也就是 $C$ 的子集合，他包含了所有 $r$ 中的第一分量。</p>
+<script type="math/tex; mode=display">
+two \enspace sets \enspace C, D, r \subseteq C \times D, \forall c \in C , d \in D,</script><script type="math/tex; mode=display">
+\exists \enspace at \enspace most \enspace one \enspace (c, d) \in r</script><p>所以如果當兩個對映關係（如下）有相同的第一分量 $c$，那他們其實是同一個對映關係，並且第二分量也會相同。</p>
+<script type="math/tex; mode=display">
+[ (c, d) \in r, (c, d') \in r ] \rightarrow [ d = d' ]</script><p>給定一個對映規則 $r$，<strong>定義域（domain）</strong> 也就是 $C$ 的子集合，他包含了所有 $r$ 中的第一分量。</p>
 <blockquote>
 <p> <strong><em>Def.</em></strong></p>
 </blockquote>
-<p>$$<br>domain \enspace r = \{c \mid \exists d \in D \enspace s.t. \enspace (c, d) \in r \}<br>$$</p>
-<p>相對，<strong>值域（image）</strong>是 $D$ 的子集合，他包含了所有 $r$ 中的第二分量。</p>
+<script type="math/tex; mode=display">
+domain \enspace r = \\{c \mid \exists d \in D \enspace s.t. \enspace (c, d) \in r \\}</script><p>相對，<strong>值域（image）</strong>是 $D$ 的子集合，他包含了所有 $r$ 中的第二分量。</p>
 <blockquote>
 <p> <strong><em>Def.</em></strong></p>
 </blockquote>
-<p>$$<br>image \enspace r = \{d \mid \exists c \in C \enspace s.t. \enspace (c, d) \in r \}<br>$$</p>
-<p>現在我們把所有需要的東西都定義好了，那<strong>函數（function）</strong> 的定義就會是一個對映規則，以及一個 <em>set</em> $B$ 包含了 $image \enspace r$，稱為函數的 <strong>對應域（codomain）</strong> ，而函數的 <em>domain</em> $A$ 也就是 $domain \enspace r$，函數的值域就是 $image \enspace r$ ，我們會以下列表示法表示：</p>
-<p>$$<br>f: A \rightarrow B<br>$$</p>
-<p>這表示他是一個從 $A$ map 到 $B$ 的函數。有時候我們會想像成在空間上的轉換，將 $A$ 上的點對映到 $B$ 上的點。我們會以 $f(a)$ 來代表 $f$ 在 $a$ 點的<strong>值（value）</strong>。</p>
+<script type="math/tex; mode=display">
+image \enspace r = \\{d \mid \exists c \in C \enspace s.t. \enspace (c, d) \in r \\}</script><p>現在我們把所有需要的東西都定義好了，那<strong>函數（function）</strong> 的定義就會是一個對映規則，以及一個 <em>set</em> $B$ 包含了 $image \enspace r$，稱為函數的 <strong>對應域（codomain）</strong> ，而函數的 <em>domain</em> $A$ 也就是 $domain \enspace r$，函數的值域就是 $image \enspace r$ ，我們會以下列表示法表示：</p>
+<script type="math/tex; mode=display">
+f: A \rightarrow B</script><p>這表示他是一個從 $A$ map 到 $B$ 的函數。有時候我們會想像成在空間上的轉換，將 $A$ 上的點對映到 $B$ 上的點。我們會以 $f(a)$ 來代表 $f$ 在 $a$ 點的<strong>值（value）</strong>。</p>
 <p>我們可以在函數上定義<strong>限制（restriction）</strong>：</p>
 <blockquote>
 <p> <strong><em>Def.</em></strong></p>
 </blockquote>
-<p>$$<br>A_0 \enspace is \enspace the \enspace restriction \enspace of \enspace f<br>$$</p>
-<p>$$<br>f: A \rightarrow B, A_0 \subseteq A \enspace s.t. \enspace f = \{ (a, f(a)) \mid a \in A_0 \}<br>$$</p>
-<p>我們可以藉由限制（restriction）來限制我們的函數形式。我們還有另外一個方法，<strong>合成函數（function composition）</strong>：</p>
+<script type="math/tex; mode=display">
+A_0 \enspace is \enspace the \enspace restriction \enspace of \enspace f</script><script type="math/tex; mode=display">
+f: A \rightarrow B, A_0 \subseteq A \enspace s.t. \enspace f = \\{ (a, f(a)) \mid a \in A_0 \\}</script><p>我們可以藉由限制（restriction）來限制我們的函數形式。我們還有另外一個方法，<strong>合成函數（function composition）</strong>：</p>
 <blockquote>
 <p> <strong><em>Def.</em></strong></p>
 </blockquote>
-<p>$$<br>g \circ f \enspace is \enspace the \enspace composite \enspace of \enspace function \enspace f \enspace and \enspace g<br>$$</p>
-<p>$$<br>f: A \rightarrow B, g: B \rightarrow C, g \circ f: A \rightarrow C, (g \circ f)(a) = g(f(a))<br>$$</p>
-<p>$$<br>g \circ f = \{(a, c) \mid b \in B, f(a) = b, g(b) = c \}<br>$$</p>
-<p><img src="https://upload.wikimedia.org/wikipedia/commons/3/38/Example_for_a_composition_of_two_functions.svg" alt="Function composition"></p>
+<script type="math/tex; mode=display">
+g \circ f \enspace is \enspace the \enspace composite \enspace of \enspace function \enspace f \enspace and \enspace g</script><script type="math/tex; mode=display">
+f: A \rightarrow B, g: B \rightarrow C, g \circ f: A \rightarrow C, (g \circ f)(a) = g(f(a))</script><script type="math/tex; mode=display">
+g \circ f = \\{(a, c) \mid b \in B, f(a) = b, g(b) = c \\}</script><p><img src="https://upload.wikimedia.org/wikipedia/commons/3/38/Example_for_a_composition_of_two_functions.svg" alt="Function composition"></p>
 <blockquote>
 <p> <small>from Wikipedia</small></p>
 </blockquote>
@@ -1202,40 +1224,42 @@
 <p> <small>from Wikipedia</small></p>
 </blockquote>
 <p>兩個 injective function 的 composite 是個 injective function。兩個 surjective function 的 composite 是個 surjective function。兩個 bijective function 的 composite 是個 bijective function。</p>
-<p>那如果 <em>function</em> $f$ 是 bijective，那麼他的 <strong>反函數（inverse）</strong> 存在，也就是：<br>$$<br>f: A \rightarrow B, f \enspace is \enspace bijective, \exists<br> f^{-1}<br>$$</p>
-<p>$$<br>s.t. \enspace f^{-1}(b) = a, a \in A, b \in B<br>$$</p>
-<p>反函數有一個特性就是， $f$ 的反函數為 $f^{-1}$，而 $f^{-1}$ 本身也是雙射的，所以他的反函數也存在，他的反函數則是 $f$。</p>
+<p>那如果 <em>function</em> $f$ 是 bijective，那麼他的 <strong>反函數（inverse）</strong> 存在，也就是：</p>
+<script type="math/tex; mode=display">
+f: A \rightarrow B, f \enspace is \enspace bijective, \exists
+ f^{-1}</script><script type="math/tex; mode=display">
+s.t. \enspace f^{-1}(b) = a, a \in A, b \in B</script><p>反函數有一個特性就是， $f$ 的反函數為 $f^{-1}$，而 $f^{-1}$ 本身也是雙射的，所以他的反函數也存在，他的反函數則是 $f$。</p>
 <p>那如果要證明一個函數是 bijective 的話，那以下Lemma 會有幫助：</p>
 <blockquote>
 <p> <strong><em>Lemma</em></strong></p>
 </blockquote>
-<p>$$<br>f: A \rightarrow B, \exists g: B \rightarrow A, \exists h: B \rightarrow A<br>$$</p>
-<p>$$<br>s.t. \enspace \forall a \in A, g(f(a)) = a, \forall b \in B, f(h(b)) = b,<br>$$</p>
-<p>$$<br>then \enspace g = h = f^{-1} \enspace is \enspace bijective.<br>$$</p>
-<p><img src="/pics/bijective_function.svg" alt=""></p>
+<script type="math/tex; mode=display">
+f: A \rightarrow B, \exists g: B \rightarrow A, \exists h: B \rightarrow A</script><script type="math/tex; mode=display">
+s.t. \enspace \forall a \in A, g(f(a)) = a, \forall b \in B, f(h(b)) = b,</script><script type="math/tex; mode=display">
+then \enspace g = h = f^{-1} \enspace is \enspace bijective.</script><p><img src="/pics/bijective_function.svg" alt=""></p>
 <p>接下來，我們來討論一下 <strong>像（image）</strong>：</p>
 <blockquote>
 <p> <strong><em>Def.</em></strong></p>
 </blockquote>
-<p>$$<br>f: A \rightarrow B, A_0 \subseteq A, the \enspace image \enspace of \enspace A_0 \enspace of \enspace f \enspace is<br>$$</p>
-<p>$$<br>f(A_0) = \{ b \mid b = f(a) \enspace for \enspace at \enspace least \enspace one \enspace a \in A_0 \}<br>$$</p>
-<p><img src="/pics/image.svg" alt=""></p>
+<script type="math/tex; mode=display">
+f: A \rightarrow B, A_0 \subseteq A, the \enspace image \enspace of \enspace A_0 \enspace of \enspace f \enspace is</script><script type="math/tex; mode=display">
+f(A_0) = \\{ b \mid b = f(a) \enspace for \enspace at \enspace least \enspace one \enspace a \in A_0 \\}</script><p><img src="/pics/image.svg" alt=""></p>
 <p>另一方面，我們可以討論像的 <strong>原像（preimage）</strong>：</p>
 <blockquote>
 <p> <strong><em>Def.</em></strong></p>
 </blockquote>
-<p>$$<br>f: A \rightarrow B, B_0 \subseteq B, f^{-1}(B_0) = \{ a \mid f(a) \in B_0\}<br>$$</p>
-<p>$$<br>f^{-1}(B_0) \enspace is \enspace the \enspace preimage \enspace of \enspace B_0 \enspace under \enspace f.<br>$$</p>
-<p><img src="/pics/preimage.svg" alt=""></p>
+<script type="math/tex; mode=display">
+f: A \rightarrow B, B_0 \subseteq B, f^{-1}(B_0) = \\{ a \mid f(a) \in B_0\\}</script><script type="math/tex; mode=display">
+f^{-1}(B_0) \enspace is \enspace the \enspace preimage \enspace of \enspace B_0 \enspace under \enspace f.</script><p><img src="/pics/preimage.svg" alt=""></p>
 <p>如果 $f: A \rightarrow B$ 是 bijective， $B_0 \subseteq B$，我們對 $f^{-1}(B_0)$ 有兩種解釋，他可以是 preimage of $B_0$ under $f$ ，或者是 image of $B_0$ under $f^{-1}: B \rightarrow A$。</p>
 <p>在使用 $f$ 及 $f^{-1}$ 上需要小心。如果是 $f^{-1}$ 應用在 $B$ 的子集合上，他有很好的行為，他保留了包含、聯集、交集、差集的特性。我們應該要常用他。如果是 $f$ 應用在 $A$ 的子集合上，他只保留了包含及聯集的特性。</p>
 <p>另一個需要小心的，以下兩個並不是總是為真：</p>
-<p>$$<br>f^{-1}(f(A_0)) = A_0<br>$$</p>
-<p>$$<br>f(f^{-1}(B_0)) = B_0<br>$$</p>
-<p>結論是這樣的，如果 $f: A \rightarrow B, A_0 \subseteq A, B_0 \subseteq B$，則以下成立：</p>
-<p>$$<br>A_0 \subseteq f^{-1}(f(A_0))<br>$$</p>
-<p>$$<br>f(f^{-1}(B_0)) \subseteq B_0<br>$$</p>
-<p>第一條式子的等號成立的條件為 $f$ 是 injective，第二條式子的等號成立的條件為 $f$ 是 surjective。</p>
+<script type="math/tex; mode=display">
+f^{-1}(f(A_0)) = A_0</script><script type="math/tex; mode=display">
+f(f^{-1}(B_0)) = B_0</script><p>結論是這樣的，如果 $f: A \rightarrow B, A_0 \subseteq A, B_0 \subseteq B$，則以下成立：</p>
+<script type="math/tex; mode=display">
+A_0 \subseteq f^{-1}(f(A_0))</script><script type="math/tex; mode=display">
+f(f^{-1}(B_0)) \subseteq B_0</script><p>第一條式子的等號成立的條件為 $f$ 是 injective，第二條式子的等號成立的條件為 $f$ 是 surjective。</p>
 
                     
                         
@@ -1286,40 +1310,40 @@
                 <div class="postShorten-content">
                     <p>先以集合論開始切入，集合論是以後各門數學相關學科的根基，也就是很多數學的分支都會定義在集合論上。</p>
 <p>在數學上，集合就是一群不重複的物件（object）或是元素（element）。像我們可以定義<strong>一個set A當中的elements有a、b、c</strong>，寫成：</p>
-<p>$$<br>A = \{ a, b, c \}<br>$$</p>
-<p>但有時候我們想表達一個set，可是卻無法將裡面的elements一一列出，像是我們定義一個只有偶數的set B，我們會寫成以下的方式：</p>
-<p>$$<br>B = \{x \mid x \enspace is \enspace even \enspace integer.\}<br>$$</p>
-<p>裡頭的$x$代表著一個變數，後面會描述這變數的特質，所以在這邊的描述是$x$是一個偶數，那如果我們收集這樣的變數成為一個集合，我們就有了所有偶數的集合了。</p>
+<script type="math/tex; mode=display">
+A = \\{ a, b, c \\}</script><p>但有時候我們想表達一個set，可是卻無法將裡面的elements一一列出，像是我們定義一個只有偶數的set B，我們會寫成以下的方式：</p>
+<script type="math/tex; mode=display">
+B = \\{x \mid x \enspace is \enspace even \enspace integer.\\}</script><p>裡頭的$x$代表著一個變數，後面會描述這變數的特質，所以在這邊的描述是$x$是一個偶數，那如果我們收集這樣的變數成為一個集合，我們就有了所有偶數的集合了。</p>
 <p>我們在描述<em>element</em>及<em>set</em>的關係的時候會使用<strong>屬於</strong>，<strong>一個element a屬於set A</strong>，則會表示成：</p>
 <blockquote>
 <p> <strong><em>Def.</em></strong></p>
 </blockquote>
-<p>$$<br>a \in A<br>$$</p>
-<p>相對，<strong>不屬於</strong>則會寫成以下的形式：</p>
+<script type="math/tex; mode=display">
+a \in A</script><p>相對，<strong>不屬於</strong>則會寫成以下的形式：</p>
 <blockquote>
 <p> <strong><em>Def.</em></strong></p>
 </blockquote>
-<p>$$<br>d \notin A<br>$$</p>
-<p><strong>等於</strong>的符號是會視為<em>邏輯上的相等（logical identity）</em>，如果我們說$a = b$，那麼$a$跟$b$就是兩個完全一樣的東西。如果是不一樣的東西，則寫成$a \neq b$。</p>
+<script type="math/tex; mode=display">
+d \notin A</script><p><strong>等於</strong>的符號是會視為<em>邏輯上的相等（logical identity）</em>，如果我們說$a = b$，那麼$a$跟$b$就是兩個完全一樣的東西。如果是不一樣的東西，則寫成$a \neq b$。</p>
 <p>同樣的，集合也可以同等起來，如果我們說$A = B$，就表示$A$跟$B$這兩個集合內的東西完全相同。如果有一個element不同，則$A \neq B$。</p>
 <p>如果$A$有的elements，在$B$中也有，那我們會說<strong>A是B的子集合（subset）</strong>：</p>
 <blockquote>
 <p> <strong><em>Def.</em></strong></p>
 </blockquote>
-<p>$$<br>A \subseteq B<br>$$</p>
-<p>從定義當中我們無法區分出$A$跟$B$是否相同。那前面講到的$A = B$也就等同於是$A \subseteq B$及$B \subseteq A$兩者都要成立。</p>
+<script type="math/tex; mode=display">
+A \subseteq B</script><p>從定義當中我們無法區分出$A$跟$B$是否相同。那前面講到的$A = B$也就等同於是$A \subseteq B$及$B \subseteq A$兩者都要成立。</p>
 <p>那如果$A \subseteq B$且$A \neq B$，那我們稱<strong>A為B的嚴格子集（proper subset）</strong>：</p>
 <blockquote>
 <p> <strong><em>Def.</em></strong></p>
 </blockquote>
-<p>$$<br>A \subset B<br>$$</p>
-<p>$\subseteq$及$\subset$關係則分別稱為<strong>包含（inclusion）</strong> 及 <strong>嚴格包含（proper inclusion）</strong>。</p>
+<script type="math/tex; mode=display">
+A \subset B</script><p>$\subseteq$及$\subset$關係則分別稱為<strong>包含（inclusion）</strong> 及 <strong>嚴格包含（proper inclusion）</strong>。</p>
 <p>如果我們有兩個集合$A$跟$B$，如果有一個集合包含了所有$A$和$B$的元素，那我們稱它為$A$和$B$的<strong>聯集（union）</strong>：</p>
 <blockquote>
 <p> <strong><em>Def.</em></strong></p>
 </blockquote>
-<p>$$<br>A \cup B = \{x \mid x \in A \enspace or \enspace x \in B\}<br>$$</p>
-<div style="text-align:center"><img src="https://upload.wikimedia.org/wikipedia/commons/3/30/Venn0111.svg" alt="Union"></div>
+<script type="math/tex; mode=display">
+A \cup B = \\{x \mid x \in A \enspace or \enspace x \in B\\}</script><div style="text-align:center"><img src="https://upload.wikimedia.org/wikipedia/commons/3/30/Venn0111.svg" alt="Union"></div>
 
 <blockquote>
 <p> <small>from Wikipedia</small></p>
@@ -1328,8 +1352,8 @@
 <blockquote>
 <p> <strong><em>Def.</em></strong></p>
 </blockquote>
-<p>$$<br>A \cap B = \{x \mid x \in A \enspace and \enspace x \in B\}<br>$$</p>
-<div style="text-align:center"><img src="https://upload.wikimedia.org/wikipedia/commons/9/99/Venn0001.svg" alt="Intersection"></div>
+<script type="math/tex; mode=display">
+A \cap B = \\{x \mid x \in A \enspace and \enspace x \in B\\}</script><div style="text-align:center"><img src="https://upload.wikimedia.org/wikipedia/commons/9/99/Venn0001.svg" alt="Intersection"></div>
 
 <blockquote>
 <p> <small>from Wikipedia</small></p>
@@ -1339,52 +1363,53 @@
 <blockquote>
 <p> <strong><em>Def.</em></strong></p>
 </blockquote>
-<p>$$<br>A \cap B = \emptyset<br>$$</p>
-<div style="text-align:center"><img src="https://upload.wikimedia.org/wikipedia/commons/d/df/Disjunkte_Mengen.svg" alt="Disjoint sets"></div>
+<script type="math/tex; mode=display">
+A \cap B = \emptyset</script><div style="text-align:center"><img src="https://upload.wikimedia.org/wikipedia/commons/d/df/Disjunkte_Mengen.svg" alt="Disjoint sets"></div>
 
 <blockquote>
 <p> <small>from Wikipedia</small></p>
 </blockquote>
 <p>由於空集合這個概念非常簡單，就是集合內沒有任何元素，我們可以把他跟之前介紹過的概念結合起來。像是，如果我們讓 $x$ 是某個元素，</p>
-<p>$$<br>x \in \emptyset<br>$$</p>
-<p>是不會成立的。對於任何一個set $A$，我們有</p>
-<p>$$<br>A \cap \emptyset = \emptyset<br>$$</p>
-<p>和</p>
-<p>$$<br>A \cup \emptyset = A<br>$$<br>。</p>
+<script type="math/tex; mode=display">
+x \in \emptyset</script><p>是不會成立的。對於任何一個set $A$，我們有</p>
+<script type="math/tex; mode=display">
+A \cap \emptyset = \emptyset</script><p>和</p>
+<script type="math/tex; mode=display">
+A \cup \emptyset = A</script><p>。</p>
 <p>包含的關係就有點微妙，像是 $\emptyset \subseteq A$ ，我們會考慮很多的實例，要讓每一個實例都成立，這個式子才算是成立。不過討論這件事本身就蠻無趣的，他基本上是成立的。</p>
 <p>在這邊我們可以再定義新的運算，那就是<strong>差集（difference）</strong>，他的定義如下：</p>
 <blockquote>
 <p> <strong><em>Def.</em></strong></p>
 </blockquote>
-<p>$$<br>A - B = \{x \mid x \in A \enspace and \enspace x \notin B\}<br>$$</p>
-<div style="text-align:center"><img src="https://upload.wikimedia.org/wikipedia/commons/5/5a/Venn0010.svg" alt="Difference set"></div>
+<script type="math/tex; mode=display">
+A - B = \\{x \mid x \in A \enspace and \enspace x \notin B\\}</script><div style="text-align:center"><img src="https://upload.wikimedia.org/wikipedia/commons/5/5a/Venn0010.svg" alt="Difference set"></div>
 
 <blockquote>
 <p> <small>from Wikipedia</small></p>
 </blockquote>
 <hr>
 <h2 id="Rules"><a href="#Rules" class="headerlink" title="Rules"></a>Rules</h2><p>在集合論中，有些跟我們一般的算術運算很像的性質，像是以下的<strong>分配律（distributive law）</strong>：</p>
-<p>$$<br>A \cap (B \cup C) = (A \cap B) \cup (A \cap C)<br>$$</p>
-<p>$$<br>A \cup (B \cap C) = (A \cup B) \cap (A \cup C)<br>$$</p>
-<p>以及<strong>狄莫根定律（DeMorgan ‘s laws）</strong>：</p>
-<p>$$<br>A - (B \cap C) = (A - B) \cup (A - C)<br>$$</p>
-<p>$$<br>A - (B \cup C) = (A - B) \cap (A - C)<br>$$</p>
-<hr>
+<script type="math/tex; mode=display">
+A \cap (B \cup C) = (A \cap B) \cup (A \cap C)</script><script type="math/tex; mode=display">
+A \cup (B \cap C) = (A \cup B) \cap (A \cup C)</script><p>以及<strong>狄莫根定律（DeMorgan ‘s laws）</strong>：</p>
+<script type="math/tex; mode=display">
+A - (B \cap C) = (A - B) \cup (A - C)</script><script type="math/tex; mode=display">
+A - (B \cup C) = (A - B) \cap (A - C)</script><hr>
 <p>我們在緊接著介紹一個有趣的概念，<strong>冪集（power set）</strong>，<strong>$A$的冪集（$\mathcal{P}(A)$）是指所有$A$的子集的所有排列組合所成的集合</strong>，像是假設$A = \{1, 2, 3\}$，那麼$\mathcal{P}(A) = \{ \emptyset, \{1\}, \{2\}, \{3\}, \{1, 2\}, \{1, 3\}, \{2, 3\}, \{1, 2, 3\} \}$。</p>
 <p>往後，當我們在描述一個 <em>set</em>，他的 <em>element</em> 也是 <em>set</em> 的時候，我們會稱他為 <em>collection of sets</em>，並且會以書寫體$\mathcal{A}$、$\mathcal{B}$表示，以示區別。</p>
 <p>我們已經定義了任兩個集合的交集跟聯集。那如果我們想要聯集或是交集任意多數量的集合，$\mathcal{A}$為一 <em>collection of sets</em>，我們可以用以下表示法：</p>
-<p>$$<br>\bigcup_{A \in \mathcal{A}} A = \{ x \mid x \in A, for \enspace at \enspace least \enspace one \enspace A \in \mathcal{A} \}<br>$$</p>
-<p>直白的說，就是這個聯集會將在$\mathcal{A}$中，至少出現過一次的$A$，將$A$中的元素$x$都蒐集起來。</p>
-<p>$$<br>\bigcap_{A \in \mathcal{A}} A = \{ x \mid x \in A, for \enspace every \enspace A \in \mathcal{A} \}<br>$$</p>
-<p>這個交集則是會將在$\mathcal{A}$中，每個$A$，將$A$中都出現的元素$x$蒐集起來。</p>
+<script type="math/tex; mode=display">
+\bigcup_{A \in \mathcal{A}} A = \\{ x \mid x \in A, for \enspace at \enspace least \enspace one \enspace A \in \mathcal{A} \\}</script><p>直白的說，就是這個聯集會將在$\mathcal{A}$中，至少出現過一次的$A$，將$A$中的元素$x$都蒐集起來。</p>
+<script type="math/tex; mode=display">
+\bigcap_{A \in \mathcal{A}} A = \\{ x \mid x \in A, for \enspace every \enspace A \in \mathcal{A} \\}</script><p>這個交集則是會將在$\mathcal{A}$中，每個$A$，將$A$中都出現的元素$x$蒐集起來。</p>
 <p>這些定義都沒什麼大問題。不過當$\mathcal{A}$是個空的 <em>collection</em> 的時候就會顯的比較特別，根據字面定義，這個情況下沒有任何人可以符合這樣的定義，所以我們可以說：</p>
-<p>$$<br>\bigcup_{A \in \mathcal{A}} A = \emptyset<br>$$</p>
-<p>接下來我們來定義一個重要的東西，<strong>笛卡爾積（Cartesian product）</strong>，數學上常常會用這樣的概念來為其他概念下定義，例如空間上的座標位置。</p>
+<script type="math/tex; mode=display">
+\bigcup_{A \in \mathcal{A}} A = \emptyset</script><p>接下來我們來定義一個重要的東西，<strong>笛卡爾積（Cartesian product）</strong>，數學上常常會用這樣的概念來為其他概念下定義，例如空間上的座標位置。</p>
 <blockquote>
 <p> <strong><em>Def.</em></strong></p>
 </blockquote>
-<p>$$<br>A \times B = \{(a, b) \mid a \in A \enspace and \enspace b \in B\}<br>$$</p>
-<p>像是當 $A = \{ a, b, c\}$， $B = \{1, 2\}$，那麼 $A \times B = \{(a, 1), (a, 2), (b, 1), (b, 2), (c, 1), (c, 2)\}$ 。</p>
+<script type="math/tex; mode=display">
+A \times B = \\{(a, b) \mid a \in A \enspace and \enspace b \in B\\}</script><p>像是當 $A = \{ a, b, c\}$， $B = \{1, 2\}$，那麼 $A \times B = \{(a, 1), (a, 2), (b, 1), (b, 2), (c, 1), (c, 2)\}$ 。</p>
 <p>這在概念上非常直覺，可以把他想成是在 <em>set</em> $A$ 中的元素跟在 <em>set</em> $B$ 中的元素，拿出來一一做排列組合，所有的排列組合所成的集合就是 $A \times B$。</p>
 
                     

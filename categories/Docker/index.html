@@ -259,9 +259,9 @@
                 <div class="postShorten-content">
                     <pre><code>attach    Attach to a running container
 build     Build an image from a Dockerfile
-commit    Create a new image from a container&apos;s changes
+commit    Create a new image from a container&#39;s changes
 cp        Copy files/folders from the containers filesystem to the host path
-diff      Inspect changes on a container&apos;s filesystem
+diff      Inspect changes on a container&#39;s filesystem
 events    Get real time events from the server
 export    Stream the contents of a container as a tar archive
 history   Show the history of an image
@@ -399,7 +399,7 @@ docker pull rocker/rstudio:latest
 <p>A demo of a Dockerfile:</p>
 <pre><code>FROM tutum/apache-php:latest
 MAINTAINER Huang AMing 
-RUN sed -i &apos;s/archive.ubuntu.com/free.nchc.org.tw/g&apos; \
+RUN sed -i &#39;s/archive.ubuntu.com/free.nchc.org.tw/g&#39; \
   /etc/apt/sources.list
 RUN apt-get update \
   &amp;&amp; apt-get install -y php5-xdebug
@@ -476,32 +476,14 @@ example&gt; docker build -t=&quot;ymhuang0808/phpunit-testing:php5.5.9&quot; .
 <figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">docker run &lt;image-name&gt; &lt;cmd&gt;</span><br><span class="line">example&gt; <span class="comment"># Run interactively in the foreground</span></span><br><span class="line">example&gt; docker run -i -t ubuntu /bin/bash</span><br></pre></td></tr></table></figure>
 <blockquote>
 <p><strong>Flags:</strong></p>
-</blockquote>
-<blockquote>
 <p><code>-t</code> flag assigns a terminal inside our new container.</p>
-</blockquote>
-<blockquote>
 <p><code>-i</code> flag allows us to make an interactive connection by grabbing the standard in (<code>STDIN</code>) of the container.</p>
-</blockquote>
-<blockquote>
 <p><code>-d</code> flag tells Docker to run the container and put it in the background, to daemonize it.</p>
-</blockquote>
-<blockquote>
 <p><code>-p</code> flag is new and tells Docker to map any required network ports inside our container to our host.</p>
-</blockquote>
-<blockquote>
 <p><code>-P</code> flag, a shortcut for <code>-p</code>,  maps any required network ports exposed in our image to a high port (from the range 49153 to 65535) on the local Docker host.</p>
-</blockquote>
-<blockquote>
 <p><code>-v</code> flag mount the host directory into container directory, ex <code>-v &lt;host-dir&gt;:&lt;container-dir&gt;</code> or <code>-v &lt;container-dir&gt;</code></p>
-</blockquote>
-<blockquote>
 <p><code>--name</code> flag assigns a name to this container</p>
-</blockquote>
-<blockquote>
 <p><code>&lt;image-name&gt;</code>: ubuntu:14.04</p>
-</blockquote>
-<blockquote>
 <p><code>&lt;cmd&gt;</code>: /bin/echo “hello world”</p>
 </blockquote>
 <p>View info of container:</p>
@@ -514,11 +496,7 @@ example&gt; docker build -t=&quot;ymhuang0808/phpunit-testing:php5.5.9&quot; .
 <figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">docker commit &lt;container-id-or-name&gt; &lt;image-name&gt;</span><br><span class="line">example&gt; docker commit -m=<span class="string">"Add PHPUnit and xdebug"</span> \</span><br><span class="line">example&gt; -a=<span class="string">"Huang Yi-Ming"</span> aeeb1980c96e \</span><br><span class="line">example&gt; ymhuang0808/phpunit-testing:php5.5.9</span><br></pre></td></tr></table></figure>
 <blockquote>
 <p><strong>Flags:</strong></p>
-</blockquote>
-<blockquote>
 <p><code>-m</code> flag is used to give a comment to this commit.</p>
-</blockquote>
-<blockquote>
 <p><code>-a</code> flag declare the maintainer’s name.</p>
 </blockquote>
 <p>Remove the image:</p>
