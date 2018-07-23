@@ -2,6 +2,13 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   
   <url>
+    <loc>https://yuehhua.github.io/2018/07/21/why-cnn/</loc>
+    
+    <lastmod>2018-07-23T03:13:50.639Z</lastmod>
+    
+  </url>
+  
+  <url>
     <loc>https://yuehhua.github.io/2018/07/21/why-rnn/</loc>
     
     <lastmod>2018-07-22T15:49:06.453Z</lastmod>
@@ -19,13 +26,6 @@
     <loc>https://yuehhua.github.io/2018/07/21/why-deep-learning/</loc>
     
     <lastmod>2018-07-22T06:43:29.032Z</lastmod>
-    
-  </url>
-  
-  <url>
-    <loc>https://yuehhua.github.io/2018/07/21/why-cnn/</loc>
-    
-    <lastmod>2018-07-22T06:42:42.908Z</lastmod>
     
   </url>
   

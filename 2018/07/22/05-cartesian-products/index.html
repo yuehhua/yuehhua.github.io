@@ -13,7 +13,7 @@
     
         <link rel="alternate" type="application/atom+xml" title="RSS" href="/atom.xml">
     
-    <script type="application/ld+json">{"@context":"http://schema.org","@type":"BlogPosting","author":{"@type":"Person","name":"Yueh-Hua Tu","sameAs":["https://github.com/yuehhua/","https://facebook.com/","https://www.linkedin.com/profile/","mailto"]},"articleBody":"前面我們定義了集合的笛卡爾積，這邊我們來定義一個更廣義的，$\\mathcal{A}$ 是一個非空集合（collection of sets）：\n\n Def.\n\n$$A \\enspace indexing \\enspace function \\enspace is \\enspace a \\enspace surjective \\enspace function \\enspace f: J \\rightarrow \\mathcal{A},$$\n$$J \\enspace is \\enspace called \\enspace index \\enspace set.$$\n$$The \\enspace collection \\enspace with \\enspace the \\enspace indexing \\enspace function \\enspace f \\enspace is \\enspace called \\enspace indexed \\enspace family \\enspace of \\enspace sets.$$\n所以如果有 $\\alpha \\in J$ ，我們會把 $f(\\alpha)$ 寫成 $A_\\alpha$。那麼 indexed family 本身可以寫成 $\\{A_\\alpha\\}_{\\alpha \\in J}$。\n這個概念有點類似在電腦科學中的 hash function/dictionary 或是指標的意味，有了一個函數可以對某個集合做 indexing。然而他必須是滿射的（surjective），而不是單射的（injective）。\n應用這樣的概念來描述以往的概念就會有點不太一樣：\n$f: J \\rightarrow \\mathcal{A} \\enspace is \\enspace an \\enspace indexing \\enspace function \\enspace for \\enspace \\mathcal{A}$\n$\\bigcup_{\\alpha \\in J} A_\\alpha = \\{ x \\mid at \\enspace least \\enspace one \\enspace \\alpha \\in J, x \\in A_\\alpha \\}$\n$\\bigcap_{\\alpha \\in J} A_\\alpha = \\{ x \\mid for \\enspace every \\enspace \\alpha \\in J, x \\in A_\\alpha \\}$\n我們進一步定義m-元組（m-tuple）：\n\n Def.\n\n$$m \\in \\mathbb{N}, a \\enspace set \\enspace X, m-tuple \\enspace of \\enspace elements \\enspace of \\enspace X \\enspace is$$\n$$x: \\{1, …, m\\} \\rightarrow X$$\n這邊 $x$ 是個 m-tuple，我們通常描述 $x$ 的第 i 個值會寫成 $x_i$ ，也就是第 i 分量，也就是座標（coordinate）。那表示 $x$ 本身則會寫成：\n$$(x_1, …, x_m)$$\n接下來，我們讓 $\\{ A_1, …, A_m \\}$ 是一個 family of indexed sets。 $X = A_1 \\cup A_2 \\cup … \\cup A_m$。我們定義這個 indexed family 的 cartesian product 為：\n$$\\prod_{i = 1}^{m} A_i \\enspace or \\enspace A_1 \\times A_2 \\times … \\times A_m$$\n也就是所有 m-tuple $(x_1, …, x_m)$ 的集合。\n我們有了 m-tuple 就可以來定義一個常用的概念，$\\omega-tuple$。\n\n Def.\n\n$$A \\enspace set \\enspace X, \\omega-tuple \\enspace of \\enspace elements \\enspace of \\enspace X \\enspace is \\enspace a \\enspace function:$$\n$$x: \\mathbb{N} \\rightarrow X$$\n這也是微積分當中的 數列（sequence），或是 無限數列（infinite sequence）。我們也可以把 $\\omega$-tuple $x$ 看成座標，則會表示成：\n$$(x_1, x_2, …)$$\n而 cartesian product 則是：\n$$\\prod_{i \\in \\mathbb{N}} A_i \\enspace or \\enspace A_1 \\times A_2 \\times …$$\n這邊大家可能會疑惑，不同的 $A_i$ 之間有什麼不一樣嗎？其實他們都可能是一樣的，跟 $X$ 一樣，只是去表示位在不同的分量上。如果是 $X$ 的元素的 $m$-tuple 的話，就可以簡寫成 $X^m$。如果是 $X$ 的元素的 $\\omega$-tuple 的話，就可以簡寫成 $X^\\omega$。\nex.如果 $\\mathbb{R}$ 代表實數，那麼 $\\mathbb{R}^m$ 就代表所有實數的 $m$-tuple 的集合，也就是歐幾里得空間（Euclidean m-space）。那 $\\mathbb{R}^\\omega$ 就是無限維度歐氏空間（infinite-dimensional Euclidean space）。\n","dateCreated":"2018-07-22T00:26:26+08:00","dateModified":"2018-07-22T14:27:49+08:00","datePublished":"2018-07-22T00:26:26+08:00","description":"","headline":"Cartesian products","image":[],"mainEntityOfPage":{"@type":"WebPage","@id":"https://yuehhua.github.io/2018/07/22/05-cartesian-products/"},"publisher":{"@type":"Organization","name":"Yueh-Hua Tu","sameAs":["https://github.com/yuehhua/","https://facebook.com/","https://www.linkedin.com/profile/","mailto"]},"url":"https://yuehhua.github.io/2018/07/22/05-cartesian-products/"}</script>
+    <script type="application/ld+json">{"@context":"http://schema.org","@type":"BlogPosting","author":{"@type":"Person","name":"Yueh-Hua Tu","sameAs":["https://github.com/yuehhua/","https://www.facebook.com/a504082002","https://www.linkedin.com/in/%E5%B2%B3%E8%8F%AF-%E6%9D%9C-6a3995a0/","mailto:a504082002@gmail.com"],"image":"https://www.gravatar.com/avatar/a565749fba4782b717234da670b273fd"},"articleBody":"前面我們定義了集合的笛卡爾積，這邊我們來定義一個更廣義的，$\\mathcal{A}$ 是一個非空集合（collection of sets）：\n\n Def.\n\n$$A \\enspace indexing \\enspace function \\enspace is \\enspace a \\enspace surjective \\enspace function \\enspace f: J \\rightarrow \\mathcal{A},$$\n$$J \\enspace is \\enspace called \\enspace index \\enspace set.$$\n$$The \\enspace collection \\enspace with \\enspace the \\enspace indexing \\enspace function \\enspace f \\enspace is \\enspace called \\enspace indexed \\enspace family \\enspace of \\enspace sets.$$\n所以如果有 $\\alpha \\in J$ ，我們會把 $f(\\alpha)$ 寫成 $A_\\alpha$。那麼 indexed family 本身可以寫成 $\\{A_\\alpha\\}_{\\alpha \\in J}$。\n這個概念有點類似在電腦科學中的 hash function/dictionary 或是指標的意味，有了一個函數可以對某個集合做 indexing。然而他必須是滿射的（surjective），而不是單射的（injective）。\n應用這樣的概念來描述以往的概念就會有點不太一樣：\n$f: J \\rightarrow \\mathcal{A} \\enspace is \\enspace an \\enspace indexing \\enspace function \\enspace for \\enspace \\mathcal{A}$\n$\\bigcup_{\\alpha \\in J} A_\\alpha = \\{ x \\mid at \\enspace least \\enspace one \\enspace \\alpha \\in J, x \\in A_\\alpha \\}$\n$\\bigcap_{\\alpha \\in J} A_\\alpha = \\{ x \\mid for \\enspace every \\enspace \\alpha \\in J, x \\in A_\\alpha \\}$\n我們進一步定義m-元組（m-tuple）：\n\n Def.\n\n$$m \\in \\mathbb{N}, a \\enspace set \\enspace X, m-tuple \\enspace of \\enspace elements \\enspace of \\enspace X \\enspace is$$\n$$x: \\{1, …, m\\} \\rightarrow X$$\n這邊 $x$ 是個 m-tuple，我們通常描述 $x$ 的第 i 個值會寫成 $x_i$ ，也就是第 i 分量，也就是座標（coordinate）。那表示 $x$ 本身則會寫成：\n$$(x_1, …, x_m)$$\n接下來，我們讓 $\\{ A_1, …, A_m \\}$ 是一個 family of indexed sets。 $X = A_1 \\cup A_2 \\cup … \\cup A_m$。我們定義這個 indexed family 的 cartesian product 為：\n$$\\prod_{i = 1}^{m} A_i \\enspace or \\enspace A_1 \\times A_2 \\times … \\times A_m$$\n也就是所有 m-tuple $(x_1, …, x_m)$ 的集合。\n我們有了 m-tuple 就可以來定義一個常用的概念，$\\omega-tuple$。\n\n Def.\n\n$$A \\enspace set \\enspace X, \\omega-tuple \\enspace of \\enspace elements \\enspace of \\enspace X \\enspace is \\enspace a \\enspace function:$$\n$$x: \\mathbb{N} \\rightarrow X$$\n這也是微積分當中的 數列（sequence），或是 無限數列（infinite sequence）。我們也可以把 $\\omega$-tuple $x$ 看成座標，則會表示成：\n$$(x_1, x_2, …)$$\n而 cartesian product 則是：\n$$\\prod_{i \\in \\mathbb{N}} A_i \\enspace or \\enspace A_1 \\times A_2 \\times …$$\n這邊大家可能會疑惑，不同的 $A_i$ 之間有什麼不一樣嗎？其實他們都可能是一樣的，跟 $X$ 一樣，只是去表示位在不同的分量上。如果是 $X$ 的元素的 $m$-tuple 的話，就可以簡寫成 $X^m$。如果是 $X$ 的元素的 $\\omega$-tuple 的話，就可以簡寫成 $X^\\omega$。\nex.如果 $\\mathbb{R}$ 代表實數，那麼 $\\mathbb{R}^m$ 就代表所有實數的 $m$-tuple 的集合，也就是歐幾里得空間（Euclidean m-space）。那 $\\mathbb{R}^\\omega$ 就是無限維度歐氏空間（infinite-dimensional Euclidean space）。\n","dateCreated":"2018-07-22T00:26:26+08:00","dateModified":"2018-07-22T14:27:49+08:00","datePublished":"2018-07-22T00:26:26+08:00","description":"","headline":"Cartesian products","image":[],"mainEntityOfPage":{"@type":"WebPage","@id":"https://yuehhua.github.io/2018/07/22/05-cartesian-products/"},"publisher":{"@type":"Organization","name":"Yueh-Hua Tu","sameAs":["https://github.com/yuehhua/","https://www.facebook.com/a504082002","https://www.linkedin.com/in/%E5%B2%B3%E8%8F%AF-%E6%9D%9C-6a3995a0/","mailto:a504082002@gmail.com"],"image":"https://www.gravatar.com/avatar/a565749fba4782b717234da670b273fd","logo":{"@type":"ImageObject","url":"https://www.gravatar.com/avatar/a565749fba4782b717234da670b273fd"}},"url":"https://yuehhua.github.io/2018/07/22/05-cartesian-products/"}</script>
     <meta name="description" content="前面我們定義了集合的笛卡爾積，這邊我們來定義一個更廣義的，$\mathcal{A}$ 是一個非空集合（collection of sets）：   Def.  $$A \enspace indexing \enspace function \enspace is \enspace a \enspace surjective \enspace function \enspace f: J \righ">
 <meta property="og:type" content="blog">
 <meta property="og:title" content="Cartesian products">
@@ -165,7 +165,7 @@
             
                 <li class="sidebar-button">
                     
-                        <a  class="sidebar-button-link " href="https://facebook.com/" target="_blank" rel="noopener" title="Facebook">
+                        <a  class="sidebar-button-link " href="https://www.facebook.com/a504082002" target="_blank" rel="noopener" title="Facebook">
                     
                         <i class="sidebar-button-icon fab fa-facebook" aria-hidden="true"></i>
                         <span class="sidebar-button-desc">Facebook</span>
@@ -174,7 +174,7 @@
             
                 <li class="sidebar-button">
                     
-                        <a  class="sidebar-button-link " href="https://www.linkedin.com/profile/" target="_blank" rel="noopener" title="LinkedIn">
+                        <a  class="sidebar-button-link " href="https://www.linkedin.com/in/%E5%B2%B3%E8%8F%AF-%E6%9D%9C-6a3995a0/" target="_blank" rel="noopener" title="LinkedIn">
                     
                         <i class="sidebar-button-icon fab fa-linkedin" aria-hidden="true"></i>
                         <span class="sidebar-button-desc">LinkedIn</span>
@@ -183,10 +183,7 @@
             
                 <li class="sidebar-button">
                     
-                        <a  class="sidebar-button-link "
-                             href="/mailto"
-                            title="Mail"
-                        >
+                        <a  class="sidebar-button-link " href="mailto:a504082002@gmail.com" target="_blank" rel="noopener" title="Mail">
                     
                         <i class="sidebar-button-icon fab fa-envelope" aria-hidden="true"></i>
                         <span class="sidebar-button-desc">Mail</span>
@@ -454,10 +451,16 @@
             <div id="about-card-job">
                 <i class="fa fa-briefcase"></i>
                 <br/>
-                <p>author.job</p>
+                <p>Research assistant, Taiwan CDC</p>
 
             </div>
         
+        
+            <div id="about-card-location">
+                <i class="fa fa-map-marker"></i>
+                <br/>
+                Taiwan
+            </div>
         
     </div>
 </div>
