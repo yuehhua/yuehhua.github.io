@@ -13,18 +13,18 @@
     
         <link rel="alternate" type="application/atom+xml" title="RSS" href="/atom.xml">
     
-    <script type="application/ld+json">{"@context":"http://schema.org","@type":"BlogPosting","author":{"@type":"Person","name":"Yueh-Hua Tu","sameAs":["https://github.com/yuehhua/","https://www.facebook.com/a504082002","https://www.linkedin.com/in/%E5%B2%B3%E8%8F%AF-%E6%9D%9C-6a3995a0/","mailto:a504082002@gmail.com"],"image":"https://www.gravatar.com/avatar/a565749fba4782b717234da670b273fd"},"articleBody":"接下來我們會來討論幾個常見的概念，像是有限集及無限集、可數集及不可數集。\n有限集（finite set）：\n\n Def.\n\nA set A is finite if\n$$\\exists f: A \\rightarrow \\{ 1, …, n \\}, f \\enspace is \\enspace bijective.$$\n這時我們會說 set $A$ 的 cardinality 是 n。\n在這其中，這個定義的結果是不是唯一的？也就是，有沒有一個可能存在一個集合，兩個人數當中的元素個數結果不一樣（一個數到 $m$，一個數到 $n$），但兩個人都是對的？在真實世界，你可能會覺得這根本不可能，但是為了這點，數學家做了一些基礎工作。\n\n Lemma\n\n$$A \\enspace is \\enspace a \\enspace set, n \\in \\mathbb{N}, a_0 \\in A, \\exists f: A \\rightarrow \\{ 1, … , n+1\\}, f \\enspace is \\enspace bijective$$\n$$\\Leftrightarrow \\exists g: A - \\{ a_0 \\} \\rightarrow \\{ 1, … , n\\}, g \\enspace is \\enspace bijective$$\n也就是呢，當 $A$ 可以對映到 $n+1$ 個元素的集合的時候，把 $A$ 當中的一個元素拿掉，就必須對映到 $n$ 個元素的集合。\n那接下來我們就可以有這個定理：\n\n Theorem\n\n$$A \\enspace is \\enspace a \\enspace set, f: A \\rightarrow \\{ 1, … , n\\}, n \\in \\mathbb{N}, f \\enspace is \\enspace bijective, B \\subset A$$\n$$then \\enspace \\nexists g: B \\rightarrow \\{ 1, … , n\\}, g \\enspace is \\enspace bijective$$\n$$\\exists h: B \\rightarrow \\{ 1, … , m\\}, h \\enspace is \\enspace bijective, m &lt; n$$\n所以是說，$B$ 是 $A$ 的嚴格子集，那麼 $B$ 的 cardinality 就必須跟 $A$ 的不同，並且要比較小。\n以此，我們可以導出以下結論：\n\n Corollary\n\n$$If \\enspace A \\enspace is \\enspace finite, B \\subset A, \\nexists f: A \\rightarrow B, f \\enspace is \\enspace bijective$$\n\n Corollary\n\n$$\\mathbb{N} \\enspace is \\enspace not \\enspace finite$$\n\n Corollary\n\n$$The \\enspace cardinality \\enspace of \\enspace a \\enspace finite \\enspace set \\enspace A \\enspace is \\enspace uniquely \\enspace determined \\enspace by \\enspace A$$\n\n Corollary\n\n$$A \\enspace is \\enspace finite, B \\subset A, B \\enspace is \\enspace finite$$\n有限集，以下等價：\n\n Corollary\n\n\n$A$ is finite\nExists a surjective function from a section of $\\mathbb{N}$ to $A$\nExists a injective function from $A$ to a section of $\\mathbb{N}$\n\n\n Corollary\n\n$$Finite \\enspace unions \\enspace and \\enspace finite \\enspace cartesian \\enspace products \\enspace of \\enspace finite \\enspace sets \\enspace are \\enspace finite$$\n","dateCreated":"2018-07-22T00:27:18+08:00","dateModified":"2018-07-22T14:27:43+08:00","datePublished":"2018-07-22T00:27:18+08:00","description":"","headline":"Finite sets","image":[],"mainEntityOfPage":{"@type":"WebPage","@id":"https://yuehhua.github.io/2018/07/22/06-finite-sets/"},"publisher":{"@type":"Organization","name":"Yueh-Hua Tu","sameAs":["https://github.com/yuehhua/","https://www.facebook.com/a504082002","https://www.linkedin.com/in/%E5%B2%B3%E8%8F%AF-%E6%9D%9C-6a3995a0/","mailto:a504082002@gmail.com"],"image":"https://www.gravatar.com/avatar/a565749fba4782b717234da670b273fd","logo":{"@type":"ImageObject","url":"https://www.gravatar.com/avatar/a565749fba4782b717234da670b273fd"}},"url":"https://yuehhua.github.io/2018/07/22/06-finite-sets/"}</script>
-    <meta name="description" content="接下來我們會來討論幾個常見的概念，像是有限集及無限集、可數集及不可數集。 有限集（finite set）：   Def.  A set A is finite if $$\exists f: A \rightarrow \{ 1, …, n \}, f \enspace is \enspace bijective.$$ 這時我們會說 set $A$ 的 cardinality 是 n。 在這其中，">
+    <script type="application/ld+json">{"@context":"http://schema.org","@type":"BlogPosting","author":{"@type":"Person","name":"Yueh-Hua Tu","sameAs":["https://github.com/yuehhua/","https://www.facebook.com/a504082002","https://www.linkedin.com/in/%E5%B2%B3%E8%8F%AF-%E6%9D%9C-6a3995a0/","mailto:a504082002@gmail.com"],"image":"https://www.gravatar.com/avatar/a565749fba4782b717234da670b273fd"},"articleBody":"\n在這其中，這個定義的結果是不是唯一的？也就是，有沒有一個可能存在一個集合，兩個人數當中的元素個數結果不一樣（一個數到 $m$，一個數到 $n$），但兩個人都是對的？在真實世界，你可能會覺得這根本不可能，但是為了這點，數學家做了一些基礎工作。\n\n Lemma\n\n$$A \\enspace is \\enspace a \\enspace set, n \\in \\mathbb{N}, a_0 \\in A, \\exists f: A \\rightarrow \\{ 1, … , n+1\\}, f \\enspace is \\enspace bijective$$\n$$\\Leftrightarrow \\exists g: A - \\{ a_0 \\} \\rightarrow \\{ 1, … , n\\}, g \\enspace is \\enspace bijective$$\n也就是呢，當 $A$ 可以對映到 $n+1$ 個元素的集合的時候，把 $A$ 當中的一個元素拿掉，就必須對映到 $n$ 個元素的集合。\n那接下來我們就可以有這個定理：\n\n Theorem\n\n$$A \\enspace is \\enspace a \\enspace set, f: A \\rightarrow \\{ 1, … , n\\}, n \\in \\mathbb{N}, f \\enspace is \\enspace bijective, B \\subset A$$\n$$then \\enspace \\nexists g: B \\rightarrow \\{ 1, … , n\\}, g \\enspace is \\enspace bijective$$\n$$\\exists h: B \\rightarrow \\{ 1, … , m\\}, h \\enspace is \\enspace bijective, m &lt; n$$\n所以是說，$B$ 是 $A$ 的嚴格子集，那麼 $B$ 的 cardinality 就必須跟 $A$ 的不同，並且要比較小。\n以此，我們可以導出以下結論：\n\n Corollary\n\n$$If \\enspace A \\enspace is \\enspace finite, B \\subset A, \\nexists f: A \\rightarrow B, f \\enspace is \\enspace bijective$$\n\n Corollary\n\n$$\\mathbb{N} \\enspace is \\enspace not \\enspace finite$$\n\n Corollary\n\n$$The \\enspace cardinality \\enspace of \\enspace a \\enspace finite \\enspace set \\enspace A \\enspace is \\enspace uniquely \\enspace determined \\enspace by \\enspace A$$\n\n Corollary\n\n$$A \\enspace is \\enspace finite, B \\subset A, B \\enspace is \\enspace finite$$\n有限集，以下等價：\n\n Corollary\n\n\n$A$ is finite\nExists a surjective function from a section of $\\mathbb{N}$ to $A$\nExists a injective function from $A$ to a section of $\\mathbb{N}$\n\n\n Corollary\n\n$$Finite \\enspace unions \\enspace and \\enspace finite \\enspace cartesian \\enspace products \\enspace of \\enspace finite \\enspace sets \\enspace are \\enspace finite$$","dateCreated":"2018-07-22T00:27:18+08:00","dateModified":"2018-07-24T01:11:29+08:00","datePublished":"2018-07-22T00:27:18+08:00","description":"\n接下來我們會來討論幾個常見的概念，像是有限集及無限集、可數集及不可數集。\n有限集（finite set）：\n\n Def.\n\nA set A is finite if\n$$\\exists f: A \\rightarrow \\{ 1, …, n \\}, f \\enspace is \\enspace bijective.$$\n這時我們會說 set $A$ 的 cardinality 是 n。","headline":"Finite sets","image":[],"mainEntityOfPage":{"@type":"WebPage","@id":"https://yuehhua.github.io/2018/07/22/06-finite-sets/"},"publisher":{"@type":"Organization","name":"Yueh-Hua Tu","sameAs":["https://github.com/yuehhua/","https://www.facebook.com/a504082002","https://www.linkedin.com/in/%E5%B2%B3%E8%8F%AF-%E6%9D%9C-6a3995a0/","mailto:a504082002@gmail.com"],"image":"https://www.gravatar.com/avatar/a565749fba4782b717234da670b273fd","logo":{"@type":"ImageObject","url":"https://www.gravatar.com/avatar/a565749fba4782b717234da670b273fd"}},"url":"https://yuehhua.github.io/2018/07/22/06-finite-sets/"}</script>
+    <meta name="description" content="接下來我們會來討論幾個常見的概念，像是有限集及無限集、可數集及不可數集。 有限集（finite set）：   Def.  A set A is finite if $$\exists f: A \rightarrow \{ 1, …, n \}, f \enspace is \enspace bijective.$$ 這時我們會說 set $A$ 的 cardinality 是 n。">
 <meta property="og:type" content="blog">
 <meta property="og:title" content="Finite sets">
 <meta property="og:url" content="https://yuehhua.github.io/2018/07/22/06-finite-sets/index.html">
 <meta property="og:site_name" content="Dream Maker">
-<meta property="og:description" content="接下來我們會來討論幾個常見的概念，像是有限集及無限集、可數集及不可數集。 有限集（finite set）：   Def.  A set A is finite if $$\exists f: A \rightarrow \{ 1, …, n \}, f \enspace is \enspace bijective.$$ 這時我們會說 set $A$ 的 cardinality 是 n。 在這其中，">
+<meta property="og:description" content="接下來我們會來討論幾個常見的概念，像是有限集及無限集、可數集及不可數集。 有限集（finite set）：   Def.  A set A is finite if $$\exists f: A \rightarrow \{ 1, …, n \}, f \enspace is \enspace bijective.$$ 這時我們會說 set $A$ 的 cardinality 是 n。">
 <meta property="og:locale" content="en">
-<meta property="og:updated_time" content="2018-07-22T06:27:43.960Z">
+<meta property="og:updated_time" content="2018-07-23T17:11:29.215Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Finite sets">
-<meta name="twitter:description" content="接下來我們會來討論幾個常見的概念，像是有限集及無限集、可數集及不可數集。 有限集（finite set）：   Def.  A set A is finite if $$\exists f: A \rightarrow \{ 1, …, n \}, f \enspace is \enspace bijective.$$ 這時我們會說 set $A$ 的 cardinality 是 n。 在這其中，">
+<meta name="twitter:description" content="接下來我們會來討論幾個常見的概念，像是有限集及無限集、可數集及不可數集。 有限集（finite set）：   Def.  A set A is finite if $$\exists f: A \rightarrow \{ 1, …, n \}, f \enspace is \enspace bijective.$$ 這時我們會說 set $A$ 的 cardinality 是 n。">
     
     
         
@@ -260,14 +260,7 @@
     
     <div class="post-content markdown">
         <div class="main-content-wrap">
-            <p>接下來我們會來討論幾個常見的概念，像是有限集及無限集、可數集及不可數集。</p>
-<p>有限集（finite set）：</p>
-<blockquote>
-<p> <strong><em>Def.</em></strong></p>
-</blockquote>
-<p>A set A is <strong><em>finite</em></strong> if</p>
-<p>$$<br>\exists f: A \rightarrow \{ 1, …, n \}, f \enspace is \enspace bijective.<br>$$</p>
-<p>這時我們會說 <em>set</em> $A$ 的 cardinality 是 n。</p>
+            <!-- excerpt -->
 <p>在這其中，這個定義的結果是不是唯一的？也就是，有沒有一個可能存在一個集合，兩個人數當中的元素個數結果不一樣（一個數到 $m$，一個數到 $n$），但兩個人都是對的？在真實世界，你可能會覺得這根本不可能，但是為了這點，數學家做了一些基礎工作。</p>
 <blockquote>
 <p> <strong><em>Lemma</em></strong></p>
@@ -313,7 +306,6 @@
 <p> <strong><em>Corollary</em></strong></p>
 </blockquote>
 <p>$$<br>Finite \enspace unions \enspace and \enspace finite \enspace cartesian \enspace products \enspace of \enspace finite \enspace sets \enspace are \enspace finite<br>$$</p>
-
             
 
         </div>

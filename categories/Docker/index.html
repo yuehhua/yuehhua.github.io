@@ -228,7 +228,7 @@
     <section class="postShorten-group main-content-wrap">
     
     
-    <article class="postShorten postShorten--thumbnailimg-bottom">
+    <article class="postShorten postShorten--thumbnailimg-right">
         <div class="postShorten-wrap">
             
             <div class="postShorten-header">
@@ -256,7 +256,7 @@
 
             </div>
             
-                <div class="postShorten-content">
+                <div class="postShorten-excerpt">
                     <pre><code>attach    Attach to a running container
 build     Build an image from a Dockerfile
 commit    Create a new image from a container&apos;s changes
@@ -291,18 +291,13 @@ top       Lookup the running processes of a container
 unpause   Unpause a paused container
 version   Show the docker version information
 wait      Block until a container stops, then print its exit code
-</code></pre><h2 id="Docker-Commands-Diagram"><a href="#Docker-Commands-Diagram" class="headerlink" title="Docker Commands Diagram"></a><strong>Docker Commands Diagram</strong></h2><p><img src="https://raw.githubusercontent.com/philipz/docker_practice/master/_images/cmd_logic.png" alt="Docker Commands Diagram"></p>
-
+</code></pre><a id="more"></a>
+<h2 id="Docker-Commands-Diagram"><a href="#Docker-Commands-Diagram" class="headerlink" title="Docker Commands Diagram"></a><strong>Docker Commands Diagram</strong></h2><p><img src="https://raw.githubusercontent.com/philipz/docker_practice/master/_images/cmd_logic.png" alt="Docker Commands Diagram"></p>
                     
+                        <a href="/2018/07/21/04-reference/" class="postShorten-excerpt_link link">
+                            Continue reading
+                        </a>
                         
-
-                    
-                    
-                        <p>
-                            <a href="/2018/07/21/04-reference/#post-footer" class="postShorten-excerpt_link link">
-                                Comment and share
-                            </a>
-                        </p>
                     
                 </div>
             
@@ -311,7 +306,7 @@ wait      Block until a container stops, then print its exit code
     </article>
     
     
-    <article class="postShorten postShorten--thumbnailimg-bottom">
+    <article class="postShorten postShorten--thumbnailimg-right">
         <div class="postShorten-wrap">
             
             <div class="postShorten-header">
@@ -339,25 +334,13 @@ wait      Block until a container stops, then print its exit code
 
             </div>
             
-                <div class="postShorten-content">
-                    <pre><code>docker pull sequenceiq/hadoop-ubuntu
-docker pull nginx  # official repos
-docker pull php  # official repos
-docker pull dockerfile/java
-docker pull dockerfile/python
-docker pull pypy  # official repos
-docker pull rocker/rstudio:latest
-</code></pre>
+                <div class="postShorten-excerpt">
+                    <a id="more"></a>
                     
+                        <a href="/2018/07/21/03-recommend/" class="postShorten-excerpt_link link">
+                            Continue reading
+                        </a>
                         
-
-                    
-                    
-                        <p>
-                            <a href="/2018/07/21/03-recommend/#post-footer" class="postShorten-excerpt_link link">
-                                Comment and share
-                            </a>
-                        </p>
                     
                 </div>
             
@@ -366,7 +349,7 @@ docker pull rocker/rstudio:latest
     </article>
     
     
-    <article class="postShorten postShorten--thumbnailimg-bottom">
+    <article class="postShorten postShorten--thumbnailimg-right">
         <div class="postShorten-wrap">
             
             <div class="postShorten-header">
@@ -394,40 +377,14 @@ docker pull rocker/rstudio:latest
 
             </div>
             
-                <div class="postShorten-content">
-                    <p>We already know how to get a image and modify it, then share it through Docker Hub. It can be more portable and easy to customize. Just write a script in Dockerfile, and then use <code>docker build</code> to build an image following the script in Dockerfile!</p>
-<p>A demo of a Dockerfile:</p>
-<pre><code>FROM tutum/apache-php:latest
-MAINTAINER Huang AMing 
-RUN sed -i &apos;s/archive.ubuntu.com/free.nchc.org.tw/g&apos; \
-  /etc/apt/sources.list
-RUN apt-get update \
-  &amp;&amp; apt-get install -y php5-xdebug
-ADD https://phar.phpunit.de/phpunit.phar /usr/local/bin/
-RUN cd /usr/local/bin \ 
-  &amp;&amp; chmod +x phpunit.phar \ 
-  &amp;&amp; mv phpunit.phar phpunit
-</code></pre><blockquote>
-<p><strong>FROM</strong>: what image would be the base to build<br><strong>MAINTAINER</strong>: declare the maintainer<br><strong>RUN</strong>: to run command in the container in order to build image<br><strong>ADD</strong>: to add file from <em>host OS</em> or <em>remote directory</em> to the specified <em>directory of  image</em>, the file would be unziped automatically if it is compressed</p>
-</blockquote>
-<p>Build the image:</p>
-<pre><code>docker build &lt;the-Dockerfile-placed&gt;
-example&gt; # build image following the Dockerfile in the current directory and tag as ymhuang0808/phpunit-testing:php5.5.9
-example&gt; docker build -t=&quot;ymhuang0808/phpunit-testing:php5.5.9&quot; .
-</code></pre><blockquote>
-<p><strong>Flags:</strong><br><code>-t</code> flag assign the new image a tag</p>
-</blockquote>
-
+                <div class="postShorten-excerpt">
+                    <a id="more"></a>
+<p>We already know how to get a image and modify it, then share it through Docker Hub. It can be more portable and easy to customize. Just write a script in Dockerfile, and then use <code>docker build</code> to build an image following the script in Dockerfile!</p>
                     
+                        <a href="/2018/07/21/02-dockerfiles/" class="postShorten-excerpt_link link">
+                            Continue reading
+                        </a>
                         
-
-                    
-                    
-                        <p>
-                            <a href="/2018/07/21/02-dockerfiles/#post-footer" class="postShorten-excerpt_link link">
-                                Comment and share
-                            </a>
-                        </p>
                     
                 </div>
             
@@ -436,7 +393,7 @@ example&gt; docker build -t=&quot;ymhuang0808/phpunit-testing:php5.5.9&quot; .
     </article>
     
     
-    <article class="postShorten postShorten--thumbnailimg-bottom">
+    <article class="postShorten postShorten--thumbnailimg-right">
         <div class="postShorten-wrap">
             
             <div class="postShorten-header">
@@ -464,92 +421,15 @@ example&gt; docker build -t=&quot;ymhuang0808/phpunit-testing:php5.5.9&quot; .
 
             </div>
             
-                <div class="postShorten-content">
-                    <p>Usage:  <code>[sudo] docker [command] [flags] [arguments] ..</code></p>
-<h2 id="Get-information"><a href="#Get-information" class="headerlink" title="Get information"></a>Get information</h2><p>The version of docker:</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">example&gt; docker version</span><br><span class="line">Client version: 1.4.1</span><br><span class="line">Client API version: 1.16</span><br><span class="line">Go version (client): go1.3.3</span><br><span class="line">Git commit (client): 5bc2ff8</span><br><span class="line">OS/Arch (client): linux/amd64</span><br><span class="line">Server version: 1.4.1</span><br><span class="line">Server API version: 1.16</span><br><span class="line">Go version (server): go1.3.3</span><br><span class="line">Git commit (server): 5bc2ff8</span><br></pre></td></tr></table></figure>
-<p>Show the information about docker status:</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">example&gt; docker info</span><br><span class="line">Containers: 5</span><br><span class="line">Images: 5</span><br><span class="line">Storage Driver: aufs</span><br><span class="line">	Root Dir: /var/lib/docker/aufs</span><br><span class="line">	Dirs: 15</span><br><span class="line">Execution Driver: native-0.2</span><br><span class="line">Kernel Version: 3.13.0-32-generic</span><br><span class="line">WARNING: No swap <span class="built_in">limit</span> support</span><br></pre></td></tr></table></figure>
-<h2 id="Basic-operations"><a href="#Basic-operations" class="headerlink" title="Basic operations"></a>Basic operations</h2><p>Download image file provided from Docker Hub:</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">docker pull &lt;image-name&gt;</span><br><span class="line">example&gt; docker pull ubuntu:14.04</span><br></pre></td></tr></table></figure>
-<p>Run specified cmd on this image:</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">docker run &lt;image-name&gt; &lt;cmd&gt;</span><br><span class="line">example&gt; <span class="comment"># Run interactively in the foreground</span></span><br><span class="line">example&gt; docker run -i -t ubuntu /bin/bash</span><br></pre></td></tr></table></figure>
-<blockquote>
-<p><strong>Flags:</strong></p>
-</blockquote>
-<blockquote>
-<p><code>-t</code> flag assigns a terminal inside our new container.</p>
-</blockquote>
-<blockquote>
-<p><code>-i</code> flag allows us to make an interactive connection by grabbing the standard in (<code>STDIN</code>) of the container.</p>
-</blockquote>
-<blockquote>
-<p><code>-d</code> flag tells Docker to run the container and put it in the background, to daemonize it.</p>
-</blockquote>
-<blockquote>
-<p><code>-p</code> flag is new and tells Docker to map any required network ports inside our container to our host.</p>
-</blockquote>
-<blockquote>
-<p><code>-P</code> flag, a shortcut for <code>-p</code>,  maps any required network ports exposed in our image to a high port (from the range 49153 to 65535) on the local Docker host.</p>
-</blockquote>
-<blockquote>
-<p><code>-v</code> flag mount the host directory into container directory, ex <code>-v &lt;host-dir&gt;:&lt;container-dir&gt;</code> or <code>-v &lt;container-dir&gt;</code></p>
-</blockquote>
-<blockquote>
-<p><code>--name</code> flag assigns a name to this container</p>
-</blockquote>
-<blockquote>
-<p><code>&lt;image-name&gt;</code>: ubuntu:14.04</p>
-</blockquote>
-<blockquote>
-<p><code>&lt;cmd&gt;</code>: /bin/echo “hello world”</p>
-</blockquote>
-<p>View info of container:</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">docker inspect &lt;container-id-or-name&gt;</span><br><span class="line">example&gt;</span><br></pre></td></tr></table></figure>
-<p>Lists containers:</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">example&gt; <span class="comment"># To check which docker is running</span></span><br><span class="line">example&gt; docker ps</span><br><span class="line">example&gt; <span class="comment"># </span></span><br><span class="line">example&gt; docker ps -l</span><br><span class="line">example&gt; <span class="comment"># Show all docker in execution</span></span><br><span class="line">example&gt; docker ps -a</span><br></pre></td></tr></table></figure>
-<p>Stops running containers:</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">docker stop &lt;container-id-or-name&gt;</span><br><span class="line">example&gt; <span class="comment"># This will stop the container id of cfc68</span></span><br><span class="line">example&gt; docker stop cfc68</span><br></pre></td></tr></table></figure>
-<p>Commit a modified image:</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">docker commit &lt;container-id-or-name&gt; &lt;image-name&gt;</span><br><span class="line">example&gt; docker commit -m=<span class="string">"Add PHPUnit and xdebug"</span> \</span><br><span class="line">example&gt; -a=<span class="string">"Huang Yi-Ming"</span> aeeb1980c96e \</span><br><span class="line">example&gt; ymhuang0808/phpunit-testing:php5.5.9</span><br></pre></td></tr></table></figure>
-<blockquote>
-<p><strong>Flags:</strong></p>
-</blockquote>
-<blockquote>
-<p><code>-m</code> flag is used to give a comment to this commit.</p>
-</blockquote>
-<blockquote>
-<p><code>-a</code> flag declare the maintainer’s name.</p>
-</blockquote>
-<p>Remove the image:</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">docker rmi &lt;image-id&gt;</span><br></pre></td></tr></table></figure>
-<p>Login Docker Hub (before you push a image to repository):</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">example&gt; docker login</span><br><span class="line">Username: [ENTER YOUR USERNAME] Password:</span><br><span class="line">Email: [ENTER YOUR EMAIL] Login Succeeded</span><br></pre></td></tr></table></figure>
-<p>Push image to the repository (usually on Docker Hub):</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">docker push &lt;image-name&gt;</span><br><span class="line">example&gt; docker push a504082002/ubuntu:14.04</span><br></pre></td></tr></table></figure>
-<p>Shows us the standard output of a container:</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">docker logs</span><br></pre></td></tr></table></figure>
-<h2 id="Some-advanced-applications"><a href="#Some-advanced-applications" class="headerlink" title="Some advanced applications"></a>Some advanced applications</h2><p>Query the port mapping of a container:</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">docker port &lt;container-id-or-name&gt; &lt;port-exposed&gt;</span><br><span class="line">example&gt; <span class="comment"># which port was mapped to the port 5000 on container named of nostalgic_morse</span></span><br><span class="line">example&gt; docker port nostalgic_morse 5000</span><br><span class="line">0.0.0.0:49155</span><br></pre></td></tr></table></figure>
-<p>Running a web application in docker:</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">example&gt; <span class="comment"># we're going to run a Python Flask application with image: training/webapp</span></span><br><span class="line">example&gt; docker run -d -P training/webapp python app.py</span><br></pre></td></tr></table></figure>
-<p>Assign command to specific docker:</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">example&gt; <span class="comment"># Return to docker again after exit</span></span><br><span class="line">example&gt; docker <span class="built_in">exec</span> -t -i 0f83f1728262 bash</span><br></pre></td></tr></table></figure>
-<p>To remove docker that you don’t need anymore:</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">example&gt; docker rm 0f83f1728262</span><br></pre></td></tr></table></figure>
-<p>To mount a host directory as a disk in docker:</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">example&gt; <span class="comment"># Mount /myData into docker</span></span><br><span class="line">example&gt; docker run -t -i -v /myData centos:centos6 bash</span><br></pre></td></tr></table></figure>
-
+                <div class="postShorten-excerpt">
+                    <!-- toc -->
+<a id="more"></a>
+<p>Usage:  <code>[sudo] docker [command] [flags] [arguments] ..</code></p>
                     
+                        <a href="/2018/07/21/01-basic-commands/" class="postShorten-excerpt_link link">
+                            Continue reading
+                        </a>
                         
-
-                    
-                    
-                        <p>
-                            <a href="/2018/07/21/01-basic-commands/#post-footer" class="postShorten-excerpt_link link">
-                                Comment and share
-                            </a>
-                        </p>
                     
                 </div>
             
