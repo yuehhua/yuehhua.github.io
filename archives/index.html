@@ -228,6 +228,100 @@
     <section class="postShorten-group main-content-wrap">
     
     
+    <article class="postShorten postShorten--thumbnailimg-bottom">
+        <div class="postShorten-wrap">
+            
+            <div class="postShorten-header">
+                <h1 class="postShorten-title">
+                    
+                        <a class="link-unstyled" href="/2018/07/25/10-basis-for-topology/">
+                            Basis for topology
+                        </a>
+                    
+                </h1>
+                <div class="postShorten-meta">
+    <time datetime="2018-07-25T23:57:56+08:00">
+	
+		    Jul 25, 2018
+    	
+    </time>
+    
+        <span>in </span>
+        
+    <a class="category-link" href="/categories/Topology/">Topology</a>
+
+
+    
+</div>
+
+            </div>
+            
+                <div class="postShorten-content">
+                    <p>上一篇介紹完基本的拓樸結構，接下來我們來看基底（basis）的部份。</p>
+<p>有上過線性代數的朋友們應該會知道，向量如果滿足線性獨立可以 span 到整個空間，而一個空間有他們的基底。</p>
+<p>你可以把向量看成一種數學物件，空間的話就是很多這種數學物件的集合，那相對基底的話就是要擴展成整個空間的基本元素。</p>
+<p>拓樸也是一樣的，開集（open set）也是一種數學物件，一個拓樸空間中所包含的元素就是開集，那麼就會很自然的想知道他的基底是什麼？</p>
+<blockquote>
+<p> <strong><em>Def.</em></strong></p>
+</blockquote>
+<p>$X$ is a set, $\mathcal{T}$ is a topology on $X$, a <strong>basis</strong> for $\mathcal{T}$ is a collection $\mathcal{B}$ of subsets of $X$, <strong>basis elements</strong> are elements in $\mathcal{B}$, $\mathcal{B}$ must have the following properties:</p>
+<ol>
+<li>$\forall x \in X, \exists$ basis element $B \supseteq x$</li>
+<li>$B_1, B_2, B_3$ are basis elements, if $x \in B_1 \cap B_2$, $\exists B_3 \supseteq x$ and $B_3 \subseteq B_1 \cap B_2$</li>
+</ol>
+<p>如果一個拓樸有滿足這兩個條件，那我們就可以說 <strong>拓樸 $\mathcal{T}$ 是由 $\mathcal{B}$ 生成的（generated）</strong>。</p>
+<p>現在就來解釋一下上面的意思，我們應該不難理解，如果把拓樸看成一個空間的話，他是很多開集的集合，那麼基底 $\mathcal{B}$ 也會是集合的集合。在線性代數中，我們可以透過線性組合來把基底擴充到整個空間，那就表示那他應該是一組很基本的元素集合。這邊也有類似的概念，當一個基底可以擴充成一個拓樸的時候，那麼他就應該俱備以上兩種特性。</p>
+<p>那麼線性代數可以用線性組合來 span 到整個空間。那麼拓樸的基底可以怎麼辦？我們可以用聯集（union）阿！</p>
+<p>剛剛我們提到開集，我們都還沒定義開集呢！</p>
+<blockquote>
+<p> <strong><em>Def.</em></strong></p>
+</blockquote>
+<p>A subset $U \subseteq X$ is <strong>open</strong> in $X$, if $\forall x \in U$, $\exists$ basis element $B \in \mathcal{B}$ s.t. $x \in B$ and $B \subseteq \mathcal{B}$</p>
+<p>開集大概就像向量般的存在，而拓樸就是向量空間這樣子。依據這邊的定義，一個開集 $U$ 他裡面的元素 $x$ 都要在基底的元素當中（$x \in B$），然後基底元素是基底的子集（$B \subseteq \mathcal{B}$）。要記住，每個基底元素都 $\mathcal{T}$ 的元素。</p>
+<p>舉個例子看看吧！</p>
+<blockquote>
+<p>ex.</p>
+</blockquote>
+<p><img src="/images/basis.svg" alt=""></p>
+<p>如果 $\mathcal{B}$ 是所有圓圈區域的基底，那麼他一定滿足上面兩個條件。</p>
+<blockquote>
+<p>ex.</p>
+</blockquote>
+<p>如果 $X$ 是一個集合，那麼所有只包含一個點的 $X$ 的子集合的集合，是 $X$ 的離散拓樸的基底</p>
+<blockquote>
+<p>ex.</p>
+</blockquote>
+<p><img src="/images/basis2.svg" alt=""></p>
+<p>假設 $U_1$ 跟 $U_2$ 是拓樸 $\mathcal{T}$ 的元素，我們是不是可以證明 $U_1 \cap U_2 \in \mathcal{T}$？</p>
+<p>假設有個 $x \in U_1 \cap U_2$，我們可以找到一個基底元素 $B_1$，$x \in B_1$，$B_1 \subseteq U_1$；我們可以找到另一個基底元素 $B_2$，$x \in B_2$，$B_2 \subseteq U_2$。</p>
+<p>這樣從基底的第二的條件是不是可以推出有個 $B_3$，$x \in B_3$，$B_3 \subseteq B_1 \cap B_2$。</p>
+<p>那麼從 $x \in B_3$ 跟 $B_3 \subseteq B_1 \cap B_2 \subseteq U_1 \cap U_2$，可以推出 $U_1 \cap U_2 \in \mathcal{T}$。</p>
+<p>證明了 $U_1 \cap U_2 \in \mathcal{T}$，那麼我們大可以用數學歸納法證明 $\bigcup_{i=1}^{n} U_i \in \mathcal{T}$。</p>
+<p>這樣我們也檢驗了由基底生成的開集的集合是一個拓樸。</p>
+<p>我們也可以從另一個面向切入，描述他們之間的關係。</p>
+<blockquote>
+<p> <strong><em>Lemma</em></strong></p>
+</blockquote>
+<p>$X$ is a set, $\mathcal{B}$ is a basis for topology $\mathcal{T}$, $\mathcal{T}$ equals the collection of all unions of elements of $\mathcal{B}$.</p>
+
+                    
+                        
+
+                    
+                    
+                        <p>
+                            <a href="/2018/07/25/10-basis-for-topology/#post-footer" class="postShorten-excerpt_link link">
+                                Comment and share
+                            </a>
+                        </p>
+                    
+                </div>
+            
+        </div>
+        
+    </article>
+    
+    
     <article class="postShorten postShorten--thumbnailimg-right">
         <div class="postShorten-wrap">
             
@@ -653,84 +747,6 @@
 <p>$$<br>A = \{ a, b, c \}<br>$$</p>
                     
                         <a href="/2018/07/22/01-set-theory/" class="postShorten-excerpt_link link">
-                            Continue reading
-                        </a>
-                        
-                    
-                </div>
-            
-        </div>
-        
-    </article>
-    
-    
-    <article class="postShorten postShorten--thumbnailimg-right">
-        <div class="postShorten-wrap">
-            
-            <div class="postShorten-header">
-                <h1 class="postShorten-title">
-                    
-                        <a class="link-unstyled" href="/2018/07/21/04-reference/">
-                            Reference commands
-                        </a>
-                    
-                </h1>
-                <div class="postShorten-meta">
-    <time datetime="2018-07-21T22:59:51+08:00">
-	
-		    Jul 21, 2018
-    	
-    </time>
-    
-        <span>in </span>
-        
-    <a class="category-link" href="/categories/Docker/">Docker</a>
-
-
-    
-</div>
-
-            </div>
-            
-                <div class="postShorten-excerpt">
-                    <pre><code>attach    Attach to a running container
-build     Build an image from a Dockerfile
-commit    Create a new image from a container&apos;s changes
-cp        Copy files/folders from the containers filesystem to the host path
-diff      Inspect changes on a container&apos;s filesystem
-events    Get real time events from the server
-export    Stream the contents of a container as a tar archive
-history   Show the history of an image
-images    List images
-import    Create a new filesystem image from the contents of a tarball
-info      Display system-wide information
-inspect   Return low-level information on a container
-kill      Kill a running container
-load      Load an image from a tar archive
-login     Register or Login to the docker registry server
-logs      Fetch the logs of a container
-port      Lookup the public-facing port which is NAT-ed to PRIVATE_PORT
-pause     Pause all processes within a container
-ps        List containers
-pull      Pull an image or a repository from the docker registry server
-push      Push an image or a repository to the docker registry server
-restart   Restart a running container
-rm        Remove one or more containers
-rmi       Remove one or more images
-run       Run a command in a new container
-save      Save an image to a tar archive
-search    Search for an image in the docker index
-start     Start a stopped container
-stop      Stop a running container
-tag       Tag an image into a repository
-top       Lookup the running processes of a container
-unpause   Unpause a paused container
-version   Show the docker version information
-wait      Block until a container stops, then print its exit code
-</code></pre><a id="more"></a>
-<h2 id="Docker-Commands-Diagram"><a href="#Docker-Commands-Diagram" class="headerlink" title="Docker Commands Diagram"></a><strong>Docker Commands Diagram</strong></h2><p><img src="https://raw.githubusercontent.com/philipz/docker_practice/master/_images/cmd_logic.png" alt="Docker Commands Diagram"></p>
-                    
-                        <a href="/2018/07/21/04-reference/" class="postShorten-excerpt_link link">
                             Continue reading
                         </a>
                         

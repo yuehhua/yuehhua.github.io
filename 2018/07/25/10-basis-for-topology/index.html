@@ -1,0 +1,551 @@
+
+<!DOCTYPE html>
+<html lang="en">
+    
+<head>
+    <!-- hexo-inject:begin --><!-- hexo-inject:end --><meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="generator" content="Dream Maker">
+    <title>Basis for topology - Dream Maker</title>
+    <meta name="author" content="Yueh-Hua Tu">
+    
+    
+    
+        <link rel="alternate" type="application/atom+xml" title="RSS" href="/atom.xml">
+    
+    <script type="application/ld+json">{"@context":"http://schema.org","@type":"BlogPosting","author":{"@type":"Person","name":"Yueh-Hua Tu","sameAs":["https://github.com/yuehhua/","https://www.facebook.com/a504082002","https://www.linkedin.com/in/%E5%B2%B3%E8%8F%AF-%E6%9D%9C-6a3995a0/","mailto:a504082002@gmail.com"],"image":"https://www.gravatar.com/avatar/a565749fba4782b717234da670b273fd"},"articleBody":"上一篇介紹完基本的拓樸結構，接下來我們來看基底（basis）的部份。\n有上過線性代數的朋友們應該會知道，向量如果滿足線性獨立可以 span 到整個空間，而一個空間有他們的基底。\n你可以把向量看成一種數學物件，空間的話就是很多這種數學物件的集合，那相對基底的話就是要擴展成整個空間的基本元素。\n拓樸也是一樣的，開集（open set）也是一種數學物件，一個拓樸空間中所包含的元素就是開集，那麼就會很自然的想知道他的基底是什麼？\n\n Def.\n\n$X$ is a set, $\\mathcal{T}$ is a topology on $X$, a basis for $\\mathcal{T}$ is a collection $\\mathcal{B}$ of subsets of $X$, basis elements are elements in $\\mathcal{B}$, $\\mathcal{B}$ must have the following properties:\n\n$\\forall x \\in X, \\exists$ basis element $B \\supseteq x$\n$B_1, B_2, B_3$ are basis elements, if $x \\in B_1 \\cap B_2$, $\\exists B_3 \\supseteq x$ and $B_3 \\subseteq B_1 \\cap B_2$\n\n如果一個拓樸有滿足這兩個條件，那我們就可以說 拓樸 $\\mathcal{T}$ 是由 $\\mathcal{B}$ 生成的（generated）。\n現在就來解釋一下上面的意思，我們應該不難理解，如果把拓樸看成一個空間的話，他是很多開集的集合，那麼基底 $\\mathcal{B}$ 也會是集合的集合。在線性代數中，我們可以透過線性組合來把基底擴充到整個空間，那就表示那他應該是一組很基本的元素集合。這邊也有類似的概念，當一個基底可以擴充成一個拓樸的時候，那麼他就應該俱備以上兩種特性。\n那麼線性代數可以用線性組合來 span 到整個空間。那麼拓樸的基底可以怎麼辦？我們可以用聯集（union）阿！\n剛剛我們提到開集，我們都還沒定義開集呢！\n\n Def.\n\nA subset $U \\subseteq X$ is open in $X$, if $\\forall x \\in U$, $\\exists$ basis element $B \\in \\mathcal{B}$ s.t. $x \\in B$ and $B \\subseteq \\mathcal{B}$\n開集大概就像向量般的存在，而拓樸就是向量空間這樣子。依據這邊的定義，一個開集 $U$ 他裡面的元素 $x$ 都要在基底的元素當中（$x \\in B$），然後基底元素是基底的子集（$B \\subseteq \\mathcal{B}$）。要記住，每個基底元素都 $\\mathcal{T}$ 的元素。\n舉個例子看看吧！\n\nex.\n\n\n如果 $\\mathcal{B}$ 是所有圓圈區域的基底，那麼他一定滿足上面兩個條件。\n\nex.\n\n如果 $X$ 是一個集合，那麼所有只包含一個點的 $X$ 的子集合的集合，是 $X$ 的離散拓樸的基底\n\nex.\n\n\n假設 $U_1$ 跟 $U_2$ 是拓樸 $\\mathcal{T}$ 的元素，我們是不是可以證明 $U_1 \\cap U_2 \\in \\mathcal{T}$？\n假設有個 $x \\in U_1 \\cap U_2$，我們可以找到一個基底元素 $B_1$，$x \\in B_1$，$B_1 \\subseteq U_1$；我們可以找到另一個基底元素 $B_2$，$x \\in B_2$，$B_2 \\subseteq U_2$。\n這樣從基底的第二的條件是不是可以推出有個 $B_3$，$x \\in B_3$，$B_3 \\subseteq B_1 \\cap B_2$。\n那麼從 $x \\in B_3$ 跟 $B_3 \\subseteq B_1 \\cap B_2 \\subseteq U_1 \\cap U_2$，可以推出 $U_1 \\cap U_2 \\in \\mathcal{T}$。\n證明了 $U_1 \\cap U_2 \\in \\mathcal{T}$，那麼我們大可以用數學歸納法證明 $\\bigcup_{i=1}^{n} U_i \\in \\mathcal{T}$。\n這樣我們也檢驗了由基底生成的開集的集合是一個拓樸。\n我們也可以從另一個面向切入，描述他們之間的關係。\n\n Lemma\n\n$X$ is a set, $\\mathcal{B}$ is a basis for topology $\\mathcal{T}$, $\\mathcal{T}$ equals the collection of all unions of elements of $\\mathcal{B}$.\n","dateCreated":"2018-07-25T23:57:56+08:00","dateModified":"2018-07-25T23:57:56+08:00","datePublished":"2018-07-25T23:57:56+08:00","description":"","headline":"Basis for topology","image":[],"mainEntityOfPage":{"@type":"WebPage","@id":"https://yuehhua.github.io/2018/07/25/10-basis-for-topology/"},"publisher":{"@type":"Organization","name":"Yueh-Hua Tu","sameAs":["https://github.com/yuehhua/","https://www.facebook.com/a504082002","https://www.linkedin.com/in/%E5%B2%B3%E8%8F%AF-%E6%9D%9C-6a3995a0/","mailto:a504082002@gmail.com"],"image":"https://www.gravatar.com/avatar/a565749fba4782b717234da670b273fd","logo":{"@type":"ImageObject","url":"https://www.gravatar.com/avatar/a565749fba4782b717234da670b273fd"}},"url":"https://yuehhua.github.io/2018/07/25/10-basis-for-topology/"}</script>
+    <meta name="description" content="上一篇介紹完基本的拓樸結構，接下來我們來看基底（basis）的部份。 有上過線性代數的朋友們應該會知道，向量如果滿足線性獨立可以 span 到整個空間，而一個空間有他們的基底。 你可以把向量看成一種數學物件，空間的話就是很多這種數學物件的集合，那相對基底的話就是要擴展成整個空間的基本元素。 拓樸也是一樣的，開集（open set）也是一種數學物件，一個拓樸空間中所包含的元素就是開集，那麼就會很自然">
+<meta property="og:type" content="blog">
+<meta property="og:title" content="Basis for topology">
+<meta property="og:url" content="https://yuehhua.github.io/2018/07/25/10-basis-for-topology/index.html">
+<meta property="og:site_name" content="Dream Maker">
+<meta property="og:description" content="上一篇介紹完基本的拓樸結構，接下來我們來看基底（basis）的部份。 有上過線性代數的朋友們應該會知道，向量如果滿足線性獨立可以 span 到整個空間，而一個空間有他們的基底。 你可以把向量看成一種數學物件，空間的話就是很多這種數學物件的集合，那相對基底的話就是要擴展成整個空間的基本元素。 拓樸也是一樣的，開集（open set）也是一種數學物件，一個拓樸空間中所包含的元素就是開集，那麼就會很自然">
+<meta property="og:locale" content="en">
+<meta property="og:image" content="https://yuehhua.github.io/images/basis.svg">
+<meta property="og:image" content="https://yuehhua.github.io/images/basis2.svg">
+<meta property="og:updated_time" content="2018-07-25T15:57:56.645Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Basis for topology">
+<meta name="twitter:description" content="上一篇介紹完基本的拓樸結構，接下來我們來看基底（basis）的部份。 有上過線性代數的朋友們應該會知道，向量如果滿足線性獨立可以 span 到整個空間，而一個空間有他們的基底。 你可以把向量看成一種數學物件，空間的話就是很多這種數學物件的集合，那相對基底的話就是要擴展成整個空間的基本元素。 拓樸也是一樣的，開集（open set）也是一種數學物件，一個拓樸空間中所包含的元素就是開集，那麼就會很自然">
+<meta name="twitter:image" content="https://yuehhua.github.io/images/basis.svg">
+    
+    
+        
+    
+    
+    
+    
+    
+    <!--STYLES-->
+    <link rel="stylesheet" href="/assets/css/style-3frockyt2j28isvdztjchy5nhkz8tjki9ermufc1ckptmvjdftux94m2ahub.min.css">
+    <!--STYLES END-->
+    
+    <script type="text/javascript">
+        (function (i, s, o, g, r, a, m) {
+        i['GoogleAnalyticsObject'] = r; i[r] = i[r] || function () {
+            (i[r].q = i[r].q || []).push(arguments)
+        }, i[r].l = 1 * new Date(); a = s.createElement(o),
+            m = s.getElementsByTagName(o)[0]; a.async = 1; a.src = g; m.parentNode.insertBefore(a, m)
+        })(window, document, 'script', '//www.google-analytics.com/analytics.js', 'ga');
+
+        ga('create', 'UA-119690895-1', 'auto');
+        ga('send', 'pageview');
+    </script><!-- hexo-inject:begin --><!-- hexo-inject:end -->
+    
+    
+</head>
+
+    <body>
+        <!-- hexo-inject:begin --><!-- hexo-inject:end --><div id="blog">
+            <!-- Define author's picture -->
+
+
+    
+
+<header id="header" data-behavior="5">
+    <i id="btn-open-sidebar" class="fa fa-lg fa-bars"></i>
+    <div class="header-title">
+        <a class="header-title-link" href="/ ">Dream Maker</a>
+    </div>
+    
+        
+            <a  class="header-right-picture "
+                href="#about">
+        
+        
+        </a>
+    
+</header>
+
+            <!-- Define author's picture -->
+
+
+<nav id="sidebar" data-behavior="5">
+    <div class="sidebar-container">
+        
+        
+            <ul class="sidebar-buttons">
+            
+                <li class="sidebar-button">
+                    
+                        <a  class="sidebar-button-link "
+                             href="/ "
+                            
+                            title="Home"
+                        >
+                    
+                        <i class="sidebar-button-icon fa fa-home" aria-hidden="true"></i>
+                        <span class="sidebar-button-desc">Home</span>
+                    </a>
+            </li>
+            
+                <li class="sidebar-button">
+                    
+                        <a  class="sidebar-button-link "
+                             href="/all-categories"
+                            
+                            title="Categories"
+                        >
+                    
+                        <i class="sidebar-button-icon fa fa-bookmark" aria-hidden="true"></i>
+                        <span class="sidebar-button-desc">Categories</span>
+                    </a>
+            </li>
+            
+                <li class="sidebar-button">
+                    
+                        <a  class="sidebar-button-link "
+                             href="/all-tags"
+                            
+                            title="Tags"
+                        >
+                    
+                        <i class="sidebar-button-icon fa fa-tags" aria-hidden="true"></i>
+                        <span class="sidebar-button-desc">Tags</span>
+                    </a>
+            </li>
+            
+                <li class="sidebar-button">
+                    
+                        <a  class="sidebar-button-link "
+                             href="/all-archives"
+                            
+                            title="Archives"
+                        >
+                    
+                        <i class="sidebar-button-icon fa fa-archive" aria-hidden="true"></i>
+                        <span class="sidebar-button-desc">Archives</span>
+                    </a>
+            </li>
+            
+                <li class="sidebar-button">
+                    
+                        <a  class="sidebar-button-link open-algolia-search"
+                             href="#search"
+                            
+                            title="Search"
+                        >
+                    
+                        <i class="sidebar-button-icon fa fa-search" aria-hidden="true"></i>
+                        <span class="sidebar-button-desc">Search</span>
+                    </a>
+            </li>
+            
+                <li class="sidebar-button">
+                    
+                        <a  class="sidebar-button-link "
+                             href="#about"
+                            
+                            title="About"
+                        >
+                    
+                        <i class="sidebar-button-icon fa fa-question" aria-hidden="true"></i>
+                        <span class="sidebar-button-desc">About</span>
+                    </a>
+            </li>
+            
+        </ul>
+        
+            <ul class="sidebar-buttons">
+            
+                <li class="sidebar-button">
+                    
+                        <a  class="sidebar-button-link " href="https://github.com/yuehhua/" target="_blank" rel="noopener" title="GitHub">
+                    
+                        <i class="sidebar-button-icon fab fa-github" aria-hidden="true"></i>
+                        <span class="sidebar-button-desc">GitHub</span>
+                    </a>
+            </li>
+            
+                <li class="sidebar-button">
+                    
+                        <a  class="sidebar-button-link " href="https://www.facebook.com/a504082002" target="_blank" rel="noopener" title="Facebook">
+                    
+                        <i class="sidebar-button-icon fab fa-facebook" aria-hidden="true"></i>
+                        <span class="sidebar-button-desc">Facebook</span>
+                    </a>
+            </li>
+            
+                <li class="sidebar-button">
+                    
+                        <a  class="sidebar-button-link " href="https://www.linkedin.com/in/%E5%B2%B3%E8%8F%AF-%E6%9D%9C-6a3995a0/" target="_blank" rel="noopener" title="LinkedIn">
+                    
+                        <i class="sidebar-button-icon fab fa-linkedin" aria-hidden="true"></i>
+                        <span class="sidebar-button-desc">LinkedIn</span>
+                    </a>
+            </li>
+            
+                <li class="sidebar-button">
+                    
+                        <a  class="sidebar-button-link " href="mailto:a504082002@gmail.com" target="_blank" rel="noopener" title="Mail">
+                    
+                        <i class="sidebar-button-icon fab fa-envelope" aria-hidden="true"></i>
+                        <span class="sidebar-button-desc">Mail</span>
+                    </a>
+            </li>
+            
+        </ul>
+        
+            <ul class="sidebar-buttons">
+            
+                <li class="sidebar-button">
+                    
+                        <a  class="sidebar-button-link "
+                             href="/atom.xml"
+                            
+                            title="RSS"
+                        >
+                    
+                        <i class="sidebar-button-icon fa fa-rss" aria-hidden="true"></i>
+                        <span class="sidebar-button-desc">RSS</span>
+                    </a>
+            </li>
+            
+        </ul>
+        
+    </div>
+</nav>
+
+            
+            <div id="main" data-behavior="5"
+                 class="
+                        hasCoverMetaIn
+                        ">
+                
+<article class="post">
+    
+    
+        <div class="post-header main-content-wrap text-left">
+    
+        <h1 class="post-title">
+            Basis for topology
+        </h1>
+    
+    
+        <div class="post-meta">
+    <time datetime="2018-07-25T23:57:56+08:00">
+	
+		    Jul 25, 2018
+    	
+    </time>
+    
+        <span>in </span>
+        
+    <a class="category-link" href="/categories/Topology/">Topology</a>
+
+
+    
+</div>
+
+    
+</div>
+
+    
+    <div class="post-content markdown">
+        <div class="main-content-wrap">
+            <p>上一篇介紹完基本的拓樸結構，接下來我們來看基底（basis）的部份。</p>
+<p>有上過線性代數的朋友們應該會知道，向量如果滿足線性獨立可以 span 到整個空間，而一個空間有他們的基底。</p>
+<p>你可以把向量看成一種數學物件，空間的話就是很多這種數學物件的集合，那相對基底的話就是要擴展成整個空間的基本元素。</p>
+<p>拓樸也是一樣的，開集（open set）也是一種數學物件，一個拓樸空間中所包含的元素就是開集，那麼就會很自然的想知道他的基底是什麼？</p>
+<blockquote>
+<p> <strong><em>Def.</em></strong></p>
+</blockquote>
+<p>$X$ is a set, $\mathcal{T}$ is a topology on $X$, a <strong>basis</strong> for $\mathcal{T}$ is a collection $\mathcal{B}$ of subsets of $X$, <strong>basis elements</strong> are elements in $\mathcal{B}$, $\mathcal{B}$ must have the following properties:</p>
+<ol>
+<li>$\forall x \in X, \exists$ basis element $B \supseteq x$</li>
+<li>$B_1, B_2, B_3$ are basis elements, if $x \in B_1 \cap B_2$, $\exists B_3 \supseteq x$ and $B_3 \subseteq B_1 \cap B_2$</li>
+</ol>
+<p>如果一個拓樸有滿足這兩個條件，那我們就可以說 <strong>拓樸 $\mathcal{T}$ 是由 $\mathcal{B}$ 生成的（generated）</strong>。</p>
+<p>現在就來解釋一下上面的意思，我們應該不難理解，如果把拓樸看成一個空間的話，他是很多開集的集合，那麼基底 $\mathcal{B}$ 也會是集合的集合。在線性代數中，我們可以透過線性組合來把基底擴充到整個空間，那就表示那他應該是一組很基本的元素集合。這邊也有類似的概念，當一個基底可以擴充成一個拓樸的時候，那麼他就應該俱備以上兩種特性。</p>
+<p>那麼線性代數可以用線性組合來 span 到整個空間。那麼拓樸的基底可以怎麼辦？我們可以用聯集（union）阿！</p>
+<p>剛剛我們提到開集，我們都還沒定義開集呢！</p>
+<blockquote>
+<p> <strong><em>Def.</em></strong></p>
+</blockquote>
+<p>A subset $U \subseteq X$ is <strong>open</strong> in $X$, if $\forall x \in U$, $\exists$ basis element $B \in \mathcal{B}$ s.t. $x \in B$ and $B \subseteq \mathcal{B}$</p>
+<p>開集大概就像向量般的存在，而拓樸就是向量空間這樣子。依據這邊的定義，一個開集 $U$ 他裡面的元素 $x$ 都要在基底的元素當中（$x \in B$），然後基底元素是基底的子集（$B \subseteq \mathcal{B}$）。要記住，每個基底元素都 $\mathcal{T}$ 的元素。</p>
+<p>舉個例子看看吧！</p>
+<blockquote>
+<p>ex.</p>
+</blockquote>
+<p><img src="/images/basis.svg" alt=""></p>
+<p>如果 $\mathcal{B}$ 是所有圓圈區域的基底，那麼他一定滿足上面兩個條件。</p>
+<blockquote>
+<p>ex.</p>
+</blockquote>
+<p>如果 $X$ 是一個集合，那麼所有只包含一個點的 $X$ 的子集合的集合，是 $X$ 的離散拓樸的基底</p>
+<blockquote>
+<p>ex.</p>
+</blockquote>
+<p><img src="/images/basis2.svg" alt=""></p>
+<p>假設 $U_1$ 跟 $U_2$ 是拓樸 $\mathcal{T}$ 的元素，我們是不是可以證明 $U_1 \cap U_2 \in \mathcal{T}$？</p>
+<p>假設有個 $x \in U_1 \cap U_2$，我們可以找到一個基底元素 $B_1$，$x \in B_1$，$B_1 \subseteq U_1$；我們可以找到另一個基底元素 $B_2$，$x \in B_2$，$B_2 \subseteq U_2$。</p>
+<p>這樣從基底的第二的條件是不是可以推出有個 $B_3$，$x \in B_3$，$B_3 \subseteq B_1 \cap B_2$。</p>
+<p>那麼從 $x \in B_3$ 跟 $B_3 \subseteq B_1 \cap B_2 \subseteq U_1 \cap U_2$，可以推出 $U_1 \cap U_2 \in \mathcal{T}$。</p>
+<p>證明了 $U_1 \cap U_2 \in \mathcal{T}$，那麼我們大可以用數學歸納法證明 $\bigcup_{i=1}^{n} U_i \in \mathcal{T}$。</p>
+<p>這樣我們也檢驗了由基底生成的開集的集合是一個拓樸。</p>
+<p>我們也可以從另一個面向切入，描述他們之間的關係。</p>
+<blockquote>
+<p> <strong><em>Lemma</em></strong></p>
+</blockquote>
+<p>$X$ is a set, $\mathcal{B}$ is a basis for topology $\mathcal{T}$, $\mathcal{T}$ equals the collection of all unions of elements of $\mathcal{B}$.</p>
+
+            
+
+        </div>
+    </div>
+    <div id="post-footer" class="post-footer main-content-wrap">
+        
+        
+            <div class="post-actions-wrap">
+    <nav>
+        <ul class="post-actions post-action-nav">
+            <li class="post-action">
+                
+                    <a class="post-action-btn btn btn--disabled">
+                
+                    <i class="fa fa-angle-left" aria-hidden="true"></i>
+                    <span class="hide-xs hide-sm text-small icon-ml">PREVIOUS</span>
+                </a>
+            </li>
+            <li class="post-action">
+                
+                    
+                    <a class="post-action-btn btn btn--default tooltip--top" href="/2018/07/22/09-topology/" data-tooltip="Topology space and topology" aria-label="NEXT: Topology space and topology">
+                
+                    <span class="hide-xs hide-sm text-small icon-mr">NEXT</span>
+                    <i class="fa fa-angle-right" aria-hidden="true"></i>
+                </a>
+            </li>
+        </ul>
+    </nav>
+    <ul class="post-actions post-action-share">
+        <li class="post-action hide-lg hide-md hide-sm">
+            <a class="post-action-btn btn btn--default btn-open-shareoptions" href="#btn-open-shareoptions" aria-label="Share this post">
+                <i class="fa fa-share-alt" aria-hidden="true"></i>
+            </a>
+        </li>
+        
+            
+            
+            <li class="post-action hide-xs">
+                <a class="post-action-btn btn btn--default" target="new" href="https://www.facebook.com/sharer/sharer.php?u=https://yuehhua.github.io/2018/07/25/10-basis-for-topology/" title="Share on Facebook">
+                    <i class="fa fa-facebook-official" aria-hidden="true"></i>
+                </a>
+            </li>
+        
+        
+            
+                <li class="post-action">
+                    <a class="post-action-btn btn btn--default" href="#disqus_thread">
+                        <i class="fa fa-comment-o"></i>
+                    </a>
+                </li>
+            
+        
+        <li class="post-action">
+            
+                <a class="post-action-btn btn btn--default" href="#" aria-label="Back to top">
+            
+                <i class="fa fa-list" aria-hidden="true"></i>
+            </a>
+        </li>
+    </ul>
+</div>
+
+
+        
+        
+            
+                <div id="disqus_thread">
+    <noscript>Please enable JavaScript to view the <a href="//disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+</div>
+            
+        
+    </div>
+</article>
+
+
+
+                <footer id="footer" class="main-content-wrap">
+    <span class="copyrights">
+        Copyrights &copy; 2018 Yueh-Hua Tu. All Rights Reserved.
+    </span>
+</footer>
+
+            </div>
+            
+                <div id="bottom-bar" class="post-bottom-bar" data-behavior="5">
+                    <div class="post-actions-wrap">
+    <nav>
+        <ul class="post-actions post-action-nav">
+            <li class="post-action">
+                
+                    <a class="post-action-btn btn btn--disabled">
+                
+                    <i class="fa fa-angle-left" aria-hidden="true"></i>
+                    <span class="hide-xs hide-sm text-small icon-ml">PREVIOUS</span>
+                </a>
+            </li>
+            <li class="post-action">
+                
+                    
+                    <a class="post-action-btn btn btn--default tooltip--top" href="/2018/07/22/09-topology/" data-tooltip="Topology space and topology" aria-label="NEXT: Topology space and topology">
+                
+                    <span class="hide-xs hide-sm text-small icon-mr">NEXT</span>
+                    <i class="fa fa-angle-right" aria-hidden="true"></i>
+                </a>
+            </li>
+        </ul>
+    </nav>
+    <ul class="post-actions post-action-share">
+        <li class="post-action hide-lg hide-md hide-sm">
+            <a class="post-action-btn btn btn--default btn-open-shareoptions" href="#btn-open-shareoptions" aria-label="Share this post">
+                <i class="fa fa-share-alt" aria-hidden="true"></i>
+            </a>
+        </li>
+        
+            
+            
+            <li class="post-action hide-xs">
+                <a class="post-action-btn btn btn--default" target="new" href="https://www.facebook.com/sharer/sharer.php?u=https://yuehhua.github.io/2018/07/25/10-basis-for-topology/" title="Share on Facebook">
+                    <i class="fa fa-facebook-official" aria-hidden="true"></i>
+                </a>
+            </li>
+        
+        
+            
+                <li class="post-action">
+                    <a class="post-action-btn btn btn--default" href="#disqus_thread">
+                        <i class="fa fa-comment-o"></i>
+                    </a>
+                </li>
+            
+        
+        <li class="post-action">
+            
+                <a class="post-action-btn btn btn--default" href="#" aria-label="Back to top">
+            
+                <i class="fa fa-list" aria-hidden="true"></i>
+            </a>
+        </li>
+    </ul>
+</div>
+
+
+                </div>
+                <div id="share-options-bar" class="share-options-bar" data-behavior="5">
+    <i id="btn-close-shareoptions" class="fa fa-close"></i>
+    <ul class="share-options">
+        
+            
+            
+            <li class="share-option">
+                <a class="share-option-btn" target="new" href="https://www.facebook.com/sharer/sharer.php?u=https://yuehhua.github.io/2018/07/25/10-basis-for-topology/">
+                    <i class="fa fa-facebook-official" aria-hidden="true"></i><span>Share on Facebook</span>
+                </a>
+            </li>
+        
+    </ul>
+</div>
+
+            
+        </div>
+        
+
+
+<div id="about">
+    <div id="about-card">
+        <div id="about-btn-close">
+            <i class="fa fa-remove"></i>
+        </div>
+        
+            <h4 id="about-card-name">Yueh-Hua Tu</h4>
+        
+            <div id="about-card-bio"><p>author.bio</p>
+</div>
+        
+        
+            <div id="about-card-job">
+                <i class="fa fa-briefcase"></i>
+                <br/>
+                <p>Research assistant, Taiwan CDC</p>
+
+            </div>
+        
+        
+            <div id="about-card-location">
+                <i class="fa fa-map-marker"></i>
+                <br/>
+                Taiwan
+            </div>
+        
+    </div>
+</div>
+
+        
+        
+<div id="cover" style="background-image:url('/assets/images/cover.jpg');"></div>
+        <!--SCRIPTS-->
+<script src="/assets/js/script-xzfezjobyekpxrjktw5tz6muvzqfsbmo5n6atk3p5om9ulfptldi3p7cyqd8.min.js"></script>
+<!--SCRIPTS END-->
+
+    
+        <script>
+             var disqus_config = function () {
+                 this.page.url = 'https://yuehhua.github.io/2018/07/25/10-basis-for-topology/';
+                 
+                    this.page.identifier = '2018/07/25/10-basis-for-topology/';
+                 
+             };
+            (function() {
+                var d = document, s = d.createElement('script');
+                var disqus_shortname = 'dream-maker';
+                s.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+
+                s.setAttribute('data-timestamp', +new Date());
+                (d.head || d.body).appendChild(s);
+            })();
+        </script>
+    
+
+
+
+    <script type="text/x-mathjax-config">
+    MathJax.Hub.Config({
+        tex2jax: {
+            inlineMath: [ ["$","$"], ["\\(","\\)"] ],
+            skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code'],
+            processEscapes: true
+        }
+    });
+    MathJax.Hub.Queue(function() {
+        var all = MathJax.Hub.getAllJax();
+        for (var i = 0; i < all.length; ++i)
+            all[i].SourceElement().parentNode.className += ' has-jax';
+    });
+</script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-MML-AM_CHTML"></script><!-- hexo-inject:begin --><!-- hexo-inject:end -->
+
+</body>
+</html>
