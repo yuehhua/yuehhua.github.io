@@ -291,8 +291,7 @@ top       Lookup the running processes of a container
 unpause   Unpause a paused container
 version   Show the docker version information
 wait      Block until a container stops, then print its exit code
-</code></pre><a id="more"></a>
-<h2 id="Docker-Commands-Diagram"><a href="#Docker-Commands-Diagram" class="headerlink" title="Docker Commands Diagram"></a><strong>Docker Commands Diagram</strong></h2><p><img src="https://raw.githubusercontent.com/philipz/docker_practice/master/_images/cmd_logic.png" alt="Docker Commands Diagram"></p>
+</code></pre><h2 id="Docker-Commands-Diagram"><a href="#Docker-Commands-Diagram" class="headerlink" title="Docker Commands Diagram"></a><strong>Docker Commands Diagram</strong></h2><p><img src="https://raw.githubusercontent.com/philipz/docker_practice/master/_images/cmd_logic.png" alt="Docker Commands Diagram"></p>
                     
                         <a href="/2018/07/21/04-reference/" class="postShorten-excerpt_link link">
                             Continue reading
@@ -306,7 +305,7 @@ wait      Block until a container stops, then print its exit code
     </article>
     
     
-    <article class="postShorten postShorten--thumbnailimg-right">
+    <article class="postShorten postShorten--thumbnailimg-bottom">
         <div class="postShorten-wrap">
             
             <div class="postShorten-header">
@@ -334,13 +333,26 @@ wait      Block until a container stops, then print its exit code
 
             </div>
             
-                <div class="postShorten-excerpt">
+                <div class="postShorten-content">
                     <a id="more"></a>
+<pre><code>docker pull sequenceiq/hadoop-ubuntu
+docker pull nginx  # official repos
+docker pull php  # official repos
+docker pull dockerfile/java
+docker pull dockerfile/python
+docker pull pypy  # official repos
+docker pull rocker/rstudio:latest
+</code></pre>
                     
-                        <a href="/2018/07/21/03-recommend/" class="postShorten-excerpt_link link">
-                            Continue reading
-                        </a>
                         
+
+                    
+                    
+                        <p>
+                            <a href="/2018/07/21/03-recommend/#post-footer" class="postShorten-excerpt_link link">
+                                Comment and share
+                            </a>
+                        </p>
                     
                 </div>
             
@@ -378,8 +390,7 @@ wait      Block until a container stops, then print its exit code
             </div>
             
                 <div class="postShorten-excerpt">
-                    <a id="more"></a>
-<p>We already know how to get a image and modify it, then share it through Docker Hub. It can be more portable and easy to customize. Just write a script in Dockerfile, and then use <code>docker build</code> to build an image following the script in Dockerfile!</p>
+                    <p>We already know how to get a image and modify it, then share it through Docker Hub. It can be more portable and easy to customize. Just write a script in Dockerfile, and then use <code>docker build</code> to build an image following the script in Dockerfile!</p>
                     
                         <a href="/2018/07/21/02-dockerfiles/" class="postShorten-excerpt_link link">
                             Continue reading
@@ -423,7 +434,6 @@ wait      Block until a container stops, then print its exit code
             
                 <div class="postShorten-excerpt">
                     <!-- toc -->
-<a id="more"></a>
 <p>Usage:  <code>[sudo] docker [command] [flags] [arguments] ..</code></p>
                     
                         <a href="/2018/07/21/01-basic-commands/" class="postShorten-excerpt_link link">

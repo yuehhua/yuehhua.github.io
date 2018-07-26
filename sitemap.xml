@@ -2,135 +2,135 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   
   <url>
-    <loc>https://yuehhua.github.io/2018/07/25/10-basis-for-topology/</loc>
+    <loc>https://yuehhua.github.io/2018/07/21/why-rnn/</loc>
     
-    <lastmod>2018-07-25T15:59:46.987Z</lastmod>
-    
-  </url>
-  
-  <url>
-    <loc>https://yuehhua.github.io/2018/07/21/04-reference/</loc>
-    
-    <lastmod>2018-07-23T17:20:57.200Z</lastmod>
-    
-  </url>
-  
-  <url>
-    <loc>https://yuehhua.github.io/2018/07/21/03-recommend/</loc>
-    
-    <lastmod>2018-07-23T17:20:28.132Z</lastmod>
-    
-  </url>
-  
-  <url>
-    <loc>https://yuehhua.github.io/2018/07/21/02-dockerfiles/</loc>
-    
-    <lastmod>2018-07-23T17:20:03.506Z</lastmod>
-    
-  </url>
-  
-  <url>
-    <loc>https://yuehhua.github.io/2018/07/21/01-basic-commands/</loc>
-    
-    <lastmod>2018-07-23T17:19:14.072Z</lastmod>
+    <lastmod>2018-07-26T05:31:47.294Z</lastmod>
     
   </url>
   
   <url>
     <loc>https://yuehhua.github.io/2018/07/21/why-mlp/</loc>
     
-    <lastmod>2018-07-23T17:16:46.426Z</lastmod>
-    
-  </url>
-  
-  <url>
-    <loc>https://yuehhua.github.io/2018/07/21/why-rnn/</loc>
-    
-    <lastmod>2018-07-23T17:16:13.191Z</lastmod>
+    <lastmod>2018-07-26T05:31:37.264Z</lastmod>
     
   </url>
   
   <url>
     <loc>https://yuehhua.github.io/2018/07/21/why-deep-learning/</loc>
     
-    <lastmod>2018-07-23T17:15:18.424Z</lastmod>
+    <lastmod>2018-07-26T05:31:24.171Z</lastmod>
     
   </url>
   
   <url>
     <loc>https://yuehhua.github.io/2018/07/21/why-cnn/</loc>
     
-    <lastmod>2018-07-23T17:14:48.339Z</lastmod>
+    <lastmod>2018-07-26T05:31:11.412Z</lastmod>
     
   </url>
   
   <url>
     <loc>https://yuehhua.github.io/2018/07/21/mindset/</loc>
     
-    <lastmod>2018-07-23T17:13:59.328Z</lastmod>
+    <lastmod>2018-07-26T05:30:57.639Z</lastmod>
     
   </url>
   
   <url>
-    <loc>https://yuehhua.github.io/2018/07/22/08-infinite-sets/</loc>
+    <loc>https://yuehhua.github.io/2018/07/21/04-reference/</loc>
     
-    <lastmod>2018-07-23T17:12:24.172Z</lastmod>
-    
-  </url>
-  
-  <url>
-    <loc>https://yuehhua.github.io/2018/07/22/07-countable-sets/</loc>
-    
-    <lastmod>2018-07-23T17:11:59.210Z</lastmod>
+    <lastmod>2018-07-26T05:30:47.530Z</lastmod>
     
   </url>
   
   <url>
-    <loc>https://yuehhua.github.io/2018/07/22/06-finite-sets/</loc>
+    <loc>https://yuehhua.github.io/2018/07/21/03-recommend/</loc>
     
-    <lastmod>2018-07-23T17:11:29.215Z</lastmod>
-    
-  </url>
-  
-  <url>
-    <loc>https://yuehhua.github.io/2018/07/22/05-cartesian-products/</loc>
-    
-    <lastmod>2018-07-23T17:11:01.686Z</lastmod>
+    <lastmod>2018-07-26T05:30:30.391Z</lastmod>
     
   </url>
   
   <url>
-    <loc>https://yuehhua.github.io/2018/07/22/04-integer-real-numbers/</loc>
+    <loc>https://yuehhua.github.io/2018/07/21/02-dockerfiles/</loc>
     
-    <lastmod>2018-07-23T17:10:18.882Z</lastmod>
-    
-  </url>
-  
-  <url>
-    <loc>https://yuehhua.github.io/2018/07/22/03-relations/</loc>
-    
-    <lastmod>2018-07-23T17:09:36.524Z</lastmod>
+    <lastmod>2018-07-26T05:30:00.816Z</lastmod>
     
   </url>
   
   <url>
-    <loc>https://yuehhua.github.io/2018/07/22/02-functions/</loc>
+    <loc>https://yuehhua.github.io/2018/07/21/01-basic-commands/</loc>
     
-    <lastmod>2018-07-23T17:08:54.333Z</lastmod>
+    <lastmod>2018-07-26T05:29:50.223Z</lastmod>
     
   </url>
   
   <url>
     <loc>https://yuehhua.github.io/2018/07/22/01-set-theory/</loc>
     
-    <lastmod>2018-07-23T17:06:37.510Z</lastmod>
+    <lastmod>2018-07-26T05:29:38.360Z</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>https://yuehhua.github.io/2018/07/22/02-functions/</loc>
+    
+    <lastmod>2018-07-26T05:29:28.734Z</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>https://yuehhua.github.io/2018/07/22/03-relations/</loc>
+    
+    <lastmod>2018-07-26T05:29:20.728Z</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>https://yuehhua.github.io/2018/07/22/04-integer-real-numbers/</loc>
+    
+    <lastmod>2018-07-26T05:29:10.262Z</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>https://yuehhua.github.io/2018/07/22/05-cartesian-products/</loc>
+    
+    <lastmod>2018-07-26T05:28:58.969Z</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>https://yuehhua.github.io/2018/07/22/06-finite-sets/</loc>
+    
+    <lastmod>2018-07-26T05:28:46.816Z</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>https://yuehhua.github.io/2018/07/22/07-countable-sets/</loc>
+    
+    <lastmod>2018-07-26T05:28:35.770Z</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>https://yuehhua.github.io/2018/07/22/08-infinite-sets/</loc>
+    
+    <lastmod>2018-07-26T05:28:24.757Z</lastmod>
     
   </url>
   
   <url>
     <loc>https://yuehhua.github.io/2018/07/22/09-topology/</loc>
     
-    <lastmod>2018-07-23T17:05:40.022Z</lastmod>
+    <lastmod>2018-07-26T05:28:16.524Z</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>https://yuehhua.github.io/2018/07/25/10-basis-for-topology/</loc>
+    
+    <lastmod>2018-07-26T05:28:07.398Z</lastmod>
     
   </url>
   
