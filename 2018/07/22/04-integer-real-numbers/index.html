@@ -15,7 +15,7 @@
     
         <link rel="alternate" type="application/atom+xml" title="RSS" href="/atom.xml">
     
-    <script type="application/ld+json">{"@context":"http://schema.org","@type":"BlogPosting","author":{"@type":"Person","name":"Yueh-Hua Tu","sameAs":["https://github.com/yuehhua/","https://www.facebook.com/a504082002","https://www.linkedin.com/in/%E5%B2%B3%E8%8F%AF-%E6%9D%9C-6a3995a0/","mailto:a504082002@gmail.com"],"image":"https://www.gravatar.com/avatar/a565749fba4782b717234da670b273fd"},"articleBody":"以上我們談了一些 邏輯的基礎，接下來我們會談一些 數學的基礎，也就是整數與實數系統。其實我們已經用了很多，非正式地，接下來我們會正式地討論他們。\n要 建構 實數系統的一個方法就是利用公理跟集合論來建構。\n\n首先我們需要從集合論出發，定義在 set $A$ 上的 二元運算子（binary operator）：\n\n Def.\n\n\nf: A \\times A \\rightarrow A我們在描述一個二元運算子的時候並不會如同以往的函數一樣， $f(a, a’)$，而是會把運算子寫在中間， $afa’$。一般來說，我們會用符號來表示，而不是字母，像是加號 $+$、乘號 $\\cdot$。\n假設我們假設存在一個 set $\\mathbb{R}$，代表實數，有兩個運算子分別是加法運算子 $+$、乘法運算子 $\\cdot$，以及一個次序關係 $\\lt$ 定義於 $\\mathbb{R}$ 上，會有以下特性：\n代數特性（Algebraic Properties）\n\n$(x + y) + z = x + (y + z), \\forall x, y, z \\in \\mathbb{R}$\n\n$(x \\cdot y) \\cdot z = x \\cdot (y \\cdot z), \\forall x, y, z \\in \\mathbb{R}$\n\n$x + y = y + x, \\forall x, y, z \\in \\mathbb{R}$\n\n$x \\cdot y = y \\cdot x, \\forall x, y, z \\in \\mathbb{R}$\n\n$\\exists! 0 \\in \\mathbb{R}, \\forall x \\in \\mathbb{R}, s.t. \\enspace x + 0 = x$\n\n$\\exists! 1 \\in \\mathbb{R}, \\forall x \\in \\mathbb{R}, s.t. \\enspace x \\cdot 1 = x$\n\n$for \\enspace each \\enspace x, \\exists! y, s.t. \\enspace x + y = 0$\n\n$for \\enspace each \\enspace x, \\exists! y, s.t. \\enspace x \\cdot y = 1$\n\n$x \\cdot (y + z) = (x \\cdot y) + (x \\cdot z), \\forall x, y, z \\in \\mathbb{R}$\n\n混合代數與次序特性（A Mixed Algebraic and Order Property）\n\n$If \\enspace x \\gt y, then \\enspace x + z \\gt y + z$\n\n$If \\enspace x \\gt y, z \\gt 0, then \\enspace x \\cdot z \\gt y \\cdot z$\n次序特性（Order Properties）\n\n次序關係 $\\lt$ 有最小上界性\n$If \\enspace x \\lt y, then \\enspace \\exists z \\enspace s.t. \\enspace x \\lt z, z \\lt y$\n\n由 1~5 點我們可以導出一些代數性質，像是負數、減法運算、倒數跟商的概念。我們可以定義正數（$x \\gt 0$）跟負數（$x \\lt 0$）。在代數領域，擁有 1~5 點特性的代數結構，我們會稱為域（field）。如果有包含第六點就稱為有序域（ordered field）。在拓樸領域我們通常會討論的是第7、8點，他只牽涉到次序關係，同時擁有這兩點的集合稱為線性連續統（linear continuum）。\n說到這邊我們還沒提到整數呢！我們就用前6點來定義整數（integer）。\n\n Def.\n\n$A \\subseteq \\mathbb{R} \\enspace is \\enspace inductive:$\n\n$1 \\in A$\n$\\forall x \\in A \\enspace s.t. \\enspace x + 1 \\in A$\n\n\n Def.\n\n$\\mathcal{A} \\enspace is \\enspace a \\enspace collection \\enspace of \\enspace all \\enspace inductive \\enspace subsets \\enspace of \\enspace \\mathbb{R}$$positive \\enspace integers \\enspace is \\enspace a \\enspace set \\enspace \\mathbb{N} = \\bigcap_{A \\in \\mathcal{A}} A$\n這樣的定義是很巧妙的，他其實只有明確的定義了1是在這個集合裡，後面都以 $x+ 1$ 的形式去推演，這稱為可歸納。而正整數是眾多可歸納集合的交集，可見正整數是最小的子集。\n正整數有些特性：\n\n正整數是可歸納的（inductive）\n（Principle of inductive）如果 set $A$ 是可歸納的，而且含正整數的集合，那麼 $A = \\mathbb{N}$\n\n與實數不同的是，他不會有第八點特性，也就是，$for \\enspace each \\enspace n \\in \\mathbb{N}, \\nexists a \\in \\mathbb{N} \\enspace s.t. \\enspace n \\lt a \\lt n + 1$。\n\n如果有個正整數 $n$，我們用 $S_{n}$ 來代表所有小於 $n$ 的正整數的集合，我們稱他為 section：\n\nS_{n + 1} = \\\\{1, \\dots , n\\\\}接下來我們會描述 證明 兩個可能不是很熟悉但很有用的特性，你可以看成是另一個版本的數學歸納法：\n\n Theorem: Well-ordering property\n\n\nS \\subseteq \\mathbb{N}, S \\neq \\emptyset, S \\enspace has \\enspace smallest \\enspace element.他描述了 $\\mathbb{N}$ 的非空子集，一定有最小元素。\n\n Theorem: Strong induction principle\n\n\nA \\enspace is \\enspace a \\enspace set \\enspace of \\enspace positive \\enspace integers,\nfor \\enspace each \\enspace n, S_n \\subseteq A \\enspace s.t. \\enspace n \\in A, then \\enspace A = \\mathbb{N}這邊描述了，對每個 $n$ 來說，由 $S_n \\subseteq A$ 可以推出 $n \\in A$ 的話，那麼 $A$ 就是 $\\mathbb{N}$。\n以上我們用了有序域中的第 1~6 點公理，那第 7 點呢？\n你用會用到第 7 點（最小上界公理）來證明，正整數集合 $\\mathbb{N}$ 在實數的集合 $\\mathbb{R}$ 中是沒有上界的。\n\nTheorom: Archimedean ordering property\n\n\nthe \\enspace  set \\enspace  \\mathbb{N} \\enspace  has \\enspace  no \\enspace  upper \\enspace  bound \\enspace  in \\enspace  \\mathbb{R}.","dateCreated":"2018-07-22T00:25:40+08:00","dateModified":"2018-07-26T13:29:10+08:00","datePublished":"2018-07-22T00:25:40+08:00","description":"以上我們談了一些 邏輯的基礎，接下來我們會談一些 數學的基礎，也就是整數與實數系統。其實我們已經用了很多，非正式地，接下來我們會正式地討論他們。\n要 建構 實數系統的一個方法就是利用公理跟集合論來建構。","headline":"The Integers and the Real Numbers","image":[],"mainEntityOfPage":{"@type":"WebPage","@id":"https://yuehhua.github.io/2018/07/22/04-integer-real-numbers/"},"publisher":{"@type":"Organization","name":"Yueh-Hua Tu","sameAs":["https://github.com/yuehhua/","https://www.facebook.com/a504082002","https://www.linkedin.com/in/%E5%B2%B3%E8%8F%AF-%E6%9D%9C-6a3995a0/","mailto:a504082002@gmail.com"],"image":"https://www.gravatar.com/avatar/a565749fba4782b717234da670b273fd","logo":{"@type":"ImageObject","url":"https://www.gravatar.com/avatar/a565749fba4782b717234da670b273fd"}},"url":"https://yuehhua.github.io/2018/07/22/04-integer-real-numbers/"}</script>
+    <script type="application/ld+json">{"@context":"http://schema.org","@type":"BlogPosting","author":{"@type":"Person","name":"Yueh-Hua Tu","sameAs":["https://github.com/yuehhua/","https://www.facebook.com/a504082002","https://www.linkedin.com/in/%E5%B2%B3%E8%8F%AF-%E6%9D%9C-6a3995a0/","mailto:a504082002@gmail.com"],"image":"https://www.gravatar.com/avatar/a565749fba4782b717234da670b273fd"},"articleBody":"以上我們談了一些 邏輯的基礎，接下來我們會談一些 數學的基礎，也就是整數與實數系統。其實我們已經用了很多，非正式地，接下來我們會正式地討論他們。\n要 建構 實數系統的一個方法就是利用公理跟集合論來建構。\n\n首先我們需要從集合論出發，定義在 set $A$ 上的 二元運算子（binary operator）：\n\n Def.\n\n$$f: A \\times A \\rightarrow A$$\n我們在描述一個二元運算子的時候並不會如同以往的函數一樣， $f(a, a’)$，而是會把運算子寫在中間， $afa’$。一般來說，我們會用符號來表示，而不是字母，像是加號 $+$、乘號 $\\cdot$。\n假設我們假設存在一個 set $\\mathbb{R}$，代表實數，有兩個運算子分別是加法運算子 $+$、乘法運算子 $\\cdot$，以及一個次序關係 $\\lt$ 定義於 $\\mathbb{R}$ 上，會有以下特性：\n代數特性（Algebraic Properties）\n\n$(x + y) + z = x + (y + z), \\forall x, y, z \\in \\mathbb{R}$\n\n$(x \\cdot y) \\cdot z = x \\cdot (y \\cdot z), \\forall x, y, z \\in \\mathbb{R}$\n\n$x + y = y + x, \\forall x, y, z \\in \\mathbb{R}$\n\n$x \\cdot y = y \\cdot x, \\forall x, y, z \\in \\mathbb{R}$\n\n$\\exists! 0 \\in \\mathbb{R}, \\forall x \\in \\mathbb{R}, s.t. \\enspace x + 0 = x$\n\n$\\exists! 1 \\in \\mathbb{R}, \\forall x \\in \\mathbb{R}, s.t. \\enspace x \\cdot 1 = x$\n\n$for \\enspace each \\enspace x, \\exists! y, s.t. \\enspace x + y = 0$\n\n$for \\enspace each \\enspace x, \\exists! y, s.t. \\enspace x \\cdot y = 1$\n\n$x \\cdot (y + z) = (x \\cdot y) + (x \\cdot z), \\forall x, y, z \\in \\mathbb{R}$\n\n混合代數與次序特性（A Mixed Algebraic and Order Property）\n\n$If \\enspace x \\gt y, then \\enspace x + z \\gt y + z$\n\n$If \\enspace x \\gt y, z \\gt 0, then \\enspace x \\cdot z \\gt y \\cdot z$\n次序特性（Order Properties）\n\n次序關係 $\\lt$ 有最小上界性\n$If \\enspace x \\lt y, then \\enspace \\exists z \\enspace s.t. \\enspace x \\lt z, z \\lt y$\n\n由 1~5 點我們可以導出一些代數性質，像是負數、減法運算、倒數跟商的概念。我們可以定義正數（$x \\gt 0$）跟負數（$x \\lt 0$）。在代數領域，擁有 1~5 點特性的代數結構，我們會稱為域（field）。如果有包含第六點就稱為有序域（ordered field）。在拓樸領域我們通常會討論的是第7、8點，他只牽涉到次序關係，同時擁有這兩點的集合稱為線性連續統（linear continuum）。\n說到這邊我們還沒提到整數呢！我們就用前6點來定義整數（integer）。\n\n Def.\n\n$A \\subseteq \\mathbb{R} \\enspace is \\enspace inductive:$\n\n$1 \\in A$\n$\\forall x \\in A \\enspace s.t. \\enspace x + 1 \\in A$\n\n\n Def.\n\n$\\mathcal{A} \\enspace is \\enspace a \\enspace collection \\enspace of \\enspace all \\enspace inductive \\enspace subsets \\enspace of \\enspace \\mathbb{R}$$positive \\enspace integers \\enspace is \\enspace a \\enspace set \\enspace \\mathbb{N} = \\bigcap_{A \\in \\mathcal{A}} A$\n這樣的定義是很巧妙的，他其實只有明確的定義了1是在這個集合裡，後面都以 $x+ 1$ 的形式去推演，這稱為可歸納。而正整數是眾多可歸納集合的交集，可見正整數是最小的子集。\n正整數有些特性：\n\n正整數是可歸納的（inductive）\n（Principle of inductive）如果 set $A$ 是可歸納的，而且含正整數的集合，那麼 $A = \\mathbb{N}$\n\n與實數不同的是，他不會有第八點特性，也就是，$for \\enspace each \\enspace n \\in \\mathbb{N}, \\nexists a \\in \\mathbb{N} \\enspace s.t. \\enspace n \\lt a \\lt n + 1$。\n\n如果有個正整數 $n$，我們用 $S_{n}$ 來代表所有小於 $n$ 的正整數的集合，我們稱他為 section：\n$$S_{n + 1} = \\{1, \\dots , n\\}$$\n接下來我們會描述 證明 兩個可能不是很熟悉但很有用的特性，你可以看成是另一個版本的數學歸納法：\n\n Theorem: Well-ordering property\n\n$$S \\subseteq \\mathbb{N}, S \\neq \\emptyset, S \\enspace has \\enspace smallest \\enspace element.$$\n他描述了 $\\mathbb{N}$ 的非空子集，一定有最小元素。\n\n Theorem: Strong induction principle\n\n$$A \\enspace is \\enspace a \\enspace set \\enspace of \\enspace positive \\enspace integers,$$\n$$for \\enspace each \\enspace n, S_n \\subseteq A \\enspace s.t. \\enspace n \\in A, then \\enspace A = \\mathbb{N}$$\n這邊描述了，對每個 $n$ 來說，由 $S_n \\subseteq A$ 可以推出 $n \\in A$ 的話，那麼 $A$ 就是 $\\mathbb{N}$。\n以上我們用了有序域中的第 1~6 點公理，那第 7 點呢？\n你用會用到第 7 點（最小上界公理）來證明，正整數集合 $\\mathbb{N}$ 在實數的集合 $\\mathbb{R}$ 中是沒有上界的。\n\nTheorom: Archimedean ordering property\n\n$$the \\enspace  set \\enspace  \\mathbb{N} \\enspace  has \\enspace  no \\enspace  upper \\enspace  bound \\enspace  in \\enspace  \\mathbb{R}.$$\n","dateCreated":"2018-07-22T00:25:40+08:00","dateModified":"2018-07-26T13:29:10+08:00","datePublished":"2018-07-22T00:25:40+08:00","description":"以上我們談了一些 邏輯的基礎，接下來我們會談一些 數學的基礎，也就是整數與實數系統。其實我們已經用了很多，非正式地，接下來我們會正式地討論他們。\n要 建構 實數系統的一個方法就是利用公理跟集合論來建構。","headline":"The Integers and the Real Numbers","image":[],"mainEntityOfPage":{"@type":"WebPage","@id":"https://yuehhua.github.io/2018/07/22/04-integer-real-numbers/"},"publisher":{"@type":"Organization","name":"Yueh-Hua Tu","sameAs":["https://github.com/yuehhua/","https://www.facebook.com/a504082002","https://www.linkedin.com/in/%E5%B2%B3%E8%8F%AF-%E6%9D%9C-6a3995a0/","mailto:a504082002@gmail.com"],"image":"https://www.gravatar.com/avatar/a565749fba4782b717234da670b273fd","logo":{"@type":"ImageObject","url":"https://www.gravatar.com/avatar/a565749fba4782b717234da670b273fd"}},"url":"https://yuehhua.github.io/2018/07/22/04-integer-real-numbers/"}</script>
     <meta name="description" content="以上我們談了一些 邏輯的基礎，接下來我們會談一些 數學的基礎，也就是整數與實數系統。其實我們已經用了很多，非正式地，接下來我們會正式地討論他們。 要 建構 實數系統的一個方法就是利用公理跟集合論來建構。">
 <meta name="keywords" content="machine learning,deep learning,topology">
 <meta property="og:type" content="blog">
@@ -270,36 +270,36 @@
 <blockquote>
 <p> <strong><em>Def.</em></strong></p>
 </blockquote>
-<script type="math/tex; mode=display">
-f: A \times A \rightarrow A</script><p>我們在描述一個二元運算子的時候並不會如同以往的函數一樣， $f(a, a’)$，而是會把運算子寫在中間， $afa’$。一般來說，我們會用符號來表示，而不是字母，像是加號 $+$、乘號 $\cdot$。</p>
+<p>$$<br>f: A \times A \rightarrow A<br>$$</p>
+<p>我們在描述一個二元運算子的時候並不會如同以往的函數一樣， $f(a, a’)$，而是會把運算子寫在中間， $afa’$。一般來說，我們會用符號來表示，而不是字母，像是加號 $+$、乘號 $\cdot$。</p>
 <h4 id="假設"><a href="#假設" class="headerlink" title="假設"></a>假設</h4><p>我們假設存在一個 <em>set</em> $\mathbb{R}$，代表實數，有兩個運算子分別是加法運算子 $+$、乘法運算子 $\cdot$，以及一個次序關係 $\lt$ 定義於 $\mathbb{R}$ 上，會有以下特性：</p>
 <p><em>代數特性（Algebraic Properties）</em></p>
 <ol>
 <li>$(x + y) + z = x + (y + z), \forall x, y, z \in \mathbb{R}$</li>
 </ol>
 <p>$(x \cdot y) \cdot z = x \cdot (y \cdot z), \forall x, y, z \in \mathbb{R}$</p>
-<ol>
+<ol start="2">
 <li>$x + y = y + x, \forall x, y, z \in \mathbb{R}$</li>
 </ol>
 <p>$x \cdot y = y \cdot x, \forall x, y, z \in \mathbb{R}$</p>
-<ol>
+<ol start="3">
 <li>$\exists! 0 \in \mathbb{R}, \forall x \in \mathbb{R}, s.t. \enspace x + 0 = x$</li>
 </ol>
 <p>$\exists! 1 \in \mathbb{R}, \forall x \in \mathbb{R}, s.t. \enspace x \cdot 1 = x$</p>
-<ol>
+<ol start="4">
 <li>$for \enspace each \enspace x, \exists! y, s.t. \enspace x + y = 0$</li>
 </ol>
 <p>$for \enspace each \enspace x, \exists! y, s.t. \enspace x \cdot y = 1$</p>
-<ol>
+<ol start="5">
 <li>$x \cdot (y + z) = (x \cdot y) + (x \cdot z), \forall x, y, z \in \mathbb{R}$</li>
 </ol>
 <p><em>混合代數與次序特性（A Mixed Algebraic and Order Property）</em></p>
-<ol>
+<ol start="6">
 <li>$If \enspace x \gt y, then \enspace x + z \gt y + z$</li>
 </ol>
 <p>$If \enspace x \gt y, z \gt 0, then \enspace x \cdot z \gt y \cdot z$</p>
 <p><em>次序特性（Order Properties）</em></p>
-<ol>
+<ol start="7">
 <li>次序關係 $\lt$ 有最小上界性</li>
 <li>$If \enspace x \lt y, then \enspace \exists z \enspace s.t. \enspace x \lt z, z \lt y$</li>
 </ol>
@@ -326,26 +326,26 @@ f: A \times A \rightarrow A</script><p>我們在描述一個二元運算子的�
 <p>與實數不同的是，他不會有第八點特性，也就是，$for \enspace each \enspace n \in \mathbb{N}, \nexists a \in \mathbb{N} \enspace s.t. \enspace n \lt a \lt n + 1$。</p>
 <hr>
 <p>如果有個正整數 $n$，我們用 $S_{n}$ 來代表所有小於 $n$ 的正整數的集合，我們稱他為 <em>section</em>：</p>
-<script type="math/tex; mode=display">
-S_{n + 1} = \\{1, \dots , n\\}</script><p>接下來我們會描述 <del>證明</del> 兩個可能不是很熟悉但很有用的特性，你可以看成是另一個版本的數學歸納法：</p>
+<p>$$<br>S_{n + 1} = \{1, \dots , n\}<br>$$</p>
+<p>接下來我們會描述 <del>證明</del> 兩個可能不是很熟悉但很有用的特性，你可以看成是另一個版本的數學歸納法：</p>
 <blockquote>
 <p> <strong><em>Theorem: Well-ordering property</em></strong></p>
 </blockquote>
-<script type="math/tex; mode=display">
-S \subseteq \mathbb{N}, S \neq \emptyset, S \enspace has \enspace smallest \enspace element.</script><p>他描述了 $\mathbb{N}$ 的非空子集，一定有最小元素。</p>
+<p>$$<br>S \subseteq \mathbb{N}, S \neq \emptyset, S \enspace has \enspace smallest \enspace element.<br>$$</p>
+<p>他描述了 $\mathbb{N}$ 的非空子集，一定有最小元素。</p>
 <blockquote>
 <p> <strong><em>Theorem: Strong induction principle</em></strong></p>
 </blockquote>
-<script type="math/tex; mode=display">
-A \enspace is \enspace a \enspace set \enspace of \enspace positive \enspace integers,</script><script type="math/tex; mode=display">
-for \enspace each \enspace n, S_n \subseteq A \enspace s.t. \enspace n \in A, then \enspace A = \mathbb{N}</script><p>這邊描述了，對每個 $n$ 來說，由 $S_n \subseteq A$ 可以推出 $n \in A$ 的話，那麼 $A$ 就是 $\mathbb{N}$。</p>
+<p>$$<br>A \enspace is \enspace a \enspace set \enspace of \enspace positive \enspace integers,<br>$$</p>
+<p>$$<br>for \enspace each \enspace n, S_n \subseteq A \enspace s.t. \enspace n \in A, then \enspace A = \mathbb{N}<br>$$</p>
+<p>這邊描述了，對每個 $n$ 來說，由 $S_n \subseteq A$ 可以推出 $n \in A$ 的話，那麼 $A$ 就是 $\mathbb{N}$。</p>
 <p>以上我們用了有序域中的第 1~6 點公理，那第 7 點呢？</p>
 <p>你用會用到第 7 點（最小上界公理）來證明，正整數集合 $\mathbb{N}$ 在實數的集合 $\mathbb{R}$ 中是沒有上界的。</p>
 <blockquote>
 <p><strong><em>Theorom: Archimedean ordering property</em></strong></p>
 </blockquote>
-<script type="math/tex; mode=display">
-the \enspace  set \enspace  \mathbb{N} \enspace  has \enspace  no \enspace  upper \enspace  bound \enspace  in \enspace  \mathbb{R}.</script>
+<p>$$<br>the \enspace  set \enspace  \mathbb{N} \enspace  has \enspace  no \enspace  upper \enspace  bound \enspace  in \enspace  \mathbb{R}.<br>$$</p>
+
             
 
         </div>
@@ -520,7 +520,7 @@ the \enspace  set \enspace  \mathbb{N} \enspace  has \enspace  no \enspace  uppe
         
             <h4 id="about-card-name">Yueh-Hua Tu</h4>
         
-            <div id="about-card-bio"><p>Aim to be a computational biologist!&lt;/br&gt;Systems Biology, Computational Biology, Machine Learning&lt;/br&gt;Organizer of Julia Taiwan community</p>
+            <div id="about-card-bio"><p>Aim to be a computational biologist!</br>Systems Biology, Computational Biology, Machine Learning</br>Organizer of Julia Taiwan community</p>
 </div>
         
         

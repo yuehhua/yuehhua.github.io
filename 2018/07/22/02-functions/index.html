@@ -15,14 +15,14 @@
     
         <link rel="alternate" type="application/atom+xml" title="RSS" href="/atom.xml">
     
-    <script type="application/ld+json">{"@context":"http://schema.org","@type":"BlogPosting","author":{"@type":"Person","name":"Yueh-Hua Tu","sameAs":["https://github.com/yuehhua/","https://www.facebook.com/a504082002","https://www.linkedin.com/in/%E5%B2%B3%E8%8F%AF-%E6%9D%9C-6a3995a0/","mailto:a504082002@gmail.com"],"image":"https://www.gravatar.com/avatar/a565749fba4782b717234da670b273fd"},"articleBody":"Function 會是在數學上常常看到的概念，但他到底是什麼？Function 常常被視為兩個集合之間對映的規則。我們先來定義對映的規則（rule of assignment）：\n\n Def.\n\n\ntwo \\enspace sets \\enspace C, D, r \\subseteq C \\times D, \\forall c \\in C , d \\in D,\n\\exists \\enspace at \\enspace most \\enspace one \\enspace (c, d) \\in r\n所以如果當兩個對映關係（如下）有相同的第一分量 $c$，那他們其實是同一個對映關係，並且第二分量也會相同。\n\n[ (c, d) \\in r, (c, d') \\in r ] \\rightarrow [ d = d' ]給定一個對映規則 $r$，定義域（domain） 也就是 $C$ 的子集合，他包含了所有 $r$ 中的第一分量。\n\n Def.\n\n\ndomain \\enspace r = \\\\{c \\mid \\exists d \\in D \\enspace s.t. \\enspace (c, d) \\in r \\\\}相對，值域（image）是 $D$ 的子集合，他包含了所有 $r$ 中的第二分量。\n\n Def.\n\n\nimage \\enspace r = \\\\{d \\mid \\exists c \\in C \\enspace s.t. \\enspace (c, d) \\in r \\\\}現在我們把所有需要的東西都定義好了，那函數（function） 的定義就會是一個對映規則，以及一個 set $B$ 包含了 $image \\enspace r$，稱為函數的 對應域（codomain） ，而函數的 domain $A$ 也就是 $domain \\enspace r$，函數的值域就是 $image \\enspace r$ ，我們會以下列表示法表示：\n\nf: A \\rightarrow B這表示他是一個從 $A$ map 到 $B$ 的函數。有時候我們會想像成在空間上的轉換，將 $A$ 上的點對映到 $B$ 上的點。我們會以 $f(a)$ 來代表 $f$ 在 $a$ 點的值（value）。\n我們可以在函數上定義限制（restriction）：\n\n Def.\n\n\nA_0 \\enspace is \\enspace the \\enspace restriction \\enspace of \\enspace f\nf: A \\rightarrow B, A_0 \\subseteq A \\enspace s.t. \\enspace f = \\\\{ (a, f(a)) \\mid a \\in A_0 \\\\}我們可以藉由限制（restriction）來限制我們的函數形式。我們還有另外一個方法，合成函數（function composition）：\n\n Def.\n\n\ng \\circ f \\enspace is \\enspace the \\enspace composite \\enspace of \\enspace function \\enspace f \\enspace and \\enspace g\nf: A \\rightarrow B, g: B \\rightarrow C, g \\circ f: A \\rightarrow C, (g \\circ f)(a) = g(f(a))\ng \\circ f = \\\\{(a, c) \\mid b \\in B, f(a) = b, g(b) = c \\\\}\n\n from Wikipedia\n\n接著我們來討論一些不同的函數。\n如果一個函數 $f: A \\rightarrow B$ 是單射的（injective），或是一對一（one-to-one），那也就是說在 $A$ 中，不同的點會對映到不同的 像（image） 的。\n\n\n from Wikipedia\n\n如果一個函數 $f: A \\rightarrow B$ 是滿射的（surjective），或是映成（onto），那也就是說每個在 $B$ 中的元素都有被對映到。\n\n\n from Wikipedia\n\n如果一個函數 $f: A \\rightarrow B$ 是雙射的（bijective），那也就是說這個函數同時滿足 單射的（injective） 以及 滿射的（surjective）。\n\n\n from Wikipedia\n\n兩個 injective function 的 composite 是個 injective function。兩個 surjective function 的 composite 是個 surjective function。兩個 bijective function 的 composite 是個 bijective function。\n那如果 function $f$ 是 bijective，那麼他的 反函數（inverse） 存在，也就是：\n\nf: A \\rightarrow B, f \\enspace is \\enspace bijective, \\exists\n f^{-1}\ns.t. \\enspace f^{-1}(b) = a, a \\in A, b \\in B反函數有一個特性就是， $f$ 的反函數為 $f^{-1}$，而 $f^{-1}$ 本身也是雙射的，所以他的反函數也存在，他的反函數則是 $f$。\n那如果要證明一個函數是 bijective 的話，那以下Lemma 會有幫助：\n\n Lemma\n\n\nf: A \\rightarrow B, \\exists g: B \\rightarrow A, \\exists h: B \\rightarrow A\ns.t. \\enspace \\forall a \\in A, g(f(a)) = a, \\forall b \\in B, f(h(b)) = b,\nthen \\enspace g = h = f^{-1} \\enspace is \\enspace bijective.\n接下來，我們來討論一下 像（image）：\n\n Def.\n\n\nf: A \\rightarrow B, A_0 \\subseteq A, the \\enspace image \\enspace of \\enspace A_0 \\enspace of \\enspace f \\enspace is\nf(A_0) = \\\\{ b \\mid b = f(a) \\enspace for \\enspace at \\enspace least \\enspace one \\enspace a \\in A_0 \\\\}\n另一方面，我們可以討論像的 原像（preimage）：\n\n Def.\n\n\nf: A \\rightarrow B, B_0 \\subseteq B, f^{-1}(B_0) = \\\\{ a \\mid f(a) \\in B_0\\\\}\nf^{-1}(B_0) \\enspace is \\enspace the \\enspace preimage \\enspace of \\enspace B_0 \\enspace under \\enspace f.\n如果 $f: A \\rightarrow B$ 是 bijective， $B_0 \\subseteq B$，我們對 $f^{-1}(B_0)$ 有兩種解釋，他可以是 preimage of $B_0$ under $f$ ，或者是 image of $B_0$ under $f^{-1}: B \\rightarrow A$。\n在使用 $f$ 及 $f^{-1}$ 上需要小心。如果是 $f^{-1}$ 應用在 $B$ 的子集合上，他有很好的行為，他保留了包含、聯集、交集、差集的特性。我們應該要常用他。如果是 $f$ 應用在 $A$ 的子集合上，他只保留了包含及聯集的特性。\n另一個需要小心的，以下兩個並不是總是為真：\n\nf^{-1}(f(A_0)) = A_0\nf(f^{-1}(B_0)) = B_0結論是這樣的，如果 $f: A \\rightarrow B, A_0 \\subseteq A, B_0 \\subseteq B$，則以下成立：\n\nA_0 \\subseteq f^{-1}(f(A_0))\nf(f^{-1}(B_0)) \\subseteq B_0第一條式子的等號成立的條件為 $f$ 是 injective，第二條式子的等號成立的條件為 $f$ 是 surjective。\n","dateCreated":"2018-07-22T00:21:18+08:00","dateModified":"2018-07-26T13:29:28+08:00","datePublished":"2018-07-22T00:21:18+08:00","description":"Function 會是在數學上常常看到的概念，但他到底是什麼？Function 常常被視為兩個集合之間對映的規則。我們先來定義對映的規則（rule of assignment）：\n\n Def.\n\n\ntwo \\enspace sets \\enspace C, D, r \\subseteq C \\times D, \\forall c \\in C , d \\in D,\n\\exists \\enspace at \\enspace most \\enspace one \\enspace (c, d) \\in r","headline":"Functions","image":[],"mainEntityOfPage":{"@type":"WebPage","@id":"https://yuehhua.github.io/2018/07/22/02-functions/"},"publisher":{"@type":"Organization","name":"Yueh-Hua Tu","sameAs":["https://github.com/yuehhua/","https://www.facebook.com/a504082002","https://www.linkedin.com/in/%E5%B2%B3%E8%8F%AF-%E6%9D%9C-6a3995a0/","mailto:a504082002@gmail.com"],"image":"https://www.gravatar.com/avatar/a565749fba4782b717234da670b273fd","logo":{"@type":"ImageObject","url":"https://www.gravatar.com/avatar/a565749fba4782b717234da670b273fd"}},"url":"https://yuehhua.github.io/2018/07/22/02-functions/"}</script>
-    <meta name="description" content="Function 會是在數學上常常看到的概念，但他到底是什麼？Function 常常被視為兩個集合之間對映的規則。我們先來定義對映的規則（rule of assignment）：   Def.   two \enspace sets \enspace C, D, r \subseteq C \times D, \forall c \in C , d \in D, \exists \enspace">
+    <script type="application/ld+json">{"@context":"http://schema.org","@type":"BlogPosting","author":{"@type":"Person","name":"Yueh-Hua Tu","sameAs":["https://github.com/yuehhua/","https://www.facebook.com/a504082002","https://www.linkedin.com/in/%E5%B2%B3%E8%8F%AF-%E6%9D%9C-6a3995a0/","mailto:a504082002@gmail.com"],"image":"https://www.gravatar.com/avatar/a565749fba4782b717234da670b273fd"},"articleBody":"Function 會是在數學上常常看到的概念，但他到底是什麼？Function 常常被視為兩個集合之間對映的規則。我們先來定義對映的規則（rule of assignment）：\n\n Def.\n\n$$two \\enspace sets \\enspace C, D, r \\subseteq C \\times D, \\forall c \\in C , d \\in D,$$\n$$\\exists \\enspace at \\enspace most \\enspace one \\enspace (c, d) \\in r$$\n\n所以如果當兩個對映關係（如下）有相同的第一分量 $c$，那他們其實是同一個對映關係，並且第二分量也會相同。\n$$[ (c, d) \\in r, (c, d’) \\in r ] \\rightarrow [ d = d’ ]$$\n給定一個對映規則 $r$，定義域（domain） 也就是 $C$ 的子集合，他包含了所有 $r$ 中的第一分量。\n\n Def.\n\n$$domain \\enspace r = \\{c \\mid \\exists d \\in D \\enspace s.t. \\enspace (c, d) \\in r \\}$$\n相對，值域（image）是 $D$ 的子集合，他包含了所有 $r$ 中的第二分量。\n\n Def.\n\n$$image \\enspace r = \\{d \\mid \\exists c \\in C \\enspace s.t. \\enspace (c, d) \\in r \\}$$\n現在我們把所有需要的東西都定義好了，那函數（function） 的定義就會是一個對映規則，以及一個 set $B$ 包含了 $image \\enspace r$，稱為函數的 對應域（codomain） ，而函數的 domain $A$ 也就是 $domain \\enspace r$，函數的值域就是 $image \\enspace r$ ，我們會以下列表示法表示：\n$$f: A \\rightarrow B$$\n這表示他是一個從 $A$ map 到 $B$ 的函數。有時候我們會想像成在空間上的轉換，將 $A$ 上的點對映到 $B$ 上的點。我們會以 $f(a)$ 來代表 $f$ 在 $a$ 點的值（value）。\n我們可以在函數上定義限制（restriction）：\n\n Def.\n\n$$A_0 \\enspace is \\enspace the \\enspace restriction \\enspace of \\enspace f$$\n$$f: A \\rightarrow B, A_0 \\subseteq A \\enspace s.t. \\enspace f = \\{ (a, f(a)) \\mid a \\in A_0 \\}$$\n我們可以藉由限制（restriction）來限制我們的函數形式。我們還有另外一個方法，合成函數（function composition）：\n\n Def.\n\n$$g \\circ f \\enspace is \\enspace the \\enspace composite \\enspace of \\enspace function \\enspace f \\enspace and \\enspace g$$\n$$f: A \\rightarrow B, g: B \\rightarrow C, g \\circ f: A \\rightarrow C, (g \\circ f)(a) = g(f(a))$$\n$$g \\circ f = \\{(a, c) \\mid b \\in B, f(a) = b, g(b) = c \\}$$\n\n\n from Wikipedia\n\n接著我們來討論一些不同的函數。\n如果一個函數 $f: A \\rightarrow B$ 是單射的（injective），或是一對一（one-to-one），那也就是說在 $A$ 中，不同的點會對映到不同的 像（image） 的。\n\n\n from Wikipedia\n\n如果一個函數 $f: A \\rightarrow B$ 是滿射的（surjective），或是映成（onto），那也就是說每個在 $B$ 中的元素都有被對映到。\n\n\n from Wikipedia\n\n如果一個函數 $f: A \\rightarrow B$ 是雙射的（bijective），那也就是說這個函數同時滿足 單射的（injective） 以及 滿射的（surjective）。\n\n\n from Wikipedia\n\n兩個 injective function 的 composite 是個 injective function。兩個 surjective function 的 composite 是個 surjective function。兩個 bijective function 的 composite 是個 bijective function。\n那如果 function $f$ 是 bijective，那麼他的 反函數（inverse） 存在，也就是：$$f: A \\rightarrow B, f \\enspace is \\enspace bijective, \\exists f^{-1}$$\n$$s.t. \\enspace f^{-1}(b) = a, a \\in A, b \\in B$$\n反函數有一個特性就是， $f$ 的反函數為 $f^{-1}$，而 $f^{-1}$ 本身也是雙射的，所以他的反函數也存在，他的反函數則是 $f$。\n那如果要證明一個函數是 bijective 的話，那以下Lemma 會有幫助：\n\n Lemma\n\n$$f: A \\rightarrow B, \\exists g: B \\rightarrow A, \\exists h: B \\rightarrow A$$\n$$s.t. \\enspace \\forall a \\in A, g(f(a)) = a, \\forall b \\in B, f(h(b)) = b,$$\n$$then \\enspace g = h = f^{-1} \\enspace is \\enspace bijective.$$\n\n接下來，我們來討論一下 像（image）：\n\n Def.\n\n$$f: A \\rightarrow B, A_0 \\subseteq A, the \\enspace image \\enspace of \\enspace A_0 \\enspace of \\enspace f \\enspace is$$\n$$f(A_0) = \\{ b \\mid b = f(a) \\enspace for \\enspace at \\enspace least \\enspace one \\enspace a \\in A_0 \\}$$\n\n另一方面，我們可以討論像的 原像（preimage）：\n\n Def.\n\n$$f: A \\rightarrow B, B_0 \\subseteq B, f^{-1}(B_0) = \\{ a \\mid f(a) \\in B_0\\}$$\n$$f^{-1}(B_0) \\enspace is \\enspace the \\enspace preimage \\enspace of \\enspace B_0 \\enspace under \\enspace f.$$\n\n如果 $f: A \\rightarrow B$ 是 bijective， $B_0 \\subseteq B$，我們對 $f^{-1}(B_0)$ 有兩種解釋，他可以是 preimage of $B_0$ under $f$ ，或者是 image of $B_0$ under $f^{-1}: B \\rightarrow A$。\n在使用 $f$ 及 $f^{-1}$ 上需要小心。如果是 $f^{-1}$ 應用在 $B$ 的子集合上，他有很好的行為，他保留了包含、聯集、交集、差集的特性。我們應該要常用他。如果是 $f$ 應用在 $A$ 的子集合上，他只保留了包含及聯集的特性。\n另一個需要小心的，以下兩個並不是總是為真：\n$$f^{-1}(f(A_0)) = A_0$$\n$$f(f^{-1}(B_0)) = B_0$$\n結論是這樣的，如果 $f: A \\rightarrow B, A_0 \\subseteq A, B_0 \\subseteq B$，則以下成立：\n$$A_0 \\subseteq f^{-1}(f(A_0))$$\n$$f(f^{-1}(B_0)) \\subseteq B_0$$\n第一條式子的等號成立的條件為 $f$ 是 injective，第二條式子的等號成立的條件為 $f$ 是 surjective。\n","dateCreated":"2018-07-22T00:21:18+08:00","dateModified":"2018-07-26T13:29:28+08:00","datePublished":"2018-07-22T00:21:18+08:00","description":"Function 會是在數學上常常看到的概念，但他到底是什麼？Function 常常被視為兩個集合之間對映的規則。我們先來定義對映的規則（rule of assignment）：\n\n Def.\n\n$$two \\enspace sets \\enspace C, D, r \\subseteq C \\times D, \\forall c \\in C , d \\in D,$$\n$$\\exists \\enspace at \\enspace most \\enspace one \\enspace (c, d) \\in r$$","headline":"Functions","image":[],"mainEntityOfPage":{"@type":"WebPage","@id":"https://yuehhua.github.io/2018/07/22/02-functions/"},"publisher":{"@type":"Organization","name":"Yueh-Hua Tu","sameAs":["https://github.com/yuehhua/","https://www.facebook.com/a504082002","https://www.linkedin.com/in/%E5%B2%B3%E8%8F%AF-%E6%9D%9C-6a3995a0/","mailto:a504082002@gmail.com"],"image":"https://www.gravatar.com/avatar/a565749fba4782b717234da670b273fd","logo":{"@type":"ImageObject","url":"https://www.gravatar.com/avatar/a565749fba4782b717234da670b273fd"}},"url":"https://yuehhua.github.io/2018/07/22/02-functions/"}</script>
+    <meta name="description" content="Function 會是在數學上常常看到的概念，但他到底是什麼？Function 常常被視為兩個集合之間對映的規則。我們先來定義對映的規則（rule of assignment）：   Def.  $$two \enspace sets \enspace C, D, r \subseteq C \times D, \forall c \in C , d \in D,$$ $$\exists \ens">
 <meta name="keywords" content="machine learning,deep learning,topology">
 <meta property="og:type" content="blog">
 <meta property="og:title" content="Functions">
 <meta property="og:url" content="https://yuehhua.github.io/2018/07/22/02-functions/index.html">
 <meta property="og:site_name" content="Dream Maker">
-<meta property="og:description" content="Function 會是在數學上常常看到的概念，但他到底是什麼？Function 常常被視為兩個集合之間對映的規則。我們先來定義對映的規則（rule of assignment）：   Def.   two \enspace sets \enspace C, D, r \subseteq C \times D, \forall c \in C , d \in D, \exists \enspace">
+<meta property="og:description" content="Function 會是在數學上常常看到的概念，但他到底是什麼？Function 常常被視為兩個集合之間對映的規則。我們先來定義對映的規則（rule of assignment）：   Def.  $$two \enspace sets \enspace C, D, r \subseteq C \times D, \forall c \in C , d \in D,$$ $$\exists \ens">
 <meta property="og:locale" content="en">
 <meta property="og:image" content="https://upload.wikimedia.org/wikipedia/commons/3/38/Example_for_a_composition_of_two_functions.svg">
 <meta property="og:image" content="https://upload.wikimedia.org/wikipedia/commons/thumb/0/02/Injection.svg/240px-Injection.svg.png">
@@ -34,7 +34,7 @@
 <meta property="og:updated_time" content="2018-07-26T05:29:28.734Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Functions">
-<meta name="twitter:description" content="Function 會是在數學上常常看到的概念，但他到底是什麼？Function 常常被視為兩個集合之間對映的規則。我們先來定義對映的規則（rule of assignment）：   Def.   two \enspace sets \enspace C, D, r \subseteq C \times D, \forall c \in C , d \in D, \exists \enspace">
+<meta name="twitter:description" content="Function 會是在數學上常常看到的概念，但他到底是什麼？Function 常常被視為兩個集合之間對映的規則。我們先來定義對映的規則（rule of assignment）：   Def.  $$two \enspace sets \enspace C, D, r \subseteq C \times D, \forall c \in C , d \in D,$$ $$\exists \ens">
 <meta name="twitter:image" content="https://upload.wikimedia.org/wikipedia/commons/3/38/Example_for_a_composition_of_two_functions.svg">
     
     
@@ -275,38 +275,38 @@
 <blockquote>
 <p> <strong><em>Def.</em></strong></p>
 </blockquote>
-<script type="math/tex; mode=display">
-two \enspace sets \enspace C, D, r \subseteq C \times D, \forall c \in C , d \in D,</script><script type="math/tex; mode=display">
-\exists \enspace at \enspace most \enspace one \enspace (c, d) \in r</script><a id="more"></a>
+<p>$$<br>two \enspace sets \enspace C, D, r \subseteq C \times D, \forall c \in C , d \in D,<br>$$</p>
+<p>$$<br>\exists \enspace at \enspace most \enspace one \enspace (c, d) \in r<br>$$</p>
+<a id="more"></a>
 <p>所以如果當兩個對映關係（如下）有相同的第一分量 $c$，那他們其實是同一個對映關係，並且第二分量也會相同。</p>
-<script type="math/tex; mode=display">
-[ (c, d) \in r, (c, d') \in r ] \rightarrow [ d = d' ]</script><p>給定一個對映規則 $r$，<strong>定義域（domain）</strong> 也就是 $C$ 的子集合，他包含了所有 $r$ 中的第一分量。</p>
+<p>$$<br>[ (c, d) \in r, (c, d’) \in r ] \rightarrow [ d = d’ ]<br>$$</p>
+<p>給定一個對映規則 $r$，<strong>定義域（domain）</strong> 也就是 $C$ 的子集合，他包含了所有 $r$ 中的第一分量。</p>
 <blockquote>
 <p> <strong><em>Def.</em></strong></p>
 </blockquote>
-<script type="math/tex; mode=display">
-domain \enspace r = \\{c \mid \exists d \in D \enspace s.t. \enspace (c, d) \in r \\}</script><p>相對，<strong>值域（image）</strong>是 $D$ 的子集合，他包含了所有 $r$ 中的第二分量。</p>
+<p>$$<br>domain \enspace r = \{c \mid \exists d \in D \enspace s.t. \enspace (c, d) \in r \}<br>$$</p>
+<p>相對，<strong>值域（image）</strong>是 $D$ 的子集合，他包含了所有 $r$ 中的第二分量。</p>
 <blockquote>
 <p> <strong><em>Def.</em></strong></p>
 </blockquote>
-<script type="math/tex; mode=display">
-image \enspace r = \\{d \mid \exists c \in C \enspace s.t. \enspace (c, d) \in r \\}</script><p>現在我們把所有需要的東西都定義好了，那<strong>函數（function）</strong> 的定義就會是一個對映規則，以及一個 <em>set</em> $B$ 包含了 $image \enspace r$，稱為函數的 <strong>對應域（codomain）</strong> ，而函數的 <em>domain</em> $A$ 也就是 $domain \enspace r$，函數的值域就是 $image \enspace r$ ，我們會以下列表示法表示：</p>
-<script type="math/tex; mode=display">
-f: A \rightarrow B</script><p>這表示他是一個從 $A$ map 到 $B$ 的函數。有時候我們會想像成在空間上的轉換，將 $A$ 上的點對映到 $B$ 上的點。我們會以 $f(a)$ 來代表 $f$ 在 $a$ 點的<strong>值（value）</strong>。</p>
+<p>$$<br>image \enspace r = \{d \mid \exists c \in C \enspace s.t. \enspace (c, d) \in r \}<br>$$</p>
+<p>現在我們把所有需要的東西都定義好了，那<strong>函數（function）</strong> 的定義就會是一個對映規則，以及一個 <em>set</em> $B$ 包含了 $image \enspace r$，稱為函數的 <strong>對應域（codomain）</strong> ，而函數的 <em>domain</em> $A$ 也就是 $domain \enspace r$，函數的值域就是 $image \enspace r$ ，我們會以下列表示法表示：</p>
+<p>$$<br>f: A \rightarrow B<br>$$</p>
+<p>這表示他是一個從 $A$ map 到 $B$ 的函數。有時候我們會想像成在空間上的轉換，將 $A$ 上的點對映到 $B$ 上的點。我們會以 $f(a)$ 來代表 $f$ 在 $a$ 點的<strong>值（value）</strong>。</p>
 <p>我們可以在函數上定義<strong>限制（restriction）</strong>：</p>
 <blockquote>
 <p> <strong><em>Def.</em></strong></p>
 </blockquote>
-<script type="math/tex; mode=display">
-A_0 \enspace is \enspace the \enspace restriction \enspace of \enspace f</script><script type="math/tex; mode=display">
-f: A \rightarrow B, A_0 \subseteq A \enspace s.t. \enspace f = \\{ (a, f(a)) \mid a \in A_0 \\}</script><p>我們可以藉由限制（restriction）來限制我們的函數形式。我們還有另外一個方法，<strong>合成函數（function composition）</strong>：</p>
+<p>$$<br>A_0 \enspace is \enspace the \enspace restriction \enspace of \enspace f<br>$$</p>
+<p>$$<br>f: A \rightarrow B, A_0 \subseteq A \enspace s.t. \enspace f = \{ (a, f(a)) \mid a \in A_0 \}<br>$$</p>
+<p>我們可以藉由限制（restriction）來限制我們的函數形式。我們還有另外一個方法，<strong>合成函數（function composition）</strong>：</p>
 <blockquote>
 <p> <strong><em>Def.</em></strong></p>
 </blockquote>
-<script type="math/tex; mode=display">
-g \circ f \enspace is \enspace the \enspace composite \enspace of \enspace function \enspace f \enspace and \enspace g</script><script type="math/tex; mode=display">
-f: A \rightarrow B, g: B \rightarrow C, g \circ f: A \rightarrow C, (g \circ f)(a) = g(f(a))</script><script type="math/tex; mode=display">
-g \circ f = \\{(a, c) \mid b \in B, f(a) = b, g(b) = c \\}</script><p><img src="https://upload.wikimedia.org/wikipedia/commons/3/38/Example_for_a_composition_of_two_functions.svg" alt="Function composition"></p>
+<p>$$<br>g \circ f \enspace is \enspace the \enspace composite \enspace of \enspace function \enspace f \enspace and \enspace g<br>$$</p>
+<p>$$<br>f: A \rightarrow B, g: B \rightarrow C, g \circ f: A \rightarrow C, (g \circ f)(a) = g(f(a))<br>$$</p>
+<p>$$<br>g \circ f = \{(a, c) \mid b \in B, f(a) = b, g(b) = c \}<br>$$</p>
+<p><img src="https://upload.wikimedia.org/wikipedia/commons/3/38/Example_for_a_composition_of_two_functions.svg" alt="Function composition"></p>
 <blockquote>
 <p> <small>from Wikipedia</small></p>
 </blockquote>
@@ -327,42 +327,40 @@ g \circ f = \\{(a, c) \mid b \in B, f(a) = b, g(b) = c \\}</script><p><img src="
 <p> <small>from Wikipedia</small></p>
 </blockquote>
 <p>兩個 injective function 的 composite 是個 injective function。兩個 surjective function 的 composite 是個 surjective function。兩個 bijective function 的 composite 是個 bijective function。</p>
-<p>那如果 <em>function</em> $f$ 是 bijective，那麼他的 <strong>反函數（inverse）</strong> 存在，也就是：</p>
-<script type="math/tex; mode=display">
-f: A \rightarrow B, f \enspace is \enspace bijective, \exists
- f^{-1}</script><script type="math/tex; mode=display">
-s.t. \enspace f^{-1}(b) = a, a \in A, b \in B</script><p>反函數有一個特性就是， $f$ 的反函數為 $f^{-1}$，而 $f^{-1}$ 本身也是雙射的，所以他的反函數也存在，他的反函數則是 $f$。</p>
+<p>那如果 <em>function</em> $f$ 是 bijective，那麼他的 <strong>反函數（inverse）</strong> 存在，也就是：<br>$$<br>f: A \rightarrow B, f \enspace is \enspace bijective, \exists<br> f^{-1}<br>$$</p>
+<p>$$<br>s.t. \enspace f^{-1}(b) = a, a \in A, b \in B<br>$$</p>
+<p>反函數有一個特性就是， $f$ 的反函數為 $f^{-1}$，而 $f^{-1}$ 本身也是雙射的，所以他的反函數也存在，他的反函數則是 $f$。</p>
 <p>那如果要證明一個函數是 bijective 的話，那以下Lemma 會有幫助：</p>
 <blockquote>
 <p> <strong><em>Lemma</em></strong></p>
 </blockquote>
-<script type="math/tex; mode=display">
-f: A \rightarrow B, \exists g: B \rightarrow A, \exists h: B \rightarrow A</script><script type="math/tex; mode=display">
-s.t. \enspace \forall a \in A, g(f(a)) = a, \forall b \in B, f(h(b)) = b,</script><script type="math/tex; mode=display">
-then \enspace g = h = f^{-1} \enspace is \enspace bijective.</script><p><img src="/images/bijective_function.svg" alt=""></p>
+<p>$$<br>f: A \rightarrow B, \exists g: B \rightarrow A, \exists h: B \rightarrow A<br>$$</p>
+<p>$$<br>s.t. \enspace \forall a \in A, g(f(a)) = a, \forall b \in B, f(h(b)) = b,<br>$$</p>
+<p>$$<br>then \enspace g = h = f^{-1} \enspace is \enspace bijective.<br>$$</p>
+<p><img src="/images/bijective_function.svg" alt=""></p>
 <p>接下來，我們來討論一下 <strong>像（image）</strong>：</p>
 <blockquote>
 <p> <strong><em>Def.</em></strong></p>
 </blockquote>
-<script type="math/tex; mode=display">
-f: A \rightarrow B, A_0 \subseteq A, the \enspace image \enspace of \enspace A_0 \enspace of \enspace f \enspace is</script><script type="math/tex; mode=display">
-f(A_0) = \\{ b \mid b = f(a) \enspace for \enspace at \enspace least \enspace one \enspace a \in A_0 \\}</script><p><img src="/images/image.svg" alt=""></p>
+<p>$$<br>f: A \rightarrow B, A_0 \subseteq A, the \enspace image \enspace of \enspace A_0 \enspace of \enspace f \enspace is<br>$$</p>
+<p>$$<br>f(A_0) = \{ b \mid b = f(a) \enspace for \enspace at \enspace least \enspace one \enspace a \in A_0 \}<br>$$</p>
+<p><img src="/images/image.svg" alt=""></p>
 <p>另一方面，我們可以討論像的 <strong>原像（preimage）</strong>：</p>
 <blockquote>
 <p> <strong><em>Def.</em></strong></p>
 </blockquote>
-<script type="math/tex; mode=display">
-f: A \rightarrow B, B_0 \subseteq B, f^{-1}(B_0) = \\{ a \mid f(a) \in B_0\\}</script><script type="math/tex; mode=display">
-f^{-1}(B_0) \enspace is \enspace the \enspace preimage \enspace of \enspace B_0 \enspace under \enspace f.</script><p><img src="/images/preimage.svg" alt=""></p>
+<p>$$<br>f: A \rightarrow B, B_0 \subseteq B, f^{-1}(B_0) = \{ a \mid f(a) \in B_0\}<br>$$</p>
+<p>$$<br>f^{-1}(B_0) \enspace is \enspace the \enspace preimage \enspace of \enspace B_0 \enspace under \enspace f.<br>$$</p>
+<p><img src="/images/preimage.svg" alt=""></p>
 <p>如果 $f: A \rightarrow B$ 是 bijective， $B_0 \subseteq B$，我們對 $f^{-1}(B_0)$ 有兩種解釋，他可以是 preimage of $B_0$ under $f$ ，或者是 image of $B_0$ under $f^{-1}: B \rightarrow A$。</p>
 <p>在使用 $f$ 及 $f^{-1}$ 上需要小心。如果是 $f^{-1}$ 應用在 $B$ 的子集合上，他有很好的行為，他保留了包含、聯集、交集、差集的特性。我們應該要常用他。如果是 $f$ 應用在 $A$ 的子集合上，他只保留了包含及聯集的特性。</p>
 <p>另一個需要小心的，以下兩個並不是總是為真：</p>
-<script type="math/tex; mode=display">
-f^{-1}(f(A_0)) = A_0</script><script type="math/tex; mode=display">
-f(f^{-1}(B_0)) = B_0</script><p>結論是這樣的，如果 $f: A \rightarrow B, A_0 \subseteq A, B_0 \subseteq B$，則以下成立：</p>
-<script type="math/tex; mode=display">
-A_0 \subseteq f^{-1}(f(A_0))</script><script type="math/tex; mode=display">
-f(f^{-1}(B_0)) \subseteq B_0</script><p>第一條式子的等號成立的條件為 $f$ 是 injective，第二條式子的等號成立的條件為 $f$ 是 surjective。</p>
+<p>$$<br>f^{-1}(f(A_0)) = A_0<br>$$</p>
+<p>$$<br>f(f^{-1}(B_0)) = B_0<br>$$</p>
+<p>結論是這樣的，如果 $f: A \rightarrow B, A_0 \subseteq A, B_0 \subseteq B$，則以下成立：</p>
+<p>$$<br>A_0 \subseteq f^{-1}(f(A_0))<br>$$</p>
+<p>$$<br>f(f^{-1}(B_0)) \subseteq B_0<br>$$</p>
+<p>第一條式子的等號成立的條件為 $f$ 是 injective，第二條式子的等號成立的條件為 $f$ 是 surjective。</p>
 
             
 
@@ -538,7 +536,7 @@ f(f^{-1}(B_0)) \subseteq B_0</script><p>第一條式子的等號成立的條件�
         
             <h4 id="about-card-name">Yueh-Hua Tu</h4>
         
-            <div id="about-card-bio"><p>Aim to be a computational biologist!&lt;/br&gt;Systems Biology, Computational Biology, Machine Learning&lt;/br&gt;Organizer of Julia Taiwan community</p>
+            <div id="about-card-bio"><p>Aim to be a computational biologist!</br>Systems Biology, Computational Biology, Machine Learning</br>Organizer of Julia Taiwan community</p>
 </div>
         
         
