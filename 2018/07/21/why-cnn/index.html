@@ -237,10 +237,10 @@
                         hasCoverMetaIn
                         ">
                 
-<article class="post">
-    
-    
-        <div class="post-header main-content-wrap text-left">
+    <article class="post">
+        
+                
+                    <div class="post-header main-content-wrap text-left">
     
         <h1 class="post-title">
             CNN 的意義
@@ -265,10 +265,10 @@
     
 </div>
 
-    
-    <div class="post-content markdown">
-        <div class="main-content-wrap">
-            <h1 id="table-of-contents">Table of Contents</h1><ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#影像處理中的祕密"><span class="toc-text">影像處理中的祕密</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Convolution"><span class="toc-text">Convolution</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Convolution-運算"><span class="toc-text">Convolution 運算</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Convolution-layer"><span class="toc-text">Convolution layer</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Subsampling"><span class="toc-text">Subsampling</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Feature-extractor-classifier-架構"><span class="toc-text">Feature extractor-classifier 架構</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#MLP-做不好的事情"><span class="toc-text">MLP 做不好的事情</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#關鍵在哪裡？"><span class="toc-text">關鍵在哪裡？</span></a></li></ol>
+                        
+                            <div class="post-content markdown">
+                                <div class="main-content-wrap">
+                                    <h1 id="table-of-contents">Table of Contents</h1><ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#影像處理中的祕密"><span class="toc-text">影像處理中的祕密</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Convolution"><span class="toc-text">Convolution</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Convolution-運算"><span class="toc-text">Convolution 運算</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Convolution-layer"><span class="toc-text">Convolution layer</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Subsampling"><span class="toc-text">Subsampling</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Feature-extractor-classifier-架構"><span class="toc-text">Feature extractor-classifier 架構</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#MLP-做不好的事情"><span class="toc-text">MLP 做不好的事情</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#關鍵在哪裡？"><span class="toc-text">關鍵在哪裡？</span></a></li></ol>
 <p>前面大致介紹完了 Deep learning 跟 MLP 的設計，我們接下來介紹在影像處理上的重要技術。</p>
 <p>Convolutional neural network，顧名思義，他是一種神經網路架構，裡頭包含著 convolution 的運算。</p>
 <p>那為什麼 convolution 這麼重要，重要到要放在名稱上呢？</p>
@@ -334,14 +334,14 @@
 <p>像是音樂當中有週期性的模式就可以用，在生物領域，蛋白質會去辨認 DNA 序列，有被辨認到的部份就會有蛋白質黏附上去，生物學家會想知道到底哪些地方有蛋白質黏附，黏附的序列是區域性的，所以也有應用 CNN 技術在這方面上。</p>
 <p>最重要的還是去了解你的資料的特性，然後了解模型當中各元件的性質跟數學特性，這樣才能正確地使用這些技術解決問題，走到這邊需要同時是領域知識的專家，也同時是 DL 的專家才行阿！</p>
 
-            
+                                        
 
-        </div>
-    </div>
-    <div id="post-footer" class="post-footer main-content-wrap">
-        
-        
-            <div class="post-actions-wrap">
+                                </div>
+                            </div>
+                            <div id="post-footer" class="post-footer main-content-wrap">
+                                
+                                        
+                                            <div class="post-actions-wrap">
     <nav>
         <ul class="post-actions post-action-nav">
             <li class="post-action">
@@ -399,18 +399,24 @@
 </div>
 
 
-        
-        
-            
-                <div id="disqus_thread">
+                                                
+                                                    
+                                                        
+                                                            <div id="disqus_thread">
     <noscript>Please enable JavaScript to view the <a href="//disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
 </div>
-            
-        
-    </div>
-</article>
-
-
+                                                                
+                                                                            
+                            </div>
+                            
+                                <script src='https://unpkg.com/mermaid@7.1.2/dist/mermaid.min.js'></script>
+                                <script>
+                                    if (window.mermaid) {
+                                        mermaid.initialize({ theme: 'forest' });
+                                    }
+                                </script>
+                                
+    </article>
 
                 <footer id="footer" class="main-content-wrap">
     <span class="copyrights">
@@ -571,6 +577,6 @@
             all[i].SourceElement().parentNode.className += ' has-jax';
     });
 </script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script><!-- hexo-inject:begin --><!-- hexo-inject:end -->
+<script src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script><!-- hexo-inject:begin --><!-- hexo-inject:end -->
 </body>
 </html>

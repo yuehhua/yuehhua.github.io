@@ -232,10 +232,10 @@
                         hasCoverMetaIn
                         ">
                 
-<article class="post">
-    
-    
-        <div class="post-header main-content-wrap text-left">
+    <article class="post">
+        
+                
+                    <div class="post-header main-content-wrap text-left">
     
         <h1 class="post-title">
             Writing a Dockerfile
@@ -260,10 +260,10 @@
     
 </div>
 
-    
-    <div class="post-content markdown">
-        <div class="main-content-wrap">
-            <p>We already know how to get a image and modify it, then share it through Docker Hub. It can be more portable and easy to customize. Just write a script in Dockerfile, and then use <code>docker build</code> to build an image following the script in Dockerfile!</p>
+                        
+                            <div class="post-content markdown">
+                                <div class="main-content-wrap">
+                                    <p>We already know how to get a image and modify it, then share it through Docker Hub. It can be more portable and easy to customize. Just write a script in Dockerfile, and then use <code>docker build</code> to build an image following the script in Dockerfile!</p>
 <a id="more"></a>
 <p>A demo of a Dockerfile:</p>
 <pre><code>FROM tutum/apache-php:latest
@@ -287,14 +287,14 @@ example&gt; docker build -t=&quot;ymhuang0808/phpunit-testing:php5.5.9&quot; .
 <p><strong>Flags:</strong><br><code>-t</code> flag assign the new image a tag</p>
 </blockquote>
 
-            
+                                        
 
-        </div>
-    </div>
-    <div id="post-footer" class="post-footer main-content-wrap">
-        
-        
-            <div class="post-actions-wrap">
+                                </div>
+                            </div>
+                            <div id="post-footer" class="post-footer main-content-wrap">
+                                
+                                        
+                                            <div class="post-actions-wrap">
     <nav>
         <ul class="post-actions post-action-nav">
             <li class="post-action">
@@ -352,18 +352,24 @@ example&gt; docker build -t=&quot;ymhuang0808/phpunit-testing:php5.5.9&quot; .
 </div>
 
 
-        
-        
-            
-                <div id="disqus_thread">
+                                                
+                                                    
+                                                        
+                                                            <div id="disqus_thread">
     <noscript>Please enable JavaScript to view the <a href="//disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
 </div>
-            
-        
-    </div>
-</article>
-
-
+                                                                
+                                                                            
+                            </div>
+                            
+                                <script src='https://unpkg.com/mermaid@7.1.2/dist/mermaid.min.js'></script>
+                                <script>
+                                    if (window.mermaid) {
+                                        mermaid.initialize({ theme: 'forest' });
+                                    }
+                                </script>
+                                
+    </article>
 
                 <footer id="footer" class="main-content-wrap">
     <span class="copyrights">
@@ -524,6 +530,6 @@ example&gt; docker build -t=&quot;ymhuang0808/phpunit-testing:php5.5.9&quot; .
             all[i].SourceElement().parentNode.className += ' has-jax';
     });
 </script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script><!-- hexo-inject:begin --><!-- hexo-inject:end -->
+<script src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script><!-- hexo-inject:begin --><!-- hexo-inject:end -->
 </body>
 </html>

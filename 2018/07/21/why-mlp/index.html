@@ -232,10 +232,10 @@
                         hasCoverMetaIn
                         ">
                 
-<article class="post">
-    
-    
-        <div class="post-header main-content-wrap text-left">
+    <article class="post">
+        
+                
+                    <div class="post-header main-content-wrap text-left">
     
         <h1 class="post-title">
             Multi-Layer Preceptron 的意義
@@ -260,10 +260,10 @@
     
 </div>
 
-    
-    <div class="post-content markdown">
-        <div class="main-content-wrap">
-            <h1 id="table-of-contents">Table of Contents</h1><ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#內積的意義"><span class="toc-text">內積的意義</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#內積與-MLP"><span class="toc-text">內積與 MLP</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#機率與內積"><span class="toc-text">機率與內積</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#加入非線性"><span class="toc-text">加入非線性</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Fully-connected-layer"><span class="toc-text">Fully connected layer</span></a></li></ol>
+                        
+                            <div class="post-content markdown">
+                                <div class="main-content-wrap">
+                                    <h1 id="table-of-contents">Table of Contents</h1><ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#內積的意義"><span class="toc-text">內積的意義</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#內積與-MLP"><span class="toc-text">內積與 MLP</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#機率與內積"><span class="toc-text">機率與內積</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#加入非線性"><span class="toc-text">加入非線性</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Fully-connected-layer"><span class="toc-text">Fully connected layer</span></a></li></ol>
 <p>在前一篇講完了 deep learning 的意義之後我們來更具體一點講 multi-layer perceptron (MLP)。</p>
 <p>最簡單的版本莫過於 linear MLP，不過不太會有人去用他，其實只是每層 layer 的 activation function 都是採用 identity。你可以想像他是有很多的線性轉換所疊起來的模型。</p>
 <a id="more"></a>
@@ -326,14 +326,14 @@
 <p>最後提醒，內積的運算中雖然有隱含相似性在其中，但是他 <em>不等同</em> 於 <strong>去計算相似性</strong>。</p>
 <p>今天的討論就到這邊告一個段落，希望在大家思考 deep learning 模型的時候，這些東西有幫上一些忙。</p>
 
-            
+                                        
 
-        </div>
-    </div>
-    <div id="post-footer" class="post-footer main-content-wrap">
-        
-        
-            <div class="post-actions-wrap">
+                                </div>
+                            </div>
+                            <div id="post-footer" class="post-footer main-content-wrap">
+                                
+                                        
+                                            <div class="post-actions-wrap">
     <nav>
         <ul class="post-actions post-action-nav">
             <li class="post-action">
@@ -391,18 +391,24 @@
 </div>
 
 
-        
-        
-            
-                <div id="disqus_thread">
+                                                
+                                                    
+                                                        
+                                                            <div id="disqus_thread">
     <noscript>Please enable JavaScript to view the <a href="//disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
 </div>
-            
-        
-    </div>
-</article>
-
-
+                                                                
+                                                                            
+                            </div>
+                            
+                                <script src='https://unpkg.com/mermaid@7.1.2/dist/mermaid.min.js'></script>
+                                <script>
+                                    if (window.mermaid) {
+                                        mermaid.initialize({ theme: 'forest' });
+                                    }
+                                </script>
+                                
+    </article>
 
                 <footer id="footer" class="main-content-wrap">
     <span class="copyrights">
@@ -563,6 +569,6 @@
             all[i].SourceElement().parentNode.className += ' has-jax';
     });
 </script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script><!-- hexo-inject:begin --><!-- hexo-inject:end -->
+<script src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script><!-- hexo-inject:begin --><!-- hexo-inject:end -->
 </body>
 </html>

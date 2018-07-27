@@ -237,10 +237,10 @@
                         hasCoverMetaIn
                         ">
                 
-<article class="post">
-    
-    
-        <div class="post-header main-content-wrap text-left">
+    <article class="post">
+        
+                
+                    <div class="post-header main-content-wrap text-left">
     
         <h1 class="post-title">
             Set theory (集合論)
@@ -265,10 +265,10 @@
     
 </div>
 
-    
-    <div class="post-content markdown">
-        <div class="main-content-wrap">
-            <p>先以集合論開始切入，集合論是以後各門數學相關學科的根基，也就是很多數學的分支都會定義在集合論上。</p>
+                        
+                            <div class="post-content markdown">
+                                <div class="main-content-wrap">
+                                    <p>先以集合論開始切入，集合論是以後各門數學相關學科的根基，也就是很多數學的分支都會定義在集合論上。</p>
 <p>在數學上，集合就是一群不重複的物件（object）或是元素（element）。像我們可以定義<strong>一個set A當中的elements有a、b、c</strong>，寫成：</p>
 <p>$$<br>A = \{ a, b, c \}<br>$$</p>
 <a id="more"></a>
@@ -372,14 +372,14 @@
 <p>像是當 $A = \{ a, b, c\}$， $B = \{1, 2\}$，那麼 $A \times B = \{(a, 1), (a, 2), (b, 1), (b, 2), (c, 1), (c, 2)\}$ 。</p>
 <p>這在概念上非常直覺，可以把他想成是在 <em>set</em> $A$ 中的元素跟在 <em>set</em> $B$ 中的元素，拿出來一一做排列組合，所有的排列組合所成的集合就是 $A \times B$。</p>
 
-            
+                                        
 
-        </div>
-    </div>
-    <div id="post-footer" class="post-footer main-content-wrap">
-        
-        
-            <div class="post-actions-wrap">
+                                </div>
+                            </div>
+                            <div id="post-footer" class="post-footer main-content-wrap">
+                                
+                                        
+                                            <div class="post-actions-wrap">
     <nav>
         <ul class="post-actions post-action-nav">
             <li class="post-action">
@@ -437,18 +437,24 @@
 </div>
 
 
-        
-        
-            
-                <div id="disqus_thread">
+                                                
+                                                    
+                                                        
+                                                            <div id="disqus_thread">
     <noscript>Please enable JavaScript to view the <a href="//disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
 </div>
-            
-        
-    </div>
-</article>
-
-
+                                                                
+                                                                            
+                            </div>
+                            
+                                <script src='https://unpkg.com/mermaid@7.1.2/dist/mermaid.min.js'></script>
+                                <script>
+                                    if (window.mermaid) {
+                                        mermaid.initialize({ theme: 'forest' });
+                                    }
+                                </script>
+                                
+    </article>
 
                 <footer id="footer" class="main-content-wrap">
     <span class="copyrights">
@@ -609,6 +615,6 @@
             all[i].SourceElement().parentNode.className += ' has-jax';
     });
 </script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script><!-- hexo-inject:begin --><!-- hexo-inject:end -->
+<script src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script><!-- hexo-inject:begin --><!-- hexo-inject:end -->
 </body>
 </html>
