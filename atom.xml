@@ -6,7 +6,7 @@
   <link href="/atom.xml" rel="self"/>
   
   <link href="https://yuehhua.github.io/"/>
-  <updated>2018-07-27T03:17:56.344Z</updated>
+  <updated>2018-08-02T16:24:20.598Z</updated>
   <id>https://yuehhua.github.io/</id>
   
   <author>
@@ -15,6 +15,30 @@
   </author>
   
   <generator uri="http://hexo.io/">Hexo</generator>
+  
+  <entry>
+    <title>AI 的核心</title>
+    <link href="https://yuehhua.github.io/2018/08/03/the-nutshell-of-ai/"/>
+    <id>https://yuehhua.github.io/2018/08/03/the-nutshell-of-ai/</id>
+    <published>2018-08-02T16:17:30.000Z</published>
+    <updated>2018-08-02T16:24:20.598Z</updated>
+    
+    <content type="html"><![CDATA[<!-- toc --><h2 id="AI-是什麼？"><a href="#AI-是什麼？" class="headerlink" title="AI 是什麼？"></a>AI 是什麼？</h2><p>很多人探討 AI 會追隨前人的探討，去探討什麼是智慧？或是什麼樣的是強人工智慧？</p><p>當然我也做過一樣的事情，只是今天我想從比較技術層面、比較務實的角度切入這一大類技術。</p><p>自從牛頓引進了數學作為科學的基礎以來，人類一直非常依賴數學工具來解決各種事情。</p><p>除了科學以外，生活中我們應用的是理性的邏輯來理解以及處理事物，我們用了數字以及加減乘除在買東西上面。</p><a id="more"></a><h2 id="規劃問題"><a href="#規劃問題" class="headerlink" title="規劃問題"></a>規劃問題</h2><p>我們就拿最簡單的線性規劃問題來說，線性規劃問題他要解的是一個最佳化問題，主要的特徵在於它的目標函式以及限制式是線性的。線性規劃問題的主要應用範圍在商管領域。但是除了線性規劃這麼特定的問題以外，我們還有整數規劃問題、二次規劃問題一以及非線性規劃問題。</p><p>這類的問題全部都圍繞在最佳化上頭，他底層的理論是最佳化理論或是 convex optimization。</p><p>我們一直都認為一個智慧的個體他需要會規劃，但是規劃本身可以被化為一個數學問題，所以解出這個數學問題本身是不是具有智慧的？抑或是，人類利用了他的智慧將一個應用問題轉化成一個可解的數學問題？</p><h2 id="搜尋問題"><a href="#搜尋問題" class="headerlink" title="搜尋問題"></a>搜尋問題</h2><p>我們常常想要在一堆東西當中找到我們要的東西，有的時候像是在圖書館找書，我確定我要找的書在圖書館中，他非常的確切而且範圍也有限，但有的時候他像是在大海中撈針，我確定針就在海裡，但是海實在是太大了。</p><p>有的時候我們上次在網路上找我們想要的資源，網路本身是個複雜的系統，有上億甚至更多的網路節點，這些網路節點互相連結，我們要如何找到一條最有效的路徑到我們想去的地方？</p><p>這些問題都可以被化成一個搜尋問題，有的搜尋問題我們只需要簡單的排序就可以處理，有的搜尋問題牽涉到比較複雜的圖論結構，更有些問題他的搜尋空間是無限維度的。</p><p>我們必須思考一下會解這些問題是不是一個智慧的行為？</p><h2 id="建模"><a href="#建模" class="headerlink" title="建模"></a>建模</h2><p>建模一直是在科學領域當中非常重要的一件事情，透過模型的建立，模型可以給我們的是對未來的預測，以及因果關係的建立。我們可以透過模型去得知以及解釋為什麼會這樣？為什麼會那樣？</p><p>在物理領域，我們常常用微分方程作為建模的工具，物理學家會去找出自然界中有可能影響的因子，並且把它放到微分方程中成為一個系統。我們可以去觀測這個系統的輸入以及輸出，去推論整個系統的運作。</p><p>但是我們怎麼知道系統內部是怎麼運作的？如果不知道系統是怎麼運作的，我們是無法將一個因子放到微分方程的數學描述中的。如果一個物理系統的狀態是可以被觀察的，我們當然可以很輕易的理解輸入以及輸出之間的關係。但是常常系統的狀態並不是可以被觀察的，像是大氣當中的氣體分子，我們或許知道他的巨觀狀態，但是我們無法得知每個氣體分子在每一個時刻的速度及位置。更別說在微觀的量子世界當中，由於測不準原理，你無法同時知道一個粒子他的確切速度以及位置。</p><p>不過數學提供了我們一個框架，一個邏輯而理性的框架，在純粹邏輯與理性的抽象世界中，我們可以去推論出這個系統的輸入及輸出關係應該是什麼。即便我們不需要一一去觀察每一個系統的輸入及輸出或是觀察系統的狀態，我們仍舊可以透過數學的框架去預測這個系統的行為，或許我們有一天可以從亞馬遜熱帶雨林的一隻蝴蝶翅膀拍動的資料去預測一個超大型颶風的來臨，我們不需要等到真的可以觀測到颶風的那天。</p><p>廣義來說，微分方程模型也可以視為一種機器學習的方法。你可以在機器學習的書當中看到動態系統模型或是 state space model，那些其實是微分方程模型的變體。</p><h2 id="機率"><a href="#機率" class="headerlink" title="機率"></a>機率</h2><p>機率論其實來自數學，更精確的說是測度論。</p><p>我們的生活中常常以機率作為事情的描述。</p><p>當我們面對不確定性的時候我們就會用機率作為描述的語言。機率本身就是一個很好的模型。</p><p>在這個假設之下衍生出了非常多有用的方法及模型，像是蒙地卡羅馬可夫法。機率同時也在布朗運動中扮演了重要的角色，無論在技術、科學，甚至是生活當中，數學都扮演著核心的角色。</p><h2 id="核心"><a href="#核心" class="headerlink" title="核心"></a>核心</h2><p>數學充斥著我們的生活。</p><p>今天，數學是 AI 的核心。 是的，數學披上了 AI 的外表，以全新的姿態展現在人們的面前，人們再一次地為數學的深奧俯首稱臣，但人們不知道的是數學的假設完全來自於人類的理性，甚至我可以很肯定的說 <strong>數學就是人類的理性本身</strong>。</p><p>其實人類本身就蘊含著數學，其實人類是可以完全理解數學的，只是非常多人在理解數學以前，就先用了非理性的恐懼阻擋了自己的去路。</p><h2 id="三位一體"><a href="#三位一體" class="headerlink" title="三位一體"></a>三位一體</h2><p>在 AI 的領域中，最重要的不是去訓練模型，而是 <strong>把數學運算、資料特性以及解釋三者串連起來</strong>。我們想要知道什麼樣的資料特性需要用特定的數學運算處理，我們也想知道使用這樣的數學運算的理由是什麼，這些理由會影響到模型的建構以及後續的解釋，他們三者就像基督教中的三位一體密不可分，但是又個別扮演著角色。</p><p><em>數學運算</em> 代表的是在神經網路模型中的 layer-layer 之間的轉換，他可以是內積可以是捲積，還可以是 recurrent。</p><p><em>資料特性</em> 決定了你應該用怎麼樣的數學運算來處理跟萃取資訊，這很大程度取決於你對於資料以及問題的了解程度。</p><p><em>解釋</em> 是指可以從模型當中去解釋結果所代表的意義，雖然目前可以做到的有限，但是你還是可以從數學運算中去看出一些端倪。</p><p>我在先前的幾篇文章中試圖要做到這件事情，我希望可以連結數學運算、資料特性以及解釋，我想這才是在做 AI 的科學的研究。</p>]]></content>
+    
+    <summary type="html">
+    
+      &lt;!-- toc --&gt;
+&lt;h2 id=&quot;AI-是什麼？&quot;&gt;&lt;a href=&quot;#AI-是什麼？&quot; class=&quot;headerlink&quot; title=&quot;AI 是什麼？&quot;&gt;&lt;/a&gt;AI 是什麼？&lt;/h2&gt;&lt;p&gt;很多人探討 AI 會追隨前人的探討，去探討什麼是智慧？或是什麼樣的是強人工智慧？&lt;/p&gt;
+&lt;p&gt;當然我也做過一樣的事情，只是今天我想從比較技術層面、比較務實的角度切入這一大類技術。&lt;/p&gt;
+&lt;p&gt;自從牛頓引進了數學作為科學的基礎以來，人類一直非常依賴數學工具來解決各種事情。&lt;/p&gt;
+&lt;p&gt;除了科學以外，生活中我們應用的是理性的邏輯來理解以及處理事物，我們用了數字以及加減乘除在買東西上面。&lt;/p&gt;
+    
+    </summary>
+    
+      <category term="Deep Learning" scheme="https://yuehhua.github.io/categories/Deep-Learning/"/>
+    
+    
+  </entry>
   
   <entry>
     <title>Activation function 到底怎麼影響模型？</title>
@@ -492,28 +516,6 @@ dock
 &lt;p&gt;前面大致介紹完了 Deep learning 跟 MLP 的設計，我們接下來介紹在影像處理上的重要技術。&lt;/p&gt;
 &lt;p&gt;Convolutional neural network，顧名思義，他是一種神經網路架構，裡頭包含著 convolution 的運算。&lt;/p&gt;
 &lt;p&gt;那為什麼 convolution 這麼重要，重要到要放在名稱上呢？&lt;/p&gt;
-    
-    </summary>
-    
-      <category term="Deep Learning" scheme="https://yuehhua.github.io/categories/Deep-Learning/"/>
-    
-    
-  </entry>
-  
-  <entry>
-    <title>Multi-Layer Preceptron 的意義</title>
-    <link href="https://yuehhua.github.io/2018/07/21/why-mlp/"/>
-    <id>https://yuehhua.github.io/2018/07/21/why-mlp/</id>
-    <published>2018-07-21T14:15:58.000Z</published>
-    <updated>2018-07-26T05:31:37.264Z</updated>
-    
-    <content type="html"><![CDATA[<!-- toc --><p>在前一篇講完了 deep learning 的意義之後我們來更具體一點講 multi-layer perceptron (MLP)。</p><p>最簡單的版本莫過於 linear MLP，不過不太會有人去用他，其實只是每層 layer 的 activation function 都是採用 identity。你可以想像他是有很多的線性轉換所疊起來的模型。</p><a id="more"></a><hr><p>一般線性模型：$f(\mathbf{x}) = W^{\prime T}\mathbf{x} + b = W^T\mathbf{x}$</p><p>Linear MLP：</p><p>$f_1(\mathbf{x}) = W_1^T\mathbf{x}$</p><p>$f_2(\mathbf{x}) = W_2^Tf_1(\mathbf{x})$</p><p>$f_3(\mathbf{x}) = W_3^Tf_2(\mathbf{x})$</p><p>…</p><p>$f_n(\mathbf{x}) = W_n^Tf_{n-1}(\mathbf{x})$</p><hr><p>那這樣這個有什麼好講的呢？</p><p>大家應該有看到在這邊唯一的運算：內積（inner product）</p><h2 id="內積的意義"><a href="#內積的意義" class="headerlink" title="內積的意義"></a>內積的意義</h2><p>有念過線性代數的人應該對內積這個運算還算熟悉（在這邊都假設大家有一定線性代數基礎）。</p><p>$$<br>&lt;\mathbf{x}, \mathbf{y}&gt; = \mathbf{x}^T \mathbf{y}<br>$$</p><p>$$<br>= \begin{bmatrix}<br>x_1 \<br>x_2 \<br>\vdots \<br>x_n<br>\end{bmatrix}^T</p><p>\begin{bmatrix}<br>y_1 \<br>y_2 \<br>\vdots \<br>y_n<br>\end{bmatrix}</p><p>=<br>\begin{bmatrix}<br>x_1, x_2, \cdots, x_n<br>\end{bmatrix}</p><p>\begin{bmatrix}<br>y_1 \<br>y_2 \<br>\vdots \<br>y_n<br>\end{bmatrix}<br>$$</p><p>內積，要先定義矩陣相乘的運算，而矩陣的相乘其實是一種線性轉換。</p><p>$$<br>f(\mathbf{x}) = A\mathbf{x}<br>$$</p><p>我們來觀察一下內積這個運算，這兩個向量會先把相對應的分量相乘。</p><p>$$<br>\begin{bmatrix}<br>x_1 \<br>x_2 \<br>\vdots \<br>x_n<br>\end{bmatrix}</p><p>\leftrightarrow</p><p>\begin{bmatrix}<br>y_1 \<br>y_2 \<br>\vdots \<br>y_n<br>\end{bmatrix}<br>$$</p><p>接著，再相加。</p><p>$$<br>x_1y_1 + x_2y_2 + \cdots + x_ny_n<br>$$</p><p>這時候我們可以想想看，如果當一邊是權重另一邊是資料的時候所代表的意義是什麼？</p><p>當兩個分量的大小都很大的時候，相乘會讓整個值變很大，相對，如果兩個都很接近零的話，結果值就不大。如果很多分量乘積結果都很大，相加會讓整體結果變得很大。</p><p>內積，其實隱含了 <strong>相似性</strong> 的概念在裡面，也就是說，如果你的權重跟資料很匹配的話，計算出來的值會很大。大家有沒有從裏面看出些端倪呢？</p><p>我們再由另一個角度切入看內積，內積我們可以把他寫成另一種形式，這個應該在大家的高中數學課本當中都有：</p><p>$$<br>\mathbf{x}^T \mathbf{y} = ||\mathbf{x}|| ||\mathbf{y}|| cos \theta<br>$$</p><p>這時候我們就可以看到內積可以被拆成3個部份：分別是兩個向量的大小跟向量夾角的 $cos \theta$ 值。</p><p>而當中 $cos \theta$ 就隱含著相似性在裡頭，也就是說，當兩個向量的夾角愈小，$cos \theta$ 會愈接近 1。相反，如果兩個向量夾角愈接近 180 度，那 $cos \theta$ 會愈接近 -1。剛好呈現 90 度就代表這兩個向量是 <strong>沒有關係的</strong>。</p><p>這時候可能有人會說內積又不是完全反應相似性而已，沒錯！因為他也考慮了兩個向量的長度，當一組向量夾角與另一組向量夾角相同，但是第1組的向量長度都比較長，那內積的結果第1組向量就會比較大。</p><p>所以內積是沒有去除掉向量長度因素的運算，如果單純想要用向量夾角來當成相似性的度量的話可以考慮用 cos similarity。</p><p>$$<br>cos \theta = \frac{\mathbf{x}^T \mathbf{y}}{||\mathbf{x}|| ||\mathbf{y}||}<br>$$</p><h2 id="內積與-MLP"><a href="#內積與-MLP" class="headerlink" title="內積與 MLP"></a>內積與 MLP</h2><p>那 MLP 當中內積扮演了什麼樣的角色呢？</p><p>在純粹線性的 MLP 當中，多層的 $f(\mathbf{x})$ 疊起來，我們可以把他看做是做非常多次的線性轉換或是座標轉換（change of basis），但是這是在 inference 階段的解釋。</p><p>那在 training 階段內積扮演了什麼樣的角色呢？</p><p>這邊提供一個新的想法：在 training 的過程中，我們的 dataset 是不變的，會變動的是 weight ，而內積則是在衡量這兩者之間的 feature norm 及向量夾角，所以 weight 會調整成匹配這樣特性的樣子。換句話說，內積考慮了 data 與 weight 之間的相似性與大小，並且藉由 training 去調整 weight 讓他與資料匹配。</p><p>在 inference 階段，你就可以把他看成是，weight 正在幫你做出某種程度的篩選，跟 weight 匹配的資料，內積值就會比較大，相對的是，weight 不匹配的資料，內積值就會比較小，藉由這樣將內積結果遞進到下一層的運算。</p><h2 id="機率與內積"><a href="#機率與內積" class="headerlink" title="機率與內積"></a>機率與內積</h2><p>其實還有一個觀點，就是機率觀點，機率要求一個 distribution 的長度為 1，$\int_{-\infty}^{\infty} P(X) = 1$。在這邊我們的 distribution 常常以一個 vector（或是 random variable）的形式呈現。事實上就是把一個計算好的向量去除以他的長度。如此一來，我們就去除了長度影響的因素，以符合機率的要求。</p><p>那機率當中的內積指的是什麼呢？</p><p>你如果動動手 google 一下就會發現在機率當中的內積就是這個運算</p><p>$$<br>\mathbb{E}[XY] = \int XY dP<br>$$</p><p>如果有念過統計的人，是不是覺得這東西很眼熟呢？</p><p>$$<br>cov(X, Y) = \mathbb{E}[XY] - \mathbb{E}[X]\mathbb{E}[Y]<br>$$</p><p>是的！他跟共變異數是有相關的，共變異數還是跟我們要去度量兩個隨機變數之間的 <strong>相似性</strong> 有關係。</p><p>$$<br>\rho = \frac{cov(X, Y)}{\sigma_X \sigma_Y}<br>$$</p><p>只要把他除以隨機變數的標準差就可以得到相關係數了呢！</p><h2 id="加入非線性"><a href="#加入非線性" class="headerlink" title="加入非線性"></a>加入非線性</h2><p>事實上，在我們生活中遇到的事物都是非線性的居多，線性模型可以施展手腳的範疇就不大了。</p><p>這時我們就希望在 MLP 中加入非線性的元素以增加模型的表達力。這時候模型的每一層就變成了：</p><p>$$<br>f(\mathbf{x}) = \sigma (W^T \mathbf{x})<br>$$</p><p>而當中的 $\sigma$ 就成了我們的 activation function 了，也就是非線性的來源！</p><h2 id="Fully-connected-layer"><a href="#Fully-connected-layer" class="headerlink" title="Fully connected layer"></a>Fully connected layer</h2><p>當這些層的 node 都互相連接，就代表了所有 node 都參與了計算，這個計算所考慮的資料是 <strong>global</strong> 的。</p><p>這些層所做的運算是相對 <strong>簡單</strong> 的（相對 convolution 來說）。</p><p>每個 node 對每一層運算所做的貢獻是 <strong>弱</strong> 的。當一層的 node 數很多，e.g. 上千個 node，每個 node 的運算結果就會被稀釋掉了。即便內積運算有包含個別值的大小的成份在裡頭，當 node 數一多，這樣的影響也會被減弱，剩下的是整體向量與向量之間的相似性。但有一個情況例外，當有 node 的值極大，e.g. $x_i / x_j = 1000$，當有人是別人的千倍以上的話就要注意一下了，這也是很常在機器學習當中會遇到的問題，這時候就會需要做 normalization 來處理。</p><p>最後提醒，內積的運算中雖然有隱含相似性在其中，但是他 <em>不等同</em> 於 <strong>去計算相似性</strong>。</p><p>今天的討論就到這邊告一個段落，希望在大家思考 deep learning 模型的時候，這些東西有幫上一些忙。</p>]]></content>
-    
-    <summary type="html">
-    
-      &lt;!-- toc --&gt;
-&lt;p&gt;在前一篇講完了 deep learning 的意義之後我們來更具體一點講 multi-layer perceptron (MLP)。&lt;/p&gt;
-&lt;p&gt;最簡單的版本莫過於 linear MLP，不過不太會有人去用他，其實只是每層 layer 的 activation function 都是採用 identity。你可以想像他是有很多的線性轉換所疊起來的模型。&lt;/p&gt;
     
     </summary>
     

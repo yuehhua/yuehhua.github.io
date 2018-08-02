@@ -1,0 +1,541 @@
+
+<!DOCTYPE html>
+<html lang="en">
+    
+<head>
+    <!-- hexo-inject:begin --><!-- hexo-inject:end --><meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="generator" content="Dream Maker">
+    <title>AI 的核心 - Dream Maker</title>
+    <meta name="author" content="Yueh-Hua Tu">
+    
+        <meta name="keywords" content="machine learning,deep learning,topology,">
+    
+    
+    
+        <link rel="alternate" type="application/atom+xml" title="RSS" href="/atom.xml">
+    
+    <script type="application/ld+json">{"@context":"http://schema.org","@type":"BlogPosting","author":{"@type":"Person","name":"Yueh-Hua Tu","sameAs":["https://github.com/yuehhua/","https://www.facebook.com/a504082002","https://www.linkedin.com/in/%E5%B2%B3%E8%8F%AF-%E6%9D%9C-6a3995a0/","mailto:a504082002@gmail.com"],"image":"https://www.gravatar.com/avatar/a565749fba4782b717234da670b273fd"},"articleBody":"\nAI 是什麼？很多人探討 AI 會追隨前人的探討，去探討什麼是智慧？或是什麼樣的是強人工智慧？\n當然我也做過一樣的事情，只是今天我想從比較技術層面、比較務實的角度切入這一大類技術。\n自從牛頓引進了數學作為科學的基礎以來，人類一直非常依賴數學工具來解決各種事情。\n除了科學以外，生活中我們應用的是理性的邏輯來理解以及處理事物，我們用了數字以及加減乘除在買東西上面。\n\n規劃問題我們就拿最簡單的線性規劃問題來說，線性規劃問題他要解的是一個最佳化問題，主要的特徵在於它的目標函式以及限制式是線性的。線性規劃問題的主要應用範圍在商管領域。但是除了線性規劃這麼特定的問題以外，我們還有整數規劃問題、二次規劃問題一以及非線性規劃問題。\n這類的問題全部都圍繞在最佳化上頭，他底層的理論是最佳化理論或是 convex optimization。\n我們一直都認為一個智慧的個體他需要會規劃，但是規劃本身可以被化為一個數學問題，所以解出這個數學問題本身是不是具有智慧的？抑或是，人類利用了他的智慧將一個應用問題轉化成一個可解的數學問題？\n搜尋問題我們常常想要在一堆東西當中找到我們要的東西，有的時候像是在圖書館找書，我確定我要找的書在圖書館中，他非常的確切而且範圍也有限，但有的時候他像是在大海中撈針，我確定針就在海裡，但是海實在是太大了。\n有的時候我們上次在網路上找我們想要的資源，網路本身是個複雜的系統，有上億甚至更多的網路節點，這些網路節點互相連結，我們要如何找到一條最有效的路徑到我們想去的地方？\n這些問題都可以被化成一個搜尋問題，有的搜尋問題我們只需要簡單的排序就可以處理，有的搜尋問題牽涉到比較複雜的圖論結構，更有些問題他的搜尋空間是無限維度的。\n我們必須思考一下會解這些問題是不是一個智慧的行為？\n建模建模一直是在科學領域當中非常重要的一件事情，透過模型的建立，模型可以給我們的是對未來的預測，以及因果關係的建立。我們可以透過模型去得知以及解釋為什麼會這樣？為什麼會那樣？\n在物理領域，我們常常用微分方程作為建模的工具，物理學家會去找出自然界中有可能影響的因子，並且把它放到微分方程中成為一個系統。我們可以去觀測這個系統的輸入以及輸出，去推論整個系統的運作。\n但是我們怎麼知道系統內部是怎麼運作的？如果不知道系統是怎麼運作的，我們是無法將一個因子放到微分方程的數學描述中的。如果一個物理系統的狀態是可以被觀察的，我們當然可以很輕易的理解輸入以及輸出之間的關係。但是常常系統的狀態並不是可以被觀察的，像是大氣當中的氣體分子，我們或許知道他的巨觀狀態，但是我們無法得知每個氣體分子在每一個時刻的速度及位置。更別說在微觀的量子世界當中，由於測不準原理，你無法同時知道一個粒子他的確切速度以及位置。\n不過數學提供了我們一個框架，一個邏輯而理性的框架，在純粹邏輯與理性的抽象世界中，我們可以去推論出這個系統的輸入及輸出關係應該是什麼。即便我們不需要一一去觀察每一個系統的輸入及輸出或是觀察系統的狀態，我們仍舊可以透過數學的框架去預測這個系統的行為，或許我們有一天可以從亞馬遜熱帶雨林的一隻蝴蝶翅膀拍動的資料去預測一個超大型颶風的來臨，我們不需要等到真的可以觀測到颶風的那天。\n廣義來說，微分方程模型也可以視為一種機器學習的方法。你可以在機器學習的書當中看到動態系統模型或是 state space model，那些其實是微分方程模型的變體。\n機率機率論其實來自數學，更精確的說是測度論。\n我們的生活中常常以機率作為事情的描述。\n當我們面對不確定性的時候我們就會用機率作為描述的語言。機率本身就是一個很好的模型。\n在這個假設之下衍生出了非常多有用的方法及模型，像是蒙地卡羅馬可夫法。機率同時也在布朗運動中扮演了重要的角色，無論在技術、科學，甚至是生活當中，數學都扮演著核心的角色。\n核心數學充斥著我們的生活。\n今天，數學是 AI 的核心。 是的，數學披上了 AI 的外表，以全新的姿態展現在人們的面前，人們再一次地為數學的深奧俯首稱臣，但人們不知道的是數學的假設完全來自於人類的理性，甚至我可以很肯定的說 數學就是人類的理性本身。\n其實人類本身就蘊含著數學，其實人類是可以完全理解數學的，只是非常多人在理解數學以前，就先用了非理性的恐懼阻擋了自己的去路。\n三位一體在 AI 的領域中，最重要的不是去訓練模型，而是 把數學運算、資料特性以及解釋三者串連起來。我們想要知道什麼樣的資料特性需要用特定的數學運算處理，我們也想知道使用這樣的數學運算的理由是什麼，這些理由會影響到模型的建構以及後續的解釋，他們三者就像基督教中的三位一體密不可分，但是又個別扮演著角色。\n數學運算 代表的是在神經網路模型中的 layer-layer 之間的轉換，他可以是內積可以是捲積，還可以是 recurrent。\n資料特性 決定了你應該用怎麼樣的數學運算來處理跟萃取資訊，這很大程度取決於你對於資料以及問題的了解程度。\n解釋 是指可以從模型當中去解釋結果所代表的意義，雖然目前可以做到的有限，但是你還是可以從數學運算中去看出一些端倪。\n我在先前的幾篇文章中試圖要做到這件事情，我希望可以連結數學運算、資料特性以及解釋，我想這才是在做 AI 的科學的研究。\n","dateCreated":"2018-08-03T00:17:30+08:00","dateModified":"2018-08-03T00:24:20+08:00","datePublished":"2018-08-03T00:17:30+08:00","description":"\nAI 是什麼？很多人探討 AI 會追隨前人的探討，去探討什麼是智慧？或是什麼樣的是強人工智慧？\n當然我也做過一樣的事情，只是今天我想從比較技術層面、比較務實的角度切入這一大類技術。\n自從牛頓引進了數學作為科學的基礎以來，人類一直非常依賴數學工具來解決各種事情。\n除了科學以外，生活中我們應用的是理性的邏輯來理解以及處理事物，我們用了數字以及加減乘除在買東西上面。","headline":"AI 的核心","image":[],"mainEntityOfPage":{"@type":"WebPage","@id":"https://yuehhua.github.io/2018/08/03/the-nutshell-of-ai/"},"publisher":{"@type":"Organization","name":"Yueh-Hua Tu","sameAs":["https://github.com/yuehhua/","https://www.facebook.com/a504082002","https://www.linkedin.com/in/%E5%B2%B3%E8%8F%AF-%E6%9D%9C-6a3995a0/","mailto:a504082002@gmail.com"],"image":"https://www.gravatar.com/avatar/a565749fba4782b717234da670b273fd","logo":{"@type":"ImageObject","url":"https://www.gravatar.com/avatar/a565749fba4782b717234da670b273fd"}},"url":"https://yuehhua.github.io/2018/08/03/the-nutshell-of-ai/"}</script>
+    <meta name="description" content="AI 是什麼？很多人探討 AI 會追隨前人的探討，去探討什麼是智慧？或是什麼樣的是強人工智慧？ 當然我也做過一樣的事情，只是今天我想從比較技術層面、比較務實的角度切入這一大類技術。 自從牛頓引進了數學作為科學的基礎以來，人類一直非常依賴數學工具來解決各種事情。 除了科學以外，生活中我們應用的是理性的邏輯來理解以及處理事物，我們用了數字以及加減乘除在買東西上面。">
+<meta name="keywords" content="machine learning,deep learning,topology">
+<meta property="og:type" content="blog">
+<meta property="og:title" content="AI 的核心">
+<meta property="og:url" content="https://yuehhua.github.io/2018/08/03/the-nutshell-of-ai/index.html">
+<meta property="og:site_name" content="Dream Maker">
+<meta property="og:description" content="AI 是什麼？很多人探討 AI 會追隨前人的探討，去探討什麼是智慧？或是什麼樣的是強人工智慧？ 當然我也做過一樣的事情，只是今天我想從比較技術層面、比較務實的角度切入這一大類技術。 自從牛頓引進了數學作為科學的基礎以來，人類一直非常依賴數學工具來解決各種事情。 除了科學以外，生活中我們應用的是理性的邏輯來理解以及處理事物，我們用了數字以及加減乘除在買東西上面。">
+<meta property="og:locale" content="en">
+<meta property="og:updated_time" content="2018-08-02T16:24:20.598Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="AI 的核心">
+<meta name="twitter:description" content="AI 是什麼？很多人探討 AI 會追隨前人的探討，去探討什麼是智慧？或是什麼樣的是強人工智慧？ 當然我也做過一樣的事情，只是今天我想從比較技術層面、比較務實的角度切入這一大類技術。 自從牛頓引進了數學作為科學的基礎以來，人類一直非常依賴數學工具來解決各種事情。 除了科學以外，生活中我們應用的是理性的邏輯來理解以及處理事物，我們用了數字以及加減乘除在買東西上面。">
+    
+    
+        
+    
+    
+    
+    
+    
+    <!--STYLES-->
+    <link rel="stylesheet" href="/assets/css/style-3frockyt2j28isvdztjchy5nhkz8tjki9ermufc1ckptmvjdftux94m2ahub.min.css">
+    <!--STYLES END-->
+    
+    <script type="text/javascript">
+        (function (i, s, o, g, r, a, m) {
+        i['GoogleAnalyticsObject'] = r; i[r] = i[r] || function () {
+            (i[r].q = i[r].q || []).push(arguments)
+        }, i[r].l = 1 * new Date(); a = s.createElement(o),
+            m = s.getElementsByTagName(o)[0]; a.async = 1; a.src = g; m.parentNode.insertBefore(a, m)
+        })(window, document, 'script', '//www.google-analytics.com/analytics.js', 'ga');
+
+        ga('create', 'UA-119690895-1', 'auto');
+        ga('send', 'pageview');
+    </script><!-- hexo-inject:begin --><!-- hexo-inject:end -->
+    
+    
+</head>
+
+    <body>
+        <!-- hexo-inject:begin --><!-- hexo-inject:end --><div id="blog">
+            <!-- Define author's picture -->
+
+
+    
+
+<header id="header" data-behavior="5">
+    <i id="btn-open-sidebar" class="fa fa-lg fa-bars"></i>
+    <div class="header-title">
+        <a class="header-title-link" href="/ ">Dream Maker</a>
+    </div>
+    
+        
+            <a  class="header-right-picture "
+                href="#about">
+        
+        
+        </a>
+    
+</header>
+
+            <!-- Define author's picture -->
+
+
+<nav id="sidebar" data-behavior="5">
+    <div class="sidebar-container">
+        
+        
+            <ul class="sidebar-buttons">
+            
+                <li class="sidebar-button">
+                    
+                        <a  class="sidebar-button-link "
+                             href="/ "
+                            
+                            title="Home"
+                        >
+                    
+                        <i class="sidebar-button-icon fa fa-home" aria-hidden="true"></i>
+                        <span class="sidebar-button-desc">Home</span>
+                    </a>
+            </li>
+            
+                <li class="sidebar-button">
+                    
+                        <a  class="sidebar-button-link "
+                             href="/all-categories"
+                            
+                            title="Categories"
+                        >
+                    
+                        <i class="sidebar-button-icon fa fa-bookmark" aria-hidden="true"></i>
+                        <span class="sidebar-button-desc">Categories</span>
+                    </a>
+            </li>
+            
+                <li class="sidebar-button">
+                    
+                        <a  class="sidebar-button-link "
+                             href="/all-tags"
+                            
+                            title="Tags"
+                        >
+                    
+                        <i class="sidebar-button-icon fa fa-tags" aria-hidden="true"></i>
+                        <span class="sidebar-button-desc">Tags</span>
+                    </a>
+            </li>
+            
+                <li class="sidebar-button">
+                    
+                        <a  class="sidebar-button-link "
+                             href="/all-archives"
+                            
+                            title="Archives"
+                        >
+                    
+                        <i class="sidebar-button-icon fa fa-archive" aria-hidden="true"></i>
+                        <span class="sidebar-button-desc">Archives</span>
+                    </a>
+            </li>
+            
+                <li class="sidebar-button">
+                    
+                        <a  class="sidebar-button-link open-algolia-search"
+                             href="#search"
+                            
+                            title="Search"
+                        >
+                    
+                        <i class="sidebar-button-icon fa fa-search" aria-hidden="true"></i>
+                        <span class="sidebar-button-desc">Search</span>
+                    </a>
+            </li>
+            
+                <li class="sidebar-button">
+                    
+                        <a  class="sidebar-button-link "
+                             href="#about"
+                            
+                            title="About"
+                        >
+                    
+                        <i class="sidebar-button-icon fa fa-question" aria-hidden="true"></i>
+                        <span class="sidebar-button-desc">About</span>
+                    </a>
+            </li>
+            
+        </ul>
+        
+            <ul class="sidebar-buttons">
+            
+                <li class="sidebar-button">
+                    
+                        <a  class="sidebar-button-link " href="https://github.com/yuehhua/" target="_blank" rel="noopener" title="GitHub">
+                    
+                        <i class="sidebar-button-icon fab fa-github" aria-hidden="true"></i>
+                        <span class="sidebar-button-desc">GitHub</span>
+                    </a>
+            </li>
+            
+                <li class="sidebar-button">
+                    
+                        <a  class="sidebar-button-link " href="https://www.facebook.com/a504082002" target="_blank" rel="noopener" title="Facebook">
+                    
+                        <i class="sidebar-button-icon fab fa-facebook" aria-hidden="true"></i>
+                        <span class="sidebar-button-desc">Facebook</span>
+                    </a>
+            </li>
+            
+                <li class="sidebar-button">
+                    
+                        <a  class="sidebar-button-link " href="https://www.linkedin.com/in/%E5%B2%B3%E8%8F%AF-%E6%9D%9C-6a3995a0/" target="_blank" rel="noopener" title="LinkedIn">
+                    
+                        <i class="sidebar-button-icon fab fa-linkedin" aria-hidden="true"></i>
+                        <span class="sidebar-button-desc">LinkedIn</span>
+                    </a>
+            </li>
+            
+                <li class="sidebar-button">
+                    
+                        <a  class="sidebar-button-link " href="mailto:a504082002@gmail.com" target="_blank" rel="noopener" title="Mail">
+                    
+                        <i class="sidebar-button-icon fab fa-envelope" aria-hidden="true"></i>
+                        <span class="sidebar-button-desc">Mail</span>
+                    </a>
+            </li>
+            
+        </ul>
+        
+            <ul class="sidebar-buttons">
+            
+                <li class="sidebar-button">
+                    
+                        <a  class="sidebar-button-link "
+                             href="/atom.xml"
+                            
+                            title="RSS"
+                        >
+                    
+                        <i class="sidebar-button-icon fa fa-rss" aria-hidden="true"></i>
+                        <span class="sidebar-button-desc">RSS</span>
+                    </a>
+            </li>
+            
+        </ul>
+        
+    </div>
+</nav>
+
+            
+            <div id="main" data-behavior="5"
+                 class="
+                        hasCoverMetaIn
+                        ">
+                
+    <article class="post">
+        
+                
+                    <div class="post-header main-content-wrap text-left">
+    
+        <h1 class="post-title">
+            AI 的核心
+        </h1>
+    
+    
+        <div class="post-meta">
+    <time datetime="2018-08-03T00:17:30+08:00">
+	
+		    Aug 03, 2018
+    	
+    </time>
+    
+        <span>in </span>
+        
+    <a class="category-link" href="/categories/Deep-Learning/">Deep Learning</a>
+
+
+    
+</div>
+
+    
+</div>
+
+                        
+                            <div class="post-content markdown">
+                                <div class="main-content-wrap">
+                                    <h1 id="table-of-contents">Table of Contents</h1><ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#AI-是什麼？"><span class="toc-text">AI 是什麼？</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#規劃問題"><span class="toc-text">規劃問題</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#搜尋問題"><span class="toc-text">搜尋問題</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#建模"><span class="toc-text">建模</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#機率"><span class="toc-text">機率</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#核心"><span class="toc-text">核心</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#三位一體"><span class="toc-text">三位一體</span></a></li></ol>
+<h2 id="AI-是什麼？"><a href="#AI-是什麼？" class="headerlink" title="AI 是什麼？"></a>AI 是什麼？</h2><p>很多人探討 AI 會追隨前人的探討，去探討什麼是智慧？或是什麼樣的是強人工智慧？</p>
+<p>當然我也做過一樣的事情，只是今天我想從比較技術層面、比較務實的角度切入這一大類技術。</p>
+<p>自從牛頓引進了數學作為科學的基礎以來，人類一直非常依賴數學工具來解決各種事情。</p>
+<p>除了科學以外，生活中我們應用的是理性的邏輯來理解以及處理事物，我們用了數字以及加減乘除在買東西上面。</p>
+<a id="more"></a>
+<h2 id="規劃問題"><a href="#規劃問題" class="headerlink" title="規劃問題"></a>規劃問題</h2><p>我們就拿最簡單的線性規劃問題來說，線性規劃問題他要解的是一個最佳化問題，主要的特徵在於它的目標函式以及限制式是線性的。線性規劃問題的主要應用範圍在商管領域。但是除了線性規劃這麼特定的問題以外，我們還有整數規劃問題、二次規劃問題一以及非線性規劃問題。</p>
+<p>這類的問題全部都圍繞在最佳化上頭，他底層的理論是最佳化理論或是 convex optimization。</p>
+<p>我們一直都認為一個智慧的個體他需要會規劃，但是規劃本身可以被化為一個數學問題，所以解出這個數學問題本身是不是具有智慧的？抑或是，人類利用了他的智慧將一個應用問題轉化成一個可解的數學問題？</p>
+<h2 id="搜尋問題"><a href="#搜尋問題" class="headerlink" title="搜尋問題"></a>搜尋問題</h2><p>我們常常想要在一堆東西當中找到我們要的東西，有的時候像是在圖書館找書，我確定我要找的書在圖書館中，他非常的確切而且範圍也有限，但有的時候他像是在大海中撈針，我確定針就在海裡，但是海實在是太大了。</p>
+<p>有的時候我們上次在網路上找我們想要的資源，網路本身是個複雜的系統，有上億甚至更多的網路節點，這些網路節點互相連結，我們要如何找到一條最有效的路徑到我們想去的地方？</p>
+<p>這些問題都可以被化成一個搜尋問題，有的搜尋問題我們只需要簡單的排序就可以處理，有的搜尋問題牽涉到比較複雜的圖論結構，更有些問題他的搜尋空間是無限維度的。</p>
+<p>我們必須思考一下會解這些問題是不是一個智慧的行為？</p>
+<h2 id="建模"><a href="#建模" class="headerlink" title="建模"></a>建模</h2><p>建模一直是在科學領域當中非常重要的一件事情，透過模型的建立，模型可以給我們的是對未來的預測，以及因果關係的建立。我們可以透過模型去得知以及解釋為什麼會這樣？為什麼會那樣？</p>
+<p>在物理領域，我們常常用微分方程作為建模的工具，物理學家會去找出自然界中有可能影響的因子，並且把它放到微分方程中成為一個系統。我們可以去觀測這個系統的輸入以及輸出，去推論整個系統的運作。</p>
+<p>但是我們怎麼知道系統內部是怎麼運作的？如果不知道系統是怎麼運作的，我們是無法將一個因子放到微分方程的數學描述中的。如果一個物理系統的狀態是可以被觀察的，我們當然可以很輕易的理解輸入以及輸出之間的關係。但是常常系統的狀態並不是可以被觀察的，像是大氣當中的氣體分子，我們或許知道他的巨觀狀態，但是我們無法得知每個氣體分子在每一個時刻的速度及位置。更別說在微觀的量子世界當中，由於測不準原理，你無法同時知道一個粒子他的確切速度以及位置。</p>
+<p>不過數學提供了我們一個框架，一個邏輯而理性的框架，在純粹邏輯與理性的抽象世界中，我們可以去推論出這個系統的輸入及輸出關係應該是什麼。即便我們不需要一一去觀察每一個系統的輸入及輸出或是觀察系統的狀態，我們仍舊可以透過數學的框架去預測這個系統的行為，或許我們有一天可以從亞馬遜熱帶雨林的一隻蝴蝶翅膀拍動的資料去預測一個超大型颶風的來臨，我們不需要等到真的可以觀測到颶風的那天。</p>
+<p>廣義來說，微分方程模型也可以視為一種機器學習的方法。你可以在機器學習的書當中看到動態系統模型或是 state space model，那些其實是微分方程模型的變體。</p>
+<h2 id="機率"><a href="#機率" class="headerlink" title="機率"></a>機率</h2><p>機率論其實來自數學，更精確的說是測度論。</p>
+<p>我們的生活中常常以機率作為事情的描述。</p>
+<p>當我們面對不確定性的時候我們就會用機率作為描述的語言。機率本身就是一個很好的模型。</p>
+<p>在這個假設之下衍生出了非常多有用的方法及模型，像是蒙地卡羅馬可夫法。機率同時也在布朗運動中扮演了重要的角色，無論在技術、科學，甚至是生活當中，數學都扮演著核心的角色。</p>
+<h2 id="核心"><a href="#核心" class="headerlink" title="核心"></a>核心</h2><p>數學充斥著我們的生活。</p>
+<p>今天，數學是 AI 的核心。 是的，數學披上了 AI 的外表，以全新的姿態展現在人們的面前，人們再一次地為數學的深奧俯首稱臣，但人們不知道的是數學的假設完全來自於人類的理性，甚至我可以很肯定的說 <strong>數學就是人類的理性本身</strong>。</p>
+<p>其實人類本身就蘊含著數學，其實人類是可以完全理解數學的，只是非常多人在理解數學以前，就先用了非理性的恐懼阻擋了自己的去路。</p>
+<h2 id="三位一體"><a href="#三位一體" class="headerlink" title="三位一體"></a>三位一體</h2><p>在 AI 的領域中，最重要的不是去訓練模型，而是 <strong>把數學運算、資料特性以及解釋三者串連起來</strong>。我們想要知道什麼樣的資料特性需要用特定的數學運算處理，我們也想知道使用這樣的數學運算的理由是什麼，這些理由會影響到模型的建構以及後續的解釋，他們三者就像基督教中的三位一體密不可分，但是又個別扮演著角色。</p>
+<p><em>數學運算</em> 代表的是在神經網路模型中的 layer-layer 之間的轉換，他可以是內積可以是捲積，還可以是 recurrent。</p>
+<p><em>資料特性</em> 決定了你應該用怎麼樣的數學運算來處理跟萃取資訊，這很大程度取決於你對於資料以及問題的了解程度。</p>
+<p><em>解釋</em> 是指可以從模型當中去解釋結果所代表的意義，雖然目前可以做到的有限，但是你還是可以從數學運算中去看出一些端倪。</p>
+<p>我在先前的幾篇文章中試圖要做到這件事情，我希望可以連結數學運算、資料特性以及解釋，我想這才是在做 AI 的科學的研究。</p>
+
+                                        
+
+                                </div>
+                            </div>
+                            <div id="post-footer" class="post-footer main-content-wrap">
+                                
+                                        
+                                            <div class="post-actions-wrap">
+    <nav>
+        <ul class="post-actions post-action-nav">
+            <li class="post-action">
+                
+                    <a class="post-action-btn btn btn--disabled">
+                
+                    <i class="fa fa-angle-left" aria-hidden="true"></i>
+                    <span class="hide-xs hide-sm text-small icon-ml">PREVIOUS</span>
+                </a>
+            </li>
+            <li class="post-action">
+                
+                    
+                    <a class="post-action-btn btn btn--default tooltip--top" href="/2018/07/27/activation-function/" data-tooltip="Activation function 到底怎麼影響模型？" aria-label="NEXT: Activation function 到底怎麼影響模型？">
+                
+                    <span class="hide-xs hide-sm text-small icon-mr">NEXT</span>
+                    <i class="fa fa-angle-right" aria-hidden="true"></i>
+                </a>
+            </li>
+        </ul>
+    </nav>
+    <ul class="post-actions post-action-share">
+        <li class="post-action hide-lg hide-md hide-sm">
+            <a class="post-action-btn btn btn--default btn-open-shareoptions" href="#btn-open-shareoptions" aria-label="Share this post">
+                <i class="fa fa-share-alt" aria-hidden="true"></i>
+            </a>
+        </li>
+        
+            
+            
+            <li class="post-action hide-xs">
+                <a class="post-action-btn btn btn--default" target="new" href="https://www.facebook.com/sharer/sharer.php?u=https://yuehhua.github.io/2018/08/03/the-nutshell-of-ai/" title="Share on Facebook">
+                    <i class="fa fa-facebook-official" aria-hidden="true"></i>
+                </a>
+            </li>
+        
+        
+            
+                <li class="post-action">
+                    <a class="post-action-btn btn btn--default" href="#disqus_thread">
+                        <i class="fa fa-comment-o"></i>
+                    </a>
+                </li>
+            
+        
+        <li class="post-action">
+            
+                <a class="post-action-btn btn btn--default" href="#table-of-contents" aria-label="Table of Contents">
+            
+                <i class="fa fa-list" aria-hidden="true"></i>
+            </a>
+        </li>
+    </ul>
+</div>
+
+
+                                                
+                                                    
+                                                        
+                                                            <div id="disqus_thread">
+    <noscript>Please enable JavaScript to view the <a href="//disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+</div>
+                                                                
+                                                                            
+                            </div>
+                            
+                                <script src='https://unpkg.com/mermaid@7.1.2/dist/mermaid.min.js'></script>
+                                <script>
+                                    if (window.mermaid) {
+                                        mermaid.initialize({ theme: 'forest' });
+                                    }
+                                </script>
+                                
+    </article>
+
+                <footer id="footer" class="main-content-wrap">
+    <span class="copyrights">
+        Copyrights &copy; 2018 Yueh-Hua Tu. All Rights Reserved.
+    </span>
+</footer>
+
+            </div>
+            
+                <div id="bottom-bar" class="post-bottom-bar" data-behavior="5">
+                    <div class="post-actions-wrap">
+    <nav>
+        <ul class="post-actions post-action-nav">
+            <li class="post-action">
+                
+                    <a class="post-action-btn btn btn--disabled">
+                
+                    <i class="fa fa-angle-left" aria-hidden="true"></i>
+                    <span class="hide-xs hide-sm text-small icon-ml">PREVIOUS</span>
+                </a>
+            </li>
+            <li class="post-action">
+                
+                    
+                    <a class="post-action-btn btn btn--default tooltip--top" href="/2018/07/27/activation-function/" data-tooltip="Activation function 到底怎麼影響模型？" aria-label="NEXT: Activation function 到底怎麼影響模型？">
+                
+                    <span class="hide-xs hide-sm text-small icon-mr">NEXT</span>
+                    <i class="fa fa-angle-right" aria-hidden="true"></i>
+                </a>
+            </li>
+        </ul>
+    </nav>
+    <ul class="post-actions post-action-share">
+        <li class="post-action hide-lg hide-md hide-sm">
+            <a class="post-action-btn btn btn--default btn-open-shareoptions" href="#btn-open-shareoptions" aria-label="Share this post">
+                <i class="fa fa-share-alt" aria-hidden="true"></i>
+            </a>
+        </li>
+        
+            
+            
+            <li class="post-action hide-xs">
+                <a class="post-action-btn btn btn--default" target="new" href="https://www.facebook.com/sharer/sharer.php?u=https://yuehhua.github.io/2018/08/03/the-nutshell-of-ai/" title="Share on Facebook">
+                    <i class="fa fa-facebook-official" aria-hidden="true"></i>
+                </a>
+            </li>
+        
+        
+            
+                <li class="post-action">
+                    <a class="post-action-btn btn btn--default" href="#disqus_thread">
+                        <i class="fa fa-comment-o"></i>
+                    </a>
+                </li>
+            
+        
+        <li class="post-action">
+            
+                <a class="post-action-btn btn btn--default" href="#table-of-contents" aria-label="Table of Contents">
+            
+                <i class="fa fa-list" aria-hidden="true"></i>
+            </a>
+        </li>
+    </ul>
+</div>
+
+
+                </div>
+                <div id="share-options-bar" class="share-options-bar" data-behavior="5">
+    <i id="btn-close-shareoptions" class="fa fa-close"></i>
+    <ul class="share-options">
+        
+            
+            
+            <li class="share-option">
+                <a class="share-option-btn" target="new" href="https://www.facebook.com/sharer/sharer.php?u=https://yuehhua.github.io/2018/08/03/the-nutshell-of-ai/">
+                    <i class="fa fa-facebook-official" aria-hidden="true"></i><span>Share on Facebook</span>
+                </a>
+            </li>
+        
+    </ul>
+</div>
+
+            
+        </div>
+        
+
+
+<div id="about">
+    <div id="about-card">
+        <div id="about-btn-close">
+            <i class="fa fa-remove"></i>
+        </div>
+        
+            <h4 id="about-card-name">Yueh-Hua Tu</h4>
+        
+            <div id="about-card-bio"><p>Aim to be a computational biologist!</br>Systems Biology, Computational Biology, Machine Learning</br>Organizer of Julia Taiwan community</p>
+</div>
+        
+        
+            <div id="about-card-job">
+                <i class="fa fa-briefcase"></i>
+                <br/>
+                <p>Research assistant, Taiwan CDC</p>
+
+            </div>
+        
+        
+            <div id="about-card-location">
+                <i class="fa fa-map-marker"></i>
+                <br/>
+                Taiwan
+            </div>
+        
+    </div>
+</div>
+
+        
+        
+<div id="cover" style="background-image:url('/assets/images/cover.jpg');"></div>
+        <!--SCRIPTS-->
+<script src="/assets/js/script-xzfezjobyekpxrjktw5tz6muvzqfsbmo5n6atk3p5om9ulfptldi3p7cyqd8.min.js"></script>
+<!--SCRIPTS END-->
+
+    
+        <script>
+             var disqus_config = function () {
+                 this.page.url = 'https://yuehhua.github.io/2018/08/03/the-nutshell-of-ai/';
+                 
+                    this.page.identifier = '2018/08/03/the-nutshell-of-ai/';
+                 
+             };
+            (function() {
+                var d = document, s = d.createElement('script');
+                var disqus_shortname = 'dream-maker';
+                s.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+
+                s.setAttribute('data-timestamp', +new Date());
+                (d.head || d.body).appendChild(s);
+            })();
+        </script>
+    
+
+
+
+    <script type="text/x-mathjax-config">
+    MathJax.Hub.Config({
+        tex2jax: {
+            inlineMath: [ ["$","$"], ["\\(","\\)"] ],
+            skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code'],
+            processEscapes: true
+        }
+    });
+    MathJax.Hub.Queue(function() {
+        var all = MathJax.Hub.getAllJax();
+        for (var i = 0; i < all.length; ++i)
+            all[i].SourceElement().parentNode.className += ' has-jax';
+    });
+</script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script><!-- hexo-inject:begin --><!-- hexo-inject:end -->
+
+</body>
+</html>
