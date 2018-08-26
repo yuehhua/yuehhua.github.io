@@ -2,6 +2,13 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   
   <url>
+    <loc>https://yuehhua.github.io/2018/07/21/why-rnn/</loc>
+    
+    <lastmod>2018-08-26T17:18:54.263Z</lastmod>
+    
+  </url>
+  
+  <url>
     <loc>https://yuehhua.github.io/2018/08/24/mastery/</loc>
     
     <lastmod>2018-08-24T14:21:21.806Z</lastmod>
@@ -40,13 +47,6 @@
     <loc>https://yuehhua.github.io/2018/07/27/activation-function/</loc>
     
     <lastmod>2018-07-27T03:17:56.344Z</lastmod>
-    
-  </url>
-  
-  <url>
-    <loc>https://yuehhua.github.io/2018/07/21/why-rnn/</loc>
-    
-    <lastmod>2018-07-26T05:31:47.294Z</lastmod>
     
   </url>
   
