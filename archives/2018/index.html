@@ -231,7 +231,7 @@
     <section class="postShorten-group main-content-wrap">
     
     
-    <article class="postShorten postShorten--thumbnailimg-bottom">
+    <article class="postShorten postShorten--thumbnailimg-right">
         <div class="postShorten-wrap">
             
             <div class="postShorten-header">
@@ -259,74 +259,15 @@
 
             </div>
             
-                <div class="postShorten-content">
+                <div class="postShorten-excerpt">
                     <p>在機器學習領域，我們常常會聽到 Energy-based model。</p>
 <p>基本上，他是借了物理的能量觀點來的，在數學上，與物理的公式如出一徹。</p>
 <p>我們先來看看他是長成什麼樣子。</p>
-<p>在物理統計力學中，如果一個系統的狀態的機率分佈，是由狀態的能量決定，並且狀態能量及系統溫度與狀態之間可以寫成一個函數關係，我們稱為 Boltzmann distribution。</p>
-<p>$$<br>\large p_i = \frac{1}{Z} e^{- \epsilon_i / kT}<br>$$</p>
-<p>一個系統中，狀態 $i$ 的出現機率 $p_i$ 是狀態能量 $\epsilon_i$ 以及系統溫度 $T$ 的函數，其中 $k$ 為波茲曼常數，$Z$ 為機率分佈的分母，稱為 partition function。</p>
-<p>在機器學習中，借了同樣的概念變成了以下式子：</p>
-<p>$$<br>\large P(X = x) = \frac{1}{Z} e^{f(x)}<br>$$</p>
-<p>主要是將次方項 $- \epsilon_i / kT$ 替換成了更廣義的函數 $f(x)$ 形式，而這個函數會跟系統的狀態 $x$ 相關。</p>
-<p>其中 $Z$ 就變成了以下的樣子：</p>
-<p>$$<br>Z = \sum_{x \in X} e^{f(x)}<br>$$</p>
-<p>如果代入以上的函數中就會是：</p>
-<p>$$<br>\large P(X = x) = \frac{e^{f(x)}}{\sum_{x \in X} e^{f(x)}}<br>$$</p>
-<p>當我們把這樣的模型廣義化之後就稱為 Energy-based model。</p>
-<p>這樣的模型在統計或是機器學習中有非常有趣的連結，$f(x)$ 所代表的應該是一個能量的函數。</p>
-<p>$$<br>f(x) = -E(x)<br>$$</p>
-<p>然而這樣的函數我們可以將他等同於機器學習中常用的 loss function。</p>
-<p>$$<br>f(x) = -E(x) = - \text{loss function}<br>$$</p>
-<p>這樣的等號是基於在熱力學第二定律的描述，熱力學第二定律描述一個封閉系統（closed system），封閉系統不允許系統與環境有任何的物質交換，在環境及熵不變的情況下，而系統的內能會降低，當內能降到最低的時候，系統會達成動態平衡。這稱為最小能量原則（principle of minimum energy），是熱力學第二定律另一個面向的描述。</p>
-<blockquote>
-<p>相對的是，在一個孤立系統（isolated system），孤立系統不允許系統與環境有任何的物質與能量交換，在環境不變的情況下，熵會持續增加。</p>
-</blockquote>
-<p>依據最小能量原則，能量最小跟我們希望的 loss function 最低有同樣的目標，所以我們可以將他們同等起來。不過要強調的是，這裡並沒有意義上的同等，只是在最佳化的方向上是同等的。</p>
-<h3 id="Bayesian-model"><a href="#Bayesian-model" class="headerlink" title="Bayesian model"></a>Bayesian model</h3><p>在 Bayesian model 的方法中就更有趣了。當我們想要最小化 loss function 的時候，他其實在最大化 likelihood function。換句話說，降低 loss 是在降低資料與模型之間的誤差，讓模型更貼近資料，提升 likelihood 則是另一個面向的描述，likelihood 是在測量模型與資料的相似度，最大化 likelihood 也是讓模型愈貼近資料，所以我們可以將他變成這個樣子：</p>
-<p>$$<br>f(x) = -E(x) = \text{likelihood function}<br>$$</p>
-<p>這樣的解釋是什麼呢？</p>
-<p>也就是，在統計學裡常用的 Maximum likelihood estimation （MLE）方法會跟最小能量原則有一致的目標。</p>
-<p>我們從貝氏定理出發。我們先把貝氏定理的分母省略掉。</p>
-<p>$$<br>\large P(\theta \mid x) = \frac{P(x \mid \theta)P(\theta)}{P(x)} = \frac{1}{Z} P(x \mid \theta)P(\theta)<br>$$</p>
-<p>接者，貝氏定理的分子部份其實代表的各自是 likelihood 以及 prior。</p>
-<p>$$<br>\propto P(x \mid \theta)P(\theta)<br>$$</p>
-<p>$$<br>\text{    (likelihood)(prior)}<br>$$</p>
-<p>我們可以將 Energy-based model 代入，容我省略分母。</p>
-<p>$$<br>\propto e^{-E(x)} \times P(\theta)<br>$$</p>
-<p>旁邊的 prior 我們可以忽略他，但是我們可以代入 normal distribution，會有有趣的結果。</p>
-<p>$$<br>\large = e^{-E(x)} \times \frac{1}{\sqrt{2 \pi \sigma^2}} e^{-\frac{\theta^2}{2 \sigma^2}}<br>$$</p>
-<p>接著我們把等號的兩側都取 ln。</p>
-<p>$$<br>-ln P(\theta \mid x) \propto E(x) + \frac{\theta^2}{2 \sigma^2} - ln(\frac{1}{\sqrt{2 \pi \sigma^2}}) + ln(Z)<br>$$</p>
-<p>有沒有看到有趣的部份了？能量的部份顯露出來，當能量最小時，$P(\theta \mid x)$ 就會是最大，而 $P(\theta \mid x)$ 則是 posterior，最小能量原則會對應到貝氏方法的 Maximum a posteriori（MAP）。如果 MAP，將 prior 移除的話，就等同於 MLE 了！</p>
-<p>所以我們可以看到在統計力學與統計學跟機器學習之間非常緊密的關係，而且他們都可以借用物理的熱力學第二定律來加以解釋，如此一來，可以賦予機器學習模型一個物理意義。</p>
-<h3 id="Regularization"><a href="#Regularization" class="headerlink" title="Regularization"></a>Regularization</h3><p>還有嗎？當然還有阿！</p>
-<p>我們可以進一步將式子整理一下，我們將 $\theta^2$ 分離出來，將 ln 中的分母倒過來：</p>
-<p>$$<br>= E(x) + \frac{1}{2 \sigma^2} \theta^2 + ln(\sqrt{2 \pi \sigma^2}) + ln(Z)<br>$$</p>
-<p>有沒有注意到 $\theta^2$ 非常像什麼？</p>
-<p>是的，他就是一個模型參數的 $\mathcal{l}_2$-norm，也就是，他是一個 regularization term。</p>
-<p>我們再進一步將他凸顯出來。</p>
-<p>$$<br>\text{let } \lambda = \frac{1}{2 \sigma^2}<br>$$</p>
-<p>$$<br>= E(x) + \lambda \theta^2 + ln(\frac{\sqrt{\pi}}{\lambda}) + ln(Z)<br>$$</p>
-<p>你會發現式子的前半部份像極了一般的 loss function，含有 error function 跟 regularization term。$\lambda$ 部份就是你在調整模型的時候，regularization 的強度。</p>
-<p>整體來說，我們在前面的 prior 代入了 normal distribution，最後導出來得到 $\mathcal{l}_2$ regularization。這說明了，如果我們在模型中加入 $\mathcal{l}_2$ regularization，等於是對模型的參數做了假設，也就是假設模型參數會服從 normal distribution。這樣的結果與貝氏的方法與解釋一致。</p>
-<h3 id="只有最小值沒有-0"><a href="#只有最小值沒有-0" class="headerlink" title="只有最小值沒有 0"></a>只有最小值沒有 0</h3><p>我們可以觀察一下 $ln(\sqrt{2 \pi \sigma^2}) + ln(Z)$ 項。</p>
-<p>因為 $\sigma$ 代表 normal distribution 的 標準差，$\sigma \ge 0$。</p>
-<p>$\sqrt{2 \pi \sigma^2} \ge 0$，然後 $ln(\sqrt{2 \pi \sigma^2}) \ge 0$。</p>
-<p>然而 $Z$ 代表的是 $e^{f(x)}$ 的總和，自然也是 $Z \ge 0$，所以 $ln(Z) \ge 0$。</p>
-<p>$ln(\sqrt{2 \pi \sigma^2}) + ln(Z) \ge 0$，所以在你的 loss function 中應該會有一個理論最小值，你永遠不會達到 0。</p>
-<p>最後總結一下，energy-based model 借用了物理的概念，與最佳化的機制有一致的方向，應該有人證明這點，只是我還沒去找。我們也看到 energy-based model 放到貝氏統計中是很自然的。在貝氏統計中的 prior 會對應到 regularization 的機制。這邊說明了物理、統計跟機器學習模型之間的關係。</p>
-
                     
+                        <a href="/2018/09/12/energy-model-bayesian/" class="postShorten-excerpt_link link">
+                            Continue reading
+                        </a>
                         
-
-                    
-                    
-                        <p>
-                            <a href="/2018/09/12/energy-model-bayesian/#post-footer" class="postShorten-excerpt_link link">
-                                Comment and share
-                            </a>
-                        </p>
                     
                 </div>
             
