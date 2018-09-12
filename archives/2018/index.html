@@ -278,9 +278,9 @@
 <p>$$<br>f(x) = -E(x)<br>$$</p>
 <p>然而這樣的函數我們可以將他等同於機器學習中常用的 loss function。</p>
 <p>$$<br>f(x) = -E(x) = - \text{loss function}<br>$$</p>
-<p>這樣的等號是基於在熱力學第二定律的描述，熱力學第二定律描述一個封閉系統（closed system），封閉系統不允許系統與環境有任何的物質或是能量交換，在環境及熵不變的情況下，而系統的內能會降低，當內能降到最低的時候，系統會達成動態平衡。這稱為最小能量原則（principle of minimum energy），是熱力學第二定律另一個面向的描述。</p>
+<p>這樣的等號是基於在熱力學第二定律的描述，熱力學第二定律描述一個封閉系統（closed system），封閉系統不允許系統與環境有任何的物質交換，在環境及熵不變的情況下，而系統的內能會降低，當內能降到最低的時候，系統會達成動態平衡。這稱為最小能量原則（principle of minimum energy），是熱力學第二定律另一個面向的描述。</p>
 <blockquote>
-<p>相對的是，在一個孤立系統（isolated system），在環境不變的情況下，熵會持續增加。</p>
+<p>相對的是，在一個孤立系統（isolated system），孤立系統不允許系統與環境有任何的物質與能量交換，在環境不變的情況下，熵會持續增加。</p>
 </blockquote>
 <p>依據最小能量原則，能量最小跟我們希望的 loss function 最低有同樣的目標，所以我們可以將他們同等起來。不過要強調的是，這裡並沒有意義上的同等，只是在最佳化的方向上是同等的。</p>
 <h3 id="Bayesian-model"><a href="#Bayesian-model" class="headerlink" title="Bayesian model"></a>Bayesian model</h3><p>在 Bayesian model 的方法中就更有趣了。當我們想要最小化 loss function 的時候，他其實在最大化 likelihood function。換句話說，降低 loss 是在降低資料與模型之間的誤差，讓模型更貼近資料，提升 likelihood 則是另一個面向的描述，likelihood 是在測量模型與資料的相似度，最大化 likelihood 也是讓模型愈貼近資料，所以我們可以將他變成這個樣子：</p>
