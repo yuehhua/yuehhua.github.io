@@ -2,6 +2,20 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   
   <url>
+    <loc>https://yuehhua.github.io/2018/09/12/energy-model-bayesian/</loc>
+    
+    <lastmod>2018-09-12T06:22:48.658Z</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>https://yuehhua.github.io/slides/intro_stats.html</loc>
+    
+    <lastmod>2018-09-01T13:55:21.774Z</lastmod>
+    
+  </url>
+  
+  <url>
     <loc>https://yuehhua.github.io/2018/07/21/why-rnn/</loc>
     
     <lastmod>2018-08-28T15:29:17.631Z</lastmod>

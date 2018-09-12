@@ -1,0 +1,687 @@
+
+<!DOCTYPE html>
+<html lang="en">
+    
+<head>
+    <!-- hexo-inject:begin --><!-- hexo-inject:end --><meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="generator" content="Dream Maker">
+    <title> - Dream Maker</title>
+    <meta name="author" content="Yueh-Hua Tu">
+    
+        <meta name="keywords" content="machine learning,deep learning,topology,">
+    
+    
+    
+        <link rel="alternate" type="application/atom+xml" title="RSS" href="/atom.xml">
+    
+    <script type="application/ld+json">{"@context":"http://schema.org","@type":"Website","@id":"https://yuehhua.github.io","author":{"@type":"Person","name":"Yueh-Hua Tu","sameAs":["https://github.com/yuehhua/","https://www.facebook.com/a504082002","https://www.linkedin.com/in/%E5%B2%B3%E8%8F%AF-%E6%9D%9C-6a3995a0/","mailto:a504082002@gmail.com"],"image":"https://www.gravatar.com/avatar/a565749fba4782b717234da670b273fd"},"name":"Dream Maker","description":null,"url":"https://yuehhua.github.io","keywords":"machine learning, deep learning, topology"}</script>
+    <meta name="description" content="統計概論科學的決策框架2018.02.26 杜岳華  Outline 資料觀點 機率觀點 Statistics is about inference and estimation Estimation 中央極限定理（Central Limit Theorem） Hypothesis test Maximum Likelihood Estimation   資料觀點 統計是幫我們從資料中萃取知識跟資">
+<meta name="keywords" content="machine learning,deep learning,topology">
+<meta property="og:type" content="blog">
+<meta property="og:title" content="Dream Maker">
+<meta property="og:url" content="https://yuehhua.github.io/slides/intro_stats.html">
+<meta property="og:site_name" content="Dream Maker">
+<meta property="og:description" content="統計概論科學的決策框架2018.02.26 杜岳華  Outline 資料觀點 機率觀點 Statistics is about inference and estimation Estimation 中央極限定理（Central Limit Theorem） Hypothesis test Maximum Likelihood Estimation   資料觀點 統計是幫我們從資料中萃取知識跟資">
+<meta property="og:locale" content="en">
+<meta property="og:image" content="https://yuehhua.github.io/slides/pics/normal_curve.png">
+<meta property="og:image" content="https://yuehhua.github.io/slides/pics/inference_stats.svg">
+<meta property="og:image" content="https://yuehhua.github.io/slides/pics/central_limit_thm_1.svg">
+<meta property="og:image" content="https://yuehhua.github.io/slides/pics/central_limit_thm_2.svg">
+<meta property="og:image" content="https://yuehhua.github.io/slides/pics/sampling_dist.svg">
+<meta property="og:image" content="https://yuehhua.github.io/slides/pics/central_limit_thm_3.svg">
+<meta property="og:image" content="https://yuehhua.github.io/slides/pics/Standard_deviation_diagram.png">
+<meta property="og:image" content="https://yuehhua.github.io/slides/pics/Standard_deviation_diagram.png">
+<meta property="og:image" content="https://yuehhua.github.io/slides/pics/Standard_deviation_diagram.png">
+<meta property="og:image" content="https://yuehhua.github.io/slides/pics/Standard_deviation_diagram.png">
+<meta property="og:image" content="https://yuehhua.github.io/slides/pics/Standard_deviation_diagram.png">
+<meta property="og:image" content="https://yuehhua.github.io/slides/pics/normal_curve.png">
+<meta property="og:image" content="https://yuehhua.github.io/slides/pics/Student_t_pdf.svg">
+<meta property="og:image" content="https://yuehhua.github.io/slides/pics/inference_stats.svg">
+<meta property="og:updated_time" content="2018-09-01T13:55:21.774Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Dream Maker">
+<meta name="twitter:description" content="統計概論科學的決策框架2018.02.26 杜岳華  Outline 資料觀點 機率觀點 Statistics is about inference and estimation Estimation 中央極限定理（Central Limit Theorem） Hypothesis test Maximum Likelihood Estimation   資料觀點 統計是幫我們從資料中萃取知識跟資">
+<meta name="twitter:image" content="https://yuehhua.github.io/slides/pics/normal_curve.png">
+    
+    
+        
+    
+    
+    
+    
+    
+    <!--STYLES-->
+    <link rel="stylesheet" href="/assets/css/style-3frockyt2j28isvdztjchy5nhkz8tjki9ermufc1ckptmvjdftux94m2ahub.min.css">
+    <!--STYLES END-->
+    
+    <script type="text/javascript">
+        (function (i, s, o, g, r, a, m) {
+        i['GoogleAnalyticsObject'] = r; i[r] = i[r] || function () {
+            (i[r].q = i[r].q || []).push(arguments)
+        }, i[r].l = 1 * new Date(); a = s.createElement(o),
+            m = s.getElementsByTagName(o)[0]; a.async = 1; a.src = g; m.parentNode.insertBefore(a, m)
+        })(window, document, 'script', '//www.google-analytics.com/analytics.js', 'ga');
+
+        ga('create', 'UA-119690895-1', 'auto');
+        ga('send', 'pageview');
+    </script><!-- hexo-inject:begin --><!-- hexo-inject:end -->
+    
+    
+</head>
+
+    <body>
+        <!-- hexo-inject:begin --><!-- hexo-inject:end --><div id="blog">
+            <!-- Define author's picture -->
+
+
+    
+
+<header id="header" data-behavior="2">
+    <i id="btn-open-sidebar" class="fa fa-lg fa-bars"></i>
+    <div class="header-title">
+        <a class="header-title-link" href="/ ">Dream Maker</a>
+    </div>
+    
+        
+            <a  class="header-right-picture "
+                href="#about">
+        
+        
+        </a>
+    
+</header>
+
+            <!-- Define author's picture -->
+
+
+<nav id="sidebar" data-behavior="2">
+    <div class="sidebar-container">
+        
+        
+            <ul class="sidebar-buttons">
+            
+                <li class="sidebar-button">
+                    
+                        <a  class="sidebar-button-link "
+                             href="/ "
+                            
+                            title="Home"
+                        >
+                    
+                        <i class="sidebar-button-icon fa fa-home" aria-hidden="true"></i>
+                        <span class="sidebar-button-desc">Home</span>
+                    </a>
+            </li>
+            
+                <li class="sidebar-button">
+                    
+                        <a  class="sidebar-button-link "
+                             href="/all-categories"
+                            
+                            title="Categories"
+                        >
+                    
+                        <i class="sidebar-button-icon fa fa-bookmark" aria-hidden="true"></i>
+                        <span class="sidebar-button-desc">Categories</span>
+                    </a>
+            </li>
+            
+                <li class="sidebar-button">
+                    
+                        <a  class="sidebar-button-link "
+                             href="/all-tags"
+                            
+                            title="Tags"
+                        >
+                    
+                        <i class="sidebar-button-icon fa fa-tags" aria-hidden="true"></i>
+                        <span class="sidebar-button-desc">Tags</span>
+                    </a>
+            </li>
+            
+                <li class="sidebar-button">
+                    
+                        <a  class="sidebar-button-link "
+                             href="/all-archives"
+                            
+                            title="Archives"
+                        >
+                    
+                        <i class="sidebar-button-icon fa fa-archive" aria-hidden="true"></i>
+                        <span class="sidebar-button-desc">Archives</span>
+                    </a>
+            </li>
+            
+                <li class="sidebar-button">
+                    
+                        <a  class="sidebar-button-link open-algolia-search"
+                             href="#search"
+                            
+                            title="Search"
+                        >
+                    
+                        <i class="sidebar-button-icon fa fa-search" aria-hidden="true"></i>
+                        <span class="sidebar-button-desc">Search</span>
+                    </a>
+            </li>
+            
+                <li class="sidebar-button">
+                    
+                        <a  class="sidebar-button-link "
+                             href="#about"
+                            
+                            title="About"
+                        >
+                    
+                        <i class="sidebar-button-icon fa fa-question" aria-hidden="true"></i>
+                        <span class="sidebar-button-desc">About</span>
+                    </a>
+            </li>
+            
+        </ul>
+        
+            <ul class="sidebar-buttons">
+            
+                <li class="sidebar-button">
+                    
+                        <a  class="sidebar-button-link " href="https://github.com/yuehhua/" target="_blank" rel="noopener" title="GitHub">
+                    
+                        <i class="sidebar-button-icon fab fa-github" aria-hidden="true"></i>
+                        <span class="sidebar-button-desc">GitHub</span>
+                    </a>
+            </li>
+            
+                <li class="sidebar-button">
+                    
+                        <a  class="sidebar-button-link " href="https://www.facebook.com/a504082002" target="_blank" rel="noopener" title="Facebook">
+                    
+                        <i class="sidebar-button-icon fab fa-facebook" aria-hidden="true"></i>
+                        <span class="sidebar-button-desc">Facebook</span>
+                    </a>
+            </li>
+            
+                <li class="sidebar-button">
+                    
+                        <a  class="sidebar-button-link " href="https://www.linkedin.com/in/%E5%B2%B3%E8%8F%AF-%E6%9D%9C-6a3995a0/" target="_blank" rel="noopener" title="LinkedIn">
+                    
+                        <i class="sidebar-button-icon fab fa-linkedin" aria-hidden="true"></i>
+                        <span class="sidebar-button-desc">LinkedIn</span>
+                    </a>
+            </li>
+            
+                <li class="sidebar-button">
+                    
+                        <a  class="sidebar-button-link " href="mailto:a504082002@gmail.com" target="_blank" rel="noopener" title="Mail">
+                    
+                        <i class="sidebar-button-icon fab fa-envelope" aria-hidden="true"></i>
+                        <span class="sidebar-button-desc">Mail</span>
+                    </a>
+            </li>
+            
+        </ul>
+        
+            <ul class="sidebar-buttons">
+            
+                <li class="sidebar-button">
+                    
+                        <a  class="sidebar-button-link "
+                             href="/atom.xml"
+                            
+                            title="RSS"
+                        >
+                    
+                        <i class="sidebar-button-icon fa fa-rss" aria-hidden="true"></i>
+                        <span class="sidebar-button-desc">RSS</span>
+                    </a>
+            </li>
+            
+        </ul>
+        
+    </div>
+</nav>
+
+            
+            <div id="main" data-behavior="2"
+                 class="
+                        hasCoverMetaIn
+                        ">
+                
+    <article class="post">
+        
+                
+                    <div class="post-header main-content-wrap text-left">
+    
+        <h1 class="post-title">
+            (no title)
+        </h1>
+    
+    
+        <div class="post-meta">
+    <time datetime="2018-09-01T21:55:21+08:00">
+	
+		    Sep 01, 2018
+    	
+    </time>
+    
+</div>
+
+    
+</div>
+
+                        
+                            <div class="post-content markdown">
+                                <div class="main-content-wrap">
+                                    <h1 id="統計概論"><a href="#統計概論" class="headerlink" title="統計概論"></a>統計概論</h1><h3 id="科學的決策框架"><a href="#科學的決策框架" class="headerlink" title="科學的決策框架"></a>科學的決策框架</h3><p><small>2018.02.26</small></p>
+<p>杜岳華</p>
+<hr>
+<h2 id="Outline"><a href="#Outline" class="headerlink" title="Outline"></a>Outline</h2><ul>
+<li>資料觀點</li>
+<li>機率觀點</li>
+<li>Statistics is about inference and estimation</li>
+<li>Estimation</li>
+<li>中央極限定理（Central Limit Theorem）</li>
+<li>Hypothesis test</li>
+<li>Maximum Likelihood Estimation</li>
+</ul>
+<hr>
+<h2 id="資料觀點"><a href="#資料觀點" class="headerlink" title="資料觀點"></a>資料觀點</h2><p><br></p>
+<p>統計是幫我們從<strong>資料</strong>中萃取知識跟資訊的技術</p>
+<p><br></p>
+<p class="fragment">假設：藉由蒐集資料可以讓我們了解這個世界</p>
+
+<p class="fragment">也就是，資料呈現了真實世界的面貌</p>
+
+<hr>
+<h2 id="依據資料分類"><a href="#依據資料分類" class="headerlink" title="依據資料分類"></a>依據資料分類</h2><ul><br><li>Continuous data</li><br>  <ul class="fragment"><br>  <li>Real-valued data</li><br>  </ul><br><li>Discrete data</li><br>  <ul class="fragment"><br>  <li>Counting data</li><br>  <li>Ordinal data</li><br>  <li>Nominal data</li><br>    <ul class="fragment"><br>    <li>Binary data</li><br>    <li>Categorical data</li><br>    </ul><br>  </ul><br></ul>
+
+<hr>
+<h2 id="Real-valued-data"><a href="#Real-valued-data" class="headerlink" title="Real-valued data"></a>Real-valued data</h2><blockquote>
+<p>eg. 身高、體重、時間、<br><br>空間（長度、體積）</p>
+</blockquote>
+<hr>
+<h2 id="Counting-data"><a href="#Counting-data" class="headerlink" title="Counting data"></a>Counting data</h2><blockquote>
+<p>eg. 網站點擊次數<br><br>影片瀏覽次數</p>
+</blockquote>
+<hr>
+<h2 id="Ordinal-data-次序資料"><a href="#Ordinal-data-次序資料" class="headerlink" title="Ordinal data (次序資料)"></a>Ordinal data (次序資料)</h2><blockquote>
+<p>eg. 名次、排序</p>
+</blockquote>
+<hr>
+<h2 id="Nominal-data-名目資料"><a href="#Nominal-data-名目資料" class="headerlink" title="Nominal data (名目資料)"></a>Nominal data (名目資料)</h2><blockquote>
+<p>eg. 性別、出生年、居住縣市</p>
+</blockquote>
+<hr>
+<h2 id="沒辦法直接分析的資料"><a href="#沒辦法直接分析的資料" class="headerlink" title="沒辦法直接分析的資料"></a>沒辦法直接分析的資料</h2><blockquote>
+<p>eg. 文章、陳述性的句子</p>
+</blockquote>
+<hr>
+<h2 id="Noise"><a href="#Noise" class="headerlink" title="Noise!"></a>Noise!</h2><p>我們從這個世界蒐集到的資料都不那麼<em>完美</em></p>
+<blockquote>
+<p>eg. 純水的 pH值是7.0，但 pH meter測出來都不會是準確的7.0，一定含有小數點</p>
+</blockquote>
+<p class="fragment">處理資料都會遇到不確定性（uncertainty）</p>
+
+<hr>
+<h2 id="我們要如何處理不確定性？"><a href="#我們要如何處理不確定性？" class="headerlink" title="我們要如何處理不確定性？"></a>我們要如何處理不確定性？</h2><blockquote>
+<p>我們要怎麼說”純水的 pH值是7.0”</p>
+</blockquote>
+<hr>
+<h2 id="機率觀點"><a href="#機率觀點" class="headerlink" title="機率觀點"></a>機率觀點</h2><p>處理不確定性的絕佳手段是引進機率</p>
+<p>把問題轉化為：</p>
+<blockquote>
+<p>這件事所發生的機率為何？</p>
+</blockquote>
+<hr>
+<p>也就是，在大多數情況下</p>
+<blockquote>
+<p>純水的 pH值是接近7.0</p>
+</blockquote>
+<p class="fragment">但是怎麼知道是7.0，而不是7.001，或是其他數字？</p>
+
+<hr>
+<h2 id="機率的引進-P-X-x"><a href="#機率的引進-P-X-x" class="headerlink" title="機率的引進 $P(X = x)$"></a>機率的引進 $P(X = x)$</h2><ul>
+<li>樣本空間 (sample space, $\Omega$): <div class="fragment">在試驗中，所有可能出現的元素的集合</div><ul>
+<li><div class="fragment">{1, 2, 3, 4, 5, 6}</div></li>
+</ul>
+</li>
+<li>事件 (event, $x$): <div class="fragment">樣本空間的子集，用簡單的數字來代表</div><ul>
+<li><div class="fragment">$x$ = {1}</div></li>
+<li><div class="fragment">$x$ = {1, 2, 3}</div></li>
+</ul>
+</li>
+<li>隨機變數 (random variable, $X$): <div class="fragment">用來代表變項</div></li>
+</ul>
+<hr>
+<h2 id="事件發生的機率"><a href="#事件發生的機率" class="headerlink" title="事件發生的機率"></a>事件發生的機率</h2><ul>
+<li>$x$ = {1} <div class="fragment">=&gt; $P(X = 1)$</div></li>
+<li>$x$ = {1, 2, 3} <div class="fragment">=&gt; $P(1 \le X \le 3)$</div></li>
+<li>$x$ ？ <div class="fragment">=&gt; $P(X = x)$</div></li>
+</ul>
+<hr>
+<h2 id="P-X-x"><a href="#P-X-x" class="headerlink" title="$P(X = x) = ?$"></a>$P(X = x) = ?$</h2><p class="fragment">I don’t know.</p>
+
+<p class="fragment">Maybe take a look at the distribution of data?</p>
+
+<p class="fragment">Maybe get a hypothesis yourself?</p>
+
+<p class="fragment">We usually use normal distribution.</p>
+
+<p class="fragment">(but not always fit, worth give it a try!)</p>
+
+<hr>
+<p><img src="pics/normal_curve.png" alt="Normal distribution"></p>
+<hr>
+<p>在資料的分佈中我們會探討兩個趨勢：</p>
+<ul><br><li>集中趨勢</li><br>  <ul class="fragment"><br>  <li>mean（平均值）</li><br>  <li>median（中位數）</li><br>  <li>mode（眾數）</li><br>  </ul><br><li>離散趨勢</li><br>  <ul class="fragment"><br>  <li>standard deviation（標準差）</li><br>  <li>quartile（四分位數）</li><br>  <li>max, min（最大最小值）</li><br>  </ul><br></ul>
+
+<hr>
+<h3 id="在不確定性的世界不要奢望確定性，那不存在"><a href="#在不確定性的世界不要奢望確定性，那不存在" class="headerlink" title="在不確定性的世界不要奢望確定性，那不存在"></a>在不確定性的世界不要奢望確定性，那不存在</h3><p>只存在大多數情況及例外</p>
+<hr>
+<h3 id="Statistics-is-about-inference-and-estimation"><a href="#Statistics-is-about-inference-and-estimation" class="headerlink" title="Statistics is about inference and estimation"></a>Statistics is about inference and estimation</h3><p><img src="pics/inference_stats.svg" height="400" width="800" alt="statistical inference" style="background-color:white;"></p>
+<hr>
+<p>我們假設：</p>
+<ol>
+<li>我們的樣本都是從同一個母體來的</li>
+<li>樣本之間是互相獨立的</li>
+</ol>
+<hr>
+<h2 id="統計量"><a href="#統計量" class="headerlink" title="統計量"></a>統計量</h2><p>我們計算統計量：</p>
+<ul>
+<li>$\bar{x}$</li>
+<li>$s$</li>
+</ul>
+<p>希望可以推估母體<span class="fragment">（機率模型）</span>的<span class="fragment">參數</span></p>
+<ul>
+<li>$\mu$</li>
+<li>$\sigma$</li>
+</ul>
+<hr>
+<h2 id="Expectation-operator-期望值運算子"><a href="#Expectation-operator-期望值運算子" class="headerlink" title="Expectation operator (期望值運算子)"></a>Expectation operator (期望值運算子)</h2><p>$\large P(X = x)$</p>
+<p><span class="fragment"><br>$\Large \mathbb{E}[X] = \sum_{i=1}^{n} x_i \times P(X = x_i)$<br></span></p>
+<p><span class="fragment"><br>$\Large \mathbb{E}[X] = \int_{-\infty}^{\infty} x_i \times P(X = x_i) dx$<br></span></p>
+<hr>
+<h2 id="Central-Limit-Theorem"><a href="#Central-Limit-Theorem" class="headerlink" title="Central Limit Theorem"></a>Central Limit Theorem</h2><p><img src="pics/central_limit_thm_1.svg" height="400" style="background-color:white;"></p>
+<hr>
+<p><img src="pics/central_limit_thm_2.svg" height="500" style="background-color:white;"></p>
+<hr>
+<p><img src="pics/sampling_dist.svg" height="500" style="background-color:white;"></p>
+<hr>
+<p><img src="pics/central_limit_thm_3.svg" height="500" style="background-color:white;"></p>
+<hr>
+<h2 id="Central-Limit-Theorem-1"><a href="#Central-Limit-Theorem-1" class="headerlink" title="Central Limit Theorem"></a>Central Limit Theorem</h2><p>Random samples $X_1, X_2, …, X_n$</p>
+<p>from population with mean $\mu$,</p>
+<p>if $n \rightarrow \infty$</p>
+<p>then $\large \mathbb{E}[X] \rightarrow \mu$</p>
+<hr>
+<h2 id="Estimation"><a href="#Estimation" class="headerlink" title="Estimation"></a>Estimation</h2><ul>
+<li>Point estimation</li>
+<li>Interval estimation</li>
+</ul>
+<p><img src="pics/Standard_deviation_diagram.png" style="background-color:white;"></p>
+<hr>
+<h2 id="Point-estimation"><a href="#Point-estimation" class="headerlink" title="Point estimation"></a>Point estimation</h2><p>我們由資料中得出資料的統計量：</p>
+<p>$\LARGE \bar{x} = \frac{\sum_{i=1<br>}^{n} X_i}{n}$</p>
+<p><span class="fragment"><br>接著，我們用這個統計量推估（inference）母體的平均值：<br><br><br>$\LARGE \mathbb{E}[\bar{x}] = \mu$<br></span></p>
+<p><span class="fragment"><br><em>$\bar{x}$ is an unbiased estimation of $\mu$.</em><br></span></p>
+<hr>
+<h2 id="Point-estimation-1"><a href="#Point-estimation-1" class="headerlink" title="Point estimation"></a>Point estimation</h2><p>我們由資料中得出資料的統計量：</p>
+<p>$\Large s^2$</p>
+<p><span class="fragment"><br>接著，我們用這個統計量推估（inference）母體的變異數：<br><br><br>$\Large \mathbb{E}[s^2] = \frac{(n - 1) \times \sigma^2}{n}$<br></span></p>
+<p><span class="fragment"><br><em>$s^2$ is an biased estimation of $\sigma^2$.</em><br></span></p>
+<hr>
+<h2 id="Point-estimation-2"><a href="#Point-estimation-2" class="headerlink" title="Point estimation"></a>Point estimation</h2><p>他提供給我們一個值，讓我們知道資料的集中跟離散的程度。</p>
+<p><span class="fragment">但是這個值有多精準呢？</span></p>
+<blockquote class="fragment"><br>我們說這組資料的 $\bar{x}$ 會往3.4集中，但…<br></blockquote>
+
+<blockquote class="fragment" style="font-size:36px;"><br>{3.4001, 3.3935, 3.4012, 3.3899, 3.4153}<br><br>{7.033, 2.341, 3.753, 3.097, 1.908, 2.268}<br></blockquote>
+
+<hr>
+<h2 id="Interval-Estimation"><a href="#Interval-Estimation" class="headerlink" title="Interval Estimation"></a>Interval Estimation</h2><p>我們利用區間來給出一個估計值</p>
+<p><img src="pics/Standard_deviation_diagram.png" style="background-color:white;"></p>
+<hr>
+<h2 id="Interval-Estimation-1"><a href="#Interval-Estimation-1" class="headerlink" title="Interval Estimation"></a>Interval Estimation</h2><p>通常會用$[\bar{x} - 1.96s, \bar{x} + 1.96s]$區間（信賴區間）</p>
+<p>這個區間涵蓋了約95%的機會（信心水準）</p>
+<p><img src="pics/Standard_deviation_diagram.png" height="300" style="background-color:white;"></p>
+<hr>
+<h2 id="Interval-Estimation-2"><a href="#Interval-Estimation-2" class="headerlink" title="Interval Estimation"></a>Interval Estimation</h2><blockquote>
+<p>我有95%的信心 $\mu$ 會落在$[\bar{x} - 1.96s, \bar{x} + 1.96s]$ 中</p>
+</blockquote>
+<p><img src="pics/Standard_deviation_diagram.png" style="background-color:white;"></p>
+<hr>
+<h2 id="Interval-Estimation-3"><a href="#Interval-Estimation-3" class="headerlink" title="Interval Estimation"></a>Interval Estimation</h2><blockquote>
+<p>我有95%的信心 $\mu$ 會落在[3.256, 3.544] 中</p>
+</blockquote>
+<p><img src="pics/Standard_deviation_diagram.png" style="background-color:white;"></p>
+<hr>
+<h2 id="Hypothesis-test"><a href="#Hypothesis-test" class="headerlink" title="Hypothesis test"></a>Hypothesis test</h2><ul><br><li>Null hypothesis ($H_0$)</li><br>  <ul class="fragment"><br>  <li>$\bar{x} = \mu_0$</li><br>  <li>$\bar{x_1} \le \bar{x_2}$</li><br>  </ul><br><li>Alternative hypothesis ($H_1$ or $H_A$)</li><br>  <ul class="fragment"><br>  <li>$\bar{x} \ne \mu_0$</li><br>  <li>$\bar{x_1} \gt \bar{x_2}$</li><br>  </ul><br></ul>
+
+<hr>
+<h2 id="Z-test"><a href="#Z-test" class="headerlink" title="Z test"></a>Z test</h2><p>$\Large z = \frac{x - \mu_0}{\sigma}$</p>
+<p>當 $n \gt 30$，母體是常態分佈時</p>
+<p><img src="pics/normal_curve.png" height="250" style="background-color:white;"></p>
+<hr>
+<h2 id="T-test"><a href="#T-test" class="headerlink" title="T test"></a>T test</h2><p>$\LARGE t = \frac{\bar{x} - \mu_0}{s / \sqrt{n}}$</p>
+<p>當 $n \le 30$，母體是常態分佈時</p>
+<p><img src="pics/Student_t_pdf.svg" height="250" style="background-color:white;"></p>
+<hr>
+<h2 id="Many-other-tests"><a href="#Many-other-tests" class="headerlink" title="Many other tests"></a>Many other tests</h2><ul>
+<li>F test: 檢定variance</li>
+<li>paired t test: 配對型資料</li>
+<li>ANOVA: 檢定三者以上</li>
+<li>Wilcoxon signed-rank test</li>
+<li>Wilcoxon rank-sum test</li>
+</ul>
+<hr>
+<h2 id="Probability-density-function"><a href="#Probability-density-function" class="headerlink" title="Probability density function"></a>Probability density function</h2><p>$P(X = x|\mu, \sigma) = \frac{1}{\sqrt{2\pi}\sigma} exp(-\frac{(x - \mu)^2}{2\sigma^2})$</p>
+<p>已知$\mu, \sigma$，求特定$x$的<strong>機率$f(x)$</strong></p>
+<hr>
+<h2 id="Likelihood-function"><a href="#Likelihood-function" class="headerlink" title="Likelihood function"></a>Likelihood function</h2><div class="fragment"><br>$\mathcal{L}(\mu, \sigma)$<br></div>
+
+<div class="fragment"><br>$=f(\mu, \sigma|X_1=x_1, X_2=x_2, …, X_n=x_n)$<br></div>
+
+<div class="fragment"><br>$=f(\mu, \sigma|X_1=x_1) \times f(\mu, \sigma|X_2=x_2) \times … $<br>$\times f(\mu, \sigma|X_n=x_n)$<br></div>
+
+<div class="fragment"><br>已知資料$X_1=x_1, X_2=x_2, …, X_n=x_n$，求模型（母體）的<strong>參數$\mu, \sigma$的可能性</strong><br></div>
+
+<hr>
+<h2 id="Likelihood-function-1"><a href="#Likelihood-function-1" class="headerlink" title="Likelihood function"></a>Likelihood function</h2><ul>
+<li><p>$f(\mu, \sigma|X_1=x_1) \times f(\mu, \sigma|X_2=x_2) \times … $<br>$\times f(\mu, \sigma|X_n=x_n)$</p>
+</li>
+<li><p>$=\prod_{i=1}^{n} f(\mu, \sigma|X_i=x_i)$</p>
+</li>
+<li><p>$=\prod_{i=1}^{n} f(\theta|X_i=x_i)$</p>
+</li>
+</ul>
+<hr>
+<h2 id="Maximum-likelihood-estimation"><a href="#Maximum-likelihood-estimation" class="headerlink" title="Maximum likelihood estimation"></a>Maximum likelihood estimation</h2><p>$arg\,max_{\theta}\ \mathcal{L}(\theta)$ </p>
+<div class="fragment">or</div>
+
+<div class="fragment"><br>$arg\,max_{\theta}\ \mathcal{l}(\theta)$<br></div>
+
+<div class="fragment"><br>$ = arg\,max_{\theta}\ \log \mathcal{L}(\theta)$<br></div>
+
+<div class="fragment"><br>給定機率模型及資料，找到一組參數讓機率模型最符合資料的分佈。<br></div>
+
+<hr>
+<h2 id="Take-home-messages"><a href="#Take-home-messages" class="headerlink" title="Take home messages"></a>Take home messages</h2><ul>
+<li>資料觀點</li>
+<li>機率觀點</li>
+<li>Statistics is about inference and estimation</li>
+<li>Estimation</li>
+<li>中央極限定理（Central Limit Theorem）</li>
+<li>Hypothesis test</li>
+<li>Maximum Likelihood Estimation</li>
+</ul>
+<hr>
+<h2 id="Thank-you-for-attention"><a href="#Thank-you-for-attention" class="headerlink" title="Thank you for attention!"></a>Thank you for attention!</h2><p><img src="pics/inference_stats.svg" height="250" alt="statistical inference" style="background-color:white;"></p>
+<h3 id="Q-amp-A"><a href="#Q-amp-A" class="headerlink" title="Q &amp; A"></a>Q &amp; A</h3>
+                                        
+
+                                </div>
+                            </div>
+                            <div id="post-footer" class="post-footer main-content-wrap">
+                                
+                                        
+                                            <div class="post-actions-wrap">
+    <nav>
+        <ul class="post-actions post-action-nav">
+            <li class="post-action">
+                
+                    <a class="post-action-btn btn btn--disabled">
+                
+                    <i class="fa fa-angle-left" aria-hidden="true"></i>
+                    <span class="hide-xs hide-sm text-small icon-ml">PREVIOUS</span>
+                </a>
+            </li>
+            <li class="post-action">
+                
+                    <a class="post-action-btn btn btn--disabled">
+                
+                    <span class="hide-xs hide-sm text-small icon-mr">NEXT</span>
+                    <i class="fa fa-angle-right" aria-hidden="true"></i>
+                </a>
+            </li>
+        </ul>
+    </nav>
+    <ul class="post-actions post-action-share">
+        <li class="post-action hide-lg hide-md hide-sm">
+            <a class="post-action-btn btn btn--default btn-open-shareoptions" href="#btn-open-shareoptions" aria-label="Share this post">
+                <i class="fa fa-share-alt" aria-hidden="true"></i>
+            </a>
+        </li>
+        
+            
+            
+            <li class="post-action hide-xs">
+                <a class="post-action-btn btn btn--default" target="new" href="https://www.facebook.com/sharer/sharer.php?u=https://yuehhua.github.io/slides/intro_stats.html" title="Share on Facebook">
+                    <i class="fa fa-facebook-official" aria-hidden="true"></i>
+                </a>
+            </li>
+        
+        
+            
+                <li class="post-action">
+                    <a class="post-action-btn btn btn--default" href="#disqus_thread">
+                        <i class="fa fa-comment-o"></i>
+                    </a>
+                </li>
+            
+        
+        <li class="post-action">
+            
+                <a class="post-action-btn btn btn--default" href="#" aria-label="Back to top">
+            
+                <i class="fa fa-list" aria-hidden="true"></i>
+            </a>
+        </li>
+    </ul>
+</div>
+
+
+                                                
+                                                    
+                                                        
+                                                            <div id="disqus_thread">
+    <noscript>Please enable JavaScript to view the <a href="//disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+</div>
+                                                                
+                                                                            
+                            </div>
+                            
+                                <script src='https://unpkg.com/mermaid@7.1.2/dist/mermaid.min.js'></script>
+                                <script>
+                                    if (window.mermaid) {
+                                        mermaid.initialize({ theme: 'forest' });
+                                    }
+                                </script>
+                                
+    </article>
+
+                <footer id="footer" class="main-content-wrap">
+    <span class="copyrights">
+        Copyrights &copy; 2018 Yueh-Hua Tu. All Rights Reserved.
+    </span>
+</footer>
+
+            </div>
+            
+        </div>
+        
+
+
+<div id="about">
+    <div id="about-card">
+        <div id="about-btn-close">
+            <i class="fa fa-remove"></i>
+        </div>
+        
+            <h4 id="about-card-name">Yueh-Hua Tu</h4>
+        
+            <div id="about-card-bio"><p>Aim to be a computational biologist!</br>Systems Biology, Computational Biology, Machine Learning</br>Organizer of Julia Taiwan community</p>
+</div>
+        
+        
+            <div id="about-card-job">
+                <i class="fa fa-briefcase"></i>
+                <br/>
+                <p>Research assistant, Taiwan CDC</p>
+
+            </div>
+        
+        
+            <div id="about-card-location">
+                <i class="fa fa-map-marker"></i>
+                <br/>
+                Taiwan
+            </div>
+        
+    </div>
+</div>
+
+        
+        
+<div id="cover" style="background-image:url('/assets/images/cover.jpg');"></div>
+        <!--SCRIPTS-->
+<script src="/assets/js/script-xzfezjobyekpxrjktw5tz6muvzqfsbmo5n6atk3p5om9ulfptldi3p7cyqd8.min.js"></script>
+<!--SCRIPTS END-->
+
+    
+        <script>
+             var disqus_config = function () {
+                 this.page.url = 'https://yuehhua.github.io/slides/intro_stats.html';
+                 
+                    this.page.identifier = 'slides/intro_stats.html';
+                 
+             };
+            (function() {
+                var d = document, s = d.createElement('script');
+                var disqus_shortname = 'dream-maker';
+                s.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+
+                s.setAttribute('data-timestamp', +new Date());
+                (d.head || d.body).appendChild(s);
+            })();
+        </script>
+    
+
+
+
+    <script type="text/x-mathjax-config">
+    MathJax.Hub.Config({
+        tex2jax: {
+            inlineMath: [ ["$","$"], ["\\(","\\)"] ],
+            skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code'],
+            processEscapes: true
+        }
+    });
+    MathJax.Hub.Queue(function() {
+        var all = MathJax.Hub.getAllJax();
+        for (var i = 0; i < all.length; ++i)
+            all[i].SourceElement().parentNode.className += ' has-jax';
+    });
+</script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script><!-- hexo-inject:begin --><!-- hexo-inject:end -->
+
+</body>
+</html>
