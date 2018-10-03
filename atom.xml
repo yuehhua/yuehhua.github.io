@@ -6,7 +6,7 @@
   <link href="/atom.xml" rel="self"/>
   
   <link href="https://yuehhua.github.io/"/>
-  <updated>2018-09-13T02:33:00.799Z</updated>
+  <updated>2018-10-03T07:31:54.292Z</updated>
   <id>https://yuehhua.github.io/</id>
   
   <author>
@@ -15,6 +15,52 @@
   </author>
   
   <generator uri="http://hexo.io/">Hexo</generator>
+  
+  <entry>
+    <title>02-linear-regression</title>
+    <link href="https://yuehhua.github.io/2018/10/03/02-linear-regression/"/>
+    <id>https://yuehhua.github.io/2018/10/03/02-linear-regression/</id>
+    <published>2018-10-03T07:31:54.000Z</published>
+    <updated>2018-10-03T07:31:54.292Z</updated>
+    
+    <content type="html"><![CDATA[<p>這個模型大概已經被人講過很多次，講到都快要爛掉了XD</p><p>其實我自己在兩年前的鐵人賽中也有講過同一個模型，所以我就不用講太多基礎的部份：</p><a id="more"></a><ul><li><a href="https://ithelp.ithome.com.tw/articles/10186338" target="_blank" rel="noopener">[Day 02] 解構linear regression</a></li><li><a href="https://ithelp.ithome.com.tw/articles/10186400" target="_blank" rel="noopener">[Day 03] linear regression–線性代數解</a></li><li><a href="https://ithelp.ithome.com.tw/articles/10186401" target="_blank" rel="noopener">[Day 04] Gradient descent</a></li><li><a href="https://ithelp.ithome.com.tw/articles/10186402" target="_blank" rel="noopener">[Day 05] linear regression辛祕</a></li></ul><p>總的來說，線性模型就是依賴著 $y = w_0 + w_1x_1 + w_2x_2 + \dots + w_nx_n$ 這樣的一條數學式子。</p><p>為了方便起見我們將他化成向量的形式：$$y = \mathbf{w}^T\mathbf{x} + b$$</p><p>你會發現線性迴歸會是一個向量的內積的運算再加上一個常數，這個常數被很多人討論很久，很多人可能不是那麼了解他的意義。這個常數代表的就是在空間上的一個位移，在內積的 $\mathbf{w}$ 這個係數向量上，他們決定了在空間中整個線或是平面的傾斜程度，而常數則是在空間上的位移，也就是要將這個線或是平面擺在哪一個地方。</p><p>但是這個常數如果擺在下一篇要講的感知器（perceptron）當中的話，那就有不同的解釋了，這個留到下回再說。</p><p>那麼，基礎的部份都在前面的文章內容中講完了，剩下的要來說點什麼呢？</p><h2 id="模型的統計面向"><a href="#模型的統計面向" class="headerlink" title="模型的統計面向"></a>模型的統計面向</h2><p>我們來講點這個模型的統計面向吧！</p><p>一般來說，我們在計算這個模型的時候，這個模型背後是有他的統計面向的假設的。</p><h3 id="誤差"><a href="#誤差" class="headerlink" title="誤差"></a>誤差</h3><p>線性迴歸對誤差是有假設的，也就是假設誤差會呈現常態分佈（Gaussian distribution），這樣的假設與這個模型所使用的 mean square error 是有關係的，不過今天不會深入這些關係。</p><p>我們要進入這件事之前，我們先來看看常態分佈長什麼樣子。</p><p><img src="/images/Empirical_Rule.png" alt=""></p><blockquote><p>Wikipedia</p></blockquote><p>我們借到了維基百科的圖，其中 X 軸是連續的數值，Y 軸是這些數值出現的機率或是頻率。你會看到他是以平均值 $\mu$ 為中心的一個分佈，整個分佈是單峰的。平均值的出現機率是最高的，機率開始往兩邊遞減。這說明了最常出現的數值會剛好在平均值上，其他離平均值很遠的數值也是有機率出現，但是機率很小。</p><p>整個分佈的寬度是由標準差 $\sigma$ 的大小決定的，如果標準差愈大，代表這個分佈是愈寬的，愈寬代表資料的離散程度是大的。</p><p>這其實來自於對於自然現象的觀察。高爾頓，達爾文的表弟，觀察了自然現象，發現眾多自然現象都有一種趨勢，像是人的身高跟體重都是連續的數值，而且都沒有上下界，為什麼他們不會平均分佈呢？他會向某一個值集中，那個值差不多是整個分佈的平均值，這樣的趨勢被他稱為「迴歸」。這也是迴歸這個詞的由來，但今日的迴歸的意義不相同。</p><p>題外話，高爾頓提出了不少對今日的科學有影響的主張，像是他主張人類的才能是可以透過遺傳延續的，並提倡了優生學。他發表了一些關於指紋的研究，被認為跟今日以指紋鑑定有相關。在統計學上，他也發表了相關係數的概念，並且沿用至今。</p><p>以下是常態分佈的公式：</p><p>$$<br>P(x; \mu, \sigma) = \frac{1}{\sqrt{2 \pi \sigma^2}} e^{- \frac{(x - \mu)^2}{2 \sigma^2}}<br>$$</p><p>整體看起來可能很醜很複雜，我們通常會把平均值歸零，並且讓標準差為 1，他看起來就會簡潔許多。</p><p>$$<br>P(x; 0, 1) = \frac{1}{\sqrt{2 \pi}} e^{- \frac{x^2}{2}}<br>$$</p><p>大家注意一下，在常態分佈的公式中他的主要組成為一個 e 的指數，並且在指數項上有 $x^2$ 項。這些我們以後會用到。</p><h3 id="平均就是最有可能出現的"><a href="#平均就是最有可能出現的" class="headerlink" title="平均就是最有可能出現的"></a>平均就是最有可能出現的</h3><p>那回到線性迴歸，線性回歸是怎麼做出預測的呢？</p><p><img src="/images/stats-linear_reg1.svg" alt=""></p><p>當假設了誤差的分佈是常態分佈之後呢？那麼就可以拿最常出現的那個值作為整個分佈的代表，數學上證明那個值剛好是平均值。</p><p>可以參考上圖，資料在 X 軸上分佈，當我們切了某個點 $x_i$ 來看，那麼 Y 軸上就會有不同資料點的誤差存在。縱使真實資料是有誤差的，我們知道這些誤差會遵從常態分佈，所以這些誤差的平均就可以作為一種預測值。</p><p>從上面我們提到的迴歸效應，我們知道用這些誤差的平均值作為預測是相對合理的。</p><p>數學上是這樣運作的，當我們今天有新的資料點要預測，那麼我們代入 $y = \mathbf{w}^T\mathbf{x} + b$ 公式中，算出來的其實是 Y 軸的平均值 $\hat{y_i}$。</p><p>這就是線性迴歸的假設了。</p><h3 id="誤差的”寬度”是一樣的"><a href="#誤差的”寬度”是一樣的" class="headerlink" title="誤差的”寬度”是一樣的"></a>誤差的”寬度”是一樣的</h3><p>在線性迴歸的假設上還有另一點，就是我們在每個不同 x 的切面上，誤差的寬度（標準差）都是一樣的。</p><p><img src="/images/stats-linear_reg2.svg" alt=""></p><p>如圖所示，我不確定是為了讓模型簡單好計算還是什麼原因。</p><p>今天的介紹就到這邊啦！</p>]]></content>
+    
+    <summary type="html">
+    
+      &lt;p&gt;這個模型大概已經被人講過很多次，講到都快要爛掉了XD&lt;/p&gt;
+&lt;p&gt;其實我自己在兩年前的鐵人賽中也有講過同一個模型，所以我就不用講太多基礎的部份：&lt;/p&gt;
+    
+    </summary>
+    
+      <category term="Machine Learning" scheme="https://yuehhua.github.io/categories/Machine-Learning/"/>
+    
+      <category term="機器學習模型圖書館：從傳統模型到深度學習" scheme="https://yuehhua.github.io/categories/Machine-Learning/%E6%A9%9F%E5%99%A8%E5%AD%B8%E7%BF%92%E6%A8%A1%E5%9E%8B%E5%9C%96%E6%9B%B8%E9%A4%A8%EF%BC%9A%E5%BE%9E%E5%82%B3%E7%B5%B1%E6%A8%A1%E5%9E%8B%E5%88%B0%E6%B7%B1%E5%BA%A6%E5%AD%B8%E7%BF%92/"/>
+    
+    
+  </entry>
+  
+  <entry>
+    <title>01 簡介</title>
+    <link href="https://yuehhua.github.io/2018/10/03/01-introduction/"/>
+    <id>https://yuehhua.github.io/2018/10/03/01-introduction/</id>
+    <published>2018-10-03T06:03:40.000Z</published>
+    <updated>2018-10-03T06:09:16.636Z</updated>
+    
+    <content type="html"><![CDATA[<p>上個禮拜才剛從美國回來，周末又講了兩天整天的機器學習課程，完全忘記鐵人賽開賽的事情…….</p><p>這一系列文章將會專注在機器學習的模型上，會從傳統的機器學習模型一路介紹到深度學習的模型。<br>比起介紹個別的模型，我會更專注在模型的演化上，去比較不同模型的差異之處，或是不同模型之間的改進之處。<br>一系列的脈絡會讓讀者更了解數學模型的運作方式，以及數學運算上的意義。</p><a id="more"></a><p>我們的起點一樣是線性迴歸，接著會踩著感知器的腳步，一路走向 SVM。<br>在線性模型上，我們不只有線性迴歸，根據不同的誤差的分佈情形，我們有 logistic regression，還有 Poisson regression，然後走到廣義線性模型。<br>模型俱備，只欠網路。我們可以從既有的模型當中發現，當你把模型堆疊起來，會得到神經網路模型。<br>接下來，就會一一介紹在這五年內發展蓬勃的深度學習模型。</p><p>鐵人賽的文也會發佈在我自己的部落格中。</p>]]></content>
+    
+    <summary type="html">
+    
+      &lt;p&gt;上個禮拜才剛從美國回來，周末又講了兩天整天的機器學習課程，完全忘記鐵人賽開賽的事情…….&lt;/p&gt;
+&lt;p&gt;這一系列文章將會專注在機器學習的模型上，會從傳統的機器學習模型一路介紹到深度學習的模型。&lt;br&gt;比起介紹個別的模型，我會更專注在模型的演化上，去比較不同模型的差異之處，或是不同模型之間的改進之處。&lt;br&gt;一系列的脈絡會讓讀者更了解數學模型的運作方式，以及數學運算上的意義。&lt;/p&gt;
+    
+    </summary>
+    
+      <category term="Machine Learning" scheme="https://yuehhua.github.io/categories/Machine-Learning/"/>
+    
+      <category term="機器學習模型圖書館：從傳統模型到深度學習" scheme="https://yuehhua.github.io/categories/Machine-Learning/%E6%A9%9F%E5%99%A8%E5%AD%B8%E7%BF%92%E6%A8%A1%E5%9E%8B%E5%9C%96%E6%9B%B8%E9%A4%A8%EF%BC%9A%E5%BE%9E%E5%82%B3%E7%B5%B1%E6%A8%A1%E5%9E%8B%E5%88%B0%E6%B7%B1%E5%BA%A6%E5%AD%B8%E7%BF%92/"/>
+    
+    
+  </entry>
   
   <entry>
     <title>Energy-based model 以及 Bayesian model 的關聯</title>
@@ -470,53 +516,6 @@ dock
     </summary>
     
       <category term="Docker" scheme="https://yuehhua.github.io/categories/Docker/"/>
-    
-    
-  </entry>
-  
-  <entry>
-    <title>Basic commands</title>
-    <link href="https://yuehhua.github.io/2018/07/21/01-basic-commands/"/>
-    <id>https://yuehhua.github.io/2018/07/21/01-basic-commands/</id>
-    <published>2018-07-21T14:48:11.000Z</published>
-    <updated>2018-07-26T05:29:50.223Z</updated>
-    
-    <content type="html"><![CDATA[<!-- toc --><p>Usage:  <code>[sudo] docker [command] [flags] [arguments] ..</code></p><a id="more"></a><h2 id="Get-information"><a href="#Get-information" class="headerlink" title="Get information"></a>Get information</h2><p>The version of docker:</p><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">example&gt; docker version</span><br><span class="line">Client version: 1.4.1</span><br><span class="line">Client API version: 1.16</span><br><span class="line">Go version (client): go1.3.3</span><br><span class="line">Git commit (client): 5bc2ff8</span><br><span class="line">OS/Arch (client): linux/amd64</span><br><span class="line">Server version: 1.4.1</span><br><span class="line">Server API version: 1.16</span><br><span class="line">Go version (server): go1.3.3</span><br><span class="line">Git commit (server): 5bc2ff8</span><br></pre></td></tr></table></figure><p>Show the information about docker status:</p><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">example&gt; docker info</span><br><span class="line">Containers: 5</span><br><span class="line">Images: 5</span><br><span class="line">Storage Driver: aufs</span><br><span class="line">Root Dir: /var/lib/docker/aufs</span><br><span class="line">Dirs: 15</span><br><span class="line">Execution Driver: native-0.2</span><br><span class="line">Kernel Version: 3.13.0-32-generic</span><br><span class="line">WARNING: No swap <span class="built_in">limit</span> support</span><br></pre></td></tr></table></figure><h2 id="Basic-operations"><a href="#Basic-operations" class="headerlink" title="Basic operations"></a>Basic operations</h2><p>Download image file provided from Docker Hub:</p><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">docker pull &lt;image-name&gt;</span><br><span class="line">example&gt; docker pull ubuntu:14.04</span><br></pre></td></tr></table></figure><p>Run specified cmd on this image:</p><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">docker run &lt;image-name&gt; &lt;cmd&gt;</span><br><span class="line">example&gt; <span class="comment"># Run interactively in the foreground</span></span><br><span class="line">example&gt; docker run -i -t ubuntu /bin/bash</span><br></pre></td></tr></table></figure><blockquote><p><strong>Flags:</strong></p></blockquote><blockquote><p><code>-t</code> flag assigns a terminal inside our new container.</p></blockquote><blockquote><p><code>-i</code> flag allows us to make an interactive connection by grabbing the standard in (<code>STDIN</code>) of the container.</p></blockquote><blockquote><p><code>-d</code> flag tells Docker to run the container and put it in the background, to daemonize it.</p></blockquote><blockquote><p><code>-p</code> flag is new and tells Docker to map any required network ports inside our container to our host.</p></blockquote><blockquote><p><code>-P</code> flag, a shortcut for <code>-p</code>,  maps any required network ports exposed in our image to a high port (from the range 49153 to 65535) on the local Docker host.</p></blockquote><blockquote><p><code>-v</code> flag mount the host directory into container directory, ex <code>-v &lt;host-dir&gt;:&lt;container-dir&gt;</code> or <code>-v &lt;container-dir&gt;</code></p></blockquote><blockquote><p><code>--name</code> flag assigns a name to this container</p></blockquote><blockquote><p><code>&lt;image-name&gt;</code>: ubuntu:14.04</p></blockquote><blockquote><p><code>&lt;cmd&gt;</code>: /bin/echo “hello world”</p></blockquote><p>View info of container:</p><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">docker inspect &lt;container-id-or-name&gt;</span><br><span class="line">example&gt;</span><br></pre></td></tr></table></figure><p>Lists containers:</p><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">example&gt; <span class="comment"># To check which docker is running</span></span><br><span class="line">example&gt; docker ps</span><br><span class="line">example&gt; <span class="comment"># </span></span><br><span class="line">example&gt; docker ps -l</span><br><span class="line">example&gt; <span class="comment"># Show all docker in execution</span></span><br><span class="line">example&gt; docker ps -a</span><br></pre></td></tr></table></figure><p>Stops running containers:</p><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">docker stop &lt;container-id-or-name&gt;</span><br><span class="line">example&gt; <span class="comment"># This will stop the container id of cfc68</span></span><br><span class="line">example&gt; docker stop cfc68</span><br></pre></td></tr></table></figure><p>Commit a modified image:</p><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">docker commit &lt;container-id-or-name&gt; &lt;image-name&gt;</span><br><span class="line">example&gt; docker commit -m=<span class="string">"Add PHPUnit and xdebug"</span> \</span><br><span class="line">example&gt; -a=<span class="string">"Huang Yi-Ming"</span> aeeb1980c96e \</span><br><span class="line">example&gt; ymhuang0808/phpunit-testing:php5.5.9</span><br></pre></td></tr></table></figure><blockquote><p><strong>Flags:</strong></p></blockquote><blockquote><p><code>-m</code> flag is used to give a comment to this commit.</p></blockquote><blockquote><p><code>-a</code> flag declare the maintainer’s name.</p></blockquote><p>Remove the image:</p><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">docker rmi &lt;image-id&gt;</span><br></pre></td></tr></table></figure><p>Login Docker Hub (before you push a image to repository):</p><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">example&gt; docker login</span><br><span class="line">Username: [ENTER YOUR USERNAME] Password:</span><br><span class="line">Email: [ENTER YOUR EMAIL] Login Succeeded</span><br></pre></td></tr></table></figure><p>Push image to the repository (usually on Docker Hub):</p><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">docker push &lt;image-name&gt;</span><br><span class="line">example&gt; docker push a504082002/ubuntu:14.04</span><br></pre></td></tr></table></figure><p>Shows us the standard output of a container:</p><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">docker logs</span><br></pre></td></tr></table></figure><h2 id="Some-advanced-applications"><a href="#Some-advanced-applications" class="headerlink" title="Some advanced applications"></a>Some advanced applications</h2><p>Query the port mapping of a container:</p><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">docker port &lt;container-id-or-name&gt; &lt;port-exposed&gt;</span><br><span class="line">example&gt; <span class="comment"># which port was mapped to the port 5000 on container named of nostalgic_morse</span></span><br><span class="line">example&gt; docker port nostalgic_morse 5000</span><br><span class="line">0.0.0.0:49155</span><br></pre></td></tr></table></figure><p>Running a web application in docker:</p><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">example&gt; <span class="comment"># we're going to run a Python Flask application with image: training/webapp</span></span><br><span class="line">example&gt; docker run -d -P training/webapp python app.py</span><br></pre></td></tr></table></figure><p>Assign command to specific docker:</p><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">example&gt; <span class="comment"># Return to docker again after exit</span></span><br><span class="line">example&gt; docker <span class="built_in">exec</span> -t -i 0f83f1728262 bash</span><br></pre></td></tr></table></figure><p>To remove docker that you don’t need anymore:</p><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">example&gt; docker rm 0f83f1728262</span><br></pre></td></tr></table></figure><p>To mount a host directory as a disk in docker:</p><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">example&gt; <span class="comment"># Mount /myData into docker</span></span><br><span class="line">example&gt; docker run -t -i -v /myData centos:centos6 bash</span><br></pre></td></tr></table></figure>]]></content>
-    
-    <summary type="html">
-    
-      &lt;!-- toc --&gt;
-&lt;p&gt;Usage:  &lt;code&gt;[sudo] docker [command] [flags] [arguments] ..&lt;/code&gt;&lt;/p&gt;
-    
-    </summary>
-    
-      <category term="Docker" scheme="https://yuehhua.github.io/categories/Docker/"/>
-    
-    
-  </entry>
-  
-  <entry>
-    <title>Mindset（中譯：心態致勝）</title>
-    <link href="https://yuehhua.github.io/2018/07/21/mindset/"/>
-    <id>https://yuehhua.github.io/2018/07/21/mindset/</id>
-    <published>2018-07-21T14:46:01.000Z</published>
-    <updated>2018-08-24T14:12:00.678Z</updated>
-    
-    <content type="html"><![CDATA[<p><img src="https://im1.book.com.tw/image/getImage?i=https://www.books.com.tw/img/001/074/84/0010748470.jpg&amp;v=58d4f5ad&amp;w=348&amp;h=348" alt="心態致勝：全新成功心理學"></p><blockquote><p>圖片取自博客來</p></blockquote><p>今天看到書的前三分之一，但是忍不住要來跟大家分享書中的內容。這本看名字跟外表很容易被埋沒那些講成功的商業書籍中，但是這本可是史丹佛大學的心理學權威 Dr. Carol Dweck 的研究成果阿！他也有在 TED 發表過演講，是很值得看的一本書！</p><a id="more"></a><iframe width="560" height="315" class="center" src="https://www.youtube.com/embed/PfX1YpHzr64" frameborder="0" allow="autoplay; encrypted-media" allowfullscreen></iframe><p>他把人的心態分成兩種：成長心態與定型心態。教授的觀察來自一群面對難題的十歲男孩</p><blockquote><p>面對費解謎題時，一位十歲男孩把椅子往前拉，搓揉雙手，咂嘴喊道：「我愛挑戰！」另一個孩子在為難題傷腦筋時，抬起頭，露出愉悅表情，自信地說：「你知道嗎？我原本就期待這會很有教育性！」</p></blockquote><p>教授把人分為這樣的兩種心態。</p><p>對定型心態的人來說，他相信他自身的素質是天生、無法改變的，那人要不就是聰明要不就是不聰明，失敗意味著不聰明。這種心態使得自己需要一再的證明自己，證明自己是聰明的。若是你有一定程度的智力、一種特定性格、一種特定品性，你最好證明你自己是聰明的，不然就大事不妙。</p><p>成長心態剛好相反，這些人認為可以透過努力、策略與他人的幫助，培養或是加強個人的素質。每個人的生長環境、資質、興趣跟性格可能各自不同，但是大家都可以透過努力進而改變成長，他們樂於接受挑戰並拓展自己的領域。</p><h2 id="反應"><a href="#反應" class="headerlink" title="反應"></a>反應</h2><p>兩種心態的人面對同一件糟糕的事情反應有所不同，定型心態的人會認為自己被否定、是個失敗者，但他們在面對失敗之前都跟成長心態者一樣的樂觀。成長心態面對同樣的事情，同樣會有低落的情緒反應，但是除了情緒反應會開始思考要如何突破這樣的困境，他們知道可以藉由努力的方式幫助自己，他們面對挫折跟失敗的態度相當坦然。</p><p>定型心態者他們不相信一些對於冒險及毅力的格言，例如，失敗為成功之母。對他們來說，失敗只不是一再的證明了他們的資質差與不聰慧。人們對於風險與努力的看法源自於他們的基本心態，成長心態的人重視自我挑戰的價值與努力的重要性，然而定型心態的人不喜歡挑戰與努力，因為他們認為人的特質是不變的，努力沒辦法改變什麼，他們很快就會畏懼挑戰，並認為努力的人都像是笨蛋。</p><h2 id="低努力"><a href="#低努力" class="headerlink" title="低努力"></a>低努力</h2><p>研究發現，有定型心態的青少年對於資源的運用，不是用於學習，而是用來保護自尊。他們在學校中的主要目標，除了讓自己看起來比較聰明，另外一個就是儘可能的不費力。這些人會試圖降低自己努力的程度，好讓考試無法真正測驗出他們的實力，進而讓自己有理由看起來不愚蠢。但在成長心態的學生看來，停止嘗試努力是無法理解的，這絕對是一段探索自己喜歡什麼、學習新科目，並思考將來想做什麼的好時機。</p><h2 id="天份"><a href="#天份" class="headerlink" title="天份"></a>天份</h2><p>書中也談到關於藝術天份，有些人可能不需要怎麼努力就可以畫的很好，但有些人總是不論怎麼嘗試努力就是無法開竅。書中談到一個例子，是一些人在去上某個課程前都拙於繪畫，但是在掌握方法之後，他們都可以畫出一定水準的畫作來。因為大多數人不了解繪畫的構成要素，繪畫的重點不在於繪畫技巧，而是在於如何『看』，在於感知光影的變化、邊緣輪廓與空間關係。有些人能夠在生活中掌握這些方法，其他人則是需要下功夫去學習他，但只要掌握方法，人人都可以做的到。</p><h2 id="讚美"><a href="#讚美" class="headerlink" title="讚美"></a>讚美</h2><p>書中提到，讚美一個人的「能力」，與讚美一個人的「努力」會得到不一樣的效果。實驗結果顯示，讚美一個人的能力，會讓他認知到自己的成功來自於自身的能力，所以需要繼續保有這樣的能力，但是這樣使學生進入定型心態，後續即便測試同樣難度的題目，表現就不如前次好。如果讚美一個人的努力，會讓他認知到這次的成功是來自自身的努力，所以他們也更願意努力更富挑戰性的任務。</p><p>讚美一個人的能力，使他們拒絕了富挑戰性的任務，他們儘可能的不想暴露缺點、使才能遭受懷疑。這使得他們更願意嘗試作弊、撒謊來確保他們的成功。對那些被讚美很努力的學生來說，困難意味著需要更多的努力，但是失敗並不意味著他們的不聰慧，他們更能享受挑戰所帶來的樂趣。</p><h2 id="負標籤"><a href="#負標籤" class="headerlink" title="負標籤"></a>負標籤</h2><p>負標籤也會在這個地方發揮作用。作者陳述到自身高中的數學成績非常好，但後來遇上了一個認為女性就是不擅長數學的老師，接著，作者的數學成績就下滑了。在刻版印象中認為女性是不擅長數學與科學的，這樣的負標籤會讓人們產生種種分心的想法，即便是一名女性與多名男性在同一間教室，都會讓女性的數學成績下滑。但這並不是對所有人都這樣，他只對定型心態者有影響，當人們認知到素質是不變的，那麼刻版印象就會發生作用。在定型心態下，好評跟負標籤都會發生作用，但是在成長心態下，卻可以不受影響，他們不相信永遠的低劣，他們相信只要經過努力便可以迎頭趕上。</p><p>這邊大致摘要了書中前三分之一的內容，如果大家有興趣，請取找書來看吧！</p>]]></content>
-    
-    <summary type="html">
-    
-      &lt;p&gt;&lt;img src=&quot;https://im1.book.com.tw/image/getImage?i=https://www.books.com.tw/img/001/074/84/0010748470.jpg&amp;amp;v=58d4f5ad&amp;amp;w=348&amp;amp;h=348&quot; alt=&quot;心態致勝：全新成功心理學&quot;&gt;&lt;/p&gt;
-&lt;blockquote&gt;
-&lt;p&gt;圖片取自博客來&lt;/p&gt;
-&lt;/blockquote&gt;
-&lt;p&gt;今天看到書的前三分之一，但是忍不住要來跟大家分享書中的內容。這本看名字跟外表很容易被埋沒那些講成功的商業書籍中，但是這本可是史丹佛大學的心理學權威 Dr. Carol Dweck 的研究成果阿！他也有在 TED 發表過演講，是很值得看的一本書！&lt;/p&gt;
-    
-    </summary>
-    
-      <category term="Psychology" scheme="https://yuehhua.github.io/categories/Psychology/"/>
-    
-      <category term="Book" scheme="https://yuehhua.github.io/categories/Psychology/Book/"/>
     
     
   </entry>
