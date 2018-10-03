@@ -230,6 +230,80 @@
                 <section class="postShorten-group main-content-wrap">
     
     
+    <article class="postShorten postShorten--thumbnailimg-bottom">
+        <div class="postShorten-wrap">
+            
+            <div class="postShorten-header">
+                <h1 class="postShorten-title">
+                    
+                        <a class="link-unstyled" href="/2018/10/03/03-from-linear-regression-to-perceptron/">
+                            03 從線性迴歸到感知器
+                        </a>
+                    
+                </h1>
+                <div class="postShorten-meta">
+    <time datetime="2018-10-03T23:13:30+08:00">
+	
+		    Oct 03, 2018
+    	
+    </time>
+    
+        <span>in </span>
+        
+    <a class="category-link" href="/categories/Machine-Learning/">Machine Learning</a>, <a class="category-link" href="/categories/Machine-Learning/機器學習模型圖書館：從傳統模型到深度學習/">機器學習模型圖書館：從傳統模型到深度學習</a>
+
+
+    
+</div>
+
+            </div>
+            
+                <div class="postShorten-content">
+                    <p>感知器（perceptron）是在 1957 年就被發明出來的的模型，對電腦的發展或是人工智慧來說都是非常早期的。</p>
+<p>感知器模型他是一個二元分類的分類器，他解的是分類問題。相對我們前面的線性迴歸解的是迴歸問題，兩者在問題的定義上有根本性的不一樣，那他們兩個有什麼關聯性呢？</p>
+<h2 id="分類"><a href="#分類" class="headerlink" title="分類"></a>分類</h2><p>現在想像一下，如果你手上有一些資料，這些資料都有兩個維度 $(x_1,x_2)$，可以他們畫在二維的平面上，這些資料有的被標記成方塊，有的被標記成圓圈。我現在希望有一種方法可以將不同標記的資料點分開，我們可以怎麼做？</p>
+<p><img src="/images/perceptron1.svg" alt=""></p>
+<p>在資料點上，大多相似的資料點會有接近的座標，所以資料點本身就會因為相似性而聚在一起。最直覺的方法就是畫一條直線將他們分開。</p>
+<p><img src="/images/perceptron2.svg" alt=""></p>
+<p>我們可以在二維平面上畫一條線來把這些點分開的話，那麼要怎麼以數學的方式呈現呢？</p>
+<p>$$<br>x_2 = w x_1 + b<br>$$</p>
+<p>這是我們的二維平面上的線，我們把他移項一下。</p>
+<p>$$<br>x_2 - w x_1 - b = 0<br>$$</p>
+<p>當你試著把資料點代入方程式的時候，你會發現不同的點算出來結果會分成兩種：</p>
+<ol>
+<li>$x_2 - w x_1 - b &gt; 0$</li>
+<li>$x_2 - w x_1 - b &lt; 0$</li>
+</ol>
+<p>如果你的線畫的夠好的話，應該是不會有點剛好位於線上而讓 $y - w x - b = 0$ 發生的。所以我們是不是能夠透過將點代入公式中，計算出他的結果為正或是為負來決定他應該是方塊或是圓圈。新的資料點就可以透過這樣的運算來做預測。</p>
+<p>如果要模型給出一個比較容易理解的預測值的話，我們可以在模型之後再加上一個 $sign$ 來取數值的正負號。</p>
+<p>$$<br>sign(x_2 - w x_1 - b) = 0<br>$$</p>
+<p>$$<br>sign(x) = \begin{cases}<br> -1, &amp;\text{if } x \lt 0\<br> 0, &amp;\text{if } x = 0\<br> 1, &amp;\text{if } x \gt 0<br>\end{cases}<br>$$</p>
+<p>當整件事情拓展到了高維度空間的時候就變成這樣了：</p>
+<p>$$<br>sign(\mathbf{w}^T\mathbf{x} + b)<br>$$</p>
+<p>看到了嗎？中間是不是我們的線性迴歸裡的線性模型了呢？</p>
+<p>準確來說，是跟線性迴歸沒什麼關係啦！但是同為線性模型可以應用在迴歸問題或是分類問題，有兩種些許不同的形式，是不是很妙呢？</p>
+<h2 id="常數項"><a href="#常數項" class="headerlink" title="常數項"></a>常數項</h2><p>前面說過，常數項在分類器上有些許不一樣的的解釋。</p>
+<p><img src="/images/perceptron3.svg" alt=""></p>
+<p>基本上，對一條線來說，常數項仍舊是讓線可以有位移的機會，不過反過來想，如果沒有常數項的話，即便有 $\mathbf{w}^T\mathbf{x}$ 可以計算出結果，但是可能仍不足以分隔資料，所以需要加上（或是減掉）一個閾值或是臨界值。</p>
+
+                    
+                        
+
+                    
+                    
+                        <p>
+                            <a href="/2018/10/03/03-from-linear-regression-to-perceptron/#post-footer" class="postShorten-excerpt_link link">
+                                Comment and share
+                            </a>
+                        </p>
+                    
+                </div>
+            
+        </div>
+        
+    </article>
+    
+    
     <article class="postShorten postShorten--thumbnailimg-right">
         <div class="postShorten-wrap">
             
@@ -671,58 +745,6 @@
 <p><img src="https://upload.wikimedia.org/wikipedia/commons/8/85/Stereographic_projection_in_3D.png" alt=""></p>
                     
                         <a href="/2018/07/22/09-topology/" class="postShorten-excerpt_link link">
-                            Continue reading
-                        </a>
-                        
-                    
-                </div>
-            
-        </div>
-        
-    </article>
-    
-    
-    <article class="postShorten postShorten--thumbnailimg-right">
-        <div class="postShorten-wrap">
-            
-            <div class="postShorten-header">
-                <h1 class="postShorten-title">
-                    
-                        <a class="link-unstyled" href="/2018/07/22/08-infinite-sets/">
-                            Infinite sets
-                        </a>
-                    
-                </h1>
-                <div class="postShorten-meta">
-    <time datetime="2018-07-22T00:31:24+08:00">
-	
-		    Jul 22, 2018
-    	
-    </time>
-    
-        <span>in </span>
-        
-    <a class="category-link" href="/categories/Topology/">Topology</a>
-
-
-    
-</div>
-
-            </div>
-            
-                <div class="postShorten-excerpt">
-                    <p>我們已經遇到一些無限集（infinite set），接下來會討論他的一些特性，然後會自然地討論到選擇公理（axiom of choice）。</p>
-<blockquote>
-<p> <strong><em>Theorem</em></strong></p>
-</blockquote>
-<p>$A$ 是一個集合，以下的命題等價：</p>
-<ol>
-<li>$\exists \enspace injective \enspace f: \mathbb{N} \rightarrow A$</li>
-<li>$B \subset A, \exists \enspace bijective \enspace f: A \rightarrow B$</li>
-<li>$A$ is infinite</li>
-</ol>
-                    
-                        <a href="/2018/07/22/08-infinite-sets/" class="postShorten-excerpt_link link">
                             Continue reading
                         </a>
                         

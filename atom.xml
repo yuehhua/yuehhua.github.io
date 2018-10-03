@@ -6,7 +6,7 @@
   <link href="/atom.xml" rel="self"/>
   
   <link href="https://yuehhua.github.io/"/>
-  <updated>2018-10-03T07:31:54.292Z</updated>
+  <updated>2018-10-03T15:13:30.811Z</updated>
   <id>https://yuehhua.github.io/</id>
   
   <author>
@@ -15,6 +15,32 @@
   </author>
   
   <generator uri="http://hexo.io/">Hexo</generator>
+  
+  <entry>
+    <title>03 從線性迴歸到感知器</title>
+    <link href="https://yuehhua.github.io/2018/10/03/03-from-linear-regression-to-perceptron/"/>
+    <id>https://yuehhua.github.io/2018/10/03/03-from-linear-regression-to-perceptron/</id>
+    <published>2018-10-03T15:13:30.000Z</published>
+    <updated>2018-10-03T15:13:30.811Z</updated>
+    
+    <content type="html"><![CDATA[<p>感知器（perceptron）是在 1957 年就被發明出來的的模型，對電腦的發展或是人工智慧來說都是非常早期的。</p><p>感知器模型他是一個二元分類的分類器，他解的是分類問題。相對我們前面的線性迴歸解的是迴歸問題，兩者在問題的定義上有根本性的不一樣，那他們兩個有什麼關聯性呢？</p><h2 id="分類"><a href="#分類" class="headerlink" title="分類"></a>分類</h2><p>現在想像一下，如果你手上有一些資料，這些資料都有兩個維度 $(x_1,x_2)$，可以他們畫在二維的平面上，這些資料有的被標記成方塊，有的被標記成圓圈。我現在希望有一種方法可以將不同標記的資料點分開，我們可以怎麼做？</p><p><img src="/images/perceptron1.svg" alt=""></p><p>在資料點上，大多相似的資料點會有接近的座標，所以資料點本身就會因為相似性而聚在一起。最直覺的方法就是畫一條直線將他們分開。</p><p><img src="/images/perceptron2.svg" alt=""></p><p>我們可以在二維平面上畫一條線來把這些點分開的話，那麼要怎麼以數學的方式呈現呢？</p><p>$$<br>x_2 = w x_1 + b<br>$$</p><p>這是我們的二維平面上的線，我們把他移項一下。</p><p>$$<br>x_2 - w x_1 - b = 0<br>$$</p><p>當你試著把資料點代入方程式的時候，你會發現不同的點算出來結果會分成兩種：</p><ol><li>$x_2 - w x_1 - b &gt; 0$</li><li>$x_2 - w x_1 - b &lt; 0$</li></ol><p>如果你的線畫的夠好的話，應該是不會有點剛好位於線上而讓 $y - w x - b = 0$ 發生的。所以我們是不是能夠透過將點代入公式中，計算出他的結果為正或是為負來決定他應該是方塊或是圓圈。新的資料點就可以透過這樣的運算來做預測。</p><p>如果要模型給出一個比較容易理解的預測值的話，我們可以在模型之後再加上一個 $sign$ 來取數值的正負號。</p><p>$$<br>sign(x_2 - w x_1 - b) = 0<br>$$</p><p>$$<br>sign(x) = \begin{cases}<br> -1, &amp;\text{if } x \lt 0\<br> 0, &amp;\text{if } x = 0\<br> 1, &amp;\text{if } x \gt 0<br>\end{cases}<br>$$</p><p>當整件事情拓展到了高維度空間的時候就變成這樣了：</p><p>$$<br>sign(\mathbf{w}^T\mathbf{x} + b)<br>$$</p><p>看到了嗎？中間是不是我們的線性迴歸裡的線性模型了呢？</p><p>準確來說，是跟線性迴歸沒什麼關係啦！但是同為線性模型可以應用在迴歸問題或是分類問題，有兩種些許不同的形式，是不是很妙呢？</p><h2 id="常數項"><a href="#常數項" class="headerlink" title="常數項"></a>常數項</h2><p>前面說過，常數項在分類器上有些許不一樣的的解釋。</p><p><img src="/images/perceptron3.svg" alt=""></p><p>基本上，對一條線來說，常數項仍舊是讓線可以有位移的機會，不過反過來想，如果沒有常數項的話，即便有 $\mathbf{w}^T\mathbf{x}$ 可以計算出結果，但是可能仍不足以分隔資料，所以需要加上（或是減掉）一個閾值或是臨界值。</p>]]></content>
+    
+    <summary type="html">
+    
+      
+      
+        &lt;p&gt;感知器（perceptron）是在 1957 年就被發明出來的的模型，對電腦的發展或是人工智慧來說都是非常早期的。&lt;/p&gt;
+&lt;p&gt;感知器模型他是一個二元分類的分類器，他解的是分類問題。相對我們前面的線性迴歸解的是迴歸問題，兩者在問題的定義上有根本性的不一樣，那他們兩個有什麼
+      
+    
+    </summary>
+    
+      <category term="Machine Learning" scheme="https://yuehhua.github.io/categories/Machine-Learning/"/>
+    
+      <category term="機器學習模型圖書館：從傳統模型到深度學習" scheme="https://yuehhua.github.io/categories/Machine-Learning/%E6%A9%9F%E5%99%A8%E5%AD%B8%E7%BF%92%E6%A8%A1%E5%9E%8B%E5%9C%96%E6%9B%B8%E9%A4%A8%EF%BC%9A%E5%BE%9E%E5%82%B3%E7%B5%B1%E6%A8%A1%E5%9E%8B%E5%88%B0%E6%B7%B1%E5%BA%A6%E5%AD%B8%E7%BF%92/"/>
+    
+    
+  </entry>
   
   <entry>
     <title>02-linear-regression</title>
@@ -492,26 +518,6 @@ docker pull nginx  # official repos
 docker pull php  # official repos
 dock
       
-    
-    </summary>
-    
-      <category term="Docker" scheme="https://yuehhua.github.io/categories/Docker/"/>
-    
-    
-  </entry>
-  
-  <entry>
-    <title>Writing a Dockerfile</title>
-    <link href="https://yuehhua.github.io/2018/07/21/02-dockerfiles/"/>
-    <id>https://yuehhua.github.io/2018/07/21/02-dockerfiles/</id>
-    <published>2018-07-21T14:49:48.000Z</published>
-    <updated>2018-07-26T05:30:00.816Z</updated>
-    
-    <content type="html"><![CDATA[<p>We already know how to get a image and modify it, then share it through Docker Hub. It can be more portable and easy to customize. Just write a script in Dockerfile, and then use <code>docker build</code> to build an image following the script in Dockerfile!</p><a id="more"></a><p>A demo of a Dockerfile:</p><pre><code>FROM tutum/apache-php:latestMAINTAINER Huang AMing RUN sed -i &apos;s/archive.ubuntu.com/free.nchc.org.tw/g&apos; \  /etc/apt/sources.listRUN apt-get update \  &amp;&amp; apt-get install -y php5-xdebugADD https://phar.phpunit.de/phpunit.phar /usr/local/bin/RUN cd /usr/local/bin \   &amp;&amp; chmod +x phpunit.phar \   &amp;&amp; mv phpunit.phar phpunit</code></pre><blockquote><p><strong>FROM</strong>: what image would be the base to build<br><strong>MAINTAINER</strong>: declare the maintainer<br><strong>RUN</strong>: to run command in the container in order to build image<br><strong>ADD</strong>: to add file from <em>host OS</em> or <em>remote directory</em> to the specified <em>directory of  image</em>, the file would be unziped automatically if it is compressed</p></blockquote><p>Build the image:</p><pre><code>docker build &lt;the-Dockerfile-placed&gt;example&gt; # build image following the Dockerfile in the current directory and tag as ymhuang0808/phpunit-testing:php5.5.9example&gt; docker build -t=&quot;ymhuang0808/phpunit-testing:php5.5.9&quot; .</code></pre><blockquote><p><strong>Flags:</strong><br><code>-t</code> flag assign the new image a tag</p></blockquote>]]></content>
-    
-    <summary type="html">
-    
-      &lt;p&gt;We already know how to get a image and modify it, then share it through Docker Hub. It can be more portable and easy to customize. Just write a script in Dockerfile, and then use &lt;code&gt;docker build&lt;/code&gt; to build an image following the script in Dockerfile!&lt;/p&gt;
     
     </summary>
     
