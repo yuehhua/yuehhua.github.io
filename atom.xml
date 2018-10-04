@@ -6,7 +6,7 @@
   <link href="/atom.xml" rel="self"/>
   
   <link href="https://yuehhua.github.io/"/>
-  <updated>2018-10-03T15:24:32.123Z</updated>
+  <updated>2018-10-04T15:43:47.015Z</updated>
   <id>https://yuehhua.github.io/</id>
   
   <author>
@@ -15,6 +15,33 @@
   </author>
   
   <generator uri="http://hexo.io/">Hexo</generator>
+  
+  <entry>
+    <title>04 從感知器到 maximum-margin classifier</title>
+    <link href="https://yuehhua.github.io/2018/10/04/04-from-perceptron-to-max-margin-classifier/"/>
+    <id>https://yuehhua.github.io/2018/10/04/04-from-perceptron-to-max-margin-classifier/</id>
+    <published>2018-10-04T15:43:46.000Z</published>
+    <updated>2018-10-04T15:43:47.015Z</updated>
+    
+    <content type="html"><![CDATA[<p>上次我們完成了感知器的介紹，感知器也有他相對應的學習演算法：perceptron learning algorithm (PLA)。</p><p>不過我們今天沒有要講 PLA，我們來講講感知器的缺點。</p><p>感知器這個模型有很多的缺點，但是因為他是最簡單的模型，我們就放他一馬（？）。</p><p>他的缺點有：</p><ol><li>只能處理線性可分（linear-separable）的資料</li><li>只要能分，大家都是好的分類器（黑貓白貓，能抓老鼠的就是好貓？）</li></ol><h2 id="線性可分"><a href="#線性可分" class="headerlink" title="線性可分"></a>線性可分</h2><p>我們一項一項來講，什麼是線性可分（linear-separable）？</p><p><img src="/images/perceptron4.svg" alt=""></p><p>像這樣是線性可分的，可以用一條直線把不同的點分開。</p><p><img src="/images/linear-separable1.svg" alt=""></p><p>像這樣根本找不到一條線可以將點分開的，不是線性可分。</p><p><img src="/images/linear-separable2.svg" alt=""></p><p>差一點點也不行！很尷尬，差一點就可以變成線性可分的了！但是他就不是！</p><p>所以整體說起來，感知器在使用上限制頗大。</p><h2 id="好的分類器？"><a href="#好的分類器？" class="headerlink" title="好的分類器？"></a>好的分類器？</h2><p>接下來，什麼叫作一個好的分類器？</p><p><img src="/images/perceptron4.svg" alt=""></p><p><img src="/images/perceptron5.svg" alt=""></p><p><img src="/images/perceptron6.svg" alt=""></p><p>以上三張圖，大家有沒有認為哪一張分的最好？</p>]]></content>
+    
+    <summary type="html">
+    
+      
+      
+        &lt;p&gt;上次我們完成了感知器的介紹，感知器也有他相對應的學習演算法：perceptron learning algorithm (PLA)。&lt;/p&gt;
+&lt;p&gt;不過我們今天沒有要講 PLA，我們來講講感知器的缺點。&lt;/p&gt;
+&lt;p&gt;感知器這個模型有很多的缺點，但是因為他是最簡單的模型，我
+      
+    
+    </summary>
+    
+      <category term="Machine Learning" scheme="https://yuehhua.github.io/categories/Machine-Learning/"/>
+    
+      <category term="機器學習模型圖書館：從傳統模型到深度學習" scheme="https://yuehhua.github.io/categories/Machine-Learning/%E6%A9%9F%E5%99%A8%E5%AD%B8%E7%BF%92%E6%A8%A1%E5%9E%8B%E5%9C%96%E6%9B%B8%E9%A4%A8%EF%BC%9A%E5%BE%9E%E5%82%B3%E7%B5%B1%E6%A8%A1%E5%9E%8B%E5%88%B0%E6%B7%B1%E5%BA%A6%E5%AD%B8%E7%BF%92/"/>
+    
+    
+  </entry>
   
   <entry>
     <title>03 從線性迴歸到感知器</title>
@@ -40,11 +67,11 @@
   </entry>
   
   <entry>
-    <title>02-linear-regression</title>
+    <title>02 線性迴歸 -- 迴歸問題中的線性模型</title>
     <link href="https://yuehhua.github.io/2018/10/03/02-linear-regression/"/>
     <id>https://yuehhua.github.io/2018/10/03/02-linear-regression/</id>
     <published>2018-10-03T07:31:54.000Z</published>
-    <updated>2018-10-03T07:31:54.292Z</updated>
+    <updated>2018-10-04T13:19:48.595Z</updated>
     
     <content type="html"><![CDATA[<p>這個模型大概已經被人講過很多次，講到都快要爛掉了XD</p><p>其實我自己在兩年前的鐵人賽中也有講過同一個模型，所以我就不用講太多基礎的部份：</p><a id="more"></a><ul><li><a href="https://ithelp.ithome.com.tw/articles/10186338" target="_blank" rel="noopener">[Day 02] 解構linear regression</a></li><li><a href="https://ithelp.ithome.com.tw/articles/10186400" target="_blank" rel="noopener">[Day 03] linear regression–線性代數解</a></li><li><a href="https://ithelp.ithome.com.tw/articles/10186401" target="_blank" rel="noopener">[Day 04] Gradient descent</a></li><li><a href="https://ithelp.ithome.com.tw/articles/10186402" target="_blank" rel="noopener">[Day 05] linear regression辛祕</a></li></ul><p>總的來說，線性模型就是依賴著 $y = w_0 + w_1x_1 + w_2x_2 + \dots + w_nx_n$ 這樣的一條數學式子。</p><p>為了方便起見我們將他化成向量的形式：$$y = \mathbf{w}^T\mathbf{x} + b$$</p><p>你會發現線性迴歸會是一個向量的內積的運算再加上一個常數，這個常數被很多人討論很久，很多人可能不是那麼了解他的意義。這個常數代表的就是在空間上的一個位移，在內積的 $\mathbf{w}$ 這個係數向量上，他們決定了在空間中整個線或是平面的傾斜程度，而常數則是在空間上的位移，也就是要將這個線或是平面擺在哪一個地方。</p><p>但是這個常數如果擺在下一篇要講的感知器（perceptron）當中的話，那就有不同的解釋了，這個留到下回再說。</p><p>那麼，基礎的部份都在前面的文章內容中講完了，剩下的要來說點什麼呢？</p><h2 id="模型的統計面向"><a href="#模型的統計面向" class="headerlink" title="模型的統計面向"></a>模型的統計面向</h2><p>我們來講點這個模型的統計面向吧！</p><p>一般來說，我們在計算這個模型的時候，這個模型背後是有他的統計面向的假設的。</p><h3 id="誤差"><a href="#誤差" class="headerlink" title="誤差"></a>誤差</h3><p>線性迴歸對誤差是有假設的，也就是假設誤差會呈現常態分佈（Gaussian distribution），這樣的假設與這個模型所使用的 mean square error 是有關係的，不過今天不會深入這些關係。</p><p>我們要進入這件事之前，我們先來看看常態分佈長什麼樣子。</p><p><img src="/images/Empirical_Rule.png" alt=""></p><blockquote><p>Wikipedia</p></blockquote><p>我們借到了維基百科的圖，其中 X 軸是連續的數值，Y 軸是這些數值出現的機率或是頻率。你會看到他是以平均值 $\mu$ 為中心的一個分佈，整個分佈是單峰的。平均值的出現機率是最高的，機率開始往兩邊遞減。這說明了最常出現的數值會剛好在平均值上，其他離平均值很遠的數值也是有機率出現，但是機率很小。</p><p>整個分佈的寬度是由標準差 $\sigma$ 的大小決定的，如果標準差愈大，代表這個分佈是愈寬的，愈寬代表資料的離散程度是大的。</p><p>這其實來自於對於自然現象的觀察。高爾頓，達爾文的表弟，觀察了自然現象，發現眾多自然現象都有一種趨勢，像是人的身高跟體重都是連續的數值，而且都沒有上下界，為什麼他們不會平均分佈呢？他會向某一個值集中，那個值差不多是整個分佈的平均值，這樣的趨勢被他稱為「迴歸」。這也是迴歸這個詞的由來，但今日的迴歸的意義不相同。</p><p>題外話，高爾頓提出了不少對今日的科學有影響的主張，像是他主張人類的才能是可以透過遺傳延續的，並提倡了優生學。他發表了一些關於指紋的研究，被認為跟今日以指紋鑑定有相關。在統計學上，他也發表了相關係數的概念，並且沿用至今。</p><p>以下是常態分佈的公式：</p><p>$$<br>P(x; \mu, \sigma) = \frac{1}{\sqrt{2 \pi \sigma^2}} e^{- \frac{(x - \mu)^2}{2 \sigma^2}}<br>$$</p><p>整體看起來可能很醜很複雜，我們通常會把平均值歸零，並且讓標準差為 1，他看起來就會簡潔許多。</p><p>$$<br>P(x; 0, 1) = \frac{1}{\sqrt{2 \pi}} e^{- \frac{x^2}{2}}<br>$$</p><p>大家注意一下，在常態分佈的公式中他的主要組成為一個 e 的指數，並且在指數項上有 $x^2$ 項。這些我們以後會用到。</p><h3 id="平均就是最有可能出現的"><a href="#平均就是最有可能出現的" class="headerlink" title="平均就是最有可能出現的"></a>平均就是最有可能出現的</h3><p>那回到線性迴歸，線性回歸是怎麼做出預測的呢？</p><p><img src="/images/stats-linear_reg1.svg" alt=""></p><p>當假設了誤差的分佈是常態分佈之後呢？那麼就可以拿最常出現的那個值作為整個分佈的代表，數學上證明那個值剛好是平均值。</p><p>可以參考上圖，資料在 X 軸上分佈，當我們切了某個點 $x_i$ 來看，那麼 Y 軸上就會有不同資料點的誤差存在。縱使真實資料是有誤差的，我們知道這些誤差會遵從常態分佈，所以這些誤差的平均就可以作為一種預測值。</p><p>從上面我們提到的迴歸效應，我們知道用這些誤差的平均值作為預測是相對合理的。</p><p>數學上是這樣運作的，當我們今天有新的資料點要預測，那麼我們代入 $y = \mathbf{w}^T\mathbf{x} + b$ 公式中，算出來的其實是 Y 軸的平均值 $\hat{y_i}$。</p><p>這就是線性迴歸的假設了。</p><h3 id="誤差的”寬度”是一樣的"><a href="#誤差的”寬度”是一樣的" class="headerlink" title="誤差的”寬度”是一樣的"></a>誤差的”寬度”是一樣的</h3><p>在線性迴歸的假設上還有另一點，就是我們在每個不同 x 的切面上，誤差的寬度（標準差）都是一樣的。</p><p><img src="/images/stats-linear_reg2.svg" alt=""></p><p>如圖所示，我不確定是為了讓模型簡單好計算還是什麼原因。</p><p>今天的介紹就到這邊啦！</p>]]></content>
     
@@ -488,33 +515,6 @@ unpause   Unpause a paused container
 version   Show the docker version information
 wait      Block until a container stops, then print its exit code
 &lt;/code&gt;&lt;/pre&gt;&lt;h2 id=&quot;Docker-Commands-Diagram&quot;&gt;&lt;a href=&quot;#Docker-Commands-Diagram&quot; class=&quot;headerlink&quot; title=&quot;Docker Commands Diagram&quot;&gt;&lt;/a&gt;&lt;strong&gt;Docker Commands Diagram&lt;/strong&gt;&lt;/h2&gt;&lt;p&gt;&lt;img src=&quot;https://raw.githubusercontent.com/philipz/docker_practice/master/_images/cmd_logic.png&quot; alt=&quot;Docker Commands Diagram&quot;&gt;&lt;/p&gt;
-    
-    </summary>
-    
-      <category term="Docker" scheme="https://yuehhua.github.io/categories/Docker/"/>
-    
-    
-  </entry>
-  
-  <entry>
-    <title>Recommended docker apps</title>
-    <link href="https://yuehhua.github.io/2018/07/21/03-recommend/"/>
-    <id>https://yuehhua.github.io/2018/07/21/03-recommend/</id>
-    <published>2018-07-21T14:58:45.000Z</published>
-    <updated>2018-07-26T05:30:30.391Z</updated>
-    
-    <content type="html"><![CDATA[<a id="more"></a><pre><code>docker pull sequenceiq/hadoop-ubuntudocker pull nginx  # official reposdocker pull php  # official reposdocker pull dockerfile/javadocker pull dockerfile/pythondocker pull pypy  # official reposdocker pull rocker/rstudio:latest</code></pre>]]></content>
-    
-    <summary type="html">
-    
-      
-      
-        &lt;a id=&quot;more&quot;&gt;&lt;/a&gt;
-&lt;pre&gt;&lt;code&gt;docker pull sequenceiq/hadoop-ubuntu
-docker pull nginx  # official repos
-docker pull php  # official repos
-dock
-      
     
     </summary>
     

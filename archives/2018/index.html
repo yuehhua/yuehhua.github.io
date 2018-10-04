@@ -231,6 +231,75 @@
     <section class="postShorten-group main-content-wrap">
     
     
+    <article class="postShorten postShorten--thumbnailimg-bottom">
+        <div class="postShorten-wrap">
+            
+            <div class="postShorten-header">
+                <h1 class="postShorten-title">
+                    
+                        <a class="link-unstyled" href="/2018/10/04/04-from-perceptron-to-max-margin-classifier/">
+                            04 從感知器到 maximum-margin classifier
+                        </a>
+                    
+                </h1>
+                <div class="postShorten-meta">
+    <time datetime="2018-10-04T23:43:46+08:00">
+	
+		    Oct 04, 2018
+    	
+    </time>
+    
+        <span>in </span>
+        
+    <a class="category-link" href="/categories/Machine-Learning/">Machine Learning</a>, <a class="category-link" href="/categories/Machine-Learning/機器學習模型圖書館：從傳統模型到深度學習/">機器學習模型圖書館：從傳統模型到深度學習</a>
+
+
+    
+</div>
+
+            </div>
+            
+                <div class="postShorten-content">
+                    <p>上次我們完成了感知器的介紹，感知器也有他相對應的學習演算法：perceptron learning algorithm (PLA)。</p>
+<p>不過我們今天沒有要講 PLA，我們來講講感知器的缺點。</p>
+<p>感知器這個模型有很多的缺點，但是因為他是最簡單的模型，我們就放他一馬（？）。</p>
+<p>他的缺點有：</p>
+<ol>
+<li>只能處理線性可分（linear-separable）的資料</li>
+<li>只要能分，大家都是好的分類器（黑貓白貓，能抓老鼠的就是好貓？）</li>
+</ol>
+<h2 id="線性可分"><a href="#線性可分" class="headerlink" title="線性可分"></a>線性可分</h2><p>我們一項一項來講，什麼是線性可分（linear-separable）？</p>
+<p><img src="/images/perceptron4.svg" alt=""></p>
+<p>像這樣是線性可分的，可以用一條直線把不同的點分開。</p>
+<p><img src="/images/linear-separable1.svg" alt=""></p>
+<p>像這樣根本找不到一條線可以將點分開的，不是線性可分。</p>
+<p><img src="/images/linear-separable2.svg" alt=""></p>
+<p>差一點點也不行！很尷尬，差一點就可以變成線性可分的了！但是他就不是！</p>
+<p>所以整體說起來，感知器在使用上限制頗大。</p>
+<h2 id="好的分類器？"><a href="#好的分類器？" class="headerlink" title="好的分類器？"></a>好的分類器？</h2><p>接下來，什麼叫作一個好的分類器？</p>
+<p><img src="/images/perceptron4.svg" alt=""></p>
+<p><img src="/images/perceptron5.svg" alt=""></p>
+<p><img src="/images/perceptron6.svg" alt=""></p>
+<p>以上三張圖，大家有沒有認為哪一張分的最好？</p>
+
+                    
+                        
+
+                    
+                    
+                        <p>
+                            <a href="/2018/10/04/04-from-perceptron-to-max-margin-classifier/#post-footer" class="postShorten-excerpt_link link">
+                                Comment and share
+                            </a>
+                        </p>
+                    
+                </div>
+            
+        </div>
+        
+    </article>
+    
+    
     <article class="postShorten postShorten--thumbnailimg-right">
         <div class="postShorten-wrap">
             
@@ -282,7 +351,7 @@
                 <h1 class="postShorten-title">
                     
                         <a class="link-unstyled" href="/2018/10/03/02-linear-regression/">
-                            02-linear-regression
+                            02 線性迴歸 -- 迴歸問題中的線性模型
                         </a>
                     
                 </h1>
@@ -670,52 +739,6 @@
 <p>拓樸也是一樣的，開集（open set）也是一種數學物件，一個拓樸空間中所包含的元素就是開集，那麼就會很自然的想知道他的基底是什麼？</p>
                     
                         <a href="/2018/07/25/10-basis-for-topology/" class="postShorten-excerpt_link link">
-                            Continue reading
-                        </a>
-                        
-                    
-                </div>
-            
-        </div>
-        
-    </article>
-    
-    
-    <article class="postShorten postShorten--thumbnailimg-right">
-        <div class="postShorten-wrap">
-            
-            <div class="postShorten-header">
-                <h1 class="postShorten-title">
-                    
-                        <a class="link-unstyled" href="/2018/07/22/09-topology/">
-                            Topology space and topology
-                        </a>
-                    
-                </h1>
-                <div class="postShorten-meta">
-    <time datetime="2018-07-22T00:32:23+08:00">
-	
-		    Jul 22, 2018
-    	
-    </time>
-    
-        <span>in </span>
-        
-    <a class="category-link" href="/categories/Topology/">Topology</a>
-
-
-    
-</div>
-
-            </div>
-            
-                <div class="postShorten-excerpt">
-                    <p>我們終於來到拓樸學的大門口了！</p>
-<p>（謎：前面走那麼多圈是在幹什麼的！</p>
-<p>拓樸其實是幾何學的拓展，他往更基礎的方向去，當我們在探討幾何學的時候，其實我們研究的是空間關係。</p>
-<p><img src="https://upload.wikimedia.org/wikipedia/commons/8/85/Stereographic_projection_in_3D.png" alt=""></p>
-                    
-                        <a href="/2018/07/22/09-topology/" class="postShorten-excerpt_link link">
                             Continue reading
                         </a>
                         

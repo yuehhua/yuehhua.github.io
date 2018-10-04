@@ -2,16 +2,23 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   
   <url>
-    <loc>https://yuehhua.github.io/2018/10/03/03-from-linear-regression-to-perceptron/</loc>
+    <loc>https://yuehhua.github.io/2018/10/04/04-from-perceptron-to-max-margin-classifier/</loc>
     
-    <lastmod>2018-10-03T15:24:32.123Z</lastmod>
+    <lastmod>2018-10-04T15:43:47.015Z</lastmod>
     
   </url>
   
   <url>
     <loc>https://yuehhua.github.io/2018/10/03/02-linear-regression/</loc>
     
-    <lastmod>2018-10-03T07:31:54.292Z</lastmod>
+    <lastmod>2018-10-04T13:19:48.595Z</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>https://yuehhua.github.io/2018/10/03/03-from-linear-regression-to-perceptron/</loc>
+    
+    <lastmod>2018-10-03T15:24:32.123Z</lastmod>
     
   </url>
   
