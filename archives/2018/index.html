@@ -303,7 +303,7 @@
 <p>接著，如果要把資料點分對，那就表示說，將資料點 $\mathbf{x_i}$ 代入模型中算出來的值會跟真實答案 $y_i$ 在線的同側，也就是正負號是相同的。利用這點，我們發現如果將資料點代入模型中算出來的值 $(\mathbf{w}^T\mathbf{x_i} + b)$ 與真實答案 $y_i$ 相乘的話，必定為正，所以 $y_i (\mathbf{w}^T\mathbf{x_i} + b) \gt 0$。</p>
 <p>整個問題會被進一步變成這樣：</p>
 <p>$$<br>\begin{align}<br>\mathop{\arg\max}_{\mathbf{w}, b} &amp;\ \ \ \<br>    \text{margin}(\mathbf{w}, b) \\<br>\text{subject to} &amp;\ \ \ \<br>    \forall i, y_i (\mathbf{w}^T\mathbf{x_i} + b) \gt 0 \\<br>\text{ } &amp;\ \ \ \<br>    \text{margin}(\mathbf{w}, b) = \mathop{\min}_{i = 1 \dots n} \frac{|\mathbf{w}^T\mathbf{x_i} + b|}{\left\lVert \mathbf{w} \right\rVert}<br>\end{align}<br>$$</p>
-<p>$\frac{y_i (\mathbf{w}^T\mathbf{x_i} + b)}{\left\lVert \mathbf{w} \right\rVert}$ 的絕對值部份不是那麼好處理，我們可以把他替換成 $y_i (\mathbf{w}^T\mathbf{x_i} + b)$，反正他一定恆正。</p>
+<p>$|\mathbf{w}^T\mathbf{x_i} + b|$ 的絕對值部份不是那麼好處理，我們可以把他替換成 $y_i (\mathbf{w}^T\mathbf{x_i} + b)$，反正他一定恆正。</p>
 <p>$$<br>\begin{align}<br>\mathop{\arg\max}_{\mathbf{w}, b} &amp;\ \ \ \<br>    \text{margin}(\mathbf{w}, b) \\<br>\text{subject to} &amp;\ \ \ \<br>    \forall i, y_i (\mathbf{w}^T\mathbf{x_i} + b) \gt 0 \\<br>\text{ } &amp;\ \ \ \<br>    \text{margin}(\mathbf{w}, b) = \mathop{\min}_{i = 1 \dots n} \frac{y_i (\mathbf{w}^T\mathbf{x_i} + b)}{\left\lVert \mathbf{w} \right\rVert}<br>\end{align}<br>$$</p>
 <h2 id="Scalling-trick"><a href="#Scalling-trick" class="headerlink" title="Scalling trick"></a>Scalling trick</h2><p>對於以下的部份，我們可以進一步簡化。</p>
 <p>$$<br>\text{margin}(\mathbf{w}, b) = \mathop{\min}_{i = 1 \dots n} \frac{y_i (\mathbf{w}^T\mathbf{x_i} + b)}{\left\lVert \mathbf{w} \right\rVert}<br>$$</p>
