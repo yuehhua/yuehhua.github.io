@@ -6,7 +6,7 @@
   <link href="/atom.xml" rel="self"/>
   
   <link href="https://yuehhua.github.io/"/>
-  <updated>2018-10-05T14:49:33.730Z</updated>
+  <updated>2018-10-05T15:07:15.057Z</updated>
   <id>https://yuehhua.github.io/</id>
   
   <author>
@@ -15,6 +15,32 @@
   </author>
   
   <generator uri="http://hexo.io/">Hexo</generator>
+  
+  <entry>
+    <title>05 從 maximum-margin classifier 到 kernel SVM</title>
+    <link href="https://yuehhua.github.io/2018/10/05/05-from-max-margin-classifier-to-kernel-svm/"/>
+    <id>https://yuehhua.github.io/2018/10/05/05-from-max-margin-classifier-to-kernel-svm/</id>
+    <published>2018-10-05T15:07:15.000Z</published>
+    <updated>2018-10-05T15:07:15.057Z</updated>
+    
+    <content type="html"><![CDATA[<p>注意：整篇文章極度數學高能！！</p><p>沒有把前一篇文章看完的朋友別擔心，我們會在開頭先回顧一下。在一番數學技巧的替換過後，我們的 maximum-margin classifier 會被化成一個最佳化問題。這個最佳化問題可以用二次規劃（quadratic programming, QP）來解。</p><p>$$<br>\begin{align}<br>\mathop{\arg\min}_{\mathbf{w}, b} &amp;\ \ \ \<br>    \frac{1}{2} \mathbf{w}^T\mathbf{w} \\<br>\text{subject to} &amp;\ \ \ \<br>    \forall i, y_i (\mathbf{w}^T\mathbf{x_i} + b) \ge 1<br>\end{align}<br>$$</p><p>當模型被轉化成一個最佳化問題之後，<del>你還有什麼不滿的？</del> 問題都解決了嗎？</p><p>當然還沒有阿！雖然說我們解決了前面的第二個缺點，但是第一個缺點還是在啊！</p><p>那如果資料不是線性可分的話，是不是支援非線性的分類問題就可以了？</p><h2 id="非線性轉換"><a href="#非線性轉換" class="headerlink" title="非線性轉換"></a>非線性轉換</h2><p>那問題簡單！既然這個分類器只能處理線性問題，那就把所有非線性問題透過一個轉換變成線性問題不就可以了？</p><p>當然用講的比較簡單…</p><p>我們就先假設有個非線性轉換，可以把原本的非線性資料 $\mathbf{x_i}$ 轉成線性資料 $\mathbf{z_i}$：</p><p>$$<br>\mathbf{z_i} = \phi(\mathbf{x_i})<br>$$</p><p>然後再把線性資料塞進模型裡不就得了？</p><p>$$<br>\begin{align}<br>\mathop{\arg\min}_{\mathbf{w}, b} &amp;\ \ \ \<br>    \frac{1}{2} \mathbf{w}^T\mathbf{w} \<br>\text{subject to} &amp;\ \ \ \<br>    \forall i, y_i (\mathbf{w}^T\mathbf{z_i} + b) \ge 1<br>\end{align}<br>$$</p><p>嗯……可是瑞凡，你知道要放到 QP 裏面算之前，要先計算出 $\mathbf{z_i}^T\mathbf{z_j}$。</p><p>計算這所有的組合可是非常花時間（$O(N^2)$）的好嗎！！尤其你的資料點很多的時候，大數據都算不下去了。</p><h2 id="Kernel-method"><a href="#Kernel-method" class="headerlink" title="Kernel method"></a>Kernel method</h2><p>那怎麼辦？</p>]]></content>
+    
+    <summary type="html">
+    
+      
+      
+        &lt;p&gt;注意：整篇文章極度數學高能！！&lt;/p&gt;
+&lt;p&gt;沒有把前一篇文章看完的朋友別擔心，我們會在開頭先回顧一下。在一番數學技巧的替換過後，我們的 maximum-margin classifier 會被化成一個最佳化問題。這個最佳化問題可以用二次規劃（quadratic progr
+      
+    
+    </summary>
+    
+      <category term="Machine Learning" scheme="https://yuehhua.github.io/categories/Machine-Learning/"/>
+    
+      <category term="機器學習模型圖書館：從傳統模型到深度學習" scheme="https://yuehhua.github.io/categories/Machine-Learning/%E6%A9%9F%E5%99%A8%E5%AD%B8%E7%BF%92%E6%A8%A1%E5%9E%8B%E5%9C%96%E6%9B%B8%E9%A4%A8%EF%BC%9A%E5%BE%9E%E5%82%B3%E7%B5%B1%E6%A8%A1%E5%9E%8B%E5%88%B0%E6%B7%B1%E5%BA%A6%E5%AD%B8%E7%BF%92/"/>
+    
+    
+  </entry>
   
   <entry>
     <title>04 從感知器到 maximum-margin classifier</title>
@@ -465,60 +491,6 @@
     </summary>
     
       <category term="Topology" scheme="https://yuehhua.github.io/categories/Topology/"/>
-    
-    
-  </entry>
-  
-  <entry>
-    <title>Reference commands</title>
-    <link href="https://yuehhua.github.io/2018/07/21/04-reference/"/>
-    <id>https://yuehhua.github.io/2018/07/21/04-reference/</id>
-    <published>2018-07-21T14:59:51.000Z</published>
-    <updated>2018-07-26T05:30:47.530Z</updated>
-    
-    <content type="html"><![CDATA[<pre><code>attach    Attach to a running containerbuild     Build an image from a Dockerfilecommit    Create a new image from a container&apos;s changescp        Copy files/folders from the containers filesystem to the host pathdiff      Inspect changes on a container&apos;s filesystemevents    Get real time events from the serverexport    Stream the contents of a container as a tar archivehistory   Show the history of an imageimages    List imagesimport    Create a new filesystem image from the contents of a tarballinfo      Display system-wide informationinspect   Return low-level information on a containerkill      Kill a running containerload      Load an image from a tar archivelogin     Register or Login to the docker registry serverlogs      Fetch the logs of a containerport      Lookup the public-facing port which is NAT-ed to PRIVATE_PORTpause     Pause all processes within a containerps        List containerspull      Pull an image or a repository from the docker registry serverpush      Push an image or a repository to the docker registry serverrestart   Restart a running containerrm        Remove one or more containersrmi       Remove one or more imagesrun       Run a command in a new containersave      Save an image to a tar archivesearch    Search for an image in the docker indexstart     Start a stopped containerstop      Stop a running containertag       Tag an image into a repositorytop       Lookup the running processes of a containerunpause   Unpause a paused containerversion   Show the docker version informationwait      Block until a container stops, then print its exit code</code></pre><h2 id="Docker-Commands-Diagram"><a href="#Docker-Commands-Diagram" class="headerlink" title="Docker Commands Diagram"></a><strong>Docker Commands Diagram</strong></h2><p><img src="https://raw.githubusercontent.com/philipz/docker_practice/master/_images/cmd_logic.png" alt="Docker Commands Diagram"></p><a id="more"></a>]]></content>
-    
-    <summary type="html">
-    
-      &lt;pre&gt;&lt;code&gt;attach    Attach to a running container
-build     Build an image from a Dockerfile
-commit    Create a new image from a container&amp;apos;s changes
-cp        Copy files/folders from the containers filesystem to the host path
-diff      Inspect changes on a container&amp;apos;s filesystem
-events    Get real time events from the server
-export    Stream the contents of a container as a tar archive
-history   Show the history of an image
-images    List images
-import    Create a new filesystem image from the contents of a tarball
-info      Display system-wide information
-inspect   Return low-level information on a container
-kill      Kill a running container
-load      Load an image from a tar archive
-login     Register or Login to the docker registry server
-logs      Fetch the logs of a container
-port      Lookup the public-facing port which is NAT-ed to PRIVATE_PORT
-pause     Pause all processes within a container
-ps        List containers
-pull      Pull an image or a repository from the docker registry server
-push      Push an image or a repository to the docker registry server
-restart   Restart a running container
-rm        Remove one or more containers
-rmi       Remove one or more images
-run       Run a command in a new container
-save      Save an image to a tar archive
-search    Search for an image in the docker index
-start     Start a stopped container
-stop      Stop a running container
-tag       Tag an image into a repository
-top       Lookup the running processes of a container
-unpause   Unpause a paused container
-version   Show the docker version information
-wait      Block until a container stops, then print its exit code
-&lt;/code&gt;&lt;/pre&gt;&lt;h2 id=&quot;Docker-Commands-Diagram&quot;&gt;&lt;a href=&quot;#Docker-Commands-Diagram&quot; class=&quot;headerlink&quot; title=&quot;Docker Commands Diagram&quot;&gt;&lt;/a&gt;&lt;strong&gt;Docker Commands Diagram&lt;/strong&gt;&lt;/h2&gt;&lt;p&gt;&lt;img src=&quot;https://raw.githubusercontent.com/philipz/docker_practice/master/_images/cmd_logic.png&quot; alt=&quot;Docker Commands Diagram&quot;&gt;&lt;/p&gt;
-    
-    </summary>
-    
-      <category term="Docker" scheme="https://yuehhua.github.io/categories/Docker/"/>
     
     
   </entry>

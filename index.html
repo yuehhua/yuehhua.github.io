@@ -236,6 +236,69 @@
             <div class="postShorten-header">
                 <h1 class="postShorten-title">
                     
+                        <a class="link-unstyled" href="/2018/10/05/05-from-max-margin-classifier-to-kernel-svm/">
+                            05 從 maximum-margin classifier 到 kernel SVM
+                        </a>
+                    
+                </h1>
+                <div class="postShorten-meta">
+    <time datetime="2018-10-05T23:07:15+08:00">
+	
+		    Oct 05, 2018
+    	
+    </time>
+    
+        <span>in </span>
+        
+    <a class="category-link" href="/categories/Machine-Learning/">Machine Learning</a>, <a class="category-link" href="/categories/Machine-Learning/機器學習模型圖書館：從傳統模型到深度學習/">機器學習模型圖書館：從傳統模型到深度學習</a>
+
+
+    
+</div>
+
+            </div>
+            
+                <div class="postShorten-content">
+                    <p>注意：整篇文章極度數學高能！！</p>
+<p>沒有把前一篇文章看完的朋友別擔心，我們會在開頭先回顧一下。在一番數學技巧的替換過後，我們的 maximum-margin classifier 會被化成一個最佳化問題。這個最佳化問題可以用二次規劃（quadratic programming, QP）來解。</p>
+<p>$$<br>\begin{align}<br>\mathop{\arg\min}_{\mathbf{w}, b} &amp;\ \ \ \<br>    \frac{1}{2} \mathbf{w}^T\mathbf{w} \\<br>\text{subject to} &amp;\ \ \ \<br>    \forall i, y_i (\mathbf{w}^T\mathbf{x_i} + b) \ge 1<br>\end{align}<br>$$</p>
+<p>當模型被轉化成一個最佳化問題之後，<del>你還有什麼不滿的？</del> 問題都解決了嗎？</p>
+<p>當然還沒有阿！雖然說我們解決了前面的第二個缺點，但是第一個缺點還是在啊！</p>
+<p>那如果資料不是線性可分的話，是不是支援非線性的分類問題就可以了？</p>
+<h2 id="非線性轉換"><a href="#非線性轉換" class="headerlink" title="非線性轉換"></a>非線性轉換</h2><p>那問題簡單！既然這個分類器只能處理線性問題，那就把所有非線性問題透過一個轉換變成線性問題不就可以了？</p>
+<p>當然用講的比較簡單…</p>
+<p>我們就先假設有個非線性轉換，可以把原本的非線性資料 $\mathbf{x_i}$ 轉成線性資料 $\mathbf{z_i}$：</p>
+<p>$$<br>\mathbf{z_i} = \phi(\mathbf{x_i})<br>$$</p>
+<p>然後再把線性資料塞進模型裡不就得了？</p>
+<p>$$<br>\begin{align}<br>\mathop{\arg\min}_{\mathbf{w}, b} &amp;\ \ \ \<br>    \frac{1}{2} \mathbf{w}^T\mathbf{w} \<br>\text{subject to} &amp;\ \ \ \<br>    \forall i, y_i (\mathbf{w}^T\mathbf{z_i} + b) \ge 1<br>\end{align}<br>$$</p>
+<p>嗯……可是瑞凡，你知道要放到 QP 裏面算之前，要先計算出 $\mathbf{z_i}^T\mathbf{z_j}$。</p>
+<p>計算這所有的組合可是非常花時間（$O(N^2)$）的好嗎！！尤其你的資料點很多的時候，大數據都算不下去了。</p>
+<h2 id="Kernel-method"><a href="#Kernel-method" class="headerlink" title="Kernel method"></a>Kernel method</h2><p>那怎麼辦？</p>
+
+                    
+                        
+
+                    
+                    
+                        <p>
+                            <a href="/2018/10/05/05-from-max-margin-classifier-to-kernel-svm/#post-footer" class="postShorten-excerpt_link link">
+                                Comment and share
+                            </a>
+                        </p>
+                    
+                </div>
+            
+        </div>
+        
+    </article>
+    
+    
+    <article class="postShorten postShorten--thumbnailimg-bottom">
+        <div class="postShorten-wrap">
+            
+            <div class="postShorten-header">
+                <h1 class="postShorten-title">
+                    
                         <a class="link-unstyled" href="/2018/10/04/04-from-perceptron-to-max-margin-classifier/">
                             04 從感知器到 maximum-margin classifier
                         </a>
@@ -729,52 +792,6 @@
 <p>我們可以知道一個矩陣可以被看成線性轉換，而矩陣這個線性轉換可以被分解成 3 個矩陣：</p>
                     
                         <a href="/2018/07/27/activation-function/" class="postShorten-excerpt_link link">
-                            Continue reading
-                        </a>
-                        
-                    
-                </div>
-            
-        </div>
-        
-    </article>
-    
-    
-    <article class="postShorten postShorten--thumbnailimg-right">
-        <div class="postShorten-wrap">
-            
-            <div class="postShorten-header">
-                <h1 class="postShorten-title">
-                    
-                        <a class="link-unstyled" href="/2018/07/25/10-basis-for-topology/">
-                            Basis for topology
-                        </a>
-                    
-                </h1>
-                <div class="postShorten-meta">
-    <time datetime="2018-07-25T23:57:56+08:00">
-	
-		    Jul 25, 2018
-    	
-    </time>
-    
-        <span>in </span>
-        
-    <a class="category-link" href="/categories/Topology/">Topology</a>
-
-
-    
-</div>
-
-            </div>
-            
-                <div class="postShorten-excerpt">
-                    <p>上一篇介紹完基本的拓樸結構，接下來我們來看基底（basis）的部份。</p>
-<p>有上過線性代數的朋友們應該會知道，向量如果滿足線性獨立可以 span 到整個空間，而一個空間有他們的基底。</p>
-<p>你可以把向量看成一種數學物件，空間的話就是很多這種數學物件的集合，那相對基底的話就是要擴展成整個空間的基本元素。</p>
-<p>拓樸也是一樣的，開集（open set）也是一種數學物件，一個拓樸空間中所包含的元素就是開集，那麼就會很自然的想知道他的基底是什麼？</p>
-                    
-                        <a href="/2018/07/25/10-basis-for-topology/" class="postShorten-excerpt_link link">
                             Continue reading
                         </a>
                         
