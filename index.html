@@ -264,6 +264,17 @@
 <h2 id="Hard-margin-SVM"><a href="#Hard-margin-SVM" class="headerlink" title="Hard-margin SVM"></a>Hard-margin SVM</h2><p><img src="/images/linear-separable2.svg" alt=""></p>
 <p>從這張圖來看，我們或許可以接受這樣的線其實還不錯，只是資料多了一點雜訊。如果讓模型硬要把所有資料點都分對的話，邊界就會非常複雜，就會變成 overfitting。</p>
 <p>我們是不是有什麼辦法去修正這個模型呢？</p>
+<p>我們原本的模型是：</p>
+<p>$$<br>\begin{align}<br>\mathop{\arg\min}_{\mathbf{w}, b} &amp;\ \ \ \<br>    \frac{1}{2} \mathbf{w}^T\mathbf{w} \\<br>\text{subject to} &amp;\ \ \ \<br>    \forall i, y_i (\mathbf{w}^T\mathbf{x_i} + b) \ge 1<br>\end{align}<br>$$</p>
+<p>我們可以藉由在最佳化目標上加上一些 regularization $\sum _{n=1}^N [y_n \ne sign(\mathbf{w}^T\mathbf{z_n} + b) ]$。</p>
+<p>$$<br>\begin{align}<br>\mathop{\arg\min}_{\mathbf{w}, b} &amp;\ \ \ \<br>    \frac{1}{2} \mathbf{w}^T\mathbf{w} + C \sum _{n=1}^N [y_n \ne sign(\mathbf{w}^T\mathbf{z_n} + b) ] \\<br>\text{subject to} &amp;\ \ \ \<br>    …<br>\end{align}<br>$$</p>
+<p>這樣的 regularization 項我們可以仿照之前的方法，把他改成 $\sum _{n=1}^N y_n (\mathbf{w}^T\mathbf{z_n} + b)$。</p>
+<p>如果考慮 $y_n (\mathbf{w}^T\mathbf{z_n} + b)$，如果答對的話，他會是大於等於 1 的值，相反，如果答錯的話………..，我們只能確定他是負值，沒辦法確定他的範圍。</p>
+<p><img src="/images/" alt=""></p>
+<p>這樣的話，我們 直接引入一個值 $\xi$ 來代表 $y_n (\mathbf{w}^T\mathbf{z_n} + b)$ 到底有多大程度答錯了。</p>
+<p>$$<br>\begin{align}<br>\mathop{\arg\min}_{\mathbf{w}, b, \mathbf{\xi}} &amp;\ \ \ \<br>    \frac{1}{2} \mathbf{w}^T\mathbf{w} + C \sum _{n=1}^N \xi_n \\<br>\text{subject to} &amp;\ \ \ \<br>    \forall i, y_i (\mathbf{w}^T\mathbf{x_i} + b) \ge 1 - \xi_n \\<br>\text{ } &amp;\ \ \ \<br>    \forall n, \xi_n \ge 0<br>\end{align}<br>$$</p>
+<p>所以在最佳化目標上有 regularization，然後放寬一下限制，讓 $y_i (\mathbf{w}^T\mathbf{x_i} + b)$ 的值可以有個容忍度 $1 - \xi_n$。</p>
+<p>也就是，我們可以在 margin 儘量大的情形下，去限制讓模型不能做錯太多，這個程度可以藉由 C 做調整。</p>
 
                     
                         
