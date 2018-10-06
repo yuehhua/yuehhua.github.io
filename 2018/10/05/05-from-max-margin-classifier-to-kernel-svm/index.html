@@ -15,7 +15,7 @@
     
         <link rel="alternate" type="application/atom+xml" title="RSS" href="/atom.xml">
     
-    <script type="application/ld+json">{"@context":"http://schema.org","@type":"BlogPosting","author":{"@type":"Person","name":"Yueh-Hua Tu","sameAs":["https://github.com/yuehhua/","https://www.facebook.com/a504082002","https://www.linkedin.com/in/%E5%B2%B3%E8%8F%AF-%E6%9D%9C-6a3995a0/","mailto:a504082002@gmail.com"],"image":"https://www.gravatar.com/avatar/a565749fba4782b717234da670b273fd"},"articleBody":"注意：整篇文章極度數學高能！！\n沒有把前一篇文章看完的朋友別擔心，我們會在開頭先回顧一下。在一番數學技巧的替換過後，我們的 maximum-margin classifier 會被化成一個最佳化問題。這個最佳化問題可以用二次規劃（quadratic programming, QP）來解。\n$$\\begin{align}\\mathop{\\arg\\min}_{\\mathbf{w}, b} &amp;\\ \\ \\ \\    \\frac{1}{2} \\mathbf{w}^T\\mathbf{w} \\\\\\text{subject to} &amp;\\ \\ \\ \\    \\forall i, y_i (\\mathbf{w}^T\\mathbf{x_i} + b) \\ge 1\\end{align}$$\n當模型被轉化成一個最佳化問題之後，你還有什麼不滿的？ 問題都解決了嗎？\n當然還沒有阿！雖然說我們解決了前面的第二個缺點，但是第一個缺點還是在啊！\n那如果資料不是線性可分的話，是不是支援非線性的分類問題就可以了？\n非線性轉換那問題簡單！既然這個分類器只能處理線性問題，那就把所有非線性問題透過一個轉換變成線性問題不就可以了？\n當然用講的比較簡單…\n我們就先假設有個非線性轉換，可以把原本的非線性資料 $\\mathbf{x_i}$ 轉成線性資料 $\\mathbf{z_i}$：\n$$\\mathbf{z_i} = \\phi(\\mathbf{x_i})$$\n然後再把線性資料塞進模型裡不就得了？\n$$\\begin{align}\\mathop{\\arg\\min}_{\\mathbf{w}, b} &amp;\\ \\ \\ \\    \\frac{1}{2} \\mathbf{w}^T\\mathbf{w} \\\\text{subject to} &amp;\\ \\ \\ \\    \\forall i, y_i (\\mathbf{w}^T\\mathbf{z_i} + b) \\ge 1\\end{align}$$\n嗯……可是瑞凡，你知道要放到 QP 裏面算之前，要先計算出 $\\mathbf{z_i}^T\\mathbf{z_j}$。\n計算這所有的組合可是非常花時間（$O(N^2)$）的好嗎！！尤其你的資料點很多的時候，大數據都算不下去了。\nKernel method那怎麼辦？\n","dateCreated":"2018-10-05T23:07:15+08:00","dateModified":"2018-10-05T23:07:15+08:00","datePublished":"2018-10-05T23:07:15+08:00","description":"","headline":"05 從 maximum-margin classifier 到 kernel SVM","image":[],"mainEntityOfPage":{"@type":"WebPage","@id":"https://yuehhua.github.io/2018/10/05/05-from-max-margin-classifier-to-kernel-svm/"},"publisher":{"@type":"Organization","name":"Yueh-Hua Tu","sameAs":["https://github.com/yuehhua/","https://www.facebook.com/a504082002","https://www.linkedin.com/in/%E5%B2%B3%E8%8F%AF-%E6%9D%9C-6a3995a0/","mailto:a504082002@gmail.com"],"image":"https://www.gravatar.com/avatar/a565749fba4782b717234da670b273fd","logo":{"@type":"ImageObject","url":"https://www.gravatar.com/avatar/a565749fba4782b717234da670b273fd"}},"url":"https://yuehhua.github.io/2018/10/05/05-from-max-margin-classifier-to-kernel-svm/"}</script>
+    <script type="application/ld+json">{"@context":"http://schema.org","@type":"BlogPosting","author":{"@type":"Person","name":"Yueh-Hua Tu","sameAs":["https://github.com/yuehhua/","https://www.facebook.com/a504082002","https://www.linkedin.com/in/%E5%B2%B3%E8%8F%AF-%E6%9D%9C-6a3995a0/","mailto:a504082002@gmail.com"],"image":"https://www.gravatar.com/avatar/a565749fba4782b717234da670b273fd"},"articleBody":"注意：整篇文章極度數學高能！！\n沒有把前一篇文章看完的朋友別擔心，我們會在開頭先回顧一下。在一番數學技巧的替換過後，我們的 maximum-margin classifier 會被化成一個最佳化問題。這個最佳化問題可以用二次規劃（quadratic programming, QP）來解。\n$$\\begin{align}\\mathop{\\arg\\min}_{\\mathbf{w}, b} &amp;\\ \\ \\ \\    \\frac{1}{2} \\mathbf{w}^T\\mathbf{w} \\\\\\text{subject to} &amp;\\ \\ \\ \\    \\forall i, y_i (\\mathbf{w}^T\\mathbf{x_i} + b) \\ge 1\\end{align}$$\n當模型被轉化成一個最佳化問題之後，你還有什麼不滿的？ 問題都解決了嗎？\n當然還沒有阿！雖然說我們解決了前面的第二個缺點，但是第一個缺點還是在啊！\n那如果資料不是線性可分的話，是不是支援非線性的分類問題就可以了？\n非線性轉換那問題簡單！既然這個分類器只能處理線性問題，那就把所有非線性問題透過一個轉換變成線性問題不就可以了？\n當然用講的比較簡單…\n我們就先假設有個非線性轉換，可以把原本的非線性資料 $\\mathbf{x_i}$ 轉成線性資料 $\\mathbf{z_i}$：\n$$\\mathbf{z_i} = \\phi(\\mathbf{x_i})$$\n然後再把線性資料塞進模型裡不就得了？\n$$\\begin{align}\\mathop{\\arg\\min}_{\\mathbf{w}, b} &amp;\\ \\ \\ \\    \\frac{1}{2} \\mathbf{w}^T\\mathbf{w} \\\\text{subject to} &amp;\\ \\ \\ \\    \\forall i, y_i (\\mathbf{w}^T\\mathbf{z_i} + b) \\ge 1\\end{align}$$\n嗯……可是瑞凡，你知道要放到 QP 裏面算之前，要先計算出 $[\\mathbf{z_i}^T\\mathbf{z_j}]$，也就是把資料經過一個非線性轉換過後，還需要將每個資料向量兩兩之間內積，得到一整個矩陣才行。\n計算這所有的組合可是非常花時間（$O(N^2)$）的好嗎！！尤其你的資料點很多的時候，大數據都算不下去了。\nKernel method我們先來看一下比較簡單的非線性轉換好了，假設是二次多項式的轉換。\n我們想像中的二次多項式應該是 $\\phi_2(x) = (1, x, x^2)$，這邊有三項，可是廣義的二次多項式會有：\n$$\\mathbf{z} = \\phi_2(\\mathbf{x}) = (1, x_1, x_2, \\dots, x_d, \\    x_1^2, x_1x_2, \\dots, x_1x_d, \\    x_2x_1, x_2^2, \\dots, x_2x_d, \\    \\dots, x_d^2)$$\n有一個常數項、d 個一次項跟 $d + \\frac{1}{2} d(d+1)$ 個二次項，如果這個向量內積的話，乘法的時間複雜度就有 $O(d^2)$ 了。\n然後再讓 $\\mathbf{z_i}$ 跟 $\\mathbf{z_j}$ 兩兩內積，利用內積的交換性扣掉一些不用算的，好歹也需要算 $N + \\frac{1}{2} N(N+1)$ 次內積，是 $O(N^2)$。\n總共應該會有 $O(d^2N^2)$。\n\n註：d 為資料維度，N 為資料筆數\n\n有沒有什麼方法可以降低這個時間呢？\n我們把內積的部份拿出來看看。\n$$\\phi_2(\\mathbf{x})^T\\phi_2(\\mathbf{x’}) = 1 + \\sum_{i=1}^{d} x_ix_i’ + \\sum_{i=1}^{d} \\sum_{j=1}^{d} x_ix_jx_i’x_j’$$\n咦！是不是可以進一步整理成這樣。\n$$\\phi_2(\\mathbf{x})^T\\phi_2(\\mathbf{x’}) = 1 + \\sum_{i=1}^{d} x_ix_i’ + \\sum_{i=1}^{d} x_ix_i’ \\sum_{j=1}^{d} x_jx_j’ \\\\= 1 + \\mathbf{x}^T\\mathbf{x’} + (\\mathbf{x}^T\\mathbf{x’})(\\mathbf{x}^T\\mathbf{x’}) \\\\= 1 + \\mathbf{x}^T\\mathbf{x’} + (\\mathbf{x}^T\\mathbf{x’})^2$$\n這樣的話需要多少時間複雜度呢？掐指一算，$\\mathbf{x}^T\\mathbf{x’}$ 需要 $O(d)$，$\\phi_2(\\mathbf{x})^T\\phi_2(\\mathbf{x’})$ 總共需要 $O(d) + 1$！\n大大降低了！！\n所以我們就把這樣的方法稱為 kernel method，並且定義 $K_\\phi(\\mathbf{x}, \\mathbf{x’}) = \\phi(\\mathbf{x})^T\\phi(\\mathbf{x’})$。\n不過大家常用的是比較廣義的版本：\n$$K_2(\\mathbf{x}, \\mathbf{x’}) = 1 + 2 \\mathbf{x}^T\\mathbf{x’} + (\\mathbf{x}^T\\mathbf{x’})^2 = (1 + \\mathbf{x}^T\\mathbf{x’})^2$$\n然後使用者通常會想要細緻控制 kernel 的強度，所以會引入一個參數：\n$$K_2(\\mathbf{x}, \\mathbf{x’}) = 1 + 2 \\gamma \\mathbf{x}^T\\mathbf{x’} + \\gamma^2 (\\mathbf{x}^T\\mathbf{x’})^2 = (1 + \\gamma \\mathbf{x}^T\\mathbf{x’})^2$$\n我們來看一下用起來的效果如何？\n\n\npicture from coursera, 《機器學習技法》 - 林軒田\n\n無限維度 kernel既然可以有二次的那是不是到 M 次都可以？那有沒有無限次的呢？\n有！\n他長成這樣：\n$$K(x, x’) = exp(-(x - x’)^2)$$\n嗯？你不要騙我！你以為擺到次方項就可以變成無限維度？\n那就來證明一下啦-~~\n$$= exp(-x^2 + 2xx’ - x’^2) \\\\= exp(-x^2) exp(-x’^2) exp(2xx’) \\\\= exp(-x^2) exp(-x’^2) (\\sum_{i=0}^{\\infty} \\frac{(2xx’)^i}{i})\\text{ (Taylor expansion)}$$\n透過泰勒展開式展開之後我們就看到無限維度的影子了，再進一步簡化。\n$$= \\sum_{i=0}^{\\infty} \\big ( exp(-x^2) exp(-x’^2) \\frac{2^i}{i} x^i x’^i) \\big ) \\\\= \\sum_{i=0}^{\\infty} \\big ( exp(-x^2) exp(-x’^2) \\frac{\\sqrt{2^i}}{i} \\frac{\\sqrt{2^i}}{i} x^i x’^i) \\big ) \\\\= \\sum_{i=0}^{\\infty} \\big ( \\frac{\\sqrt{2^i}}{i} x^i exp(-x^2) \\big ) \\sum_{i=0}^{\\infty} \\big ( \\frac{\\sqrt{2^i}}{i} x’^i exp(-x’^2)) \\big ) \\\\= \\phi(x)^T\\phi(x’)$$\n我們的無限維度非線性轉換就完成啦！\n$$\\phi(x) = exp(-x^2) \\cdot \\big ( 1, \\frac{\\sqrt{2}}{1} x, \\frac{\\sqrt{2^2}}{2} x^2, \\dots, \\big )$$\n所以這種 kernel 叫作 Gaussian kernel，使用上也是有個參數可以調整強度。\n$$K(\\mathbf{x}, \\mathbf{x’}) = exp(- \\gamma \\left\\lVert \\mathbf{x} - \\mathbf{x’} \\right\\rVert ^2), \\gamma \\gt 0$$\n在現在的支持向量機（Support vector machine, SVM）預設是會使用 Gaussian kernel 的，這就是這個模型強大的祕密！\n","dateCreated":"2018-10-05T23:07:15+08:00","dateModified":"2018-10-06T13:33:26+08:00","datePublished":"2018-10-05T23:07:15+08:00","description":"","headline":"05 從 maximum-margin classifier 到 kernel SVM","image":[],"mainEntityOfPage":{"@type":"WebPage","@id":"https://yuehhua.github.io/2018/10/05/05-from-max-margin-classifier-to-kernel-svm/"},"publisher":{"@type":"Organization","name":"Yueh-Hua Tu","sameAs":["https://github.com/yuehhua/","https://www.facebook.com/a504082002","https://www.linkedin.com/in/%E5%B2%B3%E8%8F%AF-%E6%9D%9C-6a3995a0/","mailto:a504082002@gmail.com"],"image":"https://www.gravatar.com/avatar/a565749fba4782b717234da670b273fd","logo":{"@type":"ImageObject","url":"https://www.gravatar.com/avatar/a565749fba4782b717234da670b273fd"}},"url":"https://yuehhua.github.io/2018/10/05/05-from-max-margin-classifier-to-kernel-svm/"}</script>
     <meta name="description" content="注意：整篇文章極度數學高能！！ 沒有把前一篇文章看完的朋友別擔心，我們會在開頭先回顧一下。在一番數學技巧的替換過後，我們的 maximum-margin classifier 會被化成一個最佳化問題。這個最佳化問題可以用二次規劃（quadratic programming, QP）來解。 $$\begin{align}\mathop{\arg\min}_{\mathbf{w}, b} &amp;amp;\">
 <meta name="keywords" content="machine learning,deep learning,topology">
 <meta property="og:type" content="blog">
@@ -24,10 +24,12 @@
 <meta property="og:site_name" content="Dream Maker">
 <meta property="og:description" content="注意：整篇文章極度數學高能！！ 沒有把前一篇文章看完的朋友別擔心，我們會在開頭先回顧一下。在一番數學技巧的替換過後，我們的 maximum-margin classifier 會被化成一個最佳化問題。這個最佳化問題可以用二次規劃（quadratic programming, QP）來解。 $$\begin{align}\mathop{\arg\min}_{\mathbf{w}, b} &amp;amp;\">
 <meta property="og:locale" content="en">
-<meta property="og:updated_time" content="2018-10-05T15:07:15.057Z">
+<meta property="og:image" content="https://yuehhua.github.io/images/poly2_kernel.svg">
+<meta property="og:updated_time" content="2018-10-06T05:33:26.454Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="05 從 maximum-margin classifier 到 kernel SVM">
 <meta name="twitter:description" content="注意：整篇文章極度數學高能！！ 沒有把前一篇文章看完的朋友別擔心，我們會在開頭先回顧一下。在一番數學技巧的替換過後，我們的 maximum-margin classifier 會被化成一個最佳化問題。這個最佳化問題可以用二次規劃（quadratic programming, QP）來解。 $$\begin{align}\mathop{\arg\min}_{\mathbf{w}, b} &amp;amp;\">
+<meta name="twitter:image" content="https://yuehhua.github.io/images/poly2_kernel.svg">
     
     
         
@@ -275,9 +277,48 @@
 <p>$$<br>\mathbf{z_i} = \phi(\mathbf{x_i})<br>$$</p>
 <p>然後再把線性資料塞進模型裡不就得了？</p>
 <p>$$<br>\begin{align}<br>\mathop{\arg\min}_{\mathbf{w}, b} &amp;\ \ \ \<br>    \frac{1}{2} \mathbf{w}^T\mathbf{w} \<br>\text{subject to} &amp;\ \ \ \<br>    \forall i, y_i (\mathbf{w}^T\mathbf{z_i} + b) \ge 1<br>\end{align}<br>$$</p>
-<p>嗯……可是瑞凡，你知道要放到 QP 裏面算之前，要先計算出 $\mathbf{z_i}^T\mathbf{z_j}$。</p>
+<p>嗯……可是瑞凡，你知道要放到 QP 裏面算之前，要先計算出 $[\mathbf{z_i}^T\mathbf{z_j}]$，也就是把資料經過一個非線性轉換過後，還需要將每個資料向量兩兩之間內積，得到一整個矩陣才行。</p>
 <p>計算這所有的組合可是非常花時間（$O(N^2)$）的好嗎！！尤其你的資料點很多的時候，大數據都算不下去了。</p>
-<h2 id="Kernel-method"><a href="#Kernel-method" class="headerlink" title="Kernel method"></a>Kernel method</h2><p>那怎麼辦？</p>
+<h2 id="Kernel-method"><a href="#Kernel-method" class="headerlink" title="Kernel method"></a>Kernel method</h2><p>我們先來看一下比較簡單的非線性轉換好了，假設是二次多項式的轉換。</p>
+<p>我們想像中的二次多項式應該是 $\phi_2(x) = (1, x, x^2)$，這邊有三項，可是廣義的二次多項式會有：</p>
+<p>$$<br>\mathbf{z} = \phi_2(\mathbf{x}) = (1, x_1, x_2, \dots, x_d, \<br>    x_1^2, x_1x_2, \dots, x_1x_d, \<br>    x_2x_1, x_2^2, \dots, x_2x_d, \<br>    \dots, x_d^2)<br>$$</p>
+<p>有一個常數項、d 個一次項跟 $d + \frac{1}{2} d(d+1)$ 個二次項，如果這個向量內積的話，乘法的時間複雜度就有 $O(d^2)$ 了。</p>
+<p>然後再讓 $\mathbf{z_i}$ 跟 $\mathbf{z_j}$ 兩兩內積，利用內積的交換性扣掉一些不用算的，好歹也需要算 $N + \frac{1}{2} N(N+1)$ 次內積，是 $O(N^2)$。</p>
+<p>總共應該會有 $O(d^2N^2)$。</p>
+<blockquote>
+<p>註：d 為資料維度，N 為資料筆數</p>
+</blockquote>
+<p>有沒有什麼方法可以降低這個時間呢？</p>
+<p>我們把內積的部份拿出來看看。</p>
+<p>$$<br>\phi_2(\mathbf{x})^T\phi_2(\mathbf{x’}) = 1 + \sum_{i=1}^{d} x_ix_i’ + \sum_{i=1}^{d} \sum_{j=1}^{d} x_ix_jx_i’x_j’<br>$$</p>
+<p>咦！是不是可以進一步整理成這樣。</p>
+<p>$$<br>\phi_2(\mathbf{x})^T\phi_2(\mathbf{x’}) = 1 + \sum_{i=1}^{d} x_ix_i’ + \sum_{i=1}^{d} x_ix_i’ \sum_{j=1}^{d} x_jx_j’ \\<br>= 1 + \mathbf{x}^T\mathbf{x’} + (\mathbf{x}^T\mathbf{x’})(\mathbf{x}^T\mathbf{x’}) \\<br>= 1 + \mathbf{x}^T\mathbf{x’} + (\mathbf{x}^T\mathbf{x’})^2<br>$$</p>
+<p>這樣的話需要多少時間複雜度呢？掐指一算，$\mathbf{x}^T\mathbf{x’}$ 需要 $O(d)$，$\phi_2(\mathbf{x})^T\phi_2(\mathbf{x’})$ 總共需要 $O(d) + 1$！</p>
+<p>大大降低了！！</p>
+<p>所以我們就把這樣的方法稱為 kernel method，並且定義 $K_\phi(\mathbf{x}, \mathbf{x’}) = \phi(\mathbf{x})^T\phi(\mathbf{x’})$。</p>
+<p>不過大家常用的是比較廣義的版本：</p>
+<p>$$<br>K_2(\mathbf{x}, \mathbf{x’}) = 1 + 2 \mathbf{x}^T\mathbf{x’} + (\mathbf{x}^T\mathbf{x’})^2 = (1 + \mathbf{x}^T\mathbf{x’})^2<br>$$</p>
+<p>然後使用者通常會想要細緻控制 kernel 的強度，所以會引入一個參數：</p>
+<p>$$<br>K_2(\mathbf{x}, \mathbf{x’}) = 1 + 2 \gamma \mathbf{x}^T\mathbf{x’} + \gamma^2 (\mathbf{x}^T\mathbf{x’})^2 = (1 + \gamma \mathbf{x}^T\mathbf{x’})^2<br>$$</p>
+<p>我們來看一下用起來的效果如何？</p>
+<p><img src="/images/poly2_kernel.svg" alt=""></p>
+<blockquote>
+<p>picture from coursera, 《機器學習技法》 - 林軒田</p>
+</blockquote>
+<h2 id="無限維度-kernel"><a href="#無限維度-kernel" class="headerlink" title="無限維度 kernel"></a>無限維度 kernel</h2><p>既然可以有二次的那是不是到 M 次都可以？那有沒有無限次的呢？</p>
+<p>有！</p>
+<p>他長成這樣：</p>
+<p>$$<br>K(x, x’) = exp(-(x - x’)^2)<br>$$</p>
+<p>嗯？你不要騙我！你以為擺到次方項就可以變成無限維度？</p>
+<p>那就來證明一下啦-~~</p>
+<p>$$<br>= exp(-x^2 + 2xx’ - x’^2) \\<br>= exp(-x^2) exp(-x’^2) exp(2xx’) \\<br>= exp(-x^2) exp(-x’^2) (\sum_{i=0}^{\infty} \frac{(2xx’)^i}{i})\text{ (Taylor expansion)}<br>$$</p>
+<p>透過泰勒展開式展開之後我們就看到無限維度的影子了，再進一步簡化。</p>
+<p>$$<br>= \sum_{i=0}^{\infty} \big ( exp(-x^2) exp(-x’^2) \frac{2^i}{i} x^i x’^i) \big ) \\<br>= \sum_{i=0}^{\infty} \big ( exp(-x^2) exp(-x’^2) \frac{\sqrt{2^i}}{i} \frac{\sqrt{2^i}}{i} x^i x’^i) \big ) \\<br>= \sum_{i=0}^{\infty} \big ( \frac{\sqrt{2^i}}{i} x^i exp(-x^2) \big ) \sum_{i=0}^{\infty} \big ( \frac{\sqrt{2^i}}{i} x’^i exp(-x’^2)) \big ) \\<br>= \phi(x)^T\phi(x’)<br>$$</p>
+<p>我們的無限維度非線性轉換就完成啦！</p>
+<p>$$<br>\phi(x) = exp(-x^2) \cdot \big ( 1, \frac{\sqrt{2}}{1} x, \frac{\sqrt{2^2}}{2} x^2, \dots, \big )<br>$$</p>
+<p>所以這種 kernel 叫作 Gaussian kernel，使用上也是有個參數可以調整強度。</p>
+<p>$$<br>K(\mathbf{x}, \mathbf{x’}) = exp(- \gamma \left\lVert \mathbf{x} - \mathbf{x’} \right\rVert ^2), \gamma \gt 0<br>$$</p>
+<p>在現在的支持向量機（Support vector machine, SVM）預設是會使用 Gaussian kernel 的，這就是這個模型強大的祕密！</p>
 
                                         
 
