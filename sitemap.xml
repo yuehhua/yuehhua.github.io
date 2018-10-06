@@ -2,6 +2,13 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   
   <url>
+    <loc>https://yuehhua.github.io/2018/10/06/06-from-hard-margin-svm-to-soft-margin-svm/</loc>
+    
+    <lastmod>2018-10-06T13:10:06.555Z</lastmod>
+    
+  </url>
+  
+  <url>
     <loc>https://yuehhua.github.io/2018/10/05/05-from-max-margin-classifier-to-kernel-svm/</loc>
     
     <lastmod>2018-10-06T05:33:26.454Z</lastmod>
