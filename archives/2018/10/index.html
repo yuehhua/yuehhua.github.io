@@ -237,6 +237,72 @@
             <div class="postShorten-header">
                 <h1 class="postShorten-title">
                     
+                        <a class="link-unstyled" href="/2018/10/07/07-standard-svm/">
+                            07 標準 SVM
+                        </a>
+                    
+                </h1>
+                <div class="postShorten-meta">
+    <time datetime="2018-10-07T17:20:54+08:00">
+	
+		    Oct 07, 2018
+    	
+    </time>
+    
+        <span>in </span>
+        
+    <a class="category-link" href="/categories/Machine-Learning/">Machine Learning</a>, <a class="category-link" href="/categories/Machine-Learning/機器學習模型圖書館：從傳統模型到深度學習/">機器學習模型圖書館：從傳統模型到深度學習</a>
+
+
+    
+</div>
+
+            </div>
+            
+                <div class="postShorten-content">
+                    <p>雖然標題是說”標準” SVM，不過模型這種東西從來就沒有什麼標準，有的不過是變體。</p>
+<p>所以這篇是要跟大家總結一下我們一般在用的 SVM 模型的預設值是長什麼樣子。</p>
+<p>我們前面從 maximum-margin classifier 出發，尋找最大 margin 的分類器。</p>
+<p>接著，為了解決非線性跟計算效能問題，引進了 kernel trick。</p>
+<p>最後，為了避免 overfitting，我們放寬了 margin 成為 soft-margin。</p>
+<p>這些都是標準 SVM 的預設配備。</p>
+<p>當然還有為了解決計算效能問題，使用了 Lagrange multiplier，由於背後的數學太過煩雜就不介紹了。</p>
+<p>簡單來說，Lagrange multiplier 的使用，讓原本的問題（primal problem）可以有另外的對偶問題（dual problem）。</p>
+<p>我們只要解了對偶問題，我們就可以解掉原本的問題，雖然有時候會碰到一些限制。</p>
+<p>原本問題的陳述是這樣的：</p>
+<p>$$<br>\begin{align}<br>\mathop{\arg\min}_{\mathbf{w}, b, \boldsymbol{\xi}} &amp;\ \ \ \<br>    \frac{1}{2} \mathbf{w}^T\mathbf{w} + C \sum _{n=1}^N \xi_n \\<br>\text{subject to} &amp;\ \ \ \<br>    \forall i, y_i (\mathbf{w}^T\mathbf{x_i} + b) \ge 1 - \xi_n \\<br>\text{ } &amp;\ \ \ \<br>    \forall n, \xi_n \ge 0<br>\end{align}<br>$$</p>
+<p>轉變成對偶問題然後簡化後的陳述是這樣的：</p>
+<p>$$<br>\begin{align}<br>\mathop{\arg\min}_{\boldsymbol{\alpha}} &amp;\ \ \ \<br>    \frac{1}{2} \sum _{n=1}^{N} \sum _{m=1}^{N} \alpha_n \alpha_m y_n y_m \mathbf{z_n}^T\mathbf{z_m} - \sum _{n=1}^N \alpha_n \\<br>\text{subject to} &amp;\ \ \ \<br>    \sum_{n=1}^{N} \alpha_n y_n = 0, 0 \le \alpha_n \le C \\<br>\text{ } &amp;\ \ \ \<br>    \mathbf{w} = \sum_{n=1}^{N} \alpha_n y_n \mathbf{z_n}<br>\end{align}<br>$$</p>
+<p>不要問我怎麼來的，你一問我就要開始另一篇數學了，你會怕。</p>
+<p>解完上面的問題，我們可以得到一些資訊，我們可以從 $\alpha_n$ 的數值範圍來得知一個資料點他是不是 support vector。</p>
+<p>只要他的值在 $0 &lt; \alpha_n &lt; C$ 這個範圍，他就是 support vector。</p>
+<p>我們最後在形成整個 SVM 模型的時候其實只需要這些 support vector 就可以了。</p>
+<p>$$<br>SVM(\mathbf{x}) = sign(\sum_{SV} \alpha_n y_n K(\mathbf{x_n}, \mathbf{x}) + b)<br>$$</p>
+
+                    
+                        
+
+                    
+                    
+                        <p>
+                            <a href="/2018/10/07/07-standard-svm/#post-footer" class="postShorten-excerpt_link link">
+                                Comment and share
+                            </a>
+                        </p>
+                    
+                </div>
+            
+        </div>
+        
+    </article>
+    
+    
+    <article class="postShorten postShorten--thumbnailimg-bottom">
+        <div class="postShorten-wrap">
+            
+            <div class="postShorten-header">
+                <h1 class="postShorten-title">
+                    
                         <a class="link-unstyled" href="/2018/10/06/06-from-hard-margin-svm-to-soft-margin-svm/">
                             06 從 hard-margin SVM 到 soft-margin SVM
                         </a>
