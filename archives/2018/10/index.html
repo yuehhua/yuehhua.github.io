@@ -237,6 +237,71 @@
             <div class="postShorten-header">
                 <h1 class="postShorten-title">
                     
+                        <a class="link-unstyled" href="/2018/10/08/08-l2-regularized-linear-model/">
+                            08 l2-regularized 線性模型
+                        </a>
+                    
+                </h1>
+                <div class="postShorten-meta">
+    <time datetime="2018-10-08T23:06:37+08:00">
+	
+		    Oct 08, 2018
+    	
+    </time>
+    
+        <span>in </span>
+        
+    <a class="category-link" href="/categories/Machine-Learning/">Machine Learning</a>, <a class="category-link" href="/categories/Machine-Learning/機器學習模型圖書館：從傳統模型到深度學習/">機器學習模型圖書館：從傳統模型到深度學習</a>
+
+
+    
+</div>
+
+            </div>
+            
+                <div class="postShorten-content">
+                    <p>我們來回顧一下 SVM 模型。</p>
+<p>$$<br>\begin{align}<br>\mathop{\arg\min}_{\mathbf{w}, b, \boldsymbol{\xi}} &amp;\ \ \ \<br>    \frac{1}{2} \mathbf{w}^T\mathbf{w} + C \sum _{n=1}^N \xi_n \\<br>\text{subject to} &amp;\ \ \ \<br>    \forall i, y_i (\mathbf{w}^T\mathbf{x_i} + b) \ge 1 - \xi_n \\<br>\text{ } &amp;\ \ \ \<br>    \forall n, \xi_n \ge 0<br>\end{align}<br>$$</p>
+<p>他可以被進一步轉成</p>
+<p>$$<br>\begin{align}<br>\mathop{\arg\min}_{\mathbf{w}, b} &amp;\ \ \ \<br>    \frac{1}{2} \mathbf{w}^T\mathbf{w} + C \sum _{n=1}^N max(1 - y_i (\mathbf{w}^T\mathbf{x_i} + b), 0) \\<br>\end{align}<br>$$</p>
+<p>在 SVM 的陳述當中，有沒有發現 $\frac{1}{2} \mathbf{w}^T\mathbf{w}$ 這部份看起來跟 $l_2$ regularization 一樣。後半部份是跟誤差有關。</p>
+<p>如果分類分對的話，$y_i (\mathbf{w}^T\mathbf{x_i} + b)$ 就會是大於等於 1，這樣的話後面整項計算起來就會是 0。</p>
+<p>如果分類分對但是離線太近的話，$y_i (\mathbf{w}^T\mathbf{x_i} + b)$ 就會是小於 1，這樣後面整項會是一個小於 1 的值，代表離線太近了，算是些微的誤差。</p>
+<p>如果分類都分錯，$y_i (\mathbf{w}^T\mathbf{x_i} + b)$ 根本就是負值，後面整項會是一個大於 1 的值，代表離線太遠了，算是很大的誤差。</p>
+<h2 id="Hinge-error"><a href="#Hinge-error" class="headerlink" title="Hinge error"></a>Hinge error</h2><p>這樣的誤差計算方式稱為 hinge error，也就是：</p>
+<p>$$<br>E(y, \hat{y}) = max(1 - y\hat{y}, 0)<br>$$</p>
+<h2 id="l-2-regularized-linear-model"><a href="#l-2-regularized-linear-model" class="headerlink" title="$l_2$ -regularized linear model"></a>$l_2$ -regularized linear model</h2><p>所以我們根本可以把模型看成是一個 $l_2$ -regularized 的線性模型。</p>
+<p>$$<br>\mathop{\arg\min}_{\mathbf{w}, b} \frac{1}{2} \mathbf{w}^T\mathbf{w} + C \sum _{n=1}^N E(y, \hat{y})<br>$$</p>
+<p>不懂 regulariztion 的朋友請左轉 <a href="https://ithelp.ithome.com.tw/articles/10186405" target="_blank" rel="noopener">我之前寫過的鐵人文章</a>。</p>
+<p>基本上，你想把誤差函數換成其他的東西都可以，像是變成 kernel $l_2$ -regularized linear regression (kernel ridge regression)。</p>
+<p>$$<br>y = \mathbf{w}^T\phi(\mathbf{x}) + b \\<br>E(y, \hat{y}) = \frac{1}{N} (y - \hat{y})^2 \\<br>\mathop{\arg\min}_{\mathbf{w}, b} \frac{1}{2} \mathbf{w}^T\mathbf{w} + C \sum _{n=1}^N E(y, \hat{y})<br>$$</p>
+<p>或是你想要 kernel $l_2$ -regularized logistic regression。</p>
+<p>$$<br>y = \mathbf{w}^T\phi(\mathbf{x}) + b \\<br>E(y, \hat{y}) = \frac{1}{N} log(1 + exp(-y\hat{y})) \\<br>\mathop{\arg\min}_{\mathbf{w}, b} \frac{1}{2} \mathbf{w}^T\mathbf{w} + C \sum _{n=1}^N E(y, \hat{y})<br>$$</p>
+
+                    
+                        
+
+                    
+                    
+                        <p>
+                            <a href="/2018/10/08/08-l2-regularized-linear-model/#post-footer" class="postShorten-excerpt_link link">
+                                Comment and share
+                            </a>
+                        </p>
+                    
+                </div>
+            
+        </div>
+        
+    </article>
+    
+    
+    <article class="postShorten postShorten--thumbnailimg-bottom">
+        <div class="postShorten-wrap">
+            
+            <div class="postShorten-header">
+                <h1 class="postShorten-title">
+                    
                         <a class="link-unstyled" href="/2018/10/07/07-standard-svm/">
                             07 標準 SVM
                         </a>

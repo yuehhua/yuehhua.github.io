@@ -6,7 +6,7 @@
     <!-- hexo-inject:begin --><!-- hexo-inject:end --><meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="generator" content="Dream Maker">
-    <title>07 標準 SVM - Dream Maker</title>
+    <title>08 l2-regularized 線性模型 - Dream Maker</title>
     <meta name="author" content="Yueh-Hua Tu">
     
         <meta name="keywords" content="machine learning,deep learning,topology,">
@@ -15,19 +15,19 @@
     
         <link rel="alternate" type="application/atom+xml" title="RSS" href="/atom.xml">
     
-    <script type="application/ld+json">{"@context":"http://schema.org","@type":"BlogPosting","author":{"@type":"Person","name":"Yueh-Hua Tu","sameAs":["https://github.com/yuehhua/","https://www.facebook.com/a504082002","https://www.linkedin.com/in/%E5%B2%B3%E8%8F%AF-%E6%9D%9C-6a3995a0/","mailto:a504082002@gmail.com"],"image":"https://www.gravatar.com/avatar/a565749fba4782b717234da670b273fd"},"articleBody":"雖然標題是說”標準” SVM，不過模型這種東西從來就沒有什麼標準，有的不過是變體。\n所以這篇是要跟大家總結一下我們一般在用的 SVM 模型的預設值是長什麼樣子。\n我們前面從 maximum-margin classifier 出發，尋找最大 margin 的分類器。\n接著，為了解決非線性跟計算效能問題，引進了 kernel trick。\n最後，為了避免 overfitting，我們放寬了 margin 成為 soft-margin。\n這些都是標準 SVM 的預設配備。\n當然還有為了解決計算效能問題，使用了 Lagrange multiplier，由於背後的數學太過煩雜就不介紹了。\n簡單來說，Lagrange multiplier 的使用，讓原本的問題（primal problem）可以有另外的對偶問題（dual problem）。\n我們只要解了對偶問題，我們就可以解掉原本的問題，雖然有時候會碰到一些限制。\n原本問題的陳述是這樣的：\n$$\\begin{align}\\mathop{\\arg\\min}_{\\mathbf{w}, b, \\boldsymbol{\\xi}} &amp;\\ \\ \\ \\    \\frac{1}{2} \\mathbf{w}^T\\mathbf{w} + C \\sum _{n=1}^N \\xi_n \\\\\\text{subject to} &amp;\\ \\ \\ \\    \\forall i, y_i (\\mathbf{w}^T\\mathbf{x_i} + b) \\ge 1 - \\xi_n \\\\\\text{ } &amp;\\ \\ \\ \\    \\forall n, \\xi_n \\ge 0\\end{align}$$\n轉變成對偶問題然後簡化後的陳述是這樣的：\n$$\\begin{align}\\mathop{\\arg\\min}_{\\boldsymbol{\\alpha}} &amp;\\ \\ \\ \\    \\frac{1}{2} \\sum _{n=1}^{N} \\sum _{m=1}^{N} \\alpha_n \\alpha_m y_n y_m \\mathbf{z_n}^T\\mathbf{z_m} - \\sum _{n=1}^N \\alpha_n \\\\\\text{subject to} &amp;\\ \\ \\ \\    \\sum_{n=1}^{N} \\alpha_n y_n = 0, 0 \\le \\alpha_n \\le C \\\\\\text{ } &amp;\\ \\ \\ \\    \\mathbf{w} = \\sum_{n=1}^{N} \\alpha_n y_n \\mathbf{z_n}\\end{align}$$\n不要問我怎麼來的，你一問我就要開始另一篇數學了，你會怕。\n解完上面的問題，我們可以得到一些資訊，我們可以從 $\\alpha_n$ 的數值範圍來得知一個資料點他是不是 support vector。\n只要他的值在 $0 &lt; \\alpha_n &lt; C$ 這個範圍，他就是 support vector。\n我們最後在形成整個 SVM 模型的時候其實只需要這些 support vector 就可以了。\n$$SVM(\\mathbf{x}) = sign(\\sum_{SV} \\alpha_n y_n K(\\mathbf{x_n}, \\mathbf{x}) + b)$$\n","dateCreated":"2018-10-07T17:20:54+08:00","dateModified":"2018-10-07T17:20:54+08:00","datePublished":"2018-10-07T17:20:54+08:00","description":"","headline":"07 標準 SVM","image":[],"mainEntityOfPage":{"@type":"WebPage","@id":"https://yuehhua.github.io/2018/10/07/07-standard-svm/"},"publisher":{"@type":"Organization","name":"Yueh-Hua Tu","sameAs":["https://github.com/yuehhua/","https://www.facebook.com/a504082002","https://www.linkedin.com/in/%E5%B2%B3%E8%8F%AF-%E6%9D%9C-6a3995a0/","mailto:a504082002@gmail.com"],"image":"https://www.gravatar.com/avatar/a565749fba4782b717234da670b273fd","logo":{"@type":"ImageObject","url":"https://www.gravatar.com/avatar/a565749fba4782b717234da670b273fd"}},"url":"https://yuehhua.github.io/2018/10/07/07-standard-svm/"}</script>
-    <meta name="description" content="雖然標題是說”標準” SVM，不過模型這種東西從來就沒有什麼標準，有的不過是變體。 所以這篇是要跟大家總結一下我們一般在用的 SVM 模型的預設值是長什麼樣子。 我們前面從 maximum-margin classifier 出發，尋找最大 margin 的分類器。 接著，為了解決非線性跟計算效能問題，引進了 kernel trick。 最後，為了避免 overfitting，我們放寬了 marg">
+    <script type="application/ld+json">{"@context":"http://schema.org","@type":"BlogPosting","author":{"@type":"Person","name":"Yueh-Hua Tu","sameAs":["https://github.com/yuehhua/","https://www.facebook.com/a504082002","https://www.linkedin.com/in/%E5%B2%B3%E8%8F%AF-%E6%9D%9C-6a3995a0/","mailto:a504082002@gmail.com"],"image":"https://www.gravatar.com/avatar/a565749fba4782b717234da670b273fd"},"articleBody":"我們來回顧一下 SVM 模型。\n$$\\begin{align}\\mathop{\\arg\\min}_{\\mathbf{w}, b, \\boldsymbol{\\xi}} &amp;\\ \\ \\ \\    \\frac{1}{2} \\mathbf{w}^T\\mathbf{w} + C \\sum _{n=1}^N \\xi_n \\\\\\text{subject to} &amp;\\ \\ \\ \\    \\forall i, y_i (\\mathbf{w}^T\\mathbf{x_i} + b) \\ge 1 - \\xi_n \\\\\\text{ } &amp;\\ \\ \\ \\    \\forall n, \\xi_n \\ge 0\\end{align}$$\n他可以被進一步轉成\n$$\\begin{align}\\mathop{\\arg\\min}_{\\mathbf{w}, b} &amp;\\ \\ \\ \\    \\frac{1}{2} \\mathbf{w}^T\\mathbf{w} + C \\sum _{n=1}^N max(1 - y_i (\\mathbf{w}^T\\mathbf{x_i} + b), 0) \\\\\\end{align}$$\n在 SVM 的陳述當中，有沒有發現 $\\frac{1}{2} \\mathbf{w}^T\\mathbf{w}$ 這部份看起來跟 $l_2$ regularization 一樣。後半部份是跟誤差有關。\n如果分類分對的話，$y_i (\\mathbf{w}^T\\mathbf{x_i} + b)$ 就會是大於等於 1，這樣的話後面整項計算起來就會是 0。\n如果分類分對但是離線太近的話，$y_i (\\mathbf{w}^T\\mathbf{x_i} + b)$ 就會是小於 1，這樣後面整項會是一個小於 1 的值，代表離線太近了，算是些微的誤差。\n如果分類都分錯，$y_i (\\mathbf{w}^T\\mathbf{x_i} + b)$ 根本就是負值，後面整項會是一個大於 1 的值，代表離線太遠了，算是很大的誤差。\nHinge error這樣的誤差計算方式稱為 hinge error，也就是：\n$$E(y, \\hat{y}) = max(1 - y\\hat{y}, 0)$$\n$l_2$ -regularized linear model所以我們根本可以把模型看成是一個 $l_2$ -regularized 的線性模型。\n$$\\mathop{\\arg\\min}_{\\mathbf{w}, b} \\frac{1}{2} \\mathbf{w}^T\\mathbf{w} + C \\sum _{n=1}^N E(y, \\hat{y})$$\n不懂 regulariztion 的朋友請左轉 我之前寫過的鐵人文章。\n基本上，你想把誤差函數換成其他的東西都可以，像是變成 kernel $l_2$ -regularized linear regression (kernel ridge regression)。\n$$y = \\mathbf{w}^T\\phi(\\mathbf{x}) + b \\\\E(y, \\hat{y}) = \\frac{1}{N} (y - \\hat{y})^2 \\\\\\mathop{\\arg\\min}_{\\mathbf{w}, b} \\frac{1}{2} \\mathbf{w}^T\\mathbf{w} + C \\sum _{n=1}^N E(y, \\hat{y})$$\n或是你想要 kernel $l_2$ -regularized logistic regression。\n$$y = \\mathbf{w}^T\\phi(\\mathbf{x}) + b \\\\E(y, \\hat{y}) = \\frac{1}{N} log(1 + exp(-y\\hat{y})) \\\\\\mathop{\\arg\\min}_{\\mathbf{w}, b} \\frac{1}{2} \\mathbf{w}^T\\mathbf{w} + C \\sum _{n=1}^N E(y, \\hat{y})$$\n","dateCreated":"2018-10-08T23:06:37+08:00","dateModified":"2018-10-08T23:06:37+08:00","datePublished":"2018-10-08T23:06:37+08:00","description":"","headline":"08 l2-regularized 線性模型","image":[],"mainEntityOfPage":{"@type":"WebPage","@id":"https://yuehhua.github.io/2018/10/08/08-l2-regularized-linear-model/"},"publisher":{"@type":"Organization","name":"Yueh-Hua Tu","sameAs":["https://github.com/yuehhua/","https://www.facebook.com/a504082002","https://www.linkedin.com/in/%E5%B2%B3%E8%8F%AF-%E6%9D%9C-6a3995a0/","mailto:a504082002@gmail.com"],"image":"https://www.gravatar.com/avatar/a565749fba4782b717234da670b273fd","logo":{"@type":"ImageObject","url":"https://www.gravatar.com/avatar/a565749fba4782b717234da670b273fd"}},"url":"https://yuehhua.github.io/2018/10/08/08-l2-regularized-linear-model/"}</script>
+    <meta name="description" content="我們來回顧一下 SVM 模型。 $$\begin{align}\mathop{\arg\min}_{\mathbf{w}, b, \boldsymbol{\xi}} &amp;amp;\ \ \ \    \frac{1}{2} \mathbf{w}^T\mathbf{w} + C \sum _{n=1}^N \xi_n \\\text{subject to} &amp;amp;\ \ \ \    \foral">
 <meta name="keywords" content="machine learning,deep learning,topology">
 <meta property="og:type" content="blog">
-<meta property="og:title" content="07 標準 SVM">
-<meta property="og:url" content="https://yuehhua.github.io/2018/10/07/07-standard-svm/index.html">
+<meta property="og:title" content="08 l2-regularized 線性模型">
+<meta property="og:url" content="https://yuehhua.github.io/2018/10/08/08-l2-regularized-linear-model/index.html">
 <meta property="og:site_name" content="Dream Maker">
-<meta property="og:description" content="雖然標題是說”標準” SVM，不過模型這種東西從來就沒有什麼標準，有的不過是變體。 所以這篇是要跟大家總結一下我們一般在用的 SVM 模型的預設值是長什麼樣子。 我們前面從 maximum-margin classifier 出發，尋找最大 margin 的分類器。 接著，為了解決非線性跟計算效能問題，引進了 kernel trick。 最後，為了避免 overfitting，我們放寬了 marg">
+<meta property="og:description" content="我們來回顧一下 SVM 模型。 $$\begin{align}\mathop{\arg\min}_{\mathbf{w}, b, \boldsymbol{\xi}} &amp;amp;\ \ \ \    \frac{1}{2} \mathbf{w}^T\mathbf{w} + C \sum _{n=1}^N \xi_n \\\text{subject to} &amp;amp;\ \ \ \    \foral">
 <meta property="og:locale" content="en">
-<meta property="og:updated_time" content="2018-10-07T09:20:54.334Z">
+<meta property="og:updated_time" content="2018-10-08T15:06:37.574Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="07 標準 SVM">
-<meta name="twitter:description" content="雖然標題是說”標準” SVM，不過模型這種東西從來就沒有什麼標準，有的不過是變體。 所以這篇是要跟大家總結一下我們一般在用的 SVM 模型的預設值是長什麼樣子。 我們前面從 maximum-margin classifier 出發，尋找最大 margin 的分類器。 接著，為了解決非線性跟計算效能問題，引進了 kernel trick。 最後，為了避免 overfitting，我們放寬了 marg">
+<meta name="twitter:title" content="08 l2-regularized 線性模型">
+<meta name="twitter:description" content="我們來回顧一下 SVM 模型。 $$\begin{align}\mathop{\arg\min}_{\mathbf{w}, b, \boldsymbol{\xi}} &amp;amp;\ \ \ \    \frac{1}{2} \mathbf{w}^T\mathbf{w} + C \sum _{n=1}^N \xi_n \\\text{subject to} &amp;amp;\ \ \ \    \foral">
     
     
         
@@ -238,14 +238,14 @@
                     <div class="post-header main-content-wrap text-left">
     
         <h1 class="post-title">
-            07 標準 SVM
+            08 l2-regularized 線性模型
         </h1>
     
     
         <div class="post-meta">
-    <time datetime="2018-10-07T17:20:54+08:00">
+    <time datetime="2018-10-08T23:06:37+08:00">
 	
-		    Oct 07, 2018
+		    Oct 08, 2018
     	
     </time>
     
@@ -263,24 +263,23 @@
                         
                             <div class="post-content markdown">
                                 <div class="main-content-wrap">
-                                    <p>雖然標題是說”標準” SVM，不過模型這種東西從來就沒有什麼標準，有的不過是變體。</p>
-<p>所以這篇是要跟大家總結一下我們一般在用的 SVM 模型的預設值是長什麼樣子。</p>
-<p>我們前面從 maximum-margin classifier 出發，尋找最大 margin 的分類器。</p>
-<p>接著，為了解決非線性跟計算效能問題，引進了 kernel trick。</p>
-<p>最後，為了避免 overfitting，我們放寬了 margin 成為 soft-margin。</p>
-<p>這些都是標準 SVM 的預設配備。</p>
-<p>當然還有為了解決計算效能問題，使用了 Lagrange multiplier，由於背後的數學太過煩雜就不介紹了。</p>
-<p>簡單來說，Lagrange multiplier 的使用，讓原本的問題（primal problem）可以有另外的對偶問題（dual problem）。</p>
-<p>我們只要解了對偶問題，我們就可以解掉原本的問題，雖然有時候會碰到一些限制。</p>
-<p>原本問題的陳述是這樣的：</p>
+                                    <p>我們來回顧一下 SVM 模型。</p>
 <p>$$<br>\begin{align}<br>\mathop{\arg\min}_{\mathbf{w}, b, \boldsymbol{\xi}} &amp;\ \ \ \<br>    \frac{1}{2} \mathbf{w}^T\mathbf{w} + C \sum _{n=1}^N \xi_n \\<br>\text{subject to} &amp;\ \ \ \<br>    \forall i, y_i (\mathbf{w}^T\mathbf{x_i} + b) \ge 1 - \xi_n \\<br>\text{ } &amp;\ \ \ \<br>    \forall n, \xi_n \ge 0<br>\end{align}<br>$$</p>
-<p>轉變成對偶問題然後簡化後的陳述是這樣的：</p>
-<p>$$<br>\begin{align}<br>\mathop{\arg\min}_{\boldsymbol{\alpha}} &amp;\ \ \ \<br>    \frac{1}{2} \sum _{n=1}^{N} \sum _{m=1}^{N} \alpha_n \alpha_m y_n y_m \mathbf{z_n}^T\mathbf{z_m} - \sum _{n=1}^N \alpha_n \\<br>\text{subject to} &amp;\ \ \ \<br>    \sum_{n=1}^{N} \alpha_n y_n = 0, 0 \le \alpha_n \le C \\<br>\text{ } &amp;\ \ \ \<br>    \mathbf{w} = \sum_{n=1}^{N} \alpha_n y_n \mathbf{z_n}<br>\end{align}<br>$$</p>
-<p>不要問我怎麼來的，你一問我就要開始另一篇數學了，你會怕。</p>
-<p>解完上面的問題，我們可以得到一些資訊，我們可以從 $\alpha_n$ 的數值範圍來得知一個資料點他是不是 support vector。</p>
-<p>只要他的值在 $0 &lt; \alpha_n &lt; C$ 這個範圍，他就是 support vector。</p>
-<p>我們最後在形成整個 SVM 模型的時候其實只需要這些 support vector 就可以了。</p>
-<p>$$<br>SVM(\mathbf{x}) = sign(\sum_{SV} \alpha_n y_n K(\mathbf{x_n}, \mathbf{x}) + b)<br>$$</p>
+<p>他可以被進一步轉成</p>
+<p>$$<br>\begin{align}<br>\mathop{\arg\min}_{\mathbf{w}, b} &amp;\ \ \ \<br>    \frac{1}{2} \mathbf{w}^T\mathbf{w} + C \sum _{n=1}^N max(1 - y_i (\mathbf{w}^T\mathbf{x_i} + b), 0) \\<br>\end{align}<br>$$</p>
+<p>在 SVM 的陳述當中，有沒有發現 $\frac{1}{2} \mathbf{w}^T\mathbf{w}$ 這部份看起來跟 $l_2$ regularization 一樣。後半部份是跟誤差有關。</p>
+<p>如果分類分對的話，$y_i (\mathbf{w}^T\mathbf{x_i} + b)$ 就會是大於等於 1，這樣的話後面整項計算起來就會是 0。</p>
+<p>如果分類分對但是離線太近的話，$y_i (\mathbf{w}^T\mathbf{x_i} + b)$ 就會是小於 1，這樣後面整項會是一個小於 1 的值，代表離線太近了，算是些微的誤差。</p>
+<p>如果分類都分錯，$y_i (\mathbf{w}^T\mathbf{x_i} + b)$ 根本就是負值，後面整項會是一個大於 1 的值，代表離線太遠了，算是很大的誤差。</p>
+<h2 id="Hinge-error"><a href="#Hinge-error" class="headerlink" title="Hinge error"></a>Hinge error</h2><p>這樣的誤差計算方式稱為 hinge error，也就是：</p>
+<p>$$<br>E(y, \hat{y}) = max(1 - y\hat{y}, 0)<br>$$</p>
+<h2 id="l-2-regularized-linear-model"><a href="#l-2-regularized-linear-model" class="headerlink" title="$l_2$ -regularized linear model"></a>$l_2$ -regularized linear model</h2><p>所以我們根本可以把模型看成是一個 $l_2$ -regularized 的線性模型。</p>
+<p>$$<br>\mathop{\arg\min}_{\mathbf{w}, b} \frac{1}{2} \mathbf{w}^T\mathbf{w} + C \sum _{n=1}^N E(y, \hat{y})<br>$$</p>
+<p>不懂 regulariztion 的朋友請左轉 <a href="https://ithelp.ithome.com.tw/articles/10186405" target="_blank" rel="noopener">我之前寫過的鐵人文章</a>。</p>
+<p>基本上，你想把誤差函數換成其他的東西都可以，像是變成 kernel $l_2$ -regularized linear regression (kernel ridge regression)。</p>
+<p>$$<br>y = \mathbf{w}^T\phi(\mathbf{x}) + b \\<br>E(y, \hat{y}) = \frac{1}{N} (y - \hat{y})^2 \\<br>\mathop{\arg\min}_{\mathbf{w}, b} \frac{1}{2} \mathbf{w}^T\mathbf{w} + C \sum _{n=1}^N E(y, \hat{y})<br>$$</p>
+<p>或是你想要 kernel $l_2$ -regularized logistic regression。</p>
+<p>$$<br>y = \mathbf{w}^T\phi(\mathbf{x}) + b \\<br>E(y, \hat{y}) = \frac{1}{N} log(1 + exp(-y\hat{y})) \\<br>\mathop{\arg\min}_{\mathbf{w}, b} \frac{1}{2} \mathbf{w}^T\mathbf{w} + C \sum _{n=1}^N E(y, \hat{y})<br>$$</p>
 
                                         
 
@@ -294,8 +293,7 @@
         <ul class="post-actions post-action-nav">
             <li class="post-action">
                 
-                    
-                    <a class="post-action-btn btn btn--default tooltip--top" href="/2018/10/08/08-l2-regularized-linear-model/" data-tooltip="08 l2-regularized 線性模型" aria-label="PREVIOUS: 08 l2-regularized 線性模型">
+                    <a class="post-action-btn btn btn--disabled">
                 
                     <i class="fa fa-angle-left" aria-hidden="true"></i>
                     <span class="hide-xs hide-sm text-small icon-ml">PREVIOUS</span>
@@ -304,7 +302,7 @@
             <li class="post-action">
                 
                     
-                    <a class="post-action-btn btn btn--default tooltip--top" href="/2018/10/06/06-from-hard-margin-svm-to-soft-margin-svm/" data-tooltip="06 從 hard-margin SVM 到 soft-margin SVM" aria-label="NEXT: 06 從 hard-margin SVM 到 soft-margin SVM">
+                    <a class="post-action-btn btn btn--default tooltip--top" href="/2018/10/07/07-standard-svm/" data-tooltip="07 標準 SVM" aria-label="NEXT: 07 標準 SVM">
                 
                     <span class="hide-xs hide-sm text-small icon-mr">NEXT</span>
                     <i class="fa fa-angle-right" aria-hidden="true"></i>
@@ -322,7 +320,7 @@
             
             
             <li class="post-action hide-xs">
-                <a class="post-action-btn btn btn--default" target="new" href="https://www.facebook.com/sharer/sharer.php?u=https://yuehhua.github.io/2018/10/07/07-standard-svm/" title="Share on Facebook">
+                <a class="post-action-btn btn btn--default" target="new" href="https://www.facebook.com/sharer/sharer.php?u=https://yuehhua.github.io/2018/10/08/08-l2-regularized-linear-model/" title="Share on Facebook">
                     <i class="fa fa-facebook-official" aria-hidden="true"></i>
                 </a>
             </li>
@@ -380,8 +378,7 @@
         <ul class="post-actions post-action-nav">
             <li class="post-action">
                 
-                    
-                    <a class="post-action-btn btn btn--default tooltip--top" href="/2018/10/08/08-l2-regularized-linear-model/" data-tooltip="08 l2-regularized 線性模型" aria-label="PREVIOUS: 08 l2-regularized 線性模型">
+                    <a class="post-action-btn btn btn--disabled">
                 
                     <i class="fa fa-angle-left" aria-hidden="true"></i>
                     <span class="hide-xs hide-sm text-small icon-ml">PREVIOUS</span>
@@ -390,7 +387,7 @@
             <li class="post-action">
                 
                     
-                    <a class="post-action-btn btn btn--default tooltip--top" href="/2018/10/06/06-from-hard-margin-svm-to-soft-margin-svm/" data-tooltip="06 從 hard-margin SVM 到 soft-margin SVM" aria-label="NEXT: 06 從 hard-margin SVM 到 soft-margin SVM">
+                    <a class="post-action-btn btn btn--default tooltip--top" href="/2018/10/07/07-standard-svm/" data-tooltip="07 標準 SVM" aria-label="NEXT: 07 標準 SVM">
                 
                     <span class="hide-xs hide-sm text-small icon-mr">NEXT</span>
                     <i class="fa fa-angle-right" aria-hidden="true"></i>
@@ -408,7 +405,7 @@
             
             
             <li class="post-action hide-xs">
-                <a class="post-action-btn btn btn--default" target="new" href="https://www.facebook.com/sharer/sharer.php?u=https://yuehhua.github.io/2018/10/07/07-standard-svm/" title="Share on Facebook">
+                <a class="post-action-btn btn btn--default" target="new" href="https://www.facebook.com/sharer/sharer.php?u=https://yuehhua.github.io/2018/10/08/08-l2-regularized-linear-model/" title="Share on Facebook">
                     <i class="fa fa-facebook-official" aria-hidden="true"></i>
                 </a>
             </li>
@@ -441,7 +438,7 @@
             
             
             <li class="share-option">
-                <a class="share-option-btn" target="new" href="https://www.facebook.com/sharer/sharer.php?u=https://yuehhua.github.io/2018/10/07/07-standard-svm/">
+                <a class="share-option-btn" target="new" href="https://www.facebook.com/sharer/sharer.php?u=https://yuehhua.github.io/2018/10/08/08-l2-regularized-linear-model/">
                     <i class="fa fa-facebook-official" aria-hidden="true"></i><span>Share on Facebook</span>
                 </a>
             </li>
@@ -493,9 +490,9 @@
     
         <script>
              var disqus_config = function () {
-                 this.page.url = 'https://yuehhua.github.io/2018/10/07/07-standard-svm/';
+                 this.page.url = 'https://yuehhua.github.io/2018/10/08/08-l2-regularized-linear-model/';
                  
-                    this.page.identifier = '2018/10/07/07-standard-svm/';
+                    this.page.identifier = '2018/10/08/08-l2-regularized-linear-model/';
                  
              };
             (function() {
