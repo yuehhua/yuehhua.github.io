@@ -6,7 +6,7 @@
   <link href="/atom.xml" rel="self"/>
   
   <link href="https://yuehhua.github.io/"/>
-  <updated>2018-10-08T15:06:37.574Z</updated>
+  <updated>2018-10-09T14:59:32.914Z</updated>
   <id>https://yuehhua.github.io/</id>
   
   <author>
@@ -17,13 +17,40 @@
   <generator uri="http://hexo.io/">Hexo</generator>
   
   <entry>
+    <title>09 從線性迴歸到羅吉斯迴歸</title>
+    <link href="https://yuehhua.github.io/2018/10/09/09-from-linear-regression-to-logistic-regression/"/>
+    <id>https://yuehhua.github.io/2018/10/09/09-from-linear-regression-to-logistic-regression/</id>
+    <published>2018-10-09T14:59:32.000Z</published>
+    <updated>2018-10-09T14:59:32.914Z</updated>
+    
+    <content type="html"><![CDATA[<p>我們從前面的模型演化可以了解一個機器學習模型可以怎麼樣衍生出其他的變體來解決問題。</p><p>現在我們要切換到另外一條跑道上，我們一樣是從線性迴歸模型出發，我們或許可以換成其他的不同的分佈。</p><h2 id="常態分佈"><a href="#常態分佈" class="headerlink" title="常態分佈"></a>常態分佈</h2><p>其實我們在前面的文章中有提到我們的線性迴歸模型假設了誤差是會呈現一個常態分佈。</p><p>對於誤差的假設這件事情其實很大程度影響了我們模型的長相，也會影響這個模型所適用的資料。</p><p>像是線性迴歸模型適用的是連續型變數的資料，更進一步來說，他是要求他的應變量（y）要是連續型的，看起來是這樣的。</p><p>$$<br>\mathbb{E}[y] = \mathbb{E}[Normal(Y=y; \mu, \sigma)] = \mu = \mathbf{w}^T\mathbf{x} + b<br>$$</p><p>$Normal(Y=y; \mu, \sigma)$：代表常態分佈，以 $\mu$ 為平均數，$\sigma$ 為標準差，輸入是應變量（y），輸出是機率。</p><p>事實上，當你把你的一些 feature 輸入這個模型後，預測出來的是應變量的期望值或是平均數（$\mathbb{E}[y]$）。</p><p>如果我們要預測的應變量是二元的類別資料，那也就是把問題轉換成分類問題，我們就需要用不同的分佈。</p><h2 id="白努力分佈與二項式分佈"><a href="#白努力分佈與二項式分佈" class="headerlink" title="白努力分佈與二項式分佈"></a>白努力分佈與二項式分佈</h2><p>當我們的資料是分成兩類：0, 1，那麼他會對應到白努力分佈（Bernoulli distribution）。</p><p>當你蒐集了一群二元分類的資料，那麼就會對應到二項式分佈（Binomial distribution）。</p><p>如果你要預測的是一筆二元分類的資料，你應該要假設你的應變量（y）是白努力分佈。</p><p>$$<br>\mathbb{E}[y] = \mathbb{E}[Ber(Y=y; p)] = \mu = \mathbf{w}^T\mathbf{x} + b<br>$$</p><p>$Ber(Y=y; p)$：代表白努力分佈，以 p 為成功機率，輸入是應變量（y），輸出是機率。</p><h2 id="羅吉斯迴歸"><a href="#羅吉斯迴歸" class="headerlink" title="羅吉斯迴歸"></a>羅吉斯迴歸</h2><p>羅吉斯迴歸的模型是以下這個樣子：</p><p>$$<br>y = \sigma(\mathbf{w}^T\mathbf{x} + b)<br>$$</p><p>其中的 $\sigma$ 是 sigmoid function，由這個函數輸出的就是成功機率了：</p><p>$$<br>p = \sigma(s) = \frac{1}{1 + e^{-s}}<br>$$</p><p>那這跟我們前面提的分佈看起來都不太一樣阿！我們來反推一下，其實我們前面提到的分佈應該是 sigmoid function 的反函數：</p><p>$$<br>\sigma^{-1}(y） = \mathbf{w}^T\mathbf{x} + b<br>$$</p><p>我們來推導一下：</p><p>$$<br>p = \frac{1}{1 + e^{-s}}<br>$$</p><p>$$<br>(1 + e^{-s})p = 1<br>$$</p><p>$$<br>p + e^{-s}p = 1<br>$$</p><p>$$<br>e^{-s} = \frac{1 - p}{p}<br>$$</p><p>$$<br>-s = ln \frac{1 - p}{p}<br>$$</p><p>$$<br>s = ln \frac{p}{1 - p} = ln(p) - ln (1 - p)<br>$$</p><p>有發現嗎？他其實是</p><p>$$<br>s = - ln(p^{-1} (1 - p)^{1})<br>$$</p>]]></content>
+    
+    <summary type="html">
+    
+      
+      
+        &lt;p&gt;我們從前面的模型演化可以了解一個機器學習模型可以怎麼樣衍生出其他的變體來解決問題。&lt;/p&gt;
+&lt;p&gt;現在我們要切換到另外一條跑道上，我們一樣是從線性迴歸模型出發，我們或許可以換成其他的不同的分佈。&lt;/p&gt;
+&lt;h2 id=&quot;常態分佈&quot;&gt;&lt;a href=&quot;#常態分佈&quot; class
+      
+    
+    </summary>
+    
+      <category term="Machine Learning" scheme="https://yuehhua.github.io/categories/Machine-Learning/"/>
+    
+      <category term="機器學習模型圖書館：從傳統模型到深度學習" scheme="https://yuehhua.github.io/categories/Machine-Learning/%E6%A9%9F%E5%99%A8%E5%AD%B8%E7%BF%92%E6%A8%A1%E5%9E%8B%E5%9C%96%E6%9B%B8%E9%A4%A8%EF%BC%9A%E5%BE%9E%E5%82%B3%E7%B5%B1%E6%A8%A1%E5%9E%8B%E5%88%B0%E6%B7%B1%E5%BA%A6%E5%AD%B8%E7%BF%92/"/>
+    
+    
+  </entry>
+  
+  <entry>
     <title>08 l2-regularized 線性模型</title>
     <link href="https://yuehhua.github.io/2018/10/08/08-l2-regularized-linear-model/"/>
     <id>https://yuehhua.github.io/2018/10/08/08-l2-regularized-linear-model/</id>
     <published>2018-10-08T15:06:37.000Z</published>
-    <updated>2018-10-08T15:06:37.574Z</updated>
+    <updated>2018-10-09T07:09:26.561Z</updated>
     
-    <content type="html"><![CDATA[<p>我們來回顧一下 SVM 模型。</p><p>$$<br>\begin{align}<br>\mathop{\arg\min}_{\mathbf{w}, b, \boldsymbol{\xi}} &amp;\ \ \ \<br>    \frac{1}{2} \mathbf{w}^T\mathbf{w} + C \sum _{n=1}^N \xi_n \\<br>\text{subject to} &amp;\ \ \ \<br>    \forall i, y_i (\mathbf{w}^T\mathbf{x_i} + b) \ge 1 - \xi_n \\<br>\text{ } &amp;\ \ \ \<br>    \forall n, \xi_n \ge 0<br>\end{align}<br>$$</p><p>他可以被進一步轉成</p><p>$$<br>\begin{align}<br>\mathop{\arg\min}_{\mathbf{w}, b} &amp;\ \ \ \<br>    \frac{1}{2} \mathbf{w}^T\mathbf{w} + C \sum _{n=1}^N max(1 - y_i (\mathbf{w}^T\mathbf{x_i} + b), 0) \\<br>\end{align}<br>$$</p><p>在 SVM 的陳述當中，有沒有發現 $\frac{1}{2} \mathbf{w}^T\mathbf{w}$ 這部份看起來跟 $l_2$ regularization 一樣。後半部份是跟誤差有關。</p><p>如果分類分對的話，$y_i (\mathbf{w}^T\mathbf{x_i} + b)$ 就會是大於等於 1，這樣的話後面整項計算起來就會是 0。</p><p>如果分類分對但是離線太近的話，$y_i (\mathbf{w}^T\mathbf{x_i} + b)$ 就會是小於 1，這樣後面整項會是一個小於 1 的值，代表離線太近了，算是些微的誤差。</p><p>如果分類都分錯，$y_i (\mathbf{w}^T\mathbf{x_i} + b)$ 根本就是負值，後面整項會是一個大於 1 的值，代表離線太遠了，算是很大的誤差。</p><h2 id="Hinge-error"><a href="#Hinge-error" class="headerlink" title="Hinge error"></a>Hinge error</h2><p>這樣的誤差計算方式稱為 hinge error，也就是：</p><p>$$<br>E(y, \hat{y}) = max(1 - y\hat{y}, 0)<br>$$</p><h2 id="l-2-regularized-linear-model"><a href="#l-2-regularized-linear-model" class="headerlink" title="$l_2$ -regularized linear model"></a>$l_2$ -regularized linear model</h2><p>所以我們根本可以把模型看成是一個 $l_2$ -regularized 的線性模型。</p><p>$$<br>\mathop{\arg\min}_{\mathbf{w}, b} \frac{1}{2} \mathbf{w}^T\mathbf{w} + C \sum _{n=1}^N E(y, \hat{y})<br>$$</p><p>不懂 regulariztion 的朋友請左轉 <a href="https://ithelp.ithome.com.tw/articles/10186405" target="_blank" rel="noopener">我之前寫過的鐵人文章</a>。</p><p>基本上，你想把誤差函數換成其他的東西都可以，像是變成 kernel $l_2$ -regularized linear regression (kernel ridge regression)。</p><p>$$<br>y = \mathbf{w}^T\phi(\mathbf{x}) + b \\<br>E(y, \hat{y}) = \frac{1}{N} (y - \hat{y})^2 \\<br>\mathop{\arg\min}_{\mathbf{w}, b} \frac{1}{2} \mathbf{w}^T\mathbf{w} + C \sum _{n=1}^N E(y, \hat{y})<br>$$</p><p>或是你想要 kernel $l_2$ -regularized logistic regression。</p><p>$$<br>y = \mathbf{w}^T\phi(\mathbf{x}) + b \\<br>E(y, \hat{y}) = \frac{1}{N} log(1 + exp(-y\hat{y})) \\<br>\mathop{\arg\min}_{\mathbf{w}, b} \frac{1}{2} \mathbf{w}^T\mathbf{w} + C \sum _{n=1}^N E(y, \hat{y})<br>$$</p>]]></content>
+    <content type="html"><![CDATA[<p>我們來回顧一下 SVM 模型。</p><p>$$<br>\begin{align}<br>\mathop{\arg\min}_{\mathbf{w}, b, \boldsymbol{\xi}} &amp;\ \ \ \<br>    \frac{1}{2} \mathbf{w}^T\mathbf{w} + C \sum _{n=1}^N \xi_n \\<br>\text{subject to} &amp;\ \ \ \<br>    \forall i, y_i (\mathbf{w}^T\mathbf{x_i} + b) \ge 1 - \xi_n \\<br>\text{ } &amp;\ \ \ \<br>    \forall n, \xi_n \ge 0<br>\end{align}<br>$$</p><p>他可以被進一步轉成</p><p>$$<br>\begin{align}<br>\mathop{\arg\min}_{\mathbf{w}, b} &amp;\ \ \ \<br>    \frac{1}{2} \mathbf{w}^T\mathbf{w} + C \sum _{n=1}^N max(1 - y_i (\mathbf{w}^T\mathbf{x_i} + b), 0) \\<br>\end{align}<br>$$</p><p>在 SVM 的陳述當中，有沒有發現 $\frac{1}{2} \mathbf{w}^T\mathbf{w}$ 這部份看起來跟 $l_2$ regularization 一樣。後半部份是跟誤差有關。</p><p>如果分類分對的話，$y_i (\mathbf{w}^T\mathbf{x_i} + b)$ 就會是大於等於 1，這樣的話後面整項計算起來就會是 0。</p><p>如果分類分對但是離線太近的話，$y_i (\mathbf{w}^T\mathbf{x_i} + b)$ 就會是小於 1，這樣後面整項會是一個小於 1 的值，代表離線太近了，算是些微的誤差。</p><p>如果分類都分錯，$y_i (\mathbf{w}^T\mathbf{x_i} + b)$ 根本就是負值，後面整項會是一個大於 1 的值，代表離線太遠了，算是很大的誤差。</p><h2 id="Hinge-error"><a href="#Hinge-error" class="headerlink" title="Hinge error"></a>Hinge error</h2><p>這樣的誤差計算方式稱為 hinge error，也就是：</p><p>$$<br>E(y, \hat{y}) = max(1 - y\hat{y}, 0)<br>$$</p><h2 id="l-2-regularized-linear-model"><a href="#l-2-regularized-linear-model" class="headerlink" title="$l_2$ -regularized linear model"></a>$l_2$ -regularized linear model</h2><p>所以我們根本可以把模型看成是一個 $l_2$ -regularized 的線性模型。</p><p>$$<br>\mathop{\arg\min}_{\mathbf{w}, b} \frac{1}{2} \mathbf{w}^T\mathbf{w} + C \sum _{n=1}^N E(y, \hat{y})<br>$$</p><p>不懂 regulariztion 的朋友請左轉 <a href="https://ithelp.ithome.com.tw/articles/10186405" target="_blank" rel="noopener">我之前寫過的鐵人文章</a>。</p><p>基本上，你想把誤差函數換成其他的東西都可以，像是變成 kernel $l_2$ -regularized linear regression (kernel ridge regression)。</p><p>$$<br>y = \mathbf{w}^T\phi(\mathbf{x}) + b \\<br>E(y, \hat{y}) = \frac{1}{N} (y - \hat{y})^2 \\<br>\mathop{\arg\min}_{\mathbf{w}, b} \frac{1}{2} \mathbf{w}^T\mathbf{w} + C \sum _{n=1}^N E(y, \hat{y})<br>$$</p><p>或是你想要 kernel $l_2$ -regularized logistic regression。</p><p>$$<br>y = \mathbf{w}^T\phi(\mathbf{x}) + b \\<br>E(y, \hat{y}) = \frac{1}{N} log(1 + exp(-y\hat{y})) \\<br>\mathop{\arg\min}_{\mathbf{w}, b} \frac{1}{2} \mathbf{w}^T\mathbf{w} + C \sum _{n=1}^N E(y, \hat{y})<br>$$</p><h2 id="Representer-theorem"><a href="#Representer-theorem" class="headerlink" title="Representer theorem"></a>Representer theorem</h2>]]></content>
     
     <summary type="html">
     
@@ -472,27 +499,6 @@
 &lt;p&gt;$$&lt;br&gt;A \enspace indexing \enspace function \enspace is \enspace a \enspace surjective \enspace function \enspace f: J \rightarrow \mathcal{A},&lt;br&gt;$$&lt;/p&gt;
 &lt;p&gt;$$&lt;br&gt;J \enspace is \enspace called \enspace index \enspace set.&lt;br&gt;$$&lt;/p&gt;
 &lt;p&gt;$$&lt;br&gt;The \enspace collection \enspace with \enspace the \enspace indexing \enspace function \enspace f \enspace is \enspace called \enspace indexed \enspace family \enspace of \enspace sets.&lt;br&gt;$$&lt;/p&gt;
-    
-    </summary>
-    
-      <category term="Topology" scheme="https://yuehhua.github.io/categories/Topology/"/>
-    
-    
-  </entry>
-  
-  <entry>
-    <title>The Integers and the Real Numbers</title>
-    <link href="https://yuehhua.github.io/2018/07/22/04-integer-real-numbers/"/>
-    <id>https://yuehhua.github.io/2018/07/22/04-integer-real-numbers/</id>
-    <published>2018-07-21T16:25:40.000Z</published>
-    <updated>2018-07-26T05:29:10.262Z</updated>
-    
-    <content type="html"><![CDATA[<p>以上我們談了一些 <em>邏輯的基礎</em>，接下來我們會談一些 <em>數學的基礎</em>，也就是整數與實數系統。其實我們已經用了很多，非正式地，接下來我們會正式地討論他們。</p><p>要 <strong><em>建構</em></strong> 實數系統的一個方法就是利用公理跟集合論來建構。</p><a id="more"></a><p>首先我們需要從集合論出發，定義在 <em>set</em> $A$ 上的 <strong>二元運算子（binary operator）</strong>：</p><blockquote><p> <strong><em>Def.</em></strong></p></blockquote><p>$$<br>f: A \times A \rightarrow A<br>$$</p><p>我們在描述一個二元運算子的時候並不會如同以往的函數一樣， $f(a, a’)$，而是會把運算子寫在中間， $afa’$。一般來說，我們會用符號來表示，而不是字母，像是加號 $+$、乘號 $\cdot$。</p><h4 id="假設"><a href="#假設" class="headerlink" title="假設"></a>假設</h4><p>我們假設存在一個 <em>set</em> $\mathbb{R}$，代表實數，有兩個運算子分別是加法運算子 $+$、乘法運算子 $\cdot$，以及一個次序關係 $\lt$ 定義於 $\mathbb{R}$ 上，會有以下特性：</p><p><em>代數特性（Algebraic Properties）</em></p><ol><li>$(x + y) + z = x + (y + z), \forall x, y, z \in \mathbb{R}$</li></ol><p>$(x \cdot y) \cdot z = x \cdot (y \cdot z), \forall x, y, z \in \mathbb{R}$</p><ol start="2"><li>$x + y = y + x, \forall x, y, z \in \mathbb{R}$</li></ol><p>$x \cdot y = y \cdot x, \forall x, y, z \in \mathbb{R}$</p><ol start="3"><li>$\exists! 0 \in \mathbb{R}, \forall x \in \mathbb{R}, s.t. \enspace x + 0 = x$</li></ol><p>$\exists! 1 \in \mathbb{R}, \forall x \in \mathbb{R}, s.t. \enspace x \cdot 1 = x$</p><ol start="4"><li>$for \enspace each \enspace x, \exists! y, s.t. \enspace x + y = 0$</li></ol><p>$for \enspace each \enspace x, \exists! y, s.t. \enspace x \cdot y = 1$</p><ol start="5"><li>$x \cdot (y + z) = (x \cdot y) + (x \cdot z), \forall x, y, z \in \mathbb{R}$</li></ol><p><em>混合代數與次序特性（A Mixed Algebraic and Order Property）</em></p><ol start="6"><li>$If \enspace x \gt y, then \enspace x + z \gt y + z$</li></ol><p>$If \enspace x \gt y, z \gt 0, then \enspace x \cdot z \gt y \cdot z$</p><p><em>次序特性（Order Properties）</em></p><ol start="7"><li>次序關係 $\lt$ 有最小上界性</li><li>$If \enspace x \lt y, then \enspace \exists z \enspace s.t. \enspace x \lt z, z \lt y$</li></ol><p>由 1~5 點我們可以導出一些代數性質，像是負數、減法運算、倒數跟商的概念。我們可以定義正數（$x \gt 0$）跟負數（$x \lt 0$）。在代數領域，擁有 1~5 點特性的代數結構，我們會稱為域（field）。如果有包含第六點就稱為有序域（ordered field）。在拓樸領域我們通常會討論的是第7、8點，他只牽涉到次序關係，同時擁有這兩點的集合稱為線性連續統（linear continuum）。</p><p>說到這邊我們還沒提到整數呢！我們就用前6點來定義整數（integer）。</p><blockquote><p> <strong><em>Def.</em></strong></p></blockquote><p>$A \subseteq \mathbb{R} \enspace is \enspace inductive:$</p><ol><li>$1 \in A$</li><li>$\forall x \in A \enspace s.t. \enspace x + 1 \in A$</li></ol><blockquote><p> <strong><em>Def.</em></strong></p></blockquote><p>$\mathcal{A} \enspace is \enspace a \enspace collection \enspace of \enspace all \enspace inductive \enspace subsets \enspace of \enspace \mathbb{R}$<br>$positive \enspace integers \enspace is \enspace a \enspace set \enspace \mathbb{N} = \bigcap_{A \in \mathcal{A}} A$</p><p>這樣的定義是很巧妙的，他其實只有明確的定義了1是在這個集合裡，後面都以 $x+ 1$ 的形式去推演，這稱為可歸納。而正整數是眾多可歸納集合的交集，可見正整數是最小的子集。</p><p>正整數有些特性：</p><ol><li>正整數是可歸納的（inductive）</li><li>（Principle of inductive）如果 <em>set</em> $A$ 是可歸納的，而且含正整數的集合，那麼 $A = \mathbb{N}$</li></ol><p>與實數不同的是，他不會有第八點特性，也就是，$for \enspace each \enspace n \in \mathbb{N}, \nexists a \in \mathbb{N} \enspace s.t. \enspace n \lt a \lt n + 1$。</p><hr><p>如果有個正整數 $n$，我們用 $S_{n}$ 來代表所有小於 $n$ 的正整數的集合，我們稱他為 <em>section</em>：</p><p>$$<br>S_{n + 1} = \{1, \dots , n\}<br>$$</p><p>接下來我們會描述 <del>證明</del> 兩個可能不是很熟悉但很有用的特性，你可以看成是另一個版本的數學歸納法：</p><blockquote><p> <strong><em>Theorem: Well-ordering property</em></strong></p></blockquote><p>$$<br>S \subseteq \mathbb{N}, S \neq \emptyset, S \enspace has \enspace smallest \enspace element.<br>$$</p><p>他描述了 $\mathbb{N}$ 的非空子集，一定有最小元素。</p><blockquote><p> <strong><em>Theorem: Strong induction principle</em></strong></p></blockquote><p>$$<br>A \enspace is \enspace a \enspace set \enspace of \enspace positive \enspace integers,<br>$$</p><p>$$<br>for \enspace each \enspace n, S_n \subseteq A \enspace s.t. \enspace n \in A, then \enspace A = \mathbb{N}<br>$$</p><p>這邊描述了，對每個 $n$ 來說，由 $S_n \subseteq A$ 可以推出 $n \in A$ 的話，那麼 $A$ 就是 $\mathbb{N}$。</p><p>以上我們用了有序域中的第 1~6 點公理，那第 7 點呢？</p><p>你用會用到第 7 點（最小上界公理）來證明，正整數集合 $\mathbb{N}$ 在實數的集合 $\mathbb{R}$ 中是沒有上界的。</p><blockquote><p><strong><em>Theorom: Archimedean ordering property</em></strong></p></blockquote><p>$$<br>the \enspace  set \enspace  \mathbb{N} \enspace  has \enspace  no \enspace  upper \enspace  bound \enspace  in \enspace  \mathbb{R}.<br>$$</p>]]></content>
-    
-    <summary type="html">
-    
-      &lt;p&gt;以上我們談了一些 &lt;em&gt;邏輯的基礎&lt;/em&gt;，接下來我們會談一些 &lt;em&gt;數學的基礎&lt;/em&gt;，也就是整數與實數系統。其實我們已經用了很多，非正式地，接下來我們會正式地討論他們。&lt;/p&gt;
-&lt;p&gt;要 &lt;strong&gt;&lt;em&gt;建構&lt;/em&gt;&lt;/strong&gt; 實數系統的一個方法就是利用公理跟集合論來建構。&lt;/p&gt;
     
     </summary>
     

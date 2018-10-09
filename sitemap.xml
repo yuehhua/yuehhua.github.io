@@ -2,9 +2,16 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   
   <url>
+    <loc>https://yuehhua.github.io/2018/10/09/09-from-linear-regression-to-logistic-regression/</loc>
+    
+    <lastmod>2018-10-09T14:59:32.914Z</lastmod>
+    
+  </url>
+  
+  <url>
     <loc>https://yuehhua.github.io/2018/10/08/08-l2-regularized-linear-model/</loc>
     
-    <lastmod>2018-10-08T15:06:37.574Z</lastmod>
+    <lastmod>2018-10-09T07:09:26.561Z</lastmod>
     
   </url>
   

@@ -237,6 +237,83 @@
             <div class="postShorten-header">
                 <h1 class="postShorten-title">
                     
+                        <a class="link-unstyled" href="/2018/10/09/09-from-linear-regression-to-logistic-regression/">
+                            09 從線性迴歸到羅吉斯迴歸
+                        </a>
+                    
+                </h1>
+                <div class="postShorten-meta">
+    <time datetime="2018-10-09T22:59:32+08:00">
+	
+		    Oct 09, 2018
+    	
+    </time>
+    
+        <span>in </span>
+        
+    <a class="category-link" href="/categories/Machine-Learning/">Machine Learning</a>, <a class="category-link" href="/categories/Machine-Learning/機器學習模型圖書館：從傳統模型到深度學習/">機器學習模型圖書館：從傳統模型到深度學習</a>
+
+
+    
+</div>
+
+            </div>
+            
+                <div class="postShorten-content">
+                    <p>我們從前面的模型演化可以了解一個機器學習模型可以怎麼樣衍生出其他的變體來解決問題。</p>
+<p>現在我們要切換到另外一條跑道上，我們一樣是從線性迴歸模型出發，我們或許可以換成其他的不同的分佈。</p>
+<h2 id="常態分佈"><a href="#常態分佈" class="headerlink" title="常態分佈"></a>常態分佈</h2><p>其實我們在前面的文章中有提到我們的線性迴歸模型假設了誤差是會呈現一個常態分佈。</p>
+<p>對於誤差的假設這件事情其實很大程度影響了我們模型的長相，也會影響這個模型所適用的資料。</p>
+<p>像是線性迴歸模型適用的是連續型變數的資料，更進一步來說，他是要求他的應變量（y）要是連續型的，看起來是這樣的。</p>
+<p>$$<br>\mathbb{E}[y] = \mathbb{E}[Normal(Y=y; \mu, \sigma)] = \mu = \mathbf{w}^T\mathbf{x} + b<br>$$</p>
+<p>$Normal(Y=y; \mu, \sigma)$：代表常態分佈，以 $\mu$ 為平均數，$\sigma$ 為標準差，輸入是應變量（y），輸出是機率。</p>
+<p>事實上，當你把你的一些 feature 輸入這個模型後，預測出來的是應變量的期望值或是平均數（$\mathbb{E}[y]$）。</p>
+<p>如果我們要預測的應變量是二元的類別資料，那也就是把問題轉換成分類問題，我們就需要用不同的分佈。</p>
+<h2 id="白努力分佈與二項式分佈"><a href="#白努力分佈與二項式分佈" class="headerlink" title="白努力分佈與二項式分佈"></a>白努力分佈與二項式分佈</h2><p>當我們的資料是分成兩類：0, 1，那麼他會對應到白努力分佈（Bernoulli distribution）。</p>
+<p>當你蒐集了一群二元分類的資料，那麼就會對應到二項式分佈（Binomial distribution）。</p>
+<p>如果你要預測的是一筆二元分類的資料，你應該要假設你的應變量（y）是白努力分佈。</p>
+<p>$$<br>\mathbb{E}[y] = \mathbb{E}[Ber(Y=y; p)] = \mu = \mathbf{w}^T\mathbf{x} + b<br>$$</p>
+<p>$Ber(Y=y; p)$：代表白努力分佈，以 p 為成功機率，輸入是應變量（y），輸出是機率。</p>
+<h2 id="羅吉斯迴歸"><a href="#羅吉斯迴歸" class="headerlink" title="羅吉斯迴歸"></a>羅吉斯迴歸</h2><p>羅吉斯迴歸的模型是以下這個樣子：</p>
+<p>$$<br>y = \sigma(\mathbf{w}^T\mathbf{x} + b)<br>$$</p>
+<p>其中的 $\sigma$ 是 sigmoid function，由這個函數輸出的就是成功機率了：</p>
+<p>$$<br>p = \sigma(s) = \frac{1}{1 + e^{-s}}<br>$$</p>
+<p>那這跟我們前面提的分佈看起來都不太一樣阿！我們來反推一下，其實我們前面提到的分佈應該是 sigmoid function 的反函數：</p>
+<p>$$<br>\sigma^{-1}(y） = \mathbf{w}^T\mathbf{x} + b<br>$$</p>
+<p>我們來推導一下：</p>
+<p>$$<br>p = \frac{1}{1 + e^{-s}}<br>$$</p>
+<p>$$<br>(1 + e^{-s})p = 1<br>$$</p>
+<p>$$<br>p + e^{-s}p = 1<br>$$</p>
+<p>$$<br>e^{-s} = \frac{1 - p}{p}<br>$$</p>
+<p>$$<br>-s = ln \frac{1 - p}{p}<br>$$</p>
+<p>$$<br>s = ln \frac{p}{1 - p} = ln(p) - ln (1 - p)<br>$$</p>
+<p>有發現嗎？他其實是</p>
+<p>$$<br>s = - ln(p^{-1} (1 - p)^{1})<br>$$</p>
+
+                    
+                        
+
+                    
+                    
+                        <p>
+                            <a href="/2018/10/09/09-from-linear-regression-to-logistic-regression/#post-footer" class="postShorten-excerpt_link link">
+                                Comment and share
+                            </a>
+                        </p>
+                    
+                </div>
+            
+        </div>
+        
+    </article>
+    
+    
+    <article class="postShorten postShorten--thumbnailimg-bottom">
+        <div class="postShorten-wrap">
+            
+            <div class="postShorten-header">
+                <h1 class="postShorten-title">
+                    
                         <a class="link-unstyled" href="/2018/10/08/08-l2-regularized-linear-model/">
                             08 l2-regularized 線性模型
                         </a>
@@ -277,7 +354,7 @@
 <p>$$<br>y = \mathbf{w}^T\phi(\mathbf{x}) + b \\<br>E(y, \hat{y}) = \frac{1}{N} (y - \hat{y})^2 \\<br>\mathop{\arg\min}_{\mathbf{w}, b} \frac{1}{2} \mathbf{w}^T\mathbf{w} + C \sum _{n=1}^N E(y, \hat{y})<br>$$</p>
 <p>或是你想要 kernel $l_2$ -regularized logistic regression。</p>
 <p>$$<br>y = \mathbf{w}^T\phi(\mathbf{x}) + b \\<br>E(y, \hat{y}) = \frac{1}{N} log(1 + exp(-y\hat{y})) \\<br>\mathop{\arg\min}_{\mathbf{w}, b} \frac{1}{2} \mathbf{w}^T\mathbf{w} + C \sum _{n=1}^N E(y, \hat{y})<br>$$</p>
-
+<h2 id="Representer-theorem"><a href="#Representer-theorem" class="headerlink" title="Representer theorem"></a>Representer theorem</h2>
                     
                         
 
