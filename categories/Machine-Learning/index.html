@@ -278,17 +278,28 @@
 <p>$$<br>y = \sigma(\mathbf{w}^T\mathbf{x} + b)<br>$$</p>
 <p>其中的 $\sigma$ 是 sigmoid function，由這個函數輸出的就是成功機率了：</p>
 <p>$$<br>p = \sigma(s) = \frac{1}{1 + e^{-s}}<br>$$</p>
-<p>那這跟我們前面提的分佈看起來都不太一樣阿！我們來反推一下，其實我們前面提到的分佈應該是 sigmoid function 的反函數：</p>
-<p>$$<br>\sigma^{-1}(y） = \mathbf{w}^T\mathbf{x} + b<br>$$</p>
-<p>我們來推導一下：</p>
-<p>$$<br>p = \frac{1}{1 + e^{-s}}<br>$$</p>
-<p>$$<br>(1 + e^{-s})p = 1<br>$$</p>
-<p>$$<br>p + e^{-s}p = 1<br>$$</p>
-<p>$$<br>e^{-s} = \frac{1 - p}{p}<br>$$</p>
+<p>那這跟我們前面提的分佈看起來都不太一樣阿！我們來反推一下，其實我們前面提到的分佈應該是跟 sigmoid function 的反函數有關係：</p>
+<p>$$<br>\sigma^{-1}(y) = \mathbf{w}^T\mathbf{x} + b<br>$$</p>
+<p>我們從白努力分佈開始，當 $y \in {0, 1}$ 時：</p>
+<p>$$<br>Ber(Y=y; p) = p^y (1-p)^{(1-y)}<br>$$</p>
+<p>也就是，當 y 是 0 的時候，只會剩下後面那一項，當 y 是 1 的時候，只會剩下前面那一項。</p>
+<p>那們我們要預測的其實是一個事件發生的機率 p，可是我們由 $\mathbf{w}^T\mathbf{x} + b$ 計算出來的是連續的數值。那要怎麼將這兩者接起來呢？</p>
+<p>在統計學裡有一個叫作 logit function 的東西，中文翻譯叫作邏輯函數，但是跟邏輯沒什麼關係就是了。</p>
+<p>$$<br>y = log \frac{x}{1 - x}<br>$$</p>
+<p>如果將裡頭的 x 想成成功機率的話，分子就是成功的機率，分母就是失敗的機率，就非常像一個東西叫作勝算（odds），所以他又叫作 log odds。</p>
+<p>用勝算的話就是一個連續的數值，同時也可以表達成功機率的含意，我們就從這邊開始吧！一路朝著 sigmoid function 邁進。</p>
+<p>$$<br>s = ln \frac{p}{1 - p}<br>$$</p>
 <p>$$<br>-s = ln \frac{1 - p}{p}<br>$$</p>
-<p>$$<br>s = ln \frac{p}{1 - p} = ln(p) - ln (1 - p)<br>$$</p>
-<p>有發現嗎？他其實是</p>
-<p>$$<br>s = - ln(p^{-1} (1 - p)^{1})<br>$$</p>
+<p>$$<br>e^{-s} = \frac{1 - p}{p}<br>$$</p>
+<p>$$<br>p + e^{-s}p = 1<br>$$</p>
+<p>$$<br>(1 + e^{-s})p = 1<br>$$</p>
+<p>$$<br>p = \frac{1}{1 + e^{-s}}<br>$$</p>
+<p>看到了嗎？他是 sigmoid function！</p>
+<p>也就是說，如果用線性迴歸預測的是 log odds，那就會跟羅吉斯迴歸一樣！</p>
+<p>$$<br>ln \frac{p}{1 - p} = \sigma^{-1}(y) = \mathbf{w}^T\mathbf{x} + b<br>$$</p>
+<p>你如果把 sigmoid function 還原回來的話：</p>
+<p>$$<br>y = \frac{1}{1 + e^{- \mathbf{w}^T\mathbf{x} - b}} = \sigma(\mathbf{w}^T\mathbf{x} + b)<br>$$</p>
+<p>就是羅吉斯迴歸的樣子了！</p>
 
                     
                         
