@@ -2,6 +2,13 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   
   <url>
+    <loc>https://yuehhua.github.io/2018/10/10/10-from-linear-regression-to-poisson-regression/</loc>
+    
+    <lastmod>2018-10-10T14:56:34.458Z</lastmod>
+    
+  </url>
+  
+  <url>
     <loc>https://yuehhua.github.io/2018/10/09/09-from-linear-regression-to-logistic-regression/</loc>
     
     <lastmod>2018-10-09T16:43:07.814Z</lastmod>

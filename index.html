@@ -236,6 +236,84 @@
             <div class="postShorten-header">
                 <h1 class="postShorten-title">
                     
+                        <a class="link-unstyled" href="/2018/10/10/10-from-linear-regression-to-poisson-regression/">
+                            10 從線性迴歸到 Poisson 迴歸
+                        </a>
+                    
+                </h1>
+                <div class="postShorten-meta">
+    <time datetime="2018-10-10T22:56:34+08:00">
+	
+		    Oct 10, 2018
+    	
+    </time>
+    
+        <span>in </span>
+        
+    <a class="category-link" href="/categories/Machine-Learning/">Machine Learning</a>, <a class="category-link" href="/categories/Machine-Learning/機器學習模型圖書館：從傳統模型到深度學習/">機器學習模型圖書館：從傳統模型到深度學習</a>
+
+
+    
+</div>
+
+            </div>
+            
+                <div class="postShorten-content">
+                    <p>上次我們講完了線性迴歸跟羅吉斯迴歸的差異。</p>
+<p>可是並不是每一種資料都是連續型的或是類別型的。</p>
+<p>這次要來介紹 Poisson 迴歸，當你要預測的是計數型資料（count data）就可以用他。</p>
+<h2 id="Poisson-distribution"><a href="#Poisson-distribution" class="headerlink" title="Poisson distribution"></a>Poisson distribution</h2><p>在講 Poisson 迴歸之前要先來講講 Poisson 分佈，他的公式大概是長的像這樣：</p>
+<p>$$<br>P(Y=y; \lambda) = \frac{e^{- \lambda} \lambda^y}{y!}<br>$$</p>
+<p>圖形的話看起來是這樣。</p>
+<p><img src="/images/Poisson_distribution.svg" alt=""></p>
+<p>要怎麼看懂這個分佈呢？</p>
+<p>我們先想像一個情境好了，假設我們經營一家便利商店，在一天之中來光臨這家商店的人數不同時段不一樣。即使是同一個時段，你也很難準確預測會有多少人進到店裡來。這時候我們就會用機率的描述方式，在這邊 k 指的是當我們觀察每段時間區間內進入店裡的客人數量，那麼 $\lambda$ 就是平均來說，每個時間區間的來客人數。你可以看到在 $\lambda = 1$ 的分佈上，來客人數是 0 或是 1 的機率其實很高，但是大於 1 的情形並不是沒有，只是機率比較低罷了。</p>
+<p>因此，我們可以用這樣的分佈來估算計數型的資料</p>
+<h2 id="Poisson-迴歸"><a href="#Poisson-迴歸" class="headerlink" title="Poisson 迴歸"></a>Poisson 迴歸</h2><p>計數型的資料難道不能用一般的線性迴歸嗎？</p>
+<p>其實這兩者有非常大的差別：</p>
+<ol>
+<li>計數型的資料不會有負值</li>
+<li>計數型的資料不會有小數點</li>
+</ol>
+<p>基於以上兩點資料性質上的差異，我們必須把不同資料分別看待。</p>
+<p>但是也不是完全不能用線性迴歸，只是需要動點手腳，就是對資料取 log。</p>
+<p>如果你對上面的 Poisson 分佈取 log 的話會發生什麼事呢？</p>
+<p>$$<br>ln(P(Y=y; \lambda)) = - \lambda + y ln(\lambda) - \sum_{y}^{j=1} j<br>$$</p>
+<p>看到了吧！$\lambda$ 跳出來了！而平均數 $\lambda$ 是連續型的數值，可以作為線性迴歸要預測的對象的。</p>
+<blockquote>
+<p>注意：以上並非正式的證明，請勿用於正式推導</p>
+</blockquote>
+<p>其實我們的 Poisson 迴歸是長成這樣的：</p>
+<p>$$<br>ln(\mathbb{E}[y]) = ln(\mathbb{E}[P(Y=y; \lambda)]) = \mathbf{w}^T\mathbf{x} + b<br>$$</p>
+<p>是不是跟我們前面提到的羅吉斯迴歸有 87% 像呢？</p>
+<p>而且我們在上面有提到 $\lambda$ 是平均數，所以呢…</p>
+<p>$$<br>ln(\mathbb{E}[y]) = ln(\lambda) = \mathbf{w}^T\mathbf{x} + b<br>$$</p>
+<p>Poisson 迴歸在預測的根本是 $ln(\lambda)$ 嘛！</p>
+
+                    
+                        
+
+                    
+                    
+                        <p>
+                            <a href="/2018/10/10/10-from-linear-regression-to-poisson-regression/#post-footer" class="postShorten-excerpt_link link">
+                                Comment and share
+                            </a>
+                        </p>
+                    
+                </div>
+            
+        </div>
+        
+    </article>
+    
+    
+    <article class="postShorten postShorten--thumbnailimg-bottom">
+        <div class="postShorten-wrap">
+            
+            <div class="postShorten-header">
+                <h1 class="postShorten-title">
+                    
                         <a class="link-unstyled" href="/2018/10/09/09-from-linear-regression-to-logistic-regression/">
                             09 從線性迴歸到羅吉斯迴歸
                         </a>
@@ -842,51 +920,6 @@
 <p>這一系列文章將會專注在機器學習的模型上，會從傳統的機器學習模型一路介紹到深度學習的模型。<br>比起介紹個別的模型，我會更專注在模型的演化上，去比較不同模型的差異之處，或是不同模型之間的改進之處。<br>一系列的脈絡會讓讀者更了解數學模型的運作方式，以及數學運算上的意義。</p>
                     
                         <a href="/2018/10/03/01-introduction/" class="postShorten-excerpt_link link">
-                            Continue reading
-                        </a>
-                        
-                    
-                </div>
-            
-        </div>
-        
-    </article>
-    
-    
-    <article class="postShorten postShorten--thumbnailimg-right">
-        <div class="postShorten-wrap">
-            
-            <div class="postShorten-header">
-                <h1 class="postShorten-title">
-                    
-                        <a class="link-unstyled" href="/2018/09/12/energy-model-bayesian/">
-                            Energy-based model 以及 Bayesian model 的關聯
-                        </a>
-                    
-                </h1>
-                <div class="postShorten-meta">
-    <time datetime="2018-09-12T14:22:48+08:00">
-	
-		    Sep 12, 2018
-    	
-    </time>
-    
-        <span>in </span>
-        
-    <a class="category-link" href="/categories/Machine-Learning/">Machine Learning</a>
-
-
-    
-</div>
-
-            </div>
-            
-                <div class="postShorten-excerpt">
-                    <p>在機器學習領域，我們常常會聽到 Energy-based model。</p>
-<p>基本上，他是借了物理的能量觀點來的，在數學上，與物理的公式如出一徹。</p>
-<p>我們先來看看他是長成什麼樣子。</p>
-                    
-                        <a href="/2018/09/12/energy-model-bayesian/" class="postShorten-excerpt_link link">
                             Continue reading
                         </a>
                         

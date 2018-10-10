@@ -6,7 +6,7 @@
   <link href="/atom.xml" rel="self"/>
   
   <link href="https://yuehhua.github.io/"/>
-  <updated>2018-10-09T16:43:07.814Z</updated>
+  <updated>2018-10-10T14:56:34.458Z</updated>
   <id>https://yuehhua.github.io/</id>
   
   <author>
@@ -15,6 +15,34 @@
   </author>
   
   <generator uri="http://hexo.io/">Hexo</generator>
+  
+  <entry>
+    <title>10 從線性迴歸到 Poisson 迴歸</title>
+    <link href="https://yuehhua.github.io/2018/10/10/10-from-linear-regression-to-poisson-regression/"/>
+    <id>https://yuehhua.github.io/2018/10/10/10-from-linear-regression-to-poisson-regression/</id>
+    <published>2018-10-10T14:56:34.000Z</published>
+    <updated>2018-10-10T14:56:34.458Z</updated>
+    
+    <content type="html"><![CDATA[<p>上次我們講完了線性迴歸跟羅吉斯迴歸的差異。</p><p>可是並不是每一種資料都是連續型的或是類別型的。</p><p>這次要來介紹 Poisson 迴歸，當你要預測的是計數型資料（count data）就可以用他。</p><h2 id="Poisson-distribution"><a href="#Poisson-distribution" class="headerlink" title="Poisson distribution"></a>Poisson distribution</h2><p>在講 Poisson 迴歸之前要先來講講 Poisson 分佈，他的公式大概是長的像這樣：</p><p>$$<br>P(Y=y; \lambda) = \frac{e^{- \lambda} \lambda^y}{y!}<br>$$</p><p>圖形的話看起來是這樣。</p><p><img src="/images/Poisson_distribution.svg" alt=""></p><p>要怎麼看懂這個分佈呢？</p><p>我們先想像一個情境好了，假設我們經營一家便利商店，在一天之中來光臨這家商店的人數不同時段不一樣。即使是同一個時段，你也很難準確預測會有多少人進到店裡來。這時候我們就會用機率的描述方式，在這邊 k 指的是當我們觀察每段時間區間內進入店裡的客人數量，那麼 $\lambda$ 就是平均來說，每個時間區間的來客人數。你可以看到在 $\lambda = 1$ 的分佈上，來客人數是 0 或是 1 的機率其實很高，但是大於 1 的情形並不是沒有，只是機率比較低罷了。</p><p>因此，我們可以用這樣的分佈來估算計數型的資料</p><h2 id="Poisson-迴歸"><a href="#Poisson-迴歸" class="headerlink" title="Poisson 迴歸"></a>Poisson 迴歸</h2><p>計數型的資料難道不能用一般的線性迴歸嗎？</p><p>其實這兩者有非常大的差別：</p><ol><li>計數型的資料不會有負值</li><li>計數型的資料不會有小數點</li></ol><p>基於以上兩點資料性質上的差異，我們必須把不同資料分別看待。</p><p>但是也不是完全不能用線性迴歸，只是需要動點手腳，就是對資料取 log。</p><p>如果你對上面的 Poisson 分佈取 log 的話會發生什麼事呢？</p><p>$$<br>ln(P(Y=y; \lambda)) = - \lambda + y ln(\lambda) - \sum_{y}^{j=1} j<br>$$</p><p>看到了吧！$\lambda$ 跳出來了！而平均數 $\lambda$ 是連續型的數值，可以作為線性迴歸要預測的對象的。</p><blockquote><p>注意：以上並非正式的證明，請勿用於正式推導</p></blockquote><p>其實我們的 Poisson 迴歸是長成這樣的：</p><p>$$<br>ln(\mathbb{E}[y]) = ln(\mathbb{E}[P(Y=y; \lambda)]) = \mathbf{w}^T\mathbf{x} + b<br>$$</p><p>是不是跟我們前面提到的羅吉斯迴歸有 87% 像呢？</p><p>而且我們在上面有提到 $\lambda$ 是平均數，所以呢…</p><p>$$<br>ln(\mathbb{E}[y]) = ln(\lambda) = \mathbf{w}^T\mathbf{x} + b<br>$$</p><p>Poisson 迴歸在預測的根本是 $ln(\lambda)$ 嘛！</p>]]></content>
+    
+    <summary type="html">
+    
+      
+      
+        &lt;p&gt;上次我們講完了線性迴歸跟羅吉斯迴歸的差異。&lt;/p&gt;
+&lt;p&gt;可是並不是每一種資料都是連續型的或是類別型的。&lt;/p&gt;
+&lt;p&gt;這次要來介紹 Poisson 迴歸，當你要預測的是計數型資料（count data）就可以用他。&lt;/p&gt;
+&lt;h2 id=&quot;Poisson-distribu
+      
+    
+    </summary>
+    
+      <category term="Machine Learning" scheme="https://yuehhua.github.io/categories/Machine-Learning/"/>
+    
+      <category term="機器學習模型圖書館：從傳統模型到深度學習" scheme="https://yuehhua.github.io/categories/Machine-Learning/%E6%A9%9F%E5%99%A8%E5%AD%B8%E7%BF%92%E6%A8%A1%E5%9E%8B%E5%9C%96%E6%9B%B8%E9%A4%A8%EF%BC%9A%E5%BE%9E%E5%82%B3%E7%B5%B1%E6%A8%A1%E5%9E%8B%E5%88%B0%E6%B7%B1%E5%BA%A6%E5%AD%B8%E7%BF%92/"/>
+    
+    
+  </entry>
   
   <entry>
     <title>09 從線性迴歸到羅吉斯迴歸</title>
@@ -473,32 +501,6 @@
 &lt;p&gt;A set A is &lt;strong&gt;&lt;em&gt;finite&lt;/em&gt;&lt;/strong&gt; if&lt;/p&gt;
 &lt;p&gt;$$&lt;br&gt;\exists f: A \rightarrow \{ 1, …, n \}, f \enspace is \enspace bijective.&lt;br&gt;$$&lt;/p&gt;
 &lt;p&gt;這時我們會說 &lt;em&gt;set&lt;/em&gt; $A$ 的 cardinality 是 n。&lt;/p&gt;
-    
-    </summary>
-    
-      <category term="Topology" scheme="https://yuehhua.github.io/categories/Topology/"/>
-    
-    
-  </entry>
-  
-  <entry>
-    <title>Cartesian products</title>
-    <link href="https://yuehhua.github.io/2018/07/22/05-cartesian-products/"/>
-    <id>https://yuehhua.github.io/2018/07/22/05-cartesian-products/</id>
-    <published>2018-07-21T16:26:26.000Z</published>
-    <updated>2018-07-26T05:28:58.969Z</updated>
-    
-    <content type="html"><![CDATA[<p>前面我們定義了集合的笛卡爾積，這邊我們來定義一個更廣義的，$\mathcal{A}$ 是一個非空集合（collection of sets）：</p><blockquote><p> <strong><em>Def.</em></strong></p></blockquote><p>$$<br>A \enspace indexing \enspace function \enspace is \enspace a \enspace surjective \enspace function \enspace f: J \rightarrow \mathcal{A},<br>$$</p><p>$$<br>J \enspace is \enspace called \enspace index \enspace set.<br>$$</p><p>$$<br>The \enspace collection \enspace with \enspace the \enspace indexing \enspace function \enspace f \enspace is \enspace called \enspace indexed \enspace family \enspace of \enspace sets.<br>$$</p><a id="more"></a><p>所以如果有 $\alpha \in J$ ，我們會把 $f(\alpha)$ 寫成 $A_\alpha$。那麼 indexed family 本身可以寫成 $\{A_\alpha\}_{\alpha \in J}$。</p><p>這個概念有點類似在電腦科學中的 hash function/dictionary 或是指標的意味，有了一個函數可以對某個集合做 indexing。然而他必須是滿射的（surjective），而不是單射的（injective）。</p><p>應用這樣的概念來描述以往的概念就會有點不太一樣：</p><p>$f: J \rightarrow \mathcal{A} \enspace is \enspace an \enspace indexing \enspace function \enspace for \enspace \mathcal{A}$</p><p>$\bigcup_{\alpha \in J} A_\alpha = \{ x \mid at \enspace least \enspace one \enspace \alpha \in J, x \in A_\alpha \}$</p><p>$\bigcap_{\alpha \in J} A_\alpha = \{ x \mid for \enspace every \enspace \alpha \in J, x \in A_\alpha \}$</p><p>我們進一步定義<strong>m-元組（m-tuple）</strong>：</p><blockquote><p> <strong><em>Def.</em></strong></p></blockquote><p>$$<br>m \in \mathbb{N}, a \enspace set \enspace X, m-tuple \enspace of \enspace elements \enspace of \enspace X \enspace is<br>$$</p><p>$$<br>x: \{1, …, m\} \rightarrow X<br>$$</p><p>這邊 $x$ 是個 m-tuple，我們通常描述 $x$ 的第 i 個值會寫成 $x_i$ ，也就是第 i 分量，也就是<strong>座標（coordinate）</strong>。那表示 $x$ 本身則會寫成：</p><p>$$<br>(x_1, …, x_m)<br>$$</p><p>接下來，我們讓 $\{ A_1, …, A_m \}$ 是一個 <em>family of indexed sets</em>。 $X = A_1 \cup A_2 \cup … \cup A_m$。我們定義這個 <em>indexed family</em> 的 cartesian product 為：</p><p>$$<br>\prod_{i = 1}^{m} A_i \enspace or \enspace A_1 \times A_2 \times … \times A_m<br>$$</p><p>也就是所有 m-tuple $(x_1, …, x_m)$ 的集合。</p><p>我們有了 m-tuple 就可以來定義一個常用的概念，$\omega-tuple$。</p><blockquote><p> <strong><em>Def.</em></strong></p></blockquote><p>$$<br>A \enspace set \enspace X, \omega-tuple \enspace of \enspace elements \enspace of \enspace X \enspace is \enspace a \enspace function:<br>$$</p><p>$$<br>x: \mathbb{N} \rightarrow X<br>$$</p><p>這也是微積分當中的 <strong>數列（sequence）</strong>，或是 <strong>無限數列（infinite sequence）</strong>。我們也可以把 $\omega$-tuple $x$ 看成座標，則會表示成：</p><p>$$<br>(x_1, x_2, …)<br>$$</p><p>而 <em>cartesian product</em> 則是：</p><p>$$<br>\prod_{i \in \mathbb{N}} A_i \enspace or \enspace A_1 \times A_2 \times …<br>$$</p><p>這邊大家可能會疑惑，不同的 $A_i$ 之間有什麼不一樣嗎？其實他們都可能是一樣的，跟 $X$ 一樣，只是去表示位在不同的分量上。如果是 $X$ 的元素的 $m$-tuple 的話，就可以簡寫成 $X^m$。如果是 $X$ 的元素的 $\omega$-tuple 的話，就可以簡寫成 $X^\omega$。</p><h4 id="ex"><a href="#ex" class="headerlink" title="ex."></a><em>ex.</em></h4><p>如果 $\mathbb{R}$ 代表實數，那麼 $\mathbb{R}^m$ 就代表所有實數的 $m$-tuple 的集合，也就是歐幾里得空間（Euclidean m-space）。那 $\mathbb{R}^\omega$ 就是無限維度歐氏空間（infinite-dimensional Euclidean space）。</p>]]></content>
-    
-    <summary type="html">
-    
-      &lt;p&gt;前面我們定義了集合的笛卡爾積，這邊我們來定義一個更廣義的，$\mathcal{A}$ 是一個非空集合（collection of sets）：&lt;/p&gt;
-&lt;blockquote&gt;
-&lt;p&gt; &lt;strong&gt;&lt;em&gt;Def.&lt;/em&gt;&lt;/strong&gt;&lt;/p&gt;
-&lt;/blockquote&gt;
-&lt;p&gt;$$&lt;br&gt;A \enspace indexing \enspace function \enspace is \enspace a \enspace surjective \enspace function \enspace f: J \rightarrow \mathcal{A},&lt;br&gt;$$&lt;/p&gt;
-&lt;p&gt;$$&lt;br&gt;J \enspace is \enspace called \enspace index \enspace set.&lt;br&gt;$$&lt;/p&gt;
-&lt;p&gt;$$&lt;br&gt;The \enspace collection \enspace with \enspace the \enspace indexing \enspace function \enspace f \enspace is \enspace called \enspace indexed \enspace family \enspace of \enspace sets.&lt;br&gt;$$&lt;/p&gt;
     
     </summary>
     
