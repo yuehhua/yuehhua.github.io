@@ -296,9 +296,12 @@
 <p>$$<br>y \overset{f}{\longleftrightarrow} \mathbb{E}[y]<br>$$</p>
 <p>統計學家研究了一下這個模型，發現只有符合指數族的條件才能夠用。</p>
 <p>指數族長成這樣：</p>
-<p>$$<br>f(y \mid \boldsymbol{\theta}, \tau) = h(y, \tau) exp(\frac{\mathbf{b}(\boldsymbol{\theta})^T \mathbf{T}(y) - A(\boldsymbol{\theta})}{d(\tau)})<br>$$</p>
-<p>$\boldsymbol{\theta}$ 是機率分佈的期望值。</p>
-<p>（內容產生中…）</p>
+<p>$$<br>f(\mathbf{y} \mid \boldsymbol{\theta}) = \frac{1}{Z(\boldsymbol{\theta})} h(\mathbf{y}) exp(\boldsymbol{\theta}^T \phi(\mathbf{y}))<br>$$</p>
+<p>$\boldsymbol{\theta}$ 是機率分佈的期望值，或是稱為 natural parameter。</p>
+<p>$\phi(\mathbf{y})$ 是 sufficient statisitcs，這邊有非常多有趣的東西，不過也有點理論。</p>
+<p>$Z(\boldsymbol{\theta})$ 稱為 partition function，是機率分佈的分母，常常會在不同的領域見到他，像是物理。</p>
+<p>$h(\mathbf{y})$ 就是個縮放因子，沒什麼重要性，常常是 1。</p>
+<p>我知道大家可能會有很多疑問，但是礙於篇幅，我就不再繼續介紹下去了，這邊下去又是統計所一門課了。</p>
 
                     
                         
