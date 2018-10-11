@@ -2,6 +2,13 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   
   <url>
+    <loc>https://yuehhua.github.io/2018/10/11/11-generalized-linear-model/</loc>
+    
+    <lastmod>2018-10-11T05:16:28.441Z</lastmod>
+    
+  </url>
+  
+  <url>
     <loc>https://yuehhua.github.io/2018/10/10/10-from-linear-regression-to-poisson-regression/</loc>
     
     <lastmod>2018-10-10T14:59:20.623Z</lastmod>

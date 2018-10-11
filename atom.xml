@@ -6,7 +6,7 @@
   <link href="/atom.xml" rel="self"/>
   
   <link href="https://yuehhua.github.io/"/>
-  <updated>2018-10-10T14:59:20.623Z</updated>
+  <updated>2018-10-11T05:16:28.441Z</updated>
   <id>https://yuehhua.github.io/</id>
   
   <author>
@@ -15,6 +15,34 @@
   </author>
   
   <generator uri="http://hexo.io/">Hexo</generator>
+  
+  <entry>
+    <title>11 廣義線性模型</title>
+    <link href="https://yuehhua.github.io/2018/10/11/11-generalized-linear-model/"/>
+    <id>https://yuehhua.github.io/2018/10/11/11-generalized-linear-model/</id>
+    <published>2018-10-11T05:16:28.000Z</published>
+    <updated>2018-10-11T05:16:28.441Z</updated>
+    
+    <content type="html"><![CDATA[<p>我們前面探討了不同的資料型態可以對應不同的迴歸模型。</p><p>不覺得每個迴歸模型都有那麼點相似的地方嗎？</p><p>線性迴歸：</p><p>$$<br>\mathbb{E}[y] = \mu = \mathbf{w}^T\mathbf{x} + b<br>$$</p><p>羅吉斯迴歸：</p><p>$$<br>ln(\frac{\mathbb{E}[y]}{1 - \mathbb{E}[y]}) = ln(\frac{p}{1 - p}) = \mathbf{w}^T\mathbf{x} + b<br>$$</p><p>Poisson 迴歸：</p><p>$$<br>ln(\mathbb{E}[y]) = ln(\lambda) = \mathbf{w}^T\mathbf{x} + b<br>$$</p><p>在右手邊的部份都是一樣的，是一樣的線性組合加上一個常數。</p><p>差別在於預測出來的數值是怎麼連結到目標變量的平均值上 $\mathbb{E}[y]$。</p><p>是的，我們在預測的都是目標變量的平均值。</p><h2 id="鏈結函數（link-function）"><a href="#鏈結函數（link-function）" class="headerlink" title="鏈結函數（link function）"></a>鏈結函數（link function）</h2><p>要連結目標變量的平均值 $\mathbb{E}[y]$ 跟線性組合加上一個常數…..，姑且叫他 $\eta$ 好了。</p><p>$$<br>\mathbb{E}[y] \leftrightarrow \eta<br>$$</p><p>統計學家發展出使用鏈結函數來連結這兩者，所以不同的資料型態會對應不同的鏈結函數。</p><p>線性迴歸使用 identity function $y = x$：</p><p>$$<br>\mathbb{E}[y] = \eta<br>$$</p><p>羅吉斯迴歸使用 logit function $y = ln(\frac{x}{1 - x})$：</p><p>$$<br>ln(\frac{\mathbb{E}[y]}{1 - \mathbb{E}[y]}) = \eta<br>$$</p><p>Poisson 迴歸使用 log function $y = ln(x)$：</p><p>$$<br>ln(\mathbb{E}[y]) = \eta<br>$$</p><h2 id="廣義線性模型（generalized-linear-model）"><a href="#廣義線性模型（generalized-linear-model）" class="headerlink" title="廣義線性模型（generalized linear model）"></a>廣義線性模型（generalized linear model）</h2><p>這麼一來我們就可以把三個模型搓一搓做成 <del>撒尿牛丸</del> 廣義線性模型啦！</p><p>$$<br>y \overset{f}{\longleftrightarrow} \mathbb{E}[y] \leftrightarrow \eta = \mathbf{w}^T\mathbf{x} + b<br>$$</p><p>對應不同的目標變量，我們就有了萬用的模型，就像物理的大一統理論一樣。</p><p>廣義線性模型其實包含了三個部份：</p><ol><li>鏈結函數</li><li>線性預測子</li><li>指數族</li></ol><h2 id="線性預測子（linear-predictor）"><a href="#線性預測子（linear-predictor）" class="headerlink" title="線性預測子（linear predictor）"></a>線性預測子（linear predictor）</h2><p>統計學家特別給了一個線性預測子這樣的名字。</p><p>$$<br>\eta = \mathbf{w}^T\mathbf{x} + b<br>$$</p><p>這代表要從預測變量 $\mathbf{x}$ 去預測我們的目標變量，其中 $\mathbf{x}$ 的變數之間都是 <strong>互相獨立</strong> 的。</p><p>互相獨立的變數之間，要以 <strong>線性組合</strong> 來預測我們的目標變量。</p><h2 id="指數族（exponential-family）"><a href="#指數族（exponential-family）" class="headerlink" title="指數族（exponential family）"></a>指數族（exponential family）</h2><p>可是每一種資料的機率分佈都可以接上廣義線性模型嗎？答案是否定的。</p><p>$$<br>y \overset{f}{\longleftrightarrow} \mathbb{E}[y]<br>$$</p><p>統計學家研究了一下這個模型，發現只有符合指數族的條件才能夠用。</p><p>指數族長成這樣：</p><p>$$<br>f(y \mid \boldsymbol{\theta}, \tau) = h(y, \tau) exp(\frac{\mathbf{b}(\boldsymbol{\theta})^T \mathbf{T}(y) - A(\boldsymbol{\theta})}{d(\tau)})<br>$$</p><p>$\boldsymbol{\theta}$ 是機率分佈的期望值。</p><p>（內容產生中…）</p>]]></content>
+    
+    <summary type="html">
+    
+      
+      
+        &lt;p&gt;我們前面探討了不同的資料型態可以對應不同的迴歸模型。&lt;/p&gt;
+&lt;p&gt;不覺得每個迴歸模型都有那麼點相似的地方嗎？&lt;/p&gt;
+&lt;p&gt;線性迴歸：&lt;/p&gt;
+&lt;p&gt;$$&lt;br&gt;\mathbb{E}[y] = \mu = \mathbf{w}^T\mathbf{x} + b&lt;br&gt;$$&lt;
+      
+    
+    </summary>
+    
+      <category term="Machine Learning" scheme="https://yuehhua.github.io/categories/Machine-Learning/"/>
+    
+      <category term="機器學習模型圖書館：從傳統模型到深度學習" scheme="https://yuehhua.github.io/categories/Machine-Learning/%E6%A9%9F%E5%99%A8%E5%AD%B8%E7%BF%92%E6%A8%A1%E5%9E%8B%E5%9C%96%E6%9B%B8%E9%A4%A8%EF%BC%9A%E5%BE%9E%E5%82%B3%E7%B5%B1%E6%A8%A1%E5%9E%8B%E5%88%B0%E6%B7%B1%E5%BA%A6%E5%AD%B8%E7%BF%92/"/>
+    
+    
+  </entry>
   
   <entry>
     <title>10 從線性迴歸到 Poisson 迴歸</title>
@@ -474,33 +502,6 @@
     <summary type="html">
     
       &lt;p&gt;前面有提到正整數可以用來作為有限集的原型，我們會把所有正整數的集合稱為 &lt;strong&gt;可數無限集（countably infinite sets）&lt;/strong&gt;。&lt;/p&gt;
-    
-    </summary>
-    
-      <category term="Topology" scheme="https://yuehhua.github.io/categories/Topology/"/>
-    
-    
-  </entry>
-  
-  <entry>
-    <title>Finite sets</title>
-    <link href="https://yuehhua.github.io/2018/07/22/06-finite-sets/"/>
-    <id>https://yuehhua.github.io/2018/07/22/06-finite-sets/</id>
-    <published>2018-07-21T16:27:18.000Z</published>
-    <updated>2018-07-26T05:28:46.816Z</updated>
-    
-    <content type="html"><![CDATA[<p>接下來我們會來討論幾個常見的概念，像是有限集及無限集、可數集及不可數集。</p><p>有限集（finite set）：</p><blockquote><p> <strong><em>Def.</em></strong></p></blockquote><p>A set A is <strong><em>finite</em></strong> if</p><p>$$<br>\exists f: A \rightarrow \{ 1, …, n \}, f \enspace is \enspace bijective.<br>$$</p><p>這時我們會說 <em>set</em> $A$ 的 cardinality 是 n。</p><a id="more"></a><p>在這其中，這個定義的結果是不是唯一的？也就是，有沒有一個可能存在一個集合，兩個人數當中的元素個數結果不一樣（一個數到 $m$，一個數到 $n$），但兩個人都是對的？在真實世界，你可能會覺得這根本不可能，但是為了這點，數學家做了一些基礎工作。</p><blockquote><p> <strong><em>Lemma</em></strong></p></blockquote><p>$$<br>A \enspace is \enspace a \enspace set, n \in \mathbb{N}, a_0 \in A, \exists f: A \rightarrow \{ 1, … , n+1\}, f \enspace is \enspace bijective<br>$$</p><p>$$<br>\Leftrightarrow \exists g: A - \{ a_0 \} \rightarrow \{ 1, … , n\}, g \enspace is \enspace bijective<br>$$</p><p>也就是呢，當 $A$ 可以對映到 $n+1$ 個元素的集合的時候，把 $A$ 當中的一個元素拿掉，就必須對映到 $n$ 個元素的集合。</p><p>那接下來我們就可以有這個定理：</p><blockquote><p> <strong><em>Theorem</em></strong></p></blockquote><p>$$<br>A \enspace is \enspace a \enspace set, f: A \rightarrow \{ 1, … , n\}, n \in \mathbb{N}, f \enspace is \enspace bijective, B \subset A<br>$$</p><p>$$<br>then \enspace \nexists g: B \rightarrow \{ 1, … , n\}, g \enspace is \enspace bijective<br>$$</p><p>$$<br>\exists h: B \rightarrow \{ 1, … , m\}, h \enspace is \enspace bijective, m &lt; n<br>$$</p><p>所以是說，$B$ 是 $A$ 的嚴格子集，那麼 $B$ 的 cardinality 就必須跟 $A$ 的不同，並且要比較小。</p><p>以此，我們可以導出以下結論：</p><blockquote><p> <strong><em>Corollary</em></strong></p></blockquote><p>$$<br>If \enspace A \enspace is \enspace finite, B \subset A, \nexists f: A \rightarrow B, f \enspace is \enspace bijective<br>$$</p><blockquote><p> <strong><em>Corollary</em></strong></p></blockquote><p>$$<br>\mathbb{N} \enspace is \enspace not \enspace finite<br>$$</p><blockquote><p> <strong><em>Corollary</em></strong></p></blockquote><p>$$<br>The \enspace cardinality \enspace of \enspace a \enspace finite \enspace set \enspace A \enspace is \enspace uniquely \enspace determined \enspace by \enspace A<br>$$</p><blockquote><p> <strong><em>Corollary</em></strong></p></blockquote><p>$$<br>A \enspace is \enspace finite, B \subset A, B \enspace is \enspace finite<br>$$</p><p>有限集，以下等價：</p><blockquote><p> <strong><em>Corollary</em></strong></p></blockquote><ol><li>$A$ is finite</li><li>Exists a surjective function from a section of $\mathbb{N}$ to $A$</li><li>Exists a injective function from $A$ to a section of $\mathbb{N}$</li></ol><blockquote><p> <strong><em>Corollary</em></strong></p></blockquote><p>$$<br>Finite \enspace unions \enspace and \enspace finite \enspace cartesian \enspace products \enspace of \enspace finite \enspace sets \enspace are \enspace finite<br>$$</p>]]></content>
-    
-    <summary type="html">
-    
-      &lt;p&gt;接下來我們會來討論幾個常見的概念，像是有限集及無限集、可數集及不可數集。&lt;/p&gt;
-&lt;p&gt;有限集（finite set）：&lt;/p&gt;
-&lt;blockquote&gt;
-&lt;p&gt; &lt;strong&gt;&lt;em&gt;Def.&lt;/em&gt;&lt;/strong&gt;&lt;/p&gt;
-&lt;/blockquote&gt;
-&lt;p&gt;A set A is &lt;strong&gt;&lt;em&gt;finite&lt;/em&gt;&lt;/strong&gt; if&lt;/p&gt;
-&lt;p&gt;$$&lt;br&gt;\exists f: A \rightarrow \{ 1, …, n \}, f \enspace is \enspace bijective.&lt;br&gt;$$&lt;/p&gt;
-&lt;p&gt;這時我們會說 &lt;em&gt;set&lt;/em&gt; $A$ 的 cardinality 是 n。&lt;/p&gt;
     
     </summary>
     
