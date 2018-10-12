@@ -237,6 +237,71 @@
             <div class="postShorten-header">
                 <h1 class="postShorten-title">
                     
+                        <a class="link-unstyled" href="/2018/10/12/12-from-linear-model-to-neural-network/">
+                            12 從線性模型到神經網路
+                        </a>
+                    
+                </h1>
+                <div class="postShorten-meta">
+    <time datetime="2018-10-12T23:46:06+08:00">
+	
+		    Oct 12, 2018
+    	
+    </time>
+    
+        <span>in </span>
+        
+    <a class="category-link" href="/categories/Machine-Learning/">Machine Learning</a>, <a class="category-link" href="/categories/Machine-Learning/機器學習模型圖書館：從傳統模型到深度學習/">機器學習模型圖書館：從傳統模型到深度學習</a>
+
+
+    
+</div>
+
+            </div>
+            
+                <div class="postShorten-content">
+                    <p>我們把線性模型們都大統一了。</p>
+<p>$$<br>y \overset{f}{\longleftrightarrow} \mathbb{E}[y] \leftrightarrow \eta = \mathbf{w}^T\mathbf{x} + b<br>$$</p>
+<p>接下來就要進入到令人興奮的神經網路模型了！</p>
+<p>首先，我們先來介紹著名的感知器…嗯…前面不是介紹過了？</p>
+<p>喔喔！對喔！他長這個樣子：</p>
+<p>$$<br>y = \sigma(\mathbf{w}^T\mathbf{x} + b)<br>$$</p>
+<p>其中 $\mathbf{w}^T\mathbf{x} + b$ 是我們熟悉的線性模型，然後 $\sigma$ 就是所謂的 activation function。</p>
+<p>不覺得這看起來跟上面的很相似嗎？</p>
+<p>我們動點手腳：</p>
+<p>$$<br>\sigma^{-1}(y) = \mathbf{w}^T\mathbf{x} + b<br>$$</p>
+<p>是的！發現了嗎？其實 $\sigma^{-1}$ 就是在廣義線性模型裡的鏈結函數阿！他會是 activation function 的反函數！</p>
+<p>這樣是不是又了結了一樁心事了呢？</p>
+<h2 id="堆疊"><a href="#堆疊" class="headerlink" title="堆疊"></a>堆疊</h2><p>在神經網路當中，我們會把一個一個神經元並排起來，數學上看起來就是把預測單一個 y 擴張成多個維度：</p>
+<p>$$<br>\mathbf{y} = \sigma(W^T\mathbf{x} + \mathbf{b})<br>$$</p>
+<p>所以在權重 W 的部份也隨之從一個向量擴張成一個矩陣，b 的部份也是，可以自己驗算看看。</p>
+<p>但是預測多維向量並不是讓模型強大的地方，讓模型強大是因為把很多個這樣的模型頭尾接起來。</p>
+<p>$$<br>\mathbf{x} \rightarrow \mathbf{h}^{(1)} \rightarrow \dots \rightarrow \mathbf{h}^{(k)} \rightarrow \mathbf{y}<br>$$</p>
+
+                    
+                        
+
+                    
+                    
+                        <p>
+                            <a href="/2018/10/12/12-from-linear-model-to-neural-network/#post-footer" class="postShorten-excerpt_link link">
+                                Comment and share
+                            </a>
+                        </p>
+                    
+                </div>
+            
+        </div>
+        
+    </article>
+    
+    
+    <article class="postShorten postShorten--thumbnailimg-bottom">
+        <div class="postShorten-wrap">
+            
+            <div class="postShorten-header">
+                <h1 class="postShorten-title">
+                    
                         <a class="link-unstyled" href="/2018/10/11/11-generalized-linear-model/">
                             11 廣義線性模型
                         </a>
@@ -927,50 +992,6 @@
 <p>感知器模型他是一個二元分類的分類器，他解的是分類問題。相對我們前面的線性迴歸解的是迴歸問題，兩者在問題的定義上有根本性的不一樣，那他們兩個有什麼關聯性呢？</p>
                     
                         <a href="/2018/10/03/03-from-linear-regression-to-perceptron/" class="postShorten-excerpt_link link">
-                            Continue reading
-                        </a>
-                        
-                    
-                </div>
-            
-        </div>
-        
-    </article>
-    
-    
-    <article class="postShorten postShorten--thumbnailimg-right">
-        <div class="postShorten-wrap">
-            
-            <div class="postShorten-header">
-                <h1 class="postShorten-title">
-                    
-                        <a class="link-unstyled" href="/2018/10/03/02-linear-regression/">
-                            02 線性迴歸 -- 迴歸問題中的線性模型
-                        </a>
-                    
-                </h1>
-                <div class="postShorten-meta">
-    <time datetime="2018-10-03T15:31:54+08:00">
-	
-		    Oct 03, 2018
-    	
-    </time>
-    
-        <span>in </span>
-        
-    <a class="category-link" href="/categories/Machine-Learning/">Machine Learning</a>, <a class="category-link" href="/categories/Machine-Learning/機器學習模型圖書館：從傳統模型到深度學習/">機器學習模型圖書館：從傳統模型到深度學習</a>
-
-
-    
-</div>
-
-            </div>
-            
-                <div class="postShorten-excerpt">
-                    <p>這個模型大概已經被人講過很多次，講到都快要爛掉了XD</p>
-<p>其實我自己在兩年前的鐵人賽中也有講過同一個模型，所以我就不用講太多基礎的部份：</p>
-                    
-                        <a href="/2018/10/03/02-linear-regression/" class="postShorten-excerpt_link link">
                             Continue reading
                         </a>
                         

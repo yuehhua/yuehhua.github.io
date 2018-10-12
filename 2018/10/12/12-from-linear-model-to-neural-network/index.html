@@ -6,7 +6,7 @@
     <!-- hexo-inject:begin --><!-- hexo-inject:end --><meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="generator" content="Dream Maker">
-    <title>11 廣義線性模型 - Dream Maker</title>
+    <title>12 從線性模型到神經網路 - Dream Maker</title>
     <meta name="author" content="Yueh-Hua Tu">
     
         <meta name="keywords" content="machine learning,deep learning,topology,">
@@ -15,19 +15,19 @@
     
         <link rel="alternate" type="application/atom+xml" title="RSS" href="/atom.xml">
     
-    <script type="application/ld+json">{"@context":"http://schema.org","@type":"BlogPosting","author":{"@type":"Person","name":"Yueh-Hua Tu","sameAs":["https://github.com/yuehhua/","https://www.facebook.com/a504082002","https://www.linkedin.com/in/%E5%B2%B3%E8%8F%AF-%E6%9D%9C-6a3995a0/","mailto:a504082002@gmail.com"],"image":"https://www.gravatar.com/avatar/a565749fba4782b717234da670b273fd"},"articleBody":"我們前面探討了不同的資料型態可以對應不同的迴歸模型。\n不覺得每個迴歸模型都有那麼點相似的地方嗎？\n線性迴歸：\n$$\\mathbb{E}[y] = \\mu = \\mathbf{w}^T\\mathbf{x} + b$$\n羅吉斯迴歸：\n$$ln(\\frac{\\mathbb{E}[y]}{1 - \\mathbb{E}[y]}) = ln(\\frac{p}{1 - p}) = \\mathbf{w}^T\\mathbf{x} + b$$\nPoisson 迴歸：\n$$ln(\\mathbb{E}[y]) = ln(\\lambda) = \\mathbf{w}^T\\mathbf{x} + b$$\n在右手邊的部份都是一樣的，是一樣的線性組合加上一個常數。\n差別在於預測出來的數值是怎麼連結到目標變量的平均值上 $\\mathbb{E}[y]$。\n是的，我們在預測的都是目標變量的平均值。\n鏈結函數（link function）要連結目標變量的平均值 $\\mathbb{E}[y]$ 跟線性組合加上一個常數…..，姑且叫他 $\\eta$ 好了。\n$$\\mathbb{E}[y] \\leftrightarrow \\eta$$\n統計學家發展出使用鏈結函數來連結這兩者，所以不同的資料型態會對應不同的鏈結函數。\n線性迴歸使用 identity function $y = x$：\n$$\\mathbb{E}[y] = \\eta$$\n羅吉斯迴歸使用 logit function $y = ln(\\frac{x}{1 - x})$：\n$$ln(\\frac{\\mathbb{E}[y]}{1 - \\mathbb{E}[y]}) = \\eta$$\nPoisson 迴歸使用 log function $y = ln(x)$：\n$$ln(\\mathbb{E}[y]) = \\eta$$\n廣義線性模型（generalized linear model）這麼一來我們就可以把三個模型搓一搓做成 撒尿牛丸 廣義線性模型啦！\n$$y \\overset{f}{\\longleftrightarrow} \\mathbb{E}[y] \\leftrightarrow \\eta = \\mathbf{w}^T\\mathbf{x} + b$$\n對應不同的目標變量，我們就有了萬用的模型，就像物理的大一統理論一樣。\n廣義線性模型其實包含了三個部份：\n\n鏈結函數\n線性預測子\n指數族\n\n線性預測子（linear predictor）統計學家特別給了一個線性預測子這樣的名字。\n$$\\eta = \\mathbf{w}^T\\mathbf{x} + b$$\n這代表要從預測變量 $\\mathbf{x}$ 去預測我們的目標變量，其中 $\\mathbf{x}$ 的變數之間都是 互相獨立 的。\n互相獨立的變數之間，要以 線性組合 來預測我們的目標變量。\n指數族（exponential family）可是每一種資料的機率分佈都可以接上廣義線性模型嗎？答案是否定的。\n$$y \\overset{f}{\\longleftrightarrow} \\mathbb{E}[y]$$\n統計學家研究了一下這個模型，發現只有符合指數族的條件才能夠用。\n指數族長成這樣：\n$$f(\\mathbf{y} \\mid \\boldsymbol{\\theta}) = \\frac{1}{Z(\\boldsymbol{\\theta})} h(\\mathbf{y}) exp(\\boldsymbol{\\theta}^T \\phi(\\mathbf{y}))$$\n$\\boldsymbol{\\theta}$ 是機率分佈的期望值，或是稱為 natural parameter。\n$\\phi(\\mathbf{y})$ 是 sufficient statisitcs，這邊有非常多有趣的東西，不過也有點理論。\n$Z(\\boldsymbol{\\theta})$ 稱為 partition function，是機率分佈的分母，常常會在不同的領域見到他，像是物理。\n$h(\\mathbf{y})$ 就是個縮放因子，沒什麼重要性，常常是 1。\n我知道大家可能會有很多疑問，但是礙於篇幅，我就不再繼續介紹下去了，這邊下去又是統計所一門課了。\n","dateCreated":"2018-10-11T13:16:28+08:00","dateModified":"2018-10-11T21:20:19+08:00","datePublished":"2018-10-11T13:16:28+08:00","description":"","headline":"11 廣義線性模型","image":[],"mainEntityOfPage":{"@type":"WebPage","@id":"https://yuehhua.github.io/2018/10/11/11-generalized-linear-model/"},"publisher":{"@type":"Organization","name":"Yueh-Hua Tu","sameAs":["https://github.com/yuehhua/","https://www.facebook.com/a504082002","https://www.linkedin.com/in/%E5%B2%B3%E8%8F%AF-%E6%9D%9C-6a3995a0/","mailto:a504082002@gmail.com"],"image":"https://www.gravatar.com/avatar/a565749fba4782b717234da670b273fd","logo":{"@type":"ImageObject","url":"https://www.gravatar.com/avatar/a565749fba4782b717234da670b273fd"}},"url":"https://yuehhua.github.io/2018/10/11/11-generalized-linear-model/"}</script>
-    <meta name="description" content="我們前面探討了不同的資料型態可以對應不同的迴歸模型。 不覺得每個迴歸模型都有那麼點相似的地方嗎？ 線性迴歸： $$\mathbb{E}[y] = \mu = \mathbf{w}^T\mathbf{x} + b$$ 羅吉斯迴歸： $$ln(\frac{\mathbb{E}[y]}{1 - \mathbb{E}[y]}) = ln(\frac{p}{1 - p}) = \mathbf{w}^T\ma">
+    <script type="application/ld+json">{"@context":"http://schema.org","@type":"BlogPosting","author":{"@type":"Person","name":"Yueh-Hua Tu","sameAs":["https://github.com/yuehhua/","https://www.facebook.com/a504082002","https://www.linkedin.com/in/%E5%B2%B3%E8%8F%AF-%E6%9D%9C-6a3995a0/","mailto:a504082002@gmail.com"],"image":"https://www.gravatar.com/avatar/a565749fba4782b717234da670b273fd"},"articleBody":"我們把線性模型們都大統一了。\n$$y \\overset{f}{\\longleftrightarrow} \\mathbb{E}[y] \\leftrightarrow \\eta = \\mathbf{w}^T\\mathbf{x} + b$$\n接下來就要進入到令人興奮的神經網路模型了！\n首先，我們先來介紹著名的感知器…嗯…前面不是介紹過了？\n喔喔！對喔！他長這個樣子：\n$$y = \\sigma(\\mathbf{w}^T\\mathbf{x} + b)$$\n其中 $\\mathbf{w}^T\\mathbf{x} + b$ 是我們熟悉的線性模型，然後 $\\sigma$ 就是所謂的 activation function。\n不覺得這看起來跟上面的很相似嗎？\n我們動點手腳：\n$$\\sigma^{-1}(y) = \\mathbf{w}^T\\mathbf{x} + b$$\n是的！發現了嗎？其實 $\\sigma^{-1}$ 就是在廣義線性模型裡的鏈結函數阿！他會是 activation function 的反函數！\n這樣是不是又了結了一樁心事了呢？\n堆疊在神經網路當中，我們會把一個一個神經元並排起來，數學上看起來就是把預測單一個 y 擴張成多個維度：\n$$\\mathbf{y} = \\sigma(W^T\\mathbf{x} + \\mathbf{b})$$\n所以在權重 W 的部份也隨之從一個向量擴張成一個矩陣，b 的部份也是，可以自己驗算看看。\n但是預測多維向量並不是讓模型強大的地方，讓模型強大是因為把很多個這樣的模型頭尾接起來。\n$$\\mathbf{x} \\rightarrow \\mathbf{h}^{(1)} \\rightarrow \\dots \\rightarrow \\mathbf{h}^{(k)} \\rightarrow \\mathbf{y}$$\n","dateCreated":"2018-10-12T23:46:06+08:00","dateModified":"2018-10-12T23:46:06+08:00","datePublished":"2018-10-12T23:46:06+08:00","description":"","headline":"12 從線性模型到神經網路","image":[],"mainEntityOfPage":{"@type":"WebPage","@id":"https://yuehhua.github.io/2018/10/12/12-from-linear-model-to-neural-network/"},"publisher":{"@type":"Organization","name":"Yueh-Hua Tu","sameAs":["https://github.com/yuehhua/","https://www.facebook.com/a504082002","https://www.linkedin.com/in/%E5%B2%B3%E8%8F%AF-%E6%9D%9C-6a3995a0/","mailto:a504082002@gmail.com"],"image":"https://www.gravatar.com/avatar/a565749fba4782b717234da670b273fd","logo":{"@type":"ImageObject","url":"https://www.gravatar.com/avatar/a565749fba4782b717234da670b273fd"}},"url":"https://yuehhua.github.io/2018/10/12/12-from-linear-model-to-neural-network/"}</script>
+    <meta name="description" content="我們把線性模型們都大統一了。 $$y \overset{f}{\longleftrightarrow} \mathbb{E}[y] \leftrightarrow \eta = \mathbf{w}^T\mathbf{x} + b$$ 接下來就要進入到令人興奮的神經網路模型了！ 首先，我們先來介紹著名的感知器…嗯…前面不是介紹過了？ 喔喔！對喔！他長這個樣子： $$y = \sigma(\math">
 <meta name="keywords" content="machine learning,deep learning,topology">
 <meta property="og:type" content="blog">
-<meta property="og:title" content="11 廣義線性模型">
-<meta property="og:url" content="https://yuehhua.github.io/2018/10/11/11-generalized-linear-model/index.html">
+<meta property="og:title" content="12 從線性模型到神經網路">
+<meta property="og:url" content="https://yuehhua.github.io/2018/10/12/12-from-linear-model-to-neural-network/index.html">
 <meta property="og:site_name" content="Dream Maker">
-<meta property="og:description" content="我們前面探討了不同的資料型態可以對應不同的迴歸模型。 不覺得每個迴歸模型都有那麼點相似的地方嗎？ 線性迴歸： $$\mathbb{E}[y] = \mu = \mathbf{w}^T\mathbf{x} + b$$ 羅吉斯迴歸： $$ln(\frac{\mathbb{E}[y]}{1 - \mathbb{E}[y]}) = ln(\frac{p}{1 - p}) = \mathbf{w}^T\ma">
+<meta property="og:description" content="我們把線性模型們都大統一了。 $$y \overset{f}{\longleftrightarrow} \mathbb{E}[y] \leftrightarrow \eta = \mathbf{w}^T\mathbf{x} + b$$ 接下來就要進入到令人興奮的神經網路模型了！ 首先，我們先來介紹著名的感知器…嗯…前面不是介紹過了？ 喔喔！對喔！他長這個樣子： $$y = \sigma(\math">
 <meta property="og:locale" content="en">
-<meta property="og:updated_time" content="2018-10-11T13:20:19.299Z">
+<meta property="og:updated_time" content="2018-10-12T15:46:06.930Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="11 廣義線性模型">
-<meta name="twitter:description" content="我們前面探討了不同的資料型態可以對應不同的迴歸模型。 不覺得每個迴歸模型都有那麼點相似的地方嗎？ 線性迴歸： $$\mathbb{E}[y] = \mu = \mathbf{w}^T\mathbf{x} + b$$ 羅吉斯迴歸： $$ln(\frac{\mathbb{E}[y]}{1 - \mathbb{E}[y]}) = ln(\frac{p}{1 - p}) = \mathbf{w}^T\ma">
+<meta name="twitter:title" content="12 從線性模型到神經網路">
+<meta name="twitter:description" content="我們把線性模型們都大統一了。 $$y \overset{f}{\longleftrightarrow} \mathbb{E}[y] \leftrightarrow \eta = \mathbf{w}^T\mathbf{x} + b$$ 接下來就要進入到令人興奮的神經網路模型了！ 首先，我們先來介紹著名的感知器…嗯…前面不是介紹過了？ 喔喔！對喔！他長這個樣子： $$y = \sigma(\math">
     
     
         
@@ -238,14 +238,14 @@
                     <div class="post-header main-content-wrap text-left">
     
         <h1 class="post-title">
-            11 廣義線性模型
+            12 從線性模型到神經網路
         </h1>
     
     
         <div class="post-meta">
-    <time datetime="2018-10-11T13:16:28+08:00">
+    <time datetime="2018-10-12T23:46:06+08:00">
 	
-		    Oct 11, 2018
+		    Oct 12, 2018
     	
     </time>
     
@@ -263,49 +263,23 @@
                         
                             <div class="post-content markdown">
                                 <div class="main-content-wrap">
-                                    <p>我們前面探討了不同的資料型態可以對應不同的迴歸模型。</p>
-<p>不覺得每個迴歸模型都有那麼點相似的地方嗎？</p>
-<p>線性迴歸：</p>
-<p>$$<br>\mathbb{E}[y] = \mu = \mathbf{w}^T\mathbf{x} + b<br>$$</p>
-<p>羅吉斯迴歸：</p>
-<p>$$<br>ln(\frac{\mathbb{E}[y]}{1 - \mathbb{E}[y]}) = ln(\frac{p}{1 - p}) = \mathbf{w}^T\mathbf{x} + b<br>$$</p>
-<p>Poisson 迴歸：</p>
-<p>$$<br>ln(\mathbb{E}[y]) = ln(\lambda) = \mathbf{w}^T\mathbf{x} + b<br>$$</p>
-<p>在右手邊的部份都是一樣的，是一樣的線性組合加上一個常數。</p>
-<p>差別在於預測出來的數值是怎麼連結到目標變量的平均值上 $\mathbb{E}[y]$。</p>
-<p>是的，我們在預測的都是目標變量的平均值。</p>
-<h2 id="鏈結函數（link-function）"><a href="#鏈結函數（link-function）" class="headerlink" title="鏈結函數（link function）"></a>鏈結函數（link function）</h2><p>要連結目標變量的平均值 $\mathbb{E}[y]$ 跟線性組合加上一個常數…..，姑且叫他 $\eta$ 好了。</p>
-<p>$$<br>\mathbb{E}[y] \leftrightarrow \eta<br>$$</p>
-<p>統計學家發展出使用鏈結函數來連結這兩者，所以不同的資料型態會對應不同的鏈結函數。</p>
-<p>線性迴歸使用 identity function $y = x$：</p>
-<p>$$<br>\mathbb{E}[y] = \eta<br>$$</p>
-<p>羅吉斯迴歸使用 logit function $y = ln(\frac{x}{1 - x})$：</p>
-<p>$$<br>ln(\frac{\mathbb{E}[y]}{1 - \mathbb{E}[y]}) = \eta<br>$$</p>
-<p>Poisson 迴歸使用 log function $y = ln(x)$：</p>
-<p>$$<br>ln(\mathbb{E}[y]) = \eta<br>$$</p>
-<h2 id="廣義線性模型（generalized-linear-model）"><a href="#廣義線性模型（generalized-linear-model）" class="headerlink" title="廣義線性模型（generalized linear model）"></a>廣義線性模型（generalized linear model）</h2><p>這麼一來我們就可以把三個模型搓一搓做成 <del>撒尿牛丸</del> 廣義線性模型啦！</p>
+                                    <p>我們把線性模型們都大統一了。</p>
 <p>$$<br>y \overset{f}{\longleftrightarrow} \mathbb{E}[y] \leftrightarrow \eta = \mathbf{w}^T\mathbf{x} + b<br>$$</p>
-<p>對應不同的目標變量，我們就有了萬用的模型，就像物理的大一統理論一樣。</p>
-<p>廣義線性模型其實包含了三個部份：</p>
-<ol>
-<li>鏈結函數</li>
-<li>線性預測子</li>
-<li>指數族</li>
-</ol>
-<h2 id="線性預測子（linear-predictor）"><a href="#線性預測子（linear-predictor）" class="headerlink" title="線性預測子（linear predictor）"></a>線性預測子（linear predictor）</h2><p>統計學家特別給了一個線性預測子這樣的名字。</p>
-<p>$$<br>\eta = \mathbf{w}^T\mathbf{x} + b<br>$$</p>
-<p>這代表要從預測變量 $\mathbf{x}$ 去預測我們的目標變量，其中 $\mathbf{x}$ 的變數之間都是 <strong>互相獨立</strong> 的。</p>
-<p>互相獨立的變數之間，要以 <strong>線性組合</strong> 來預測我們的目標變量。</p>
-<h2 id="指數族（exponential-family）"><a href="#指數族（exponential-family）" class="headerlink" title="指數族（exponential family）"></a>指數族（exponential family）</h2><p>可是每一種資料的機率分佈都可以接上廣義線性模型嗎？答案是否定的。</p>
-<p>$$<br>y \overset{f}{\longleftrightarrow} \mathbb{E}[y]<br>$$</p>
-<p>統計學家研究了一下這個模型，發現只有符合指數族的條件才能夠用。</p>
-<p>指數族長成這樣：</p>
-<p>$$<br>f(\mathbf{y} \mid \boldsymbol{\theta}) = \frac{1}{Z(\boldsymbol{\theta})} h(\mathbf{y}) exp(\boldsymbol{\theta}^T \phi(\mathbf{y}))<br>$$</p>
-<p>$\boldsymbol{\theta}$ 是機率分佈的期望值，或是稱為 natural parameter。</p>
-<p>$\phi(\mathbf{y})$ 是 sufficient statisitcs，這邊有非常多有趣的東西，不過也有點理論。</p>
-<p>$Z(\boldsymbol{\theta})$ 稱為 partition function，是機率分佈的分母，常常會在不同的領域見到他，像是物理。</p>
-<p>$h(\mathbf{y})$ 就是個縮放因子，沒什麼重要性，常常是 1。</p>
-<p>我知道大家可能會有很多疑問，但是礙於篇幅，我就不再繼續介紹下去了，這邊下去又是統計所一門課了。</p>
+<p>接下來就要進入到令人興奮的神經網路模型了！</p>
+<p>首先，我們先來介紹著名的感知器…嗯…前面不是介紹過了？</p>
+<p>喔喔！對喔！他長這個樣子：</p>
+<p>$$<br>y = \sigma(\mathbf{w}^T\mathbf{x} + b)<br>$$</p>
+<p>其中 $\mathbf{w}^T\mathbf{x} + b$ 是我們熟悉的線性模型，然後 $\sigma$ 就是所謂的 activation function。</p>
+<p>不覺得這看起來跟上面的很相似嗎？</p>
+<p>我們動點手腳：</p>
+<p>$$<br>\sigma^{-1}(y) = \mathbf{w}^T\mathbf{x} + b<br>$$</p>
+<p>是的！發現了嗎？其實 $\sigma^{-1}$ 就是在廣義線性模型裡的鏈結函數阿！他會是 activation function 的反函數！</p>
+<p>這樣是不是又了結了一樁心事了呢？</p>
+<h2 id="堆疊"><a href="#堆疊" class="headerlink" title="堆疊"></a>堆疊</h2><p>在神經網路當中，我們會把一個一個神經元並排起來，數學上看起來就是把預測單一個 y 擴張成多個維度：</p>
+<p>$$<br>\mathbf{y} = \sigma(W^T\mathbf{x} + \mathbf{b})<br>$$</p>
+<p>所以在權重 W 的部份也隨之從一個向量擴張成一個矩陣，b 的部份也是，可以自己驗算看看。</p>
+<p>但是預測多維向量並不是讓模型強大的地方，讓模型強大是因為把很多個這樣的模型頭尾接起來。</p>
+<p>$$<br>\mathbf{x} \rightarrow \mathbf{h}^{(1)} \rightarrow \dots \rightarrow \mathbf{h}^{(k)} \rightarrow \mathbf{y}<br>$$</p>
 
                                         
 
@@ -319,8 +293,7 @@
         <ul class="post-actions post-action-nav">
             <li class="post-action">
                 
-                    
-                    <a class="post-action-btn btn btn--default tooltip--top" href="/2018/10/12/12-from-linear-model-to-neural-network/" data-tooltip="12 從線性模型到神經網路" aria-label="PREVIOUS: 12 從線性模型到神經網路">
+                    <a class="post-action-btn btn btn--disabled">
                 
                     <i class="fa fa-angle-left" aria-hidden="true"></i>
                     <span class="hide-xs hide-sm text-small icon-ml">PREVIOUS</span>
@@ -329,7 +302,7 @@
             <li class="post-action">
                 
                     
-                    <a class="post-action-btn btn btn--default tooltip--top" href="/2018/10/10/10-from-linear-regression-to-poisson-regression/" data-tooltip="10 從線性迴歸到 Poisson 迴歸" aria-label="NEXT: 10 從線性迴歸到 Poisson 迴歸">
+                    <a class="post-action-btn btn btn--default tooltip--top" href="/2018/10/11/11-generalized-linear-model/" data-tooltip="11 廣義線性模型" aria-label="NEXT: 11 廣義線性模型">
                 
                     <span class="hide-xs hide-sm text-small icon-mr">NEXT</span>
                     <i class="fa fa-angle-right" aria-hidden="true"></i>
@@ -347,7 +320,7 @@
             
             
             <li class="post-action hide-xs">
-                <a class="post-action-btn btn btn--default" target="new" href="https://www.facebook.com/sharer/sharer.php?u=https://yuehhua.github.io/2018/10/11/11-generalized-linear-model/" title="Share on Facebook">
+                <a class="post-action-btn btn btn--default" target="new" href="https://www.facebook.com/sharer/sharer.php?u=https://yuehhua.github.io/2018/10/12/12-from-linear-model-to-neural-network/" title="Share on Facebook">
                     <i class="fa fa-facebook-official" aria-hidden="true"></i>
                 </a>
             </li>
@@ -405,8 +378,7 @@
         <ul class="post-actions post-action-nav">
             <li class="post-action">
                 
-                    
-                    <a class="post-action-btn btn btn--default tooltip--top" href="/2018/10/12/12-from-linear-model-to-neural-network/" data-tooltip="12 從線性模型到神經網路" aria-label="PREVIOUS: 12 從線性模型到神經網路">
+                    <a class="post-action-btn btn btn--disabled">
                 
                     <i class="fa fa-angle-left" aria-hidden="true"></i>
                     <span class="hide-xs hide-sm text-small icon-ml">PREVIOUS</span>
@@ -415,7 +387,7 @@
             <li class="post-action">
                 
                     
-                    <a class="post-action-btn btn btn--default tooltip--top" href="/2018/10/10/10-from-linear-regression-to-poisson-regression/" data-tooltip="10 從線性迴歸到 Poisson 迴歸" aria-label="NEXT: 10 從線性迴歸到 Poisson 迴歸">
+                    <a class="post-action-btn btn btn--default tooltip--top" href="/2018/10/11/11-generalized-linear-model/" data-tooltip="11 廣義線性模型" aria-label="NEXT: 11 廣義線性模型">
                 
                     <span class="hide-xs hide-sm text-small icon-mr">NEXT</span>
                     <i class="fa fa-angle-right" aria-hidden="true"></i>
@@ -433,7 +405,7 @@
             
             
             <li class="post-action hide-xs">
-                <a class="post-action-btn btn btn--default" target="new" href="https://www.facebook.com/sharer/sharer.php?u=https://yuehhua.github.io/2018/10/11/11-generalized-linear-model/" title="Share on Facebook">
+                <a class="post-action-btn btn btn--default" target="new" href="https://www.facebook.com/sharer/sharer.php?u=https://yuehhua.github.io/2018/10/12/12-from-linear-model-to-neural-network/" title="Share on Facebook">
                     <i class="fa fa-facebook-official" aria-hidden="true"></i>
                 </a>
             </li>
@@ -466,7 +438,7 @@
             
             
             <li class="share-option">
-                <a class="share-option-btn" target="new" href="https://www.facebook.com/sharer/sharer.php?u=https://yuehhua.github.io/2018/10/11/11-generalized-linear-model/">
+                <a class="share-option-btn" target="new" href="https://www.facebook.com/sharer/sharer.php?u=https://yuehhua.github.io/2018/10/12/12-from-linear-model-to-neural-network/">
                     <i class="fa fa-facebook-official" aria-hidden="true"></i><span>Share on Facebook</span>
                 </a>
             </li>
@@ -518,9 +490,9 @@
     
         <script>
              var disqus_config = function () {
-                 this.page.url = 'https://yuehhua.github.io/2018/10/11/11-generalized-linear-model/';
+                 this.page.url = 'https://yuehhua.github.io/2018/10/12/12-from-linear-model-to-neural-network/';
                  
-                    this.page.identifier = '2018/10/11/11-generalized-linear-model/';
+                    this.page.identifier = '2018/10/12/12-from-linear-model-to-neural-network/';
                  
              };
             (function() {
