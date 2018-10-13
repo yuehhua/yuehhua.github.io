@@ -236,6 +236,87 @@
             <div class="postShorten-header">
                 <h1 class="postShorten-title">
                     
+                        <a class="link-unstyled" href="/2018/10/14/13-kernel-svm-and-rbf-network/">
+                            13 Kernel SVM 與 RBF network
+                        </a>
+                    
+                </h1>
+                <div class="postShorten-meta">
+    <time datetime="2018-10-14T00:18:55+08:00">
+	
+		    Oct 14, 2018
+    	
+    </time>
+    
+        <span>in </span>
+        
+    <a class="category-link" href="/categories/Machine-Learning/">Machine Learning</a>, <a class="category-link" href="/categories/Machine-Learning/機器學習模型圖書館：從傳統模型到深度學習/">機器學習模型圖書館：從傳統模型到深度學習</a>
+
+
+    
+</div>
+
+            </div>
+            
+                <div class="postShorten-content">
+                    <p>我們前面介紹了線性模型跟基本的神經網路模型。</p>
+<p>可能有的人會覺得我怎麼不放神經網路的圖，看數學式子看的很痛苦。</p>
+<p>是的，我的確沒打算放圖。一來神經網路的圖在各大網站或是 google 上遍地都是我實在沒有必要再放一張，二來因為這個模型的核心根本不是哪些圖，那些圖只是幫助理解，理解之後就都是看數學式了，再回去看圖就太小兒科了。</p>
+<p>神經網路的概念在於將多個模型串接起來，也就是前面提到的堆疊的概念。</p>
+<h2 id="處理流程"><a href="#處理流程" class="headerlink" title="處理流程"></a>處理流程</h2><p>堆疊的概念其實跟傳統的機器學習處理流程有點像。</p>
+<p>機器學習的處理流程大概就跟做料理很像。</p>
+<p>首先，你需要先買菜（蒐集資料），然後是備料（資料前處理）。備料的動作其實很不一樣，依據你要煮的料理（機器學習模型）是什麼而有所區別，該是切塊、切條、切絲，還是切丁（特徵離散化）？肉該不該先醃過（特徵轉換）？</p>
+<p>如果你想呈現的是一道味道一體呈現的料理，而不是肉是肉、菜是菜，味道都各自獨立，你是不是該在一些烹調方式或是前處理上讓味道融為一體？（特徵正規化）（謎：又不是在吃沙拉，還味道各自分離。）</p>
+<p>等料都備好了之後，就是重點的料理部份。料理方式要用煎煮炒炸哪一種（定義監督式、非監督式學習），然後整體的食譜（機器學習模型）是什麼？像是典型的紅酒燉牛肉就是經典食譜（很多人用的模型），當然你可以根據自己的喜好修改成自己的版本（改模型架構），不過大多數人怕失敗，所以都去找了電視上的或是名主廚的食譜（市面上常看到的套件，像 scikit-learn）。</p>
+<p>料理好了之後就是要排盤（成果展現）啦！你總不可能紅酒燉牛肉做好之後整鍋端到餐桌上去，一定是要做些裝飾跟點綴（資料視覺化）。那些就是主廚（資料科學家或 AI 工程師）想要呈現給你的客人（通常是老闆）的東西，那除了嗅覺跟味覺，還有視覺上的效果。整體說來，需要營造的是一個氛圍或是體驗（老闆的感覺）。</p>
+<p>身為一個主廚必須在各個小地方或是細節用心，才能拿到米其林指南推荐的殊榮（KDD 或 kaggle 競賽冠軍）。</p>
+<p>好像有點離題了……</p>
+<p>總之，這些步驟都是環環相扣的，而且需要從最前端串接到最後的。模型的堆疊也是做類似的事情，希望可以把前處理、料理等等步驟都串接起來成為一個模型，所以以往的機器學習 pipeline 就演化成神經網路模型了。</p>
+<h2 id="RBF-network"><a href="#RBF-network" class="headerlink" title="RBF network"></a>RBF network</h2><p>我們回到今天的主題來，像前面我們談過 SVM 是個很厲害的分類器，主要是引進了 kernel 讓這個模型可以做非線性的處理。</p>
+<p>那麼 kernel 能不能被放到神經網路裡呢？</p>
+<p>其實是可以的，應該說，有一種網路模型稱為 Radial basis function network（RBF network），他其實就很像是 Gaussian kernel SVM。</p>
+<p>我們來看看前面的 kernel SVM 模型：</p>
+<p>$$<br>SVM(\mathbf{x}) = sign(\sum_{SV} \alpha_n y_n K(\mathbf{x}, \mathbf{x_n}) + b)<br>$$</p>
+<p>Gaussian kernel，或是稱 RBF function：</p>
+<p>$$<br>K(\mathbf{x}, \mathbf{x_n}) = exp(\gamma ||\mathbf{x} - \mathbf{x_n}||^2) = RBF(\mathbf{x}, \mathbf{x_n})<br>$$</p>
+<p>那麼 RBF network 是長什麼樣子呢？</p>
+<p>$$<br>y = \sum_{n} w_n RBF(\mathbf{x}, \boldsymbol{\mu_n})<br>$$</p>
+<p>示意圖的話是這樣：</p>
+<p><img src="/images/rbf_network.svg" alt=""></p>
+<p>你可以將 $RBF(\mathbf{x}, \boldsymbol{\mu_n})$ 看成第一層，就是在計算兩個向量之間的距離，或是反過來說叫作相似度。</p>
+<p>第二層則是做一個線性組合，這邊就很像神經網路的一層。</p>
+<p>我們其實可以將上面的式子擴展成：</p>
+<p>$$<br>y = \sigma(\sum_{n} w_n RBF(\mathbf{x}, \boldsymbol{\mu_n}) + b)<br>$$</p>
+<p>或是寫成：</p>
+<p>$$<br>y = \sigma(\mathbf{w}^T RBF(\mathbf{x}, \boldsymbol{\mu}) + b)<br>$$</p>
+<p>我們可以將第二層變成一個神經網路的層，還包含有 activation function，所以這樣 kernel 也變成一層了。</p>
+<p>RBF network 一開始是設計用來做函數內插的，就是有一些資料點 $\mathbf{x}$，我希望可以由這些資料來幫我們找到一條平滑的函數，愈密集的地方是愈有可能是線經過的。</p>
+<p>今天的部份就到這邊啦！</p>
+
+                    
+                        
+
+                    
+                    
+                        <p>
+                            <a href="/2018/10/14/13-kernel-svm-and-rbf-network/#post-footer" class="postShorten-excerpt_link link">
+                                Comment and share
+                            </a>
+                        </p>
+                    
+                </div>
+            
+        </div>
+        
+    </article>
+    
+    
+    <article class="postShorten postShorten--thumbnailimg-bottom">
+        <div class="postShorten-wrap">
+            
+            <div class="postShorten-header">
+                <h1 class="postShorten-title">
+                    
                         <a class="link-unstyled" href="/2018/10/12/12-from-linear-model-to-neural-network/">
                             12 從線性模型到神經網路
                         </a>
@@ -980,50 +1061,6 @@
                                 Comment and share
                             </a>
                         </p>
-                    
-                </div>
-            
-        </div>
-        
-    </article>
-    
-    
-    <article class="postShorten postShorten--thumbnailimg-right">
-        <div class="postShorten-wrap">
-            
-            <div class="postShorten-header">
-                <h1 class="postShorten-title">
-                    
-                        <a class="link-unstyled" href="/2018/10/03/03-from-linear-regression-to-perceptron/">
-                            03 從線性迴歸到感知器
-                        </a>
-                    
-                </h1>
-                <div class="postShorten-meta">
-    <time datetime="2018-10-03T23:24:32+08:00">
-	
-		    Oct 03, 2018
-    	
-    </time>
-    
-        <span>in </span>
-        
-    <a class="category-link" href="/categories/Machine-Learning/">Machine Learning</a>, <a class="category-link" href="/categories/Machine-Learning/機器學習模型圖書館：從傳統模型到深度學習/">機器學習模型圖書館：從傳統模型到深度學習</a>
-
-
-    
-</div>
-
-            </div>
-            
-                <div class="postShorten-excerpt">
-                    <p>感知器（perceptron）是在 1957 年就被發明出來的的模型，對電腦的發展或是人工智慧來說都是非常早期的。</p>
-<p>感知器模型他是一個二元分類的分類器，他解的是分類問題。相對我們前面的線性迴歸解的是迴歸問題，兩者在問題的定義上有根本性的不一樣，那他們兩個有什麼關聯性呢？</p>
-                    
-                        <a href="/2018/10/03/03-from-linear-regression-to-perceptron/" class="postShorten-excerpt_link link">
-                            Continue reading
-                        </a>
-                        
                     
                 </div>
             
