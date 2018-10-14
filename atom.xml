@@ -6,7 +6,7 @@
   <link href="/atom.xml" rel="self"/>
   
   <link href="https://yuehhua.github.io/"/>
-  <updated>2018-10-13T16:18:55.377Z</updated>
+  <updated>2018-10-14T15:16:02.372Z</updated>
   <id>https://yuehhua.github.io/</id>
   
   <author>
@@ -15,6 +15,35 @@
   </author>
   
   <generator uri="http://hexo.io/">Hexo</generator>
+  
+  <entry>
+    <title>14 淺層神經網路</title>
+    <link href="https://yuehhua.github.io/2018/10/14/14-shallow-neural-network/"/>
+    <id>https://yuehhua.github.io/2018/10/14/14-shallow-neural-network/</id>
+    <published>2018-10-14T15:16:02.000Z</published>
+    <updated>2018-10-14T15:16:02.372Z</updated>
+    
+    <content type="html"><![CDATA[<p>為什麼大家到現在都這麼迷神經網路模型？</p><p>我想主因不是因為他是模擬生物而來，他有一些更扎實的數學特性。</p><p>我們前面講過各種線性模型，然後將他過渡到神經網路。</p><p>今天要告訴大家，即便是淺層的神經網路也是很厲害的。</p><h2 id="Universal-approximation-theorem"><a href="#Universal-approximation-theorem" class="headerlink" title="Universal approximation theorem"></a>Universal approximation theorem</h2><p>Universal approximation theorem 是個淺層的神經網路的數學定理。</p><p>他說：一個簡單的 feedforward network，只包含了一個 hidden layer，並且有適切的 activation function，包含有限個神經元的情況下，可以去逼近任何連續函數。</p><p>在 1989 就以經由 George Cybenko 先生第一次證實了這個定理，他使用了 sigmoid activation function。</p><p>如果大家對細節有興趣，請參閱 <a href="https://en.wikipedia.org/wiki/Universal_approximation_theorem" target="_blank" rel="noopener">維基百科的條目</a>。</p><p>這代表什麼呢？</p><p>到目前為止，我們都會將一個現實中的問題化成一個數學問題，一個數學問題基本上都是包含函數的。</p><p>像是影像辨識，我們就可以看成一個可以輸入影像的函數，這個函數會輸出辨識結果，也就是分類。</p><p>我們可以這樣寫 $f: \text{images} \rightarrow \text{classes}$。</p><p>所以語音辨識就是 $f: \text{speech} \rightarrow \text{text}$。</p><p>聊天機器人就是 $f: \text{text}} \rightarrow \text{text}$。</p><p>…</p><p>到這邊你可以想想，幾乎人類的問題都可以化成一個函數來解答。</p><p>所以可以逼近任何連續函數的模型根本就可以解答任何問題的意思阿！</p><p>所以大家才拼了命的用這個模型去解決很多問題。</p><h2 id="待解問題"><a href="#待解問題" class="headerlink" title="待解問題"></a>待解問題</h2><p>如果這個模型這麼萬能，那麼他就真的沒有缺點嗎？</p><p>我們需要從這個定理切入，定理中描述的有限個神經元，但至少不是無限，他並沒有說需要幾個。</p><p>這理所當然，因為沒有人知道你的問題有多複雜，需要用多難的方法解嘛！</p><p>然後 activation function 也是沒有提的。</p><p>所以這就是留給現代的大家去決定的。</p>]]></content>
+    
+    <summary type="html">
+    
+      
+      
+        &lt;p&gt;為什麼大家到現在都這麼迷神經網路模型？&lt;/p&gt;
+&lt;p&gt;我想主因不是因為他是模擬生物而來，他有一些更扎實的數學特性。&lt;/p&gt;
+&lt;p&gt;我們前面講過各種線性模型，然後將他過渡到神經網路。&lt;/p&gt;
+&lt;p&gt;今天要告訴大家，即便是淺層的神經網路也是很厲害的。&lt;/p&gt;
+&lt;h2 id=&quot;U
+      
+    
+    </summary>
+    
+      <category term="Machine Learning" scheme="https://yuehhua.github.io/categories/Machine-Learning/"/>
+    
+      <category term="機器學習模型圖書館：從傳統模型到深度學習" scheme="https://yuehhua.github.io/categories/Machine-Learning/%E6%A9%9F%E5%99%A8%E5%AD%B8%E7%BF%92%E6%A8%A1%E5%9E%8B%E5%9C%96%E6%9B%B8%E9%A4%A8%EF%BC%9A%E5%BE%9E%E5%82%B3%E7%B5%B1%E6%A8%A1%E5%9E%8B%E5%88%B0%E6%B7%B1%E5%BA%A6%E5%AD%B8%E7%BF%92/"/>
+    
+    
+  </entry>
   
   <entry>
     <title>13 Kernel SVM 與 RBF network</title>
@@ -484,29 +513,6 @@
 &lt;p&gt;有上過線性代數的朋友們應該會知道，向量如果滿足線性獨立可以 span 到整個空間，而一個空間有他們的基底。&lt;/p&gt;
 &lt;p&gt;你可以把向量看成一種數學物件，空間的話就是很多這種數學物件的集合，那相對基底的話就是要擴展成整個空間的基本元素。&lt;/p&gt;
 &lt;p&gt;拓樸也是一樣的，開集（open set）也是一種數學物件，一個拓樸空間中所包含的元素就是開集，那麼就會很自然的想知道他的基底是什麼？&lt;/p&gt;
-    
-    </summary>
-    
-      <category term="Topology" scheme="https://yuehhua.github.io/categories/Topology/"/>
-    
-    
-  </entry>
-  
-  <entry>
-    <title>Topology space and topology</title>
-    <link href="https://yuehhua.github.io/2018/07/22/09-topology/"/>
-    <id>https://yuehhua.github.io/2018/07/22/09-topology/</id>
-    <published>2018-07-21T16:32:23.000Z</published>
-    <updated>2018-07-26T05:28:16.524Z</updated>
-    
-    <content type="html"><![CDATA[<p>我們終於來到拓樸學的大門口了！</p><p>（謎：前面走那麼多圈是在幹什麼的！</p><p>拓樸其實是幾何學的拓展，他往更基礎的方向去，當我們在探討幾何學的時候，其實我們研究的是空間關係。</p><p><img src="https://upload.wikimedia.org/wikipedia/commons/8/85/Stereographic_projection_in_3D.png" alt=""></p><a id="more"></a><p>空間關係裏面，我們研究大小、位置、角度、維度，再到比較高階的概念：面積或體積。</p><p>這邊需要一些線性代數的基礎進來，我們知道高階的概念是建立在較基礎的概念上，像是在有面積跟體積之前，要先定義長度，而長度則是由線性代數的範數（norm）給出，而角度的概念也是要先定義範數。</p><p>賦範空間（normed space）則是有定義範數的座標系。</p><p>空間中的位置與維度則是由座標系定義，而座標系則是我們先前定義的 m-tuple 的集合（所構成的空間）。</p><p>那麼最基礎的東西是什麼呢？</p><p>座標系中的 m-tuple，每個元素是由實數定義的。前面我們花時間討論了實數與整數。</p><p>在實數當中，我們之能知道兩個實數之間的關係，只能是大於、小於或等於三者其中之一。</p><p>但是當我們想討論空間中的 <strong>連續性</strong>，或是空間中的 <strong>鄰近</strong> 關係的時候，我們不知道到底什麼是連續？什麼是鄰近？</p><p>或許你可以說連續就是一個挨著一個，緊接著的元素或是數字，那這樣整數是連續的嗎？</p><p>數字 1 下一個是 2？</p><p>或是 1.0 的下一個是 1.000000000000000000000000000000001？</p><p>不對阿！那你把 1.0000000000000000000000000000000005 放到哪裡去了？</p><p>我們會認為實數是連續的，但整數不是，可是我們在整數中可以找到 <strong>下一個</strong>，可是實數當中不行。</p><p>所以 <em>找不到下一個人的系統</em> 就是連續？當然不是阿！我可以不要定義下一個人是誰就不會有下一個人阿！</p><p>所以拓樸學研究的就是空間上的連續跟鄰近關係。</p><hr><p>我們會先討論 <strong>鄰近</strong>，或是 <strong>鄰居</strong> 的概念。</p><p>近代分析學的基礎是極限，微分跟積分都是根基於這個概念之上，而對於極限的探討跟嚴謹程度造就了拓樸學這個領域。在極限的概念之中，我們談的是逼近，在 $\epsilon - \delta$ 的證明當中，不難發覺他其實給了一個不定的範圍，可大可小，那逼近的程度就可以計算得出來了，而 <strong>鄰近</strong> 的概念正是可以在這邊發揮作用的。</p><p><img src="/images/topology1.svg" alt=""></p><p>一條直線，我們可以把他想成一條軟繩子，繩子上的任何一點，無論繩子怎麼扭曲，點鄰近的區域是不變的。不過這時候如果我們把繩子的兩頭相接起來那就不一樣了。</p><p><img src="/images/topology2.svg" alt=""></p><p>我們可以看上面這個圖，當繩子繞成一個圓的時候，相接的黑點的鄰近區域是黑點的左右兩塊。黑點剛好對應到線段的兩個端點，兩個端點的鄰近區域是上圖中紅色所顯示的。你可以看到繩子因為被接起來，所以改變了他的鄰近區域，而這個改變我們可以用一個函數來把他對映起來：</p><p>$$<br>f(x) = x \enspace mod \enspace 12<br>$$</p><p>你可以想像有類似時鐘的 12 個數字擺在圓的線上，而線段上也有 1~12 的數字，在時鐘上的 12 鄰近有 11 跟 1，但是在線段上的 12 的鄰近只有 11，上述的函數則是可以把線段對映到圓上。</p><div style="text-align:center">線 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 圓</div><p>$$<br>\begin{bmatrix}<br>\vdots \\<br>10 \\<br>11 \\<br>12 \\<br>13 \\<br>14 \\<br>\vdots<br>\end{bmatrix}<br>\rightarrow<br>\begin{bmatrix}<br>\vdots \\<br>10 \\<br>11 \\<br>0 \\<br>1 \\<br>2 \\<br>\vdots<br>\end{bmatrix}<br>$$</p><p>原本在空間上，線段是無法由一頭持續走向另一頭的，但是卻可以透過函數來把兩頭接起來，這樣鄰近的空間也改變了，這時候我們想要描述空間中的鄰近關係，我們透過集合論給出了以下的特性：</p><p>一個鄰近區域（neighborhood） $X$，$\forall x \in X$，我們說 $X$ 是 $x$ 的鄰近區域，他需要滿足：</p><ol><li>$x$ 在它自己的鄰近區域中</li><li>兩個 $x$ 的鄰近區域的交集仍然是 $x$ 的鄰近區域</li><li>若 $X$ 的子集包含了 $x$ 的鄰近區域，那麼他也是 $x$ 的鄰近區域</li><li>$x$ 的鄰近區域的內部也是 $x$ 的鄰近區域</li></ol><p><img src="/images/topology3.svg" alt=""></p><p>這些特性含蠻直觀的。$x$ 要在它自己的鄰近區域中，不滿足的話會導致很多運算都沒有封閉性。鄰近區域的交集仍是 $x$ 的鄰近區域也是很直觀的特性。最後兩條其實是有點相對的概念，第 3 條描述到一個比 $x$ 的鄰近區域大的，他也要是 $x$ 的鄰近區域，而第 4 條則是比 $x$ 的鄰近區域更小的，也要是 $x$ 的鄰近區域。</p><p>不過這樣的定義很複雜，不好用，所以後續引出了 <strong>拓樸（topology）</strong> 的定義，來代表鄰近區域：</p><blockquote><p> <strong><em>Def.</em></strong></p></blockquote><p>A topology on a set $X$ is a collection $\mathcal{T}$ of subsets of $X$ having the following properties:</p><ol><li>$\emptyset, X \in \mathcal{T}$</li><li>$\bigcup_{A \in \mathcal{T}} A \in \mathcal{T}$</li><li>$\bigcap_{A_i \in \mathcal{T}} A_i \in \mathcal{T}$, $i$ is finite</li></ol><p>來解釋一下，一個是需要定義在一個集合 $X$ 上的，而拓樸是 $X$ 的子集合的集合 $\mathcal{T}$。這個拓樸 $\mathcal{T}$ 需要滿足一些特性。空集合跟集合 $X$ 本身也在 $\mathcal{T}$ 中，這應該蠻直覺的，也就是集合 $X$ 是在自己的鄰近區域，有時候自己的鄰近區域沒有人也是很正常的。接著是，拓樸中的元素互相取聯集，仍然在這個拓樸中，也就是，鄰近區域的聯集仍然是鄰近區域。最後，拓樸中的元素互相取交集，仍然在這個拓樸中，也就是，鄰近區域的交集仍然是鄰近區域。不過要注意的是，聯集可以取無限聯集，但交集只能有限次數，主要是取無限次的交集很有可能都變成空集合，他就沒有意義，而且我們不知道無限次的交集到底是長什麼樣子。</p><p>這時候我們就會稱這個集合 $X$ 為 <strong>拓樸空間（topological space）</strong>。</p><p>更好的說法是，拓樸空間其實是集合跟拓樸的配對 $(X, \mathcal{T})$，所以他應該包含一個集合跟一個拓樸，但沒有異議的話，常常省略 $\mathcal{T}$ 不講。</p><p>這時候就需要來點例題幫助理解這個抽象概念。</p><h4 id="ex"><a href="#ex" class="headerlink" title="ex."></a><em>ex.</em></h4><p>$X = \{A, B, C\}$ 是一個 3 個元素的集合，以下哪些是一個佈於 $X$ 上的拓樸？</p><ol><li>$\mathcal{T} = \{\emptyset, X\}$ 是一個拓樸</li><li>$\mathcal{T} = \{\emptyset, \{A\}, \{A, B\}, X\}$ 是一個拓樸</li><li>$\mathcal{T} = \{\emptyset, \{B\}, \{A, B\}, \{B, C\}, X\}$ 是一個拓樸</li><li>$\mathcal{T} = \{\emptyset, \{A\}, X\}$ 是一個拓樸</li><li>$\mathcal{T} = \{\emptyset, \{A, B\}, \{C\}, X\}$ 是一個拓樸</li><li>$\mathcal{T} = \{\emptyset, \{A\}, \{B\}, \{A, B\}, X\}$ 是一個拓樸</li><li>$\mathcal{T} = \{\emptyset, \{A\}, \{B\}, X\}$ 不是一個拓樸<ul><li>$\{A\}, \{B\}$ 的聯集不在 $\mathcal{T}$ 中</li></ul></li><li>$\mathcal{T} = \{\emptyset, \{A, B\}, \{B, C\}, X\}$ 不是一個拓樸<ul><li>$\{A, B\}, \{B, C\}$ 的交集不在 $\mathcal{T}$ 中</li></ul></li></ol><p>接下來就來名詞解釋拉！</p><blockquote><p> <strong><em>Def.</em></strong></p></blockquote><p>$X$ 是一個集合</p><ol><li>The collection of all subsets of $X$ (the power set of $X$, $\mathcal{P}(X)$) is called <strong>discrete topology（離散拓樸）</strong></li><li>$\{ \emptyset, X \}$ is called <strong>trivial topology</strong> or <strong>indiscrete topology</strong></li></ol><p>我們可以來比較看看這兩個拓樸：$\{\emptyset, X\}, \{\emptyset, \{A\}, \{A, B\}, X\}$（用上面例子的集合定義）。</p><p>兩者都是佈於 $X$ 的拓樸，那他們有什麼差別呢？我們可以這樣說：</p><blockquote><p> <strong><em>Def.</em></strong></p></blockquote><p>$\mathcal{T}, \mathcal{T}’$ 是兩個佈於集合$X$ 的拓樸：</p><ol><li>If $\mathcal{T}’ \supseteq \mathcal{T}$, $\mathcal{T}’$ is <strong>finer（細緻）</strong> than $\mathcal{T}$.</li><li>If $\mathcal{T}’ \subseteq \mathcal{T}$, $\mathcal{T}’$ is <strong>coarser（粗略）</strong> than $\mathcal{T}$.</li></ol><p>引入了這樣的描述方式，我們一樣可以用集合中的 strictly（嚴格）finer or coarser 來描述他們。如果兩個拓樸可以用以上兩種關係來描述的話，我們就說他們是 <strong>comparable</strong>。</p><p>有的人會以 smaller, larger 或是 weaker, stronger 來描述，只是這樣沒有那麼的傳神。</p>]]></content>
-    
-    <summary type="html">
-    
-      &lt;p&gt;我們終於來到拓樸學的大門口了！&lt;/p&gt;
-&lt;p&gt;（謎：前面走那麼多圈是在幹什麼的！&lt;/p&gt;
-&lt;p&gt;拓樸其實是幾何學的拓展，他往更基礎的方向去，當我們在探討幾何學的時候，其實我們研究的是空間關係。&lt;/p&gt;
-&lt;p&gt;&lt;img src=&quot;https://upload.wikimedia.org/wikipedia/commons/8/85/Stereographic_projection_in_3D.png&quot; alt=&quot;&quot;&gt;&lt;/p&gt;
     
     </summary>
     
