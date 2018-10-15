@@ -6,7 +6,7 @@
   <link href="/atom.xml" rel="self"/>
   
   <link href="https://yuehhua.github.io/"/>
-  <updated>2018-10-14T15:16:02.372Z</updated>
+  <updated>2018-10-15T06:56:39.580Z</updated>
   <id>https://yuehhua.github.io/</id>
   
   <author>
@@ -15,6 +15,33 @@
   </author>
   
   <generator uri="http://hexo.io/">Hexo</generator>
+  
+  <entry>
+    <title>15 為什麼要深？</title>
+    <link href="https://yuehhua.github.io/2018/10/15/15-why-deep/"/>
+    <id>https://yuehhua.github.io/2018/10/15/15-why-deep/</id>
+    <published>2018-10-15T06:56:39.000Z</published>
+    <updated>2018-10-15T06:56:39.580Z</updated>
+    
+    <content type="html"><![CDATA[<p>接著我們就來到了蠻重要的問題，既然一個 hidden layer 的網路架構就可以逼近任何連續函數，那麼為什麼要深度學習？</p><p>對於這個問題，台大李宏毅老師有非常詳細的講解：</p><iframe width="560" height="315" src="https://www.youtube.com/embed/FN8jclCrqY0" frameborder="0" allow="autoplay; encrypted-media" allowfullscreen></iframe><p>影片裏面實驗很多，所以我還是總結一下：</p><ol><li>用邏輯電路類比神經網路的話，你一樣可以用單層的並聯將所有邏輯閘都起來成為一個電路，一樣可以達到相同的效果，但是用多層的串聯可以將所需要的邏輯閘數目減少（類比神經網路的神經元），所以可以達到減少參數的效果。</li><li>使用 ReLU 作為 activation function 就是要用分段線性的方式來逼近一個函數，在網路參數相進的情況下，單層網路所能產生的”段”比較少，多層網路所產生的”段”比較多，產生的線段較多就可以去逼近一個更複雜的函數，所以模型就比較強大。</li><li>計算分段線性的數量，當你有 $N$ 個神經元，單層網路裡最多只能產生 $N - 1$ 個線段，多層網路，每層安排兩個神經元，可以產生 $2^{\frac{N}{2}}$ 個線段。</li></ol><p>更有文獻提到，計算線段的數量，如果你的網路每層有 $K$ 個神經元，而且有 $H$ 層，那麼至少會有 $K^H$ 個線段。</p><p>由於深度是放在指數上面，所以增加深度就可以簡單地提高模型的複雜度，也就可以讓模型變得比較強大。</p><h2 id="計算複雜度"><a href="#計算複雜度" class="headerlink" title="計算複雜度"></a>計算複雜度</h2><p>在一些電腦的問題上，我們常常形容問題是 NP 或者不是 NP，來描述一個問題的複雜度有多高。</p><p>一個問題的時間複雜度可以在多項式時間內的，我們稱為 P，如果不是，那我們稱為 NP。</p><p>NP-complete 問題是 NP 問題當中最難的了，計算複雜度大概會是指數級成長，這種成長速度應該使用神經網路有辦法克服。</p>]]></content>
+    
+    <summary type="html">
+    
+      
+      
+        &lt;p&gt;接著我們就來到了蠻重要的問題，既然一個 hidden layer 的網路架構就可以逼近任何連續函數，那麼為什麼要深度學習？&lt;/p&gt;
+&lt;p&gt;對於這個問題，台大李宏毅老師有非常詳細的講解：&lt;/p&gt;
+&lt;iframe width=&quot;560&quot; height=&quot;315&quot; src=&quot;ht
+      
+    
+    </summary>
+    
+      <category term="Machine Learning" scheme="https://yuehhua.github.io/categories/Machine-Learning/"/>
+    
+      <category term="機器學習模型圖書館：從傳統模型到深度學習" scheme="https://yuehhua.github.io/categories/Machine-Learning/%E6%A9%9F%E5%99%A8%E5%AD%B8%E7%BF%92%E6%A8%A1%E5%9E%8B%E5%9C%96%E6%9B%B8%E9%A4%A8%EF%BC%9A%E5%BE%9E%E5%82%B3%E7%B5%B1%E6%A8%A1%E5%9E%8B%E5%88%B0%E6%B7%B1%E5%BA%A6%E5%AD%B8%E7%BF%92/"/>
+    
+    
+  </entry>
   
   <entry>
     <title>14 淺層神經網路</title>
@@ -494,29 +521,6 @@
     </summary>
     
       <category term="Deep Learning" scheme="https://yuehhua.github.io/categories/Deep-Learning/"/>
-    
-    
-  </entry>
-  
-  <entry>
-    <title>Basis for topology</title>
-    <link href="https://yuehhua.github.io/2018/07/25/10-basis-for-topology/"/>
-    <id>https://yuehhua.github.io/2018/07/25/10-basis-for-topology/</id>
-    <published>2018-07-25T15:57:56.000Z</published>
-    <updated>2018-08-07T03:20:02.035Z</updated>
-    
-    <content type="html"><![CDATA[<p>上一篇介紹完基本的拓樸結構，接下來我們來看基底（basis）的部份。</p><p>有上過線性代數的朋友們應該會知道，向量如果滿足線性獨立可以 span 到整個空間，而一個空間有他們的基底。</p><p>你可以把向量看成一種數學物件，空間的話就是很多這種數學物件的集合，那相對基底的話就是要擴展成整個空間的基本元素。</p><p>拓樸也是一樣的，開集（open set）也是一種數學物件，一個拓樸空間中所包含的元素就是開集，那麼就會很自然的想知道他的基底是什麼？</p><a id="more"></a><blockquote><p> <strong><em>Def.</em></strong></p></blockquote><p>$X$ is a set, $\mathcal{T}$ is a topology on $X$, a <strong>basis</strong> for $\mathcal{T}$ is a collection $\mathcal{B}$ of subsets of $X$, <strong>basis elements</strong> are elements in $\mathcal{B}$, $\mathcal{B}$ must have the following properties:</p><ol><li>$\forall x \in X, \exists$ basis element $B \supseteq x$</li><li>$B_1, B_2, B_3$ are basis elements, if $x \in B_1 \cap B_2$, $\exists B_3 \supseteq x$ and $B_3 \subseteq B_1 \cap B_2$</li></ol><p>如果一個拓樸有滿足這兩個條件，那我們就可以說 <strong>拓樸 $\mathcal{T}$ 是由 $\mathcal{B}$ 生成的（generated）</strong>。</p><p>現在就來解釋一下上面的意思，我們應該不難理解，如果把拓樸看成一個空間的話，他是很多開集的集合，那麼基底 $\mathcal{B}$ 也會是集合的集合。在線性代數中，我們可以透過線性組合來把基底擴充到整個空間，那就表示那他應該是一組很基本的元素集合。這邊也有類似的概念，當一個基底可以擴充成一個拓樸的時候，那麼他就應該俱備以上兩種特性。</p><p>那麼線性代數可以用線性組合來 span 到整個空間。那麼拓樸的基底可以怎麼辦？我們可以用聯集（union）阿！</p><p>剛剛我們提到開集，我們都還沒定義開集呢！</p><blockquote><p> <strong><em>Def.</em></strong></p></blockquote><p>A subset $U \subseteq X$ is <strong>open</strong> in $X$, if $\forall x \in U$, $\exists$ basis element $B \in \mathcal{B}$ s.t. $x \in B$ and $B \subseteq \mathcal{B}$</p><p>開集大概就像向量般的存在，而拓樸就是向量空間這樣子。依據這邊的定義，一個開集 $U$ 他裡面的元素 $x$ 都要在基底的元素當中（$x \in B$），然後基底元素是基底的子集（$B \subseteq \mathcal{B}$）。要記住，每個基底元素都 $\mathcal{T}$ 的元素。</p><p>舉個例子看看吧！</p><blockquote><p>ex.</p></blockquote><p><img src="/images/basis.svg" alt=""></p><p>如果 $\mathcal{B}$ 是所有圓圈區域的基底，那麼他一定滿足上面兩個條件。</p><blockquote><p>ex.</p></blockquote><p>如果 $X$ 是一個集合，那麼所有只包含一個點的 $X$ 的子集合的集合，是 $X$ 的離散拓樸的基底</p><blockquote><p>ex.</p></blockquote><p><img src="/images/basis2.svg" alt=""></p><p>假設 $U_1$ 跟 $U_2$ 是拓樸 $\mathcal{T}$ 的元素，我們是不是可以證明 $U_1 \cap U_2 \in \mathcal{T}$？</p><p>假設有個 $x \in U_1 \cap U_2$，我們可以找到一個基底元素 $B_1$，$x \in B_1$，$B_1 \subseteq U_1$；我們可以找到另一個基底元素 $B_2$，$x \in B_2$，$B_2 \subseteq U_2$。</p><p>這樣從基底的第二的條件是不是可以推出有個 $B_3$，$x \in B_3$，$B_3 \subseteq B_1 \cap B_2$。</p><p>那麼從 $x \in B_3$ 跟 $B_3 \subseteq B_1 \cap B_2 \subseteq U_1 \cap U_2$，可以推出 $U_1 \cap U_2 \in \mathcal{T}$。</p><p>證明了 $U_1 \cap U_2 \in \mathcal{T}$，那麼我們大可以用數學歸納法證明 $\bigcup_{i=1}^{n} U_i \in \mathcal{T}$。</p><p>這樣我們也檢驗了由基底生成的開集的集合是一個拓樸。</p><p>我們也可以從另一個面向切入，描述他們之間的關係。</p><blockquote><p> <strong><em>Lemma</em></strong></p></blockquote><p>$X$ is a set, $\mathcal{B}$ is a basis for topology $\mathcal{T}$, </p><p>$$<br>\mathcal{T} = \bigcup_{B \in \mathcal{B}} B<br>$$</p><p>這個引理說明，一個拓樸 $\mathcal{T}$ 就等同於他的基底所有元素的聯集所成的集合。</p><p>有另一個引理從另一個面向切入：</p><blockquote><p> <strong><em>Lemma</em></strong></p></blockquote><p>$X$ is a topological space, $\mathcal{C}$ is a collection of open sets of $X$ such that</p><p>$\forall$ open set $U \subseteq X, x \in U, \exists C \in \mathcal{C} s.t. x \in C \subseteq U$.</p><p>Then $\mathcal{C}$ is a basis for the topology of $X$.</p><p>這次是從開集的角度來切入的，如果有一個開集的集合 $\mathcal{C}$，這些開集是從 $X$ 這個拓樸空間來，那麼 $\mathcal{C}$ 當中的元素 $C$ 如果滿足 $x \in C \subseteq U$ 這個條件的話，那麼 $\mathcal{C}$ 就是拓樸空間 $X$ 的基底了。</p><p>如果有了基底之後就很有用，由基底生成的拓樸，我們可以藉由基底來判斷一些條件是否滿足：</p><blockquote><p> <strong><em>Lemma</em></strong></p></blockquote><p>$\mathcal{B}$ and $\mathcal{B}^\prime$ are bases for the topology $\mathcal{T}$ and $\mathcal{T}^\prime$, respectively, on $X$. The following are equivalent:</p><ol><li>$\mathcal{T}^\prime$ is finer than $\mathcal{T}$</li><li>for each $x \in X, x \in B \in \mathcal{B}, \exists B^\prime \in \mathcal{B}^\prime s.t. x \in B^\prime \subseteq B$</li></ol><p>一個拓樸的細緻程度，我們可以從他的基底看出來，同樣包含 $x$ 的基底元素（$B$ 跟 $B^\prime$），比較細緻的拓樸的基底元素就會比較小（$B^\prime \subseteq B$）。</p><p>今天討論基底就到這邊拉！下次會介紹一些比較常見的拓樸。</p>]]></content>
-    
-    <summary type="html">
-    
-      &lt;p&gt;上一篇介紹完基本的拓樸結構，接下來我們來看基底（basis）的部份。&lt;/p&gt;
-&lt;p&gt;有上過線性代數的朋友們應該會知道，向量如果滿足線性獨立可以 span 到整個空間，而一個空間有他們的基底。&lt;/p&gt;
-&lt;p&gt;你可以把向量看成一種數學物件，空間的話就是很多這種數學物件的集合，那相對基底的話就是要擴展成整個空間的基本元素。&lt;/p&gt;
-&lt;p&gt;拓樸也是一樣的，開集（open set）也是一種數學物件，一個拓樸空間中所包含的元素就是開集，那麼就會很自然的想知道他的基底是什麼？&lt;/p&gt;
-    
-    </summary>
-    
-      <category term="Topology" scheme="https://yuehhua.github.io/categories/Topology/"/>
     
     
   </entry>

@@ -6,7 +6,7 @@
     <!-- hexo-inject:begin --><!-- hexo-inject:end --><meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="generator" content="Dream Maker">
-    <title>14 淺層神經網路 - Dream Maker</title>
+    <title>15 為什麼要深？ - Dream Maker</title>
     <meta name="author" content="Yueh-Hua Tu">
     
         <meta name="keywords" content="machine learning,deep learning,topology,">
@@ -15,19 +15,19 @@
     
         <link rel="alternate" type="application/atom+xml" title="RSS" href="/atom.xml">
     
-    <script type="application/ld+json">{"@context":"http://schema.org","@type":"BlogPosting","author":{"@type":"Person","name":"Yueh-Hua Tu","sameAs":["https://github.com/yuehhua/","https://www.facebook.com/a504082002","https://www.linkedin.com/in/%E5%B2%B3%E8%8F%AF-%E6%9D%9C-6a3995a0/","mailto:a504082002@gmail.com"],"image":"https://www.gravatar.com/avatar/a565749fba4782b717234da670b273fd"},"articleBody":"為什麼大家到現在都這麼迷神經網路模型？\n我想主因不是因為他是模擬生物而來，他有一些更扎實的數學特性。\n我們前面講過各種線性模型，然後將他過渡到神經網路。\n今天要告訴大家，即便是淺層的神經網路也是很厲害的。\nUniversal approximation theoremUniversal approximation theorem 是個淺層的神經網路的數學定理。\n他說：一個簡單的 feedforward network，只包含了一個 hidden layer，並且有適切的 activation function，包含有限個神經元的情況下，可以去逼近任何連續函數。\n在 1989 就以經由 George Cybenko 先生第一次證實了這個定理，他使用了 sigmoid activation function。\n如果大家對細節有興趣，請參閱 維基百科的條目。\n這代表什麼呢？\n到目前為止，我們都會將一個現實中的問題化成一個數學問題，一個數學問題基本上都是包含函數的。\n像是影像辨識，我們就可以看成一個可以輸入影像的函數，這個函數會輸出辨識結果，也就是分類。\n我們可以這樣寫 $f: \\text{images} \\rightarrow \\text{classes}$。\n所以語音辨識就是 $f: \\text{speech} \\rightarrow \\text{text}$。\n聊天機器人就是 $f: \\text{text}} \\rightarrow \\text{text}$。\n…\n到這邊你可以想想，幾乎人類的問題都可以化成一個函數來解答。\n所以可以逼近任何連續函數的模型根本就可以解答任何問題的意思阿！\n所以大家才拼了命的用這個模型去解決很多問題。\n待解問題如果這個模型這麼萬能，那麼他就真的沒有缺點嗎？\n我們需要從這個定理切入，定理中描述的有限個神經元，但至少不是無限，他並沒有說需要幾個。\n這理所當然，因為沒有人知道你的問題有多複雜，需要用多難的方法解嘛！\n然後 activation function 也是沒有提的。\n所以這就是留給現代的大家去決定的。\n","dateCreated":"2018-10-14T23:16:02+08:00","dateModified":"2018-10-14T23:16:02+08:00","datePublished":"2018-10-14T23:16:02+08:00","description":"","headline":"14 淺層神經網路","image":[],"mainEntityOfPage":{"@type":"WebPage","@id":"https://yuehhua.github.io/2018/10/14/14-shallow-neural-network/"},"publisher":{"@type":"Organization","name":"Yueh-Hua Tu","sameAs":["https://github.com/yuehhua/","https://www.facebook.com/a504082002","https://www.linkedin.com/in/%E5%B2%B3%E8%8F%AF-%E6%9D%9C-6a3995a0/","mailto:a504082002@gmail.com"],"image":"https://www.gravatar.com/avatar/a565749fba4782b717234da670b273fd","logo":{"@type":"ImageObject","url":"https://www.gravatar.com/avatar/a565749fba4782b717234da670b273fd"}},"url":"https://yuehhua.github.io/2018/10/14/14-shallow-neural-network/"}</script>
-    <meta name="description" content="為什麼大家到現在都這麼迷神經網路模型？ 我想主因不是因為他是模擬生物而來，他有一些更扎實的數學特性。 我們前面講過各種線性模型，然後將他過渡到神經網路。 今天要告訴大家，即便是淺層的神經網路也是很厲害的。 Universal approximation theoremUniversal approximation theorem 是個淺層的神經網路的數學定理。 他說：一個簡單的 feedforwa">
+    <script type="application/ld+json">{"@context":"http://schema.org","@type":"BlogPosting","author":{"@type":"Person","name":"Yueh-Hua Tu","sameAs":["https://github.com/yuehhua/","https://www.facebook.com/a504082002","https://www.linkedin.com/in/%E5%B2%B3%E8%8F%AF-%E6%9D%9C-6a3995a0/","mailto:a504082002@gmail.com"],"image":"https://www.gravatar.com/avatar/a565749fba4782b717234da670b273fd"},"articleBody":"接著我們就來到了蠻重要的問題，既然一個 hidden layer 的網路架構就可以逼近任何連續函數，那麼為什麼要深度學習？\n對於這個問題，台大李宏毅老師有非常詳細的講解：\n\n\n影片裏面實驗很多，所以我還是總結一下：\n\n用邏輯電路類比神經網路的話，你一樣可以用單層的並聯將所有邏輯閘都起來成為一個電路，一樣可以達到相同的效果，但是用多層的串聯可以將所需要的邏輯閘數目減少（類比神經網路的神經元），所以可以達到減少參數的效果。\n使用 ReLU 作為 activation function 就是要用分段線性的方式來逼近一個函數，在網路參數相進的情況下，單層網路所能產生的”段”比較少，多層網路所產生的”段”比較多，產生的線段較多就可以去逼近一個更複雜的函數，所以模型就比較強大。\n計算分段線性的數量，當你有 $N$ 個神經元，單層網路裡最多只能產生 $N - 1$ 個線段，多層網路，每層安排兩個神經元，可以產生 $2^{\\frac{N}{2}}$ 個線段。\n\n更有文獻提到，計算線段的數量，如果你的網路每層有 $K$ 個神經元，而且有 $H$ 層，那麼至少會有 $K^H$ 個線段。\n由於深度是放在指數上面，所以增加深度就可以簡單地提高模型的複雜度，也就可以讓模型變得比較強大。\n計算複雜度在一些電腦的問題上，我們常常形容問題是 NP 或者不是 NP，來描述一個問題的複雜度有多高。\n一個問題的時間複雜度可以在多項式時間內的，我們稱為 P，如果不是，那我們稱為 NP。\nNP-complete 問題是 NP 問題當中最難的了，計算複雜度大概會是指數級成長，這種成長速度應該使用神經網路有辦法克服。\n","dateCreated":"2018-10-15T14:56:39+08:00","dateModified":"2018-10-15T14:56:39+08:00","datePublished":"2018-10-15T14:56:39+08:00","description":"","headline":"15 為什麼要深？","image":[],"mainEntityOfPage":{"@type":"WebPage","@id":"https://yuehhua.github.io/2018/10/15/15-why-deep/"},"publisher":{"@type":"Organization","name":"Yueh-Hua Tu","sameAs":["https://github.com/yuehhua/","https://www.facebook.com/a504082002","https://www.linkedin.com/in/%E5%B2%B3%E8%8F%AF-%E6%9D%9C-6a3995a0/","mailto:a504082002@gmail.com"],"image":"https://www.gravatar.com/avatar/a565749fba4782b717234da670b273fd","logo":{"@type":"ImageObject","url":"https://www.gravatar.com/avatar/a565749fba4782b717234da670b273fd"}},"url":"https://yuehhua.github.io/2018/10/15/15-why-deep/"}</script>
+    <meta name="description" content="接著我們就來到了蠻重要的問題，既然一個 hidden layer 的網路架構就可以逼近任何連續函數，那麼為什麼要深度學習？ 對於這個問題，台大李宏毅老師有非常詳細的講解：   影片裏面實驗很多，所以我還是總結一下：  用邏輯電路類比神經網路的話，你一樣可以用單層的並聯將所有邏輯閘都起來成為一個電路，一樣可以達到相同的效果，但是用多層的串聯可以將所需要的邏輯閘數目減少（類比神經網路的神經元），所以可">
 <meta name="keywords" content="machine learning,deep learning,topology">
 <meta property="og:type" content="blog">
-<meta property="og:title" content="14 淺層神經網路">
-<meta property="og:url" content="https://yuehhua.github.io/2018/10/14/14-shallow-neural-network/index.html">
+<meta property="og:title" content="15 為什麼要深？">
+<meta property="og:url" content="https://yuehhua.github.io/2018/10/15/15-why-deep/index.html">
 <meta property="og:site_name" content="Dream Maker">
-<meta property="og:description" content="為什麼大家到現在都這麼迷神經網路模型？ 我想主因不是因為他是模擬生物而來，他有一些更扎實的數學特性。 我們前面講過各種線性模型，然後將他過渡到神經網路。 今天要告訴大家，即便是淺層的神經網路也是很厲害的。 Universal approximation theoremUniversal approximation theorem 是個淺層的神經網路的數學定理。 他說：一個簡單的 feedforwa">
+<meta property="og:description" content="接著我們就來到了蠻重要的問題，既然一個 hidden layer 的網路架構就可以逼近任何連續函數，那麼為什麼要深度學習？ 對於這個問題，台大李宏毅老師有非常詳細的講解：   影片裏面實驗很多，所以我還是總結一下：  用邏輯電路類比神經網路的話，你一樣可以用單層的並聯將所有邏輯閘都起來成為一個電路，一樣可以達到相同的效果，但是用多層的串聯可以將所需要的邏輯閘數目減少（類比神經網路的神經元），所以可">
 <meta property="og:locale" content="en">
-<meta property="og:updated_time" content="2018-10-14T15:16:02.372Z">
+<meta property="og:updated_time" content="2018-10-15T06:56:39.580Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="14 淺層神經網路">
-<meta name="twitter:description" content="為什麼大家到現在都這麼迷神經網路模型？ 我想主因不是因為他是模擬生物而來，他有一些更扎實的數學特性。 我們前面講過各種線性模型，然後將他過渡到神經網路。 今天要告訴大家，即便是淺層的神經網路也是很厲害的。 Universal approximation theoremUniversal approximation theorem 是個淺層的神經網路的數學定理。 他說：一個簡單的 feedforwa">
+<meta name="twitter:title" content="15 為什麼要深？">
+<meta name="twitter:description" content="接著我們就來到了蠻重要的問題，既然一個 hidden layer 的網路架構就可以逼近任何連續函數，那麼為什麼要深度學習？ 對於這個問題，台大李宏毅老師有非常詳細的講解：   影片裏面實驗很多，所以我還是總結一下：  用邏輯電路類比神經網路的話，你一樣可以用單層的並聯將所有邏輯閘都起來成為一個電路，一樣可以達到相同的效果，但是用多層的串聯可以將所需要的邏輯閘數目減少（類比神經網路的神經元），所以可">
     
     
         
@@ -238,14 +238,14 @@
                     <div class="post-header main-content-wrap text-left">
     
         <h1 class="post-title">
-            14 淺層神經網路
+            15 為什麼要深？
         </h1>
     
     
         <div class="post-meta">
-    <time datetime="2018-10-14T23:16:02+08:00">
+    <time datetime="2018-10-15T14:56:39+08:00">
 	
-		    Oct 14, 2018
+		    Oct 15, 2018
     	
     </time>
     
@@ -263,29 +263,21 @@
                         
                             <div class="post-content markdown">
                                 <div class="main-content-wrap">
-                                    <p>為什麼大家到現在都這麼迷神經網路模型？</p>
-<p>我想主因不是因為他是模擬生物而來，他有一些更扎實的數學特性。</p>
-<p>我們前面講過各種線性模型，然後將他過渡到神經網路。</p>
-<p>今天要告訴大家，即便是淺層的神經網路也是很厲害的。</p>
-<h2 id="Universal-approximation-theorem"><a href="#Universal-approximation-theorem" class="headerlink" title="Universal approximation theorem"></a>Universal approximation theorem</h2><p>Universal approximation theorem 是個淺層的神經網路的數學定理。</p>
-<p>他說：一個簡單的 feedforward network，只包含了一個 hidden layer，並且有適切的 activation function，包含有限個神經元的情況下，可以去逼近任何連續函數。</p>
-<p>在 1989 就以經由 George Cybenko 先生第一次證實了這個定理，他使用了 sigmoid activation function。</p>
-<p>如果大家對細節有興趣，請參閱 <a href="https://en.wikipedia.org/wiki/Universal_approximation_theorem" target="_blank" rel="noopener">維基百科的條目</a>。</p>
-<p>這代表什麼呢？</p>
-<p>到目前為止，我們都會將一個現實中的問題化成一個數學問題，一個數學問題基本上都是包含函數的。</p>
-<p>像是影像辨識，我們就可以看成一個可以輸入影像的函數，這個函數會輸出辨識結果，也就是分類。</p>
-<p>我們可以這樣寫 $f: \text{images} \rightarrow \text{classes}$。</p>
-<p>所以語音辨識就是 $f: \text{speech} \rightarrow \text{text}$。</p>
-<p>聊天機器人就是 $f: \text{text}} \rightarrow \text{text}$。</p>
-<p>…</p>
-<p>到這邊你可以想想，幾乎人類的問題都可以化成一個函數來解答。</p>
-<p>所以可以逼近任何連續函數的模型根本就可以解答任何問題的意思阿！</p>
-<p>所以大家才拼了命的用這個模型去解決很多問題。</p>
-<h2 id="待解問題"><a href="#待解問題" class="headerlink" title="待解問題"></a>待解問題</h2><p>如果這個模型這麼萬能，那麼他就真的沒有缺點嗎？</p>
-<p>我們需要從這個定理切入，定理中描述的有限個神經元，但至少不是無限，他並沒有說需要幾個。</p>
-<p>這理所當然，因為沒有人知道你的問題有多複雜，需要用多難的方法解嘛！</p>
-<p>然後 activation function 也是沒有提的。</p>
-<p>所以這就是留給現代的大家去決定的。</p>
+                                    <p>接著我們就來到了蠻重要的問題，既然一個 hidden layer 的網路架構就可以逼近任何連續函數，那麼為什麼要深度學習？</p>
+<p>對於這個問題，台大李宏毅老師有非常詳細的講解：</p>
+<iframe width="560" height="315" src="https://www.youtube.com/embed/FN8jclCrqY0" frameborder="0" allow="autoplay; encrypted-media" allowfullscreen></iframe>
+
+<p>影片裏面實驗很多，所以我還是總結一下：</p>
+<ol>
+<li>用邏輯電路類比神經網路的話，你一樣可以用單層的並聯將所有邏輯閘都起來成為一個電路，一樣可以達到相同的效果，但是用多層的串聯可以將所需要的邏輯閘數目減少（類比神經網路的神經元），所以可以達到減少參數的效果。</li>
+<li>使用 ReLU 作為 activation function 就是要用分段線性的方式來逼近一個函數，在網路參數相進的情況下，單層網路所能產生的”段”比較少，多層網路所產生的”段”比較多，產生的線段較多就可以去逼近一個更複雜的函數，所以模型就比較強大。</li>
+<li>計算分段線性的數量，當你有 $N$ 個神經元，單層網路裡最多只能產生 $N - 1$ 個線段，多層網路，每層安排兩個神經元，可以產生 $2^{\frac{N}{2}}$ 個線段。</li>
+</ol>
+<p>更有文獻提到，計算線段的數量，如果你的網路每層有 $K$ 個神經元，而且有 $H$ 層，那麼至少會有 $K^H$ 個線段。</p>
+<p>由於深度是放在指數上面，所以增加深度就可以簡單地提高模型的複雜度，也就可以讓模型變得比較強大。</p>
+<h2 id="計算複雜度"><a href="#計算複雜度" class="headerlink" title="計算複雜度"></a>計算複雜度</h2><p>在一些電腦的問題上，我們常常形容問題是 NP 或者不是 NP，來描述一個問題的複雜度有多高。</p>
+<p>一個問題的時間複雜度可以在多項式時間內的，我們稱為 P，如果不是，那我們稱為 NP。</p>
+<p>NP-complete 問題是 NP 問題當中最難的了，計算複雜度大概會是指數級成長，這種成長速度應該使用神經網路有辦法克服。</p>
 
                                         
 
@@ -299,8 +291,7 @@
         <ul class="post-actions post-action-nav">
             <li class="post-action">
                 
-                    
-                    <a class="post-action-btn btn btn--default tooltip--top" href="/2018/10/15/15-why-deep/" data-tooltip="15 為什麼要深？" aria-label="PREVIOUS: 15 為什麼要深？">
+                    <a class="post-action-btn btn btn--disabled">
                 
                     <i class="fa fa-angle-left" aria-hidden="true"></i>
                     <span class="hide-xs hide-sm text-small icon-ml">PREVIOUS</span>
@@ -309,7 +300,7 @@
             <li class="post-action">
                 
                     
-                    <a class="post-action-btn btn btn--default tooltip--top" href="/2018/10/14/13-kernel-svm-and-rbf-network/" data-tooltip="13 Kernel SVM 與 RBF network" aria-label="NEXT: 13 Kernel SVM 與 RBF network">
+                    <a class="post-action-btn btn btn--default tooltip--top" href="/2018/10/14/14-shallow-neural-network/" data-tooltip="14 淺層神經網路" aria-label="NEXT: 14 淺層神經網路">
                 
                     <span class="hide-xs hide-sm text-small icon-mr">NEXT</span>
                     <i class="fa fa-angle-right" aria-hidden="true"></i>
@@ -327,7 +318,7 @@
             
             
             <li class="post-action hide-xs">
-                <a class="post-action-btn btn btn--default" target="new" href="https://www.facebook.com/sharer/sharer.php?u=https://yuehhua.github.io/2018/10/14/14-shallow-neural-network/" title="Share on Facebook">
+                <a class="post-action-btn btn btn--default" target="new" href="https://www.facebook.com/sharer/sharer.php?u=https://yuehhua.github.io/2018/10/15/15-why-deep/" title="Share on Facebook">
                     <i class="fa fa-facebook-official" aria-hidden="true"></i>
                 </a>
             </li>
@@ -385,8 +376,7 @@
         <ul class="post-actions post-action-nav">
             <li class="post-action">
                 
-                    
-                    <a class="post-action-btn btn btn--default tooltip--top" href="/2018/10/15/15-why-deep/" data-tooltip="15 為什麼要深？" aria-label="PREVIOUS: 15 為什麼要深？">
+                    <a class="post-action-btn btn btn--disabled">
                 
                     <i class="fa fa-angle-left" aria-hidden="true"></i>
                     <span class="hide-xs hide-sm text-small icon-ml">PREVIOUS</span>
@@ -395,7 +385,7 @@
             <li class="post-action">
                 
                     
-                    <a class="post-action-btn btn btn--default tooltip--top" href="/2018/10/14/13-kernel-svm-and-rbf-network/" data-tooltip="13 Kernel SVM 與 RBF network" aria-label="NEXT: 13 Kernel SVM 與 RBF network">
+                    <a class="post-action-btn btn btn--default tooltip--top" href="/2018/10/14/14-shallow-neural-network/" data-tooltip="14 淺層神經網路" aria-label="NEXT: 14 淺層神經網路">
                 
                     <span class="hide-xs hide-sm text-small icon-mr">NEXT</span>
                     <i class="fa fa-angle-right" aria-hidden="true"></i>
@@ -413,7 +403,7 @@
             
             
             <li class="post-action hide-xs">
-                <a class="post-action-btn btn btn--default" target="new" href="https://www.facebook.com/sharer/sharer.php?u=https://yuehhua.github.io/2018/10/14/14-shallow-neural-network/" title="Share on Facebook">
+                <a class="post-action-btn btn btn--default" target="new" href="https://www.facebook.com/sharer/sharer.php?u=https://yuehhua.github.io/2018/10/15/15-why-deep/" title="Share on Facebook">
                     <i class="fa fa-facebook-official" aria-hidden="true"></i>
                 </a>
             </li>
@@ -446,7 +436,7 @@
             
             
             <li class="share-option">
-                <a class="share-option-btn" target="new" href="https://www.facebook.com/sharer/sharer.php?u=https://yuehhua.github.io/2018/10/14/14-shallow-neural-network/">
+                <a class="share-option-btn" target="new" href="https://www.facebook.com/sharer/sharer.php?u=https://yuehhua.github.io/2018/10/15/15-why-deep/">
                     <i class="fa fa-facebook-official" aria-hidden="true"></i><span>Share on Facebook</span>
                 </a>
             </li>
@@ -498,9 +488,9 @@
     
         <script>
              var disqus_config = function () {
-                 this.page.url = 'https://yuehhua.github.io/2018/10/14/14-shallow-neural-network/';
+                 this.page.url = 'https://yuehhua.github.io/2018/10/15/15-why-deep/';
                  
-                    this.page.identifier = '2018/10/14/14-shallow-neural-network/';
+                    this.page.identifier = '2018/10/15/15-why-deep/';
                  
              };
             (function() {
