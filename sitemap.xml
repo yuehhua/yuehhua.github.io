@@ -2,16 +2,86 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   
   <url>
+    <loc>https://yuehhua.github.io/2018/10/04/04-from-perceptron-to-max-margin-classifier/</loc>
+    
+    <lastmod>2018-10-15T07:05:54.545Z</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>https://yuehhua.github.io/2018/10/05/05-from-max-margin-classifier-to-kernel-svm/</loc>
+    
+    <lastmod>2018-10-15T07:05:37.356Z</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>https://yuehhua.github.io/2018/10/06/06-from-hard-margin-svm-to-soft-margin-svm/</loc>
+    
+    <lastmod>2018-10-15T07:05:25.883Z</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>https://yuehhua.github.io/2018/10/07/07-standard-svm/</loc>
+    
+    <lastmod>2018-10-15T07:05:16.837Z</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>https://yuehhua.github.io/2018/10/12/12-from-linear-model-to-neural-network/</loc>
+    
+    <lastmod>2018-10-15T07:04:53.018Z</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>https://yuehhua.github.io/2018/10/11/11-generalized-linear-model/</loc>
+    
+    <lastmod>2018-10-15T07:04:40.296Z</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>https://yuehhua.github.io/2018/10/10/10-from-linear-regression-to-poisson-regression/</loc>
+    
+    <lastmod>2018-10-15T07:04:28.010Z</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>https://yuehhua.github.io/2018/10/09/09-from-linear-regression-to-logistic-regression/</loc>
+    
+    <lastmod>2018-10-15T07:04:15.957Z</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>https://yuehhua.github.io/2018/10/08/08-l2-regularized-linear-model/</loc>
+    
+    <lastmod>2018-10-15T07:04:07.801Z</lastmod>
+    
+  </url>
+  
+  <url>
     <loc>https://yuehhua.github.io/2018/10/14/14-shallow-neural-network/</loc>
     
-    <lastmod>2018-10-15T06:57:58.729Z</lastmod>
+    <lastmod>2018-10-15T07:03:50.798Z</lastmod>
     
   </url>
   
   <url>
     <loc>https://yuehhua.github.io/2018/10/15/15-why-deep/</loc>
     
-    <lastmod>2018-10-15T06:56:39.580Z</lastmod>
+    <lastmod>2018-10-15T07:03:37.605Z</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>https://yuehhua.github.io/2018/07/21/why-deep-learning/</loc>
+    
+    <lastmod>2018-10-15T07:03:18.340Z</lastmod>
     
   </url>
   
@@ -19,69 +89,6 @@
     <loc>https://yuehhua.github.io/2018/10/14/13-kernel-svm-and-rbf-network/</loc>
     
     <lastmod>2018-10-13T16:18:55.377Z</lastmod>
-    
-  </url>
-  
-  <url>
-    <loc>https://yuehhua.github.io/2018/10/12/12-from-linear-model-to-neural-network/</loc>
-    
-    <lastmod>2018-10-12T16:03:58.895Z</lastmod>
-    
-  </url>
-  
-  <url>
-    <loc>https://yuehhua.github.io/2018/10/11/11-generalized-linear-model/</loc>
-    
-    <lastmod>2018-10-11T13:20:19.299Z</lastmod>
-    
-  </url>
-  
-  <url>
-    <loc>https://yuehhua.github.io/2018/10/10/10-from-linear-regression-to-poisson-regression/</loc>
-    
-    <lastmod>2018-10-10T14:59:20.623Z</lastmod>
-    
-  </url>
-  
-  <url>
-    <loc>https://yuehhua.github.io/2018/10/09/09-from-linear-regression-to-logistic-regression/</loc>
-    
-    <lastmod>2018-10-09T16:43:07.814Z</lastmod>
-    
-  </url>
-  
-  <url>
-    <loc>https://yuehhua.github.io/2018/10/08/08-l2-regularized-linear-model/</loc>
-    
-    <lastmod>2018-10-09T07:09:26.561Z</lastmod>
-    
-  </url>
-  
-  <url>
-    <loc>https://yuehhua.github.io/2018/10/07/07-standard-svm/</loc>
-    
-    <lastmod>2018-10-07T09:20:54.334Z</lastmod>
-    
-  </url>
-  
-  <url>
-    <loc>https://yuehhua.github.io/2018/10/06/06-from-hard-margin-svm-to-soft-margin-svm/</loc>
-    
-    <lastmod>2018-10-06T15:18:54.339Z</lastmod>
-    
-  </url>
-  
-  <url>
-    <loc>https://yuehhua.github.io/2018/10/05/05-from-max-margin-classifier-to-kernel-svm/</loc>
-    
-    <lastmod>2018-10-06T05:33:26.454Z</lastmod>
-    
-  </url>
-  
-  <url>
-    <loc>https://yuehhua.github.io/2018/10/04/04-from-perceptron-to-max-margin-classifier/</loc>
-    
-    <lastmod>2018-10-05T14:49:33.730Z</lastmod>
     
   </url>
   
@@ -173,13 +180,6 @@
     <loc>https://yuehhua.github.io/2018/07/21/why-mlp/</loc>
     
     <lastmod>2018-07-26T05:31:37.264Z</lastmod>
-    
-  </url>
-  
-  <url>
-    <loc>https://yuehhua.github.io/2018/07/21/why-deep-learning/</loc>
-    
-    <lastmod>2018-07-26T05:31:24.171Z</lastmod>
     
   </url>
   

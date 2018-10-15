@@ -15,19 +15,19 @@
     
         <link rel="alternate" type="application/atom+xml" title="RSS" href="/atom.xml">
     
-    <script type="application/ld+json">{"@context":"http://schema.org","@type":"BlogPosting","author":{"@type":"Person","name":"Yueh-Hua Tu","sameAs":["https://github.com/yuehhua/","https://www.facebook.com/a504082002","https://www.linkedin.com/in/%E5%B2%B3%E8%8F%AF-%E6%9D%9C-6a3995a0/","mailto:a504082002@gmail.com"],"image":"https://www.gravatar.com/avatar/a565749fba4782b717234da670b273fd"},"articleBody":"我們來回顧一下 SVM 模型。\n$$\\begin{align}\\mathop{\\arg\\min}_{\\mathbf{w}, b, \\boldsymbol{\\xi}} &amp;\\ \\ \\ \\    \\frac{1}{2} \\mathbf{w}^T\\mathbf{w} + C \\sum _{n=1}^N \\xi_n \\\\\\text{subject to} &amp;\\ \\ \\ \\    \\forall i, y_i (\\mathbf{w}^T\\mathbf{x_i} + b) \\ge 1 - \\xi_n \\\\\\text{ } &amp;\\ \\ \\ \\    \\forall n, \\xi_n \\ge 0\\end{align}$$\n他可以被進一步轉成\n$$\\begin{align}\\mathop{\\arg\\min}_{\\mathbf{w}, b} &amp;\\ \\ \\ \\    \\frac{1}{2} \\mathbf{w}^T\\mathbf{w} + C \\sum _{n=1}^N max(1 - y_i (\\mathbf{w}^T\\mathbf{x_i} + b), 0) \\\\\\end{align}$$\n在 SVM 的陳述當中，有沒有發現 $\\frac{1}{2} \\mathbf{w}^T\\mathbf{w}$ 這部份看起來跟 $l_2$ regularization 一樣。後半部份是跟誤差有關。\n如果分類分對的話，$y_i (\\mathbf{w}^T\\mathbf{x_i} + b)$ 就會是大於等於 1，這樣的話後面整項計算起來就會是 0。\n如果分類分對但是離線太近的話，$y_i (\\mathbf{w}^T\\mathbf{x_i} + b)$ 就會是小於 1，這樣後面整項會是一個小於 1 的值，代表離線太近了，算是些微的誤差。\n如果分類都分錯，$y_i (\\mathbf{w}^T\\mathbf{x_i} + b)$ 根本就是負值，後面整項會是一個大於 1 的值，代表離線太遠了，算是很大的誤差。\nHinge error這樣的誤差計算方式稱為 hinge error，也就是：\n$$E(y, \\hat{y}) = max(1 - y\\hat{y}, 0)$$\n$l_2$ -regularized linear model所以我們根本可以把模型看成是一個 $l_2$ -regularized 的線性模型。\n$$\\mathop{\\arg\\min}_{\\mathbf{w}, b} \\frac{1}{2} \\mathbf{w}^T\\mathbf{w} + C \\sum _{n=1}^N E(y, \\hat{y})$$\n不懂 regulariztion 的朋友請左轉 我之前寫過的鐵人文章。\n基本上，你想把誤差函數換成其他的東西都可以，像是變成 kernel $l_2$ -regularized linear regression (kernel ridge regression)。\n$$y = \\mathbf{w}^T\\phi(\\mathbf{x}) + b \\\\E(y, \\hat{y}) = \\frac{1}{N} (y - \\hat{y})^2 \\\\\\mathop{\\arg\\min}_{\\mathbf{w}, b} \\frac{1}{2} \\mathbf{w}^T\\mathbf{w} + C \\sum _{n=1}^N E(y, \\hat{y})$$\n或是你想要 kernel $l_2$ -regularized logistic regression。\n$$y = \\mathbf{w}^T\\phi(\\mathbf{x}) + b \\\\E(y, \\hat{y}) = \\frac{1}{N} log(1 + exp(-y\\hat{y})) \\\\\\mathop{\\arg\\min}_{\\mathbf{w}, b} \\frac{1}{2} \\mathbf{w}^T\\mathbf{w} + C \\sum _{n=1}^N E(y, \\hat{y})$$\nRepresenter theorem","dateCreated":"2018-10-08T23:06:37+08:00","dateModified":"2018-10-09T15:09:26+08:00","datePublished":"2018-10-08T23:06:37+08:00","description":"","headline":"08 l2-regularized 線性模型","image":[],"mainEntityOfPage":{"@type":"WebPage","@id":"https://yuehhua.github.io/2018/10/08/08-l2-regularized-linear-model/"},"publisher":{"@type":"Organization","name":"Yueh-Hua Tu","sameAs":["https://github.com/yuehhua/","https://www.facebook.com/a504082002","https://www.linkedin.com/in/%E5%B2%B3%E8%8F%AF-%E6%9D%9C-6a3995a0/","mailto:a504082002@gmail.com"],"image":"https://www.gravatar.com/avatar/a565749fba4782b717234da670b273fd","logo":{"@type":"ImageObject","url":"https://www.gravatar.com/avatar/a565749fba4782b717234da670b273fd"}},"url":"https://yuehhua.github.io/2018/10/08/08-l2-regularized-linear-model/"}</script>
-    <meta name="description" content="我們來回顧一下 SVM 模型。 $$\begin{align}\mathop{\arg\min}_{\mathbf{w}, b, \boldsymbol{\xi}} &amp;amp;\ \ \ \    \frac{1}{2} \mathbf{w}^T\mathbf{w} + C \sum _{n=1}^N \xi_n \\\text{subject to} &amp;amp;\ \ \ \    \foral">
+    <script type="application/ld+json">{"@context":"http://schema.org","@type":"BlogPosting","author":{"@type":"Person","name":"Yueh-Hua Tu","sameAs":["https://github.com/yuehhua/","https://www.facebook.com/a504082002","https://www.linkedin.com/in/%E5%B2%B3%E8%8F%AF-%E6%9D%9C-6a3995a0/","mailto:a504082002@gmail.com"],"image":"https://www.gravatar.com/avatar/a565749fba4782b717234da670b273fd"},"articleBody":"我們來回顧一下 SVM 模型。\n\n\n\\begin{align}\n\\mathop{\\arg\\min}_{\\mathbf{w}, b, \\boldsymbol{\\xi}} &\\ \\ \\ \\ \n    \\frac{1}{2} \\mathbf{w}^T\\mathbf{w} + C \\sum _{n=1}^N \\xi_n \\\\\\\\\n\\text{subject to} &\\ \\ \\ \\ \n    \\forall i, y_i (\\mathbf{w}^T\\mathbf{x_i} + b) \\ge 1 - \\xi_n \\\\\\\\\n\\text{ } &\\ \\ \\ \\ \n    \\forall n, \\xi_n \\ge 0\n\\end{align}他可以被進一步轉成\n\n\\begin{align}\n\\mathop{\\arg\\min}_{\\mathbf{w}, b} &\\ \\ \\ \\ \n    \\frac{1}{2} \\mathbf{w}^T\\mathbf{w} + C \\sum _{n=1}^N max(1 - y_i (\\mathbf{w}^T\\mathbf{x_i} + b), 0) \\\\\\\\\n\\end{align}在 SVM 的陳述當中，有沒有發現 $\\frac{1}{2} \\mathbf{w}^T\\mathbf{w}$ 這部份看起來跟 $l_2$ regularization 一樣。後半部份是跟誤差有關。\n如果分類分對的話，$y_i (\\mathbf{w}^T\\mathbf{x_i} + b)$ 就會是大於等於 1，這樣的話後面整項計算起來就會是 0。\n如果分類分對但是離線太近的話，$y_i (\\mathbf{w}^T\\mathbf{x_i} + b)$ 就會是小於 1，這樣後面整項會是一個小於 1 的值，代表離線太近了，算是些微的誤差。\n如果分類都分錯，$y_i (\\mathbf{w}^T\\mathbf{x_i} + b)$ 根本就是負值，後面整項會是一個大於 1 的值，代表離線太遠了，算是很大的誤差。\nHinge error這樣的誤差計算方式稱為 hinge error，也就是：\n\nE(y, \\hat{y}) = max(1 - y\\hat{y}, 0)$l_2$ -regularized linear model所以我們根本可以把模型看成是一個 $l_2$ -regularized 的線性模型。\n\n\\mathop{\\arg\\min}_{\\mathbf{w}, b} \\frac{1}{2} \\mathbf{w}^T\\mathbf{w} + C \\sum _{n=1}^N E(y, \\hat{y})不懂 regulariztion 的朋友請左轉 我之前寫過的鐵人文章。\n基本上，你想把誤差函數換成其他的東西都可以，像是變成 kernel $l_2$ -regularized linear regression (kernel ridge regression)。\n\ny = \\mathbf{w}^T\\phi(\\mathbf{x}) + b \\\\\\\\\nE(y, \\hat{y}) = \\frac{1}{N} (y - \\hat{y})^2 \\\\\\\\\n\\mathop{\\arg\\min}_{\\mathbf{w}, b} \\frac{1}{2} \\mathbf{w}^T\\mathbf{w} + C \\sum _{n=1}^N E(y, \\hat{y})或是你想要 kernel $l_2$ -regularized logistic regression。\n\ny = \\mathbf{w}^T\\phi(\\mathbf{x}) + b \\\\\\\\\nE(y, \\hat{y}) = \\frac{1}{N} log(1 + exp(-y\\hat{y})) \\\\\\\\\n\\mathop{\\arg\\min}_{\\mathbf{w}, b} \\frac{1}{2} \\mathbf{w}^T\\mathbf{w} + C \\sum _{n=1}^N E(y, \\hat{y})Representer theorem","dateCreated":"2018-10-08T23:06:37+08:00","dateModified":"2018-10-15T15:04:07+08:00","datePublished":"2018-10-08T23:06:37+08:00","description":"我們來回顧一下 SVM 模型。","headline":"08 l2-regularized 線性模型","image":[],"mainEntityOfPage":{"@type":"WebPage","@id":"https://yuehhua.github.io/2018/10/08/08-l2-regularized-linear-model/"},"publisher":{"@type":"Organization","name":"Yueh-Hua Tu","sameAs":["https://github.com/yuehhua/","https://www.facebook.com/a504082002","https://www.linkedin.com/in/%E5%B2%B3%E8%8F%AF-%E6%9D%9C-6a3995a0/","mailto:a504082002@gmail.com"],"image":"https://www.gravatar.com/avatar/a565749fba4782b717234da670b273fd","logo":{"@type":"ImageObject","url":"https://www.gravatar.com/avatar/a565749fba4782b717234da670b273fd"}},"url":"https://yuehhua.github.io/2018/10/08/08-l2-regularized-linear-model/"}</script>
+    <meta name="description" content="我們來回顧一下 SVM 模型。">
 <meta name="keywords" content="machine learning,deep learning,topology">
 <meta property="og:type" content="blog">
 <meta property="og:title" content="08 l2-regularized 線性模型">
 <meta property="og:url" content="https://yuehhua.github.io/2018/10/08/08-l2-regularized-linear-model/index.html">
 <meta property="og:site_name" content="Dream Maker">
-<meta property="og:description" content="我們來回顧一下 SVM 模型。 $$\begin{align}\mathop{\arg\min}_{\mathbf{w}, b, \boldsymbol{\xi}} &amp;amp;\ \ \ \    \frac{1}{2} \mathbf{w}^T\mathbf{w} + C \sum _{n=1}^N \xi_n \\\text{subject to} &amp;amp;\ \ \ \    \foral">
+<meta property="og:description" content="我們來回顧一下 SVM 模型。">
 <meta property="og:locale" content="en">
-<meta property="og:updated_time" content="2018-10-09T07:09:26.561Z">
+<meta property="og:updated_time" content="2018-10-15T07:04:07.801Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="08 l2-regularized 線性模型">
-<meta name="twitter:description" content="我們來回顧一下 SVM 模型。 $$\begin{align}\mathop{\arg\min}_{\mathbf{w}, b, \boldsymbol{\xi}} &amp;amp;\ \ \ \    \frac{1}{2} \mathbf{w}^T\mathbf{w} + C \sum _{n=1}^N \xi_n \\\text{subject to} &amp;amp;\ \ \ \    \foral">
+<meta name="twitter:description" content="我們來回顧一下 SVM 模型。">
     
     
         
@@ -264,23 +264,38 @@
                             <div class="post-content markdown">
                                 <div class="main-content-wrap">
                                     <p>我們來回顧一下 SVM 模型。</p>
-<p>$$<br>\begin{align}<br>\mathop{\arg\min}_{\mathbf{w}, b, \boldsymbol{\xi}} &amp;\ \ \ \<br>    \frac{1}{2} \mathbf{w}^T\mathbf{w} + C \sum _{n=1}^N \xi_n \\<br>\text{subject to} &amp;\ \ \ \<br>    \forall i, y_i (\mathbf{w}^T\mathbf{x_i} + b) \ge 1 - \xi_n \\<br>\text{ } &amp;\ \ \ \<br>    \forall n, \xi_n \ge 0<br>\end{align}<br>$$</p>
-<p>他可以被進一步轉成</p>
-<p>$$<br>\begin{align}<br>\mathop{\arg\min}_{\mathbf{w}, b} &amp;\ \ \ \<br>    \frac{1}{2} \mathbf{w}^T\mathbf{w} + C \sum _{n=1}^N max(1 - y_i (\mathbf{w}^T\mathbf{x_i} + b), 0) \\<br>\end{align}<br>$$</p>
-<p>在 SVM 的陳述當中，有沒有發現 $\frac{1}{2} \mathbf{w}^T\mathbf{w}$ 這部份看起來跟 $l_2$ regularization 一樣。後半部份是跟誤差有關。</p>
+<a id="more"></a>
+<script type="math/tex; mode=display">
+\begin{align}
+\mathop{\arg\min}_{\mathbf{w}, b, \boldsymbol{\xi}} &\ \ \ \ 
+    \frac{1}{2} \mathbf{w}^T\mathbf{w} + C \sum _{n=1}^N \xi_n \\\\
+\text{subject to} &\ \ \ \ 
+    \forall i, y_i (\mathbf{w}^T\mathbf{x_i} + b) \ge 1 - \xi_n \\\\
+\text{ } &\ \ \ \ 
+    \forall n, \xi_n \ge 0
+\end{align}</script><p>他可以被進一步轉成</p>
+<script type="math/tex; mode=display">
+\begin{align}
+\mathop{\arg\min}_{\mathbf{w}, b} &\ \ \ \ 
+    \frac{1}{2} \mathbf{w}^T\mathbf{w} + C \sum _{n=1}^N max(1 - y_i (\mathbf{w}^T\mathbf{x_i} + b), 0) \\\\
+\end{align}</script><p>在 SVM 的陳述當中，有沒有發現 $\frac{1}{2} \mathbf{w}^T\mathbf{w}$ 這部份看起來跟 $l_2$ regularization 一樣。後半部份是跟誤差有關。</p>
 <p>如果分類分對的話，$y_i (\mathbf{w}^T\mathbf{x_i} + b)$ 就會是大於等於 1，這樣的話後面整項計算起來就會是 0。</p>
 <p>如果分類分對但是離線太近的話，$y_i (\mathbf{w}^T\mathbf{x_i} + b)$ 就會是小於 1，這樣後面整項會是一個小於 1 的值，代表離線太近了，算是些微的誤差。</p>
 <p>如果分類都分錯，$y_i (\mathbf{w}^T\mathbf{x_i} + b)$ 根本就是負值，後面整項會是一個大於 1 的值，代表離線太遠了，算是很大的誤差。</p>
 <h2 id="Hinge-error"><a href="#Hinge-error" class="headerlink" title="Hinge error"></a>Hinge error</h2><p>這樣的誤差計算方式稱為 hinge error，也就是：</p>
-<p>$$<br>E(y, \hat{y}) = max(1 - y\hat{y}, 0)<br>$$</p>
-<h2 id="l-2-regularized-linear-model"><a href="#l-2-regularized-linear-model" class="headerlink" title="$l_2$ -regularized linear model"></a>$l_2$ -regularized linear model</h2><p>所以我們根本可以把模型看成是一個 $l_2$ -regularized 的線性模型。</p>
-<p>$$<br>\mathop{\arg\min}_{\mathbf{w}, b} \frac{1}{2} \mathbf{w}^T\mathbf{w} + C \sum _{n=1}^N E(y, \hat{y})<br>$$</p>
-<p>不懂 regulariztion 的朋友請左轉 <a href="https://ithelp.ithome.com.tw/articles/10186405" target="_blank" rel="noopener">我之前寫過的鐵人文章</a>。</p>
+<script type="math/tex; mode=display">
+E(y, \hat{y}) = max(1 - y\hat{y}, 0)</script><h2 id="l-2-regularized-linear-model"><a href="#l-2-regularized-linear-model" class="headerlink" title="$l_2$ -regularized linear model"></a>$l_2$ -regularized linear model</h2><p>所以我們根本可以把模型看成是一個 $l_2$ -regularized 的線性模型。</p>
+<script type="math/tex; mode=display">
+\mathop{\arg\min}_{\mathbf{w}, b} \frac{1}{2} \mathbf{w}^T\mathbf{w} + C \sum _{n=1}^N E(y, \hat{y})</script><p>不懂 regulariztion 的朋友請左轉 <a href="https://ithelp.ithome.com.tw/articles/10186405" target="_blank" rel="noopener">我之前寫過的鐵人文章</a>。</p>
 <p>基本上，你想把誤差函數換成其他的東西都可以，像是變成 kernel $l_2$ -regularized linear regression (kernel ridge regression)。</p>
-<p>$$<br>y = \mathbf{w}^T\phi(\mathbf{x}) + b \\<br>E(y, \hat{y}) = \frac{1}{N} (y - \hat{y})^2 \\<br>\mathop{\arg\min}_{\mathbf{w}, b} \frac{1}{2} \mathbf{w}^T\mathbf{w} + C \sum _{n=1}^N E(y, \hat{y})<br>$$</p>
-<p>或是你想要 kernel $l_2$ -regularized logistic regression。</p>
-<p>$$<br>y = \mathbf{w}^T\phi(\mathbf{x}) + b \\<br>E(y, \hat{y}) = \frac{1}{N} log(1 + exp(-y\hat{y})) \\<br>\mathop{\arg\min}_{\mathbf{w}, b} \frac{1}{2} \mathbf{w}^T\mathbf{w} + C \sum _{n=1}^N E(y, \hat{y})<br>$$</p>
-<h2 id="Representer-theorem"><a href="#Representer-theorem" class="headerlink" title="Representer theorem"></a>Representer theorem</h2>
+<script type="math/tex; mode=display">
+y = \mathbf{w}^T\phi(\mathbf{x}) + b \\\\
+E(y, \hat{y}) = \frac{1}{N} (y - \hat{y})^2 \\\\
+\mathop{\arg\min}_{\mathbf{w}, b} \frac{1}{2} \mathbf{w}^T\mathbf{w} + C \sum _{n=1}^N E(y, \hat{y})</script><p>或是你想要 kernel $l_2$ -regularized logistic regression。</p>
+<script type="math/tex; mode=display">
+y = \mathbf{w}^T\phi(\mathbf{x}) + b \\\\
+E(y, \hat{y}) = \frac{1}{N} log(1 + exp(-y\hat{y})) \\\\
+\mathop{\arg\min}_{\mathbf{w}, b} \frac{1}{2} \mathbf{w}^T\mathbf{w} + C \sum _{n=1}^N E(y, \hat{y})</script><h2 id="Representer-theorem"><a href="#Representer-theorem" class="headerlink" title="Representer theorem"></a>Representer theorem</h2>
                                         
 
                                 </div>
@@ -461,7 +476,7 @@
         
             <h4 id="about-card-name">Yueh-Hua Tu</h4>
         
-            <div id="about-card-bio"><p>Aim to be a computational biologist!</br>Systems Biology, Computational Biology, Machine Learning</br>Organizer of Julia Taiwan community</p>
+            <div id="about-card-bio"><p>Aim to be a computational biologist!&lt;/br&gt;Systems Biology, Computational Biology, Machine Learning&lt;/br&gt;Organizer of Julia Taiwan community</p>
 </div>
         
         

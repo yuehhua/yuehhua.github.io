@@ -230,7 +230,7 @@
                 <section class="postShorten-group main-content-wrap">
     
     
-    <article class="postShorten postShorten--thumbnailimg-bottom">
+    <article class="postShorten postShorten--thumbnailimg-right">
         <div class="postShorten-wrap">
             
             <div class="postShorten-header">
@@ -258,33 +258,13 @@
 
             </div>
             
-                <div class="postShorten-content">
+                <div class="postShorten-excerpt">
                     <p>接著我們就來到了蠻重要的問題，既然一個 hidden layer 的網路架構就可以逼近任何連續函數，那麼為什麼要深度學習？</p>
-<p>對於這個問題，台大李宏毅老師有非常詳細的講解：</p>
-<iframe width="560" height="315" src="https://www.youtube.com/embed/FN8jclCrqY0" frameborder="0" allow="autoplay; encrypted-media" allowfullscreen></iframe>
-
-<p>影片裏面實驗很多，所以我還是總結一下：</p>
-<ol>
-<li>用邏輯電路類比神經網路的話，你一樣可以用單層的並聯將所有邏輯閘都起來成為一個電路，一樣可以達到相同的效果，但是用多層的串聯可以將所需要的邏輯閘數目減少（類比神經網路的神經元），所以可以達到減少參數的效果。</li>
-<li>使用 ReLU 作為 activation function 就是要用分段線性的方式來逼近一個函數，在網路參數相進的情況下，單層網路所能產生的”段”比較少，多層網路所產生的”段”比較多，產生的線段較多就可以去逼近一個更複雜的函數，所以模型就比較強大。</li>
-<li>計算分段線性的數量，當你有 $N$ 個神經元，單層網路裡最多只能產生 $N - 1$ 個線段，多層網路，每層安排兩個神經元，可以產生 $2^{\frac{N}{2}}$ 個線段。</li>
-</ol>
-<p>更有文獻提到，計算線段的數量，如果你的網路每層有 $K$ 個神經元，而且有 $H$ 層，那麼至少會有 $K^H$ 個線段。</p>
-<p>由於深度是放在指數上面，所以增加深度就可以簡單地提高模型的複雜度，也就可以讓模型變得比較強大。</p>
-<h2 id="計算複雜度"><a href="#計算複雜度" class="headerlink" title="計算複雜度"></a>計算複雜度</h2><p>在一些電腦的問題上，我們常常形容問題是 NP 或者不是 NP，來描述一個問題的複雜度有多高。</p>
-<p>一個問題的時間複雜度可以在多項式時間內的，我們稱為 P，如果不是，那我們稱為 NP。</p>
-<p>NP-complete 問題是 NP 問題當中最難的了，計算複雜度大概會是指數級成長，這種成長速度應該使用神經網路有辦法克服。</p>
-
                     
+                        <a href="/2018/10/15/15-why-deep/" class="postShorten-excerpt_link link">
+                            Continue reading
+                        </a>
                         
-
-                    
-                    
-                        <p>
-                            <a href="/2018/10/15/15-why-deep/#post-footer" class="postShorten-excerpt_link link">
-                                Comment and share
-                            </a>
-                        </p>
                     
                 </div>
             
@@ -293,7 +273,7 @@
     </article>
     
     
-    <article class="postShorten postShorten--thumbnailimg-bottom">
+    <article class="postShorten postShorten--thumbnailimg-right">
         <div class="postShorten-wrap">
             
             <div class="postShorten-header">
@@ -321,41 +301,16 @@
 
             </div>
             
-                <div class="postShorten-content">
+                <div class="postShorten-excerpt">
                     <p>為什麼大家到現在都這麼迷神經網路模型？</p>
 <p>我想主因不是因為他是模擬生物而來，他有一些更扎實的數學特性。</p>
 <p>我們前面講過各種線性模型，然後將他過渡到神經網路。</p>
 <p>今天要告訴大家，即便是淺層的神經網路也是很厲害的。</p>
-<h2 id="Universal-approximation-theorem"><a href="#Universal-approximation-theorem" class="headerlink" title="Universal approximation theorem"></a>Universal approximation theorem</h2><p>Universal approximation theorem 是個淺層的神經網路的數學定理。</p>
-<p>他說：一個簡單的 feedforward network，只包含了一個 hidden layer，並且有適切的 activation function，包含有限個神經元的情況下，可以去逼近任何連續函數。</p>
-<p>在 1989 就以經由 George Cybenko 先生第一次證實了這個定理，他使用了 sigmoid activation function。</p>
-<p>如果大家對細節有興趣，請參閱 <a href="https://en.wikipedia.org/wiki/Universal_approximation_theorem" target="_blank" rel="noopener">維基百科的條目</a>。</p>
-<p>這代表什麼呢？</p>
-<p>到目前為止，我們都會將一個現實中的問題化成一個數學問題，一個數學問題基本上都是包含函數的。</p>
-<p>像是影像辨識，我們就可以看成一個可以輸入影像的函數，這個函數會輸出辨識結果，也就是分類。</p>
-<p>我們可以這樣寫 $f: \text{images} \rightarrow \text{classes}$。</p>
-<p>所以語音辨識就是 $f: \text{speech} \rightarrow \text{text}$。</p>
-<p>聊天機器人就是 $f: \text{text} \rightarrow \text{text}$。</p>
-<p>…</p>
-<p>到這邊你可以想想，幾乎人類的問題都可以化成一個函數來解答。</p>
-<p>所以可以逼近任何連續函數的模型根本就可以解答任何問題的意思阿！</p>
-<p>所以大家才拼了命的用這個模型去解決很多問題。</p>
-<h2 id="待解問題"><a href="#待解問題" class="headerlink" title="待解問題"></a>待解問題</h2><p>如果這個模型這麼萬能，那麼他就真的沒有缺點嗎？</p>
-<p>我們需要從這個定理切入，定理中描述的有限個神經元，但至少不是無限，他並沒有說需要幾個。</p>
-<p>這理所當然，因為沒有人知道你的問題有多複雜，需要用多難的方法解嘛！</p>
-<p>然後 activation function 也是沒有提的。</p>
-<p>所以這就是留給現代的大家去決定的。</p>
-
                     
+                        <a href="/2018/10/14/14-shallow-neural-network/" class="postShorten-excerpt_link link">
+                            Continue reading
+                        </a>
                         
-
-                    
-                    
-                        <p>
-                            <a href="/2018/10/14/14-shallow-neural-network/#post-footer" class="postShorten-excerpt_link link">
-                                Comment and share
-                            </a>
-                        </p>
                     
                 </div>
             
@@ -410,20 +365,20 @@
 <p>那麼 kernel 能不能被放到神經網路裡呢？</p>
 <p>其實是可以的，應該說，有一種網路模型稱為 Radial basis function network（RBF network），他其實就很像是 Gaussian kernel SVM。</p>
 <p>我們來看看前面的 kernel SVM 模型：</p>
-<p>$$<br>SVM(\mathbf{x}) = sign(\sum_{SV} \alpha_n y_n K(\mathbf{x}, \mathbf{x_n}) + b)<br>$$</p>
-<p>Gaussian kernel，或是稱 RBF function：</p>
-<p>$$<br>K(\mathbf{x}, \mathbf{x_n}) = exp(\gamma ||\mathbf{x} - \mathbf{x_n}||^2) = RBF(\mathbf{x}, \mathbf{x_n})<br>$$</p>
-<p>那麼 RBF network 是長什麼樣子呢？</p>
-<p>$$<br>y = \sum_{n} w_n RBF(\mathbf{x}, \boldsymbol{\mu_n})<br>$$</p>
-<p>示意圖的話是這樣：</p>
+<script type="math/tex; mode=display">
+SVM(\mathbf{x}) = sign(\sum_{SV} \alpha_n y_n K(\mathbf{x}, \mathbf{x_n}) + b)</script><p>Gaussian kernel，或是稱 RBF function：</p>
+<script type="math/tex; mode=display">
+K(\mathbf{x}, \mathbf{x_n}) = exp(\gamma ||\mathbf{x} - \mathbf{x_n}||^2) = RBF(\mathbf{x}, \mathbf{x_n})</script><p>那麼 RBF network 是長什麼樣子呢？</p>
+<script type="math/tex; mode=display">
+y = \sum_{n} w_n RBF(\mathbf{x}, \boldsymbol{\mu_n})</script><p>示意圖的話是這樣：</p>
 <p><img src="/images/rbf_network.svg" alt=""></p>
 <p>你可以將 $RBF(\mathbf{x}, \boldsymbol{\mu_n})$ 看成第一層，就是在計算兩個向量之間的距離，或是反過來說叫作相似度。</p>
 <p>第二層則是做一個線性組合，這邊就很像神經網路的一層。</p>
 <p>我們其實可以將上面的式子擴展成：</p>
-<p>$$<br>y = \sigma(\sum_{n} w_n RBF(\mathbf{x}, \boldsymbol{\mu_n}) + b)<br>$$</p>
-<p>或是寫成：</p>
-<p>$$<br>y = \sigma(\mathbf{w}^T RBF(\mathbf{x}, \boldsymbol{\mu}) + b)<br>$$</p>
-<p>我們可以將第二層變成一個神經網路的層，還包含有 activation function，所以這樣 kernel 也變成一層了。</p>
+<script type="math/tex; mode=display">
+y = \sigma(\sum_{n} w_n RBF(\mathbf{x}, \boldsymbol{\mu_n}) + b)</script><p>或是寫成：</p>
+<script type="math/tex; mode=display">
+y = \sigma(\mathbf{w}^T RBF(\mathbf{x}, \boldsymbol{\mu}) + b)</script><p>我們可以將第二層變成一個神經網路的層，還包含有 activation function，所以這樣 kernel 也變成一層了。</p>
 <p>RBF network 一開始是設計用來做函數內插的，就是有一些資料點 $\mathbf{x}$，我希望可以由這些資料來幫我們找到一條平滑的函數，愈密集的地方是愈有可能是線經過的。</p>
 <p>今天的部份就到這邊啦！</p>
 
@@ -445,7 +400,7 @@
     </article>
     
     
-    <article class="postShorten postShorten--thumbnailimg-bottom">
+    <article class="postShorten postShorten--thumbnailimg-right">
         <div class="postShorten-wrap">
             
             <div class="postShorten-header">
@@ -473,65 +428,15 @@
 
             </div>
             
-                <div class="postShorten-content">
+                <div class="postShorten-excerpt">
                     <p>我們把線性模型們都大統一了。</p>
-<p>$$<br>y \overset{f}{\longleftrightarrow} \mathbb{E}[y] \leftrightarrow \eta = \mathbf{w}^T\mathbf{x} + b<br>$$</p>
-<p>接下來就要進入到令人興奮的神經網路模型了！</p>
-<p>首先，我們先來介紹著名的感知器…嗯…前面不是介紹過了？</p>
-<p>喔喔！對喔！他長這個樣子：</p>
-<p>$$<br>y = \sigma(\mathbf{w}^T\mathbf{x} + b)<br>$$</p>
-<p>其中 $\mathbf{w}^T\mathbf{x} + b$ 是我們熟悉的線性模型，然後 $\sigma$ 就是所謂的 activation function。</p>
-<p>不覺得這看起來跟上面的很相似嗎？</p>
-<p>我們動點手腳：</p>
-<p>$$<br>\sigma^{-1}(y) = \mathbf{w}^T\mathbf{x} + b<br>$$</p>
-<p>是的！發現了嗎？其實 $\sigma^{-1}$ 就是在廣義線性模型裡的鏈結函數阿！他會是 activation function 的反函數！</p>
-<p>這樣是不是又了結了一樁心事了呢？</p>
-<h2 id="堆疊"><a href="#堆疊" class="headerlink" title="堆疊"></a>堆疊</h2><p>在神經網路當中，我們會把一個一個神經元並排起來，數學上看起來就是把預測單一個 y 擴張成多個維度：</p>
-<p>$$<br>\mathbf{y} = \sigma(W^T\mathbf{x} + \mathbf{b})<br>$$</p>
-<p>所以在權重 W 的部份也隨之從一個向量擴張成一個矩陣，b 的部份也是，可以自己驗算看看。</p>
-<p>但是預測多維向量並不是讓模型強大的地方，讓模型強大是因為把很多個這樣的模型頭尾接起來。</p>
-<p>$$<br>\mathbf{x} \overset{f^{(0)}}{\longrightarrow} \mathbf{h}^{(1)} \overset{f^{(1)}}{\longrightarrow} \dots \overset{f^{(k-1)}}{\longrightarrow} \mathbf{h}^{(k)} \overset{f^{(k)}}{\longrightarrow} \mathbf{y}<br>$$</p>
-<p>當中的這些函數們 $f^{(k))}$ 就是我們說的層。</p>
-<p>$$<br>\mathbf{h}^{(k)} = f^{(k))}(\mathbf{h}^{(k-1)}) = \sigma(W^T\mathbf{h}^{(k-1)} + \mathbf{b})<br>$$</p>
-<p>神經網路模型之所以強大的原因是因為將模型頭尾相接，並不是因為他是模擬生物系統，只是靈感是從生物系統上得來的而已。</p>
-<p>搭配上 activation function 的非線性轉換，就可以模擬很多非線性的現象。</p>
-<table>
-<thead>
-<tr>
-<th style="text-align:center">model</th>
-<th style="text-align:center">link function</th>
-<th style="text-align:center">activation function</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td style="text-align:center">linear regression</td>
-<td style="text-align:center">identity function: $y = x$</td>
-<td style="text-align:center">identity function: $y = x$</td>
-</tr>
-<tr>
-<td style="text-align:center">logistic regression</td>
-<td style="text-align:center">logit function: $y = \frac{x}{1-x}$</td>
-<td style="text-align:center">sigmoid function: $y = \frac{1}{1 + e^{-x}}$</td>
-</tr>
-<tr>
-<td style="text-align:center">Poisson regression</td>
-<td style="text-align:center">log function: $y = ln(x)$</td>
-<td style="text-align:center">exponential function: $y = exp(x)$</td>
-</tr>
-</tbody>
-</table>
-
+<script type="math/tex; mode=display">
+y \overset{f}{\longleftrightarrow} \mathbb{E}[y] \leftrightarrow \eta = \mathbf{w}^T\mathbf{x} + b</script><p>接下來就要進入到令人興奮的神經網路模型了！</p>
                     
+                        <a href="/2018/10/12/12-from-linear-model-to-neural-network/" class="postShorten-excerpt_link link">
+                            Continue reading
+                        </a>
                         
-
-                    
-                    
-                        <p>
-                            <a href="/2018/10/12/12-from-linear-model-to-neural-network/#post-footer" class="postShorten-excerpt_link link">
-                                Comment and share
-                            </a>
-                        </p>
                     
                 </div>
             
@@ -540,7 +445,7 @@
     </article>
     
     
-    <article class="postShorten postShorten--thumbnailimg-bottom">
+    <article class="postShorten postShorten--thumbnailimg-right">
         <div class="postShorten-wrap">
             
             <div class="postShorten-header">
@@ -568,61 +473,14 @@
 
             </div>
             
-                <div class="postShorten-content">
+                <div class="postShorten-excerpt">
                     <p>我們前面探討了不同的資料型態可以對應不同的迴歸模型。</p>
 <p>不覺得每個迴歸模型都有那麼點相似的地方嗎？</p>
-<p>線性迴歸：</p>
-<p>$$<br>\mathbb{E}[y] = \mu = \mathbf{w}^T\mathbf{x} + b<br>$$</p>
-<p>羅吉斯迴歸：</p>
-<p>$$<br>ln(\frac{\mathbb{E}[y]}{1 - \mathbb{E}[y]}) = ln(\frac{p}{1 - p}) = \mathbf{w}^T\mathbf{x} + b<br>$$</p>
-<p>Poisson 迴歸：</p>
-<p>$$<br>ln(\mathbb{E}[y]) = ln(\lambda) = \mathbf{w}^T\mathbf{x} + b<br>$$</p>
-<p>在右手邊的部份都是一樣的，是一樣的線性組合加上一個常數。</p>
-<p>差別在於預測出來的數值是怎麼連結到目標變量的平均值上 $\mathbb{E}[y]$。</p>
-<p>是的，我們在預測的都是目標變量的平均值。</p>
-<h2 id="鏈結函數（link-function）"><a href="#鏈結函數（link-function）" class="headerlink" title="鏈結函數（link function）"></a>鏈結函數（link function）</h2><p>要連結目標變量的平均值 $\mathbb{E}[y]$ 跟線性組合加上一個常數…..，姑且叫他 $\eta$ 好了。</p>
-<p>$$<br>\mathbb{E}[y] \leftrightarrow \eta<br>$$</p>
-<p>統計學家發展出使用鏈結函數來連結這兩者，所以不同的資料型態會對應不同的鏈結函數。</p>
-<p>線性迴歸使用 identity function $y = x$：</p>
-<p>$$<br>\mathbb{E}[y] = \eta<br>$$</p>
-<p>羅吉斯迴歸使用 logit function $y = ln(\frac{x}{1 - x})$：</p>
-<p>$$<br>ln(\frac{\mathbb{E}[y]}{1 - \mathbb{E}[y]}) = \eta<br>$$</p>
-<p>Poisson 迴歸使用 log function $y = ln(x)$：</p>
-<p>$$<br>ln(\mathbb{E}[y]) = \eta<br>$$</p>
-<h2 id="廣義線性模型（generalized-linear-model）"><a href="#廣義線性模型（generalized-linear-model）" class="headerlink" title="廣義線性模型（generalized linear model）"></a>廣義線性模型（generalized linear model）</h2><p>這麼一來我們就可以把三個模型搓一搓做成 <del>撒尿牛丸</del> 廣義線性模型啦！</p>
-<p>$$<br>y \overset{f}{\longleftrightarrow} \mathbb{E}[y] \leftrightarrow \eta = \mathbf{w}^T\mathbf{x} + b<br>$$</p>
-<p>對應不同的目標變量，我們就有了萬用的模型，就像物理的大一統理論一樣。</p>
-<p>廣義線性模型其實包含了三個部份：</p>
-<ol>
-<li>鏈結函數</li>
-<li>線性預測子</li>
-<li>指數族</li>
-</ol>
-<h2 id="線性預測子（linear-predictor）"><a href="#線性預測子（linear-predictor）" class="headerlink" title="線性預測子（linear predictor）"></a>線性預測子（linear predictor）</h2><p>統計學家特別給了一個線性預測子這樣的名字。</p>
-<p>$$<br>\eta = \mathbf{w}^T\mathbf{x} + b<br>$$</p>
-<p>這代表要從預測變量 $\mathbf{x}$ 去預測我們的目標變量，其中 $\mathbf{x}$ 的變數之間都是 <strong>互相獨立</strong> 的。</p>
-<p>互相獨立的變數之間，要以 <strong>線性組合</strong> 來預測我們的目標變量。</p>
-<h2 id="指數族（exponential-family）"><a href="#指數族（exponential-family）" class="headerlink" title="指數族（exponential family）"></a>指數族（exponential family）</h2><p>可是每一種資料的機率分佈都可以接上廣義線性模型嗎？答案是否定的。</p>
-<p>$$<br>y \overset{f}{\longleftrightarrow} \mathbb{E}[y]<br>$$</p>
-<p>統計學家研究了一下這個模型，發現只有符合指數族的條件才能夠用。</p>
-<p>指數族長成這樣：</p>
-<p>$$<br>f(\mathbf{y} \mid \boldsymbol{\theta}) = \frac{1}{Z(\boldsymbol{\theta})} h(\mathbf{y}) exp(\boldsymbol{\theta}^T \phi(\mathbf{y}))<br>$$</p>
-<p>$\boldsymbol{\theta}$ 是機率分佈的期望值，或是稱為 natural parameter。</p>
-<p>$\phi(\mathbf{y})$ 是 sufficient statisitcs，這邊有非常多有趣的東西，不過也有點理論。</p>
-<p>$Z(\boldsymbol{\theta})$ 稱為 partition function，是機率分佈的分母，常常會在不同的領域見到他，像是物理。</p>
-<p>$h(\mathbf{y})$ 就是個縮放因子，沒什麼重要性，常常是 1。</p>
-<p>我知道大家可能會有很多疑問，但是礙於篇幅，我就不再繼續介紹下去了，這邊下去又是統計所一門課了。</p>
-
                     
+                        <a href="/2018/10/11/11-generalized-linear-model/" class="postShorten-excerpt_link link">
+                            Continue reading
+                        </a>
                         
-
-                    
-                    
-                        <p>
-                            <a href="/2018/10/11/11-generalized-linear-model/#post-footer" class="postShorten-excerpt_link link">
-                                Comment and share
-                            </a>
-                        </p>
                     
                 </div>
             
@@ -631,7 +489,7 @@
     </article>
     
     
-    <article class="postShorten postShorten--thumbnailimg-bottom">
+    <article class="postShorten postShorten--thumbnailimg-right">
         <div class="postShorten-wrap">
             
             <div class="postShorten-header">
@@ -659,51 +517,15 @@
 
             </div>
             
-                <div class="postShorten-content">
+                <div class="postShorten-excerpt">
                     <p>上次我們講完了線性迴歸跟羅吉斯迴歸的差異。</p>
 <p>可是並不是每一種資料都是連續型的或是類別型的。</p>
 <p>這次要來介紹 Poisson 迴歸，當你要預測的是計數型資料（count data）就可以用他。</p>
-<h2 id="Poisson-distribution"><a href="#Poisson-distribution" class="headerlink" title="Poisson distribution"></a>Poisson distribution</h2><p>在講 Poisson 迴歸之前要先來講講 Poisson 分佈，他的公式大概是長的像這樣：</p>
-<p>$$<br>P(Y=y; \lambda) = \frac{e^{- \lambda} \lambda^y}{y!}<br>$$</p>
-<p>圖形的話看起來是這樣。</p>
-<p><img src="/images/Poisson_distribution.svg" alt=""></p>
-<blockquote>
-<p>圖片來自維基百科</p>
-</blockquote>
-<p>要怎麼看懂這個分佈呢？</p>
-<p>我們先想像一個情境好了，假設我們經營一家便利商店，在一天之中來光臨這家商店的人數不同時段不一樣。即使是同一個時段，你也很難準確預測會有多少人進到店裡來。這時候我們就會用機率的描述方式，在這邊 k 指的是當我們觀察每段時間區間內進入店裡的客人數量，那麼 $\lambda$ 就是平均來說，每個時間區間的來客人數。你可以看到在 $\lambda = 1$ 的分佈上，來客人數是 0 或是 1 的機率其實很高，但是大於 1 的情形並不是沒有，只是機率比較低罷了。</p>
-<p>因此，我們可以用這樣的分佈來估算計數型的資料</p>
-<h2 id="Poisson-迴歸"><a href="#Poisson-迴歸" class="headerlink" title="Poisson 迴歸"></a>Poisson 迴歸</h2><p>計數型的資料難道不能用一般的線性迴歸嗎？</p>
-<p>其實這兩者有非常大的差別：</p>
-<ol>
-<li>計數型的資料不會有負值</li>
-<li>計數型的資料不會有小數點</li>
-</ol>
-<p>基於以上兩點資料性質上的差異，我們必須把不同資料分別看待。</p>
-<p>但是也不是完全不能用線性迴歸，只是需要動點手腳，就是對資料取 log。</p>
-<p>如果你對上面的 Poisson 分佈取 log 的話會發生什麼事呢？</p>
-<p>$$<br>ln(P(Y=y; \lambda)) = - \lambda + y ln(\lambda) - \sum_{y}^{j=1} j<br>$$</p>
-<p>看到了吧！$\lambda$ 跳出來了！而平均數 $\lambda$ 是連續型的數值，可以作為線性迴歸要預測的對象的。</p>
-<blockquote>
-<p>注意：以上並非正式的證明，請勿用於正式推導</p>
-</blockquote>
-<p>其實我們的 Poisson 迴歸是長成這樣的：</p>
-<p>$$<br>ln(\mathbb{E}[y]) = ln(\mathbb{E}[P(Y=y; \lambda)]) = \mathbf{w}^T\mathbf{x} + b<br>$$</p>
-<p>是不是跟我們前面提到的羅吉斯迴歸有 87% 像呢？</p>
-<p>而且我們在上面有提到 $\lambda$ 是平均數，所以呢…</p>
-<p>$$<br>ln(\mathbb{E}[y]) = ln(\lambda) = \mathbf{w}^T\mathbf{x} + b<br>$$</p>
-<p>Poisson 迴歸在預測的根本是 $ln(\lambda)$ 嘛！</p>
-
                     
+                        <a href="/2018/10/10/10-from-linear-regression-to-poisson-regression/" class="postShorten-excerpt_link link">
+                            Continue reading
+                        </a>
                         
-
-                    
-                    
-                        <p>
-                            <a href="/2018/10/10/10-from-linear-regression-to-poisson-regression/#post-footer" class="postShorten-excerpt_link link">
-                                Comment and share
-                            </a>
-                        </p>
                     
                 </div>
             
@@ -712,7 +534,7 @@
     </article>
     
     
-    <article class="postShorten postShorten--thumbnailimg-bottom">
+    <article class="postShorten postShorten--thumbnailimg-right">
         <div class="postShorten-wrap">
             
             <div class="postShorten-header">
@@ -740,58 +562,14 @@
 
             </div>
             
-                <div class="postShorten-content">
+                <div class="postShorten-excerpt">
                     <p>我們從前面的模型演化可以了解一個機器學習模型可以怎麼樣衍生出其他的變體來解決問題。</p>
 <p>現在我們要切換到另外一條跑道上，我們一樣是從線性迴歸模型出發，我們或許可以換成其他的不同的分佈。</p>
-<h2 id="常態分佈"><a href="#常態分佈" class="headerlink" title="常態分佈"></a>常態分佈</h2><p>其實我們在前面的文章中有提到我們的線性迴歸模型假設了誤差是會呈現一個常態分佈。</p>
-<p>對於誤差的假設這件事情其實很大程度影響了我們模型的長相，也會影響這個模型所適用的資料。</p>
-<p>像是線性迴歸模型適用的是連續型變數的資料，更進一步來說，他是要求他的應變量（y）要是連續型的，看起來是這樣的。</p>
-<p>$$<br>\mathbb{E}[y] = \mathbb{E}[Normal(Y=y; \mu, \sigma)] = \mu = \mathbf{w}^T\mathbf{x} + b<br>$$</p>
-<p>$Normal(Y=y; \mu, \sigma)$：代表常態分佈，以 $\mu$ 為平均數，$\sigma$ 為標準差，輸入是應變量（y），輸出是機率。</p>
-<p>事實上，當你把你的一些 feature 輸入這個模型後，預測出來的是應變量的期望值或是平均數（$\mathbb{E}[y]$）。</p>
-<p>如果我們要預測的應變量是二元的類別資料，那也就是把問題轉換成分類問題，我們就需要用不同的分佈。</p>
-<h2 id="白努力分佈與二項式分佈"><a href="#白努力分佈與二項式分佈" class="headerlink" title="白努力分佈與二項式分佈"></a>白努力分佈與二項式分佈</h2><p>當我們的資料是分成兩類：0, 1，那麼他會對應到白努力分佈（Bernoulli distribution）。</p>
-<p>當你蒐集了一群二元分類的資料，那麼就會對應到二項式分佈（Binomial distribution）。</p>
-<p>如果你要預測的是一筆二元分類的資料，你應該要假設你的應變量（y）是白努力分佈。</p>
-<p>$$<br>\mathbb{E}[y] = \mathbb{E}[Ber(Y=y; p)] = \mu = \mathbf{w}^T\mathbf{x} + b<br>$$</p>
-<p>$Ber(Y=y; p)$：代表白努力分佈，以 p 為成功機率，輸入是應變量（y），輸出是機率。</p>
-<h2 id="羅吉斯迴歸"><a href="#羅吉斯迴歸" class="headerlink" title="羅吉斯迴歸"></a>羅吉斯迴歸</h2><p>羅吉斯迴歸的模型是以下這個樣子：</p>
-<p>$$<br>y = \sigma(\mathbf{w}^T\mathbf{x} + b)<br>$$</p>
-<p>其中的 $\sigma$ 是 sigmoid function，由這個函數輸出的就是成功機率了：</p>
-<p>$$<br>p = \sigma(s) = \frac{1}{1 + e^{-s}}<br>$$</p>
-<p>那這跟我們前面提的分佈看起來都不太一樣阿！我們來反推一下，其實我們前面提到的分佈應該是跟 sigmoid function 的反函數有關係：</p>
-<p>$$<br>\sigma^{-1}(y) = \mathbf{w}^T\mathbf{x} + b<br>$$</p>
-<p>我們從白努力分佈開始，當 $y \in {0, 1}$ 時：</p>
-<p>$$<br>Ber(Y=y; p) = p^y (1-p)^{(1-y)}<br>$$</p>
-<p>也就是，當 y 是 0 的時候，只會剩下後面那一項，當 y 是 1 的時候，只會剩下前面那一項。</p>
-<p>那們我們要預測的其實是一個事件發生的機率 p，可是我們由 $\mathbf{w}^T\mathbf{x} + b$ 計算出來的是連續的數值。那要怎麼將這兩者接起來呢？</p>
-<p>在統計學裡有一個叫作 logit function 的東西，中文翻譯叫作邏輯函數，但是跟邏輯沒什麼關係就是了。</p>
-<p>$$<br>y = log \frac{x}{1 - x}<br>$$</p>
-<p>如果將裡頭的 x 想成成功機率的話，分子就是成功的機率，分母就是失敗的機率，就非常像一個東西叫作勝算（odds），所以他又叫作 log odds。</p>
-<p>用勝算的話就是一個連續的數值，同時也可以表達成功機率的含意，我們就從這邊開始吧！一路朝著 sigmoid function 邁進。</p>
-<p>$$<br>s = ln \frac{p}{1 - p}<br>$$</p>
-<p>$$<br>-s = ln \frac{1 - p}{p}<br>$$</p>
-<p>$$<br>e^{-s} = \frac{1 - p}{p}<br>$$</p>
-<p>$$<br>p + e^{-s}p = 1<br>$$</p>
-<p>$$<br>(1 + e^{-s})p = 1<br>$$</p>
-<p>$$<br>p = \frac{1}{1 + e^{-s}}<br>$$</p>
-<p>看到了嗎？他是 sigmoid function！</p>
-<p>也就是說，如果用線性迴歸預測的是 log odds，那就會跟羅吉斯迴歸一樣！</p>
-<p>$$<br>ln \frac{p}{1 - p} = \sigma^{-1}(y) = \mathbf{w}^T\mathbf{x} + b<br>$$</p>
-<p>你如果把 sigmoid function 還原回來的話：</p>
-<p>$$<br>y = \frac{1}{1 + e^{- \mathbf{w}^T\mathbf{x} - b}} = \sigma(\mathbf{w}^T\mathbf{x} + b)<br>$$</p>
-<p>就是羅吉斯迴歸的樣子了！</p>
-
                     
+                        <a href="/2018/10/09/09-from-linear-regression-to-logistic-regression/" class="postShorten-excerpt_link link">
+                            Continue reading
+                        </a>
                         
-
-                    
-                    
-                        <p>
-                            <a href="/2018/10/09/09-from-linear-regression-to-logistic-regression/#post-footer" class="postShorten-excerpt_link link">
-                                Comment and share
-                            </a>
-                        </p>
                     
                 </div>
             
@@ -800,7 +578,7 @@
     </article>
     
     
-    <article class="postShorten postShorten--thumbnailimg-bottom">
+    <article class="postShorten postShorten--thumbnailimg-right">
         <div class="postShorten-wrap">
             
             <div class="postShorten-header">
@@ -828,35 +606,13 @@
 
             </div>
             
-                <div class="postShorten-content">
+                <div class="postShorten-excerpt">
                     <p>我們來回顧一下 SVM 模型。</p>
-<p>$$<br>\begin{align}<br>\mathop{\arg\min}_{\mathbf{w}, b, \boldsymbol{\xi}} &amp;\ \ \ \<br>    \frac{1}{2} \mathbf{w}^T\mathbf{w} + C \sum _{n=1}^N \xi_n \\<br>\text{subject to} &amp;\ \ \ \<br>    \forall i, y_i (\mathbf{w}^T\mathbf{x_i} + b) \ge 1 - \xi_n \\<br>\text{ } &amp;\ \ \ \<br>    \forall n, \xi_n \ge 0<br>\end{align}<br>$$</p>
-<p>他可以被進一步轉成</p>
-<p>$$<br>\begin{align}<br>\mathop{\arg\min}_{\mathbf{w}, b} &amp;\ \ \ \<br>    \frac{1}{2} \mathbf{w}^T\mathbf{w} + C \sum _{n=1}^N max(1 - y_i (\mathbf{w}^T\mathbf{x_i} + b), 0) \\<br>\end{align}<br>$$</p>
-<p>在 SVM 的陳述當中，有沒有發現 $\frac{1}{2} \mathbf{w}^T\mathbf{w}$ 這部份看起來跟 $l_2$ regularization 一樣。後半部份是跟誤差有關。</p>
-<p>如果分類分對的話，$y_i (\mathbf{w}^T\mathbf{x_i} + b)$ 就會是大於等於 1，這樣的話後面整項計算起來就會是 0。</p>
-<p>如果分類分對但是離線太近的話，$y_i (\mathbf{w}^T\mathbf{x_i} + b)$ 就會是小於 1，這樣後面整項會是一個小於 1 的值，代表離線太近了，算是些微的誤差。</p>
-<p>如果分類都分錯，$y_i (\mathbf{w}^T\mathbf{x_i} + b)$ 根本就是負值，後面整項會是一個大於 1 的值，代表離線太遠了，算是很大的誤差。</p>
-<h2 id="Hinge-error"><a href="#Hinge-error" class="headerlink" title="Hinge error"></a>Hinge error</h2><p>這樣的誤差計算方式稱為 hinge error，也就是：</p>
-<p>$$<br>E(y, \hat{y}) = max(1 - y\hat{y}, 0)<br>$$</p>
-<h2 id="l-2-regularized-linear-model"><a href="#l-2-regularized-linear-model" class="headerlink" title="$l_2$ -regularized linear model"></a>$l_2$ -regularized linear model</h2><p>所以我們根本可以把模型看成是一個 $l_2$ -regularized 的線性模型。</p>
-<p>$$<br>\mathop{\arg\min}_{\mathbf{w}, b} \frac{1}{2} \mathbf{w}^T\mathbf{w} + C \sum _{n=1}^N E(y, \hat{y})<br>$$</p>
-<p>不懂 regulariztion 的朋友請左轉 <a href="https://ithelp.ithome.com.tw/articles/10186405" target="_blank" rel="noopener">我之前寫過的鐵人文章</a>。</p>
-<p>基本上，你想把誤差函數換成其他的東西都可以，像是變成 kernel $l_2$ -regularized linear regression (kernel ridge regression)。</p>
-<p>$$<br>y = \mathbf{w}^T\phi(\mathbf{x}) + b \\<br>E(y, \hat{y}) = \frac{1}{N} (y - \hat{y})^2 \\<br>\mathop{\arg\min}_{\mathbf{w}, b} \frac{1}{2} \mathbf{w}^T\mathbf{w} + C \sum _{n=1}^N E(y, \hat{y})<br>$$</p>
-<p>或是你想要 kernel $l_2$ -regularized logistic regression。</p>
-<p>$$<br>y = \mathbf{w}^T\phi(\mathbf{x}) + b \\<br>E(y, \hat{y}) = \frac{1}{N} log(1 + exp(-y\hat{y})) \\<br>\mathop{\arg\min}_{\mathbf{w}, b} \frac{1}{2} \mathbf{w}^T\mathbf{w} + C \sum _{n=1}^N E(y, \hat{y})<br>$$</p>
-<h2 id="Representer-theorem"><a href="#Representer-theorem" class="headerlink" title="Representer theorem"></a>Representer theorem</h2>
                     
+                        <a href="/2018/10/08/08-l2-regularized-linear-model/" class="postShorten-excerpt_link link">
+                            Continue reading
+                        </a>
                         
-
-                    
-                    
-                        <p>
-                            <a href="/2018/10/08/08-l2-regularized-linear-model/#post-footer" class="postShorten-excerpt_link link">
-                                Comment and share
-                            </a>
-                        </p>
                     
                 </div>
             
@@ -865,7 +621,7 @@
     </article>
     
     
-    <article class="postShorten postShorten--thumbnailimg-bottom">
+    <article class="postShorten postShorten--thumbnailimg-right">
         <div class="postShorten-wrap">
             
             <div class="postShorten-header">
@@ -893,36 +649,14 @@
 
             </div>
             
-                <div class="postShorten-content">
+                <div class="postShorten-excerpt">
                     <p>雖然標題是說”標準” SVM，不過模型這種東西從來就沒有什麼標準，有的不過是變體。</p>
 <p>所以這篇是要跟大家總結一下我們一般在用的 SVM 模型的預設值是長什麼樣子。</p>
-<p>我們前面從 maximum-margin classifier 出發，尋找最大 margin 的分類器。</p>
-<p>接著，為了解決非線性跟計算效能問題，引進了 kernel trick。</p>
-<p>最後，為了避免 overfitting，我們放寬了 margin 成為 soft-margin。</p>
-<p>這些都是標準 SVM 的預設配備。</p>
-<p>當然還有為了解決計算效能問題，使用了 Lagrange multiplier，由於背後的數學太過煩雜就不介紹了。</p>
-<p>簡單來說，Lagrange multiplier 的使用，讓原本的問題（primal problem）可以有另外的對偶問題（dual problem）。</p>
-<p>我們只要解了對偶問題，我們就可以解掉原本的問題，雖然有時候會碰到一些限制。</p>
-<p>原本問題的陳述是這樣的：</p>
-<p>$$<br>\begin{align}<br>\mathop{\arg\min}_{\mathbf{w}, b, \boldsymbol{\xi}} &amp;\ \ \ \<br>    \frac{1}{2} \mathbf{w}^T\mathbf{w} + C \sum _{n=1}^N \xi_n \\<br>\text{subject to} &amp;\ \ \ \<br>    \forall i, y_i (\mathbf{w}^T\mathbf{x_i} + b) \ge 1 - \xi_n \\<br>\text{ } &amp;\ \ \ \<br>    \forall n, \xi_n \ge 0<br>\end{align}<br>$$</p>
-<p>轉變成對偶問題然後簡化後的陳述是這樣的：</p>
-<p>$$<br>\begin{align}<br>\mathop{\arg\min}_{\boldsymbol{\alpha}} &amp;\ \ \ \<br>    \frac{1}{2} \sum _{n=1}^{N} \sum _{m=1}^{N} \alpha_n \alpha_m y_n y_m \mathbf{z_n}^T\mathbf{z_m} - \sum _{n=1}^N \alpha_n \\<br>\text{subject to} &amp;\ \ \ \<br>    \sum_{n=1}^{N} \alpha_n y_n = 0, 0 \le \alpha_n \le C \\<br>\text{ } &amp;\ \ \ \<br>    \mathbf{w} = \sum_{n=1}^{N} \alpha_n y_n \mathbf{z_n}<br>\end{align}<br>$$</p>
-<p>不要問我怎麼來的，你一問我就要開始另一篇數學了，你會怕。</p>
-<p>解完上面的問題，我們可以得到一些資訊，我們可以從 $\alpha_n$ 的數值範圍來得知一個資料點他是不是 support vector。</p>
-<p>只要他的值在 $0 &lt; \alpha_n &lt; C$ 這個範圍，他就是 support vector。</p>
-<p>我們最後在形成整個 SVM 模型的時候其實只需要這些 support vector 就可以了。</p>
-<p>$$<br>SVM(\mathbf{x}) = sign(\sum_{SV} \alpha_n y_n K(\mathbf{x_n}, \mathbf{x}) + b)<br>$$</p>
-
                     
+                        <a href="/2018/10/07/07-standard-svm/" class="postShorten-excerpt_link link">
+                            Continue reading
+                        </a>
                         
-
-                    
-                    
-                        <p>
-                            <a href="/2018/10/07/07-standard-svm/#post-footer" class="postShorten-excerpt_link link">
-                                Comment and share
-                            </a>
-                        </p>
                     
                 </div>
             
@@ -931,7 +665,7 @@
     </article>
     
     
-    <article class="postShorten postShorten--thumbnailimg-bottom">
+    <article class="postShorten postShorten--thumbnailimg-right">
         <div class="postShorten-wrap">
             
             <div class="postShorten-header">
@@ -959,34 +693,14 @@
 
             </div>
             
-                <div class="postShorten-content">
+                <div class="postShorten-excerpt">
                     <p>從前面的 kernel SVM 當中我們已經獲得了很強大的模型，可是他還是會有不足之處，像是當資料有雜訊的時候就容易將每個資料點都個別分開。</p>
 <p>有時候我們反而希望模型在面對雜訊上不要那麼敏感，或是不要把每個資料點都分對，這時候怎麼辦呢？</p>
-<h2 id="Hard-margin-SVM"><a href="#Hard-margin-SVM" class="headerlink" title="Hard-margin SVM"></a>Hard-margin SVM</h2><p><img src="/images/linear-separable2.svg" alt=""></p>
-<p>從這張圖來看，我們或許可以接受這樣的線其實還不錯，只是資料多了一點雜訊。如果讓模型硬要把所有資料點都分對的話，邊界就會非常複雜，就會變成 overfitting。</p>
-<p>我們是不是有什麼辦法去修正這個模型呢？</p>
-<p>我們原本的模型是：</p>
-<p>$$<br>\begin{align}<br>\mathop{\arg\min}_{\mathbf{w}, b} &amp;\ \ \ \<br>    \frac{1}{2} \mathbf{w}^T\mathbf{w} \\<br>\text{subject to} &amp;\ \ \ \<br>    \forall i, y_i (\mathbf{w}^T\mathbf{x_i} + b) \ge 1<br>\end{align}<br>$$</p>
-<p>我們可以藉由在最佳化目標上加上一些 regularization $\sum _{n=1}^N [y_n \ne sign(\mathbf{w}^T\mathbf{z_n} + b) ]$。</p>
-<p>$$<br>\begin{align}<br>\mathop{\arg\min}_{\mathbf{w}, b} &amp;\ \ \ \<br>    \frac{1}{2} \mathbf{w}^T\mathbf{w} + C \sum _{n=1}^N [y_n \ne sign(\mathbf{w}^T\mathbf{z_n} + b) ] \\<br>\text{subject to} &amp;\ \ \ \<br>    …<br>\end{align}<br>$$</p>
-<p>這樣的 regularization 項我們可以仿照之前的方法，把他改成 $\sum _{n=1}^N y_n (\mathbf{w}^T\mathbf{z_n} + b)$。</p>
-<p>如果考慮 $y_n (\mathbf{w}^T\mathbf{z_n} + b)$，如果答對的話，他會是大於等於 1 的值，相反，如果答錯的話………..，我們只能確定他是負值，沒辦法確定他的範圍。</p>
-<p><img src="/images/soft-margin_SVM.svg" alt=""></p>
-<p>這樣的話，我們 直接引入一個值 $\xi$ 來代表 $y_n (\mathbf{w}^T\mathbf{z_n} + b)$ 到底有多大程度答錯了。</p>
-<p>$$<br>\begin{align}<br>\mathop{\arg\min}_{\mathbf{w}, b, \mathbf{\xi}} &amp;\ \ \ \<br>    \frac{1}{2} \mathbf{w}^T\mathbf{w} + C \sum _{n=1}^N \xi_n \\<br>\text{subject to} &amp;\ \ \ \<br>    \forall i, y_i (\mathbf{w}^T\mathbf{x_i} + b) \ge 1 - \xi_n \\<br>\text{ } &amp;\ \ \ \<br>    \forall n, \xi_n \ge 0<br>\end{align}<br>$$</p>
-<p>所以在最佳化目標上有 regularization，然後放寬一下限制，讓 $y_i (\mathbf{w}^T\mathbf{x_i} + b)$ 的值可以有個容忍度 $1 - \xi_n$。</p>
-<p>也就是，我們可以在 margin 儘量大的情形下，去限制讓模型不能做錯太多，這個程度可以藉由 C 做調整。</p>
-
                     
+                        <a href="/2018/10/06/06-from-hard-margin-svm-to-soft-margin-svm/" class="postShorten-excerpt_link link">
+                            Continue reading
+                        </a>
                         
-
-                    
-                    
-                        <p>
-                            <a href="/2018/10/06/06-from-hard-margin-svm-to-soft-margin-svm/#post-footer" class="postShorten-excerpt_link link">
-                                Comment and share
-                            </a>
-                        </p>
                     
                 </div>
             
@@ -1032,7 +746,7 @@
         
             <h4 id="about-card-name">Yueh-Hua Tu</h4>
         
-            <div id="about-card-bio"><p>Aim to be a computational biologist!</br>Systems Biology, Computational Biology, Machine Learning</br>Organizer of Julia Taiwan community</p>
+            <div id="about-card-bio"><p>Aim to be a computational biologist!&lt;/br&gt;Systems Biology, Computational Biology, Machine Learning&lt;/br&gt;Organizer of Julia Taiwan community</p>
 </div>
         
         

@@ -230,7 +230,7 @@
                 <section class="postShorten-group main-content-wrap">
     
     
-    <article class="postShorten postShorten--thumbnailimg-bottom">
+    <article class="postShorten postShorten--thumbnailimg-right">
         <div class="postShorten-wrap">
             
             <div class="postShorten-header">
@@ -258,72 +258,14 @@
 
             </div>
             
-                <div class="postShorten-content">
+                <div class="postShorten-excerpt">
                     <p>注意：整篇文章極度數學高能！！</p>
 <p>沒有把前一篇文章看完的朋友別擔心，我們會在開頭先回顧一下。在一番數學技巧的替換過後，我們的 maximum-margin classifier 會被化成一個最佳化問題。這個最佳化問題可以用二次規劃（quadratic programming, QP）來解。</p>
-<p>$$<br>\begin{align}<br>\mathop{\arg\min}_{\mathbf{w}, b} &amp;\ \ \ \<br>    \frac{1}{2} \mathbf{w}^T\mathbf{w} \\<br>\text{subject to} &amp;\ \ \ \<br>    \forall i, y_i (\mathbf{w}^T\mathbf{x_i} + b) \ge 1<br>\end{align}<br>$$</p>
-<p>當模型被轉化成一個最佳化問題之後，<del>你還有什麼不滿的？</del> 問題都解決了嗎？</p>
-<p>當然還沒有阿！雖然說我們解決了前面的第二個缺點，但是第一個缺點還是在啊！</p>
-<p>那如果資料不是線性可分的話，是不是支援非線性的分類問題就可以了？</p>
-<h2 id="非線性轉換"><a href="#非線性轉換" class="headerlink" title="非線性轉換"></a>非線性轉換</h2><p>那問題簡單！既然這個分類器只能處理線性問題，那就把所有非線性問題透過一個轉換變成線性問題不就可以了？</p>
-<p>當然用講的比較簡單…</p>
-<p>我們就先假設有個非線性轉換，可以把原本的非線性資料 $\mathbf{x_i}$ 轉成線性資料 $\mathbf{z_i}$：</p>
-<p>$$<br>\mathbf{z_i} = \phi(\mathbf{x_i})<br>$$</p>
-<p>然後再把線性資料塞進模型裡不就得了？</p>
-<p>$$<br>\begin{align}<br>\mathop{\arg\min}_{\mathbf{w}, b} &amp;\ \ \ \<br>    \frac{1}{2} \mathbf{w}^T\mathbf{w} \<br>\text{subject to} &amp;\ \ \ \<br>    \forall i, y_i (\mathbf{w}^T\mathbf{z_i} + b) \ge 1<br>\end{align}<br>$$</p>
-<p>嗯……可是瑞凡，你知道要放到 QP 裏面算之前，要先計算出 $[\mathbf{z_i}^T\mathbf{z_j}]$，也就是把資料經過一個非線性轉換過後，還需要將每個資料向量兩兩之間內積，得到一整個矩陣才行。</p>
-<p>計算這所有的組合可是非常花時間（$O(N^2)$）的好嗎！！尤其你的資料點很多的時候，大數據都算不下去了。</p>
-<h2 id="Kernel-method"><a href="#Kernel-method" class="headerlink" title="Kernel method"></a>Kernel method</h2><p>我們先來看一下比較簡單的非線性轉換好了，假設是二次多項式的轉換。</p>
-<p>我們想像中的二次多項式應該是 $\phi_2(x) = (1, x, x^2)$，這邊有三項，可是廣義的二次多項式會有：</p>
-<p>$$<br>\mathbf{z} = \phi_2(\mathbf{x}) = (1, x_1, x_2, \dots, x_d, \<br>    x_1^2, x_1x_2, \dots, x_1x_d, \<br>    x_2x_1, x_2^2, \dots, x_2x_d, \<br>    \dots, x_d^2)<br>$$</p>
-<p>有一個常數項、d 個一次項跟 $d + \frac{1}{2} d(d+1)$ 個二次項，如果這個向量內積的話，乘法的時間複雜度就有 $O(d^2)$ 了。</p>
-<p>然後再讓 $\mathbf{z_i}$ 跟 $\mathbf{z_j}$ 兩兩內積，利用內積的交換性扣掉一些不用算的，好歹也需要算 $N + \frac{1}{2} N(N+1)$ 次內積，是 $O(N^2)$。</p>
-<p>總共應該會有 $O(d^2N^2)$。</p>
-<blockquote>
-<p>註：d 為資料維度，N 為資料筆數</p>
-</blockquote>
-<p>有沒有什麼方法可以降低這個時間呢？</p>
-<p>我們把內積的部份拿出來看看。</p>
-<p>$$<br>\phi_2(\mathbf{x})^T\phi_2(\mathbf{x’}) = 1 + \sum_{i=1}^{d} x_ix_i’ + \sum_{i=1}^{d} \sum_{j=1}^{d} x_ix_jx_i’x_j’<br>$$</p>
-<p>咦！是不是可以進一步整理成這樣。</p>
-<p>$$<br>\phi_2(\mathbf{x})^T\phi_2(\mathbf{x’}) = 1 + \sum_{i=1}^{d} x_ix_i’ + \sum_{i=1}^{d} x_ix_i’ \sum_{j=1}^{d} x_jx_j’ \\<br>= 1 + \mathbf{x}^T\mathbf{x’} + (\mathbf{x}^T\mathbf{x’})(\mathbf{x}^T\mathbf{x’}) \\<br>= 1 + \mathbf{x}^T\mathbf{x’} + (\mathbf{x}^T\mathbf{x’})^2<br>$$</p>
-<p>這樣的話需要多少時間複雜度呢？掐指一算，$\mathbf{x}^T\mathbf{x’}$ 需要 $O(d)$，$\phi_2(\mathbf{x})^T\phi_2(\mathbf{x’})$ 總共需要 $O(d) + 1$！</p>
-<p>大大降低了！！</p>
-<p>所以我們就把這樣的方法稱為 kernel method，並且定義 $K_\phi(\mathbf{x}, \mathbf{x’}) = \phi(\mathbf{x})^T\phi(\mathbf{x’})$。</p>
-<p>不過大家常用的是比較廣義的版本：</p>
-<p>$$<br>K_2(\mathbf{x}, \mathbf{x’}) = 1 + 2 \mathbf{x}^T\mathbf{x’} + (\mathbf{x}^T\mathbf{x’})^2 = (1 + \mathbf{x}^T\mathbf{x’})^2<br>$$</p>
-<p>然後使用者通常會想要細緻控制 kernel 的強度，所以會引入一個參數：</p>
-<p>$$<br>K_2(\mathbf{x}, \mathbf{x’}) = 1 + 2 \gamma \mathbf{x}^T\mathbf{x’} + \gamma^2 (\mathbf{x}^T\mathbf{x’})^2 = (1 + \gamma \mathbf{x}^T\mathbf{x’})^2<br>$$</p>
-<p>我們來看一下用起來的效果如何？</p>
-<p><img src="/images/poly2_kernel.svg" alt=""></p>
-<blockquote>
-<p>picture from coursera, 《機器學習技法》 - 林軒田</p>
-</blockquote>
-<h2 id="無限維度-kernel"><a href="#無限維度-kernel" class="headerlink" title="無限維度 kernel"></a>無限維度 kernel</h2><p>既然可以有二次的那是不是到 M 次都可以？那有沒有無限次的呢？</p>
-<p>有！</p>
-<p>他長成這樣：</p>
-<p>$$<br>K(x, x’) = exp(-(x - x’)^2)<br>$$</p>
-<p>嗯？你不要騙我！你以為擺到次方項就可以變成無限維度？</p>
-<p>那就來證明一下啦-~~</p>
-<p>$$<br>= exp(-x^2 + 2xx’ - x’^2) \\<br>= exp(-x^2) exp(-x’^2) exp(2xx’) \\<br>= exp(-x^2) exp(-x’^2) (\sum_{i=0}^{\infty} \frac{(2xx’)^i}{i})\text{ (Taylor expansion)}<br>$$</p>
-<p>透過泰勒展開式展開之後我們就看到無限維度的影子了，再進一步簡化。</p>
-<p>$$<br>= \sum_{i=0}^{\infty} \big ( exp(-x^2) exp(-x’^2) \frac{2^i}{i} x^i x’^i) \big ) \\<br>= \sum_{i=0}^{\infty} \big ( exp(-x^2) exp(-x’^2) \frac{\sqrt{2^i}}{i} \frac{\sqrt{2^i}}{i} x^i x’^i) \big ) \\<br>= \sum_{i=0}^{\infty} \big ( \frac{\sqrt{2^i}}{i} x^i exp(-x^2) \big ) \sum_{i=0}^{\infty} \big ( \frac{\sqrt{2^i}}{i} x’^i exp(-x’^2)) \big ) \\<br>= \phi(x)^T\phi(x’)<br>$$</p>
-<p>我們的無限維度非線性轉換就完成啦！</p>
-<p>$$<br>\phi(x) = exp(-x^2) \cdot \big ( 1, \frac{\sqrt{2}}{1} x, \frac{\sqrt{2^2}}{2} x^2, \dots, \big )<br>$$</p>
-<p>所以這種 kernel 叫作 Gaussian kernel，使用上也是有個參數可以調整強度。</p>
-<p>$$<br>K(\mathbf{x}, \mathbf{x’}) = exp(- \gamma \left\lVert \mathbf{x} - \mathbf{x’} \right\rVert ^2), \gamma \gt 0<br>$$</p>
-<p>在現在的支持向量機（Support vector machine, SVM）預設是會使用 Gaussian kernel 的，這就是這個模型強大的祕密！</p>
-
                     
+                        <a href="/2018/10/05/05-from-max-margin-classifier-to-kernel-svm/" class="postShorten-excerpt_link link">
+                            Continue reading
+                        </a>
                         
-
-                    
-                    
-                        <p>
-                            <a href="/2018/10/05/05-from-max-margin-classifier-to-kernel-svm/#post-footer" class="postShorten-excerpt_link link">
-                                Comment and share
-                            </a>
-                        </p>
                     
                 </div>
             
@@ -332,7 +274,7 @@
     </article>
     
     
-    <article class="postShorten postShorten--thumbnailimg-bottom">
+    <article class="postShorten postShorten--thumbnailimg-right">
         <div class="postShorten-wrap">
             
             <div class="postShorten-header">
@@ -360,76 +302,15 @@
 
             </div>
             
-                <div class="postShorten-content">
+                <div class="postShorten-excerpt">
                     <p>上次我們完成了感知器的介紹，感知器也有他相對應的學習演算法：perceptron learning algorithm (PLA)。</p>
 <p>不過我們今天沒有要講 PLA，我們來講講感知器的缺點。</p>
 <p>感知器這個模型有很多的缺點，但是因為他是最簡單的模型，我們就放他一馬（？）。</p>
-<p>他的缺點有：</p>
-<ol>
-<li>只能處理線性可分（linear-separable）的資料</li>
-<li>只要能分，大家都是好的分類器（黑貓白貓，能抓老鼠的就是好貓？）</li>
-</ol>
-<h2 id="線性可分"><a href="#線性可分" class="headerlink" title="線性可分"></a>線性可分</h2><p>我們一項一項來講，什麼是線性可分（linear-separable）？</p>
-<p><img src="/images/perceptron4.svg" alt=""></p>
-<p>像這樣是線性可分的，可以用一條直線把不同的點分開。</p>
-<p><img src="/images/linear-separable1.svg" alt=""></p>
-<p>像這樣根本找不到一條線可以將點分開的，不是線性可分。</p>
-<p><img src="/images/linear-separable2.svg" alt=""></p>
-<p>差一點點也不行！很尷尬，差一點就可以變成線性可分的了！但是他就不是！</p>
-<p>所以整體說起來，感知器在使用上限制頗大。</p>
-<h2 id="好的分類器？"><a href="#好的分類器？" class="headerlink" title="好的分類器？"></a>好的分類器？</h2><p>接下來，什麼叫作一個好的分類器？</p>
-<p><img src="/images/perceptron4.svg" alt=""></p>
-<p><img src="/images/perceptron5.svg" alt=""></p>
-<p><img src="/images/perceptron6.svg" alt=""></p>
-<p>以上三張圖，大家有沒有認為哪一張分的最好？</p>
-<p>每個人可能有不同的答案，但是有沒有覺得第一張是比較好的分類器？</p>
-<p>為什麼？</p>
-<p>資料點都多多少少會有一些誤差，而資料我們都假設他比較相似的會在一起，所以當新的資料點出現的時候，我們通常預期他會在舊的資料點附近。所以說，如果線可以離資料點遠一點比較好，這樣的話就不會不小心分錯。</p>
-<p>其實你心裡想的是這個樣子的：</p>
-<p><img src="/images/max-margin_classifier.svg" alt=""></p>
-<p>我們可以定一個東西叫作 margin，他就是線到最近的資料點的距離，然後希望 margin 可以越大越好。</p>
-<h2 id="Maximum-margin-classifier"><a href="#Maximum-margin-classifier" class="headerlink" title="Maximum-margin classifier"></a>Maximum-margin classifier</h2><p>所以我們希望的是一個讓 margin 最大化的分類器，也就是 Maximum-margin classifier。</p>
-<p>那麼他要怎麼以數學表達呢？</p>
-<p>注意：以下數學高能！！</p>
-<p>$$<br>\begin{align}<br>\mathop{\arg\max}_{\mathbf{w}, b} &amp;\ \ \ \<br>    \text{margin}(\mathbf{w}, b) \\<br>\text{subject to} &amp;\ \ \ \<br>    \text{classify } (\mathbf{x_n}, y_n) \text{ correctly} \\<br>\text{ } &amp;\ \ \ \<br>    \text{margin}(\mathbf{w}, b) = \mathop{\min}_{i = 1 \dots n} \text{distance}(\mathbf{x_n}, \mathbf{w}, b)<br>\end{align}<br>$$</p>
-<p>總的來說，你希望 margin 越大越好，那就是我們的最佳化目標，但是會帶有一些條件，像是我們需要將點都分對，以及 margin 的定義是線到各個點的距離最短的那個。</p>
-<p>上方式子中的 argmax 指的是改變某些變數（$\mathbf{w}, b$），讓後方的式子的值最大。subject to 則是限制式，也就是必須要滿足的條件。</p>
-<p>但是這樣的式子無法直接套用數學方法計算，所以我們要進一步將式子公式化。</p>
-<h2 id="進一步公式化"><a href="#進一步公式化" class="headerlink" title="進一步公式化"></a>進一步公式化</h2><p>注意：以下極度數學高能！！</p>
-<p>談到距離的話，我們要先講講高中數學裡的點到線距離公式：</p>
-<p>$$<br>\text{distance}(\mathbf{x_i}, \mathbf{w}, b) = \frac{|ax_i + by_i + c|}{\sqrt{a^2 + b^2}}<br>$$</p>
-<p>不記得的話，回去翻翻課本或是 google 一下。可以觀察一下，會發現分子是線的權重向量跟資料點向量的相乘再相加，再加上一個常數項。相乘再相加的動作其實就是兩個向量的 <strong>內積運算</strong>。分母部份是線的權重向量的 <strong>長度</strong>。我們可以把這個二維的公式擴充到 n 維，就變成了：</p>
-<p>$$<br>\text{distance}(\mathbf{x_i}, \mathbf{w}, b) = \frac{|\mathbf{w}^T\mathbf{x_i} + b|}{\left\lVert \mathbf{w} \right\rVert}<br>$$</p>
-<p>是不是看起來漂亮許多？</p>
-<p>接著，如果要把資料點分對，那就表示說，將資料點 $\mathbf{x_i}$ 代入模型中算出來的值會跟真實答案 $y_i$ 在線的同側，也就是正負號是相同的。利用這點，我們發現如果將資料點代入模型中算出來的值 $(\mathbf{w}^T\mathbf{x_i} + b)$ 與真實答案 $y_i$ 相乘的話，必定為正，所以 $y_i (\mathbf{w}^T\mathbf{x_i} + b) \gt 0$。</p>
-<p>整個問題會被進一步變成這樣：</p>
-<p>$$<br>\begin{align}<br>\mathop{\arg\max}_{\mathbf{w}, b} &amp;\ \ \ \<br>    \text{margin}(\mathbf{w}, b) \\<br>\text{subject to} &amp;\ \ \ \<br>    \forall i, y_i (\mathbf{w}^T\mathbf{x_i} + b) \gt 0 \\<br>\text{ } &amp;\ \ \ \<br>    \text{margin}(\mathbf{w}, b) = \mathop{\min}_{i = 1 \dots n} \frac{|\mathbf{w}^T\mathbf{x_i} + b|}{\left\lVert \mathbf{w} \right\rVert}<br>\end{align}<br>$$</p>
-<p>$|\mathbf{w}^T\mathbf{x_i} + b|$ 的絕對值部份不是那麼好處理，我們可以把他替換成 $y_i (\mathbf{w}^T\mathbf{x_i} + b)$，反正他一定恆正。</p>
-<p>$$<br>\begin{align}<br>\mathop{\arg\max}_{\mathbf{w}, b} &amp;\ \ \ \<br>    \text{margin}(\mathbf{w}, b) \\<br>\text{subject to} &amp;\ \ \ \<br>    \forall i, y_i (\mathbf{w}^T\mathbf{x_i} + b) \gt 0 \\<br>\text{ } &amp;\ \ \ \<br>    \text{margin}(\mathbf{w}, b) = \mathop{\min}_{i = 1 \dots n} \frac{y_i (\mathbf{w}^T\mathbf{x_i} + b)}{\left\lVert \mathbf{w} \right\rVert}<br>\end{align}<br>$$</p>
-<h2 id="Scalling-trick"><a href="#Scalling-trick" class="headerlink" title="Scalling trick"></a>Scalling trick</h2><p>對於以下的部份，我們可以進一步簡化。</p>
-<p>$$<br>\text{margin}(\mathbf{w}, b) = \mathop{\min}_{i = 1 \dots n} \frac{y_i (\mathbf{w}^T\mathbf{x_i} + b)}{\left\lVert \mathbf{w} \right\rVert}<br>$$</p>
-<p>對於一條直線 $\mathbf{w}^T\mathbf{x_i} + b = 0$ 來說，縮放 c 倍基本上是沒有影響的 $c\mathbf{w}^T\mathbf{x_i} + cb = 0$。所以我們就乾脆將這個值縮放成剛好是 1，像下面這樣：</p>
-<p>$$<br>\mathop{\min}_{i = 1 \dots n} y_i (\mathbf{w}^T\mathbf{x_i} + b) = 1<br>$$</p>
-<p>這樣有什麼好處呢？如果你把他代回去我們的最佳化目標的話，margin 的大小是不是變成這樣了呢？</p>
-<p>$$<br>\text{margin}(\mathbf{w}, b) = \frac{1}{\left\lVert \mathbf{w} \right\rVert}<br>$$</p>
-<p>而且我們也省掉了 $y_i (\mathbf{w}^T\mathbf{x_i} + b) \gt 0$ 這個限制，畢竟最小的資料點計算出來至少有 1。整個問題就變成了這樣：</p>
-<p>$$<br>\begin{align}<br>\mathop{\arg\max} _{\mathbf{w}, b} &amp;\ \ \ \<br>    \frac{1}{\left\lVert \mathbf{w} \right\rVert} \\<br>\text{subject to} &amp;\ \ \ \<br>    \mathop{\min} _{i = 1 \dots n} y_i (\mathbf{w}^T \mathbf{x_i} + b) = 1<br>\end{align}<br>$$</p>
-<p>min 還是個不好處理的運算，我們與其求某個資料點代入最小值會是 1，我們不如放寬限制，變成所有資料點帶入公式都會 $\ge 1$。</p>
-<p>$$<br>\mathop{\min}_{i = 1 \dots n} y_i (\mathbf{w}^T\mathbf{x_i} + b) = 1<br>\Rightarrow<br>y_i (\mathbf{w}^T\mathbf{x_i} + b) \ge 1<br>$$</p>
-<p>最後，數學家都會有點潔癖，將問題變成他們喜歡的形式。像是求倒數的最大值，不如我們求最小值。要求 $\mathbf{w}$ 的長度太麻煩了，我們把長度中的根號拿掉。再加個二分之一上去。</p>
-<p>$$<br>\begin{align}<br>\mathop{\arg\min}_{\mathbf{w}, b} &amp;\ \ \ \<br>    \frac{1}{2} \mathbf{w}^T\mathbf{w} \\<br>\text{subject to} &amp;\ \ \ \<br>    \forall i, y_i (\mathbf{w}^T\mathbf{x_i} + b) \ge 1<br>\end{align}<br>$$</p>
-<p>maximum-margin classifier 的最終形式就完成了！這也是支持向量機（support vector machine）的雛型。</p>
-
                     
+                        <a href="/2018/10/04/04-from-perceptron-to-max-margin-classifier/" class="postShorten-excerpt_link link">
+                            Continue reading
+                        </a>
                         
-
-                    
-                    
-                        <p>
-                            <a href="/2018/10/04/04-from-perceptron-to-max-margin-classifier/#post-footer" class="postShorten-excerpt_link link">
-                                Comment and share
-                            </a>
-                        </p>
                     
                 </div>
             
@@ -886,7 +767,7 @@
         
             <h4 id="about-card-name">Yueh-Hua Tu</h4>
         
-            <div id="about-card-bio"><p>Aim to be a computational biologist!</br>Systems Biology, Computational Biology, Machine Learning</br>Organizer of Julia Taiwan community</p>
+            <div id="about-card-bio"><p>Aim to be a computational biologist!&lt;/br&gt;Systems Biology, Computational Biology, Machine Learning&lt;/br&gt;Organizer of Julia Taiwan community</p>
 </div>
         
         

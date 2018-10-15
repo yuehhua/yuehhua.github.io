@@ -15,19 +15,19 @@
     
         <link rel="alternate" type="application/atom+xml" title="RSS" href="/atom.xml">
     
-    <script type="application/ld+json">{"@context":"http://schema.org","@type":"BlogPosting","author":{"@type":"Person","name":"Yueh-Hua Tu","sameAs":["https://github.com/yuehhua/","https://www.facebook.com/a504082002","https://www.linkedin.com/in/%E5%B2%B3%E8%8F%AF-%E6%9D%9C-6a3995a0/","mailto:a504082002@gmail.com"],"image":"https://www.gravatar.com/avatar/a565749fba4782b717234da670b273fd"},"articleBody":"我們有比函數還要更有彈性、更一般化的概念，稱為 關係（relations） 。\n我們會定義數學上的關係，並且談到在數學上大量使用的兩個關係：等價關係及次序關係。次序關係將會貫穿整個拓樸學領域。\n關係（relations） 的定義如下：\n\n Def.\n\n$$A \\enspace relation \\enspace on \\enspace set \\enspace A \\enspace is$$\n$$a \\enspace subset \\enspace C \\subseteq A \\times A$$\n\n這時候我們會把 relation $C$ 表示成 $xCy$ ，來代表 $(x, y) \\in C$。\n這時我們會理解成，$x$ 跟 $y$ 有 $C$ 的關係。\n一個函數 $f: A \\rightarrow A$ 是 $A \\times A$ 的子集，所以函數也是一種關係。\n任何是 $A \\times A$ 的子集，都可以被視為一種關係。\nex.$P$ 代表世界上全人類的集合，我們定義 $D \\subseteq P \\times P$ 為一種關係：\n$$D = \\{ (x, y) \\mid x \\enspace is \\enspace a \\enspace descendant \\enspace of \\enspace y \\}$$\n$D$ 代表的是子孫關係，$xDy$ 代表 $x$ 是 $y$ 的子孫。\n我們也可以定義血緣關係 $B$：\n$$B= \\{ (x, y) \\mid x \\enspace has \\enspace an \\enspace ancestor \\enspace who \\enspace is \\enspace also \\enspace an \\enspace ancestor \\enspace of \\enspace y \\}$$\n也就是，$x$ 跟 $y$ 有共同的祖先的話，那代表 $x$ 跟 $y$ 有血緣關係。如此一來，血緣關係就會是對稱的，子孫關係則不是。\nEquivalence relations在 set $A$ 上的等價關係，是在 set $A$ 上的一種關係 $C$，並且滿足以下條件：\n\nReflexivity（自身性）： $\\forall x \\in A, xCx$\nSymmetry（對稱性）： If $xCy$, then $yCx$\nTransitivity（遞移性）： If $xCy$ and $yCz$, then $xCz$\n\n關係並沒有強制規定說要用大寫字母表示，所以我們後面改成用大家比較常用的 $\\sim$ （tilde）。\n\n$\\forall x \\in A, x \\sim x$\nIf $x \\sim y$, then $y \\sim x$\nIf $x \\sim y$ and $y \\sim z$, then $x \\sim z$\n\nex.我們可以檢驗看看 $\\leq$ 在正整數（$\\mathbb{N}$）上是不是一種等價關係？\n\nReflexivity（自身性）： $\\forall x \\in \\mathbb{N}, x \\leq x$ 成立\n$1 \\leq 1, 2 \\leq 2, 3 \\leq 3, …$\n\n\nSymmetry（對稱性）： If $x \\leq y$, then $y \\leq x$ 不成立\n$1 \\leq 2, but \\enspace not \\enspace 2 \\leq 1$\n\n\nTransitivity（遞移性）： If $x \\leq y$ and $y \\leq z$, then $x \\leq z$ 成立\n$1 \\leq 2, 2 \\leq 4, then \\enspace 1 \\leq 4$\n\n\n\n故 $\\leq$ 不是等價關係。\nex.假設一種等價關係是 $x \\sim y$ ，定義為 $x \\enspace (mod \\enspace 3) = y \\enspace (mod \\enspace 3)$ ，那麼在 $\\mathbb{N}$ 上，我們有 $5 \\enspace (mod \\enspace 3) = 2 = 8 \\enspace (mod \\enspace 3)$ 。那這有滿足等價關係嗎？\n\nReflexivity（自身性）： $\\forall x \\in \\mathbb{N}, x \\sim x$ 成立\n$1 \\enspace (mod \\enspace 3) = 1 \\enspace (mod \\enspace 3), …$\n\n\nSymmetry（對稱性）： If $x \\sim y$, then $y \\sim x$ 成立\n$1 \\enspace (mod \\enspace 3) = 4 \\enspace (mod \\enspace 3)$\n$4 \\enspace (mod \\enspace 3) = 1 \\enspace (mod \\enspace 3)$\n\n\nTransitivity（遞移性）： If $x \\sim y$ and $y \\sim z$, then $x \\sim z$ 成立\n$1 \\enspace (mod \\enspace 3) = 4 \\enspace (mod \\enspace 3), 4 \\enspace (mod \\enspace 3) = 7 \\enspace (mod \\enspace 3),$\n$then \\enspace 1 \\enspace (mod \\enspace 3) = 7 \\enspace (mod \\enspace 3)$\n\n\n\n故 $\\leq$ 是等價關係。（以上非嚴謹證明）\n所以可以把 $5 \\sim 8$ 這兩者視為等價。\n如果存在一種等價關係，那麼 set $A$ 裡的元素可以歸類成不同的 等價類（equivalent class），假設 $x \\in A, E \\subseteq A$ ，我們有：\n\n Def.\n\n$$E = \\{ y \\mid y \\sim x \\}$$\nex.延續上面一個例子，$x \\sim y$ 是等價關係，那麼我們就可以把 $\\mathbb{N}$ 拆成不同的等價類：\n$$1 \\sim 4, 4 \\sim 7, 7 \\sim 10, …$$\n$$E_1 = \\{1, 4, 7, 10, …\\}$$\n$$2 \\sim 5, 5 \\sim 8, 8 \\sim 11, …$$\n$$E_2 = \\{2, 5, 8, 11, …\\}$$\n$$3 \\sim 6, 6 \\sim 9, 9 \\sim 12, …$$\n$$E_3 = \\{3, 6, 9, 12, …\\}$$\n等價類有以下的特性：\n\n Lemma\n\n$$Two \\enspace equivalent \\enspace classes \\enspace E \\enspace and \\enspace E’ \\enspace are \\enspace either \\enspace disjoint \\enspace or \\enspace equal.$$\n白話文就是兩個等價類不是一樣就是互斥的。\n有這樣的等價類，我們可以用 $\\mathscr{E}$ 來表示所有等價類的集合（collection）。藉由以上的 Lemma，我們知道每個等價類都是互斥的。這樣我們可以把他看成是對 set $A$ 的分割（partition）。\n\n Def.\n\n$$A \\enspace partition \\enspace of \\enspace a \\enspace set \\enspace A \\enspace is \\enspace a \\enspace collection \\enspace of \\enspace disjoint \\enspace nonempty \\enspace subsets \\enspace of \\enspace A$$\n$$whose \\enspace union \\enspace is \\enspace all \\enspace of \\enspace A.$$\n研究 set $A$ 上的等價關係等同於是研究 set $A$ 的分割。\nOrder relations在 set $A$ 上的 次序關係（order relations, simple order or linear order），是在 set $A$ 上的一種關係 $\\lt$，並且滿足以下條件：\n\nComparability（可比性）： $\\forall x, y \\in A, x \\neq y, either \\enspace x \\lt y \\enspace or \\enspace y \\lt x$\nNonreflexivity（非自身性）： $\\nexists x \\in A, x \\lt x$\nTransitivity（遞移性）： If $x \\lt y$ and $y \\lt z$, then $x \\lt z$\n\n\n\n Def.\n\n$$\\lt \\enspace is \\enspace an \\enspace order \\enspace relation \\enspace on \\enspace set \\enspace X, a \\lt b$$\n$$(a, b) = \\{ x \\mid a \\lt x \\lt b \\} \\enspace is \\enspace an \\enspace open \\enspace interval \\enspace on \\enspace X$$\n我們可以像這樣去定義 開區間（open interval）。如果 $(a, b) = \\emptyset$，那稱 $a$ 是 $b$ 的 緊鄰前元（immediate predecessor），而 $b$ 是 $a$ 的 緊鄰後元（immediate successor）。\n\n假定有 $A$ 跟 $B$ 兩個集合，有兩個相對應的次序關係 $\\lt_A$ 跟 $\\lt_B$。我們說這兩個集合有相同的 次序類型（order type）：\n\n Def.\n\n$$\\exists f: A \\rightarrow B, f \\enspace is \\enspace bijective$$\n$$s.t. \\enspace a_1 \\lt_A a_2, then \\enspace f(a_1) \\lt_B f(a_2)$$\n這樣的雙射函數有保留次序關係。\nex.在實數區間 $(1, -1)$ 有跟 $\\mathbb{R}$ 相同的次序類型。\n考慮函數 $f: (1, -1) \\rightarrow \\mathbb{R}$：\n$$f(x) = \\frac{x}{1 - x^2}$$\n他是一個嚴格遞增函數（保留次序關係）且為雙射。\n\n接下來我們談談 字典序關係（dictionary order relation），他是定義在 $A \\times B$ 上的次序關係，假定 $A$ 跟 $B$ 集合上有次序關係 $\\lt_A$ 跟 $\\lt_B$。\n\n Def.\n\n$$\\lt \\enspace on \\enspace A \\times B \\enspace is \\enspace a_1 \\times b_1 \\lt a_2 \\times b_2$$\n$$if \\enspace a_1 \\lt_A a_2, or \\enspace a_1 = a_2 \\enspace and \\enspace b_1 \\lt_B b_2$$\nex.所謂的字典序就是先比較第一個字元，如果一樣再比較第二的字元的次序，如此繼續下去。\n$$aaa &lt; aab &lt; abb$$\n如此一來，就可以為 $A \\times B \\times \\dots$ 這樣子的集合定義次序了。\n\n在實數中，你或許以前看過最小上界的特性。你可以為任意的有序集合定義這樣的特性。\n假設 set $A$ 有次序關係 $\\lt$，$A_0 \\subseteq A$，\n\n Def.\n\n$$b \\in A_0, \\forall x \\in A_0, x \\le b$$\n$$b \\enspace is \\enspace the \\enspace largest \\enspace element \\enspace of \\enspace A_0$$\n如果相反的話，\n\n Def.\n\n$$a \\in A_0, \\forall x \\in A_0, x \\ge a$$\n$$a \\enspace is \\enspace the \\enspace smallest \\enspace element \\enspace of \\enspace A_0$$\n我們很簡單可以知道，一個集合會有最多一個最大的元素，以及最多一個最小的元素。\n那如果我們要說，$A_0$ 有上界（bounded above）：\n\n Def.\n\n$$b \\in A, \\forall x \\in A_0, x \\le b$$\n$$b \\enspace is \\enspace an \\enspace upper \\enspace bound \\enspace for \\enspace A_0$$\n而上界的元素中，最小的稱為最小上界（least upper bound），或是 supremum，記為 $sup \\enspace A_0$：\n\n Def.\n\n$$X = \\{ x \\mid \\forall x \\enspace is \\enspace upper \\enspace bound \\enspace for \\enspace A_0 \\}$$\n$$The \\enspace smallest \\enspace element \\enspace of \\enspace X \\enspace is \\enspace least \\enspace upper \\enspace bound$$\n他有可能屬於 $A_0$，如果 $sup \\enspace A_0 \\in A_0$，他同時也是 $A_0$ 最大的元素。\n相反，$A_0$ 有下界（bounded below）：\n\n Def.\n\n$$a \\in A, \\forall x \\in A_0, x \\ge a$$\n$$a \\enspace is \\enspace an \\enspace lower \\enspace bound \\enspace for \\enspace A_0$$\n而下界的元素中，最大的稱為最大下界（greatest lower bound），或是 infimum，記為 $inf \\enspace A_0$：\n\n Def.\n\n$$Y = \\{ y \\mid \\forall y \\enspace is \\enspace lower \\enspace bound \\enspace for \\enspace A_0 \\}$$\n$$The \\enspace greatest \\enspace element \\enspace of \\enspace Y \\enspace is \\enspace greatest \\enspace lower \\enspace bound$$\n他有可能屬於 $A_0$，如果 $inf \\enspace A_0 \\in A_0$，他同時也是 $A_0$ 最小的元素。\n這些跟所謂的 最大值（maximum） 或是 最小值（minimum） 不太一樣：\n\n Def.\n\n$$b \\in A_0, \\forall x \\in A_0, x \\le b$$\n$$b \\enspace is \\enspace the \\enspace maximum \\enspace of \\enspace A_0$$\n\n Def.\n\n$$a \\in A_0, \\forall x \\in A_0, x \\ge a$$\n$$a \\enspace is \\enspace the \\enspace minimum \\enspace of \\enspace A_0$$\n主要差別會是值是否在 $A_0$ 裏面。\n這時候就可以來定義 最小上界性（least upper bound property）：\n\n Def.\n\n$$\\forall A_0 \\subseteq A, A_0 \\enspace has \\enspace a \\enspace least \\enspace upper \\enspace bound$$\n$$A \\enspace has \\enspace least \\enspace upper \\enspace bound \\enspace property.$$\n相反則是，最大下界性（greatest lower bound property）。\n","dateCreated":"2018-07-22T00:24:38+08:00","dateModified":"2018-07-26T13:29:20+08:00","datePublished":"2018-07-22T00:24:38+08:00","description":"我們有比函數還要更有彈性、更一般化的概念，稱為 關係（relations） 。\n我們會定義數學上的關係，並且談到在數學上大量使用的兩個關係：等價關係及次序關係。次序關係將會貫穿整個拓樸學領域。\n關係（relations） 的定義如下：\n\n Def.\n\n$$A \\enspace relation \\enspace on \\enspace set \\enspace A \\enspace is$$\n$$a \\enspace subset \\enspace C \\subseteq A \\times A$$","headline":"Relations","image":[],"mainEntityOfPage":{"@type":"WebPage","@id":"https://yuehhua.github.io/2018/07/22/03-relations/"},"publisher":{"@type":"Organization","name":"Yueh-Hua Tu","sameAs":["https://github.com/yuehhua/","https://www.facebook.com/a504082002","https://www.linkedin.com/in/%E5%B2%B3%E8%8F%AF-%E6%9D%9C-6a3995a0/","mailto:a504082002@gmail.com"],"image":"https://www.gravatar.com/avatar/a565749fba4782b717234da670b273fd","logo":{"@type":"ImageObject","url":"https://www.gravatar.com/avatar/a565749fba4782b717234da670b273fd"}},"url":"https://yuehhua.github.io/2018/07/22/03-relations/"}</script>
-    <meta name="description" content="我們有比函數還要更有彈性、更一般化的概念，稱為 關係（relations） 。 我們會定義數學上的關係，並且談到在數學上大量使用的兩個關係：等價關係及次序關係。次序關係將會貫穿整個拓樸學領域。 關係（relations） 的定義如下：   Def.  $$A \enspace relation \enspace on \enspace set \enspace A \enspace is$$ $$">
+    <script type="application/ld+json">{"@context":"http://schema.org","@type":"BlogPosting","author":{"@type":"Person","name":"Yueh-Hua Tu","sameAs":["https://github.com/yuehhua/","https://www.facebook.com/a504082002","https://www.linkedin.com/in/%E5%B2%B3%E8%8F%AF-%E6%9D%9C-6a3995a0/","mailto:a504082002@gmail.com"],"image":"https://www.gravatar.com/avatar/a565749fba4782b717234da670b273fd"},"articleBody":"我們有比函數還要更有彈性、更一般化的概念，稱為 關係（relations） 。\n我們會定義數學上的關係，並且談到在數學上大量使用的兩個關係：等價關係及次序關係。次序關係將會貫穿整個拓樸學領域。\n關係（relations） 的定義如下：\n\n Def.\n\n\nA \\enspace relation \\enspace on \\enspace set \\enspace A \\enspace is\na \\enspace subset \\enspace C \\subseteq A \\times A\n這時候我們會把 relation $C$ 表示成 $xCy$ ，來代表 $(x, y) \\in C$。\n這時我們會理解成，$x$ 跟 $y$ 有 $C$ 的關係。\n一個函數 $f: A \\rightarrow A$ 是 $A \\times A$ 的子集，所以函數也是一種關係。\n任何是 $A \\times A$ 的子集，都可以被視為一種關係。\nex.$P$ 代表世界上全人類的集合，我們定義 $D \\subseteq P \\times P$ 為一種關係：\n\nD = \\\\{ (x, y) \\mid x \\enspace is \\enspace a \\enspace descendant \\enspace of \\enspace y \\\\}$D$ 代表的是子孫關係，$xDy$ 代表 $x$ 是 $y$ 的子孫。\n我們也可以定義血緣關係 $B$：\n\nB= \\\\{ (x, y) \\mid x \\enspace has \\enspace an \\enspace ancestor \\enspace who \\enspace is \\enspace also \\enspace an \\enspace ancestor \\enspace of \\enspace y \\\\}也就是，$x$ 跟 $y$ 有共同的祖先的話，那代表 $x$ 跟 $y$ 有血緣關係。如此一來，血緣關係就會是對稱的，子孫關係則不是。\nEquivalence relations在 set $A$ 上的等價關係，是在 set $A$ 上的一種關係 $C$，並且滿足以下條件：\n\nReflexivity（自身性）： $\\forall x \\in A, xCx$\nSymmetry（對稱性）： If $xCy$, then $yCx$\nTransitivity（遞移性）： If $xCy$ and $yCz$, then $xCz$\n\n關係並沒有強制規定說要用大寫字母表示，所以我們後面改成用大家比較常用的 $\\sim$ （tilde）。\n\n$\\forall x \\in A, x \\sim x$\nIf $x \\sim y$, then $y \\sim x$\nIf $x \\sim y$ and $y \\sim z$, then $x \\sim z$\n\nex.我們可以檢驗看看 $\\leq$ 在正整數（$\\mathbb{N}$）上是不是一種等價關係？\n\nReflexivity（自身性）： $\\forall x \\in \\mathbb{N}, x \\leq x$ 成立\n$1 \\leq 1, 2 \\leq 2, 3 \\leq 3, …$\n\n\nSymmetry（對稱性）： If $x \\leq y$, then $y \\leq x$ 不成立\n$1 \\leq 2, but \\enspace not \\enspace 2 \\leq 1$\n\n\nTransitivity（遞移性）： If $x \\leq y$ and $y \\leq z$, then $x \\leq z$ 成立\n$1 \\leq 2, 2 \\leq 4, then \\enspace 1 \\leq 4$\n\n\n\n故 $\\leq$ 不是等價關係。\nex.假設一種等價關係是 $x \\sim y$ ，定義為 $x \\enspace (mod \\enspace 3) = y \\enspace (mod \\enspace 3)$ ，那麼在 $\\mathbb{N}$ 上，我們有 $5 \\enspace (mod \\enspace 3) = 2 = 8 \\enspace (mod \\enspace 3)$ 。那這有滿足等價關係嗎？\n\nReflexivity（自身性）： $\\forall x \\in \\mathbb{N}, x \\sim x$ 成立\n$1 \\enspace (mod \\enspace 3) = 1 \\enspace (mod \\enspace 3), …$\n\n\nSymmetry（對稱性）： If $x \\sim y$, then $y \\sim x$ 成立\n$1 \\enspace (mod \\enspace 3) = 4 \\enspace (mod \\enspace 3)$\n$4 \\enspace (mod \\enspace 3) = 1 \\enspace (mod \\enspace 3)$\n\n\nTransitivity（遞移性）： If $x \\sim y$ and $y \\sim z$, then $x \\sim z$ 成立\n$1 \\enspace (mod \\enspace 3) = 4 \\enspace (mod \\enspace 3), 4 \\enspace (mod \\enspace 3) = 7 \\enspace (mod \\enspace 3),$\n$then \\enspace 1 \\enspace (mod \\enspace 3) = 7 \\enspace (mod \\enspace 3)$\n\n\n\n故 $\\leq$ 是等價關係。（以上非嚴謹證明）\n所以可以把 $5 \\sim 8$ 這兩者視為等價。\n如果存在一種等價關係，那麼 set $A$ 裡的元素可以歸類成不同的 等價類（equivalent class），假設 $x \\in A, E \\subseteq A$ ，我們有：\n\n Def.\n\n\nE = \\\\{ y \\mid y \\sim x \\\\}ex.延續上面一個例子，$x \\sim y$ 是等價關係，那麼我們就可以把 $\\mathbb{N}$ 拆成不同的等價類：\n\n1 \\sim 4, 4 \\sim 7, 7 \\sim 10, ...\nE_1 = \\\\{1, 4, 7, 10, ...\\\\}\n2 \\sim 5, 5 \\sim 8, 8 \\sim 11, ...\nE_2 = \\\\{2, 5, 8, 11, ...\\\\}\n3 \\sim 6, 6 \\sim 9, 9 \\sim 12, ...\nE_3 = \\\\{3, 6, 9, 12, ...\\\\}等價類有以下的特性：\n\n Lemma\n\n\nTwo \\enspace equivalent \\enspace classes \\enspace E \\enspace and \\enspace E' \\enspace are \\enspace either \\enspace disjoint \\enspace or \\enspace equal.白話文就是兩個等價類不是一樣就是互斥的。\n有這樣的等價類，我們可以用 $\\mathscr{E}$ 來表示所有等價類的集合（collection）。藉由以上的 Lemma，我們知道每個等價類都是互斥的。這樣我們可以把他看成是對 set $A$ 的分割（partition）。\n\n Def.\n\n\nA \\enspace partition \\enspace of \\enspace a \\enspace set \\enspace A \\enspace is \\enspace a \\enspace collection \\enspace of \\enspace disjoint \\enspace nonempty \\enspace subsets \\enspace of \\enspace A\nwhose \\enspace union \\enspace is \\enspace all \\enspace of \\enspace A.研究 set $A$ 上的等價關係等同於是研究 set $A$ 的分割。\nOrder relations在 set $A$ 上的 次序關係（order relations, simple order or linear order），是在 set $A$ 上的一種關係 $\\lt$，並且滿足以下條件：\n\nComparability（可比性）： $\\forall x, y \\in A, x \\neq y, either \\enspace x \\lt y \\enspace or \\enspace y \\lt x$\nNonreflexivity（非自身性）： $\\nexists x \\in A, x \\lt x$\nTransitivity（遞移性）： If $x \\lt y$ and $y \\lt z$, then $x \\lt z$\n\n\n\n Def.\n\n\n\\lt \\enspace is \\enspace an \\enspace order \\enspace relation \\enspace on \\enspace set \\enspace X, a \\lt b\n(a, b) = \\\\{ x \\mid a \\lt x \\lt b \\\\} \\enspace is \\enspace an \\enspace open \\enspace interval \\enspace on \\enspace X我們可以像這樣去定義 開區間（open interval）。如果 $(a, b) = \\emptyset$，那稱 $a$ 是 $b$ 的 緊鄰前元（immediate predecessor），而 $b$ 是 $a$ 的 緊鄰後元（immediate successor）。\n\n假定有 $A$ 跟 $B$ 兩個集合，有兩個相對應的次序關係 $\\lt_A$ 跟 $\\lt_B$。我們說這兩個集合有相同的 次序類型（order type）：\n\n Def.\n\n\n\\exists f: A \\rightarrow B, f \\enspace is \\enspace bijective\ns.t. \\enspace a_1 \\lt_A a_2, then \\enspace f(a_1) \\lt_B f(a_2)這樣的雙射函數有保留次序關係。\nex.在實數區間 $(1, -1)$ 有跟 $\\mathbb{R}$ 相同的次序類型。\n考慮函數 $f: (1, -1) \\rightarrow \\mathbb{R}$：\n\nf(x) = \\frac{x}{1 - x^2}他是一個嚴格遞增函數（保留次序關係）且為雙射。\n\n接下來我們談談 字典序關係（dictionary order relation），他是定義在 $A \\times B$ 上的次序關係，假定 $A$ 跟 $B$ 集合上有次序關係 $\\lt_A$ 跟 $\\lt_B$。\n\n Def.\n\n\n\\lt \\enspace on \\enspace A \\times B \\enspace is \\enspace a_1 \\times b_1 \\lt a_2 \\times b_2\nif \\enspace a_1 \\lt_A a_2, or \\enspace a_1 = a_2 \\enspace and \\enspace b_1 \\lt_B b_2ex.所謂的字典序就是先比較第一個字元，如果一樣再比較第二的字元的次序，如此繼續下去。\n\naaa < aab < abb如此一來，就可以為 $A \\times B \\times \\dots$ 這樣子的集合定義次序了。\n\n在實數中，你或許以前看過最小上界的特性。你可以為任意的有序集合定義這樣的特性。\n假設 set $A$ 有次序關係 $\\lt$，$A_0 \\subseteq A$，\n\n Def.\n\n\nb \\in A_0, \\forall x \\in A_0, x \\le b\nb \\enspace is \\enspace the \\enspace largest \\enspace element \\enspace of \\enspace A_0如果相反的話，\n\n Def.\n\n\na \\in A_0, \\forall x \\in A_0, x \\ge a\na \\enspace is \\enspace the \\enspace smallest \\enspace element \\enspace of \\enspace A_0我們很簡單可以知道，一個集合會有最多一個最大的元素，以及最多一個最小的元素。\n那如果我們要說，$A_0$ 有上界（bounded above）：\n\n Def.\n\n\nb \\in A, \\forall x \\in A_0, x \\le b\nb \\enspace is \\enspace an \\enspace upper \\enspace bound \\enspace for \\enspace A_0而上界的元素中，最小的稱為最小上界（least upper bound），或是 supremum，記為 $sup \\enspace A_0$：\n\n Def.\n\n\nX = \\\\{ x \\mid \\forall x \\enspace is \\enspace upper \\enspace bound \\enspace for \\enspace A_0 \\\\}\nThe \\enspace smallest \\enspace element \\enspace of \\enspace X \\enspace is \\enspace least \\enspace upper \\enspace bound他有可能屬於 $A_0$，如果 $sup \\enspace A_0 \\in A_0$，他同時也是 $A_0$ 最大的元素。\n相反，$A_0$ 有下界（bounded below）：\n\n Def.\n\n\na \\in A, \\forall x \\in A_0, x \\ge a\na \\enspace is \\enspace an \\enspace lower \\enspace bound \\enspace for \\enspace A_0而下界的元素中，最大的稱為最大下界（greatest lower bound），或是 infimum，記為 $inf \\enspace A_0$：\n\n Def.\n\n\nY = \\\\{ y \\mid \\forall y \\enspace is \\enspace lower \\enspace bound \\enspace for \\enspace A_0 \\\\}\nThe \\enspace greatest \\enspace element \\enspace of \\enspace Y \\enspace is \\enspace greatest \\enspace lower \\enspace bound他有可能屬於 $A_0$，如果 $inf \\enspace A_0 \\in A_0$，他同時也是 $A_0$ 最小的元素。\n這些跟所謂的 最大值（maximum） 或是 最小值（minimum） 不太一樣：\n\n Def.\n\n\nb \\in A_0, \\forall x \\in A_0, x \\le b\nb \\enspace is \\enspace the \\enspace maximum \\enspace of \\enspace A_0\n Def.\n\n\na \\in A_0, \\forall x \\in A_0, x \\ge a\na \\enspace is \\enspace the \\enspace minimum \\enspace of \\enspace A_0主要差別會是值是否在 $A_0$ 裏面。\n這時候就可以來定義 最小上界性（least upper bound property）：\n\n Def.\n\n\n\\forall A_0 \\subseteq A, A_0 \\enspace has \\enspace a \\enspace least \\enspace upper \\enspace bound\nA \\enspace has \\enspace least \\enspace upper \\enspace bound \\enspace property.相反則是，最大下界性（greatest lower bound property）。\n","dateCreated":"2018-07-22T00:24:38+08:00","dateModified":"2018-07-26T13:29:20+08:00","datePublished":"2018-07-22T00:24:38+08:00","description":"我們有比函數還要更有彈性、更一般化的概念，稱為 關係（relations） 。\n我們會定義數學上的關係，並且談到在數學上大量使用的兩個關係：等價關係及次序關係。次序關係將會貫穿整個拓樸學領域。\n關係（relations） 的定義如下：\n\n Def.\n\n\nA \\enspace relation \\enspace on \\enspace set \\enspace A \\enspace is\na \\enspace subset \\enspace C \\subseteq A \\times A","headline":"Relations","image":[],"mainEntityOfPage":{"@type":"WebPage","@id":"https://yuehhua.github.io/2018/07/22/03-relations/"},"publisher":{"@type":"Organization","name":"Yueh-Hua Tu","sameAs":["https://github.com/yuehhua/","https://www.facebook.com/a504082002","https://www.linkedin.com/in/%E5%B2%B3%E8%8F%AF-%E6%9D%9C-6a3995a0/","mailto:a504082002@gmail.com"],"image":"https://www.gravatar.com/avatar/a565749fba4782b717234da670b273fd","logo":{"@type":"ImageObject","url":"https://www.gravatar.com/avatar/a565749fba4782b717234da670b273fd"}},"url":"https://yuehhua.github.io/2018/07/22/03-relations/"}</script>
+    <meta name="description" content="我們有比函數還要更有彈性、更一般化的概念，稱為 關係（relations） 。 我們會定義數學上的關係，並且談到在數學上大量使用的兩個關係：等價關係及次序關係。次序關係將會貫穿整個拓樸學領域。 關係（relations） 的定義如下：   Def.   A \enspace relation \enspace on \enspace set \enspace A \enspace is a \en">
 <meta name="keywords" content="machine learning,deep learning,topology">
 <meta property="og:type" content="blog">
 <meta property="og:title" content="Relations">
 <meta property="og:url" content="https://yuehhua.github.io/2018/07/22/03-relations/index.html">
 <meta property="og:site_name" content="Dream Maker">
-<meta property="og:description" content="我們有比函數還要更有彈性、更一般化的概念，稱為 關係（relations） 。 我們會定義數學上的關係，並且談到在數學上大量使用的兩個關係：等價關係及次序關係。次序關係將會貫穿整個拓樸學領域。 關係（relations） 的定義如下：   Def.  $$A \enspace relation \enspace on \enspace set \enspace A \enspace is$$ $$">
+<meta property="og:description" content="我們有比函數還要更有彈性、更一般化的概念，稱為 關係（relations） 。 我們會定義數學上的關係，並且談到在數學上大量使用的兩個關係：等價關係及次序關係。次序關係將會貫穿整個拓樸學領域。 關係（relations） 的定義如下：   Def.   A \enspace relation \enspace on \enspace set \enspace A \enspace is a \en">
 <meta property="og:locale" content="en">
 <meta property="og:updated_time" content="2018-07-26T05:29:20.728Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Relations">
-<meta name="twitter:description" content="我們有比函數還要更有彈性、更一般化的概念，稱為 關係（relations） 。 我們會定義數學上的關係，並且談到在數學上大量使用的兩個關係：等價關係及次序關係。次序關係將會貫穿整個拓樸學領域。 關係（relations） 的定義如下：   Def.  $$A \enspace relation \enspace on \enspace set \enspace A \enspace is$$ $$">
+<meta name="twitter:description" content="我們有比函數還要更有彈性、更一般化的概念，稱為 關係（relations） 。 我們會定義數學上的關係，並且談到在數學上大量使用的兩個關係：等價關係及次序關係。次序關係將會貫穿整個拓樸學領域。 關係（relations） 的定義如下：   Def.   A \enspace relation \enspace on \enspace set \enspace A \enspace is a \en">
     
     
         
@@ -269,19 +269,19 @@
 <blockquote>
 <p> <strong><em>Def.</em></strong></p>
 </blockquote>
-<p>$$<br>A \enspace relation \enspace on \enspace set \enspace A \enspace is<br>$$</p>
-<p>$$<br>a \enspace subset \enspace C \subseteq A \times A<br>$$</p>
-<a id="more"></a>
+<script type="math/tex; mode=display">
+A \enspace relation \enspace on \enspace set \enspace A \enspace is</script><script type="math/tex; mode=display">
+a \enspace subset \enspace C \subseteq A \times A</script><a id="more"></a>
 <p>這時候我們會把 <em>relation</em> $C$ 表示成 $xCy$ ，來代表 $(x, y) \in C$。</p>
 <p>這時我們會理解成，$x$ 跟 $y$ 有 $C$ 的關係。</p>
 <p>一個函數 $f: A \rightarrow A$ 是 $A \times A$ 的子集，所以函數也是一種關係。</p>
 <p>任何是 $A \times A$ 的子集，都可以被視為一種關係。</p>
 <h4 id="ex"><a href="#ex" class="headerlink" title="ex."></a><em>ex.</em></h4><p>$P$ 代表世界上全人類的集合，我們定義 $D \subseteq P \times P$ 為一種關係：</p>
-<p>$$<br>D = \{ (x, y) \mid x \enspace is \enspace a \enspace descendant \enspace of \enspace y \}<br>$$</p>
-<p>$D$ 代表的是子孫關係，$xDy$ 代表 $x$ 是 $y$ 的子孫。</p>
+<script type="math/tex; mode=display">
+D = \\{ (x, y) \mid x \enspace is \enspace a \enspace descendant \enspace of \enspace y \\}</script><p>$D$ 代表的是子孫關係，$xDy$ 代表 $x$ 是 $y$ 的子孫。</p>
 <p>我們也可以定義血緣關係 $B$：</p>
-<p>$$<br>B= \{ (x, y) \mid x \enspace has \enspace an \enspace ancestor \enspace who \enspace is \enspace also \enspace an \enspace ancestor \enspace of \enspace y \}<br>$$</p>
-<p>也就是，$x$ 跟 $y$ 有共同的祖先的話，那代表 $x$ 跟 $y$ 有血緣關係。如此一來，血緣關係就會是對稱的，子孫關係則不是。</p>
+<script type="math/tex; mode=display">
+B= \\{ (x, y) \mid x \enspace has \enspace an \enspace ancestor \enspace who \enspace is \enspace also \enspace an \enspace ancestor \enspace of \enspace y \\}</script><p>也就是，$x$ 跟 $y$ 有共同的祖先的話，那代表 $x$ 跟 $y$ 有血緣關係。如此一來，血緣關係就會是對稱的，子孫關係則不是。</p>
 <h2 id="Equivalence-relations"><a href="#Equivalence-relations" class="headerlink" title="Equivalence relations"></a>Equivalence relations</h2><p>在 <em>set</em> $A$ 上的等價關係，是在 <em>set</em> $A$ 上的一種關係 $C$，並且滿足以下條件：</p>
 <ol>
 <li>Reflexivity（自身性）： $\forall x \in A, xCx$</li>
@@ -333,27 +333,27 @@
 <blockquote>
 <p> <strong><em>Def.</em></strong></p>
 </blockquote>
-<p>$$<br>E = \{ y \mid y \sim x \}<br>$$</p>
-<h4 id="ex-3"><a href="#ex-3" class="headerlink" title="ex."></a><em>ex.</em></h4><p>延續上面一個例子，$x \sim y$ 是等價關係，那麼我們就可以把 $\mathbb{N}$ 拆成不同的等價類：</p>
-<p>$$<br>1 \sim 4, 4 \sim 7, 7 \sim 10, …<br>$$</p>
-<p>$$<br>E_1 = \{1, 4, 7, 10, …\}<br>$$</p>
-<p>$$<br>2 \sim 5, 5 \sim 8, 8 \sim 11, …<br>$$</p>
-<p>$$<br>E_2 = \{2, 5, 8, 11, …\}<br>$$</p>
-<p>$$<br>3 \sim 6, 6 \sim 9, 9 \sim 12, …<br>$$</p>
-<p>$$<br>E_3 = \{3, 6, 9, 12, …\}<br>$$</p>
-<p>等價類有以下的特性：</p>
+<script type="math/tex; mode=display">
+E = \\{ y \mid y \sim x \\}</script><h4 id="ex-3"><a href="#ex-3" class="headerlink" title="ex."></a><em>ex.</em></h4><p>延續上面一個例子，$x \sim y$ 是等價關係，那麼我們就可以把 $\mathbb{N}$ 拆成不同的等價類：</p>
+<script type="math/tex; mode=display">
+1 \sim 4, 4 \sim 7, 7 \sim 10, ...</script><script type="math/tex; mode=display">
+E_1 = \\{1, 4, 7, 10, ...\\}</script><script type="math/tex; mode=display">
+2 \sim 5, 5 \sim 8, 8 \sim 11, ...</script><script type="math/tex; mode=display">
+E_2 = \\{2, 5, 8, 11, ...\\}</script><script type="math/tex; mode=display">
+3 \sim 6, 6 \sim 9, 9 \sim 12, ...</script><script type="math/tex; mode=display">
+E_3 = \\{3, 6, 9, 12, ...\\}</script><p>等價類有以下的特性：</p>
 <blockquote>
 <p> <strong><em>Lemma</em></strong></p>
 </blockquote>
-<p>$$<br>Two \enspace equivalent \enspace classes \enspace E \enspace and \enspace E’ \enspace are \enspace either \enspace disjoint \enspace or \enspace equal.<br>$$</p>
-<p>白話文就是兩個等價類不是一樣就是互斥的。</p>
+<script type="math/tex; mode=display">
+Two \enspace equivalent \enspace classes \enspace E \enspace and \enspace E' \enspace are \enspace either \enspace disjoint \enspace or \enspace equal.</script><p>白話文就是兩個等價類不是一樣就是互斥的。</p>
 <p>有這樣的等價類，我們可以用 $\mathscr{E}$ 來表示所有等價類的集合（collection）。藉由以上的 Lemma，我們知道每個等價類都是互斥的。這樣我們可以把他看成是對 <em>set</em> $A$ 的<strong>分割（partition）</strong>。</p>
 <blockquote>
 <p> <strong><em>Def.</em></strong></p>
 </blockquote>
-<p>$$<br>A \enspace partition \enspace of \enspace a \enspace set \enspace A \enspace is \enspace a \enspace collection \enspace of \enspace disjoint \enspace nonempty \enspace subsets \enspace of \enspace A<br>$$</p>
-<p>$$<br>whose \enspace union \enspace is \enspace all \enspace of \enspace A.<br>$$</p>
-<p>研究 <em>set</em> $A$ 上的等價關係等同於是研究 <em>set</em> $A$ 的分割。</p>
+<script type="math/tex; mode=display">
+A \enspace partition \enspace of \enspace a \enspace set \enspace A \enspace is \enspace a \enspace collection \enspace of \enspace disjoint \enspace nonempty \enspace subsets \enspace of \enspace A</script><script type="math/tex; mode=display">
+whose \enspace union \enspace is \enspace all \enspace of \enspace A.</script><p>研究 <em>set</em> $A$ 上的等價關係等同於是研究 <em>set</em> $A$ 的分割。</p>
 <h2 id="Order-relations"><a href="#Order-relations" class="headerlink" title="Order relations"></a>Order relations</h2><p>在 <em>set</em> $A$ 上的 <strong>次序關係（order relations, simple order or linear order）</strong>，是在 <em>set</em> $A$ 上的一種關係 $\lt$，並且滿足以下條件：</p>
 <ol>
 <li>Comparability（可比性）： $\forall x, y \in A, x \neq y, either \enspace x \lt y \enspace or \enspace y \lt x$</li>
@@ -364,91 +364,91 @@
 <blockquote>
 <p> <strong><em>Def.</em></strong></p>
 </blockquote>
-<p>$$<br>\lt \enspace is \enspace an \enspace order \enspace relation \enspace on \enspace set \enspace X, a \lt b<br>$$</p>
-<p>$$<br>(a, b) = \{ x \mid a \lt x \lt b \} \enspace is \enspace an \enspace open \enspace interval \enspace on \enspace X<br>$$</p>
-<p>我們可以像這樣去定義 <strong>開區間（open interval）</strong>。如果 $(a, b) = \emptyset$，那稱 $a$ 是 $b$ 的 <strong>緊鄰前元（immediate predecessor）</strong>，而 $b$ 是 $a$ 的 <strong>緊鄰後元（immediate successor）</strong>。</p>
+<script type="math/tex; mode=display">
+\lt \enspace is \enspace an \enspace order \enspace relation \enspace on \enspace set \enspace X, a \lt b</script><script type="math/tex; mode=display">
+(a, b) = \\{ x \mid a \lt x \lt b \\} \enspace is \enspace an \enspace open \enspace interval \enspace on \enspace X</script><p>我們可以像這樣去定義 <strong>開區間（open interval）</strong>。如果 $(a, b) = \emptyset$，那稱 $a$ 是 $b$ 的 <strong>緊鄰前元（immediate predecessor）</strong>，而 $b$ 是 $a$ 的 <strong>緊鄰後元（immediate successor）</strong>。</p>
 <hr>
 <p>假定有 $A$ 跟 $B$ 兩個集合，有兩個相對應的次序關係 $\lt_A$ 跟 $\lt_B$。我們說這兩個集合有相同的 <strong>次序類型（order type）</strong>：</p>
 <blockquote>
 <p> <strong><em>Def.</em></strong></p>
 </blockquote>
-<p>$$<br>\exists f: A \rightarrow B, f \enspace is \enspace bijective<br>$$</p>
-<p>$$<br>s.t. \enspace a_1 \lt_A a_2, then \enspace f(a_1) \lt_B f(a_2)<br>$$</p>
-<p>這樣的雙射函數有<strong>保留</strong>次序關係。</p>
+<script type="math/tex; mode=display">
+\exists f: A \rightarrow B, f \enspace is \enspace bijective</script><script type="math/tex; mode=display">
+s.t. \enspace a_1 \lt_A a_2, then \enspace f(a_1) \lt_B f(a_2)</script><p>這樣的雙射函數有<strong>保留</strong>次序關係。</p>
 <h4 id="ex-4"><a href="#ex-4" class="headerlink" title="ex."></a><em>ex.</em></h4><p>在實數區間 $(1, -1)$ 有跟 $\mathbb{R}$ 相同的次序類型。</p>
 <p>考慮函數 $f: (1, -1) \rightarrow \mathbb{R}$：</p>
-<p>$$<br>f(x) = \frac{x}{1 - x^2}<br>$$</p>
-<p>他是一個嚴格遞增函數（保留次序關係）且為雙射。</p>
+<script type="math/tex; mode=display">
+f(x) = \frac{x}{1 - x^2}</script><p>他是一個嚴格遞增函數（保留次序關係）且為雙射。</p>
 <hr>
 <p>接下來我們談談 <strong>字典序關係（dictionary order relation）</strong>，他是定義在 $A \times B$ 上的次序關係，假定 $A$ 跟 $B$ 集合上有次序關係 $\lt_A$ 跟 $\lt_B$。</p>
 <blockquote>
 <p> <strong><em>Def.</em></strong></p>
 </blockquote>
-<p>$$<br>\lt \enspace on \enspace A \times B \enspace is \enspace a_1 \times b_1 \lt a_2 \times b_2<br>$$</p>
-<p>$$<br>if \enspace a_1 \lt_A a_2, or \enspace a_1 = a_2 \enspace and \enspace b_1 \lt_B b_2<br>$$</p>
-<h4 id="ex-5"><a href="#ex-5" class="headerlink" title="ex."></a><em>ex.</em></h4><p>所謂的字典序就是先比較第一個字元，如果一樣再比較第二的字元的次序，如此繼續下去。</p>
-<p>$$<br>aaa &lt; aab &lt; abb<br>$$</p>
-<p>如此一來，就可以為 $A \times B \times \dots$ 這樣子的集合定義次序了。</p>
+<script type="math/tex; mode=display">
+\lt \enspace on \enspace A \times B \enspace is \enspace a_1 \times b_1 \lt a_2 \times b_2</script><script type="math/tex; mode=display">
+if \enspace a_1 \lt_A a_2, or \enspace a_1 = a_2 \enspace and \enspace b_1 \lt_B b_2</script><h4 id="ex-5"><a href="#ex-5" class="headerlink" title="ex."></a><em>ex.</em></h4><p>所謂的字典序就是先比較第一個字元，如果一樣再比較第二的字元的次序，如此繼續下去。</p>
+<script type="math/tex; mode=display">
+aaa < aab < abb</script><p>如此一來，就可以為 $A \times B \times \dots$ 這樣子的集合定義次序了。</p>
 <hr>
 <p>在實數中，你或許以前看過最小上界的特性。你可以為任意的有序集合定義這樣的特性。</p>
 <p>假設 <em>set</em> $A$ 有次序關係 $\lt$，$A_0 \subseteq A$，</p>
 <blockquote>
 <p> <strong><em>Def.</em></strong></p>
 </blockquote>
-<p>$$<br>b \in A_0, \forall x \in A_0, x \le b<br>$$</p>
-<p>$$<br>b \enspace is \enspace the \enspace largest \enspace element \enspace of \enspace A_0<br>$$</p>
-<p>如果相反的話，</p>
+<script type="math/tex; mode=display">
+b \in A_0, \forall x \in A_0, x \le b</script><script type="math/tex; mode=display">
+b \enspace is \enspace the \enspace largest \enspace element \enspace of \enspace A_0</script><p>如果相反的話，</p>
 <blockquote>
 <p> <strong><em>Def.</em></strong></p>
 </blockquote>
-<p>$$<br>a \in A_0, \forall x \in A_0, x \ge a<br>$$</p>
-<p>$$<br>a \enspace is \enspace the \enspace smallest \enspace element \enspace of \enspace A_0<br>$$</p>
-<p>我們很簡單可以知道，一個集合會有最多一個最大的元素，以及最多一個最小的元素。</p>
+<script type="math/tex; mode=display">
+a \in A_0, \forall x \in A_0, x \ge a</script><script type="math/tex; mode=display">
+a \enspace is \enspace the \enspace smallest \enspace element \enspace of \enspace A_0</script><p>我們很簡單可以知道，一個集合會有最多一個最大的元素，以及最多一個最小的元素。</p>
 <p>那如果我們要說，$A_0$ 有<strong>上界（bounded above）</strong>：</p>
 <blockquote>
 <p> <strong><em>Def.</em></strong></p>
 </blockquote>
-<p>$$<br>b \in A, \forall x \in A_0, x \le b<br>$$</p>
-<p>$$<br>b \enspace is \enspace an \enspace upper \enspace bound \enspace for \enspace A_0<br>$$</p>
-<p>而上界的元素中，最小的稱為<strong>最小上界（least upper bound）</strong>，或是 <strong>supremum</strong>，記為 $sup \enspace A_0$：</p>
+<script type="math/tex; mode=display">
+b \in A, \forall x \in A_0, x \le b</script><script type="math/tex; mode=display">
+b \enspace is \enspace an \enspace upper \enspace bound \enspace for \enspace A_0</script><p>而上界的元素中，最小的稱為<strong>最小上界（least upper bound）</strong>，或是 <strong>supremum</strong>，記為 $sup \enspace A_0$：</p>
 <blockquote>
 <p> <strong><em>Def.</em></strong></p>
 </blockquote>
-<p>$$<br>X = \{ x \mid \forall x \enspace is \enspace upper \enspace bound \enspace for \enspace A_0 \}<br>$$</p>
-<p>$$<br>The \enspace smallest \enspace element \enspace of \enspace X \enspace is \enspace least \enspace upper \enspace bound<br>$$</p>
-<p>他有可能屬於 $A_0$，如果 $sup \enspace A_0 \in A_0$，他同時也是 $A_0$ 最大的元素。</p>
+<script type="math/tex; mode=display">
+X = \\{ x \mid \forall x \enspace is \enspace upper \enspace bound \enspace for \enspace A_0 \\}</script><script type="math/tex; mode=display">
+The \enspace smallest \enspace element \enspace of \enspace X \enspace is \enspace least \enspace upper \enspace bound</script><p>他有可能屬於 $A_0$，如果 $sup \enspace A_0 \in A_0$，他同時也是 $A_0$ 最大的元素。</p>
 <p>相反，$A_0$ 有<strong>下界（bounded below）</strong>：</p>
 <blockquote>
 <p> <strong><em>Def.</em></strong></p>
 </blockquote>
-<p>$$<br>a \in A, \forall x \in A_0, x \ge a<br>$$</p>
-<p>$$<br>a \enspace is \enspace an \enspace lower \enspace bound \enspace for \enspace A_0<br>$$</p>
-<p>而下界的元素中，最大的稱為<strong>最大下界（greatest lower bound）</strong>，或是 <strong>infimum</strong>，記為 $inf \enspace A_0$：</p>
+<script type="math/tex; mode=display">
+a \in A, \forall x \in A_0, x \ge a</script><script type="math/tex; mode=display">
+a \enspace is \enspace an \enspace lower \enspace bound \enspace for \enspace A_0</script><p>而下界的元素中，最大的稱為<strong>最大下界（greatest lower bound）</strong>，或是 <strong>infimum</strong>，記為 $inf \enspace A_0$：</p>
 <blockquote>
 <p> <strong><em>Def.</em></strong></p>
 </blockquote>
-<p>$$<br>Y = \{ y \mid \forall y \enspace is \enspace lower \enspace bound \enspace for \enspace A_0 \}<br>$$</p>
-<p>$$<br>The \enspace greatest \enspace element \enspace of \enspace Y \enspace is \enspace greatest \enspace lower \enspace bound<br>$$</p>
-<p>他有可能屬於 $A_0$，如果 $inf \enspace A_0 \in A_0$，他同時也是 $A_0$ 最小的元素。</p>
+<script type="math/tex; mode=display">
+Y = \\{ y \mid \forall y \enspace is \enspace lower \enspace bound \enspace for \enspace A_0 \\}</script><script type="math/tex; mode=display">
+The \enspace greatest \enspace element \enspace of \enspace Y \enspace is \enspace greatest \enspace lower \enspace bound</script><p>他有可能屬於 $A_0$，如果 $inf \enspace A_0 \in A_0$，他同時也是 $A_0$ 最小的元素。</p>
 <p>這些跟所謂的 <strong>最大值（maximum）</strong> 或是 <strong>最小值（minimum）</strong> 不太一樣：</p>
 <blockquote>
 <p> <strong><em>Def.</em></strong></p>
 </blockquote>
-<p>$$<br>b \in A_0, \forall x \in A_0, x \le b<br>$$</p>
-<p>$$<br>b \enspace is \enspace the \enspace maximum \enspace of \enspace A_0<br>$$</p>
-<blockquote>
+<script type="math/tex; mode=display">
+b \in A_0, \forall x \in A_0, x \le b</script><script type="math/tex; mode=display">
+b \enspace is \enspace the \enspace maximum \enspace of \enspace A_0</script><blockquote>
 <p> <strong><em>Def.</em></strong></p>
 </blockquote>
-<p>$$<br>a \in A_0, \forall x \in A_0, x \ge a<br>$$</p>
-<p>$$<br>a \enspace is \enspace the \enspace minimum \enspace of \enspace A_0<br>$$</p>
-<p>主要差別會是值是否在 $A_0$ 裏面。</p>
+<script type="math/tex; mode=display">
+a \in A_0, \forall x \in A_0, x \ge a</script><script type="math/tex; mode=display">
+a \enspace is \enspace the \enspace minimum \enspace of \enspace A_0</script><p>主要差別會是值是否在 $A_0$ 裏面。</p>
 <p>這時候就可以來定義 <strong>最小上界性（least upper bound property）</strong>：</p>
 <blockquote>
 <p> <strong><em>Def.</em></strong></p>
 </blockquote>
-<p>$$<br>\forall A_0 \subseteq A, A_0 \enspace has \enspace a \enspace least \enspace upper \enspace bound<br>$$</p>
-<p>$$<br>A \enspace has \enspace least \enspace upper \enspace bound \enspace property.<br>$$</p>
-<p>相反則是，<strong>最大下界性（greatest lower bound property）</strong>。</p>
+<script type="math/tex; mode=display">
+\forall A_0 \subseteq A, A_0 \enspace has \enspace a \enspace least \enspace upper \enspace bound</script><script type="math/tex; mode=display">
+A \enspace has \enspace least \enspace upper \enspace bound \enspace property.</script><p>相反則是，<strong>最大下界性（greatest lower bound property）</strong>。</p>
 
                                         
 
@@ -630,7 +630,7 @@
         
             <h4 id="about-card-name">Yueh-Hua Tu</h4>
         
-            <div id="about-card-bio"><p>Aim to be a computational biologist!</br>Systems Biology, Computational Biology, Machine Learning</br>Organizer of Julia Taiwan community</p>
+            <div id="about-card-bio"><p>Aim to be a computational biologist!&lt;/br&gt;Systems Biology, Computational Biology, Machine Learning&lt;/br&gt;Organizer of Julia Taiwan community</p>
 </div>
         
         
