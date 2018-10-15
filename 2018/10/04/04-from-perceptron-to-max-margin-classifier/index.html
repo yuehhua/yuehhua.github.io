@@ -15,7 +15,7 @@
     
         <link rel="alternate" type="application/atom+xml" title="RSS" href="/atom.xml">
     
-    <script type="application/ld+json">{"@context":"http://schema.org","@type":"BlogPosting","author":{"@type":"Person","name":"Yueh-Hua Tu","sameAs":["https://github.com/yuehhua/","https://www.facebook.com/a504082002","https://www.linkedin.com/in/%E5%B2%B3%E8%8F%AF-%E6%9D%9C-6a3995a0/","mailto:a504082002@gmail.com"],"image":"https://www.gravatar.com/avatar/a565749fba4782b717234da670b273fd"},"articleBody":"上次我們完成了感知器的介紹，感知器也有他相對應的學習演算法：perceptron learning algorithm (PLA)。\n不過我們今天沒有要講 PLA，我們來講講感知器的缺點。\n感知器這個模型有很多的缺點，但是因為他是最簡單的模型，我們就放他一馬（？）。\n\n他的缺點有：\n\n只能處理線性可分（linear-separable）的資料\n只要能分，大家都是好的分類器（黑貓白貓，能抓老鼠的就是好貓？）\n\n線性可分我們一項一項來講，什麼是線性可分（linear-separable）？\n\n像這樣是線性可分的，可以用一條直線把不同的點分開。\n\n像這樣根本找不到一條線可以將點分開的，不是線性可分。\n\n差一點點也不行！很尷尬，差一點就可以變成線性可分的了！但是他就不是！\n所以整體說起來，感知器在使用上限制頗大。\n好的分類器？接下來，什麼叫作一個好的分類器？\n\n\n\n以上三張圖，大家有沒有認為哪一張分的最好？\n每個人可能有不同的答案，但是有沒有覺得第一張是比較好的分類器？\n為什麼？\n資料點都多多少少會有一些誤差，而資料我們都假設他比較相似的會在一起，所以當新的資料點出現的時候，我們通常預期他會在舊的資料點附近。所以說，如果線可以離資料點遠一點比較好，這樣的話就不會不小心分錯。\n其實你心裡想的是這個樣子的：\n\n我們可以定一個東西叫作 margin，他就是線到最近的資料點的距離，然後希望 margin 可以越大越好。\nMaximum-margin classifier所以我們希望的是一個讓 margin 最大化的分類器，也就是 Maximum-margin classifier。\n那麼他要怎麼以數學表達呢？\n注意：以下數學高能！！\n\n\\begin{align}\n\\mathop{\\arg\\max}_{\\mathbf{w}, b} &\\ \\ \\ \\ \n    \\text{margin}(\\mathbf{w}, b) \\\\\\\\\n\\text{subject to} &\\ \\ \\ \\ \n    \\text{classify } (\\mathbf{x_n}, y_n) \\text{ correctly} \\\\\\\\\n\\text{ } &\\ \\ \\ \\ \n    \\text{margin}(\\mathbf{w}, b) = \\mathop{\\min}_{i = 1 \\dots n} \\text{distance}(\\mathbf{x_n}, \\mathbf{w}, b)\n\\end{align}總的來說，你希望 margin 越大越好，那就是我們的最佳化目標，但是會帶有一些條件，像是我們需要將點都分對，以及 margin 的定義是線到各個點的距離最短的那個。\n上方式子中的 argmax 指的是改變某些變數（$\\mathbf{w}, b$），讓後方的式子的值最大。subject to 則是限制式，也就是必須要滿足的條件。\n但是這樣的式子無法直接套用數學方法計算，所以我們要進一步將式子公式化。\n進一步公式化注意：以下極度數學高能！！\n談到距離的話，我們要先講講高中數學裡的點到線距離公式：\n\n\\text{distance}(\\mathbf{x_i}, \\mathbf{w}, b) = \\frac{|ax_i + by_i + c|}{\\sqrt{a^2 + b^2}}不記得的話，回去翻翻課本或是 google 一下。可以觀察一下，會發現分子是線的權重向量跟資料點向量的相乘再相加，再加上一個常數項。相乘再相加的動作其實就是兩個向量的 內積運算。分母部份是線的權重向量的 長度。我們可以把這個二維的公式擴充到 n 維，就變成了：\n\n\\text{distance}(\\mathbf{x_i}, \\mathbf{w}, b) = \\frac{|\\mathbf{w}^T\\mathbf{x_i} + b|}{\\left\\lVert \\mathbf{w} \\right\\rVert}是不是看起來漂亮許多？\n接著，如果要把資料點分對，那就表示說，將資料點 $\\mathbf{x_i}$ 代入模型中算出來的值會跟真實答案 $y_i$ 在線的同側，也就是正負號是相同的。利用這點，我們發現如果將資料點代入模型中算出來的值 $(\\mathbf{w}^T\\mathbf{x_i} + b)$ 與真實答案 $y_i$ 相乘的話，必定為正，所以 $y_i (\\mathbf{w}^T\\mathbf{x_i} + b) \\gt 0$。\n整個問題會被進一步變成這樣：\n\n\\begin{align}\n\\mathop{\\arg\\max}_{\\mathbf{w}, b} &\\ \\ \\ \\ \n    \\text{margin}(\\mathbf{w}, b) \\\\\\\\\n\\text{subject to} &\\ \\ \\ \\ \n    \\forall i, y_i (\\mathbf{w}^T\\mathbf{x_i} + b) \\gt 0 \\\\\\\\\n\\text{ } &\\ \\ \\ \\ \n    \\text{margin}(\\mathbf{w}, b) = \\mathop{\\min}_{i = 1 \\dots n} \\frac{|\\mathbf{w}^T\\mathbf{x_i} + b|}{\\left\\lVert \\mathbf{w} \\right\\rVert}\n\\end{align}$|\\mathbf{w}^T\\mathbf{x_i} + b|$ 的絕對值部份不是那麼好處理，我們可以把他替換成 $y_i (\\mathbf{w}^T\\mathbf{x_i} + b)$，反正他一定恆正。\n\n\\begin{align}\n\\mathop{\\arg\\max}_{\\mathbf{w}, b} &\\ \\ \\ \\ \n    \\text{margin}(\\mathbf{w}, b) \\\\\\\\\n\\text{subject to} &\\ \\ \\ \\ \n    \\forall i, y_i (\\mathbf{w}^T\\mathbf{x_i} + b) \\gt 0 \\\\\\\\\n\\text{ } &\\ \\ \\ \\ \n    \\text{margin}(\\mathbf{w}, b) = \\mathop{\\min}_{i = 1 \\dots n} \\frac{y_i (\\mathbf{w}^T\\mathbf{x_i} + b)}{\\left\\lVert \\mathbf{w} \\right\\rVert}\n\\end{align}Scalling trick對於以下的部份，我們可以進一步簡化。\n\n\\text{margin}(\\mathbf{w}, b) = \\mathop{\\min}_{i = 1 \\dots n} \\frac{y_i (\\mathbf{w}^T\\mathbf{x_i} + b)}{\\left\\lVert \\mathbf{w} \\right\\rVert}對於一條直線 $\\mathbf{w}^T\\mathbf{x_i} + b = 0$ 來說，縮放 c 倍基本上是沒有影響的 $c\\mathbf{w}^T\\mathbf{x_i} + cb = 0$。所以我們就乾脆將這個值縮放成剛好是 1，像下面這樣：\n\n\\mathop{\\min}_{i = 1 \\dots n} y_i (\\mathbf{w}^T\\mathbf{x_i} + b) = 1這樣有什麼好處呢？如果你把他代回去我們的最佳化目標的話，margin 的大小是不是變成這樣了呢？\n\n\\text{margin}(\\mathbf{w}, b) = \\frac{1}{\\left\\lVert \\mathbf{w} \\right\\rVert}而且我們也省掉了 $y_i (\\mathbf{w}^T\\mathbf{x_i} + b) \\gt 0$ 這個限制，畢竟最小的資料點計算出來至少有 1。整個問題就變成了這樣：\n\n\\begin{align}\n\\mathop{\\arg\\max} _{\\mathbf{w}, b} &\\ \\ \\ \\ \n    \\frac{1}{\\left\\lVert \\mathbf{w} \\right\\rVert} \\\\\\\\\n\\text{subject to} &\\ \\ \\ \\ \n    \\mathop{\\min} _{i = 1 \\dots n} y_i (\\mathbf{w}^T \\mathbf{x_i} + b) = 1\n\\end{align}min 還是個不好處理的運算，我們與其求某個資料點代入最小值會是 1，我們不如放寬限制，變成所有資料點帶入公式都會 $\\ge 1$。\n\n\\mathop{\\min}_{i = 1 \\dots n} y_i (\\mathbf{w}^T\\mathbf{x_i} + b) = 1\n\\Rightarrow\ny_i (\\mathbf{w}^T\\mathbf{x_i} + b) \\ge 1最後，數學家都會有點潔癖，將問題變成他們喜歡的形式。像是求倒數的最大值，不如我們求最小值。要求 $\\mathbf{w}$ 的長度太麻煩了，我們把長度中的根號拿掉。再加個二分之一上去。\n\n\\begin{align}\n\\mathop{\\arg\\min}_{\\mathbf{w}, b} &\\ \\ \\ \\ \n    \\frac{1}{2} \\mathbf{w}^T\\mathbf{w} \\\\\\\\\n\\text{subject to} &\\ \\ \\ \\ \n    \\forall i, y_i (\\mathbf{w}^T\\mathbf{x_i} + b) \\ge 1\n\\end{align}maximum-margin classifier 的最終形式就完成了！這也是支持向量機（support vector machine）的雛型。\n","dateCreated":"2018-10-04T23:43:46+08:00","dateModified":"2018-10-15T15:05:54+08:00","datePublished":"2018-10-04T23:43:46+08:00","description":"上次我們完成了感知器的介紹，感知器也有他相對應的學習演算法：perceptron learning algorithm (PLA)。\n不過我們今天沒有要講 PLA，我們來講講感知器的缺點。\n感知器這個模型有很多的缺點，但是因為他是最簡單的模型，我們就放他一馬（？）。","headline":"04 從感知器到 maximum-margin classifier","image":[],"mainEntityOfPage":{"@type":"WebPage","@id":"https://yuehhua.github.io/2018/10/04/04-from-perceptron-to-max-margin-classifier/"},"publisher":{"@type":"Organization","name":"Yueh-Hua Tu","sameAs":["https://github.com/yuehhua/","https://www.facebook.com/a504082002","https://www.linkedin.com/in/%E5%B2%B3%E8%8F%AF-%E6%9D%9C-6a3995a0/","mailto:a504082002@gmail.com"],"image":"https://www.gravatar.com/avatar/a565749fba4782b717234da670b273fd","logo":{"@type":"ImageObject","url":"https://www.gravatar.com/avatar/a565749fba4782b717234da670b273fd"}},"url":"https://yuehhua.github.io/2018/10/04/04-from-perceptron-to-max-margin-classifier/"}</script>
+    <script type="application/ld+json">{"@context":"http://schema.org","@type":"BlogPosting","author":{"@type":"Person","name":"Yueh-Hua Tu","sameAs":["https://github.com/yuehhua/","https://www.facebook.com/a504082002","https://www.linkedin.com/in/%E5%B2%B3%E8%8F%AF-%E6%9D%9C-6a3995a0/","mailto:a504082002@gmail.com"],"image":"https://www.gravatar.com/avatar/a565749fba4782b717234da670b273fd"},"articleBody":"上次我們完成了感知器的介紹，感知器也有他相對應的學習演算法：perceptron learning algorithm (PLA)。\n不過我們今天沒有要講 PLA，我們來講講感知器的缺點。\n感知器這個模型有很多的缺點，但是因為他是最簡單的模型，我們就放他一馬（？）。\n\n他的缺點有：\n\n只能處理線性可分（linear-separable）的資料\n只要能分，大家都是好的分類器（黑貓白貓，能抓老鼠的就是好貓？）\n\n線性可分我們一項一項來講，什麼是線性可分（linear-separable）？\n\n像這樣是線性可分的，可以用一條直線把不同的點分開。\n\n像這樣根本找不到一條線可以將點分開的，不是線性可分。\n\n差一點點也不行！很尷尬，差一點就可以變成線性可分的了！但是他就不是！\n所以整體說起來，感知器在使用上限制頗大。\n好的分類器？接下來，什麼叫作一個好的分類器？\n\n\n\n以上三張圖，大家有沒有認為哪一張分的最好？\n每個人可能有不同的答案，但是有沒有覺得第一張是比較好的分類器？\n為什麼？\n資料點都多多少少會有一些誤差，而資料我們都假設他比較相似的會在一起，所以當新的資料點出現的時候，我們通常預期他會在舊的資料點附近。所以說，如果線可以離資料點遠一點比較好，這樣的話就不會不小心分錯。\n其實你心裡想的是這個樣子的：\n\n我們可以定一個東西叫作 margin，他就是線到最近的資料點的距離，然後希望 margin 可以越大越好。\nMaximum-margin classifier所以我們希望的是一個讓 margin 最大化的分類器，也就是 Maximum-margin classifier。\n那麼他要怎麼以數學表達呢？\n注意：以下數學高能！！\n$$\\begin{align}\\mathop{\\arg\\max}_{\\mathbf{w}, b} &amp;\\ \\ \\ \\    \\text{margin}(\\mathbf{w}, b) \\\\\\text{subject to} &amp;\\ \\ \\ \\    \\text{classify } (\\mathbf{x_n}, y_n) \\text{ correctly} \\\\\\text{ } &amp;\\ \\ \\ \\    \\text{margin}(\\mathbf{w}, b) = \\mathop{\\min}_{i = 1 \\dots n} \\text{distance}(\\mathbf{x_n}, \\mathbf{w}, b)\\end{align}$$\n總的來說，你希望 margin 越大越好，那就是我們的最佳化目標，但是會帶有一些條件，像是我們需要將點都分對，以及 margin 的定義是線到各個點的距離最短的那個。\n上方式子中的 argmax 指的是改變某些變數（$\\mathbf{w}, b$），讓後方的式子的值最大。subject to 則是限制式，也就是必須要滿足的條件。\n但是這樣的式子無法直接套用數學方法計算，所以我們要進一步將式子公式化。\n進一步公式化注意：以下極度數學高能！！\n談到距離的話，我們要先講講高中數學裡的點到線距離公式：\n$$\\text{distance}(\\mathbf{x_i}, \\mathbf{w}, b) = \\frac{|ax_i + by_i + c|}{\\sqrt{a^2 + b^2}}$$\n不記得的話，回去翻翻課本或是 google 一下。可以觀察一下，會發現分子是線的權重向量跟資料點向量的相乘再相加，再加上一個常數項。相乘再相加的動作其實就是兩個向量的 內積運算。分母部份是線的權重向量的 長度。我們可以把這個二維的公式擴充到 n 維，就變成了：\n$$\\text{distance}(\\mathbf{x_i}, \\mathbf{w}, b) = \\frac{|\\mathbf{w}^T\\mathbf{x_i} + b|}{\\left\\lVert \\mathbf{w} \\right\\rVert}$$\n是不是看起來漂亮許多？\n接著，如果要把資料點分對，那就表示說，將資料點 $\\mathbf{x_i}$ 代入模型中算出來的值會跟真實答案 $y_i$ 在線的同側，也就是正負號是相同的。利用這點，我們發現如果將資料點代入模型中算出來的值 $(\\mathbf{w}^T\\mathbf{x_i} + b)$ 與真實答案 $y_i$ 相乘的話，必定為正，所以 $y_i (\\mathbf{w}^T\\mathbf{x_i} + b) \\gt 0$。\n整個問題會被進一步變成這樣：\n$$\\begin{align}\\mathop{\\arg\\max}_{\\mathbf{w}, b} &amp;\\ \\ \\ \\    \\text{margin}(\\mathbf{w}, b) \\\\\\text{subject to} &amp;\\ \\ \\ \\    \\forall i, y_i (\\mathbf{w}^T\\mathbf{x_i} + b) \\gt 0 \\\\\\text{ } &amp;\\ \\ \\ \\    \\text{margin}(\\mathbf{w}, b) = \\mathop{\\min}_{i = 1 \\dots n} \\frac{|\\mathbf{w}^T\\mathbf{x_i} + b|}{\\left\\lVert \\mathbf{w} \\right\\rVert}\\end{align}$$\n$|\\mathbf{w}^T\\mathbf{x_i} + b|$ 的絕對值部份不是那麼好處理，我們可以把他替換成 $y_i (\\mathbf{w}^T\\mathbf{x_i} + b)$，反正他一定恆正。\n$$\\begin{align}\\mathop{\\arg\\max}_{\\mathbf{w}, b} &amp;\\ \\ \\ \\    \\text{margin}(\\mathbf{w}, b) \\\\\\text{subject to} &amp;\\ \\ \\ \\    \\forall i, y_i (\\mathbf{w}^T\\mathbf{x_i} + b) \\gt 0 \\\\\\text{ } &amp;\\ \\ \\ \\    \\text{margin}(\\mathbf{w}, b) = \\mathop{\\min}_{i = 1 \\dots n} \\frac{y_i (\\mathbf{w}^T\\mathbf{x_i} + b)}{\\left\\lVert \\mathbf{w} \\right\\rVert}\\end{align}$$\nScalling trick對於以下的部份，我們可以進一步簡化。\n$$\\text{margin}(\\mathbf{w}, b) = \\mathop{\\min}_{i = 1 \\dots n} \\frac{y_i (\\mathbf{w}^T\\mathbf{x_i} + b)}{\\left\\lVert \\mathbf{w} \\right\\rVert}$$\n對於一條直線 $\\mathbf{w}^T\\mathbf{x_i} + b = 0$ 來說，縮放 c 倍基本上是沒有影響的 $c\\mathbf{w}^T\\mathbf{x_i} + cb = 0$。所以我們就乾脆將這個值縮放成剛好是 1，像下面這樣：\n$$\\mathop{\\min}_{i = 1 \\dots n} y_i (\\mathbf{w}^T\\mathbf{x_i} + b) = 1$$\n這樣有什麼好處呢？如果你把他代回去我們的最佳化目標的話，margin 的大小是不是變成這樣了呢？\n$$\\text{margin}(\\mathbf{w}, b) = \\frac{1}{\\left\\lVert \\mathbf{w} \\right\\rVert}$$\n而且我們也省掉了 $y_i (\\mathbf{w}^T\\mathbf{x_i} + b) \\gt 0$ 這個限制，畢竟最小的資料點計算出來至少有 1。整個問題就變成了這樣：\n$$\\begin{align}\\mathop{\\arg\\max} _{\\mathbf{w}, b} &amp;\\ \\ \\ \\    \\frac{1}{\\left\\lVert \\mathbf{w} \\right\\rVert} \\\\\\text{subject to} &amp;\\ \\ \\ \\    \\mathop{\\min} _{i = 1 \\dots n} y_i (\\mathbf{w}^T \\mathbf{x_i} + b) = 1\\end{align}$$\nmin 還是個不好處理的運算，我們與其求某個資料點代入最小值會是 1，我們不如放寬限制，變成所有資料點帶入公式都會 $\\ge 1$。\n$$\\mathop{\\min}_{i = 1 \\dots n} y_i (\\mathbf{w}^T\\mathbf{x_i} + b) = 1\\Rightarrowy_i (\\mathbf{w}^T\\mathbf{x_i} + b) \\ge 1$$\n最後，數學家都會有點潔癖，將問題變成他們喜歡的形式。像是求倒數的最大值，不如我們求最小值。要求 $\\mathbf{w}$ 的長度太麻煩了，我們把長度中的根號拿掉。再加個二分之一上去。\n$$\\begin{align}\\mathop{\\arg\\min}_{\\mathbf{w}, b} &amp;\\ \\ \\ \\    \\frac{1}{2} \\mathbf{w}^T\\mathbf{w} \\\\\\text{subject to} &amp;\\ \\ \\ \\    \\forall i, y_i (\\mathbf{w}^T\\mathbf{x_i} + b) \\ge 1\\end{align}$$\nmaximum-margin classifier 的最終形式就完成了！這也是支持向量機（support vector machine）的雛型。\n","dateCreated":"2018-10-04T23:43:46+08:00","dateModified":"2018-10-15T15:05:54+08:00","datePublished":"2018-10-04T23:43:46+08:00","description":"上次我們完成了感知器的介紹，感知器也有他相對應的學習演算法：perceptron learning algorithm (PLA)。\n不過我們今天沒有要講 PLA，我們來講講感知器的缺點。\n感知器這個模型有很多的缺點，但是因為他是最簡單的模型，我們就放他一馬（？）。","headline":"04 從感知器到 maximum-margin classifier","image":[],"mainEntityOfPage":{"@type":"WebPage","@id":"https://yuehhua.github.io/2018/10/04/04-from-perceptron-to-max-margin-classifier/"},"publisher":{"@type":"Organization","name":"Yueh-Hua Tu","sameAs":["https://github.com/yuehhua/","https://www.facebook.com/a504082002","https://www.linkedin.com/in/%E5%B2%B3%E8%8F%AF-%E6%9D%9C-6a3995a0/","mailto:a504082002@gmail.com"],"image":"https://www.gravatar.com/avatar/a565749fba4782b717234da670b273fd","logo":{"@type":"ImageObject","url":"https://www.gravatar.com/avatar/a565749fba4782b717234da670b273fd"}},"url":"https://yuehhua.github.io/2018/10/04/04-from-perceptron-to-max-margin-classifier/"}</script>
     <meta name="description" content="上次我們完成了感知器的介紹，感知器也有他相對應的學習演算法：perceptron learning algorithm (PLA)。 不過我們今天沒有要講 PLA，我們來講講感知器的缺點。 感知器這個模型有很多的缺點，但是因為他是最簡單的模型，我們就放他一馬（？）。">
 <meta name="keywords" content="machine learning,deep learning,topology">
 <meta property="og:type" content="blog">
@@ -302,67 +302,34 @@
 <h2 id="Maximum-margin-classifier"><a href="#Maximum-margin-classifier" class="headerlink" title="Maximum-margin classifier"></a>Maximum-margin classifier</h2><p>所以我們希望的是一個讓 margin 最大化的分類器，也就是 Maximum-margin classifier。</p>
 <p>那麼他要怎麼以數學表達呢？</p>
 <p>注意：以下數學高能！！</p>
-<script type="math/tex; mode=display">
-\begin{align}
-\mathop{\arg\max}_{\mathbf{w}, b} &\ \ \ \ 
-    \text{margin}(\mathbf{w}, b) \\\\
-\text{subject to} &\ \ \ \ 
-    \text{classify } (\mathbf{x_n}, y_n) \text{ correctly} \\\\
-\text{ } &\ \ \ \ 
-    \text{margin}(\mathbf{w}, b) = \mathop{\min}_{i = 1 \dots n} \text{distance}(\mathbf{x_n}, \mathbf{w}, b)
-\end{align}</script><p>總的來說，你希望 margin 越大越好，那就是我們的最佳化目標，但是會帶有一些條件，像是我們需要將點都分對，以及 margin 的定義是線到各個點的距離最短的那個。</p>
+<p>$$<br>\begin{align}<br>\mathop{\arg\max}_{\mathbf{w}, b} &amp;\ \ \ \<br>    \text{margin}(\mathbf{w}, b) \\<br>\text{subject to} &amp;\ \ \ \<br>    \text{classify } (\mathbf{x_n}, y_n) \text{ correctly} \\<br>\text{ } &amp;\ \ \ \<br>    \text{margin}(\mathbf{w}, b) = \mathop{\min}_{i = 1 \dots n} \text{distance}(\mathbf{x_n}, \mathbf{w}, b)<br>\end{align}<br>$$</p>
+<p>總的來說，你希望 margin 越大越好，那就是我們的最佳化目標，但是會帶有一些條件，像是我們需要將點都分對，以及 margin 的定義是線到各個點的距離最短的那個。</p>
 <p>上方式子中的 argmax 指的是改變某些變數（$\mathbf{w}, b$），讓後方的式子的值最大。subject to 則是限制式，也就是必須要滿足的條件。</p>
 <p>但是這樣的式子無法直接套用數學方法計算，所以我們要進一步將式子公式化。</p>
 <h2 id="進一步公式化"><a href="#進一步公式化" class="headerlink" title="進一步公式化"></a>進一步公式化</h2><p>注意：以下極度數學高能！！</p>
 <p>談到距離的話，我們要先講講高中數學裡的點到線距離公式：</p>
-<script type="math/tex; mode=display">
-\text{distance}(\mathbf{x_i}, \mathbf{w}, b) = \frac{|ax_i + by_i + c|}{\sqrt{a^2 + b^2}}</script><p>不記得的話，回去翻翻課本或是 google 一下。可以觀察一下，會發現分子是線的權重向量跟資料點向量的相乘再相加，再加上一個常數項。相乘再相加的動作其實就是兩個向量的 <strong>內積運算</strong>。分母部份是線的權重向量的 <strong>長度</strong>。我們可以把這個二維的公式擴充到 n 維，就變成了：</p>
-<script type="math/tex; mode=display">
-\text{distance}(\mathbf{x_i}, \mathbf{w}, b) = \frac{|\mathbf{w}^T\mathbf{x_i} + b|}{\left\lVert \mathbf{w} \right\rVert}</script><p>是不是看起來漂亮許多？</p>
+<p>$$<br>\text{distance}(\mathbf{x_i}, \mathbf{w}, b) = \frac{|ax_i + by_i + c|}{\sqrt{a^2 + b^2}}<br>$$</p>
+<p>不記得的話，回去翻翻課本或是 google 一下。可以觀察一下，會發現分子是線的權重向量跟資料點向量的相乘再相加，再加上一個常數項。相乘再相加的動作其實就是兩個向量的 <strong>內積運算</strong>。分母部份是線的權重向量的 <strong>長度</strong>。我們可以把這個二維的公式擴充到 n 維，就變成了：</p>
+<p>$$<br>\text{distance}(\mathbf{x_i}, \mathbf{w}, b) = \frac{|\mathbf{w}^T\mathbf{x_i} + b|}{\left\lVert \mathbf{w} \right\rVert}<br>$$</p>
+<p>是不是看起來漂亮許多？</p>
 <p>接著，如果要把資料點分對，那就表示說，將資料點 $\mathbf{x_i}$ 代入模型中算出來的值會跟真實答案 $y_i$ 在線的同側，也就是正負號是相同的。利用這點，我們發現如果將資料點代入模型中算出來的值 $(\mathbf{w}^T\mathbf{x_i} + b)$ 與真實答案 $y_i$ 相乘的話，必定為正，所以 $y_i (\mathbf{w}^T\mathbf{x_i} + b) \gt 0$。</p>
 <p>整個問題會被進一步變成這樣：</p>
-<script type="math/tex; mode=display">
-\begin{align}
-\mathop{\arg\max}_{\mathbf{w}, b} &\ \ \ \ 
-    \text{margin}(\mathbf{w}, b) \\\\
-\text{subject to} &\ \ \ \ 
-    \forall i, y_i (\mathbf{w}^T\mathbf{x_i} + b) \gt 0 \\\\
-\text{ } &\ \ \ \ 
-    \text{margin}(\mathbf{w}, b) = \mathop{\min}_{i = 1 \dots n} \frac{|\mathbf{w}^T\mathbf{x_i} + b|}{\left\lVert \mathbf{w} \right\rVert}
-\end{align}</script><p>$|\mathbf{w}^T\mathbf{x_i} + b|$ 的絕對值部份不是那麼好處理，我們可以把他替換成 $y_i (\mathbf{w}^T\mathbf{x_i} + b)$，反正他一定恆正。</p>
-<script type="math/tex; mode=display">
-\begin{align}
-\mathop{\arg\max}_{\mathbf{w}, b} &\ \ \ \ 
-    \text{margin}(\mathbf{w}, b) \\\\
-\text{subject to} &\ \ \ \ 
-    \forall i, y_i (\mathbf{w}^T\mathbf{x_i} + b) \gt 0 \\\\
-\text{ } &\ \ \ \ 
-    \text{margin}(\mathbf{w}, b) = \mathop{\min}_{i = 1 \dots n} \frac{y_i (\mathbf{w}^T\mathbf{x_i} + b)}{\left\lVert \mathbf{w} \right\rVert}
-\end{align}</script><h2 id="Scalling-trick"><a href="#Scalling-trick" class="headerlink" title="Scalling trick"></a>Scalling trick</h2><p>對於以下的部份，我們可以進一步簡化。</p>
-<script type="math/tex; mode=display">
-\text{margin}(\mathbf{w}, b) = \mathop{\min}_{i = 1 \dots n} \frac{y_i (\mathbf{w}^T\mathbf{x_i} + b)}{\left\lVert \mathbf{w} \right\rVert}</script><p>對於一條直線 $\mathbf{w}^T\mathbf{x_i} + b = 0$ 來說，縮放 c 倍基本上是沒有影響的 $c\mathbf{w}^T\mathbf{x_i} + cb = 0$。所以我們就乾脆將這個值縮放成剛好是 1，像下面這樣：</p>
-<script type="math/tex; mode=display">
-\mathop{\min}_{i = 1 \dots n} y_i (\mathbf{w}^T\mathbf{x_i} + b) = 1</script><p>這樣有什麼好處呢？如果你把他代回去我們的最佳化目標的話，margin 的大小是不是變成這樣了呢？</p>
-<script type="math/tex; mode=display">
-\text{margin}(\mathbf{w}, b) = \frac{1}{\left\lVert \mathbf{w} \right\rVert}</script><p>而且我們也省掉了 $y_i (\mathbf{w}^T\mathbf{x_i} + b) \gt 0$ 這個限制，畢竟最小的資料點計算出來至少有 1。整個問題就變成了這樣：</p>
-<script type="math/tex; mode=display">
-\begin{align}
-\mathop{\arg\max} _{\mathbf{w}, b} &\ \ \ \ 
-    \frac{1}{\left\lVert \mathbf{w} \right\rVert} \\\\
-\text{subject to} &\ \ \ \ 
-    \mathop{\min} _{i = 1 \dots n} y_i (\mathbf{w}^T \mathbf{x_i} + b) = 1
-\end{align}</script><p>min 還是個不好處理的運算，我們與其求某個資料點代入最小值會是 1，我們不如放寬限制，變成所有資料點帶入公式都會 $\ge 1$。</p>
-<script type="math/tex; mode=display">
-\mathop{\min}_{i = 1 \dots n} y_i (\mathbf{w}^T\mathbf{x_i} + b) = 1
-\Rightarrow
-y_i (\mathbf{w}^T\mathbf{x_i} + b) \ge 1</script><p>最後，數學家都會有點潔癖，將問題變成他們喜歡的形式。像是求倒數的最大值，不如我們求最小值。要求 $\mathbf{w}$ 的長度太麻煩了，我們把長度中的根號拿掉。再加個二分之一上去。</p>
-<script type="math/tex; mode=display">
-\begin{align}
-\mathop{\arg\min}_{\mathbf{w}, b} &\ \ \ \ 
-    \frac{1}{2} \mathbf{w}^T\mathbf{w} \\\\
-\text{subject to} &\ \ \ \ 
-    \forall i, y_i (\mathbf{w}^T\mathbf{x_i} + b) \ge 1
-\end{align}</script><p>maximum-margin classifier 的最終形式就完成了！這也是支持向量機（support vector machine）的雛型。</p>
+<p>$$<br>\begin{align}<br>\mathop{\arg\max}_{\mathbf{w}, b} &amp;\ \ \ \<br>    \text{margin}(\mathbf{w}, b) \\<br>\text{subject to} &amp;\ \ \ \<br>    \forall i, y_i (\mathbf{w}^T\mathbf{x_i} + b) \gt 0 \\<br>\text{ } &amp;\ \ \ \<br>    \text{margin}(\mathbf{w}, b) = \mathop{\min}_{i = 1 \dots n} \frac{|\mathbf{w}^T\mathbf{x_i} + b|}{\left\lVert \mathbf{w} \right\rVert}<br>\end{align}<br>$$</p>
+<p>$|\mathbf{w}^T\mathbf{x_i} + b|$ 的絕對值部份不是那麼好處理，我們可以把他替換成 $y_i (\mathbf{w}^T\mathbf{x_i} + b)$，反正他一定恆正。</p>
+<p>$$<br>\begin{align}<br>\mathop{\arg\max}_{\mathbf{w}, b} &amp;\ \ \ \<br>    \text{margin}(\mathbf{w}, b) \\<br>\text{subject to} &amp;\ \ \ \<br>    \forall i, y_i (\mathbf{w}^T\mathbf{x_i} + b) \gt 0 \\<br>\text{ } &amp;\ \ \ \<br>    \text{margin}(\mathbf{w}, b) = \mathop{\min}_{i = 1 \dots n} \frac{y_i (\mathbf{w}^T\mathbf{x_i} + b)}{\left\lVert \mathbf{w} \right\rVert}<br>\end{align}<br>$$</p>
+<h2 id="Scalling-trick"><a href="#Scalling-trick" class="headerlink" title="Scalling trick"></a>Scalling trick</h2><p>對於以下的部份，我們可以進一步簡化。</p>
+<p>$$<br>\text{margin}(\mathbf{w}, b) = \mathop{\min}_{i = 1 \dots n} \frac{y_i (\mathbf{w}^T\mathbf{x_i} + b)}{\left\lVert \mathbf{w} \right\rVert}<br>$$</p>
+<p>對於一條直線 $\mathbf{w}^T\mathbf{x_i} + b = 0$ 來說，縮放 c 倍基本上是沒有影響的 $c\mathbf{w}^T\mathbf{x_i} + cb = 0$。所以我們就乾脆將這個值縮放成剛好是 1，像下面這樣：</p>
+<p>$$<br>\mathop{\min}_{i = 1 \dots n} y_i (\mathbf{w}^T\mathbf{x_i} + b) = 1<br>$$</p>
+<p>這樣有什麼好處呢？如果你把他代回去我們的最佳化目標的話，margin 的大小是不是變成這樣了呢？</p>
+<p>$$<br>\text{margin}(\mathbf{w}, b) = \frac{1}{\left\lVert \mathbf{w} \right\rVert}<br>$$</p>
+<p>而且我們也省掉了 $y_i (\mathbf{w}^T\mathbf{x_i} + b) \gt 0$ 這個限制，畢竟最小的資料點計算出來至少有 1。整個問題就變成了這樣：</p>
+<p>$$<br>\begin{align}<br>\mathop{\arg\max} _{\mathbf{w}, b} &amp;\ \ \ \<br>    \frac{1}{\left\lVert \mathbf{w} \right\rVert} \\<br>\text{subject to} &amp;\ \ \ \<br>    \mathop{\min} _{i = 1 \dots n} y_i (\mathbf{w}^T \mathbf{x_i} + b) = 1<br>\end{align}<br>$$</p>
+<p>min 還是個不好處理的運算，我們與其求某個資料點代入最小值會是 1，我們不如放寬限制，變成所有資料點帶入公式都會 $\ge 1$。</p>
+<p>$$<br>\mathop{\min}_{i = 1 \dots n} y_i (\mathbf{w}^T\mathbf{x_i} + b) = 1<br>\Rightarrow<br>y_i (\mathbf{w}^T\mathbf{x_i} + b) \ge 1<br>$$</p>
+<p>最後，數學家都會有點潔癖，將問題變成他們喜歡的形式。像是求倒數的最大值，不如我們求最小值。要求 $\mathbf{w}$ 的長度太麻煩了，我們把長度中的根號拿掉。再加個二分之一上去。</p>
+<p>$$<br>\begin{align}<br>\mathop{\arg\min}_{\mathbf{w}, b} &amp;\ \ \ \<br>    \frac{1}{2} \mathbf{w}^T\mathbf{w} \\<br>\text{subject to} &amp;\ \ \ \<br>    \forall i, y_i (\mathbf{w}^T\mathbf{x_i} + b) \ge 1<br>\end{align}<br>$$</p>
+<p>maximum-margin classifier 的最終形式就完成了！這也是支持向量機（support vector machine）的雛型。</p>
 
                                         
 
@@ -544,7 +511,7 @@ y_i (\mathbf{w}^T\mathbf{x_i} + b) \ge 1</script><p>最後，數學家都會有�
         
             <h4 id="about-card-name">Yueh-Hua Tu</h4>
         
-            <div id="about-card-bio"><p>Aim to be a computational biologist!&lt;/br&gt;Systems Biology, Computational Biology, Machine Learning&lt;/br&gt;Organizer of Julia Taiwan community</p>
+            <div id="about-card-bio"><p>Aim to be a computational biologist!</br>Systems Biology, Computational Biology, Machine Learning</br>Organizer of Julia Taiwan community</p>
 </div>
         
         

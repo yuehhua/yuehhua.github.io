@@ -15,7 +15,7 @@
     
         <link rel="alternate" type="application/atom+xml" title="RSS" href="/atom.xml">
     
-    <script type="application/ld+json">{"@context":"http://schema.org","@type":"BlogPosting","author":{"@type":"Person","name":"Yueh-Hua Tu","sameAs":["https://github.com/yuehhua/","https://www.facebook.com/a504082002","https://www.linkedin.com/in/%E5%B2%B3%E8%8F%AF-%E6%9D%9C-6a3995a0/","mailto:a504082002@gmail.com"],"image":"https://www.gravatar.com/avatar/a565749fba4782b717234da670b273fd"},"articleBody":"雖然標題是說”標準” SVM，不過模型這種東西從來就沒有什麼標準，有的不過是變體。\n所以這篇是要跟大家總結一下我們一般在用的 SVM 模型的預設值是長什麼樣子。\n\n我們前面從 maximum-margin classifier 出發，尋找最大 margin 的分類器。\n接著，為了解決非線性跟計算效能問題，引進了 kernel trick。\n最後，為了避免 overfitting，我們放寬了 margin 成為 soft-margin。\n這些都是標準 SVM 的預設配備。\n當然還有為了解決計算效能問題，使用了 Lagrange multiplier，由於背後的數學太過煩雜就不介紹了。\n簡單來說，Lagrange multiplier 的使用，讓原本的問題（primal problem）可以有另外的對偶問題（dual problem）。\n我們只要解了對偶問題，我們就可以解掉原本的問題，雖然有時候會碰到一些限制。\n原本問題的陳述是這樣的：\n\n\\begin{align}\n\\mathop{\\arg\\min}_{\\mathbf{w}, b, \\boldsymbol{\\xi}} &\\ \\ \\ \\ \n    \\frac{1}{2} \\mathbf{w}^T\\mathbf{w} + C \\sum _{n=1}^N \\xi_n \\\\\\\\\n\\text{subject to} &\\ \\ \\ \\ \n    \\forall i, y_i (\\mathbf{w}^T\\mathbf{x_i} + b) \\ge 1 - \\xi_n \\\\\\\\\n\\text{ } &\\ \\ \\ \\ \n    \\forall n, \\xi_n \\ge 0\n\\end{align}轉變成對偶問題然後簡化後的陳述是這樣的：\n\n\\begin{align}\n\\mathop{\\arg\\min}_{\\boldsymbol{\\alpha}} &\\ \\ \\ \\ \n    \\frac{1}{2} \\sum _{n=1}^{N} \\sum _{m=1}^{N} \\alpha_n \\alpha_m y_n y_m \\mathbf{z_n}^T\\mathbf{z_m} - \\sum _{n=1}^N \\alpha_n \\\\\\\\\n\\text{subject to} &\\ \\ \\ \\ \n    \\sum_{n=1}^{N} \\alpha_n y_n = 0, 0 \\le \\alpha_n \\le C \\\\\\\\\n\\text{ } &\\ \\ \\ \\ \n    \\mathbf{w} = \\sum_{n=1}^{N} \\alpha_n y_n \\mathbf{z_n}\n\\end{align}不要問我怎麼來的，你一問我就要開始另一篇數學了，你會怕。\n解完上面的問題，我們可以得到一些資訊，我們可以從 $\\alpha_n$ 的數值範圍來得知一個資料點他是不是 support vector。\n只要他的值在 $0 &lt; \\alpha_n &lt; C$ 這個範圍，他就是 support vector。\n我們最後在形成整個 SVM 模型的時候其實只需要這些 support vector 就可以了。\n\nSVM(\\mathbf{x}) = sign(\\sum_{SV} \\alpha_n y_n K(\\mathbf{x_n}, \\mathbf{x}) + b)","dateCreated":"2018-10-07T17:20:54+08:00","dateModified":"2018-10-15T15:05:16+08:00","datePublished":"2018-10-07T17:20:54+08:00","description":"雖然標題是說”標準” SVM，不過模型這種東西從來就沒有什麼標準，有的不過是變體。\n所以這篇是要跟大家總結一下我們一般在用的 SVM 模型的預設值是長什麼樣子。","headline":"07 標準 SVM","image":[],"mainEntityOfPage":{"@type":"WebPage","@id":"https://yuehhua.github.io/2018/10/07/07-standard-svm/"},"publisher":{"@type":"Organization","name":"Yueh-Hua Tu","sameAs":["https://github.com/yuehhua/","https://www.facebook.com/a504082002","https://www.linkedin.com/in/%E5%B2%B3%E8%8F%AF-%E6%9D%9C-6a3995a0/","mailto:a504082002@gmail.com"],"image":"https://www.gravatar.com/avatar/a565749fba4782b717234da670b273fd","logo":{"@type":"ImageObject","url":"https://www.gravatar.com/avatar/a565749fba4782b717234da670b273fd"}},"url":"https://yuehhua.github.io/2018/10/07/07-standard-svm/"}</script>
+    <script type="application/ld+json">{"@context":"http://schema.org","@type":"BlogPosting","author":{"@type":"Person","name":"Yueh-Hua Tu","sameAs":["https://github.com/yuehhua/","https://www.facebook.com/a504082002","https://www.linkedin.com/in/%E5%B2%B3%E8%8F%AF-%E6%9D%9C-6a3995a0/","mailto:a504082002@gmail.com"],"image":"https://www.gravatar.com/avatar/a565749fba4782b717234da670b273fd"},"articleBody":"雖然標題是說”標準” SVM，不過模型這種東西從來就沒有什麼標準，有的不過是變體。\n所以這篇是要跟大家總結一下我們一般在用的 SVM 模型的預設值是長什麼樣子。\n\n我們前面從 maximum-margin classifier 出發，尋找最大 margin 的分類器。\n接著，為了解決非線性跟計算效能問題，引進了 kernel trick。\n最後，為了避免 overfitting，我們放寬了 margin 成為 soft-margin。\n這些都是標準 SVM 的預設配備。\n當然還有為了解決計算效能問題，使用了 Lagrange multiplier，由於背後的數學太過煩雜就不介紹了。\n簡單來說，Lagrange multiplier 的使用，讓原本的問題（primal problem）可以有另外的對偶問題（dual problem）。\n我們只要解了對偶問題，我們就可以解掉原本的問題，雖然有時候會碰到一些限制。\n原本問題的陳述是這樣的：\n$$\\begin{align}\\mathop{\\arg\\min}_{\\mathbf{w}, b, \\boldsymbol{\\xi}} &amp;\\ \\ \\ \\    \\frac{1}{2} \\mathbf{w}^T\\mathbf{w} + C \\sum _{n=1}^N \\xi_n \\\\\\text{subject to} &amp;\\ \\ \\ \\    \\forall i, y_i (\\mathbf{w}^T\\mathbf{x_i} + b) \\ge 1 - \\xi_n \\\\\\text{ } &amp;\\ \\ \\ \\    \\forall n, \\xi_n \\ge 0\\end{align}$$\n轉變成對偶問題然後簡化後的陳述是這樣的：\n$$\\begin{align}\\mathop{\\arg\\min}_{\\boldsymbol{\\alpha}} &amp;\\ \\ \\ \\    \\frac{1}{2} \\sum _{n=1}^{N} \\sum _{m=1}^{N} \\alpha_n \\alpha_m y_n y_m \\mathbf{z_n}^T\\mathbf{z_m} - \\sum _{n=1}^N \\alpha_n \\\\\\text{subject to} &amp;\\ \\ \\ \\    \\sum_{n=1}^{N} \\alpha_n y_n = 0, 0 \\le \\alpha_n \\le C \\\\\\text{ } &amp;\\ \\ \\ \\    \\mathbf{w} = \\sum_{n=1}^{N} \\alpha_n y_n \\mathbf{z_n}\\end{align}$$\n不要問我怎麼來的，你一問我就要開始另一篇數學了，你會怕。\n解完上面的問題，我們可以得到一些資訊，我們可以從 $\\alpha_n$ 的數值範圍來得知一個資料點他是不是 support vector。\n只要他的值在 $0 &lt; \\alpha_n &lt; C$ 這個範圍，他就是 support vector。\n我們最後在形成整個 SVM 模型的時候其實只需要這些 support vector 就可以了。\n$$SVM(\\mathbf{x}) = sign(\\sum_{SV} \\alpha_n y_n K(\\mathbf{x_n}, \\mathbf{x}) + b)$$\n","dateCreated":"2018-10-07T17:20:54+08:00","dateModified":"2018-10-15T15:05:16+08:00","datePublished":"2018-10-07T17:20:54+08:00","description":"雖然標題是說”標準” SVM，不過模型這種東西從來就沒有什麼標準，有的不過是變體。\n所以這篇是要跟大家總結一下我們一般在用的 SVM 模型的預設值是長什麼樣子。","headline":"07 標準 SVM","image":[],"mainEntityOfPage":{"@type":"WebPage","@id":"https://yuehhua.github.io/2018/10/07/07-standard-svm/"},"publisher":{"@type":"Organization","name":"Yueh-Hua Tu","sameAs":["https://github.com/yuehhua/","https://www.facebook.com/a504082002","https://www.linkedin.com/in/%E5%B2%B3%E8%8F%AF-%E6%9D%9C-6a3995a0/","mailto:a504082002@gmail.com"],"image":"https://www.gravatar.com/avatar/a565749fba4782b717234da670b273fd","logo":{"@type":"ImageObject","url":"https://www.gravatar.com/avatar/a565749fba4782b717234da670b273fd"}},"url":"https://yuehhua.github.io/2018/10/07/07-standard-svm/"}</script>
     <meta name="description" content="雖然標題是說”標準” SVM，不過模型這種東西從來就沒有什麼標準，有的不過是變體。 所以這篇是要跟大家總結一下我們一般在用的 SVM 模型的預設值是長什麼樣子。">
 <meta name="keywords" content="machine learning,deep learning,topology">
 <meta property="og:type" content="blog">
@@ -274,29 +274,15 @@
 <p>簡單來說，Lagrange multiplier 的使用，讓原本的問題（primal problem）可以有另外的對偶問題（dual problem）。</p>
 <p>我們只要解了對偶問題，我們就可以解掉原本的問題，雖然有時候會碰到一些限制。</p>
 <p>原本問題的陳述是這樣的：</p>
-<script type="math/tex; mode=display">
-\begin{align}
-\mathop{\arg\min}_{\mathbf{w}, b, \boldsymbol{\xi}} &\ \ \ \ 
-    \frac{1}{2} \mathbf{w}^T\mathbf{w} + C \sum _{n=1}^N \xi_n \\\\
-\text{subject to} &\ \ \ \ 
-    \forall i, y_i (\mathbf{w}^T\mathbf{x_i} + b) \ge 1 - \xi_n \\\\
-\text{ } &\ \ \ \ 
-    \forall n, \xi_n \ge 0
-\end{align}</script><p>轉變成對偶問題然後簡化後的陳述是這樣的：</p>
-<script type="math/tex; mode=display">
-\begin{align}
-\mathop{\arg\min}_{\boldsymbol{\alpha}} &\ \ \ \ 
-    \frac{1}{2} \sum _{n=1}^{N} \sum _{m=1}^{N} \alpha_n \alpha_m y_n y_m \mathbf{z_n}^T\mathbf{z_m} - \sum _{n=1}^N \alpha_n \\\\
-\text{subject to} &\ \ \ \ 
-    \sum_{n=1}^{N} \alpha_n y_n = 0, 0 \le \alpha_n \le C \\\\
-\text{ } &\ \ \ \ 
-    \mathbf{w} = \sum_{n=1}^{N} \alpha_n y_n \mathbf{z_n}
-\end{align}</script><p>不要問我怎麼來的，你一問我就要開始另一篇數學了，你會怕。</p>
+<p>$$<br>\begin{align}<br>\mathop{\arg\min}_{\mathbf{w}, b, \boldsymbol{\xi}} &amp;\ \ \ \<br>    \frac{1}{2} \mathbf{w}^T\mathbf{w} + C \sum _{n=1}^N \xi_n \\<br>\text{subject to} &amp;\ \ \ \<br>    \forall i, y_i (\mathbf{w}^T\mathbf{x_i} + b) \ge 1 - \xi_n \\<br>\text{ } &amp;\ \ \ \<br>    \forall n, \xi_n \ge 0<br>\end{align}<br>$$</p>
+<p>轉變成對偶問題然後簡化後的陳述是這樣的：</p>
+<p>$$<br>\begin{align}<br>\mathop{\arg\min}_{\boldsymbol{\alpha}} &amp;\ \ \ \<br>    \frac{1}{2} \sum _{n=1}^{N} \sum _{m=1}^{N} \alpha_n \alpha_m y_n y_m \mathbf{z_n}^T\mathbf{z_m} - \sum _{n=1}^N \alpha_n \\<br>\text{subject to} &amp;\ \ \ \<br>    \sum_{n=1}^{N} \alpha_n y_n = 0, 0 \le \alpha_n \le C \\<br>\text{ } &amp;\ \ \ \<br>    \mathbf{w} = \sum_{n=1}^{N} \alpha_n y_n \mathbf{z_n}<br>\end{align}<br>$$</p>
+<p>不要問我怎麼來的，你一問我就要開始另一篇數學了，你會怕。</p>
 <p>解完上面的問題，我們可以得到一些資訊，我們可以從 $\alpha_n$ 的數值範圍來得知一個資料點他是不是 support vector。</p>
 <p>只要他的值在 $0 &lt; \alpha_n &lt; C$ 這個範圍，他就是 support vector。</p>
 <p>我們最後在形成整個 SVM 模型的時候其實只需要這些 support vector 就可以了。</p>
-<script type="math/tex; mode=display">
-SVM(\mathbf{x}) = sign(\sum_{SV} \alpha_n y_n K(\mathbf{x_n}, \mathbf{x}) + b)</script>
+<p>$$<br>SVM(\mathbf{x}) = sign(\sum_{SV} \alpha_n y_n K(\mathbf{x_n}, \mathbf{x}) + b)<br>$$</p>
+
                                         
 
                                 </div>
@@ -477,7 +463,7 @@ SVM(\mathbf{x}) = sign(\sum_{SV} \alpha_n y_n K(\mathbf{x_n}, \mathbf{x}) + b)</
         
             <h4 id="about-card-name">Yueh-Hua Tu</h4>
         
-            <div id="about-card-bio"><p>Aim to be a computational biologist!&lt;/br&gt;Systems Biology, Computational Biology, Machine Learning&lt;/br&gt;Organizer of Julia Taiwan community</p>
+            <div id="about-card-bio"><p>Aim to be a computational biologist!</br>Systems Biology, Computational Biology, Machine Learning</br>Organizer of Julia Taiwan community</p>
 </div>
         
         
