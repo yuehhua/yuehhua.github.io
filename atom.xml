@@ -6,7 +6,7 @@
   <link href="/atom.xml" rel="self"/>
   
   <link href="https://yuehhua.github.io/"/>
-  <updated>2018-10-15T07:03:37.605Z</updated>
+  <updated>2018-10-16T15:28:04.222Z</updated>
   <id>https://yuehhua.github.io/</id>
   
   <author>
@@ -15,6 +15,29 @@
   </author>
   
   <generator uri="http://hexo.io/">Hexo</generator>
+  
+  <entry>
+    <title>16 Representation learning</title>
+    <link href="https://yuehhua.github.io/2018/10/16/16-representation-learning/"/>
+    <id>https://yuehhua.github.io/2018/10/16/16-representation-learning/</id>
+    <published>2018-10-16T15:28:04.000Z</published>
+    <updated>2018-10-16T15:28:04.222Z</updated>
+    
+    <content type="html"><![CDATA[<p>機器學習的技術已經發展了非常久的時間，我們有非常多的模型可以幫我們做預測，包含像是 regression、classification、clustering、semi-supervised learning、reinforcement learning。這些都可以幫助我們去做出預測，或是從資料當中去挖掘知識跟資訊。這些模型需要數學與統計作為基礎。</p><p>當你使用這些模型之後你會發現，你輸入的資料會大大的影響整個 performance，像是你給的 feature 不夠好，模型的表現就變得很糟糕，或是模型要預測的資訊根本不在這些 data 當中，那麼模型根本就預測不出來，所以玩過 machine learning 的人就會知道 feature engineering 的重要性。</p><a id="more"></a><p>以往 feature engineering 是需要人自己手動處理的，如今我們也希望由 machine learning 的模型中自動學出來。大家可以看到我們的技術進展：從以往的手寫程式進展到經典的 machine learning 技術，這是一個巨大的飛躍。</p><p><img src="/images/diagram-deep-learning.png" alt=""></p><blockquote><p>From <a href="https://www.amazon.com/Deep-Learning-Adaptive-Computation-Machine/dp/0262035618/ref=sr_1_1?ie=UTF8&amp;qid=1472485235&amp;sr=8-1&amp;keywords=deep+learning+book" target="_blank" rel="noopener"><em>Deep Learning</em></a> by Ian Goodfellow and Yoshua Bengio and Aaron Courville</p></blockquote><hr><p><br><br></p><h2 id="他幫我們解決了什麼問題呢？"><a href="#他幫我們解決了什麼問題呢？" class="headerlink" title="他幫我們解決了什麼問題呢？"></a>他幫我們解決了什麼問題呢？</h2><p>以往的手寫程式需要工程師非常的聰明，他需要知道在 input 與 output 之間的所有規則，然後把這些規則化成可以執行的程式，這些實作的過程需要花非常大量的人力跟腦力。</p><p><br></p><p><img src="/images/before_ml.svg" alt=""></p><p><br></p><p>然而，我們進展到 machine learning 的技術，我們試圖去收集一些資料，這些資料符合我們預期的 input 與 output 之間的關係。</p><p><br></p><p><img src="/images/after_ml.svg" alt=""></p><p><br></p><p>他可以幫我們將中間的 <strong>過程</strong> 連接起來，我們不需要去 <em>手刻</em> 或是 <em>事先知道</em> 這些過程，更何況自然界很多過程都是 <strong><em>人類沒辦法理解的</em></strong> 或是 <strong><em>還不知道的</em></strong>。</p><p><br></p><p><img src="/images/mnist.svg" alt=""></p><p><br></p><p>這些過程在數學家的眼中就稱為 <strong>函數</strong>，對於機器學習專家來說，input 與 output 之間有無限多種函數的可能。哪一種可能才是最符合我們資料的長相的？我們希望挑出最有可能的那一種，就把那就把那一種當成是模型，並且輸出，這樣我們就能讓機器自動去學出 input 與 output 的對應關係，這是一個飛躍性的進展。</p><p><br></p><h2 id="特徵工程（feature-engineering）"><a href="#特徵工程（feature-engineering）" class="headerlink" title="特徵工程（feature engineering）"></a>特徵工程（feature engineering）</h2><p>接著我們意識到：我們還是需要手動去處理特徵。經典的機器學習模型只幫我們處理了 <strong>將特徵對應到輸出的關係</strong>，我們還是得藉由特徵萃取的技術來轉換，而我們很難知道什麼樣的特徵萃取才真正能夠把資料中我們想要的資訊萃取出來，這部分就進到 representation Learning 的範疇。</p><p><br></p><h2 id="自動化特徵萃取（Automatic-feature-extraction）"><a href="#自動化特徵萃取（Automatic-feature-extraction）" class="headerlink" title="自動化特徵萃取（Automatic feature extraction）"></a>自動化特徵萃取（Automatic feature extraction）</h2><p>在特徵萃取的過程中，常常我們面對的是高維度的向量，由於我們很難去理解高維度的向量之間的轉換，導致我們在轉換的時候會遇上困難，我們根本不知道需要轉換成什麼樣維度的向量，我們也不知道中間需要什麼樣的轉換函數。在數學領域當中，有相關的領域稱為微分幾何，所以常常我們會討論在數學上的流形（manifold），representation learning 就是希望連同特徵萃取以及模型可以一併處理，也就是藉由模型的過程會到回饋（從 gradient descent 等等方法），去引導特徵萃取的過程，進而去學到 <strong>特徵-特徵</strong> 之間轉換的模式。</p><p><br></p><h2 id="深度學習"><a href="#深度學習" class="headerlink" title="深度學習"></a>深度學習</h2><p>深度學習就是一種 representation Learning。他希望資料在高維度的轉換當中，可以去萃取出足夠而抽象的資訊，去進行預測。而深度學習只是將特徵-特徵之間的轉換模式以 <strong>層-層</strong> 之間的轉換實現，而高維的特徵向量以 <strong>層</strong> 的形式呈現。所以越深的網路代表著經過多次的函數處理跟萃取，所萃取的資訊的抽象程度越高，抽象程度越高，就越接近人類所想像的。</p><p><br></p><h2 id="Representation-learning"><a href="#Representation-learning" class="headerlink" title="Representation learning"></a>Representation learning</h2><p>如同前面描述到的，我們需要更少對於特徵工程的依賴，增加自動化特徵萃取的使用。所以我們用”學習”的方式讓模型自動去學到他要的特徵，自動去做特徵萃取。那麼 representation learning 更深層的意思是什麼呢？</p><blockquote><p>你需要的不是一個答案，而是一個表示方式。</p></blockquote><p>以上是我在工研院的課程對學員們講過的話，一句話解釋 representation learning 大概是這個意思。</p><p>舉個例子好了，人類在照片中可以辨識出當中的狗狗，人們在交談的時候可以以語言的”狗”來描述同一個概念，基本上他們都擁有相同的資訊量。對於狗的概念來說，照片中的圖像只是這個概念的一種表示方式，語言中也有對應的表現方式。讓機器學會狗的概念，就是要讓他可以從圖像或是語言中可以萃取出有相同資訊量的東西，這樣的東西可以是以資料結構的方式表示，或是以一個向量表示，所以你需要的不是一個答案，而是一種表示方式，讓你可以看的懂的表示方式。</p><p>最終極的情況來說，在人類腦中很多既定的概念都已經存在，並沒有什麼新的概念出現了。出現的只有新的概念以不同的形式或是姿態出現，這互相之間都是可以轉換的，當然，轉換伴隨著資訊量的流失。</p><p>記得有個實驗在測試在發展成熟的社會是不是比原始社會的人們更聰明，實驗者設計了類似配對記憶遊戲，在卡牌上畫上各種現代日常生活中會看到的物件，分別測試了都市的人們以及原始部落的人們，果然在都市的人們有比較好的成績。不過這個實驗有個為人詬病的地方，都市人當然熟悉日常生活周遭的物件，原始部落的人們卻從來也沒有看過這些東西。所以又有另一組人馬將實驗換成在原始部落中常常看到的植物的葉子，對都市的人們來說，那些葉子根本無從分辨，但是原始部落的人們的測驗結果卻跟都市的人們對日常生活物件有一樣高的分數。代表人的腦袋並沒有差別，只是認得的東西不同。</p><p>或許在人們的腦袋中，有某些概念是一樣的，但是有不同的表現形式。</p>]]></content>
+    
+    <summary type="html">
+    
+      &lt;p&gt;機器學習的技術已經發展了非常久的時間，我們有非常多的模型可以幫我們做預測，包含像是 regression、classification、clustering、semi-supervised learning、reinforcement learning。這些都可以幫助我們去做出預測，或是從資料當中去挖掘知識跟資訊。這些模型需要數學與統計作為基礎。&lt;/p&gt;
+&lt;p&gt;當你使用這些模型之後你會發現，你輸入的資料會大大的影響整個 performance，像是你給的 feature 不夠好，模型的表現就變得很糟糕，或是模型要預測的資訊根本不在這些 data 當中，那麼模型根本就預測不出來，所以玩過 machine learning 的人就會知道 feature engineering 的重要性。&lt;/p&gt;
+    
+    </summary>
+    
+      <category term="Machine Learning" scheme="https://yuehhua.github.io/categories/Machine-Learning/"/>
+    
+      <category term="機器學習模型圖書館：從傳統模型到深度學習" scheme="https://yuehhua.github.io/categories/Machine-Learning/%E6%A9%9F%E5%99%A8%E5%AD%B8%E7%BF%92%E6%A8%A1%E5%9E%8B%E5%9C%96%E6%9B%B8%E9%A4%A8%EF%BC%9A%E5%BE%9E%E5%82%B3%E7%B5%B1%E6%A8%A1%E5%9E%8B%E5%88%B0%E6%B7%B1%E5%BA%A6%E5%AD%B8%E7%BF%92/"/>
+    
+    
+  </entry>
   
   <entry>
     <title>15 為什麼要深？</title>
@@ -448,30 +471,6 @@
 &lt;p&gt;從比較技術層面跟務實的角度切入，就表示我想討論的是現今人工智慧的實作層面，也就是 &lt;strong&gt;AI 是怎麼被做出來的？（how）&lt;/strong&gt;，並非討論 &lt;strong&gt;AI 是什麼？(what)&lt;/strong&gt;&lt;/p&gt;
 &lt;p&gt;&lt;strong&gt;AI 是什麼？&lt;/strong&gt; 這議題會牽涉到什麼是智慧？而智慧這種事情連人類自身都說不清楚，有的人從哲學層面討論智慧，動物有動物的智慧，人類有人類的智慧，憑什麼說人類的『智慧』才稱為智慧？有的人從生物角度切入， 從大腦的結構與神經元的連結，到神經元的觸發，這一系列的科學探索，或許我們未來可以回答智慧是什麼？但目前仍舊是一個大謎團。&lt;/p&gt;
 &lt;p&gt;我今天要談的都不是這些，我要談的是深度學習的核心，不！是機器學習的核心…… 嗯……等等，所以那是什麼？&lt;/p&gt;
-    
-    </summary>
-    
-      <category term="Deep Learning" scheme="https://yuehhua.github.io/categories/Deep-Learning/"/>
-    
-    
-  </entry>
-  
-  <entry>
-    <title>Activation function 到底怎麼影響模型？</title>
-    <link href="https://yuehhua.github.io/2018/07/27/activation-function/"/>
-    <id>https://yuehhua.github.io/2018/07/27/activation-function/</id>
-    <published>2018-07-27T03:02:54.000Z</published>
-    <updated>2018-07-27T03:17:56.344Z</updated>
-    
-    <content type="html"><![CDATA[<p>今天我們來談談 activation function 吧！</p><h2 id="先談談線性轉換"><a href="#先談談線性轉換" class="headerlink" title="先談談線性轉換"></a>先談談線性轉換</h2><p>談 activation function 之前先要談談線性轉換。</p><p>有上到比較後面的線性代數的同學，應該有爬過 SVD 這座高山。</p><p>推薦可以看周老師的線代啟示錄 <a href="https://ccjou.wordpress.com/2009/09/01/%E5%A5%87%E7%95%B0%E5%80%BC%E5%88%86%E8%A7%A3-svd/" target="_blank" rel="noopener">奇異值分解 (SVD)</a></p><p>我們可以知道一個矩陣可以被看成線性轉換，而矩陣這個線性轉換可以被分解成 3 個矩陣：</p><a id="more"></a><p>$$<br>A = U \Sigma V^T<br>$$</p><p>這 3 個矩陣分別是有意義的，$U$、$\Sigma$、$V$ 的意義分別是旋轉、伸縮、旋轉的意思。大家可以參考以下的圖：</p><p><img src="https://ccjou.files.wordpress.com/2009/09/svd32.jpg?w=400&amp;h=300" alt=""></p><blockquote><p>圖來自以上提到的文章</p></blockquote><p>所以我們可以知道矩陣能做的事情大概就是旋轉伸縮這些事情了。</p><p>在模型上，我們還會加上一個 bias 來達到平移的效果。</p><p>我們可以來造一些點：</p><p><img src="/images/activation1.png" alt=""></p><p>我們可以 random 造一個矩陣：</p><p>$$<br>A =<br>\begin{bmatrix}<br>0.35166263&amp; 0.1124966 \\<br>0.25249535&amp; 0.65481947 \\<br>\end{bmatrix}<br>$$</p><p>所以我們可以對每個點做運算 $Ax$：</p><p><img src="/images/activation2.png" alt=""></p><h2 id="去吧！Activation-function！"><a href="#去吧！Activation-function！" class="headerlink" title="去吧！Activation function！"></a>去吧！Activation function！</h2><p>接下來我們先來試試看在 CNN 用最多的 ReLU，我們把上面的點通過 ReLU 之後會發生什麼事呢？</p><p><img src="/images/activation3.png" alt=""></p><p>大家會發現只留下第一象限的點是沒有動到的，剩下的象限的點都被擠到 x 軸跟 y 軸上了。</p><p>所以在高維度的世界中，點都會保留第一象限不變，其他象限被擠壓到軸上。</p><p>那如果是用 sigmoid 的效果呢？</p><p><img src="/images/activation4.png" alt=""></p><p>他將所有的點都壓到 (0, 1) 之間，所以整個形狀就縮小很多。</p><p>我們放大來看看他整體形狀有沒有什麼變化。</p><p><img src="/images/activation5.png" alt=""></p><p>整體形狀有些微被扭曲了，不知道大家有沒有發現呢？</p><p>所以在引進 activation function 之後，模型擁有了 <strong>扭曲</strong> 的能力！</p><p>那麼 activation function 到底實際上做了什麼事呢？</p><h2 id="雕塑的工匠"><a href="#雕塑的工匠" class="headerlink" title="雕塑的工匠"></a>雕塑的工匠</h2><p>以 ReLU 來說，他就像一個工匠正在雕塑一個作品。</p><p>ReLU 就是工匠手上那把彫刻刀，他會把第一象限以外的部份削掉。看起來就會像朱銘大師的作品這樣：</p><p><img src="http://digitalarchives.artcenter.ncku.edu.tw/walkncku_cht/image/a51d2-dsc_7226.jpg" alt=""></p><blockquote><p>圖來自 <a href="http://digitalarchives.artcenter.ncku.edu.tw/walkncku_cht/" target="_blank" rel="noopener">漫遊‧藝術網＠成大校園</a></p></blockquote><p>原諒我私心用成大的雕塑品當範例。XD</p><p>ReLU 會將不重要的部份削掉，剩下重要的特徵接續後面的特徵萃取。</p><h2 id="消失的梯度"><a href="#消失的梯度" class="headerlink" title="消失的梯度"></a>消失的梯度</h2><p>以 sigmoid 來說，他將點壓到 (0, 1) 之間看似很難以理解。</p><p>其實這個 activation function 在影像辨識當中比較不是主流的方法，可能不是那麼適用，不過在 NLP 領域算是還蠻常用的方法。</p><p>那如果放在 CNN 的話，就會發生梯度消失的問題。</p><p>在比較早期的時候，大家在影像處理上都遇到梯度消失的問題。如果直觀上看來，如果每過一次 convolution layer 就會被壓縮到 (0, 1) 一次，那麼後面再接 subsampling 的處理，又會縮小一次，並且失去某些訊息，想當然爾特徵就在不斷縮小的過程中慢慢不見了。這樣的效果讓早期的模型無法變得更深。</p><p>讓 convolution layer 去篩選哪些 feature 該留下來，讓 subsampling layer 去做縮小的動作，各自負責各自的功能，這樣看來是比較好的作法。</p><p>這是一個比較直觀的解釋方式，歡迎大家提出不同的看法。</p><h2 id="模型怎麼知道要從哪裡下刀？"><a href="#模型怎麼知道要從哪裡下刀？" class="headerlink" title="模型怎麼知道要從哪裡下刀？"></a>模型怎麼知道要從哪裡下刀？</h2><p>我想蠻多人應該會有跟我一樣的問題。</p><p>我知道如果用 ReLU 可以把不要的部份削掉，那麼我怎麼知道要削哪裡？</p><p>答案是 backpropagation (gradient descent method) 會告訴你！</p><p>藉由 forward 將訊息傳遞到 output layer，backward 所回饋的 gradient 正提供一個訊息，這個訊息會告訴模型要怎麼調整線性轉換的矩陣，來讓 ReLU 可以切在對的位置。</p><h2 id="為什麼-activation-function-一定要長這樣？"><a href="#為什麼-activation-function-一定要長這樣？" class="headerlink" title="為什麼 activation function 一定要長這樣？"></a>為什麼 activation function 一定要長這樣？</h2><p>其實沒有規定 activation function 一定要長怎樣。</p><p>但是拿多項式函數或是其他函數會讓整個模型非常難以理解，而且當中的參數還不少。</p><p>所以依照 Occam’s razor 的原則，我們先拿簡單的函數來用會比較好。</p><h2 id="結論"><a href="#結論" class="headerlink" title="結論"></a>結論</h2><p>不同的模型跟問題其實適用不同的 activation function。</p><p>像影像辨識中，CNN 的設計是要先做 feature extraction，再進行分類。</p><p>所以在 feature extraction 的階段就需要找適用的 activation function。</p><p>那像在 NLP 領域，他們關心的是機率分佈，而 sigmoid 就很合機率分佈的調調。</p><p>這邊原諒我草率帶過 NLP 的部份，今天的主軸都擺在 CNN 上。XD</p><p>今天就到這邊告一個段落囉。</p>]]></content>
-    
-    <summary type="html">
-    
-      &lt;p&gt;今天我們來談談 activation function 吧！&lt;/p&gt;
-&lt;h2 id=&quot;先談談線性轉換&quot;&gt;&lt;a href=&quot;#先談談線性轉換&quot; class=&quot;headerlink&quot; title=&quot;先談談線性轉換&quot;&gt;&lt;/a&gt;先談談線性轉換&lt;/h2&gt;&lt;p&gt;談 activation function 之前先要談談線性轉換。&lt;/p&gt;
-&lt;p&gt;有上到比較後面的線性代數的同學，應該有爬過 SVD 這座高山。&lt;/p&gt;
-&lt;p&gt;推薦可以看周老師的線代啟示錄 &lt;a href=&quot;https://ccjou.wordpress.com/2009/09/01/%E5%A5%87%E7%95%B0%E5%80%BC%E5%88%86%E8%A7%A3-svd/&quot; target=&quot;_blank&quot; rel=&quot;noopener&quot;&gt;奇異值分解 (SVD)&lt;/a&gt;&lt;/p&gt;
-&lt;p&gt;我們可以知道一個矩陣可以被看成線性轉換，而矩陣這個線性轉換可以被分解成 3 個矩陣：&lt;/p&gt;
     
     </summary>
     

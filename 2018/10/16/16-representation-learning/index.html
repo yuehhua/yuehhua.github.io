@@ -1,0 +1,555 @@
+
+<!DOCTYPE html>
+<html lang="en">
+    
+<head>
+    <!-- hexo-inject:begin --><!-- hexo-inject:end --><meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="generator" content="Dream Maker">
+    <title>16 Representation learning - Dream Maker</title>
+    <meta name="author" content="Yueh-Hua Tu">
+    
+        <meta name="keywords" content="machine learning,deep learning,topology,">
+    
+    
+    
+        <link rel="alternate" type="application/atom+xml" title="RSS" href="/atom.xml">
+    
+    <script type="application/ld+json">{"@context":"http://schema.org","@type":"BlogPosting","author":{"@type":"Person","name":"Yueh-Hua Tu","sameAs":["https://github.com/yuehhua/","https://www.facebook.com/a504082002","https://www.linkedin.com/in/%E5%B2%B3%E8%8F%AF-%E6%9D%9C-6a3995a0/","mailto:a504082002@gmail.com"],"image":"https://www.gravatar.com/avatar/a565749fba4782b717234da670b273fd"},"articleBody":"機器學習的技術已經發展了非常久的時間，我們有非常多的模型可以幫我們做預測，包含像是 regression、classification、clustering、semi-supervised learning、reinforcement learning。這些都可以幫助我們去做出預測，或是從資料當中去挖掘知識跟資訊。這些模型需要數學與統計作為基礎。\n當你使用這些模型之後你會發現，你輸入的資料會大大的影響整個 performance，像是你給的 feature 不夠好，模型的表現就變得很糟糕，或是模型要預測的資訊根本不在這些 data 當中，那麼模型根本就預測不出來，所以玩過 machine learning 的人就會知道 feature engineering 的重要性。\n\n以往 feature engineering 是需要人自己手動處理的，如今我們也希望由 machine learning 的模型中自動學出來。大家可以看到我們的技術進展：從以往的手寫程式進展到經典的 machine learning 技術，這是一個巨大的飛躍。\n\n\nFrom Deep Learning by Ian Goodfellow and Yoshua Bengio and Aaron Courville\n\n\n\n他幫我們解決了什麼問題呢？以往的手寫程式需要工程師非常的聰明，他需要知道在 input 與 output 之間的所有規則，然後把這些規則化成可以執行的程式，這些實作的過程需要花非常大量的人力跟腦力。\n\n\n\n然而，我們進展到 machine learning 的技術，我們試圖去收集一些資料，這些資料符合我們預期的 input 與 output 之間的關係。\n\n\n\n他可以幫我們將中間的 過程 連接起來，我們不需要去 手刻 或是 事先知道 這些過程，更何況自然界很多過程都是 人類沒辦法理解的 或是 還不知道的。\n\n\n\n這些過程在數學家的眼中就稱為 函數，對於機器學習專家來說，input 與 output 之間有無限多種函數的可能。哪一種可能才是最符合我們資料的長相的？我們希望挑出最有可能的那一種，就把那就把那一種當成是模型，並且輸出，這樣我們就能讓機器自動去學出 input 與 output 的對應關係，這是一個飛躍性的進展。\n\n特徵工程（feature engineering）接著我們意識到：我們還是需要手動去處理特徵。經典的機器學習模型只幫我們處理了 將特徵對應到輸出的關係，我們還是得藉由特徵萃取的技術來轉換，而我們很難知道什麼樣的特徵萃取才真正能夠把資料中我們想要的資訊萃取出來，這部分就進到 representation Learning 的範疇。\n\n自動化特徵萃取（Automatic feature extraction）在特徵萃取的過程中，常常我們面對的是高維度的向量，由於我們很難去理解高維度的向量之間的轉換，導致我們在轉換的時候會遇上困難，我們根本不知道需要轉換成什麼樣維度的向量，我們也不知道中間需要什麼樣的轉換函數。在數學領域當中，有相關的領域稱為微分幾何，所以常常我們會討論在數學上的流形（manifold），representation learning 就是希望連同特徵萃取以及模型可以一併處理，也就是藉由模型的過程會到回饋（從 gradient descent 等等方法），去引導特徵萃取的過程，進而去學到 特徵-特徵 之間轉換的模式。\n\n深度學習深度學習就是一種 representation Learning。他希望資料在高維度的轉換當中，可以去萃取出足夠而抽象的資訊，去進行預測。而深度學習只是將特徵-特徵之間的轉換模式以 層-層 之間的轉換實現，而高維的特徵向量以 層 的形式呈現。所以越深的網路代表著經過多次的函數處理跟萃取，所萃取的資訊的抽象程度越高，抽象程度越高，就越接近人類所想像的。\n\nRepresentation learning如同前面描述到的，我們需要更少對於特徵工程的依賴，增加自動化特徵萃取的使用。所以我們用”學習”的方式讓模型自動去學到他要的特徵，自動去做特徵萃取。那麼 representation learning 更深層的意思是什麼呢？\n\n你需要的不是一個答案，而是一個表示方式。\n\n以上是我在工研院的課程對學員們講過的話，一句話解釋 representation learning 大概是這個意思。\n舉個例子好了，人類在照片中可以辨識出當中的狗狗，人們在交談的時候可以以語言的”狗”來描述同一個概念，基本上他們都擁有相同的資訊量。對於狗的概念來說，照片中的圖像只是這個概念的一種表示方式，語言中也有對應的表現方式。讓機器學會狗的概念，就是要讓他可以從圖像或是語言中可以萃取出有相同資訊量的東西，這樣的東西可以是以資料結構的方式表示，或是以一個向量表示，所以你需要的不是一個答案，而是一種表示方式，讓你可以看的懂的表示方式。\n最終極的情況來說，在人類腦中很多既定的概念都已經存在，並沒有什麼新的概念出現了。出現的只有新的概念以不同的形式或是姿態出現，這互相之間都是可以轉換的，當然，轉換伴隨著資訊量的流失。\n記得有個實驗在測試在發展成熟的社會是不是比原始社會的人們更聰明，實驗者設計了類似配對記憶遊戲，在卡牌上畫上各種現代日常生活中會看到的物件，分別測試了都市的人們以及原始部落的人們，果然在都市的人們有比較好的成績。不過這個實驗有個為人詬病的地方，都市人當然熟悉日常生活周遭的物件，原始部落的人們卻從來也沒有看過這些東西。所以又有另一組人馬將實驗換成在原始部落中常常看到的植物的葉子，對都市的人們來說，那些葉子根本無從分辨，但是原始部落的人們的測驗結果卻跟都市的人們對日常生活物件有一樣高的分數。代表人的腦袋並沒有差別，只是認得的東西不同。\n或許在人們的腦袋中，有某些概念是一樣的，但是有不同的表現形式。\n","dateCreated":"2018-10-16T23:28:04+08:00","dateModified":"2018-10-16T23:28:04+08:00","datePublished":"2018-10-16T23:28:04+08:00","description":"機器學習的技術已經發展了非常久的時間，我們有非常多的模型可以幫我們做預測，包含像是 regression、classification、clustering、semi-supervised learning、reinforcement learning。這些都可以幫助我們去做出預測，或是從資料當中去挖掘知識跟資訊。這些模型需要數學與統計作為基礎。\n當你使用這些模型之後你會發現，你輸入的資料會大大的影響整個 performance，像是你給的 feature 不夠好，模型的表現就變得很糟糕，或是模型要預測的資訊根本不在這些 data 當中，那麼模型根本就預測不出來，所以玩過 machine learning 的人就會知道 feature engineering 的重要性。","headline":"16 Representation learning","image":[],"mainEntityOfPage":{"@type":"WebPage","@id":"https://yuehhua.github.io/2018/10/16/16-representation-learning/"},"publisher":{"@type":"Organization","name":"Yueh-Hua Tu","sameAs":["https://github.com/yuehhua/","https://www.facebook.com/a504082002","https://www.linkedin.com/in/%E5%B2%B3%E8%8F%AF-%E6%9D%9C-6a3995a0/","mailto:a504082002@gmail.com"],"image":"https://www.gravatar.com/avatar/a565749fba4782b717234da670b273fd","logo":{"@type":"ImageObject","url":"https://www.gravatar.com/avatar/a565749fba4782b717234da670b273fd"}},"url":"https://yuehhua.github.io/2018/10/16/16-representation-learning/"}</script>
+    <meta name="description" content="機器學習的技術已經發展了非常久的時間，我們有非常多的模型可以幫我們做預測，包含像是 regression、classification、clustering、semi-supervised learning、reinforcement learning。這些都可以幫助我們去做出預測，或是從資料當中去挖掘知識跟資訊。這些模型需要數學與統計作為基礎。 當你使用這些模型之後你會發現，你輸入的資料會大大的">
+<meta name="keywords" content="machine learning,deep learning,topology">
+<meta property="og:type" content="blog">
+<meta property="og:title" content="16 Representation learning">
+<meta property="og:url" content="https://yuehhua.github.io/2018/10/16/16-representation-learning/index.html">
+<meta property="og:site_name" content="Dream Maker">
+<meta property="og:description" content="機器學習的技術已經發展了非常久的時間，我們有非常多的模型可以幫我們做預測，包含像是 regression、classification、clustering、semi-supervised learning、reinforcement learning。這些都可以幫助我們去做出預測，或是從資料當中去挖掘知識跟資訊。這些模型需要數學與統計作為基礎。 當你使用這些模型之後你會發現，你輸入的資料會大大的">
+<meta property="og:locale" content="en">
+<meta property="og:image" content="https://yuehhua.github.io/images/diagram-deep-learning.png">
+<meta property="og:image" content="https://yuehhua.github.io/images/before_ml.svg">
+<meta property="og:image" content="https://yuehhua.github.io/images/after_ml.svg">
+<meta property="og:image" content="https://yuehhua.github.io/images/mnist.svg">
+<meta property="og:updated_time" content="2018-10-16T15:28:04.222Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="16 Representation learning">
+<meta name="twitter:description" content="機器學習的技術已經發展了非常久的時間，我們有非常多的模型可以幫我們做預測，包含像是 regression、classification、clustering、semi-supervised learning、reinforcement learning。這些都可以幫助我們去做出預測，或是從資料當中去挖掘知識跟資訊。這些模型需要數學與統計作為基礎。 當你使用這些模型之後你會發現，你輸入的資料會大大的">
+<meta name="twitter:image" content="https://yuehhua.github.io/images/diagram-deep-learning.png">
+    
+    
+        
+    
+    
+    
+    
+    
+    <!--STYLES-->
+    <link rel="stylesheet" href="/assets/css/style-3frockyt2j28isvdztjchy5nhkz8tjki9ermufc1ckptmvjdftux94m2ahub.min.css">
+    <!--STYLES END-->
+    
+    <script type="text/javascript">
+        (function (i, s, o, g, r, a, m) {
+        i['GoogleAnalyticsObject'] = r; i[r] = i[r] || function () {
+            (i[r].q = i[r].q || []).push(arguments)
+        }, i[r].l = 1 * new Date(); a = s.createElement(o),
+            m = s.getElementsByTagName(o)[0]; a.async = 1; a.src = g; m.parentNode.insertBefore(a, m)
+        })(window, document, 'script', '//www.google-analytics.com/analytics.js', 'ga');
+
+        ga('create', 'UA-119690895-1', 'auto');
+        ga('send', 'pageview');
+    </script><!-- hexo-inject:begin --><!-- hexo-inject:end -->
+    
+    
+</head>
+
+    <body>
+        <!-- hexo-inject:begin --><!-- hexo-inject:end --><div id="blog">
+            <!-- Define author's picture -->
+
+
+    
+
+<header id="header" data-behavior="5">
+    <i id="btn-open-sidebar" class="fa fa-lg fa-bars"></i>
+    <div class="header-title">
+        <a class="header-title-link" href="/ ">Dream Maker</a>
+    </div>
+    
+        
+            <a  class="header-right-picture "
+                href="#about">
+        
+        
+        </a>
+    
+</header>
+
+            <!-- Define author's picture -->
+
+
+<nav id="sidebar" data-behavior="5">
+    <div class="sidebar-container">
+        
+        
+            <ul class="sidebar-buttons">
+            
+                <li class="sidebar-button">
+                    
+                        <a  class="sidebar-button-link "
+                             href="/ "
+                            
+                            title="Home"
+                        >
+                    
+                        <i class="sidebar-button-icon fa fa-home" aria-hidden="true"></i>
+                        <span class="sidebar-button-desc">Home</span>
+                    </a>
+            </li>
+            
+                <li class="sidebar-button">
+                    
+                        <a  class="sidebar-button-link "
+                             href="/all-categories"
+                            
+                            title="Categories"
+                        >
+                    
+                        <i class="sidebar-button-icon fa fa-bookmark" aria-hidden="true"></i>
+                        <span class="sidebar-button-desc">Categories</span>
+                    </a>
+            </li>
+            
+                <li class="sidebar-button">
+                    
+                        <a  class="sidebar-button-link "
+                             href="/all-tags"
+                            
+                            title="Tags"
+                        >
+                    
+                        <i class="sidebar-button-icon fa fa-tags" aria-hidden="true"></i>
+                        <span class="sidebar-button-desc">Tags</span>
+                    </a>
+            </li>
+            
+                <li class="sidebar-button">
+                    
+                        <a  class="sidebar-button-link "
+                             href="/all-archives"
+                            
+                            title="Archives"
+                        >
+                    
+                        <i class="sidebar-button-icon fa fa-archive" aria-hidden="true"></i>
+                        <span class="sidebar-button-desc">Archives</span>
+                    </a>
+            </li>
+            
+                <li class="sidebar-button">
+                    
+                        <a  class="sidebar-button-link open-algolia-search"
+                             href="#search"
+                            
+                            title="Search"
+                        >
+                    
+                        <i class="sidebar-button-icon fa fa-search" aria-hidden="true"></i>
+                        <span class="sidebar-button-desc">Search</span>
+                    </a>
+            </li>
+            
+                <li class="sidebar-button">
+                    
+                        <a  class="sidebar-button-link "
+                             href="#about"
+                            
+                            title="About"
+                        >
+                    
+                        <i class="sidebar-button-icon fa fa-question" aria-hidden="true"></i>
+                        <span class="sidebar-button-desc">About</span>
+                    </a>
+            </li>
+            
+        </ul>
+        
+            <ul class="sidebar-buttons">
+            
+                <li class="sidebar-button">
+                    
+                        <a  class="sidebar-button-link " href="https://github.com/yuehhua/" target="_blank" rel="noopener" title="GitHub">
+                    
+                        <i class="sidebar-button-icon fab fa-github" aria-hidden="true"></i>
+                        <span class="sidebar-button-desc">GitHub</span>
+                    </a>
+            </li>
+            
+                <li class="sidebar-button">
+                    
+                        <a  class="sidebar-button-link " href="https://www.facebook.com/a504082002" target="_blank" rel="noopener" title="Facebook">
+                    
+                        <i class="sidebar-button-icon fab fa-facebook" aria-hidden="true"></i>
+                        <span class="sidebar-button-desc">Facebook</span>
+                    </a>
+            </li>
+            
+                <li class="sidebar-button">
+                    
+                        <a  class="sidebar-button-link " href="https://www.linkedin.com/in/%E5%B2%B3%E8%8F%AF-%E6%9D%9C-6a3995a0/" target="_blank" rel="noopener" title="LinkedIn">
+                    
+                        <i class="sidebar-button-icon fab fa-linkedin" aria-hidden="true"></i>
+                        <span class="sidebar-button-desc">LinkedIn</span>
+                    </a>
+            </li>
+            
+                <li class="sidebar-button">
+                    
+                        <a  class="sidebar-button-link " href="mailto:a504082002@gmail.com" target="_blank" rel="noopener" title="Mail">
+                    
+                        <i class="sidebar-button-icon fab fa-envelope" aria-hidden="true"></i>
+                        <span class="sidebar-button-desc">Mail</span>
+                    </a>
+            </li>
+            
+        </ul>
+        
+            <ul class="sidebar-buttons">
+            
+                <li class="sidebar-button">
+                    
+                        <a  class="sidebar-button-link "
+                             href="/atom.xml"
+                            
+                            title="RSS"
+                        >
+                    
+                        <i class="sidebar-button-icon fa fa-rss" aria-hidden="true"></i>
+                        <span class="sidebar-button-desc">RSS</span>
+                    </a>
+            </li>
+            
+        </ul>
+        
+    </div>
+</nav>
+
+            
+            <div id="main" data-behavior="5"
+                 class="
+                        hasCoverMetaIn
+                        ">
+                
+    <article class="post">
+        
+                
+                    <div class="post-header main-content-wrap text-left">
+    
+        <h1 class="post-title">
+            16 Representation learning
+        </h1>
+    
+    
+        <div class="post-meta">
+    <time datetime="2018-10-16T23:28:04+08:00">
+	
+		    Oct 16, 2018
+    	
+    </time>
+    
+        <span>in </span>
+        
+    <a class="category-link" href="/categories/Machine-Learning/">Machine Learning</a>, <a class="category-link" href="/categories/Machine-Learning/機器學習模型圖書館：從傳統模型到深度學習/">機器學習模型圖書館：從傳統模型到深度學習</a>
+
+
+    
+</div>
+
+    
+</div>
+
+                        
+                            <div class="post-content markdown">
+                                <div class="main-content-wrap">
+                                    <p>機器學習的技術已經發展了非常久的時間，我們有非常多的模型可以幫我們做預測，包含像是 regression、classification、clustering、semi-supervised learning、reinforcement learning。這些都可以幫助我們去做出預測，或是從資料當中去挖掘知識跟資訊。這些模型需要數學與統計作為基礎。</p>
+<p>當你使用這些模型之後你會發現，你輸入的資料會大大的影響整個 performance，像是你給的 feature 不夠好，模型的表現就變得很糟糕，或是模型要預測的資訊根本不在這些 data 當中，那麼模型根本就預測不出來，所以玩過 machine learning 的人就會知道 feature engineering 的重要性。</p>
+<a id="more"></a>
+<p>以往 feature engineering 是需要人自己手動處理的，如今我們也希望由 machine learning 的模型中自動學出來。大家可以看到我們的技術進展：從以往的手寫程式進展到經典的 machine learning 技術，這是一個巨大的飛躍。</p>
+<p><img src="/images/diagram-deep-learning.png" alt=""></p>
+<blockquote>
+<p>From <a href="https://www.amazon.com/Deep-Learning-Adaptive-Computation-Machine/dp/0262035618/ref=sr_1_1?ie=UTF8&amp;qid=1472485235&amp;sr=8-1&amp;keywords=deep+learning+book" target="_blank" rel="noopener"><em>Deep Learning</em></a> by Ian Goodfellow and Yoshua Bengio and Aaron Courville</p>
+</blockquote>
+<hr>
+<p><br><br></p>
+<h2 id="他幫我們解決了什麼問題呢？"><a href="#他幫我們解決了什麼問題呢？" class="headerlink" title="他幫我們解決了什麼問題呢？"></a>他幫我們解決了什麼問題呢？</h2><p>以往的手寫程式需要工程師非常的聰明，他需要知道在 input 與 output 之間的所有規則，然後把這些規則化成可以執行的程式，這些實作的過程需要花非常大量的人力跟腦力。</p>
+<p><br></p>
+<p><img src="/images/before_ml.svg" alt=""></p>
+<p><br></p>
+<p>然而，我們進展到 machine learning 的技術，我們試圖去收集一些資料，這些資料符合我們預期的 input 與 output 之間的關係。</p>
+<p><br></p>
+<p><img src="/images/after_ml.svg" alt=""></p>
+<p><br></p>
+<p>他可以幫我們將中間的 <strong>過程</strong> 連接起來，我們不需要去 <em>手刻</em> 或是 <em>事先知道</em> 這些過程，更何況自然界很多過程都是 <strong><em>人類沒辦法理解的</em></strong> 或是 <strong><em>還不知道的</em></strong>。</p>
+<p><br></p>
+<p><img src="/images/mnist.svg" alt=""></p>
+<p><br></p>
+<p>這些過程在數學家的眼中就稱為 <strong>函數</strong>，對於機器學習專家來說，input 與 output 之間有無限多種函數的可能。哪一種可能才是最符合我們資料的長相的？我們希望挑出最有可能的那一種，就把那就把那一種當成是模型，並且輸出，這樣我們就能讓機器自動去學出 input 與 output 的對應關係，這是一個飛躍性的進展。</p>
+<p><br></p>
+<h2 id="特徵工程（feature-engineering）"><a href="#特徵工程（feature-engineering）" class="headerlink" title="特徵工程（feature engineering）"></a>特徵工程（feature engineering）</h2><p>接著我們意識到：我們還是需要手動去處理特徵。經典的機器學習模型只幫我們處理了 <strong>將特徵對應到輸出的關係</strong>，我們還是得藉由特徵萃取的技術來轉換，而我們很難知道什麼樣的特徵萃取才真正能夠把資料中我們想要的資訊萃取出來，這部分就進到 representation Learning 的範疇。</p>
+<p><br></p>
+<h2 id="自動化特徵萃取（Automatic-feature-extraction）"><a href="#自動化特徵萃取（Automatic-feature-extraction）" class="headerlink" title="自動化特徵萃取（Automatic feature extraction）"></a>自動化特徵萃取（Automatic feature extraction）</h2><p>在特徵萃取的過程中，常常我們面對的是高維度的向量，由於我們很難去理解高維度的向量之間的轉換，導致我們在轉換的時候會遇上困難，我們根本不知道需要轉換成什麼樣維度的向量，我們也不知道中間需要什麼樣的轉換函數。在數學領域當中，有相關的領域稱為微分幾何，所以常常我們會討論在數學上的流形（manifold），representation learning 就是希望連同特徵萃取以及模型可以一併處理，也就是藉由模型的過程會到回饋（從 gradient descent 等等方法），去引導特徵萃取的過程，進而去學到 <strong>特徵-特徵</strong> 之間轉換的模式。</p>
+<p><br></p>
+<h2 id="深度學習"><a href="#深度學習" class="headerlink" title="深度學習"></a>深度學習</h2><p>深度學習就是一種 representation Learning。他希望資料在高維度的轉換當中，可以去萃取出足夠而抽象的資訊，去進行預測。而深度學習只是將特徵-特徵之間的轉換模式以 <strong>層-層</strong> 之間的轉換實現，而高維的特徵向量以 <strong>層</strong> 的形式呈現。所以越深的網路代表著經過多次的函數處理跟萃取，所萃取的資訊的抽象程度越高，抽象程度越高，就越接近人類所想像的。</p>
+<p><br></p>
+<h2 id="Representation-learning"><a href="#Representation-learning" class="headerlink" title="Representation learning"></a>Representation learning</h2><p>如同前面描述到的，我們需要更少對於特徵工程的依賴，增加自動化特徵萃取的使用。所以我們用”學習”的方式讓模型自動去學到他要的特徵，自動去做特徵萃取。那麼 representation learning 更深層的意思是什麼呢？</p>
+<blockquote>
+<p>你需要的不是一個答案，而是一個表示方式。</p>
+</blockquote>
+<p>以上是我在工研院的課程對學員們講過的話，一句話解釋 representation learning 大概是這個意思。</p>
+<p>舉個例子好了，人類在照片中可以辨識出當中的狗狗，人們在交談的時候可以以語言的”狗”來描述同一個概念，基本上他們都擁有相同的資訊量。對於狗的概念來說，照片中的圖像只是這個概念的一種表示方式，語言中也有對應的表現方式。讓機器學會狗的概念，就是要讓他可以從圖像或是語言中可以萃取出有相同資訊量的東西，這樣的東西可以是以資料結構的方式表示，或是以一個向量表示，所以你需要的不是一個答案，而是一種表示方式，讓你可以看的懂的表示方式。</p>
+<p>最終極的情況來說，在人類腦中很多既定的概念都已經存在，並沒有什麼新的概念出現了。出現的只有新的概念以不同的形式或是姿態出現，這互相之間都是可以轉換的，當然，轉換伴隨著資訊量的流失。</p>
+<p>記得有個實驗在測試在發展成熟的社會是不是比原始社會的人們更聰明，實驗者設計了類似配對記憶遊戲，在卡牌上畫上各種現代日常生活中會看到的物件，分別測試了都市的人們以及原始部落的人們，果然在都市的人們有比較好的成績。不過這個實驗有個為人詬病的地方，都市人當然熟悉日常生活周遭的物件，原始部落的人們卻從來也沒有看過這些東西。所以又有另一組人馬將實驗換成在原始部落中常常看到的植物的葉子，對都市的人們來說，那些葉子根本無從分辨，但是原始部落的人們的測驗結果卻跟都市的人們對日常生活物件有一樣高的分數。代表人的腦袋並沒有差別，只是認得的東西不同。</p>
+<p>或許在人們的腦袋中，有某些概念是一樣的，但是有不同的表現形式。</p>
+
+                                        
+
+                                </div>
+                            </div>
+                            <div id="post-footer" class="post-footer main-content-wrap">
+                                
+                                        
+                                            <div class="post-actions-wrap">
+    <nav>
+        <ul class="post-actions post-action-nav">
+            <li class="post-action">
+                
+                    <a class="post-action-btn btn btn--disabled">
+                
+                    <i class="fa fa-angle-left" aria-hidden="true"></i>
+                    <span class="hide-xs hide-sm text-small icon-ml">PREVIOUS</span>
+                </a>
+            </li>
+            <li class="post-action">
+                
+                    
+                    <a class="post-action-btn btn btn--default tooltip--top" href="/2018/10/15/15-why-deep/" data-tooltip="15 為什麼要深？" aria-label="NEXT: 15 為什麼要深？">
+                
+                    <span class="hide-xs hide-sm text-small icon-mr">NEXT</span>
+                    <i class="fa fa-angle-right" aria-hidden="true"></i>
+                </a>
+            </li>
+        </ul>
+    </nav>
+    <ul class="post-actions post-action-share">
+        <li class="post-action hide-lg hide-md hide-sm">
+            <a class="post-action-btn btn btn--default btn-open-shareoptions" href="#btn-open-shareoptions" aria-label="Share this post">
+                <i class="fa fa-share-alt" aria-hidden="true"></i>
+            </a>
+        </li>
+        
+            
+            
+            <li class="post-action hide-xs">
+                <a class="post-action-btn btn btn--default" target="new" href="https://www.facebook.com/sharer/sharer.php?u=https://yuehhua.github.io/2018/10/16/16-representation-learning/" title="Share on Facebook">
+                    <i class="fa fa-facebook-official" aria-hidden="true"></i>
+                </a>
+            </li>
+        
+        
+            
+                <li class="post-action">
+                    <a class="post-action-btn btn btn--default" href="#disqus_thread">
+                        <i class="fa fa-comment-o"></i>
+                    </a>
+                </li>
+            
+        
+        <li class="post-action">
+            
+                <a class="post-action-btn btn btn--default" href="#" aria-label="Back to top">
+            
+                <i class="fa fa-list" aria-hidden="true"></i>
+            </a>
+        </li>
+    </ul>
+</div>
+
+
+                                                
+                                                    
+                                                        
+                                                            <div id="disqus_thread">
+    <noscript>Please enable JavaScript to view the <a href="//disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+</div>
+                                                                
+                                                                            
+                            </div>
+                            
+                                <script src='https://unpkg.com/mermaid@7.1.2/dist/mermaid.min.js'></script>
+                                <script>
+                                    if (window.mermaid) {
+                                        mermaid.initialize({ theme: 'forest' });
+                                    }
+                                </script>
+                                
+    </article>
+
+                <footer id="footer" class="main-content-wrap">
+    <span class="copyrights">
+        Copyrights &copy; 2018 Yueh-Hua Tu. All Rights Reserved.
+    </span>
+</footer>
+
+            </div>
+            
+                <div id="bottom-bar" class="post-bottom-bar" data-behavior="5">
+                    <div class="post-actions-wrap">
+    <nav>
+        <ul class="post-actions post-action-nav">
+            <li class="post-action">
+                
+                    <a class="post-action-btn btn btn--disabled">
+                
+                    <i class="fa fa-angle-left" aria-hidden="true"></i>
+                    <span class="hide-xs hide-sm text-small icon-ml">PREVIOUS</span>
+                </a>
+            </li>
+            <li class="post-action">
+                
+                    
+                    <a class="post-action-btn btn btn--default tooltip--top" href="/2018/10/15/15-why-deep/" data-tooltip="15 為什麼要深？" aria-label="NEXT: 15 為什麼要深？">
+                
+                    <span class="hide-xs hide-sm text-small icon-mr">NEXT</span>
+                    <i class="fa fa-angle-right" aria-hidden="true"></i>
+                </a>
+            </li>
+        </ul>
+    </nav>
+    <ul class="post-actions post-action-share">
+        <li class="post-action hide-lg hide-md hide-sm">
+            <a class="post-action-btn btn btn--default btn-open-shareoptions" href="#btn-open-shareoptions" aria-label="Share this post">
+                <i class="fa fa-share-alt" aria-hidden="true"></i>
+            </a>
+        </li>
+        
+            
+            
+            <li class="post-action hide-xs">
+                <a class="post-action-btn btn btn--default" target="new" href="https://www.facebook.com/sharer/sharer.php?u=https://yuehhua.github.io/2018/10/16/16-representation-learning/" title="Share on Facebook">
+                    <i class="fa fa-facebook-official" aria-hidden="true"></i>
+                </a>
+            </li>
+        
+        
+            
+                <li class="post-action">
+                    <a class="post-action-btn btn btn--default" href="#disqus_thread">
+                        <i class="fa fa-comment-o"></i>
+                    </a>
+                </li>
+            
+        
+        <li class="post-action">
+            
+                <a class="post-action-btn btn btn--default" href="#" aria-label="Back to top">
+            
+                <i class="fa fa-list" aria-hidden="true"></i>
+            </a>
+        </li>
+    </ul>
+</div>
+
+
+                </div>
+                <div id="share-options-bar" class="share-options-bar" data-behavior="5">
+    <i id="btn-close-shareoptions" class="fa fa-close"></i>
+    <ul class="share-options">
+        
+            
+            
+            <li class="share-option">
+                <a class="share-option-btn" target="new" href="https://www.facebook.com/sharer/sharer.php?u=https://yuehhua.github.io/2018/10/16/16-representation-learning/">
+                    <i class="fa fa-facebook-official" aria-hidden="true"></i><span>Share on Facebook</span>
+                </a>
+            </li>
+        
+    </ul>
+</div>
+
+            
+        </div>
+        
+
+
+<div id="about">
+    <div id="about-card">
+        <div id="about-btn-close">
+            <i class="fa fa-remove"></i>
+        </div>
+        
+            <h4 id="about-card-name">Yueh-Hua Tu</h4>
+        
+            <div id="about-card-bio"><p>Aim to be a computational biologist!</br>Systems Biology, Computational Biology, Machine Learning</br>Organizer of Julia Taiwan community</p>
+</div>
+        
+        
+            <div id="about-card-job">
+                <i class="fa fa-briefcase"></i>
+                <br/>
+                <p>Research assistant, Taiwan CDC</p>
+
+            </div>
+        
+        
+            <div id="about-card-location">
+                <i class="fa fa-map-marker"></i>
+                <br/>
+                Taiwan
+            </div>
+        
+    </div>
+</div>
+
+        
+        
+<div id="cover" style="background-image:url('/assets/images/cover.jpg');"></div>
+        <!--SCRIPTS-->
+<script src="/assets/js/script-xzfezjobyekpxrjktw5tz6muvzqfsbmo5n6atk3p5om9ulfptldi3p7cyqd8.min.js"></script>
+<!--SCRIPTS END-->
+
+    
+        <script>
+             var disqus_config = function () {
+                 this.page.url = 'https://yuehhua.github.io/2018/10/16/16-representation-learning/';
+                 
+                    this.page.identifier = '2018/10/16/16-representation-learning/';
+                 
+             };
+            (function() {
+                var d = document, s = d.createElement('script');
+                var disqus_shortname = 'dream-maker';
+                s.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+
+                s.setAttribute('data-timestamp', +new Date());
+                (d.head || d.body).appendChild(s);
+            })();
+        </script>
+    
+
+
+
+    <script type="text/x-mathjax-config">
+    MathJax.Hub.Config({
+        tex2jax: {
+            inlineMath: [ ["$","$"], ["\\(","\\)"] ],
+            skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code'],
+            processEscapes: true
+        }
+    });
+    MathJax.Hub.Queue(function() {
+        var all = MathJax.Hub.getAllJax();
+        for (var i = 0; i < all.length; ++i)
+            all[i].SourceElement().parentNode.className += ' has-jax';
+    });
+</script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script><!-- hexo-inject:begin --><!-- hexo-inject:end -->
+
+</body>
+</html>
