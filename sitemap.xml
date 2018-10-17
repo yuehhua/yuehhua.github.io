@@ -2,9 +2,23 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   
   <url>
+    <loc>https://yuehhua.github.io/2018/10/17/17-autoencoder/</loc>
+    
+    <lastmod>2018-10-17T14:36:06.188Z</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>https://yuehhua.github.io/2018/10/08/08-l2-regularized-linear-model/</loc>
+    
+    <lastmod>2018-10-16T17:13:42.913Z</lastmod>
+    
+  </url>
+  
+  <url>
     <loc>https://yuehhua.github.io/2018/10/16/16-representation-learning/</loc>
     
-    <lastmod>2018-10-16T15:30:34.868Z</lastmod>
+    <lastmod>2018-10-16T15:32:43.024Z</lastmod>
     
   </url>
   
@@ -68,13 +82,6 @@
     <loc>https://yuehhua.github.io/2018/10/09/09-from-linear-regression-to-logistic-regression/</loc>
     
     <lastmod>2018-10-15T07:04:15.957Z</lastmod>
-    
-  </url>
-  
-  <url>
-    <loc>https://yuehhua.github.io/2018/10/08/08-l2-regularized-linear-model/</loc>
-    
-    <lastmod>2018-10-15T07:04:07.801Z</lastmod>
     
   </url>
   

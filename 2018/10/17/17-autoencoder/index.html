@@ -6,7 +6,7 @@
     <!-- hexo-inject:begin --><!-- hexo-inject:end --><meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="generator" content="Dream Maker">
-    <title>08 l2-regularized 線性模型 - Dream Maker</title>
+    <title>17 Autoencoder - Dream Maker</title>
     <meta name="author" content="Yueh-Hua Tu">
     
         <meta name="keywords" content="machine learning,deep learning,topology,">
@@ -15,19 +15,19 @@
     
         <link rel="alternate" type="application/atom+xml" title="RSS" href="/atom.xml">
     
-    <script type="application/ld+json">{"@context":"http://schema.org","@type":"BlogPosting","author":{"@type":"Person","name":"Yueh-Hua Tu","sameAs":["https://github.com/yuehhua/","https://www.facebook.com/a504082002","https://www.linkedin.com/in/%E5%B2%B3%E8%8F%AF-%E6%9D%9C-6a3995a0/","mailto:a504082002@gmail.com"],"image":"https://www.gravatar.com/avatar/a565749fba4782b717234da670b273fd"},"articleBody":"我們來回顧一下 SVM 模型。\n\n$$\\begin{align}\\mathop{\\arg\\min}_{\\mathbf{w}, b, \\boldsymbol{\\xi}} &amp;\\ \\ \\ \\    \\frac{1}{2} \\mathbf{w}^T\\mathbf{w} + C \\sum _{n=1}^N \\xi_n \\\\\\text{subject to} &amp;\\ \\ \\ \\    \\forall i, y_i (\\mathbf{w}^T\\mathbf{x_i} + b) \\ge 1 - \\xi_n \\\\\\text{ } &amp;\\ \\ \\ \\    \\forall n, \\xi_n \\ge 0\\end{align}$$\n他可以被進一步轉成\n$$\\begin{align}\\mathop{\\arg\\min}_{\\mathbf{w}, b} &amp;\\ \\ \\ \\    \\frac{1}{2} \\mathbf{w}^T\\mathbf{w} + C \\sum _{n=1}^N max(1 - y_i (\\mathbf{w}^T\\mathbf{x_i} + b), 0) \\\\\\end{align}$$\n在 SVM 的陳述當中，有沒有發現 $\\frac{1}{2} \\mathbf{w}^T\\mathbf{w}$ 這部份看起來跟 $l_2$ regularization 一樣。後半部份是跟誤差有關。\n如果分類分對的話，$y_i (\\mathbf{w}^T\\mathbf{x_i} + b)$ 就會是大於等於 1，這樣的話後面整項計算起來就會是 0。\n如果分類分對但是離線太近的話，$y_i (\\mathbf{w}^T\\mathbf{x_i} + b)$ 就會是小於 1，這樣後面整項會是一個小於 1 的值，代表離線太近了，算是些微的誤差。\n如果分類都分錯，$y_i (\\mathbf{w}^T\\mathbf{x_i} + b)$ 根本就是負值，後面整項會是一個大於 1 的值，代表離線太遠了，算是很大的誤差。\nHinge error這樣的誤差計算方式稱為 hinge error，也就是：\n$$E(y, \\hat{y}) = max(1 - y\\hat{y}, 0)$$\n$l_2$ -regularized linear model所以我們根本可以把模型看成是一個 $l_2$ -regularized 的線性模型。\n$$\\mathop{\\arg\\min}_{\\mathbf{w}, b} \\frac{1}{2} \\mathbf{w}^T\\mathbf{w} + C \\sum _{n=1}^N E(y, \\hat{y})$$\n不懂 regulariztion 的朋友請左轉 我之前寫過的鐵人文章。\n基本上，你想把誤差函數換成其他的東西都可以，像是變成 kernel $l_2$ -regularized linear regression (kernel ridge regression)。\n$$y = \\mathbf{w}^T\\phi(\\mathbf{x}) + b \\\\E(y, \\hat{y}) = \\frac{1}{N} (y - \\hat{y})^2 \\\\\\mathop{\\arg\\min}_{\\mathbf{w}, b} \\frac{1}{2} \\mathbf{w}^T\\mathbf{w} + C \\sum _{n=1}^N E(y, \\hat{y})$$\n或是你想要 kernel $l_2$ -regularized logistic regression。\n$$y = \\mathbf{w}^T\\phi(\\mathbf{x}) + b \\\\E(y, \\hat{y}) = \\frac{1}{N} log(1 + exp(-y\\hat{y})) \\\\\\mathop{\\arg\\min}_{\\mathbf{w}, b} \\frac{1}{2} \\mathbf{w}^T\\mathbf{w} + C \\sum _{n=1}^N E(y, \\hat{y})$$\n整理\n\n\n\nhinge error\nleast square error\n\n\n\n\nregression\nSVR ($\\epsilon$-insensitive error)\nkernel ridge regression\n\n\n\n$$ \\mathop{\\arg\\min} \\frac{1}{2} \\mathbf{w}^T\\mathbf{w} + C\\sum _{i=1}^N (\\zeta_i + \\zeta_i’) $$\n$$ \\mathop{\\arg\\min} \\frac{1}{N} \\sum _{i=1}^N (\\mathbf{w}^T\\phi(\\mathbf{x}_i) + b - y_i)^2 + \\frac{\\lambda}{2} \\mathbf{w}^T\\mathbf{w} $$\n\n\nclassification\nsoft-margin SVM\nLSSVM\n\n\n\n$$ \\mathop{\\arg\\min} \\frac{1}{2} \\mathbf{w}^T\\mathbf{w} + C\\sum _{i=1}^N \\zeta_i $$\n$$ \\mathop{\\arg\\min} \\frac{1}{2} \\mathbf{w}^T\\mathbf{w} + C\\sum _{i=1}^N (1 - y_i(\\mathbf{w}^T\\phi(\\mathbf{x}_i) + b))^2 $$\n\n\n\nSVR:\n$$\\zeta_i = max(y_i - (\\mathbf{w}^T\\phi(\\mathbf{x}_i) + b) - \\epsilon, 0) \\\\\\zeta_i’ = max((\\mathbf{w}^T\\phi(\\mathbf{x}_i) + b) - y_i - \\epsilon, 0)$$\nsoft-margin SVM：\n$$\\zeta_i = max(1 - y_i(\\mathbf{w}^T\\phi(\\mathbf{x}_i) + b), 0)$$\nRepresenter theorem","dateCreated":"2018-10-08T23:06:37+08:00","dateModified":"2018-10-17T01:13:42+08:00","datePublished":"2018-10-08T23:06:37+08:00","description":"我們來回顧一下 SVM 模型。","headline":"08 l2-regularized 線性模型","image":[],"mainEntityOfPage":{"@type":"WebPage","@id":"https://yuehhua.github.io/2018/10/08/08-l2-regularized-linear-model/"},"publisher":{"@type":"Organization","name":"Yueh-Hua Tu","sameAs":["https://github.com/yuehhua/","https://www.facebook.com/a504082002","https://www.linkedin.com/in/%E5%B2%B3%E8%8F%AF-%E6%9D%9C-6a3995a0/","mailto:a504082002@gmail.com"],"image":"https://www.gravatar.com/avatar/a565749fba4782b717234da670b273fd","logo":{"@type":"ImageObject","url":"https://www.gravatar.com/avatar/a565749fba4782b717234da670b273fd"}},"url":"https://yuehhua.github.io/2018/10/08/08-l2-regularized-linear-model/"}</script>
-    <meta name="description" content="我們來回顧一下 SVM 模型。">
+    <script type="application/ld+json">{"@context":"http://schema.org","@type":"BlogPosting","author":{"@type":"Person","name":"Yueh-Hua Tu","sameAs":["https://github.com/yuehhua/","https://www.facebook.com/a504082002","https://www.linkedin.com/in/%E5%B2%B3%E8%8F%AF-%E6%9D%9C-6a3995a0/","mailto:a504082002@gmail.com"],"image":"https://www.gravatar.com/avatar/a565749fba4782b717234da670b273fd"},"articleBody":"既然前一篇提到學習特徵是一件重要的事，那麼我們就來講講 autoencoder 吧！\nAutoencoder 就是一個 unsupervised 方法，試圖學習出可以用的特徵。雖然不少人可能會說他是一個壓縮的方法或是一個降維的方法，其實他都是。\nAutoencoder 就是希望給一個 input ，經過轉換之後會成為一個新的、維度比較低的向量，並且可以再由這個向量透過轉換還原成原本的 input。既然低維的向量可以還原成 input 的樣子，那代表他含有足夠的資訊可以還原，所以你可以把他看成是一種壓縮或是降維。我想強調的是，autoencoder 可以將一個 input 的樣子轉換成一個新的表示方式，我們就可以用新的視角來看待他。\n模型Autoencoder 算是一個非常簡單的模型，他就是將資料向量經過一個轉換過後成為新的向量，在讓新的向量經過轉換過後還原成原本的向量。\n抽象上來說比較像是：\n$$X \\rightarrow Z \\rightarrow X$$\nAutoencoder 可以被拆解成兩個部份：一個是 encoder $X \\rightarrow Z$，另一個是 decoder $Z \\rightarrow X$ 的部份。\n在這個架構上 encoder-decoder 是相接在一起做訓練的。\n最簡單的 autoencoder 在 encoder 跟 decoder 上各自都只有一層，當然你可以不只一層，取決於你自己的狀況。\n他是一個非常簡單的架構，所以有非常多的變體，像是 denoising autoencoder、sparse autoencoder、variational autoencoder…等等。\n每個都有自己獨特的用法，所以這是一個非常基礎的模型。\n","dateCreated":"2018-10-17T22:36:06+08:00","dateModified":"2018-10-17T22:36:06+08:00","datePublished":"2018-10-17T22:36:06+08:00","description":"","headline":"17 Autoencoder","image":[],"mainEntityOfPage":{"@type":"WebPage","@id":"https://yuehhua.github.io/2018/10/17/17-autoencoder/"},"publisher":{"@type":"Organization","name":"Yueh-Hua Tu","sameAs":["https://github.com/yuehhua/","https://www.facebook.com/a504082002","https://www.linkedin.com/in/%E5%B2%B3%E8%8F%AF-%E6%9D%9C-6a3995a0/","mailto:a504082002@gmail.com"],"image":"https://www.gravatar.com/avatar/a565749fba4782b717234da670b273fd","logo":{"@type":"ImageObject","url":"https://www.gravatar.com/avatar/a565749fba4782b717234da670b273fd"}},"url":"https://yuehhua.github.io/2018/10/17/17-autoencoder/"}</script>
+    <meta name="description" content="既然前一篇提到學習特徵是一件重要的事，那麼我們就來講講 autoencoder 吧！ Autoencoder 就是一個 unsupervised 方法，試圖學習出可以用的特徵。雖然不少人可能會說他是一個壓縮的方法或是一個降維的方法，其實他都是。 Autoencoder 就是希望給一個 input ，經過轉換之後會成為一個新的、維度比較低的向量，並且可以再由這個向量透過轉換還原成原本的 input。">
 <meta name="keywords" content="machine learning,deep learning,topology">
 <meta property="og:type" content="blog">
-<meta property="og:title" content="08 l2-regularized 線性模型">
-<meta property="og:url" content="https://yuehhua.github.io/2018/10/08/08-l2-regularized-linear-model/index.html">
+<meta property="og:title" content="17 Autoencoder">
+<meta property="og:url" content="https://yuehhua.github.io/2018/10/17/17-autoencoder/index.html">
 <meta property="og:site_name" content="Dream Maker">
-<meta property="og:description" content="我們來回顧一下 SVM 模型。">
+<meta property="og:description" content="既然前一篇提到學習特徵是一件重要的事，那麼我們就來講講 autoencoder 吧！ Autoencoder 就是一個 unsupervised 方法，試圖學習出可以用的特徵。雖然不少人可能會說他是一個壓縮的方法或是一個降維的方法，其實他都是。 Autoencoder 就是希望給一個 input ，經過轉換之後會成為一個新的、維度比較低的向量，並且可以再由這個向量透過轉換還原成原本的 input。">
 <meta property="og:locale" content="en">
-<meta property="og:updated_time" content="2018-10-16T17:13:42.913Z">
+<meta property="og:updated_time" content="2018-10-17T14:36:06.188Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="08 l2-regularized 線性模型">
-<meta name="twitter:description" content="我們來回顧一下 SVM 模型。">
+<meta name="twitter:title" content="17 Autoencoder">
+<meta name="twitter:description" content="既然前一篇提到學習特徵是一件重要的事，那麼我們就來講講 autoencoder 吧！ Autoencoder 就是一個 unsupervised 方法，試圖學習出可以用的特徵。雖然不少人可能會說他是一個壓縮的方法或是一個降維的方法，其實他都是。 Autoencoder 就是希望給一個 input ，經過轉換之後會成為一個新的、維度比較低的向量，並且可以再由這個向量透過轉換還原成原本的 input。">
     
     
         
@@ -238,14 +238,14 @@
                     <div class="post-header main-content-wrap text-left">
     
         <h1 class="post-title">
-            08 l2-regularized 線性模型
+            17 Autoencoder
         </h1>
     
     
         <div class="post-meta">
-    <time datetime="2018-10-08T23:06:37+08:00">
+    <time datetime="2018-10-17T22:36:06+08:00">
 	
-		    Oct 08, 2018
+		    Oct 17, 2018
     	
     </time>
     
@@ -263,60 +263,18 @@
                         
                             <div class="post-content markdown">
                                 <div class="main-content-wrap">
-                                    <p>我們來回顧一下 SVM 模型。</p>
-<a id="more"></a>
-<p>$$<br>\begin{align}<br>\mathop{\arg\min}_{\mathbf{w}, b, \boldsymbol{\xi}} &amp;\ \ \ \<br>    \frac{1}{2} \mathbf{w}^T\mathbf{w} + C \sum _{n=1}^N \xi_n \\<br>\text{subject to} &amp;\ \ \ \<br>    \forall i, y_i (\mathbf{w}^T\mathbf{x_i} + b) \ge 1 - \xi_n \\<br>\text{ } &amp;\ \ \ \<br>    \forall n, \xi_n \ge 0<br>\end{align}<br>$$</p>
-<p>他可以被進一步轉成</p>
-<p>$$<br>\begin{align}<br>\mathop{\arg\min}_{\mathbf{w}, b} &amp;\ \ \ \<br>    \frac{1}{2} \mathbf{w}^T\mathbf{w} + C \sum _{n=1}^N max(1 - y_i (\mathbf{w}^T\mathbf{x_i} + b), 0) \\<br>\end{align}<br>$$</p>
-<p>在 SVM 的陳述當中，有沒有發現 $\frac{1}{2} \mathbf{w}^T\mathbf{w}$ 這部份看起來跟 $l_2$ regularization 一樣。後半部份是跟誤差有關。</p>
-<p>如果分類分對的話，$y_i (\mathbf{w}^T\mathbf{x_i} + b)$ 就會是大於等於 1，這樣的話後面整項計算起來就會是 0。</p>
-<p>如果分類分對但是離線太近的話，$y_i (\mathbf{w}^T\mathbf{x_i} + b)$ 就會是小於 1，這樣後面整項會是一個小於 1 的值，代表離線太近了，算是些微的誤差。</p>
-<p>如果分類都分錯，$y_i (\mathbf{w}^T\mathbf{x_i} + b)$ 根本就是負值，後面整項會是一個大於 1 的值，代表離線太遠了，算是很大的誤差。</p>
-<h2 id="Hinge-error"><a href="#Hinge-error" class="headerlink" title="Hinge error"></a>Hinge error</h2><p>這樣的誤差計算方式稱為 hinge error，也就是：</p>
-<p>$$<br>E(y, \hat{y}) = max(1 - y\hat{y}, 0)<br>$$</p>
-<h2 id="l-2-regularized-linear-model"><a href="#l-2-regularized-linear-model" class="headerlink" title="$l_2$ -regularized linear model"></a>$l_2$ -regularized linear model</h2><p>所以我們根本可以把模型看成是一個 $l_2$ -regularized 的線性模型。</p>
-<p>$$<br>\mathop{\arg\min}_{\mathbf{w}, b} \frac{1}{2} \mathbf{w}^T\mathbf{w} + C \sum _{n=1}^N E(y, \hat{y})<br>$$</p>
-<p>不懂 regulariztion 的朋友請左轉 <a href="https://ithelp.ithome.com.tw/articles/10186405" target="_blank" rel="noopener">我之前寫過的鐵人文章</a>。</p>
-<p>基本上，你想把誤差函數換成其他的東西都可以，像是變成 kernel $l_2$ -regularized linear regression (kernel ridge regression)。</p>
-<p>$$<br>y = \mathbf{w}^T\phi(\mathbf{x}) + b \\<br>E(y, \hat{y}) = \frac{1}{N} (y - \hat{y})^2 \\<br>\mathop{\arg\min}_{\mathbf{w}, b} \frac{1}{2} \mathbf{w}^T\mathbf{w} + C \sum _{n=1}^N E(y, \hat{y})<br>$$</p>
-<p>或是你想要 kernel $l_2$ -regularized logistic regression。</p>
-<p>$$<br>y = \mathbf{w}^T\phi(\mathbf{x}) + b \\<br>E(y, \hat{y}) = \frac{1}{N} log(1 + exp(-y\hat{y})) \\<br>\mathop{\arg\min}_{\mathbf{w}, b} \frac{1}{2} \mathbf{w}^T\mathbf{w} + C \sum _{n=1}^N E(y, \hat{y})<br>$$</p>
-<h2 id="整理"><a href="#整理" class="headerlink" title="整理"></a>整理</h2><table>
-<thead>
-<tr>
-<th></th>
-<th>hinge error</th>
-<th>least square error</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>regression</td>
-<td>SVR ($\epsilon$-insensitive error)</td>
-<td>kernel ridge regression</td>
-</tr>
-<tr>
-<td></td>
-<td>$$ \mathop{\arg\min} \frac{1}{2} \mathbf{w}^T\mathbf{w} + C\sum _{i=1}^N (\zeta_i + \zeta_i’) $$</td>
-<td>$$ \mathop{\arg\min} \frac{1}{N} \sum _{i=1}^N (\mathbf{w}^T\phi(\mathbf{x}_i) + b - y_i)^2 + \frac{\lambda}{2} \mathbf{w}^T\mathbf{w} $$</td>
-</tr>
-<tr>
-<td>classification</td>
-<td>soft-margin SVM</td>
-<td>LSSVM</td>
-</tr>
-<tr>
-<td></td>
-<td>$$ \mathop{\arg\min} \frac{1}{2} \mathbf{w}^T\mathbf{w} + C\sum _{i=1}^N \zeta_i $$</td>
-<td>$$ \mathop{\arg\min} \frac{1}{2} \mathbf{w}^T\mathbf{w} + C\sum _{i=1}^N (1 - y_i(\mathbf{w}^T\phi(\mathbf{x}_i) + b))^2 $$</td>
-</tr>
-</tbody>
-</table>
-<p>SVR:</p>
-<p>$$<br>\zeta_i = max(y_i - (\mathbf{w}^T\phi(\mathbf{x}_i) + b) - \epsilon, 0) \\<br>\zeta_i’ = max((\mathbf{w}^T\phi(\mathbf{x}_i) + b) - y_i - \epsilon, 0)<br>$$</p>
-<p>soft-margin SVM：</p>
-<p>$$<br>\zeta_i = max(1 - y_i(\mathbf{w}^T\phi(\mathbf{x}_i) + b), 0)<br>$$</p>
-<h2 id="Representer-theorem"><a href="#Representer-theorem" class="headerlink" title="Representer theorem"></a>Representer theorem</h2>
+                                    <p>既然前一篇提到學習特徵是一件重要的事，那麼我們就來講講 autoencoder 吧！</p>
+<p>Autoencoder 就是一個 unsupervised 方法，試圖學習出可以用的特徵。雖然不少人可能會說他是一個壓縮的方法或是一個降維的方法，其實他都是。</p>
+<p>Autoencoder 就是希望給一個 input ，經過轉換之後會成為一個新的、維度比較低的向量，並且可以再由這個向量透過轉換還原成原本的 input。既然低維的向量可以還原成 input 的樣子，那代表他含有足夠的資訊可以還原，所以你可以把他看成是一種壓縮或是降維。我想強調的是，autoencoder 可以將一個 input 的樣子轉換成一個新的表示方式，我們就可以用新的視角來看待他。</p>
+<h2 id="模型"><a href="#模型" class="headerlink" title="模型"></a>模型</h2><p>Autoencoder 算是一個非常簡單的模型，他就是將資料向量經過一個轉換過後成為新的向量，在讓新的向量經過轉換過後還原成原本的向量。</p>
+<p>抽象上來說比較像是：</p>
+<p>$$<br>X \rightarrow Z \rightarrow X<br>$$</p>
+<p>Autoencoder 可以被拆解成兩個部份：一個是 encoder $X \rightarrow Z$，另一個是 decoder $Z \rightarrow X$ 的部份。</p>
+<p>在這個架構上 encoder-decoder 是相接在一起做訓練的。</p>
+<p>最簡單的 autoencoder 在 encoder 跟 decoder 上各自都只有一層，當然你可以不只一層，取決於你自己的狀況。</p>
+<p>他是一個非常簡單的架構，所以有非常多的變體，像是 denoising autoencoder、sparse autoencoder、variational autoencoder…等等。</p>
+<p>每個都有自己獨特的用法，所以這是一個非常基礎的模型。</p>
+
                                         
 
                                 </div>
@@ -329,8 +287,7 @@
         <ul class="post-actions post-action-nav">
             <li class="post-action">
                 
-                    
-                    <a class="post-action-btn btn btn--default tooltip--top" href="/2018/10/09/09-from-linear-regression-to-logistic-regression/" data-tooltip="09 從線性迴歸到羅吉斯迴歸" aria-label="PREVIOUS: 09 從線性迴歸到羅吉斯迴歸">
+                    <a class="post-action-btn btn btn--disabled">
                 
                     <i class="fa fa-angle-left" aria-hidden="true"></i>
                     <span class="hide-xs hide-sm text-small icon-ml">PREVIOUS</span>
@@ -339,7 +296,7 @@
             <li class="post-action">
                 
                     
-                    <a class="post-action-btn btn btn--default tooltip--top" href="/2018/10/07/07-standard-svm/" data-tooltip="07 標準 SVM" aria-label="NEXT: 07 標準 SVM">
+                    <a class="post-action-btn btn btn--default tooltip--top" href="/2018/10/16/16-representation-learning/" data-tooltip="16 Representation learning" aria-label="NEXT: 16 Representation learning">
                 
                     <span class="hide-xs hide-sm text-small icon-mr">NEXT</span>
                     <i class="fa fa-angle-right" aria-hidden="true"></i>
@@ -357,7 +314,7 @@
             
             
             <li class="post-action hide-xs">
-                <a class="post-action-btn btn btn--default" target="new" href="https://www.facebook.com/sharer/sharer.php?u=https://yuehhua.github.io/2018/10/08/08-l2-regularized-linear-model/" title="Share on Facebook">
+                <a class="post-action-btn btn btn--default" target="new" href="https://www.facebook.com/sharer/sharer.php?u=https://yuehhua.github.io/2018/10/17/17-autoencoder/" title="Share on Facebook">
                     <i class="fa fa-facebook-official" aria-hidden="true"></i>
                 </a>
             </li>
@@ -415,8 +372,7 @@
         <ul class="post-actions post-action-nav">
             <li class="post-action">
                 
-                    
-                    <a class="post-action-btn btn btn--default tooltip--top" href="/2018/10/09/09-from-linear-regression-to-logistic-regression/" data-tooltip="09 從線性迴歸到羅吉斯迴歸" aria-label="PREVIOUS: 09 從線性迴歸到羅吉斯迴歸">
+                    <a class="post-action-btn btn btn--disabled">
                 
                     <i class="fa fa-angle-left" aria-hidden="true"></i>
                     <span class="hide-xs hide-sm text-small icon-ml">PREVIOUS</span>
@@ -425,7 +381,7 @@
             <li class="post-action">
                 
                     
-                    <a class="post-action-btn btn btn--default tooltip--top" href="/2018/10/07/07-standard-svm/" data-tooltip="07 標準 SVM" aria-label="NEXT: 07 標準 SVM">
+                    <a class="post-action-btn btn btn--default tooltip--top" href="/2018/10/16/16-representation-learning/" data-tooltip="16 Representation learning" aria-label="NEXT: 16 Representation learning">
                 
                     <span class="hide-xs hide-sm text-small icon-mr">NEXT</span>
                     <i class="fa fa-angle-right" aria-hidden="true"></i>
@@ -443,7 +399,7 @@
             
             
             <li class="post-action hide-xs">
-                <a class="post-action-btn btn btn--default" target="new" href="https://www.facebook.com/sharer/sharer.php?u=https://yuehhua.github.io/2018/10/08/08-l2-regularized-linear-model/" title="Share on Facebook">
+                <a class="post-action-btn btn btn--default" target="new" href="https://www.facebook.com/sharer/sharer.php?u=https://yuehhua.github.io/2018/10/17/17-autoencoder/" title="Share on Facebook">
                     <i class="fa fa-facebook-official" aria-hidden="true"></i>
                 </a>
             </li>
@@ -476,7 +432,7 @@
             
             
             <li class="share-option">
-                <a class="share-option-btn" target="new" href="https://www.facebook.com/sharer/sharer.php?u=https://yuehhua.github.io/2018/10/08/08-l2-regularized-linear-model/">
+                <a class="share-option-btn" target="new" href="https://www.facebook.com/sharer/sharer.php?u=https://yuehhua.github.io/2018/10/17/17-autoencoder/">
                     <i class="fa fa-facebook-official" aria-hidden="true"></i><span>Share on Facebook</span>
                 </a>
             </li>
@@ -528,9 +484,9 @@
     
         <script>
              var disqus_config = function () {
-                 this.page.url = 'https://yuehhua.github.io/2018/10/08/08-l2-regularized-linear-model/';
+                 this.page.url = 'https://yuehhua.github.io/2018/10/17/17-autoencoder/';
                  
-                    this.page.identifier = '2018/10/08/08-l2-regularized-linear-model/';
+                    this.page.identifier = '2018/10/17/17-autoencoder/';
                  
              };
             (function() {

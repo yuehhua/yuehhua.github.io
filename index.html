@@ -230,6 +230,65 @@
                 <section class="postShorten-group main-content-wrap">
     
     
+    <article class="postShorten postShorten--thumbnailimg-bottom">
+        <div class="postShorten-wrap">
+            
+            <div class="postShorten-header">
+                <h1 class="postShorten-title">
+                    
+                        <a class="link-unstyled" href="/2018/10/17/17-autoencoder/">
+                            17 Autoencoder
+                        </a>
+                    
+                </h1>
+                <div class="postShorten-meta">
+    <time datetime="2018-10-17T22:36:06+08:00">
+	
+		    Oct 17, 2018
+    	
+    </time>
+    
+        <span>in </span>
+        
+    <a class="category-link" href="/categories/Machine-Learning/">Machine Learning</a>, <a class="category-link" href="/categories/Machine-Learning/機器學習模型圖書館：從傳統模型到深度學習/">機器學習模型圖書館：從傳統模型到深度學習</a>
+
+
+    
+</div>
+
+            </div>
+            
+                <div class="postShorten-content">
+                    <p>既然前一篇提到學習特徵是一件重要的事，那麼我們就來講講 autoencoder 吧！</p>
+<p>Autoencoder 就是一個 unsupervised 方法，試圖學習出可以用的特徵。雖然不少人可能會說他是一個壓縮的方法或是一個降維的方法，其實他都是。</p>
+<p>Autoencoder 就是希望給一個 input ，經過轉換之後會成為一個新的、維度比較低的向量，並且可以再由這個向量透過轉換還原成原本的 input。既然低維的向量可以還原成 input 的樣子，那代表他含有足夠的資訊可以還原，所以你可以把他看成是一種壓縮或是降維。我想強調的是，autoencoder 可以將一個 input 的樣子轉換成一個新的表示方式，我們就可以用新的視角來看待他。</p>
+<h2 id="模型"><a href="#模型" class="headerlink" title="模型"></a>模型</h2><p>Autoencoder 算是一個非常簡單的模型，他就是將資料向量經過一個轉換過後成為新的向量，在讓新的向量經過轉換過後還原成原本的向量。</p>
+<p>抽象上來說比較像是：</p>
+<p>$$<br>X \rightarrow Z \rightarrow X<br>$$</p>
+<p>Autoencoder 可以被拆解成兩個部份：一個是 encoder $X \rightarrow Z$，另一個是 decoder $Z \rightarrow X$ 的部份。</p>
+<p>在這個架構上 encoder-decoder 是相接在一起做訓練的。</p>
+<p>最簡單的 autoencoder 在 encoder 跟 decoder 上各自都只有一層，當然你可以不只一層，取決於你自己的狀況。</p>
+<p>他是一個非常簡單的架構，所以有非常多的變體，像是 denoising autoencoder、sparse autoencoder、variational autoencoder…等等。</p>
+<p>每個都有自己獨特的用法，所以這是一個非常基礎的模型。</p>
+
+                    
+                        
+
+                    
+                    
+                        <p>
+                            <a href="/2018/10/17/17-autoencoder/#post-footer" class="postShorten-excerpt_link link">
+                                Comment and share
+                            </a>
+                        </p>
+                    
+                </div>
+            
+        </div>
+        
+    </article>
+    
+    
     <article class="postShorten postShorten--thumbnailimg-right">
         <div class="postShorten-wrap">
             
@@ -619,50 +678,6 @@
                     <p>我們來回顧一下 SVM 模型。</p>
                     
                         <a href="/2018/10/08/08-l2-regularized-linear-model/" class="postShorten-excerpt_link link">
-                            Continue reading
-                        </a>
-                        
-                    
-                </div>
-            
-        </div>
-        
-    </article>
-    
-    
-    <article class="postShorten postShorten--thumbnailimg-right">
-        <div class="postShorten-wrap">
-            
-            <div class="postShorten-header">
-                <h1 class="postShorten-title">
-                    
-                        <a class="link-unstyled" href="/2018/10/07/07-standard-svm/">
-                            07 標準 SVM
-                        </a>
-                    
-                </h1>
-                <div class="postShorten-meta">
-    <time datetime="2018-10-07T17:20:54+08:00">
-	
-		    Oct 07, 2018
-    	
-    </time>
-    
-        <span>in </span>
-        
-    <a class="category-link" href="/categories/Machine-Learning/">Machine Learning</a>, <a class="category-link" href="/categories/Machine-Learning/機器學習模型圖書館：從傳統模型到深度學習/">機器學習模型圖書館：從傳統模型到深度學習</a>
-
-
-    
-</div>
-
-            </div>
-            
-                <div class="postShorten-excerpt">
-                    <p>雖然標題是說”標準” SVM，不過模型這種東西從來就沒有什麼標準，有的不過是變體。</p>
-<p>所以這篇是要跟大家總結一下我們一般在用的 SVM 模型的預設值是長什麼樣子。</p>
-                    
-                        <a href="/2018/10/07/07-standard-svm/" class="postShorten-excerpt_link link">
                             Continue reading
                         </a>
                         
