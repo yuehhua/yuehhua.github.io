@@ -2,6 +2,34 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   
   <url>
+    <loc>https://yuehhua.github.io/2018/10/17/19-convolution-operation/</loc>
+    
+    <lastmod>2018-10-18T13:45:31.881Z</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>https://yuehhua.github.io/2018/10/17/20-convolutional-neural-network/</loc>
+    
+    <lastmod>2018-10-17T14:58:40.101Z</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>https://yuehhua.github.io/2018/10/17/18-multi-layer-preceptron/</loc>
+    
+    <lastmod>2018-10-17T14:58:18.099Z</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>https://yuehhua.github.io/2018/07/21/why-mlp/</loc>
+    
+    <lastmod>2018-10-17T14:49:12.444Z</lastmod>
+    
+  </url>
+  
+  <url>
     <loc>https://yuehhua.github.io/2018/10/17/17-autoencoder/</loc>
     
     <lastmod>2018-10-17T14:36:06.188Z</lastmod>
@@ -187,13 +215,6 @@
     <loc>https://yuehhua.github.io/2018/07/27/activation-function/</loc>
     
     <lastmod>2018-07-27T03:17:56.344Z</lastmod>
-    
-  </url>
-  
-  <url>
-    <loc>https://yuehhua.github.io/2018/07/21/why-mlp/</loc>
-    
-    <lastmod>2018-07-26T05:31:37.264Z</lastmod>
     
   </url>
   

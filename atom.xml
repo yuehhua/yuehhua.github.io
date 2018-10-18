@@ -6,7 +6,7 @@
   <link href="/atom.xml" rel="self"/>
   
   <link href="https://yuehhua.github.io/"/>
-  <updated>2018-10-17T14:36:06.188Z</updated>
+  <updated>2018-10-17T14:58:40.101Z</updated>
   <id>https://yuehhua.github.io/</id>
   
   <author>
@@ -15,6 +15,76 @@
   </author>
   
   <generator uri="http://hexo.io/">Hexo</generator>
+  
+  <entry>
+    <title>20 Convolutional neural network</title>
+    <link href="https://yuehhua.github.io/2018/10/17/20-convolutional-neural-network/"/>
+    <id>https://yuehhua.github.io/2018/10/17/20-convolutional-neural-network/</id>
+    <published>2018-10-17T14:58:40.000Z</published>
+    <updated>2018-10-17T14:58:40.101Z</updated>
+    
+    <content type="html"><![CDATA[<h2 id="Convolution-layer"><a href="#Convolution-layer" class="headerlink" title="Convolution layer"></a>Convolution layer</h2><p>這邊我們回到我們的 convolution layer，如果把以上的一維向量拓展到二維的矩陣資料會長什麼樣子呢？</p><p>我們先來看二維的 cross-correlation 長什麼樣子。</p><a id="more"></a><p><img src="/images/ccor2d.svg" alt=""></p><p>然後是反序的 convolution。</p><p><img src="/images/conv2d.svg" alt=""></p><p>這樣有沒有搞懂一點 convolution 的運算了呢？</p><p>接著，想像在右手邊比較小的方框就是你的 filter （或是 kernel），然後他會沿著兩個軸去移動，去掃描看看有沒有跟 filter 的 pattern 很像的，當他偵測到很像的 pattern 的時候，輸出的 feature map 的值就會很高，所以這樣就可以做到上面講的第二點，也就是位移的不變性。不過說起來也不是真的有什麼位移不變性啦！他只是沿著軸去做掃描可以減少訓練的參數，這樣 filter 還是有在位移阿！只是對於要偵測的 pattern 看起來好像有”位移不變性”一樣。到這邊我們第一點跟第二點都解決了，剩下第三點。</p><h2 id="Subsampling"><a href="#Subsampling" class="headerlink" title="Subsampling"></a>Subsampling</h2><p>跟第三點相關的就是 subsampling，也就是如果讓圖片變小，不只可以降低要辨識的區塊大小，還可以降低需要訓練的參數量。那要怎麼讓圖片變小？</p><p>Maxpooling 是目前主流的方法，也就是在一個 window 的範圍內去找最大值，只保留最大值。還有一種是 meanpooling，顧名思義，他取整個 window 的平均值作為保留值。</p><p>所以 subsampling 在一些應用場景是需要的，有些是不需要的，像是有些 pattern 的辨識是不能去除細節的，一旦去除細節就會造成辨識困難，那就代表他沒有辦法用 subsampling。有時候照片縮小到一定程度人類也會無法辨識當中的圖像是什麼，所以也不要用過頭。</p><h2 id="Feature-extractor-classifier-架構"><a href="#Feature-extractor-classifier-架構" class="headerlink" title="Feature extractor-classifier 架構"></a>Feature extractor-classifier 架構</h2><p>經過以上介紹後，我們可以把 convolution layer 跟 subsampling 結合起來，成為所謂的 feature extractor。</p><p>經由以上三點特性，這些 layer 的巧妙運用可以是非常棒的 feature extractor。不同種的資料特性需要不同設計的 feature extractor，接下來就是 classifier 上場了。</p><p>典型的 classifier 可以是 SVM，或是要用比較潮的 deep learning 也可以，最單純的就是前一篇提到的 MLP 了。</p><p>這樣前後組合好就是個 CNN 的雛型了！</p><h2 id="MLP-做不好的事情"><a href="#MLP-做不好的事情" class="headerlink" title="MLP 做不好的事情"></a>MLP 做不好的事情</h2><p>前一篇我們有提到 MLP 因為會從整體特徵去做內積，所以整體的模式會優先被考慮，如果有區域性的特徵並不一定會被凸顯出來。在 MLP 相對上會比較注重整體性而不是區域性，所以使用 MLP 在影像處理上就比 CNN 不是那麼有利。</p><h2 id="關鍵在哪裡？"><a href="#關鍵在哪裡？" class="headerlink" title="關鍵在哪裡？"></a>關鍵在哪裡？</h2><p>我個人認為關鍵在資料的 <strong>區域性</strong>，也就是你想做的事情其實是跟資料的區域性有關係，或是你的資料是週期性資料（週期性出現的模式也可以視為是一種區域性模式重複出現），這樣你就可以用 convolution layer！（注意！不是 CNN！）</p><p>像是音樂當中有週期性的模式就可以用，在生物領域，蛋白質會去辨認 DNA 序列，有被辨認到的部份就會有蛋白質黏附上去，生物學家會想知道到底哪些地方有蛋白質黏附，黏附的序列是區域性的，所以也有應用 CNN 技術在這方面上。</p><p>最重要的還是去了解你的資料的特性，然後了解模型當中各元件的性質跟數學特性，這樣才能正確地使用這些技術解決問題，走到這邊需要同時是領域知識的專家，也同時是 DL 的專家才行阿！</p>]]></content>
+    
+    <summary type="html">
+    
+      &lt;h2 id=&quot;Convolution-layer&quot;&gt;&lt;a href=&quot;#Convolution-layer&quot; class=&quot;headerlink&quot; title=&quot;Convolution layer&quot;&gt;&lt;/a&gt;Convolution layer&lt;/h2&gt;&lt;p&gt;這邊我們回到我們的 convolution layer，如果把以上的一維向量拓展到二維的矩陣資料會長什麼樣子呢？&lt;/p&gt;
+&lt;p&gt;我們先來看二維的 cross-correlation 長什麼樣子。&lt;/p&gt;
+    
+    </summary>
+    
+      <category term="Machine Learning" scheme="https://yuehhua.github.io/categories/Machine-Learning/"/>
+    
+      <category term="機器學習模型圖書館：從傳統模型到深度學習" scheme="https://yuehhua.github.io/categories/Machine-Learning/%E6%A9%9F%E5%99%A8%E5%AD%B8%E7%BF%92%E6%A8%A1%E5%9E%8B%E5%9C%96%E6%9B%B8%E9%A4%A8%EF%BC%9A%E5%BE%9E%E5%82%B3%E7%B5%B1%E6%A8%A1%E5%9E%8B%E5%88%B0%E6%B7%B1%E5%BA%A6%E5%AD%B8%E7%BF%92/"/>
+    
+    
+  </entry>
+  
+  <entry>
+    <title>19 Convolution 運算</title>
+    <link href="https://yuehhua.github.io/2018/10/17/19-convolution-operation/"/>
+    <id>https://yuehhua.github.io/2018/10/17/19-convolution-operation/</id>
+    <published>2018-10-17T14:58:29.000Z</published>
+    <updated>2018-10-18T13:45:31.881Z</updated>
+    
+    <content type="html"><![CDATA[<p>熱身運動都做好了，接下來我們就一路往影像處理上的重要技術 CNN 前進啦！</p><p>Convolutional neural network，顧名思義，他是一種神經網路架構，裡頭包含著 convolution 的運算。</p><p>那為什麼 convolution 這麼重要，重要到要放在名稱上呢？</p><a id="more"></a><p>我先推荐大家去看台大李宏毅老師的介紹，看完再繼續往下看文章。</p><iframe width="560" height="315" src="https://www.youtube.com/embed/FrKWiRv254g" frameborder="0" allow="autoplay; encrypted-media" allowfullscreen></iframe><hr><h2 id="影像處理中的祕密"><a href="#影像處理中的祕密" class="headerlink" title="影像處理中的祕密"></a>影像處理中的祕密</h2><p>我們希望從資料當中找到某種規律，這種規律我們叫作模式（pattern），模式是會重複出現的特徵，像是你可以辨識出蘋果，因為一顆蘋果有他特定的特徵，像是顏色、形狀、大小等等，當這些組合起來，並且他們都會一起出現而且重複出現，我們就可以稱他為模式。</p><p>在影片當中有提到在影像處理上有幾個特點：</p><ol><li>一些模式比整張圖小</li><li>同樣的模式可能出現在圖片的不同地方</li><li>縮放圖片不影響圖片中物件的辨識</li></ol><p>第 1 點講的是，要去辨識一個模式並不需要整張圖，也就是，<strong>local 的資訊比 global 的資訊重要</strong>。在影片中有舉例，一隻鳥的特徵有鳥喙、羽毛、翅膀等等特徵，你並不會去在意他背景的圖片長什麼樣子。鳥喙這樣的特徵他是 <strong>區域性的</strong>，你不需要整張圖片的資訊去判斷這張圖是不是鳥喙，所以在設計模型的原則上需要去擷取區域性的資訊。</p><p>第 2 點講的是，同樣的模式可能會出現在不同圖片的不同地方，這邊其實隱含了一個概念，就是 <strong>位移不變性（translation invariance）</strong>。由於同樣模式可以在不同地方上被找到，所以我們只需要一個 node 去偵測他就好了 ，這樣的話可以節省非常多的 node（或是 weight），這稱為 shared weight。</p><p>第 3 點，如果圖片縮放不影響圖片辨識，那麼。這時候我們可以做 subsampling，除了可以減少資料處理的量，也不會影響圖片的辨識結果。</p><hr><p>在我們講 CNN 之前先來幫大家惡補一下 convolution 這個運算。</p><h2 id="Convolution"><a href="#Convolution" class="headerlink" title="Convolution"></a>Convolution</h2><p>在 CNN 中會用到的重要運算就是 convolution，而在 CNN 中有所謂的 convolution layer，也就是這一層的運算就是做 convolution 而不是直接內積。</p><p>我們說到 convolution layer，他真正的作用是用來做什麼的呢？他其實是用來 <strong>擷取 local 的資訊</strong> 的。</p><p>承接前面第一點提到的，在圖片當中，pattern 是 local 的資訊而不是 global 的，而 pattern 是我們想抓的資訊，所以我們要的資訊只有 local 的而已。</p><p>那麼 convolution 要如何擷取 local 的資訊呢？</p><h2 id="Convolution-運算"><a href="#Convolution-運算" class="headerlink" title="Convolution 運算"></a>Convolution 運算</h2><p>我們先來看 convolution 的原始定義，這邊假設兩個函數 $f$、$g$，則兩個函數的 convolution 為：</p><p>$$<br>(f * g)(t) = \int_{-\infty}^{\infty} f(\tau)g(t - \tau) d\tau<br>$$</p><p>以上我們看到他是一個積分式，當中引入了另一個變數 $\tau$，他代表的是<em>一個時間區間</em>，那接下來是兩個函數的<em>相乘</em>，然後將他們對變數 $\tau$ <em>積分</em>。我們來想想看，先不管變數 $\tau$，相乘後積分的運算跟什麼樣的運算很像？</p><p>是的！內積！我們來看看函數的內積長什麼樣子。</p><p>$$<br>\lt f, g \gt = \int_{-\infty}^{\infty} f(t) g(t) dt<br>$$</p><p>什麼？你跟我說這不是你認識的內積？不不不，你認識的內積其實是這個內積的離散版本。</p><p>$$<br>\lt f, g \gt = \sum_{i=1}^{n} f_i g_i<br>$$</p><p>$$<br>&lt;a, b&gt; = \sum_{i=1}^{n} a_i b_i = \mathbf{a}^T\mathbf{b}<br>$$</p><p>這樣是不是比較清楚一點了？我們來比較一下，因為積分是在 <strong>連續空間的加總</strong>，相對應的加總就是在 <strong>離散空間</strong> 的版本，那麼在連續空間上需要一個 $d\tau$ 來把連續空間切成一片一片的，但是在離散空間上，他很自然的就是 $1$ 了。這樣是不是又發覺他們根本是一樣的呢？</p><p>那你知道函數其實是一種向量嗎？不知道的同學表示沒有讀過或是沒有認真讀線性代數。</p><p>那這樣大家應該接受了函數的內積以及向量的內積其實是一樣的。接下來我們來討論一下那個神奇的 $\tau$。</p><p>$\tau$ 是一個時間區間，而積分其實是在對這個時間區間做切片然後加總，他其實跟我們在做訊號處理上的 window 的概念是一樣的，所以他其實是在某個 window 中做內積的意思。我們先來看看有 window 的內積長什麼樣子。</p><p>$$<br>(a * b)[n] = \sum_{m=1}^{k} a[m] b[n + m]<br>$$</p><p>在下圖我們可以假想左邊的向量是 $b$，右邊的是 $a$，而向量 $a$ 是有被 window 給限定範圍的（m = 1…k），所以在下面這張圖就是當 n = 1、m = 1…4 的時候的情境。箭頭則是向量元素相乘的對象，每次內積完，n 就會往下移動一個元素。</p><p><img src="/images/ccor1d.svg" alt=""></p><p>計算完之後就變成一個新的向量，這就是 window 版本的內積的運作原理了！他其實有一個正式的名字，稱為 cross-correlation。</p><p>我們來看看把 convolution 離散化來看看是長什麼樣子。剛剛我們看到的 convolution 是連續的版本，是函數的版本，那我們實際上的運算是以向量去操作的，那麼離散版本的 convolution 是：</p><p>$$<br>(a * b)[n] = \sum_{m=-\infty}^{\infty} a[m] b[n - m]<br>$$</p><p>這邊的 window 就是 $m$ 這個參數，其實我們可以給他一個區間，不要是負無限大到正無限大。</p><p>$$<br>(a * b)[n] = \sum_{m=1}^{k} a[m] b[n - m]<br>$$</p><p>所以這邊的 window 大小調成是 $k$ 了！</p><p><img src="/images/conv1d.svg" alt=""></p><p>你會發現，convolution 會跟 cross-correlation 很像，差別在於順序，也就是 convolution 內積的順序是相反的，所以他在數學式上的表達是用相減的，這邊的情境是 n = 6、m = 1…4。</p><p>我們來總結一下 convolution 這個運算，他其實是 local 版本的內積運算，而且他的內積方向是反序的。</p><p>補充一點，convolution 其實也是一種線性的運算喔！是不是跟前面談到的線性模型 $\sigma(W^T\mathbf{x} + \mathbf{b})$ 有點異曲同工的感覺呢？</p>]]></content>
+    
+    <summary type="html">
+    
+      &lt;p&gt;熱身運動都做好了，接下來我們就一路往影像處理上的重要技術 CNN 前進啦！&lt;/p&gt;
+&lt;p&gt;Convolutional neural network，顧名思義，他是一種神經網路架構，裡頭包含著 convolution 的運算。&lt;/p&gt;
+&lt;p&gt;那為什麼 convolution 這麼重要，重要到要放在名稱上呢？&lt;/p&gt;
+    
+    </summary>
+    
+      <category term="Machine Learning" scheme="https://yuehhua.github.io/categories/Machine-Learning/"/>
+    
+      <category term="機器學習模型圖書館：從傳統模型到深度學習" scheme="https://yuehhua.github.io/categories/Machine-Learning/%E6%A9%9F%E5%99%A8%E5%AD%B8%E7%BF%92%E6%A8%A1%E5%9E%8B%E5%9C%96%E6%9B%B8%E9%A4%A8%EF%BC%9A%E5%BE%9E%E5%82%B3%E7%B5%B1%E6%A8%A1%E5%9E%8B%E5%88%B0%E6%B7%B1%E5%BA%A6%E5%AD%B8%E7%BF%92/"/>
+    
+    
+  </entry>
+  
+  <entry>
+    <title>18 Multi-layer preceptron</title>
+    <link href="https://yuehhua.github.io/2018/10/17/18-multi-layer-preceptron/"/>
+    <id>https://yuehhua.github.io/2018/10/17/18-multi-layer-preceptron/</id>
+    <published>2018-10-17T14:58:18.000Z</published>
+    <updated>2018-10-17T14:58:18.099Z</updated>
+    
+    <content type="html"><![CDATA[<p>我們來更具體一點講 multi-layer perceptron (MLP)。</p><p>最簡單的版本莫過於 linear MLP，不過不太會有人去用他，其實只是每層 layer 的 activation function 都是採用 identity。你可以想像他是有很多的線性轉換所疊起來的模型。</p><a id="more"></a><hr><p>一般線性模型：$f(\mathbf{x}) = W^{\prime T}\mathbf{x} + b = W^T\mathbf{x}$</p><p>Linear MLP：</p><p>$f_1(\mathbf{x}) = W_1^T\mathbf{x}$</p><p>$f_2(\mathbf{x}) = W_2^Tf_1(\mathbf{x})$</p><p>$f_3(\mathbf{x}) = W_3^Tf_2(\mathbf{x})$</p><p>…</p><p>$f_n(\mathbf{x}) = W_n^Tf_{n-1}(\mathbf{x})$</p><hr><p>那這樣這個有什麼好講的呢？</p><p>大家應該有看到在這邊唯一的運算：內積（inner product）</p><h2 id="內積的意義"><a href="#內積的意義" class="headerlink" title="內積的意義"></a>內積的意義</h2><p>有念過線性代數的人應該對內積這個運算還算熟悉（在這邊都假設大家有一定線性代數基礎）。</p><p>$$<br>&lt;\mathbf{x}, \mathbf{y}&gt; = \mathbf{x}^T \mathbf{y}<br>$$</p><p>$$<br>= \begin{bmatrix}<br>x_1 \<br>x_2 \<br>\vdots \<br>x_n<br>\end{bmatrix}^T</p><p>\begin{bmatrix}<br>y_1 \<br>y_2 \<br>\vdots \<br>y_n<br>\end{bmatrix}</p><p>=<br>\begin{bmatrix}<br>x_1, x_2, \cdots, x_n<br>\end{bmatrix}</p><p>\begin{bmatrix}<br>y_1 \<br>y_2 \<br>\vdots \<br>y_n<br>\end{bmatrix}<br>$$</p><p>內積，要先定義矩陣相乘的運算，而矩陣的相乘其實是一種線性轉換。</p><p>$$<br>f(\mathbf{x}) = A\mathbf{x}<br>$$</p><p>我們來觀察一下內積這個運算，這兩個向量會先把相對應的分量相乘。</p><p>$$<br>\begin{bmatrix}<br>x_1 \<br>x_2 \<br>\vdots \<br>x_n<br>\end{bmatrix}</p><p>\leftrightarrow</p><p>\begin{bmatrix}<br>y_1 \<br>y_2 \<br>\vdots \<br>y_n<br>\end{bmatrix}<br>$$</p><p>接著，再相加。</p><p>$$<br>x_1y_1 + x_2y_2 + \cdots + x_ny_n<br>$$</p><p>這時候我們可以想想看，如果當一邊是權重另一邊是資料的時候所代表的意義是什麼？</p><p>當兩個分量的大小都很大的時候，相乘會讓整個值變很大，相對，如果兩個都很接近零的話，結果值就不大。如果很多分量乘積結果都很大，相加會讓整體結果變得很大。</p><p>內積，其實隱含了 <strong>相似性</strong> 的概念在裡面，也就是說，如果你的權重跟資料很匹配的話，計算出來的值會很大。大家有沒有從裏面看出些端倪呢？</p><p>我們再由另一個角度切入看內積，內積我們可以把他寫成另一種形式，這個應該在大家的高中數學課本當中都有：</p><p>$$<br>\mathbf{x}^T \mathbf{y} = ||\mathbf{x}|| ||\mathbf{y}|| cos \theta<br>$$</p><p>這時候我們就可以看到內積可以被拆成3個部份：分別是兩個向量的大小跟向量夾角的 $cos \theta$ 值。</p><p>而當中 $cos \theta$ 就隱含著相似性在裡頭，也就是說，當兩個向量的夾角愈小，$cos \theta$ 會愈接近 1。相反，如果兩個向量夾角愈接近 180 度，那 $cos \theta$ 會愈接近 -1。剛好呈現 90 度就代表這兩個向量是 <strong>沒有關係的</strong>。</p><p>這時候可能有人會說內積又不是完全反應相似性而已，沒錯！因為他也考慮了兩個向量的長度，當一組向量夾角與另一組向量夾角相同，但是第1組的向量長度都比較長，那內積的結果第1組向量就會比較大。</p><p>所以內積是沒有去除掉向量長度因素的運算，如果單純想要用向量夾角來當成相似性的度量的話可以考慮用 cos similarity。</p><p>$$<br>cos \theta = \frac{\mathbf{x}^T \mathbf{y}}{||\mathbf{x}|| ||\mathbf{y}||}<br>$$</p><h2 id="內積與-MLP"><a href="#內積與-MLP" class="headerlink" title="內積與 MLP"></a>內積與 MLP</h2><p>那 MLP 當中內積扮演了什麼樣的角色呢？</p><p>在純粹線性的 MLP 當中，多層的 $f(\mathbf{x})$ 疊起來，我們可以把他看做是做非常多次的線性轉換或是座標轉換（change of basis），但是這是在 inference 階段的解釋。</p><p>那在 training 階段內積扮演了什麼樣的角色呢？</p><p>這邊提供一個新的想法：在 training 的過程中，我們的 dataset 是不變的，會變動的是 weight ，而內積則是在衡量這兩者之間的 feature norm 及向量夾角，所以 weight 會調整成匹配這樣特性的樣子。換句話說，內積考慮了 data 與 weight 之間的相似性與大小，並且藉由 training 去調整 weight 讓他與資料匹配。</p><p>在 inference 階段，你就可以把他看成是，weight 正在幫你做出某種程度的篩選，跟 weight 匹配的資料，內積值就會比較大，相對的是，weight 不匹配的資料，內積值就會比較小，藉由這樣將內積結果遞進到下一層的運算。</p><h2 id="機率與內積"><a href="#機率與內積" class="headerlink" title="機率與內積"></a>機率與內積</h2><p>其實還有一個觀點，就是機率觀點，機率要求一個 distribution 的長度為 1，$\int_{-\infty}^{\infty} P(X) = 1$。在這邊我們的 distribution 常常以一個 vector（或是 random variable）的形式呈現。事實上就是把一個計算好的向量去除以他的長度。如此一來，我們就去除了長度影響的因素，以符合機率的要求。</p><p>那機率當中的內積指的是什麼呢？</p><p>你如果動動手 google 一下就會發現在機率當中的內積就是這個運算</p><p>$$<br>\mathbb{E}[XY] = \int XY dP<br>$$</p><p>如果有念過統計的人，是不是覺得這東西很眼熟呢？</p><p>$$<br>cov(X, Y) = \mathbb{E}[XY] - \mathbb{E}[X]\mathbb{E}[Y]<br>$$</p><p>是的！他跟共變異數是有相關的，共變異數還是跟我們要去度量兩個隨機變數之間的 <strong>相似性</strong> 有關係。</p><p>$$<br>\rho = \frac{cov(X, Y)}{\sigma_X \sigma_Y}<br>$$</p><p>只要把他除以隨機變數的標準差就可以得到相關係數了呢！</p><h2 id="加入非線性"><a href="#加入非線性" class="headerlink" title="加入非線性"></a>加入非線性</h2><p>事實上，在我們生活中遇到的事物都是非線性的居多，線性模型可以施展手腳的範疇就不大了。</p><p>這時我們就希望在 MLP 中加入非線性的元素以增加模型的表達力。這時候模型的每一層就變成了：</p><p>$$<br>f(\mathbf{x}) = \sigma (W^T \mathbf{x})<br>$$</p><p>而當中的 $\sigma$ 就成了我們的 activation function 了，也就是非線性的來源！</p><h2 id="Fully-connected-layer"><a href="#Fully-connected-layer" class="headerlink" title="Fully connected layer"></a>Fully connected layer</h2><p>當這些層的 node 都互相連接，就代表了所有 node 都參與了計算，這個計算所考慮的資料是 <strong>global</strong> 的。</p><p>這些層所做的運算是相對 <strong>簡單</strong> 的（相對 convolution 來說）。</p><p>每個 node 對每一層運算所做的貢獻是 <strong>弱</strong> 的。當一層的 node 數很多，e.g. 上千個 node，每個 node 的運算結果就會被稀釋掉了。即便內積運算有包含個別值的大小的成份在裡頭，當 node 數一多，這樣的影響也會被減弱，剩下的是整體向量與向量之間的相似性。但有一個情況例外，當有 node 的值極大，e.g. $x_i / x_j = 1000$，當有人是別人的千倍以上的話就要注意一下了，這也是很常在機器學習當中會遇到的問題，這時候就會需要做 normalization 來處理。</p><p>最後提醒，內積的運算中雖然有隱含相似性在其中，但是他 <em>不等同</em> 於 <strong>去計算相似性</strong>。</p><p>今天的討論就到這邊告一個段落，希望在大家思考 deep learning 模型的時候，這些東西有幫上一些忙。</p>]]></content>
+    
+    <summary type="html">
+    
+      &lt;p&gt;我們來更具體一點講 multi-layer perceptron (MLP)。&lt;/p&gt;
+&lt;p&gt;最簡單的版本莫過於 linear MLP，不過不太會有人去用他，其實只是每層 layer 的 activation function 都是採用 identity。你可以想像他是有很多的線性轉換所疊起來的模型。&lt;/p&gt;
+    
+    </summary>
+    
+      <category term="Machine Learning" scheme="https://yuehhua.github.io/categories/Machine-Learning/"/>
+    
+      <category term="機器學習模型圖書館：從傳統模型到深度學習" scheme="https://yuehhua.github.io/categories/Machine-Learning/%E6%A9%9F%E5%99%A8%E5%AD%B8%E7%BF%92%E6%A8%A1%E5%9E%8B%E5%9C%96%E6%9B%B8%E9%A4%A8%EF%BC%9A%E5%BE%9E%E5%82%B3%E7%B5%B1%E6%A8%A1%E5%9E%8B%E5%88%B0%E6%B7%B1%E5%BA%A6%E5%AD%B8%E7%BF%92/"/>
+    
+    
+  </entry>
   
   <entry>
     <title>17 Autoencoder</title>
@@ -412,71 +482,6 @@
       <category term="Machine Learning" scheme="https://yuehhua.github.io/categories/Machine-Learning/"/>
     
       <category term="機器學習模型圖書館：從傳統模型到深度學習" scheme="https://yuehhua.github.io/categories/Machine-Learning/%E6%A9%9F%E5%99%A8%E5%AD%B8%E7%BF%92%E6%A8%A1%E5%9E%8B%E5%9C%96%E6%9B%B8%E9%A4%A8%EF%BC%9A%E5%BE%9E%E5%82%B3%E7%B5%B1%E6%A8%A1%E5%9E%8B%E5%88%B0%E6%B7%B1%E5%BA%A6%E5%AD%B8%E7%BF%92/"/>
-    
-    
-  </entry>
-  
-  <entry>
-    <title>Energy-based model 以及 Bayesian model 的關聯</title>
-    <link href="https://yuehhua.github.io/2018/09/12/energy-model-bayesian/"/>
-    <id>https://yuehhua.github.io/2018/09/12/energy-model-bayesian/</id>
-    <published>2018-09-12T06:22:48.000Z</published>
-    <updated>2018-09-13T02:33:00.799Z</updated>
-    
-    <content type="html"><![CDATA[<p>在機器學習領域，我們常常會聽到 Energy-based model。</p><p>基本上，他是借了物理的能量觀點來的，在數學上，與物理的公式如出一徹。</p><p>我們先來看看他是長成什麼樣子。</p><a id="more"></a><p>在物理統計力學中，如果一個系統的狀態的機率分佈，是由狀態的能量決定，並且狀態能量及系統溫度與狀態之間可以寫成一個函數關係，我們稱為 Boltzmann distribution。</p><p>$$<br>\large p_i = \frac{1}{Z} e^{- \epsilon_i / kT}<br>$$</p><p>一個系統中，狀態 $i$ 的出現機率 $p_i$ 是狀態能量 $\epsilon_i$ 以及系統溫度 $T$ 的函數，其中 $k$ 為波茲曼常數，$Z$ 為機率分佈的分母，稱為 partition function。</p><p>在機器學習中，借了同樣的概念變成了以下式子：</p><p>$$<br>\large P(X = x) = \frac{1}{Z} e^{f(x)}<br>$$</p><p>主要是將次方項 $- \epsilon_i / kT$ 替換成了更廣義的函數 $f(x)$ 形式，而這個函數會跟系統的狀態 $x$ 相關。</p><p>其中 $Z$ 就變成了以下的樣子：</p><p>$$<br>Z = \sum_{x \in X} e^{f(x)}<br>$$</p><p>如果代入以上的函數中就會是：</p><p>$$<br>\large P(X = x) = \frac{e^{f(x)}}{\sum_{x \in X} e^{f(x)}}<br>$$</p><p>當我們把這樣的模型廣義化之後就稱為 Energy-based model。</p><p>這樣的模型在統計或是機器學習中有非常有趣的連結，$f(x)$ 所代表的應該是一個能量的函數。</p><p>$$<br>f(x) = -E(x)<br>$$</p><p>然而這樣的函數我們可以將他等同於機器學習中常用的 loss function。</p><p>$$<br>f(x) = -E(x) = - \text{loss function}<br>$$</p><p>這樣的等號是基於在熱力學第二定律的描述，熱力學第二定律描述一個封閉系統（closed system），封閉系統不允許系統與環境有任何的物質交換，在環境及熵不變的情況下，而系統的內能會降低，當內能降到最低的時候，系統會達成動態平衡。這稱為最小能量原則（principle of minimum energy），是熱力學第二定律另一個面向的描述。</p><blockquote><p>相對的是，在一個孤立系統（isolated system），孤立系統不允許系統與環境有任何的物質與能量交換，在環境不變的情況下，熵會持續增加。</p></blockquote><p>依據最小能量原則，能量最小跟我們希望的 loss function 最低有同樣的目標，所以我們可以將他們同等起來。不過要強調的是，這裡並沒有意義上的同等，只是在最佳化的方向上是同等的。</p><h3 id="Bayesian-model"><a href="#Bayesian-model" class="headerlink" title="Bayesian model"></a>Bayesian model</h3><p>在 Bayesian model 的方法中就更有趣了。當我們想要最小化 loss function 的時候，他其實在最大化 likelihood function。換句話說，降低 loss 是在降低資料與模型之間的誤差，讓模型更貼近資料，提升 likelihood 則是另一個面向的描述，likelihood 是在測量模型與資料的相似度，最大化 likelihood 也是讓模型愈貼近資料，所以我們可以將他變成這個樣子：</p><p>$$<br>f(x) = -E(x) = \text{likelihood function}<br>$$</p><p>這樣的解釋是什麼呢？</p><p>也就是，在統計學裡常用的 Maximum likelihood estimation （MLE）方法會跟最小能量原則有一致的目標。</p><p>我們從貝氏定理出發。我們先把貝氏定理的分母省略掉。</p><p>$$<br>\large P(\theta \mid x) = \frac{P(x \mid \theta)P(\theta)}{P(x)} = \frac{1}{Z} P(x \mid \theta)P(\theta)<br>$$</p><p>接者，貝氏定理的分子部份其實代表的各自是 likelihood 以及 prior。</p><p>$$<br>\propto P(x \mid \theta)P(\theta)<br>$$</p><p>$$<br>\text{    (likelihood)(prior)}<br>$$</p><p>我們可以將 Energy-based model 代入，容我省略分母。</p><p>$$<br>\propto e^{-E(x)} \times P(\theta)<br>$$</p><p>旁邊的 prior 我們可以忽略他，但是我們可以代入 normal distribution，會有有趣的結果。</p><p>$$<br>\large = e^{-E(x)} \times \frac{1}{\sqrt{2 \pi \sigma^2}} e^{-\frac{\theta^2}{2 \sigma^2}}<br>$$</p><p>接著我們把等號的兩側都取 ln。</p><p>$$<br>-ln P(\theta \mid x) \propto E(x) + \frac{\theta^2}{2 \sigma^2} - ln(\frac{1}{\sqrt{2 \pi \sigma^2}}) + ln(Z)<br>$$</p><p>有沒有看到有趣的部份了？能量的部份顯露出來，當能量最小時，$P(\theta \mid x)$ 就會是最大，而 $P(\theta \mid x)$ 則是 posterior，最小能量原則會對應到貝氏方法的 Maximum a posteriori（MAP）。如果 MAP，將 prior 移除的話，就等同於 MLE 了！</p><p>所以我們可以看到在統計力學與統計學跟機器學習之間非常緊密的關係，而且他們都可以借用物理的熱力學第二定律來加以解釋，如此一來，可以賦予機器學習模型一個物理意義。</p><h3 id="Regularization"><a href="#Regularization" class="headerlink" title="Regularization"></a>Regularization</h3><p>還有嗎？當然還有阿！</p><p>我們可以進一步將式子整理一下，我們將 $\theta^2$ 分離出來，將 ln 中的分母倒過來：</p><p>$$<br>= E(x) + \frac{1}{2 \sigma^2} \theta^2 + ln(\sqrt{2 \pi \sigma^2}) + ln(Z)<br>$$</p><p>有沒有注意到 $\theta^2$ 非常像什麼？</p><p>是的，他就是一個模型參數的 $\mathcal{l}_2$-norm，也就是，他是一個 regularization term。</p><p>我們再進一步將他凸顯出來。</p><p>$$<br>\text{let } \lambda = \frac{1}{2 \sigma^2}<br>$$</p><p>$$<br>= E(x) + \lambda \theta^2 + ln(\frac{\sqrt{\pi}}{\lambda}) + ln(Z)<br>$$</p><p>你會發現式子的前半部份像極了一般的 loss function，含有 error function 跟 regularization term。$\lambda$ 部份就是你在調整模型的時候，regularization 的強度。</p><p>整體來說，我們在前面的 prior 代入了 normal distribution，最後導出來得到 $\mathcal{l}_2$ regularization。這說明了，如果我們在模型中加入 $\mathcal{l}_2$ regularization，等於是對模型的參數做了假設，也就是假設模型參數會服從 normal distribution。這樣的結果與貝氏的方法與解釋一致。</p><p>最後總結一下，energy-based model 借用了物理的概念，與最佳化的機制有一致的方向，應該有人證明這點，只是我還沒去找。我們也看到 energy-based model 放到貝氏統計中是很自然的。在貝氏統計中的 prior 會對應到 regularization 的機制。這邊說明了物理、統計跟機器學習模型之間的關係。</p>]]></content>
-    
-    <summary type="html">
-    
-      &lt;p&gt;在機器學習領域，我們常常會聽到 Energy-based model。&lt;/p&gt;
-&lt;p&gt;基本上，他是借了物理的能量觀點來的，在數學上，與物理的公式如出一徹。&lt;/p&gt;
-&lt;p&gt;我們先來看看他是長成什麼樣子。&lt;/p&gt;
-    
-    </summary>
-    
-      <category term="Machine Learning" scheme="https://yuehhua.github.io/categories/Machine-Learning/"/>
-    
-    
-  </entry>
-  
-  <entry>
-    <title>《喚醒你心中的大師：偷學48位大師精進的藝術，做個厲害的人》</title>
-    <link href="https://yuehhua.github.io/2018/08/24/mastery/"/>
-    <id>https://yuehhua.github.io/2018/08/24/mastery/</id>
-    <published>2018-08-24T14:21:21.000Z</published>
-    <updated>2018-08-24T14:21:21.806Z</updated>
-    
-    <content type="html"><![CDATA[<iframe width="560" height="315" src="https://www.youtube.com/embed/xM0HUZ4E5I8" frameborder="0" allow="autoplay; encrypted-media" allowfullscreen></iframe><p>摘要筆記：</p><ol><li>前置階段<ul><li>發掘內心的召喚</li></ul></li><li>學徒訓練階段（5~10 年）<ul><li>實踐<ul><li>深入觀察</li><li>技能習得（一萬小時）</li><li>實驗</li></ul></li><li>策略<ul><li>選擇成長潛力最大，而不是賺最多錢的</li><li>持續拓展視野</li><li>讓認知框架保持開放</li></ul></li></ul></li><li>積極創造階段<ul><li>尋找具有創造性的任務</li><li>實踐創造力的策略<ul><li>培養 negative capability</li><li>不要一直處於專注模式</li><li>注意細節及異常現象</li></ul></li><li>設定工作期限</li></ul></li><li>大師境界階段<ul><li>掌握部分跟整體的關係</li><li>連結萬物的追求</li><li>成為你自己</li></ul></li></ol>]]></content>
-    
-    <summary type="html">
-    
-      
-      
-        &lt;iframe width=&quot;560&quot; height=&quot;315&quot; src=&quot;https://www.youtube.com/embed/xM0HUZ4E5I8&quot; frameborder=&quot;0&quot; allow=&quot;autoplay; encrypted-media&quot; allowfull
-      
-    
-    </summary>
-    
-      <category term="Book" scheme="https://yuehhua.github.io/categories/Book/"/>
-    
-    
-  </entry>
-  
-  <entry>
-    <title>Usual topology and subbasis</title>
-    <link href="https://yuehhua.github.io/2018/08/08/11-usual-topology-and-subbasis/"/>
-    <id>https://yuehhua.github.io/2018/08/08/11-usual-topology-and-subbasis/</id>
-    <published>2018-08-08T05:38:50.000Z</published>
-    <updated>2018-08-08T05:38:50.090Z</updated>
-    
-    <content type="html"><![CDATA[<p>我們今天就來談談一些常見的拓樸。</p><a id="more"></a><p>首先是在實數線上的開區間（open interval）：</p><blockquote><p> <strong><em>Def.</em></strong></p></blockquote><p>If $\mathcal{B}$ is the collection of all open intervals in the real line,</p><p>$$<br>(a, b) = \{ x \mid a &lt; x &lt; b \}<br>$$</p><p>這就是我們所熟知的開區間，由 $\mathcal{B}$ 所產生出來的拓樸稱之為 <strong>標準拓樸（standard topology）</strong>，（所以在這邊 $\mathcal{B}$ 是一個基底）。我們一般在討論的實數域 $\mathbb{R}$ 就是由這樣的基底所衍生出來的，所以 $\mathbb{R}$ 也是一個拓樸，後續如果沒有特別提，我們就是這樣預設的。</p><p>如果 $\mathcal{B}^\prime$ 是半開區間的集合，</p><p>$$<br>[a, b) = \{ x \mid a \le x &lt; b \}, a &lt; b<br>$$</p><p>那麼由這樣的基底 $\mathcal{B}^\prime$ 所產生出來的拓樸為在 $\mathbb{R}$ 上的 <strong>lower limit topology</strong>，我們記為 $\mathbb{R}_l$。</p><p>我們還有，</p><blockquote><p> <strong><em>Def.</em></strong></p></blockquote><p>$$<br>K = \{ \frac{1}{n} \mid n \in \mathbb{N} \}<br>$$</p><p>$\mathcal{B}^{\prime \prime}$ is the collection of all open intervals $(a, b)$, and with all sets of the form $(a, b) - K$</p><p>這邊我們定義了所有 $\frac{1}{n}$ 的集合為 $K$，$\mathcal{B}^{\prime \prime}$ 這個基底包含了所有 $(a, b)$ 以及 $(a, b) - K$ 這樣的元素。由這樣的基底產生出來的拓樸稱為在 $\mathbb{R}$ 上的 <strong>K-topology</strong>，記為 $\mathbb{R}_K$。</p><p>我們上面提到的集合都是基底，所以兩兩基底元素之間的交集，要不是另一個基底元素，不然就是空集合。</p><p>接下來我們來看看上面提到的拓樸之間的關係。</p><blockquote><p> <strong><em>Lemma</em></strong></p></blockquote><p>The topology of $\mathbb{R}_l$ and $\mathbb{R}_K$ are strictly finer than standard topology on $\mathbb{R}$. The topology of $\mathbb{R}_l$ and $\mathbb{R}_K$ are not comparable with each other.</p><p>這時候你可能就會問了，因為拓樸可以由一個基底的任意元素聯集組成，那如果隨意取了一個集合的集合做為基底，在有限的交集以及任意的聯集下，會變成什麼？</p><p>這個問題就引領我們到子基底（subbasis）的概念上。</p><blockquote><p> <strong><em>Def.</em></strong></p></blockquote><p>A subbasis $\mathcal{S}$ for a topology on $X$.</p><p>$$<br>\mathcal{S} = \{ x \mid x \subseteq X \}, \bigcup_{x \in \mathcal{S}} = X<br>$$</p><p>The <strong>topology generated by the subbasis</strong> $\mathcal{S}$ is the collection $\mathcal{T}$ of all unions of finite intersections of elements of $\mathcal{S}$.</p>]]></content>
-    
-    <summary type="html">
-    
-      &lt;p&gt;我們今天就來談談一些常見的拓樸。&lt;/p&gt;
-    
-    </summary>
-    
-      <category term="Topology" scheme="https://yuehhua.github.io/categories/Topology/"/>
     
     
   </entry>

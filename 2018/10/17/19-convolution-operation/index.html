@@ -1,0 +1,565 @@
+
+<!DOCTYPE html>
+<html lang="en">
+    
+<head>
+    <!-- hexo-inject:begin --><!-- hexo-inject:end --><meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="generator" content="Dream Maker">
+    <title>19 Convolution 運算 - Dream Maker</title>
+    <meta name="author" content="Yueh-Hua Tu">
+    
+        <meta name="keywords" content="machine learning,deep learning,topology,">
+    
+    
+    
+        <link rel="alternate" type="application/atom+xml" title="RSS" href="/atom.xml">
+    
+    <script type="application/ld+json">{"@context":"http://schema.org","@type":"BlogPosting","author":{"@type":"Person","name":"Yueh-Hua Tu","sameAs":["https://github.com/yuehhua/","https://www.facebook.com/a504082002","https://www.linkedin.com/in/%E5%B2%B3%E8%8F%AF-%E6%9D%9C-6a3995a0/","mailto:a504082002@gmail.com"],"image":"https://www.gravatar.com/avatar/a565749fba4782b717234da670b273fd"},"articleBody":"熱身運動都做好了，接下來我們就一路往影像處理上的重要技術 CNN 前進啦！\nConvolutional neural network，顧名思義，他是一種神經網路架構，裡頭包含著 convolution 的運算。\n那為什麼 convolution 這麼重要，重要到要放在名稱上呢？\n\n我先推荐大家去看台大李宏毅老師的介紹，看完再繼續往下看文章。\n\n\n\n影像處理中的祕密我們希望從資料當中找到某種規律，這種規律我們叫作模式（pattern），模式是會重複出現的特徵，像是你可以辨識出蘋果，因為一顆蘋果有他特定的特徵，像是顏色、形狀、大小等等，當這些組合起來，並且他們都會一起出現而且重複出現，我們就可以稱他為模式。\n在影片當中有提到在影像處理上有幾個特點：\n\n一些模式比整張圖小\n同樣的模式可能出現在圖片的不同地方\n縮放圖片不影響圖片中物件的辨識\n\n第 1 點講的是，要去辨識一個模式並不需要整張圖，也就是，local 的資訊比 global 的資訊重要。在影片中有舉例，一隻鳥的特徵有鳥喙、羽毛、翅膀等等特徵，你並不會去在意他背景的圖片長什麼樣子。鳥喙這樣的特徵他是 區域性的，你不需要整張圖片的資訊去判斷這張圖是不是鳥喙，所以在設計模型的原則上需要去擷取區域性的資訊。\n第 2 點講的是，同樣的模式可能會出現在不同圖片的不同地方，這邊其實隱含了一個概念，就是 位移不變性（translation invariance）。由於同樣模式可以在不同地方上被找到，所以我們只需要一個 node 去偵測他就好了 ，這樣的話可以節省非常多的 node（或是 weight），這稱為 shared weight。\n第 3 點，如果圖片縮放不影響圖片辨識，那麼。這時候我們可以做 subsampling，除了可以減少資料處理的量，也不會影響圖片的辨識結果。\n\n在我們講 CNN 之前先來幫大家惡補一下 convolution 這個運算。\nConvolution在 CNN 中會用到的重要運算就是 convolution，而在 CNN 中有所謂的 convolution layer，也就是這一層的運算就是做 convolution 而不是直接內積。\n我們說到 convolution layer，他真正的作用是用來做什麼的呢？他其實是用來 擷取 local 的資訊 的。\n承接前面第一點提到的，在圖片當中，pattern 是 local 的資訊而不是 global 的，而 pattern 是我們想抓的資訊，所以我們要的資訊只有 local 的而已。\n那麼 convolution 要如何擷取 local 的資訊呢？\nConvolution 運算我們先來看 convolution 的原始定義，這邊假設兩個函數 $f$、$g$，則兩個函數的 convolution 為：\n$$(f * g)(t) = \\int_{-\\infty}^{\\infty} f(\\tau)g(t - \\tau) d\\tau$$\n以上我們看到他是一個積分式，當中引入了另一個變數 $\\tau$，他代表的是一個時間區間，那接下來是兩個函數的相乘，然後將他們對變數 $\\tau$ 積分。我們來想想看，先不管變數 $\\tau$，相乘後積分的運算跟什麼樣的運算很像？\n是的！內積！我們來看看函數的內積長什麼樣子。\n$$\\lt f, g \\gt = \\int_{-\\infty}^{\\infty} f(t) g(t) dt$$\n什麼？你跟我說這不是你認識的內積？不不不，你認識的內積其實是這個內積的離散版本。\n$$\\lt f, g \\gt = \\sum_{i=1}^{n} f_i g_i$$\n$$&lt;a, b&gt; = \\sum_{i=1}^{n} a_i b_i = \\mathbf{a}^T\\mathbf{b}$$\n這樣是不是比較清楚一點了？我們來比較一下，因為積分是在 連續空間的加總，相對應的加總就是在 離散空間 的版本，那麼在連續空間上需要一個 $d\\tau$ 來把連續空間切成一片一片的，但是在離散空間上，他很自然的就是 $1$ 了。這樣是不是又發覺他們根本是一樣的呢？\n那你知道函數其實是一種向量嗎？不知道的同學表示沒有讀過或是沒有認真讀線性代數。\n那這樣大家應該接受了函數的內積以及向量的內積其實是一樣的。接下來我們來討論一下那個神奇的 $\\tau$。\n$\\tau$ 是一個時間區間，而積分其實是在對這個時間區間做切片然後加總，他其實跟我們在做訊號處理上的 window 的概念是一樣的，所以他其實是在某個 window 中做內積的意思。我們先來看看有 window 的內積長什麼樣子。\n$$(a * b)[n] = \\sum_{m=1}^{k} a[m] b[n + m]$$\n在下圖我們可以假想左邊的向量是 $b$，右邊的是 $a$，而向量 $a$ 是有被 window 給限定範圍的（m = 1…k），所以在下面這張圖就是當 n = 1、m = 1…4 的時候的情境。箭頭則是向量元素相乘的對象，每次內積完，n 就會往下移動一個元素。\n\n計算完之後就變成一個新的向量，這就是 window 版本的內積的運作原理了！他其實有一個正式的名字，稱為 cross-correlation。\n我們來看看把 convolution 離散化來看看是長什麼樣子。剛剛我們看到的 convolution 是連續的版本，是函數的版本，那我們實際上的運算是以向量去操作的，那麼離散版本的 convolution 是：\n$$(a * b)[n] = \\sum_{m=-\\infty}^{\\infty} a[m] b[n - m]$$\n這邊的 window 就是 $m$ 這個參數，其實我們可以給他一個區間，不要是負無限大到正無限大。\n$$(a * b)[n] = \\sum_{m=1}^{k} a[m] b[n - m]$$\n所以這邊的 window 大小調成是 $k$ 了！\n\n你會發現，convolution 會跟 cross-correlation 很像，差別在於順序，也就是 convolution 內積的順序是相反的，所以他在數學式上的表達是用相減的，這邊的情境是 n = 6、m = 1…4。\n我們來總結一下 convolution 這個運算，他其實是 local 版本的內積運算，而且他的內積方向是反序的。\n補充一點，convolution 其實也是一種線性的運算喔！是不是跟前面談到的線性模型 $\\sigma(W^T\\mathbf{x} + \\mathbf{b})$ 有點異曲同工的感覺呢？\n","dateCreated":"2018-10-17T22:58:29+08:00","dateModified":"2018-10-18T21:45:31+08:00","datePublished":"2018-10-17T22:58:29+08:00","description":"熱身運動都做好了，接下來我們就一路往影像處理上的重要技術 CNN 前進啦！\nConvolutional neural network，顧名思義，他是一種神經網路架構，裡頭包含著 convolution 的運算。\n那為什麼 convolution 這麼重要，重要到要放在名稱上呢？","headline":"19 Convolution 運算","image":[],"mainEntityOfPage":{"@type":"WebPage","@id":"https://yuehhua.github.io/2018/10/17/19-convolution-operation/"},"publisher":{"@type":"Organization","name":"Yueh-Hua Tu","sameAs":["https://github.com/yuehhua/","https://www.facebook.com/a504082002","https://www.linkedin.com/in/%E5%B2%B3%E8%8F%AF-%E6%9D%9C-6a3995a0/","mailto:a504082002@gmail.com"],"image":"https://www.gravatar.com/avatar/a565749fba4782b717234da670b273fd","logo":{"@type":"ImageObject","url":"https://www.gravatar.com/avatar/a565749fba4782b717234da670b273fd"}},"url":"https://yuehhua.github.io/2018/10/17/19-convolution-operation/"}</script>
+    <meta name="description" content="熱身運動都做好了，接下來我們就一路往影像處理上的重要技術 CNN 前進啦！ Convolutional neural network，顧名思義，他是一種神經網路架構，裡頭包含著 convolution 的運算。 那為什麼 convolution 這麼重要，重要到要放在名稱上呢？">
+<meta name="keywords" content="machine learning,deep learning,topology">
+<meta property="og:type" content="blog">
+<meta property="og:title" content="19 Convolution 運算">
+<meta property="og:url" content="https://yuehhua.github.io/2018/10/17/19-convolution-operation/index.html">
+<meta property="og:site_name" content="Dream Maker">
+<meta property="og:description" content="熱身運動都做好了，接下來我們就一路往影像處理上的重要技術 CNN 前進啦！ Convolutional neural network，顧名思義，他是一種神經網路架構，裡頭包含著 convolution 的運算。 那為什麼 convolution 這麼重要，重要到要放在名稱上呢？">
+<meta property="og:locale" content="en">
+<meta property="og:image" content="https://yuehhua.github.io/images/ccor1d.svg">
+<meta property="og:image" content="https://yuehhua.github.io/images/conv1d.svg">
+<meta property="og:updated_time" content="2018-10-18T13:45:31.881Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="19 Convolution 運算">
+<meta name="twitter:description" content="熱身運動都做好了，接下來我們就一路往影像處理上的重要技術 CNN 前進啦！ Convolutional neural network，顧名思義，他是一種神經網路架構，裡頭包含著 convolution 的運算。 那為什麼 convolution 這麼重要，重要到要放在名稱上呢？">
+<meta name="twitter:image" content="https://yuehhua.github.io/images/ccor1d.svg">
+    
+    
+        
+    
+    
+    
+    
+    
+    <!--STYLES-->
+    <link rel="stylesheet" href="/assets/css/style-3frockyt2j28isvdztjchy5nhkz8tjki9ermufc1ckptmvjdftux94m2ahub.min.css">
+    <!--STYLES END-->
+    
+    <script type="text/javascript">
+        (function (i, s, o, g, r, a, m) {
+        i['GoogleAnalyticsObject'] = r; i[r] = i[r] || function () {
+            (i[r].q = i[r].q || []).push(arguments)
+        }, i[r].l = 1 * new Date(); a = s.createElement(o),
+            m = s.getElementsByTagName(o)[0]; a.async = 1; a.src = g; m.parentNode.insertBefore(a, m)
+        })(window, document, 'script', '//www.google-analytics.com/analytics.js', 'ga');
+
+        ga('create', 'UA-119690895-1', 'auto');
+        ga('send', 'pageview');
+    </script><!-- hexo-inject:begin --><!-- hexo-inject:end -->
+    
+    
+</head>
+
+    <body>
+        <!-- hexo-inject:begin --><!-- hexo-inject:end --><div id="blog">
+            <!-- Define author's picture -->
+
+
+    
+
+<header id="header" data-behavior="5">
+    <i id="btn-open-sidebar" class="fa fa-lg fa-bars"></i>
+    <div class="header-title">
+        <a class="header-title-link" href="/ ">Dream Maker</a>
+    </div>
+    
+        
+            <a  class="header-right-picture "
+                href="#about">
+        
+        
+        </a>
+    
+</header>
+
+            <!-- Define author's picture -->
+
+
+<nav id="sidebar" data-behavior="5">
+    <div class="sidebar-container">
+        
+        
+            <ul class="sidebar-buttons">
+            
+                <li class="sidebar-button">
+                    
+                        <a  class="sidebar-button-link "
+                             href="/ "
+                            
+                            title="Home"
+                        >
+                    
+                        <i class="sidebar-button-icon fa fa-home" aria-hidden="true"></i>
+                        <span class="sidebar-button-desc">Home</span>
+                    </a>
+            </li>
+            
+                <li class="sidebar-button">
+                    
+                        <a  class="sidebar-button-link "
+                             href="/all-categories"
+                            
+                            title="Categories"
+                        >
+                    
+                        <i class="sidebar-button-icon fa fa-bookmark" aria-hidden="true"></i>
+                        <span class="sidebar-button-desc">Categories</span>
+                    </a>
+            </li>
+            
+                <li class="sidebar-button">
+                    
+                        <a  class="sidebar-button-link "
+                             href="/all-tags"
+                            
+                            title="Tags"
+                        >
+                    
+                        <i class="sidebar-button-icon fa fa-tags" aria-hidden="true"></i>
+                        <span class="sidebar-button-desc">Tags</span>
+                    </a>
+            </li>
+            
+                <li class="sidebar-button">
+                    
+                        <a  class="sidebar-button-link "
+                             href="/all-archives"
+                            
+                            title="Archives"
+                        >
+                    
+                        <i class="sidebar-button-icon fa fa-archive" aria-hidden="true"></i>
+                        <span class="sidebar-button-desc">Archives</span>
+                    </a>
+            </li>
+            
+                <li class="sidebar-button">
+                    
+                        <a  class="sidebar-button-link open-algolia-search"
+                             href="#search"
+                            
+                            title="Search"
+                        >
+                    
+                        <i class="sidebar-button-icon fa fa-search" aria-hidden="true"></i>
+                        <span class="sidebar-button-desc">Search</span>
+                    </a>
+            </li>
+            
+                <li class="sidebar-button">
+                    
+                        <a  class="sidebar-button-link "
+                             href="#about"
+                            
+                            title="About"
+                        >
+                    
+                        <i class="sidebar-button-icon fa fa-question" aria-hidden="true"></i>
+                        <span class="sidebar-button-desc">About</span>
+                    </a>
+            </li>
+            
+        </ul>
+        
+            <ul class="sidebar-buttons">
+            
+                <li class="sidebar-button">
+                    
+                        <a  class="sidebar-button-link " href="https://github.com/yuehhua/" target="_blank" rel="noopener" title="GitHub">
+                    
+                        <i class="sidebar-button-icon fab fa-github" aria-hidden="true"></i>
+                        <span class="sidebar-button-desc">GitHub</span>
+                    </a>
+            </li>
+            
+                <li class="sidebar-button">
+                    
+                        <a  class="sidebar-button-link " href="https://www.facebook.com/a504082002" target="_blank" rel="noopener" title="Facebook">
+                    
+                        <i class="sidebar-button-icon fab fa-facebook" aria-hidden="true"></i>
+                        <span class="sidebar-button-desc">Facebook</span>
+                    </a>
+            </li>
+            
+                <li class="sidebar-button">
+                    
+                        <a  class="sidebar-button-link " href="https://www.linkedin.com/in/%E5%B2%B3%E8%8F%AF-%E6%9D%9C-6a3995a0/" target="_blank" rel="noopener" title="LinkedIn">
+                    
+                        <i class="sidebar-button-icon fab fa-linkedin" aria-hidden="true"></i>
+                        <span class="sidebar-button-desc">LinkedIn</span>
+                    </a>
+            </li>
+            
+                <li class="sidebar-button">
+                    
+                        <a  class="sidebar-button-link " href="mailto:a504082002@gmail.com" target="_blank" rel="noopener" title="Mail">
+                    
+                        <i class="sidebar-button-icon fab fa-envelope" aria-hidden="true"></i>
+                        <span class="sidebar-button-desc">Mail</span>
+                    </a>
+            </li>
+            
+        </ul>
+        
+            <ul class="sidebar-buttons">
+            
+                <li class="sidebar-button">
+                    
+                        <a  class="sidebar-button-link "
+                             href="/atom.xml"
+                            
+                            title="RSS"
+                        >
+                    
+                        <i class="sidebar-button-icon fa fa-rss" aria-hidden="true"></i>
+                        <span class="sidebar-button-desc">RSS</span>
+                    </a>
+            </li>
+            
+        </ul>
+        
+    </div>
+</nav>
+
+            
+            <div id="main" data-behavior="5"
+                 class="
+                        hasCoverMetaIn
+                        ">
+                
+    <article class="post">
+        
+                
+                    <div class="post-header main-content-wrap text-left">
+    
+        <h1 class="post-title">
+            19 Convolution 運算
+        </h1>
+    
+    
+        <div class="post-meta">
+    <time datetime="2018-10-17T22:58:29+08:00">
+	
+		    Oct 17, 2018
+    	
+    </time>
+    
+        <span>in </span>
+        
+    <a class="category-link" href="/categories/Machine-Learning/">Machine Learning</a>, <a class="category-link" href="/categories/Machine-Learning/機器學習模型圖書館：從傳統模型到深度學習/">機器學習模型圖書館：從傳統模型到深度學習</a>
+
+
+    
+</div>
+
+    
+</div>
+
+                        
+                            <div class="post-content markdown">
+                                <div class="main-content-wrap">
+                                    <p>熱身運動都做好了，接下來我們就一路往影像處理上的重要技術 CNN 前進啦！</p>
+<p>Convolutional neural network，顧名思義，他是一種神經網路架構，裡頭包含著 convolution 的運算。</p>
+<p>那為什麼 convolution 這麼重要，重要到要放在名稱上呢？</p>
+<a id="more"></a>
+<p>我先推荐大家去看台大李宏毅老師的介紹，看完再繼續往下看文章。</p>
+<iframe width="560" height="315" src="https://www.youtube.com/embed/FrKWiRv254g" frameborder="0" allow="autoplay; encrypted-media" allowfullscreen></iframe>
+
+<hr>
+<h2 id="影像處理中的祕密"><a href="#影像處理中的祕密" class="headerlink" title="影像處理中的祕密"></a>影像處理中的祕密</h2><p>我們希望從資料當中找到某種規律，這種規律我們叫作模式（pattern），模式是會重複出現的特徵，像是你可以辨識出蘋果，因為一顆蘋果有他特定的特徵，像是顏色、形狀、大小等等，當這些組合起來，並且他們都會一起出現而且重複出現，我們就可以稱他為模式。</p>
+<p>在影片當中有提到在影像處理上有幾個特點：</p>
+<ol>
+<li>一些模式比整張圖小</li>
+<li>同樣的模式可能出現在圖片的不同地方</li>
+<li>縮放圖片不影響圖片中物件的辨識</li>
+</ol>
+<p>第 1 點講的是，要去辨識一個模式並不需要整張圖，也就是，<strong>local 的資訊比 global 的資訊重要</strong>。在影片中有舉例，一隻鳥的特徵有鳥喙、羽毛、翅膀等等特徵，你並不會去在意他背景的圖片長什麼樣子。鳥喙這樣的特徵他是 <strong>區域性的</strong>，你不需要整張圖片的資訊去判斷這張圖是不是鳥喙，所以在設計模型的原則上需要去擷取區域性的資訊。</p>
+<p>第 2 點講的是，同樣的模式可能會出現在不同圖片的不同地方，這邊其實隱含了一個概念，就是 <strong>位移不變性（translation invariance）</strong>。由於同樣模式可以在不同地方上被找到，所以我們只需要一個 node 去偵測他就好了 ，這樣的話可以節省非常多的 node（或是 weight），這稱為 shared weight。</p>
+<p>第 3 點，如果圖片縮放不影響圖片辨識，那麼。這時候我們可以做 subsampling，除了可以減少資料處理的量，也不會影響圖片的辨識結果。</p>
+<hr>
+<p>在我們講 CNN 之前先來幫大家惡補一下 convolution 這個運算。</p>
+<h2 id="Convolution"><a href="#Convolution" class="headerlink" title="Convolution"></a>Convolution</h2><p>在 CNN 中會用到的重要運算就是 convolution，而在 CNN 中有所謂的 convolution layer，也就是這一層的運算就是做 convolution 而不是直接內積。</p>
+<p>我們說到 convolution layer，他真正的作用是用來做什麼的呢？他其實是用來 <strong>擷取 local 的資訊</strong> 的。</p>
+<p>承接前面第一點提到的，在圖片當中，pattern 是 local 的資訊而不是 global 的，而 pattern 是我們想抓的資訊，所以我們要的資訊只有 local 的而已。</p>
+<p>那麼 convolution 要如何擷取 local 的資訊呢？</p>
+<h2 id="Convolution-運算"><a href="#Convolution-運算" class="headerlink" title="Convolution 運算"></a>Convolution 運算</h2><p>我們先來看 convolution 的原始定義，這邊假設兩個函數 $f$、$g$，則兩個函數的 convolution 為：</p>
+<p>$$<br>(f * g)(t) = \int_{-\infty}^{\infty} f(\tau)g(t - \tau) d\tau<br>$$</p>
+<p>以上我們看到他是一個積分式，當中引入了另一個變數 $\tau$，他代表的是<em>一個時間區間</em>，那接下來是兩個函數的<em>相乘</em>，然後將他們對變數 $\tau$ <em>積分</em>。我們來想想看，先不管變數 $\tau$，相乘後積分的運算跟什麼樣的運算很像？</p>
+<p>是的！內積！我們來看看函數的內積長什麼樣子。</p>
+<p>$$<br>\lt f, g \gt = \int_{-\infty}^{\infty} f(t) g(t) dt<br>$$</p>
+<p>什麼？你跟我說這不是你認識的內積？不不不，你認識的內積其實是這個內積的離散版本。</p>
+<p>$$<br>\lt f, g \gt = \sum_{i=1}^{n} f_i g_i<br>$$</p>
+<p>$$<br>&lt;a, b&gt; = \sum_{i=1}^{n} a_i b_i = \mathbf{a}^T\mathbf{b}<br>$$</p>
+<p>這樣是不是比較清楚一點了？我們來比較一下，因為積分是在 <strong>連續空間的加總</strong>，相對應的加總就是在 <strong>離散空間</strong> 的版本，那麼在連續空間上需要一個 $d\tau$ 來把連續空間切成一片一片的，但是在離散空間上，他很自然的就是 $1$ 了。這樣是不是又發覺他們根本是一樣的呢？</p>
+<p>那你知道函數其實是一種向量嗎？不知道的同學表示沒有讀過或是沒有認真讀線性代數。</p>
+<p>那這樣大家應該接受了函數的內積以及向量的內積其實是一樣的。接下來我們來討論一下那個神奇的 $\tau$。</p>
+<p>$\tau$ 是一個時間區間，而積分其實是在對這個時間區間做切片然後加總，他其實跟我們在做訊號處理上的 window 的概念是一樣的，所以他其實是在某個 window 中做內積的意思。我們先來看看有 window 的內積長什麼樣子。</p>
+<p>$$<br>(a * b)[n] = \sum_{m=1}^{k} a[m] b[n + m]<br>$$</p>
+<p>在下圖我們可以假想左邊的向量是 $b$，右邊的是 $a$，而向量 $a$ 是有被 window 給限定範圍的（m = 1…k），所以在下面這張圖就是當 n = 1、m = 1…4 的時候的情境。箭頭則是向量元素相乘的對象，每次內積完，n 就會往下移動一個元素。</p>
+<p><img src="/images/ccor1d.svg" alt=""></p>
+<p>計算完之後就變成一個新的向量，這就是 window 版本的內積的運作原理了！他其實有一個正式的名字，稱為 cross-correlation。</p>
+<p>我們來看看把 convolution 離散化來看看是長什麼樣子。剛剛我們看到的 convolution 是連續的版本，是函數的版本，那我們實際上的運算是以向量去操作的，那麼離散版本的 convolution 是：</p>
+<p>$$<br>(a * b)[n] = \sum_{m=-\infty}^{\infty} a[m] b[n - m]<br>$$</p>
+<p>這邊的 window 就是 $m$ 這個參數，其實我們可以給他一個區間，不要是負無限大到正無限大。</p>
+<p>$$<br>(a * b)[n] = \sum_{m=1}^{k} a[m] b[n - m]<br>$$</p>
+<p>所以這邊的 window 大小調成是 $k$ 了！</p>
+<p><img src="/images/conv1d.svg" alt=""></p>
+<p>你會發現，convolution 會跟 cross-correlation 很像，差別在於順序，也就是 convolution 內積的順序是相反的，所以他在數學式上的表達是用相減的，這邊的情境是 n = 6、m = 1…4。</p>
+<p>我們來總結一下 convolution 這個運算，他其實是 local 版本的內積運算，而且他的內積方向是反序的。</p>
+<p>補充一點，convolution 其實也是一種線性的運算喔！是不是跟前面談到的線性模型 $\sigma(W^T\mathbf{x} + \mathbf{b})$ 有點異曲同工的感覺呢？</p>
+
+                                        
+
+                                </div>
+                            </div>
+                            <div id="post-footer" class="post-footer main-content-wrap">
+                                
+                                        
+                                            <div class="post-actions-wrap">
+    <nav>
+        <ul class="post-actions post-action-nav">
+            <li class="post-action">
+                
+                    
+                    <a class="post-action-btn btn btn--default tooltip--top" href="/2018/10/17/20-convolutional-neural-network/" data-tooltip="20 Convolutional neural network" aria-label="PREVIOUS: 20 Convolutional neural network">
+                
+                    <i class="fa fa-angle-left" aria-hidden="true"></i>
+                    <span class="hide-xs hide-sm text-small icon-ml">PREVIOUS</span>
+                </a>
+            </li>
+            <li class="post-action">
+                
+                    
+                    <a class="post-action-btn btn btn--default tooltip--top" href="/2018/10/17/18-multi-layer-preceptron/" data-tooltip="18 Multi-layer preceptron" aria-label="NEXT: 18 Multi-layer preceptron">
+                
+                    <span class="hide-xs hide-sm text-small icon-mr">NEXT</span>
+                    <i class="fa fa-angle-right" aria-hidden="true"></i>
+                </a>
+            </li>
+        </ul>
+    </nav>
+    <ul class="post-actions post-action-share">
+        <li class="post-action hide-lg hide-md hide-sm">
+            <a class="post-action-btn btn btn--default btn-open-shareoptions" href="#btn-open-shareoptions" aria-label="Share this post">
+                <i class="fa fa-share-alt" aria-hidden="true"></i>
+            </a>
+        </li>
+        
+            
+            
+            <li class="post-action hide-xs">
+                <a class="post-action-btn btn btn--default" target="new" href="https://www.facebook.com/sharer/sharer.php?u=https://yuehhua.github.io/2018/10/17/19-convolution-operation/" title="Share on Facebook">
+                    <i class="fa fa-facebook-official" aria-hidden="true"></i>
+                </a>
+            </li>
+        
+        
+            
+                <li class="post-action">
+                    <a class="post-action-btn btn btn--default" href="#disqus_thread">
+                        <i class="fa fa-comment-o"></i>
+                    </a>
+                </li>
+            
+        
+        <li class="post-action">
+            
+                <a class="post-action-btn btn btn--default" href="#" aria-label="Back to top">
+            
+                <i class="fa fa-list" aria-hidden="true"></i>
+            </a>
+        </li>
+    </ul>
+</div>
+
+
+                                                
+                                                    
+                                                        
+                                                            <div id="disqus_thread">
+    <noscript>Please enable JavaScript to view the <a href="//disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+</div>
+                                                                
+                                                                            
+                            </div>
+                            
+                                <script src='https://unpkg.com/mermaid@7.1.2/dist/mermaid.min.js'></script>
+                                <script>
+                                    if (window.mermaid) {
+                                        mermaid.initialize({ theme: 'forest' });
+                                    }
+                                </script>
+                                
+    </article>
+
+                <footer id="footer" class="main-content-wrap">
+    <span class="copyrights">
+        Copyrights &copy; 2018 Yueh-Hua Tu. All Rights Reserved.
+    </span>
+</footer>
+
+            </div>
+            
+                <div id="bottom-bar" class="post-bottom-bar" data-behavior="5">
+                    <div class="post-actions-wrap">
+    <nav>
+        <ul class="post-actions post-action-nav">
+            <li class="post-action">
+                
+                    
+                    <a class="post-action-btn btn btn--default tooltip--top" href="/2018/10/17/20-convolutional-neural-network/" data-tooltip="20 Convolutional neural network" aria-label="PREVIOUS: 20 Convolutional neural network">
+                
+                    <i class="fa fa-angle-left" aria-hidden="true"></i>
+                    <span class="hide-xs hide-sm text-small icon-ml">PREVIOUS</span>
+                </a>
+            </li>
+            <li class="post-action">
+                
+                    
+                    <a class="post-action-btn btn btn--default tooltip--top" href="/2018/10/17/18-multi-layer-preceptron/" data-tooltip="18 Multi-layer preceptron" aria-label="NEXT: 18 Multi-layer preceptron">
+                
+                    <span class="hide-xs hide-sm text-small icon-mr">NEXT</span>
+                    <i class="fa fa-angle-right" aria-hidden="true"></i>
+                </a>
+            </li>
+        </ul>
+    </nav>
+    <ul class="post-actions post-action-share">
+        <li class="post-action hide-lg hide-md hide-sm">
+            <a class="post-action-btn btn btn--default btn-open-shareoptions" href="#btn-open-shareoptions" aria-label="Share this post">
+                <i class="fa fa-share-alt" aria-hidden="true"></i>
+            </a>
+        </li>
+        
+            
+            
+            <li class="post-action hide-xs">
+                <a class="post-action-btn btn btn--default" target="new" href="https://www.facebook.com/sharer/sharer.php?u=https://yuehhua.github.io/2018/10/17/19-convolution-operation/" title="Share on Facebook">
+                    <i class="fa fa-facebook-official" aria-hidden="true"></i>
+                </a>
+            </li>
+        
+        
+            
+                <li class="post-action">
+                    <a class="post-action-btn btn btn--default" href="#disqus_thread">
+                        <i class="fa fa-comment-o"></i>
+                    </a>
+                </li>
+            
+        
+        <li class="post-action">
+            
+                <a class="post-action-btn btn btn--default" href="#" aria-label="Back to top">
+            
+                <i class="fa fa-list" aria-hidden="true"></i>
+            </a>
+        </li>
+    </ul>
+</div>
+
+
+                </div>
+                <div id="share-options-bar" class="share-options-bar" data-behavior="5">
+    <i id="btn-close-shareoptions" class="fa fa-close"></i>
+    <ul class="share-options">
+        
+            
+            
+            <li class="share-option">
+                <a class="share-option-btn" target="new" href="https://www.facebook.com/sharer/sharer.php?u=https://yuehhua.github.io/2018/10/17/19-convolution-operation/">
+                    <i class="fa fa-facebook-official" aria-hidden="true"></i><span>Share on Facebook</span>
+                </a>
+            </li>
+        
+    </ul>
+</div>
+
+            
+        </div>
+        
+
+
+<div id="about">
+    <div id="about-card">
+        <div id="about-btn-close">
+            <i class="fa fa-remove"></i>
+        </div>
+        
+            <h4 id="about-card-name">Yueh-Hua Tu</h4>
+        
+            <div id="about-card-bio"><p>Aim to be a computational biologist!</br>Systems Biology, Computational Biology, Machine Learning</br>Organizer of Julia Taiwan community</p>
+</div>
+        
+        
+            <div id="about-card-job">
+                <i class="fa fa-briefcase"></i>
+                <br/>
+                <p>Research assistant, Taiwan CDC</p>
+
+            </div>
+        
+        
+            <div id="about-card-location">
+                <i class="fa fa-map-marker"></i>
+                <br/>
+                Taiwan
+            </div>
+        
+    </div>
+</div>
+
+        
+        
+<div id="cover" style="background-image:url('/assets/images/cover.jpg');"></div>
+        <!--SCRIPTS-->
+<script src="/assets/js/script-xzfezjobyekpxrjktw5tz6muvzqfsbmo5n6atk3p5om9ulfptldi3p7cyqd8.min.js"></script>
+<!--SCRIPTS END-->
+
+    
+        <script>
+             var disqus_config = function () {
+                 this.page.url = 'https://yuehhua.github.io/2018/10/17/19-convolution-operation/';
+                 
+                    this.page.identifier = '2018/10/17/19-convolution-operation/';
+                 
+             };
+            (function() {
+                var d = document, s = d.createElement('script');
+                var disqus_shortname = 'dream-maker';
+                s.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+
+                s.setAttribute('data-timestamp', +new Date());
+                (d.head || d.body).appendChild(s);
+            })();
+        </script>
+    
+
+
+
+    <script type="text/x-mathjax-config">
+    MathJax.Hub.Config({
+        tex2jax: {
+            inlineMath: [ ["$","$"], ["\\(","\\)"] ],
+            skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code'],
+            processEscapes: true
+        }
+    });
+    MathJax.Hub.Queue(function() {
+        var all = MathJax.Hub.getAllJax();
+        for (var i = 0; i < all.length; ++i)
+            all[i].SourceElement().parentNode.className += ' has-jax';
+    });
+</script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script><!-- hexo-inject:begin --><!-- hexo-inject:end -->
+
+</body>
+</html>
