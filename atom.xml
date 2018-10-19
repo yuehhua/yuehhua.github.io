@@ -6,7 +6,7 @@
   <link href="/atom.xml" rel="self"/>
   
   <link href="https://yuehhua.github.io/"/>
-  <updated>2018-10-17T14:58:40.101Z</updated>
+  <updated>2018-10-19T14:34:55.385Z</updated>
   <id>https://yuehhua.github.io/</id>
   
   <author>
@@ -15,6 +15,32 @@
   </author>
   
   <generator uri="http://hexo.io/">Hexo</generator>
+  
+  <entry>
+    <title>21 Activation functions and ReLU</title>
+    <link href="https://yuehhua.github.io/2018/10/19/21-activation-functions-and-ReLU/"/>
+    <id>https://yuehhua.github.io/2018/10/19/21-activation-functions-and-ReLU/</id>
+    <published>2018-10-19T14:34:55.000Z</published>
+    <updated>2018-10-19T14:34:55.385Z</updated>
+    
+    <content type="html"><![CDATA[<p>今天我們來談談 activation function 吧！</p><h2 id="先談談線性轉換"><a href="#先談談線性轉換" class="headerlink" title="先談談線性轉換"></a>先談談線性轉換</h2><p>談 activation function 之前先要談談線性轉換。</p><p>有上到比較後面的線性代數的同學，應該有爬過 SVD 這座高山。</p><p>推薦可以看周老師的線代啟示錄 <a href="https://ccjou.wordpress.com/2009/09/01/%E5%A5%87%E7%95%B0%E5%80%BC%E5%88%86%E8%A7%A3-svd/" target="_blank" rel="noopener">奇異值分解 (SVD)</a></p><p>我們可以知道一個矩陣可以被看成線性轉換，而矩陣這個線性轉換可以被分解成 3 個矩陣：</p><a id="more"></a><p>$$<br>A = U \Sigma V^T<br>$$</p><p>這 3 個矩陣分別是有意義的，$U$、$\Sigma$、$V$ 的意義分別是旋轉、伸縮、旋轉的意思。大家可以參考以下的圖：</p><p><img src="https://ccjou.files.wordpress.com/2009/09/svd32.jpg?w=400&amp;h=300" alt=""></p><blockquote><p>圖來自以上提到的文章</p></blockquote><p>所以我們可以知道矩陣能做的事情大概就是旋轉伸縮這些事情了。</p><p>在模型上，我們還會加上一個 bias 來達到平移的效果。</p><p>我們可以來造一些點：</p><p><img src="/images/activation1.png" alt=""></p><p>我們可以 random 造一個矩陣：</p><p>$$<br>A =<br>\begin{bmatrix}<br>0.35166263&amp; 0.1124966 \\<br>0.25249535&amp; 0.65481947 \\<br>\end{bmatrix}<br>$$</p><p>所以我們可以對每個點做運算 $Ax$：</p><p><img src="/images/activation2.png" alt=""></p><h2 id="去吧！Activation-function！"><a href="#去吧！Activation-function！" class="headerlink" title="去吧！Activation function！"></a>去吧！Activation function！</h2><p>接下來我們先來試試看在 CNN 用最多的 ReLU，我們把上面的點通過 ReLU 之後會發生什麼事呢？</p><p><img src="/images/activation3.png" alt=""></p><p>大家會發現只留下第一象限的點是沒有動到的，剩下的象限的點都被擠到 x 軸跟 y 軸上了。</p><p>所以在高維度的世界中，點都會保留第一象限不變，其他象限被擠壓到軸上。</p><p>那如果是用 sigmoid 的效果呢？</p><p><img src="/images/activation4.png" alt=""></p><p>他將所有的點都壓到 (0, 1) 之間，所以整個形狀就縮小很多。</p><p>我們放大來看看他整體形狀有沒有什麼變化。</p><p><img src="/images/activation5.png" alt=""></p><p>整體形狀有些微被扭曲了，不知道大家有沒有發現呢？</p><p>所以在引進 activation function 之後，模型擁有了 <strong>扭曲</strong> 的能力！</p><p>那麼 activation function 到底實際上做了什麼事呢？</p><h2 id="雕塑的工匠"><a href="#雕塑的工匠" class="headerlink" title="雕塑的工匠"></a>雕塑的工匠</h2><p>以 ReLU 來說，他就像一個工匠正在雕塑一個作品。</p><p>ReLU 就是工匠手上那把彫刻刀，他會把第一象限以外的部份削掉。看起來就會像朱銘大師的作品這樣：</p><p><img src="http://digitalarchives.artcenter.ncku.edu.tw/walkncku_cht/image/a51d2-dsc_7226.jpg" alt=""></p><blockquote><p>圖來自 <a href="http://digitalarchives.artcenter.ncku.edu.tw/walkncku_cht/" target="_blank" rel="noopener">漫遊‧藝術網＠成大校園</a></p></blockquote><p>原諒我私心用成大的雕塑品當範例。XD</p><p>ReLU 會將不重要的部份削掉，剩下重要的特徵接續後面的特徵萃取。</p><h2 id="消失的梯度"><a href="#消失的梯度" class="headerlink" title="消失的梯度"></a>消失的梯度</h2><p>以 sigmoid 來說，他將點壓到 (0, 1) 之間看似很難以理解。</p><p>其實這個 activation function 在影像辨識當中比較不是主流的方法，可能不是那麼適用，不過在 NLP 領域算是還蠻常用的方法。</p><p>那如果放在 CNN 的話，就會發生梯度消失的問題。</p><p>在比較早期的時候，大家在影像處理上都遇到梯度消失的問題。如果直觀上看來，如果每過一次 convolution layer 就會被壓縮到 (0, 1) 一次，那麼後面再接 subsampling 的處理，又會縮小一次，並且失去某些訊息，想當然爾特徵就在不斷縮小的過程中慢慢不見了。這樣的效果讓早期的模型無法變得更深。</p><p>讓 convolution layer 去篩選哪些 feature 該留下來，讓 subsampling layer 去做縮小的動作，各自負責各自的功能，這樣看來是比較好的作法。</p><p>這是一個比較直觀的解釋方式，歡迎大家提出不同的看法。</p><h2 id="模型怎麼知道要從哪裡下刀？"><a href="#模型怎麼知道要從哪裡下刀？" class="headerlink" title="模型怎麼知道要從哪裡下刀？"></a>模型怎麼知道要從哪裡下刀？</h2><p>我想蠻多人應該會有跟我一樣的問題。</p><p>我知道如果用 ReLU 可以把不要的部份削掉，那麼我怎麼知道要削哪裡？</p><p>答案是 backpropagation (gradient descent method) 會告訴你！</p><p>藉由 forward 將訊息傳遞到 output layer，backward 所回饋的 gradient 正提供一個訊息，這個訊息會告訴模型要怎麼調整線性轉換的矩陣，來讓 ReLU 可以切在對的位置。</p><h2 id="ReLU-與-softplus"><a href="#ReLU-與-softplus" class="headerlink" title="ReLU 與 softplus"></a>ReLU 與 softplus</h2><p>softplus 是一個跟 ReLU 非常像的 activation function。</p><p>$$<br>softplus(x) = log(1 + e^x)<br>$$</p><p>兩者的差別：</p><p><img src="/images/Rectifier_and_softplus_functions.svg" alt=""></p><p>你可以把 softplus 看成 ReLU 的可微分版本，或是將 ReLU 看成 softplus 的簡化版本。</p><p>他在負的區域看起來跟 sigmoid function 很像，另一邊正的區域就會非常接近 identity function。</p><p>在行為上也很符合神經的特性，就是有正向的訊號就會是正向的輸出，如果是負向的訊號就不輸出。</p><p>很有趣的特性吧！</p><h2 id="為什麼-activation-function-一定要長這樣？"><a href="#為什麼-activation-function-一定要長這樣？" class="headerlink" title="為什麼 activation function 一定要長這樣？"></a>為什麼 activation function 一定要長這樣？</h2><p>其實沒有規定 activation function 一定要長怎樣。</p><p>但是拿多項式函數或是其他函數會讓整個模型非常難以理解，而且當中的參數還不少。</p><p>所以依照 Occam’s razor 的原則，我們先拿簡單的函數來用會比較好。</p><h2 id="結論"><a href="#結論" class="headerlink" title="結論"></a>結論</h2><p>不同的模型跟問題其實適用不同的 activation function。</p><p>像影像辨識中，CNN 的設計是要先做 feature extraction，再進行分類。</p><p>所以在 feature extraction 的階段就需要找適用的 activation function。</p><p>那像在 NLP 領域，他們關心的是機率分佈，而 sigmoid 就很合機率分佈的調調。</p><p>這邊原諒我草率帶過 NLP 的部份，今天的主軸都擺在 CNN 上。XD</p><p>今天就到這邊告一個段落囉。</p>]]></content>
+    
+    <summary type="html">
+    
+      &lt;p&gt;今天我們來談談 activation function 吧！&lt;/p&gt;
+&lt;h2 id=&quot;先談談線性轉換&quot;&gt;&lt;a href=&quot;#先談談線性轉換&quot; class=&quot;headerlink&quot; title=&quot;先談談線性轉換&quot;&gt;&lt;/a&gt;先談談線性轉換&lt;/h2&gt;&lt;p&gt;談 activation function 之前先要談談線性轉換。&lt;/p&gt;
+&lt;p&gt;有上到比較後面的線性代數的同學，應該有爬過 SVD 這座高山。&lt;/p&gt;
+&lt;p&gt;推薦可以看周老師的線代啟示錄 &lt;a href=&quot;https://ccjou.wordpress.com/2009/09/01/%E5%A5%87%E7%95%B0%E5%80%BC%E5%88%86%E8%A7%A3-svd/&quot; target=&quot;_blank&quot; rel=&quot;noopener&quot;&gt;奇異值分解 (SVD)&lt;/a&gt;&lt;/p&gt;
+&lt;p&gt;我們可以知道一個矩陣可以被看成線性轉換，而矩陣這個線性轉換可以被分解成 3 個矩陣：&lt;/p&gt;
+    
+    </summary>
+    
+      <category term="Machine Learning" scheme="https://yuehhua.github.io/categories/Machine-Learning/"/>
+    
+      <category term="機器學習模型圖書館：從傳統模型到深度學習" scheme="https://yuehhua.github.io/categories/Machine-Learning/%E6%A9%9F%E5%99%A8%E5%AD%B8%E7%BF%92%E6%A8%A1%E5%9E%8B%E5%9C%96%E6%9B%B8%E9%A4%A8%EF%BC%9A%E5%BE%9E%E5%82%B3%E7%B5%B1%E6%A8%A1%E5%9E%8B%E5%88%B0%E6%B7%B1%E5%BA%A6%E5%AD%B8%E7%BF%92/"/>
+    
+    
+  </entry>
   
   <entry>
     <title>20 Convolutional neural network</title>
@@ -453,29 +479,6 @@
     
       &lt;p&gt;這個模型大概已經被人講過很多次，講到都快要爛掉了XD&lt;/p&gt;
 &lt;p&gt;其實我自己在兩年前的鐵人賽中也有講過同一個模型，所以我就不用講太多基礎的部份：&lt;/p&gt;
-    
-    </summary>
-    
-      <category term="Machine Learning" scheme="https://yuehhua.github.io/categories/Machine-Learning/"/>
-    
-      <category term="機器學習模型圖書館：從傳統模型到深度學習" scheme="https://yuehhua.github.io/categories/Machine-Learning/%E6%A9%9F%E5%99%A8%E5%AD%B8%E7%BF%92%E6%A8%A1%E5%9E%8B%E5%9C%96%E6%9B%B8%E9%A4%A8%EF%BC%9A%E5%BE%9E%E5%82%B3%E7%B5%B1%E6%A8%A1%E5%9E%8B%E5%88%B0%E6%B7%B1%E5%BA%A6%E5%AD%B8%E7%BF%92/"/>
-    
-    
-  </entry>
-  
-  <entry>
-    <title>01 簡介</title>
-    <link href="https://yuehhua.github.io/2018/10/03/01-introduction/"/>
-    <id>https://yuehhua.github.io/2018/10/03/01-introduction/</id>
-    <published>2018-10-03T06:03:40.000Z</published>
-    <updated>2018-10-03T06:09:16.636Z</updated>
-    
-    <content type="html"><![CDATA[<p>上個禮拜才剛從美國回來，周末又講了兩天整天的機器學習課程，完全忘記鐵人賽開賽的事情…….</p><p>這一系列文章將會專注在機器學習的模型上，會從傳統的機器學習模型一路介紹到深度學習的模型。<br>比起介紹個別的模型，我會更專注在模型的演化上，去比較不同模型的差異之處，或是不同模型之間的改進之處。<br>一系列的脈絡會讓讀者更了解數學模型的運作方式，以及數學運算上的意義。</p><a id="more"></a><p>我們的起點一樣是線性迴歸，接著會踩著感知器的腳步，一路走向 SVM。<br>在線性模型上，我們不只有線性迴歸，根據不同的誤差的分佈情形，我們有 logistic regression，還有 Poisson regression，然後走到廣義線性模型。<br>模型俱備，只欠網路。我們可以從既有的模型當中發現，當你把模型堆疊起來，會得到神經網路模型。<br>接下來，就會一一介紹在這五年內發展蓬勃的深度學習模型。</p><p>鐵人賽的文也會發佈在我自己的部落格中。</p>]]></content>
-    
-    <summary type="html">
-    
-      &lt;p&gt;上個禮拜才剛從美國回來，周末又講了兩天整天的機器學習課程，完全忘記鐵人賽開賽的事情…….&lt;/p&gt;
-&lt;p&gt;這一系列文章將會專注在機器學習的模型上，會從傳統的機器學習模型一路介紹到深度學習的模型。&lt;br&gt;比起介紹個別的模型，我會更專注在模型的演化上，去比較不同模型的差異之處，或是不同模型之間的改進之處。&lt;br&gt;一系列的脈絡會讓讀者更了解數學模型的運作方式，以及數學運算上的意義。&lt;/p&gt;
     
     </summary>
     

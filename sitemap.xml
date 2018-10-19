@@ -2,6 +2,13 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   
   <url>
+    <loc>https://yuehhua.github.io/2018/10/19/21-activation-functions-and-ReLU/</loc>
+    
+    <lastmod>2018-10-19T14:34:55.385Z</lastmod>
+    
+  </url>
+  
+  <url>
     <loc>https://yuehhua.github.io/2018/10/17/19-convolution-operation/</loc>
     
     <lastmod>2018-10-18T13:45:31.881Z</lastmod>
