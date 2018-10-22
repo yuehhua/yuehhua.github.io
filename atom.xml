@@ -6,7 +6,7 @@
   <link href="/atom.xml" rel="self"/>
   
   <link href="https://yuehhua.github.io/"/>
-  <updated>2018-10-22T15:10:35.910Z</updated>
+  <updated>2018-10-22T15:21:38.756Z</updated>
   <id>https://yuehhua.github.io/</id>
   
   <author>
@@ -21,7 +21,7 @@
     <link href="https://yuehhua.github.io/2018/10/22/22-convolutional-encoder-decoder-architecture/"/>
     <id>https://yuehhua.github.io/2018/10/22/22-convolutional-encoder-decoder-architecture/</id>
     <published>2018-10-22T15:10:35.000Z</published>
-    <updated>2018-10-22T15:10:35.910Z</updated>
+    <updated>2018-10-22T15:21:38.756Z</updated>
     
     <content type="html"><![CDATA[<p>標題這不是一個專有名詞。</p><p>在電腦視覺的領域中有幾個有名的問題：</p><ol><li>影像辨識（Image recognition）</li><li>物件辨識（Object detection）</li><li>語意分割（Semantic segmentation）</li></ol><p><img src="/images/cv-tasks.jpg" alt=""></p><p>影像辨識是給一張影像，希望模型可以辨識出當中的東西是什麼。輸入模型的會是影像向量，輸出的會是類別向量。</p><p>物件辨識給的同樣是一張影像，除了需要辨識出當中的物件以外，還要給出這個物體所在的位置，輸出的除了類別向量以外，還有座標。</p><p>語意分割可能無法一眼看出當中的含意，對一個句子來說，詞本身帶有一些含意，對比到影像上，句子就是影像，而詞意就是影像中的物體。語意分割是給一張影像，需要將影像中的物件切割出來，所以必須對每個像素做分類。</p><p><img src="/images/semantic_seg.jpeg" alt=""></p><p>三者是各自不同的任務。</p>]]></content>
     
