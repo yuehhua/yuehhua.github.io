@@ -15,7 +15,7 @@
     
         <link rel="alternate" type="application/atom+xml" title="RSS" href="/atom.xml">
     
-    <script type="application/ld+json">{"@context":"http://schema.org","@type":"BlogPosting","author":{"@type":"Person","name":"Yueh-Hua Tu","sameAs":["https://github.com/yuehhua/","https://www.facebook.com/a504082002","https://www.linkedin.com/in/%E5%B2%B3%E8%8F%AF-%E6%9D%9C-6a3995a0/","mailto:a504082002@gmail.com"],"image":"https://www.gravatar.com/avatar/a565749fba4782b717234da670b273fd"},"articleBody":"標題這不是一個專有名詞。\n在電腦視覺的領域中有幾個有名的問題：\n\n影像辨識（Image recognition）\n物件辨識（Object detection）\n語意分割（Semantic segmentation）\n\n\n影像辨識是給一張影像，希望模型可以辨識出當中的東西是什麼。輸入模型的會是影像向量，輸出的會是類別向量。\n物件辨識給的同樣是一張影像，除了需要辨識出當中的物件以外，還要給出這個物體所在的位置，輸出的除了類別向量以外，還有座標。\n語意分割可能無法一眼看出當中的含意，對一個句子來說，詞本身帶有一些含意，對比到影像上，句子就是影像，而詞意就是影像中的物體。語意分割是給一張影像，需要將影像中的物件切割出來，所以必須對每個像素做分類。\n\n三者是各自不同的任務。\n","dateCreated":"2018-10-22T23:10:35+08:00","dateModified":"2018-10-22T23:21:38+08:00","datePublished":"2018-10-22T23:10:35+08:00","description":"","headline":"22 Convolutional encoder-decoder 架構","image":[],"mainEntityOfPage":{"@type":"WebPage","@id":"https://yuehhua.github.io/2018/10/22/22-convolutional-encoder-decoder-architecture/"},"publisher":{"@type":"Organization","name":"Yueh-Hua Tu","sameAs":["https://github.com/yuehhua/","https://www.facebook.com/a504082002","https://www.linkedin.com/in/%E5%B2%B3%E8%8F%AF-%E6%9D%9C-6a3995a0/","mailto:a504082002@gmail.com"],"image":"https://www.gravatar.com/avatar/a565749fba4782b717234da670b273fd","logo":{"@type":"ImageObject","url":"https://www.gravatar.com/avatar/a565749fba4782b717234da670b273fd"}},"url":"https://yuehhua.github.io/2018/10/22/22-convolutional-encoder-decoder-architecture/"}</script>
+    <script type="application/ld+json">{"@context":"http://schema.org","@type":"BlogPosting","author":{"@type":"Person","name":"Yueh-Hua Tu","sameAs":["https://github.com/yuehhua/","https://www.facebook.com/a504082002","https://www.linkedin.com/in/%E5%B2%B3%E8%8F%AF-%E6%9D%9C-6a3995a0/","mailto:a504082002@gmail.com"],"image":"https://www.gravatar.com/avatar/a565749fba4782b717234da670b273fd"},"articleBody":"標題這不是一個專有名詞。\n在電腦視覺的領域中有幾個有名的問題：\n\n影像辨識（Image recognition）\n物件辨識（Object detection）\n語意分割（Semantic segmentation）\n\n\n影像辨識是給一張影像，希望模型可以辨識出當中的東西是什麼。輸入模型的會是影像向量，輸出的會是類別向量。\n物件辨識給的同樣是一張影像，除了需要辨識出當中的物件以外，還要給出這個物體所在的位置，輸出的除了類別向量以外，還有座標。\n語意分割可能無法一眼看出當中的含意，對一個句子來說，詞本身帶有一些含意，對比到影像上，句子就是影像，而詞意就是影像中的物體。語意分割是給一張影像，需要將影像中的物件切割出來，所以必須對每個像素做分類。\n\n三者是各自不同的任務。\n不同的任務有些共通性，這些共通性讓他們可能都可以適用 CNN 的架構。不過這麼說還是太過粗糙了。\n對於影像辨識來說，一般性架構會是有 convolution layer 為主的 feature extractor，接著會是以 fully-connected layer 為主的 classifier。在不同階段有不同的目的，在輸入影像之後要先對影像進一步抽取特徵，有了足夠的特徵之後才進行分類。\n語意分割也有類似的架構，在前面會有 convolution layer 為主的 feature extractor，但是為了將每個樣素做分類，必須對每一個像素做預測，預測像素的類別。在後半的部份，有人提出了 Fully convolution network，試圖做像素的類別預測。\n像素的類別預測這件事從另一個角度切入，會很像是一種生成的過程。也就是，我們在前面要將影像的特徵萃取出來，是一種將資訊壓縮的過程，在後半我們希望將壓縮的資訊還原到某種程度，我們需要產生器（generator）。\n\n\nSegNet [2015, University of Cambridge]\n\n在語意分割這個問題，後來就一路發展到了 encoder-decoder 架構，我們又回到類似 autoencoder 的樣子，讓 encoder 跟 decoder 一起訓練的模型架構。在這邊 encoder 就是 feature extractor，decoder 就是一種 generator。\n","dateCreated":"2018-10-22T23:10:35+08:00","dateModified":"2018-10-22T23:49:10+08:00","datePublished":"2018-10-22T23:10:35+08:00","description":"","headline":"22 Convolutional encoder-decoder 架構","image":[],"mainEntityOfPage":{"@type":"WebPage","@id":"https://yuehhua.github.io/2018/10/22/22-convolutional-encoder-decoder-architecture/"},"publisher":{"@type":"Organization","name":"Yueh-Hua Tu","sameAs":["https://github.com/yuehhua/","https://www.facebook.com/a504082002","https://www.linkedin.com/in/%E5%B2%B3%E8%8F%AF-%E6%9D%9C-6a3995a0/","mailto:a504082002@gmail.com"],"image":"https://www.gravatar.com/avatar/a565749fba4782b717234da670b273fd","logo":{"@type":"ImageObject","url":"https://www.gravatar.com/avatar/a565749fba4782b717234da670b273fd"}},"url":"https://yuehhua.github.io/2018/10/22/22-convolutional-encoder-decoder-architecture/"}</script>
     <meta name="description" content="標題這不是一個專有名詞。 在電腦視覺的領域中有幾個有名的問題：  影像辨識（Image recognition） 物件辨識（Object detection） 語意分割（Semantic segmentation）   影像辨識是給一張影像，希望模型可以辨識出當中的東西是什麼。輸入模型的會是影像向量，輸出的會是類別向量。 物件辨識給的同樣是一張影像，除了需要辨識出當中的物件以外，還要給出這個物體所">
 <meta name="keywords" content="machine learning,deep learning,topology">
 <meta property="og:type" content="blog">
@@ -26,7 +26,8 @@
 <meta property="og:locale" content="en">
 <meta property="og:image" content="https://yuehhua.github.io/images/cv-tasks.jpg">
 <meta property="og:image" content="https://yuehhua.github.io/images/semantic_seg.jpeg">
-<meta property="og:updated_time" content="2018-10-22T15:21:38.756Z">
+<meta property="og:image" content="https://yuehhua.github.io/images/segnet.svg">
+<meta property="og:updated_time" content="2018-10-22T15:49:10.449Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="22 Convolutional encoder-decoder 架構">
 <meta name="twitter:description" content="標題這不是一個專有名詞。 在電腦視覺的領域中有幾個有名的問題：  影像辨識（Image recognition） 物件辨識（Object detection） 語意分割（Semantic segmentation）   影像辨識是給一張影像，希望模型可以辨識出當中的東西是什麼。輸入模型的會是影像向量，輸出的會是類別向量。 物件辨識給的同樣是一張影像，除了需要辨識出當中的物件以外，還要給出這個物體所">
@@ -279,6 +280,15 @@
 <p>語意分割可能無法一眼看出當中的含意，對一個句子來說，詞本身帶有一些含意，對比到影像上，句子就是影像，而詞意就是影像中的物體。語意分割是給一張影像，需要將影像中的物件切割出來，所以必須對每個像素做分類。</p>
 <p><img src="/images/semantic_seg.jpeg" alt=""></p>
 <p>三者是各自不同的任務。</p>
+<p>不同的任務有些共通性，這些共通性讓他們可能都可以適用 CNN 的架構。不過這麼說還是太過粗糙了。</p>
+<p>對於影像辨識來說，一般性架構會是有 convolution layer 為主的 feature extractor，接著會是以 fully-connected layer 為主的 classifier。在不同階段有不同的目的，在輸入影像之後要先對影像進一步抽取特徵，有了足夠的特徵之後才進行分類。</p>
+<p>語意分割也有類似的架構，在前面會有 convolution layer 為主的 feature extractor，但是為了將每個樣素做分類，必須對每一個像素做預測，預測像素的類別。在後半的部份，有人提出了 Fully convolution network，試圖做像素的類別預測。</p>
+<p>像素的類別預測這件事從另一個角度切入，會很像是一種生成的過程。也就是，我們在前面要將影像的特徵萃取出來，是一種將資訊壓縮的過程，在後半我們希望將壓縮的資訊還原到某種程度，我們需要產生器（generator）。</p>
+<p><img src="/images/segnet.svg" alt=""></p>
+<blockquote>
+<p><a href="http://mi.eng.cam.ac.uk/projects/segnet/" target="_blank" rel="noopener">SegNet [2015, University of Cambridge]</a></p>
+</blockquote>
+<p>在語意分割這個問題，後來就一路發展到了 encoder-decoder 架構，我們又回到類似 autoencoder 的樣子，讓 encoder 跟 decoder 一起訓練的模型架構。在這邊 encoder 就是 feature extractor，decoder 就是一種 generator。</p>
 
                                         
 
