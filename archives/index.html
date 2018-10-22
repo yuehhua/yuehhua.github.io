@@ -231,6 +231,67 @@
     <section class="postShorten-group main-content-wrap">
     
     
+    <article class="postShorten postShorten--thumbnailimg-bottom">
+        <div class="postShorten-wrap">
+            
+            <div class="postShorten-header">
+                <h1 class="postShorten-title">
+                    
+                        <a class="link-unstyled" href="/2018/10/22/22-convolutional-encoder-decoder-architecture/">
+                            22 Convolutional encoder-decoder 架構
+                        </a>
+                    
+                </h1>
+                <div class="postShorten-meta">
+    <time datetime="2018-10-22T23:10:35+08:00">
+	
+		    Oct 22, 2018
+    	
+    </time>
+    
+        <span>in </span>
+        
+    <a class="category-link" href="/categories/Machine-Learning/">Machine Learning</a>, <a class="category-link" href="/categories/Machine-Learning/機器學習模型圖書館：從傳統模型到深度學習/">機器學習模型圖書館：從傳統模型到深度學習</a>
+
+
+    
+</div>
+
+            </div>
+            
+                <div class="postShorten-content">
+                    <p>標題這不是一個專有名詞。</p>
+<p>在電腦視覺的領域中有幾個有名的問題：</p>
+<ol>
+<li>影像辨識（Image recognition）</li>
+<li>物件辨識（Object detection）</li>
+<li>語意分割（Semantic segmentation）</li>
+</ol>
+<p><img src="/images/cv-tasks.jpg" alt=""></p>
+<p>影像辨識是給一張影像，希望模型可以辨識出當中的東西是什麼。輸入模型的會是影像向量，輸出的會是類別向量。</p>
+<p>物件辨識給的同樣是一張影像，除了需要辨識出當中的物件以外，還要給出這個物體所在的位置，輸出的除了類別向量以外，還有座標。</p>
+<p>語意分割可能無法一眼看出當中的含意，對一個句子來說，詞本身帶有一些含意，對比到影像上，句子就是影像，而詞意就是影像中的物體。語意分割是給一張影像，需要將影像中的物件切割出來，所以必須對每個像素做分類。</p>
+<p><img src="/images/semantic_seg.jpeg" alt=""></p>
+<p>三者是各自不同的任務。</p>
+
+                    
+                        
+
+                    
+                    
+                        <p>
+                            <a href="/2018/10/22/22-convolutional-encoder-decoder-architecture/#post-footer" class="postShorten-excerpt_link link">
+                                Comment and share
+                            </a>
+                        </p>
+                    
+                </div>
+            
+        </div>
+        
+    </article>
+    
+    
     <article class="postShorten postShorten--thumbnailimg-right">
         <div class="postShorten-wrap">
             
@@ -411,7 +472,7 @@
     </article>
     
     
-    <article class="postShorten postShorten--thumbnailimg-bottom">
+    <article class="postShorten postShorten--thumbnailimg-right">
         <div class="postShorten-wrap">
             
             <div class="postShorten-header">
@@ -439,29 +500,14 @@
 
             </div>
             
-                <div class="postShorten-content">
+                <div class="postShorten-excerpt">
                     <p>既然前一篇提到學習特徵是一件重要的事，那麼我們就來講講 autoencoder 吧！</p>
 <p>Autoencoder 就是一個 unsupervised 方法，試圖學習出可以用的特徵。雖然不少人可能會說他是一個壓縮的方法或是一個降維的方法，其實他都是。</p>
-<p>Autoencoder 就是希望給一個 input ，經過轉換之後會成為一個新的、維度比較低的向量，並且可以再由這個向量透過轉換還原成原本的 input。既然低維的向量可以還原成 input 的樣子，那代表他含有足夠的資訊可以還原，所以你可以把他看成是一種壓縮或是降維。我想強調的是，autoencoder 可以將一個 input 的樣子轉換成一個新的表示方式，我們就可以用新的視角來看待他。</p>
-<h2 id="模型"><a href="#模型" class="headerlink" title="模型"></a>模型</h2><p>Autoencoder 算是一個非常簡單的模型，他就是將資料向量經過一個轉換過後成為新的向量，在讓新的向量經過轉換過後還原成原本的向量。</p>
-<p>抽象上來說比較像是：</p>
-<p>$$<br>X \rightarrow Z \rightarrow X<br>$$</p>
-<p>Autoencoder 可以被拆解成兩個部份：一個是 encoder $X \rightarrow Z$，另一個是 decoder $Z \rightarrow X$ 的部份。</p>
-<p>在這個架構上 encoder-decoder 是相接在一起做訓練的。</p>
-<p>最簡單的 autoencoder 在 encoder 跟 decoder 上各自都只有一層，當然你可以不只一層，取決於你自己的狀況。</p>
-<p>他是一個非常簡單的架構，所以有非常多的變體，像是 denoising autoencoder、sparse autoencoder、variational autoencoder…等等。</p>
-<p>每個都有自己獨特的用法，所以這是一個非常基礎的模型。</p>
-
                     
+                        <a href="/2018/10/17/17-autoencoder/" class="postShorten-excerpt_link link">
+                            Continue reading
+                        </a>
                         
-
-                    
-                    
-                        <p>
-                            <a href="/2018/10/17/17-autoencoder/#post-footer" class="postShorten-excerpt_link link">
-                                Comment and share
-                            </a>
-                        </p>
                     
                 </div>
             
@@ -638,51 +684,6 @@
 <p>神經網路的概念在於將多個模型串接起來，也就是前面提到的堆疊的概念。</p>
                     
                         <a href="/2018/10/14/13-kernel-svm-and-rbf-network/" class="postShorten-excerpt_link link">
-                            Continue reading
-                        </a>
-                        
-                    
-                </div>
-            
-        </div>
-        
-    </article>
-    
-    
-    <article class="postShorten postShorten--thumbnailimg-right">
-        <div class="postShorten-wrap">
-            
-            <div class="postShorten-header">
-                <h1 class="postShorten-title">
-                    
-                        <a class="link-unstyled" href="/2018/10/12/12-from-linear-model-to-neural-network/">
-                            12 從線性模型到神經網路
-                        </a>
-                    
-                </h1>
-                <div class="postShorten-meta">
-    <time datetime="2018-10-12T23:46:06+08:00">
-	
-		    Oct 12, 2018
-    	
-    </time>
-    
-        <span>in </span>
-        
-    <a class="category-link" href="/categories/Machine-Learning/">Machine Learning</a>, <a class="category-link" href="/categories/Machine-Learning/機器學習模型圖書館：從傳統模型到深度學習/">機器學習模型圖書館：從傳統模型到深度學習</a>
-
-
-    
-</div>
-
-            </div>
-            
-                <div class="postShorten-excerpt">
-                    <p>我們把線性模型們都大統一了。</p>
-<p>$$<br>y \overset{f}{\longleftrightarrow} \mathbb{E}[y] \leftrightarrow \eta = \mathbf{w}^T\mathbf{x} + b<br>$$</p>
-<p>接下來就要進入到令人興奮的神經網路模型了！</p>
-                    
-                        <a href="/2018/10/12/12-from-linear-model-to-neural-network/" class="postShorten-excerpt_link link">
                             Continue reading
                         </a>
                         

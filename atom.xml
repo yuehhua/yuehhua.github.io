@@ -6,7 +6,7 @@
   <link href="/atom.xml" rel="self"/>
   
   <link href="https://yuehhua.github.io/"/>
-  <updated>2018-10-19T14:34:55.385Z</updated>
+  <updated>2018-10-22T15:10:35.910Z</updated>
   <id>https://yuehhua.github.io/</id>
   
   <author>
@@ -15,6 +15,36 @@
   </author>
   
   <generator uri="http://hexo.io/">Hexo</generator>
+  
+  <entry>
+    <title>22 Convolutional encoder-decoder 架構</title>
+    <link href="https://yuehhua.github.io/2018/10/22/22-convolutional-encoder-decoder-architecture/"/>
+    <id>https://yuehhua.github.io/2018/10/22/22-convolutional-encoder-decoder-architecture/</id>
+    <published>2018-10-22T15:10:35.000Z</published>
+    <updated>2018-10-22T15:10:35.910Z</updated>
+    
+    <content type="html"><![CDATA[<p>標題這不是一個專有名詞。</p><p>在電腦視覺的領域中有幾個有名的問題：</p><ol><li>影像辨識（Image recognition）</li><li>物件辨識（Object detection）</li><li>語意分割（Semantic segmentation）</li></ol><p><img src="/images/cv-tasks.jpg" alt=""></p><p>影像辨識是給一張影像，希望模型可以辨識出當中的東西是什麼。輸入模型的會是影像向量，輸出的會是類別向量。</p><p>物件辨識給的同樣是一張影像，除了需要辨識出當中的物件以外，還要給出這個物體所在的位置，輸出的除了類別向量以外，還有座標。</p><p>語意分割可能無法一眼看出當中的含意，對一個句子來說，詞本身帶有一些含意，對比到影像上，句子就是影像，而詞意就是影像中的物體。語意分割是給一張影像，需要將影像中的物件切割出來，所以必須對每個像素做分類。</p><p><img src="/images/semantic_seg.jpeg" alt=""></p><p>三者是各自不同的任務。</p>]]></content>
+    
+    <summary type="html">
+    
+      
+      
+        &lt;p&gt;標題這不是一個專有名詞。&lt;/p&gt;
+&lt;p&gt;在電腦視覺的領域中有幾個有名的問題：&lt;/p&gt;
+&lt;ol&gt;
+&lt;li&gt;影像辨識（Image recognition）&lt;/li&gt;
+&lt;li&gt;物件辨識（Object detection）&lt;/li&gt;
+&lt;li&gt;語意分割（Semantic segmen
+      
+    
+    </summary>
+    
+      <category term="Machine Learning" scheme="https://yuehhua.github.io/categories/Machine-Learning/"/>
+    
+      <category term="機器學習模型圖書館：從傳統模型到深度學習" scheme="https://yuehhua.github.io/categories/Machine-Learning/%E6%A9%9F%E5%99%A8%E5%AD%B8%E7%BF%92%E6%A8%A1%E5%9E%8B%E5%9C%96%E6%9B%B8%E9%A4%A8%EF%BC%9A%E5%BE%9E%E5%82%B3%E7%B5%B1%E6%A8%A1%E5%9E%8B%E5%88%B0%E6%B7%B1%E5%BA%A6%E5%AD%B8%E7%BF%92/"/>
+    
+    
+  </entry>
   
   <entry>
     <title>21 Activation functions and ReLU</title>
@@ -117,18 +147,14 @@
     <link href="https://yuehhua.github.io/2018/10/17/17-autoencoder/"/>
     <id>https://yuehhua.github.io/2018/10/17/17-autoencoder/</id>
     <published>2018-10-17T14:36:06.000Z</published>
-    <updated>2018-10-17T14:36:06.188Z</updated>
+    <updated>2018-10-19T15:26:36.709Z</updated>
     
-    <content type="html"><![CDATA[<p>既然前一篇提到學習特徵是一件重要的事，那麼我們就來講講 autoencoder 吧！</p><p>Autoencoder 就是一個 unsupervised 方法，試圖學習出可以用的特徵。雖然不少人可能會說他是一個壓縮的方法或是一個降維的方法，其實他都是。</p><p>Autoencoder 就是希望給一個 input ，經過轉換之後會成為一個新的、維度比較低的向量，並且可以再由這個向量透過轉換還原成原本的 input。既然低維的向量可以還原成 input 的樣子，那代表他含有足夠的資訊可以還原，所以你可以把他看成是一種壓縮或是降維。我想強調的是，autoencoder 可以將一個 input 的樣子轉換成一個新的表示方式，我們就可以用新的視角來看待他。</p><h2 id="模型"><a href="#模型" class="headerlink" title="模型"></a>模型</h2><p>Autoencoder 算是一個非常簡單的模型，他就是將資料向量經過一個轉換過後成為新的向量，在讓新的向量經過轉換過後還原成原本的向量。</p><p>抽象上來說比較像是：</p><p>$$<br>X \rightarrow Z \rightarrow X<br>$$</p><p>Autoencoder 可以被拆解成兩個部份：一個是 encoder $X \rightarrow Z$，另一個是 decoder $Z \rightarrow X$ 的部份。</p><p>在這個架構上 encoder-decoder 是相接在一起做訓練的。</p><p>最簡單的 autoencoder 在 encoder 跟 decoder 上各自都只有一層，當然你可以不只一層，取決於你自己的狀況。</p><p>他是一個非常簡單的架構，所以有非常多的變體，像是 denoising autoencoder、sparse autoencoder、variational autoencoder…等等。</p><p>每個都有自己獨特的用法，所以這是一個非常基礎的模型。</p>]]></content>
+    <content type="html"><![CDATA[<p>既然前一篇提到學習特徵是一件重要的事，那麼我們就來講講 autoencoder 吧！</p><p>Autoencoder 就是一個 unsupervised 方法，試圖學習出可以用的特徵。雖然不少人可能會說他是一個壓縮的方法或是一個降維的方法，其實他都是。</p><a id="more"></a><p>Autoencoder 就是希望給一個 input ，經過轉換之後會成為一個新的、維度比較低的向量，並且可以再由這個向量透過轉換還原成原本的 input。既然低維的向量可以還原成 input 的樣子，那代表他含有足夠的資訊可以還原，所以你可以把他看成是一種壓縮或是降維。我想強調的是，autoencoder 可以將一個 input 的樣子轉換成一個新的表示方式，我們就可以用新的視角來看待他。</p><h2 id="模型"><a href="#模型" class="headerlink" title="模型"></a>模型</h2><p>Autoencoder 算是一個非常簡單的模型，他就是將資料向量經過一個轉換過後成為新的向量，在讓新的向量經過轉換過後還原成原本的向量。</p><p>抽象上來說比較像是：</p><p>$$<br>X \rightarrow Z \rightarrow X<br>$$</p><p>Autoencoder 可以被拆解成兩個部份：一個是 encoder $X \rightarrow Z$，另一個是 decoder $Z \rightarrow X$ 的部份。</p><p>在這個架構上 encoder-decoder 是相接在一起做訓練的。</p><p>最簡單的 autoencoder 在 encoder 跟 decoder 上各自都只有一層，當然你可以不只一層，取決於你自己的狀況。</p><p>他是一個非常簡單的架構，所以有非常多的變體，像是 denoising autoencoder、sparse autoencoder、variational autoencoder…等等。</p><p>每個都有自己獨特的用法，所以這是一個非常基礎的模型。</p>]]></content>
     
     <summary type="html">
     
-      
-      
-        &lt;p&gt;既然前一篇提到學習特徵是一件重要的事，那麼我們就來講講 autoencoder 吧！&lt;/p&gt;
+      &lt;p&gt;既然前一篇提到學習特徵是一件重要的事，那麼我們就來講講 autoencoder 吧！&lt;/p&gt;
 &lt;p&gt;Autoencoder 就是一個 unsupervised 方法，試圖學習出可以用的特徵。雖然不少人可能會說他是一個壓縮的方法或是一個降維的方法，其實他都是。&lt;/p&gt;
-&lt;p&gt;
-      
     
     </summary>
     
@@ -456,29 +482,6 @@
     
       &lt;p&gt;感知器（perceptron）是在 1957 年就被發明出來的的模型，對電腦的發展或是人工智慧來說都是非常早期的。&lt;/p&gt;
 &lt;p&gt;感知器模型他是一個二元分類的分類器，他解的是分類問題。相對我們前面的線性迴歸解的是迴歸問題，兩者在問題的定義上有根本性的不一樣，那他們兩個有什麼關聯性呢？&lt;/p&gt;
-    
-    </summary>
-    
-      <category term="Machine Learning" scheme="https://yuehhua.github.io/categories/Machine-Learning/"/>
-    
-      <category term="機器學習模型圖書館：從傳統模型到深度學習" scheme="https://yuehhua.github.io/categories/Machine-Learning/%E6%A9%9F%E5%99%A8%E5%AD%B8%E7%BF%92%E6%A8%A1%E5%9E%8B%E5%9C%96%E6%9B%B8%E9%A4%A8%EF%BC%9A%E5%BE%9E%E5%82%B3%E7%B5%B1%E6%A8%A1%E5%9E%8B%E5%88%B0%E6%B7%B1%E5%BA%A6%E5%AD%B8%E7%BF%92/"/>
-    
-    
-  </entry>
-  
-  <entry>
-    <title>02 線性迴歸 -- 迴歸問題中的線性模型</title>
-    <link href="https://yuehhua.github.io/2018/10/03/02-linear-regression/"/>
-    <id>https://yuehhua.github.io/2018/10/03/02-linear-regression/</id>
-    <published>2018-10-03T07:31:54.000Z</published>
-    <updated>2018-10-04T13:19:48.595Z</updated>
-    
-    <content type="html"><![CDATA[<p>這個模型大概已經被人講過很多次，講到都快要爛掉了XD</p><p>其實我自己在兩年前的鐵人賽中也有講過同一個模型，所以我就不用講太多基礎的部份：</p><a id="more"></a><ul><li><a href="https://ithelp.ithome.com.tw/articles/10186338" target="_blank" rel="noopener">[Day 02] 解構linear regression</a></li><li><a href="https://ithelp.ithome.com.tw/articles/10186400" target="_blank" rel="noopener">[Day 03] linear regression–線性代數解</a></li><li><a href="https://ithelp.ithome.com.tw/articles/10186401" target="_blank" rel="noopener">[Day 04] Gradient descent</a></li><li><a href="https://ithelp.ithome.com.tw/articles/10186402" target="_blank" rel="noopener">[Day 05] linear regression辛祕</a></li></ul><p>總的來說，線性模型就是依賴著 $y = w_0 + w_1x_1 + w_2x_2 + \dots + w_nx_n$ 這樣的一條數學式子。</p><p>為了方便起見我們將他化成向量的形式：$$y = \mathbf{w}^T\mathbf{x} + b$$</p><p>你會發現線性迴歸會是一個向量的內積的運算再加上一個常數，這個常數被很多人討論很久，很多人可能不是那麼了解他的意義。這個常數代表的就是在空間上的一個位移，在內積的 $\mathbf{w}$ 這個係數向量上，他們決定了在空間中整個線或是平面的傾斜程度，而常數則是在空間上的位移，也就是要將這個線或是平面擺在哪一個地方。</p><p>但是這個常數如果擺在下一篇要講的感知器（perceptron）當中的話，那就有不同的解釋了，這個留到下回再說。</p><p>那麼，基礎的部份都在前面的文章內容中講完了，剩下的要來說點什麼呢？</p><h2 id="模型的統計面向"><a href="#模型的統計面向" class="headerlink" title="模型的統計面向"></a>模型的統計面向</h2><p>我們來講點這個模型的統計面向吧！</p><p>一般來說，我們在計算這個模型的時候，這個模型背後是有他的統計面向的假設的。</p><h3 id="誤差"><a href="#誤差" class="headerlink" title="誤差"></a>誤差</h3><p>線性迴歸對誤差是有假設的，也就是假設誤差會呈現常態分佈（Gaussian distribution），這樣的假設與這個模型所使用的 mean square error 是有關係的，不過今天不會深入這些關係。</p><p>我們要進入這件事之前，我們先來看看常態分佈長什麼樣子。</p><p><img src="/images/Empirical_Rule.png" alt=""></p><blockquote><p>Wikipedia</p></blockquote><p>我們借到了維基百科的圖，其中 X 軸是連續的數值，Y 軸是這些數值出現的機率或是頻率。你會看到他是以平均值 $\mu$ 為中心的一個分佈，整個分佈是單峰的。平均值的出現機率是最高的，機率開始往兩邊遞減。這說明了最常出現的數值會剛好在平均值上，其他離平均值很遠的數值也是有機率出現，但是機率很小。</p><p>整個分佈的寬度是由標準差 $\sigma$ 的大小決定的，如果標準差愈大，代表這個分佈是愈寬的，愈寬代表資料的離散程度是大的。</p><p>這其實來自於對於自然現象的觀察。高爾頓，達爾文的表弟，觀察了自然現象，發現眾多自然現象都有一種趨勢，像是人的身高跟體重都是連續的數值，而且都沒有上下界，為什麼他們不會平均分佈呢？他會向某一個值集中，那個值差不多是整個分佈的平均值，這樣的趨勢被他稱為「迴歸」。這也是迴歸這個詞的由來，但今日的迴歸的意義不相同。</p><p>題外話，高爾頓提出了不少對今日的科學有影響的主張，像是他主張人類的才能是可以透過遺傳延續的，並提倡了優生學。他發表了一些關於指紋的研究，被認為跟今日以指紋鑑定有相關。在統計學上，他也發表了相關係數的概念，並且沿用至今。</p><p>以下是常態分佈的公式：</p><p>$$<br>P(x; \mu, \sigma) = \frac{1}{\sqrt{2 \pi \sigma^2}} e^{- \frac{(x - \mu)^2}{2 \sigma^2}}<br>$$</p><p>整體看起來可能很醜很複雜，我們通常會把平均值歸零，並且讓標準差為 1，他看起來就會簡潔許多。</p><p>$$<br>P(x; 0, 1) = \frac{1}{\sqrt{2 \pi}} e^{- \frac{x^2}{2}}<br>$$</p><p>大家注意一下，在常態分佈的公式中他的主要組成為一個 e 的指數，並且在指數項上有 $x^2$ 項。這些我們以後會用到。</p><h3 id="平均就是最有可能出現的"><a href="#平均就是最有可能出現的" class="headerlink" title="平均就是最有可能出現的"></a>平均就是最有可能出現的</h3><p>那回到線性迴歸，線性回歸是怎麼做出預測的呢？</p><p><img src="/images/stats-linear_reg1.svg" alt=""></p><p>當假設了誤差的分佈是常態分佈之後呢？那麼就可以拿最常出現的那個值作為整個分佈的代表，數學上證明那個值剛好是平均值。</p><p>可以參考上圖，資料在 X 軸上分佈，當我們切了某個點 $x_i$ 來看，那麼 Y 軸上就會有不同資料點的誤差存在。縱使真實資料是有誤差的，我們知道這些誤差會遵從常態分佈，所以這些誤差的平均就可以作為一種預測值。</p><p>從上面我們提到的迴歸效應，我們知道用這些誤差的平均值作為預測是相對合理的。</p><p>數學上是這樣運作的，當我們今天有新的資料點要預測，那麼我們代入 $y = \mathbf{w}^T\mathbf{x} + b$ 公式中，算出來的其實是 Y 軸的平均值 $\hat{y_i}$。</p><p>這就是線性迴歸的假設了。</p><h3 id="誤差的”寬度”是一樣的"><a href="#誤差的”寬度”是一樣的" class="headerlink" title="誤差的”寬度”是一樣的"></a>誤差的”寬度”是一樣的</h3><p>在線性迴歸的假設上還有另一點，就是我們在每個不同 x 的切面上，誤差的寬度（標準差）都是一樣的。</p><p><img src="/images/stats-linear_reg2.svg" alt=""></p><p>如圖所示，我不確定是為了讓模型簡單好計算還是什麼原因。</p><p>今天的介紹就到這邊啦！</p>]]></content>
-    
-    <summary type="html">
-    
-      &lt;p&gt;這個模型大概已經被人講過很多次，講到都快要爛掉了XD&lt;/p&gt;
-&lt;p&gt;其實我自己在兩年前的鐵人賽中也有講過同一個模型，所以我就不用講太多基礎的部份：&lt;/p&gt;
     
     </summary>
     

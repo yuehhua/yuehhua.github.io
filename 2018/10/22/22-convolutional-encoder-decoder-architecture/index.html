@@ -6,7 +6,7 @@
     <!-- hexo-inject:begin --><!-- hexo-inject:end --><meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="generator" content="Dream Maker">
-    <title>17 Autoencoder - Dream Maker</title>
+    <title>22 Convolutional encoder-decoder 架構 - Dream Maker</title>
     <meta name="author" content="Yueh-Hua Tu">
     
         <meta name="keywords" content="machine learning,deep learning,topology,">
@@ -15,19 +15,22 @@
     
         <link rel="alternate" type="application/atom+xml" title="RSS" href="/atom.xml">
     
-    <script type="application/ld+json">{"@context":"http://schema.org","@type":"BlogPosting","author":{"@type":"Person","name":"Yueh-Hua Tu","sameAs":["https://github.com/yuehhua/","https://www.facebook.com/a504082002","https://www.linkedin.com/in/%E5%B2%B3%E8%8F%AF-%E6%9D%9C-6a3995a0/","mailto:a504082002@gmail.com"],"image":"https://www.gravatar.com/avatar/a565749fba4782b717234da670b273fd"},"articleBody":"既然前一篇提到學習特徵是一件重要的事，那麼我們就來講講 autoencoder 吧！\nAutoencoder 就是一個 unsupervised 方法，試圖學習出可以用的特徵。雖然不少人可能會說他是一個壓縮的方法或是一個降維的方法，其實他都是。\n\nAutoencoder 就是希望給一個 input ，經過轉換之後會成為一個新的、維度比較低的向量，並且可以再由這個向量透過轉換還原成原本的 input。既然低維的向量可以還原成 input 的樣子，那代表他含有足夠的資訊可以還原，所以你可以把他看成是一種壓縮或是降維。我想強調的是，autoencoder 可以將一個 input 的樣子轉換成一個新的表示方式，我們就可以用新的視角來看待他。\n模型Autoencoder 算是一個非常簡單的模型，他就是將資料向量經過一個轉換過後成為新的向量，在讓新的向量經過轉換過後還原成原本的向量。\n抽象上來說比較像是：\n$$X \\rightarrow Z \\rightarrow X$$\nAutoencoder 可以被拆解成兩個部份：一個是 encoder $X \\rightarrow Z$，另一個是 decoder $Z \\rightarrow X$ 的部份。\n在這個架構上 encoder-decoder 是相接在一起做訓練的。\n最簡單的 autoencoder 在 encoder 跟 decoder 上各自都只有一層，當然你可以不只一層，取決於你自己的狀況。\n他是一個非常簡單的架構，所以有非常多的變體，像是 denoising autoencoder、sparse autoencoder、variational autoencoder…等等。\n每個都有自己獨特的用法，所以這是一個非常基礎的模型。\n","dateCreated":"2018-10-17T22:36:06+08:00","dateModified":"2018-10-19T23:26:36+08:00","datePublished":"2018-10-17T22:36:06+08:00","description":"既然前一篇提到學習特徵是一件重要的事，那麼我們就來講講 autoencoder 吧！\nAutoencoder 就是一個 unsupervised 方法，試圖學習出可以用的特徵。雖然不少人可能會說他是一個壓縮的方法或是一個降維的方法，其實他都是。","headline":"17 Autoencoder","image":[],"mainEntityOfPage":{"@type":"WebPage","@id":"https://yuehhua.github.io/2018/10/17/17-autoencoder/"},"publisher":{"@type":"Organization","name":"Yueh-Hua Tu","sameAs":["https://github.com/yuehhua/","https://www.facebook.com/a504082002","https://www.linkedin.com/in/%E5%B2%B3%E8%8F%AF-%E6%9D%9C-6a3995a0/","mailto:a504082002@gmail.com"],"image":"https://www.gravatar.com/avatar/a565749fba4782b717234da670b273fd","logo":{"@type":"ImageObject","url":"https://www.gravatar.com/avatar/a565749fba4782b717234da670b273fd"}},"url":"https://yuehhua.github.io/2018/10/17/17-autoencoder/"}</script>
-    <meta name="description" content="既然前一篇提到學習特徵是一件重要的事，那麼我們就來講講 autoencoder 吧！ Autoencoder 就是一個 unsupervised 方法，試圖學習出可以用的特徵。雖然不少人可能會說他是一個壓縮的方法或是一個降維的方法，其實他都是。">
+    <script type="application/ld+json">{"@context":"http://schema.org","@type":"BlogPosting","author":{"@type":"Person","name":"Yueh-Hua Tu","sameAs":["https://github.com/yuehhua/","https://www.facebook.com/a504082002","https://www.linkedin.com/in/%E5%B2%B3%E8%8F%AF-%E6%9D%9C-6a3995a0/","mailto:a504082002@gmail.com"],"image":"https://www.gravatar.com/avatar/a565749fba4782b717234da670b273fd"},"articleBody":"標題這不是一個專有名詞。\n在電腦視覺的領域中有幾個有名的問題：\n\n影像辨識（Image recognition）\n物件辨識（Object detection）\n語意分割（Semantic segmentation）\n\n\n影像辨識是給一張影像，希望模型可以辨識出當中的東西是什麼。輸入模型的會是影像向量，輸出的會是類別向量。\n物件辨識給的同樣是一張影像，除了需要辨識出當中的物件以外，還要給出這個物體所在的位置，輸出的除了類別向量以外，還有座標。\n語意分割可能無法一眼看出當中的含意，對一個句子來說，詞本身帶有一些含意，對比到影像上，句子就是影像，而詞意就是影像中的物體。語意分割是給一張影像，需要將影像中的物件切割出來，所以必須對每個像素做分類。\n\n三者是各自不同的任務。\n","dateCreated":"2018-10-22T23:10:35+08:00","dateModified":"2018-10-22T23:10:35+08:00","datePublished":"2018-10-22T23:10:35+08:00","description":"","headline":"22 Convolutional encoder-decoder 架構","image":[],"mainEntityOfPage":{"@type":"WebPage","@id":"https://yuehhua.github.io/2018/10/22/22-convolutional-encoder-decoder-architecture/"},"publisher":{"@type":"Organization","name":"Yueh-Hua Tu","sameAs":["https://github.com/yuehhua/","https://www.facebook.com/a504082002","https://www.linkedin.com/in/%E5%B2%B3%E8%8F%AF-%E6%9D%9C-6a3995a0/","mailto:a504082002@gmail.com"],"image":"https://www.gravatar.com/avatar/a565749fba4782b717234da670b273fd","logo":{"@type":"ImageObject","url":"https://www.gravatar.com/avatar/a565749fba4782b717234da670b273fd"}},"url":"https://yuehhua.github.io/2018/10/22/22-convolutional-encoder-decoder-architecture/"}</script>
+    <meta name="description" content="標題這不是一個專有名詞。 在電腦視覺的領域中有幾個有名的問題：  影像辨識（Image recognition） 物件辨識（Object detection） 語意分割（Semantic segmentation）   影像辨識是給一張影像，希望模型可以辨識出當中的東西是什麼。輸入模型的會是影像向量，輸出的會是類別向量。 物件辨識給的同樣是一張影像，除了需要辨識出當中的物件以外，還要給出這個物體所">
 <meta name="keywords" content="machine learning,deep learning,topology">
 <meta property="og:type" content="blog">
-<meta property="og:title" content="17 Autoencoder">
-<meta property="og:url" content="https://yuehhua.github.io/2018/10/17/17-autoencoder/index.html">
+<meta property="og:title" content="22 Convolutional encoder-decoder 架構">
+<meta property="og:url" content="https://yuehhua.github.io/2018/10/22/22-convolutional-encoder-decoder-architecture/index.html">
 <meta property="og:site_name" content="Dream Maker">
-<meta property="og:description" content="既然前一篇提到學習特徵是一件重要的事，那麼我們就來講講 autoencoder 吧！ Autoencoder 就是一個 unsupervised 方法，試圖學習出可以用的特徵。雖然不少人可能會說他是一個壓縮的方法或是一個降維的方法，其實他都是。">
+<meta property="og:description" content="標題這不是一個專有名詞。 在電腦視覺的領域中有幾個有名的問題：  影像辨識（Image recognition） 物件辨識（Object detection） 語意分割（Semantic segmentation）   影像辨識是給一張影像，希望模型可以辨識出當中的東西是什麼。輸入模型的會是影像向量，輸出的會是類別向量。 物件辨識給的同樣是一張影像，除了需要辨識出當中的物件以外，還要給出這個物體所">
 <meta property="og:locale" content="en">
-<meta property="og:updated_time" content="2018-10-19T15:26:36.709Z">
+<meta property="og:image" content="https://yuehhua.github.io/images/cv-tasks.jpg">
+<meta property="og:image" content="https://yuehhua.github.io/images/semantic_seg.jpeg">
+<meta property="og:updated_time" content="2018-10-22T15:10:35.910Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="17 Autoencoder">
-<meta name="twitter:description" content="既然前一篇提到學習特徵是一件重要的事，那麼我們就來講講 autoencoder 吧！ Autoencoder 就是一個 unsupervised 方法，試圖學習出可以用的特徵。雖然不少人可能會說他是一個壓縮的方法或是一個降維的方法，其實他都是。">
+<meta name="twitter:title" content="22 Convolutional encoder-decoder 架構">
+<meta name="twitter:description" content="標題這不是一個專有名詞。 在電腦視覺的領域中有幾個有名的問題：  影像辨識（Image recognition） 物件辨識（Object detection） 語意分割（Semantic segmentation）   影像辨識是給一張影像，希望模型可以辨識出當中的東西是什麼。輸入模型的會是影像向量，輸出的會是類別向量。 物件辨識給的同樣是一張影像，除了需要辨識出當中的物件以外，還要給出這個物體所">
+<meta name="twitter:image" content="https://yuehhua.github.io/images/cv-tasks.jpg">
     
     
         
@@ -238,14 +241,14 @@
                     <div class="post-header main-content-wrap text-left">
     
         <h1 class="post-title">
-            17 Autoencoder
+            22 Convolutional encoder-decoder 架構
         </h1>
     
     
         <div class="post-meta">
-    <time datetime="2018-10-17T22:36:06+08:00">
+    <time datetime="2018-10-22T23:10:35+08:00">
 	
-		    Oct 17, 2018
+		    Oct 22, 2018
     	
     </time>
     
@@ -263,18 +266,19 @@
                         
                             <div class="post-content markdown">
                                 <div class="main-content-wrap">
-                                    <p>既然前一篇提到學習特徵是一件重要的事，那麼我們就來講講 autoencoder 吧！</p>
-<p>Autoencoder 就是一個 unsupervised 方法，試圖學習出可以用的特徵。雖然不少人可能會說他是一個壓縮的方法或是一個降維的方法，其實他都是。</p>
-<a id="more"></a>
-<p>Autoencoder 就是希望給一個 input ，經過轉換之後會成為一個新的、維度比較低的向量，並且可以再由這個向量透過轉換還原成原本的 input。既然低維的向量可以還原成 input 的樣子，那代表他含有足夠的資訊可以還原，所以你可以把他看成是一種壓縮或是降維。我想強調的是，autoencoder 可以將一個 input 的樣子轉換成一個新的表示方式，我們就可以用新的視角來看待他。</p>
-<h2 id="模型"><a href="#模型" class="headerlink" title="模型"></a>模型</h2><p>Autoencoder 算是一個非常簡單的模型，他就是將資料向量經過一個轉換過後成為新的向量，在讓新的向量經過轉換過後還原成原本的向量。</p>
-<p>抽象上來說比較像是：</p>
-<p>$$<br>X \rightarrow Z \rightarrow X<br>$$</p>
-<p>Autoencoder 可以被拆解成兩個部份：一個是 encoder $X \rightarrow Z$，另一個是 decoder $Z \rightarrow X$ 的部份。</p>
-<p>在這個架構上 encoder-decoder 是相接在一起做訓練的。</p>
-<p>最簡單的 autoencoder 在 encoder 跟 decoder 上各自都只有一層，當然你可以不只一層，取決於你自己的狀況。</p>
-<p>他是一個非常簡單的架構，所以有非常多的變體，像是 denoising autoencoder、sparse autoencoder、variational autoencoder…等等。</p>
-<p>每個都有自己獨特的用法，所以這是一個非常基礎的模型。</p>
+                                    <p>標題這不是一個專有名詞。</p>
+<p>在電腦視覺的領域中有幾個有名的問題：</p>
+<ol>
+<li>影像辨識（Image recognition）</li>
+<li>物件辨識（Object detection）</li>
+<li>語意分割（Semantic segmentation）</li>
+</ol>
+<p><img src="/images/cv-tasks.jpg" alt=""></p>
+<p>影像辨識是給一張影像，希望模型可以辨識出當中的東西是什麼。輸入模型的會是影像向量，輸出的會是類別向量。</p>
+<p>物件辨識給的同樣是一張影像，除了需要辨識出當中的物件以外，還要給出這個物體所在的位置，輸出的除了類別向量以外，還有座標。</p>
+<p>語意分割可能無法一眼看出當中的含意，對一個句子來說，詞本身帶有一些含意，對比到影像上，句子就是影像，而詞意就是影像中的物體。語意分割是給一張影像，需要將影像中的物件切割出來，所以必須對每個像素做分類。</p>
+<p><img src="/images/semantic_seg.jpeg" alt=""></p>
+<p>三者是各自不同的任務。</p>
 
                                         
 
@@ -288,8 +292,7 @@
         <ul class="post-actions post-action-nav">
             <li class="post-action">
                 
-                    
-                    <a class="post-action-btn btn btn--default tooltip--top" href="/2018/10/17/18-multi-layer-preceptron/" data-tooltip="18 Multi-layer preceptron" aria-label="PREVIOUS: 18 Multi-layer preceptron">
+                    <a class="post-action-btn btn btn--disabled">
                 
                     <i class="fa fa-angle-left" aria-hidden="true"></i>
                     <span class="hide-xs hide-sm text-small icon-ml">PREVIOUS</span>
@@ -298,7 +301,7 @@
             <li class="post-action">
                 
                     
-                    <a class="post-action-btn btn btn--default tooltip--top" href="/2018/10/16/16-representation-learning/" data-tooltip="16 Representation learning" aria-label="NEXT: 16 Representation learning">
+                    <a class="post-action-btn btn btn--default tooltip--top" href="/2018/10/19/21-activation-functions-and-ReLU/" data-tooltip="21 Activation functions and ReLU" aria-label="NEXT: 21 Activation functions and ReLU">
                 
                     <span class="hide-xs hide-sm text-small icon-mr">NEXT</span>
                     <i class="fa fa-angle-right" aria-hidden="true"></i>
@@ -316,7 +319,7 @@
             
             
             <li class="post-action hide-xs">
-                <a class="post-action-btn btn btn--default" target="new" href="https://www.facebook.com/sharer/sharer.php?u=https://yuehhua.github.io/2018/10/17/17-autoencoder/" title="Share on Facebook">
+                <a class="post-action-btn btn btn--default" target="new" href="https://www.facebook.com/sharer/sharer.php?u=https://yuehhua.github.io/2018/10/22/22-convolutional-encoder-decoder-architecture/" title="Share on Facebook">
                     <i class="fa fa-facebook-official" aria-hidden="true"></i>
                 </a>
             </li>
@@ -374,8 +377,7 @@
         <ul class="post-actions post-action-nav">
             <li class="post-action">
                 
-                    
-                    <a class="post-action-btn btn btn--default tooltip--top" href="/2018/10/17/18-multi-layer-preceptron/" data-tooltip="18 Multi-layer preceptron" aria-label="PREVIOUS: 18 Multi-layer preceptron">
+                    <a class="post-action-btn btn btn--disabled">
                 
                     <i class="fa fa-angle-left" aria-hidden="true"></i>
                     <span class="hide-xs hide-sm text-small icon-ml">PREVIOUS</span>
@@ -384,7 +386,7 @@
             <li class="post-action">
                 
                     
-                    <a class="post-action-btn btn btn--default tooltip--top" href="/2018/10/16/16-representation-learning/" data-tooltip="16 Representation learning" aria-label="NEXT: 16 Representation learning">
+                    <a class="post-action-btn btn btn--default tooltip--top" href="/2018/10/19/21-activation-functions-and-ReLU/" data-tooltip="21 Activation functions and ReLU" aria-label="NEXT: 21 Activation functions and ReLU">
                 
                     <span class="hide-xs hide-sm text-small icon-mr">NEXT</span>
                     <i class="fa fa-angle-right" aria-hidden="true"></i>
@@ -402,7 +404,7 @@
             
             
             <li class="post-action hide-xs">
-                <a class="post-action-btn btn btn--default" target="new" href="https://www.facebook.com/sharer/sharer.php?u=https://yuehhua.github.io/2018/10/17/17-autoencoder/" title="Share on Facebook">
+                <a class="post-action-btn btn btn--default" target="new" href="https://www.facebook.com/sharer/sharer.php?u=https://yuehhua.github.io/2018/10/22/22-convolutional-encoder-decoder-architecture/" title="Share on Facebook">
                     <i class="fa fa-facebook-official" aria-hidden="true"></i>
                 </a>
             </li>
@@ -435,7 +437,7 @@
             
             
             <li class="share-option">
-                <a class="share-option-btn" target="new" href="https://www.facebook.com/sharer/sharer.php?u=https://yuehhua.github.io/2018/10/17/17-autoencoder/">
+                <a class="share-option-btn" target="new" href="https://www.facebook.com/sharer/sharer.php?u=https://yuehhua.github.io/2018/10/22/22-convolutional-encoder-decoder-architecture/">
                     <i class="fa fa-facebook-official" aria-hidden="true"></i><span>Share on Facebook</span>
                 </a>
             </li>
@@ -487,9 +489,9 @@
     
         <script>
              var disqus_config = function () {
-                 this.page.url = 'https://yuehhua.github.io/2018/10/17/17-autoencoder/';
+                 this.page.url = 'https://yuehhua.github.io/2018/10/22/22-convolutional-encoder-decoder-architecture/';
                  
-                    this.page.identifier = '2018/10/17/17-autoencoder/';
+                    this.page.identifier = '2018/10/22/22-convolutional-encoder-decoder-architecture/';
                  
              };
             (function() {
