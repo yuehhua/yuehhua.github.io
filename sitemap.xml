@@ -2,6 +2,13 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   
   <url>
+    <loc>https://yuehhua.github.io/2018/10/23/23-markov-chain-and-hmm/</loc>
+    
+    <lastmod>2018-10-23T01:21:38.594Z</lastmod>
+    
+  </url>
+  
+  <url>
     <loc>https://yuehhua.github.io/2018/10/22/22-convolutional-encoder-decoder-architecture/</loc>
     
     <lastmod>2018-10-23T00:53:57.844Z</lastmod>

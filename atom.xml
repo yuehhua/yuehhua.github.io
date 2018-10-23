@@ -6,7 +6,7 @@
   <link href="/atom.xml" rel="self"/>
   
   <link href="https://yuehhua.github.io/"/>
-  <updated>2018-10-23T00:53:57.844Z</updated>
+  <updated>2018-10-23T01:21:38.594Z</updated>
   <id>https://yuehhua.github.io/</id>
   
   <author>
@@ -15,6 +15,30 @@
   </author>
   
   <generator uri="http://hexo.io/">Hexo</generator>
+  
+  <entry>
+    <title>23 Markov chain 及 HMM</title>
+    <link href="https://yuehhua.github.io/2018/10/23/23-markov-chain-and-hmm/"/>
+    <id>https://yuehhua.github.io/2018/10/23/23-markov-chain-and-hmm/</id>
+    <published>2018-10-23T01:21:38.000Z</published>
+    <updated>2018-10-23T01:21:38.594Z</updated>
+    
+    <content type="html"><![CDATA[<p>上次我們講完在空間上，我們可以知道資料的區域性，並且利用 convolution 來萃取特徵。</p><p>這次我們來講時間，其實不一定要是”時間”序列資料，只要是有先後順序的資料就可以。</p><p>在時間序列分析及統計的領域中，我們有基礎的馬可夫模型（Markov chain）。</p><a id="more"></a><h2 id="Markov-chain"><a href="#Markov-chain" class="headerlink" title="Markov chain"></a>Markov chain</h2><p>馬可夫模型是這樣的，他假設一個變數有不同種的狀態，例如下圖：</p><p><br></p><p><img src="/images/markov_model.svg" alt=""></p><p><br></p><p>在這邊有4個狀態，一個圓圈代表一個狀態，狀態跟狀態之間會隨著時間改變，每個狀態會有一定機率變成其他狀態，或是維持原本的狀態不變。</p><p>我們可以把目前的狀態用一個向量來表達：</p><p>$$<br>\mathbf{y} =<br>\begin{bmatrix}<br>y_1&amp;y_2&amp;y_3&amp;y_4 \\<br>\end{bmatrix}<br>$$</p><blockquote><p>注意：我們這邊使用的向量為列向量（row vector），一般在其他數學領域使用的則是行向量（column vector），兩者是可以藉由轉置來互換的，並不影響運算結果</p></blockquote><p>我們這邊用 $\mathbf{y}$ 代表他是可以被觀察到的。狀態變化我們可以用一個矩陣來表達：</p><p>$$<br>A = [a_{ij}] =<br>\begin{bmatrix}<br>a_{11}&amp; a_{12}&amp; a_{13}&amp; a_{14} \\<br>a_{21}&amp; a_{22}&amp; a_{23}&amp; a_{24} \\<br>a_{31}&amp; a_{32}&amp; a_{33}&amp; a_{34} \\<br>a_{41}&amp; a_{42}&amp; a_{43}&amp; a_{44} \\<br>\end{bmatrix}<br>$$</p><p>其中 $a_{ij}$ 代表的是由狀態 $i$ 變成狀態 $j$ 的機率，這邊要注意的是，每一個列（row）的機率總和要是 1。</p><blockquote><p>補充：<br>由於我們的向量都是 row vector<br>$A$ 為一 right stochastic matrix，運算形式為 $\mathbf{y} A$<br>由狀態 $i$ 變成其他狀態之機率和為 1（$A \mathbf{1} = \mathbf{1}$）<br>感謝陳杰翰先生幫忙指正</p></blockquote><p>所以不同時間點的狀態變化關係可以寫成以下式子：</p><p>$$<br>\mathbf{y^{(t)}} = \mathbf{y^{(t-1)}} A<br>$$</p><p>$\mathbf{y^{(t)}}$ 的意思是第 t 次（或是時間為 t）的狀態，$\mathbf{y^{(t-1)}}$ 狀態會經過一次轉換或是運算轉變成 $\mathbf{y^{(t)}}$。</p><p>如果你把其中的第一項的運算拆開來看就會長這樣，可以自行檢驗狀態的變化：</p><p>$$<br>y_1^{(t)} = a_{11}y_1^{(t-1)} + a_{12}y_2^{(t-1)} + a_{13}y_3^{(t-1)} + a_{14}y_4^{(t-1)}<br>$$</p><p>從時間軸上來看，我們可以把狀態的轉變畫出來像是這樣：</p><p><br></p><p><img src="/images/markov_model_expand_time.svg" alt=""></p><p><br></p><p>每次的轉變我們都可以看成一個函數 $f$，他其實等同於上面提到的矩陣：</p><p>$$<br>\mathbf{y^{(t)}} = f(\mathbf{y^{(t-1)}}) = \mathbf{y^{(t-1)}} A<br>$$</p><p>所以他的意思是，$\mathbf{y^{(t-1)}}$ 會經由 $f$ 變成 $\mathbf{y^{(t)}}$，所以這是單純的狀態變化。</p><p>上面的矩陣當中其實內容是機率，我們也可以把他轉成機率的寫法，但是解釋會變得不太一樣：</p><p>$$<br>p = f(\mathbf{y^{(t)}} \mid \mathbf{y^{(t-1)}}) = P(\mathbf{y^{(t)}} \mid \mathbf{y^{(t-1)}})<br>$$</p><p>這邊的解釋是，$\mathbf{y^{(t-1)}}$ 會經由 $f$ 變成 $\mathbf{y^{(t)}}$ <strong>的機率</strong>。</p><p>下句跟上句的不同在於，上句的描述是肯定的，他只描述了狀態的改變，但是下句多加描述了 <strong>這件事會發生的機率</strong>，所以應該要把 $\mathbf{y^{(t)}} \mid \mathbf{y^{(t-1)}}$ 理解成 <strong>這一件事</strong>，那麼 $f$ 的輸出就是機率了。</p><p>我們可以把上圖 <em>收起來</em>，所以看起來會像這樣：</p><p><br></p><p><img src="/images/markov_model_time.svg" alt=""></p><p><br></p><p>花了點時間把一些符號跟數學概念講完了，來談談他的假設，一般來說，馬可夫模型最大的假設在於：</p><p>$$<br>P(\mathbf{y^{(t)}} \mid \mathbf{y^{(1)}}, \mathbf{y^{(2)}}, \dots, \mathbf{y^{(t-1)}}) = P(\mathbf{y^{(t)}} \mid \mathbf{y^{(t-1)}})<br>$$</p><p>也就是要預測第 t 單位時間的狀態，我們經歷了第 1~(t - 1) 單位時間，但是他只需要用前一個時間單位的狀態就可以預測下一個狀態，前面很多狀態都是不必要的，這我們稱為一階馬可夫模型（first-order Markov chain）。</p><p>當然可以推廣到 m 階馬可夫模型（m th-order Markov chain），那代表需要前 m 個狀態來預測下一個狀態，順帶一提，有零階馬可夫模型，那就跟我們一般的機率分佈模型（$P(\mathbf{y^{(t)}}）$）一樣。</p><p>沒有特別提的話，通常大家談的馬可夫模型都是一階馬可夫模型。一般來說，他有個非常重要的特性，就是 <strong>無記憶性</strong>，也就是他不會去記住他所經歷的狀態，他只需要用現在的狀態就可以預測下一個狀態。</p><p>不過我要特別提一下這個模型的一些其他假設：</p><ul><li>狀態是離散的。在馬可夫模型的狀態空間中是離散的，也就是你可以用一個正整數來數出有幾種狀態存在。</li><li>時間是離散的。我們剛剛有看到他計算的是第 t 單位時間，下一次就是乘上一個矩陣之後成為第 t+1 單位時間。</li><li>狀態是可被觀察的。</li><li>以一個隨機變數作為一個狀態。</li></ul><p>接下來我們來談談另一個模型。</p><p><br></p><h2 id="Hidden-Markov-model"><a href="#Hidden-Markov-model" class="headerlink" title="Hidden Markov model"></a>Hidden Markov model</h2><p>接下來是進階版的隱馬可夫模型（hidden Markov model），他的假設是這樣的，在一個系統中存在一些我們看不到的狀態，是系統的內在狀態，隨著系統的內在狀態不同，他所表現出來的外在狀態也不同，而外在狀態是我們可以觀測到的。</p><p><br></p><p><img src="/images/hmm.svg" alt=""></p><p><br></p><p>大家可以看到這個圖跟剛剛的很相似，帶是又多了一些東西。較大的圈圈是內在狀態，小的圈圈是外在狀態。隨著時間改變，內在狀態會隨著變動，內在狀態的變動我們可以用一個矩陣來表示：</p><p>$$<br>A = [a_{ij}] =<br>\begin{bmatrix}<br>a_{11}&amp; a_{12}&amp; a_{13}&amp; a_{14} \\<br>a_{21}&amp; a_{22}&amp; a_{23}&amp; a_{24} \\<br>a_{31}&amp; a_{32}&amp; a_{33}&amp; a_{34} \\<br>a_{41}&amp; a_{42}&amp; a_{43}&amp; a_{44} \\<br>\end{bmatrix}<br>$$</p><p>裏面裝的一樣是機率。接下來，不同的內在狀態有不同的機率會噴出（emit）外在狀態，這也會用另一個矩陣表示：</p><p>$$<br>B = [b_{ij}] =<br>\begin{bmatrix}<br>b_{11}&amp; b_{12}&amp; b_{13}&amp; b_{14} \\<br>b_{21}&amp; b_{22}&amp; b_{23}&amp; b_{24} \\<br>b_{31}&amp; b_{32}&amp; b_{33}&amp; b_{34} \\<br>\end{bmatrix}<br>$$</p><p>寫成狀態轉移的關係式的話會變成：</p><p>$$<br>\mathbf{h^{(t)}} = \mathbf{h^{(t-1)}} A<br>$$</p><p>$\mathbf{h^{(t)}}$ 代表在第 t 單位時間的內在狀態。</p><p>$$<br>\mathbf{y^{(t)}} = \mathbf{h^{(t)}} B<br>$$</p><p>$\mathbf{y^{(t)}}$ 代表在第 t 單位時間根據內在狀態噴出的外在狀態。</p><p>如果在時間軸上表達的話是這個樣子：</p><p><br></p><p><img src="/images/hmm_expand_time.svg" alt=""></p><p><br></p><p><img src="/images/hmm_time.svg" alt=""></p><p><br></p><p>由於在這邊又多了一個內在狀態，所以在模型的表達力上遠遠超越馬可夫模型。舉個例子好了，假設小明很好奇在不同天氣的時候外面的人吃冰淇淋的狀況是如何，但是小明又很懶得出門看天氣，這時候他就假設天氣（晴天、陰天、雨天）是內在狀態（看不到），然後他觀察路上的人吃冰淇淋（外在狀態，吃、不吃）的多寡，這時候這麼模型就可以派上用場，他藉由持續觀察路人有沒有吃冰淇淋，可以推論外面天氣的變化狀況。</p><p>這時候我們也來總結一下，這個模型的假設：</p><ul><li>內在狀態跟外在狀態都是離散的。</li><li>時間是離散的。</li><li>內在狀態是不能被觀察的，外在狀態是可被觀察的。</li><li>以一個隨機變數作為一個狀態。</li></ul>]]></content>
+    
+    <summary type="html">
+    
+      &lt;p&gt;上次我們講完在空間上，我們可以知道資料的區域性，並且利用 convolution 來萃取特徵。&lt;/p&gt;
+&lt;p&gt;這次我們來講時間，其實不一定要是”時間”序列資料，只要是有先後順序的資料就可以。&lt;/p&gt;
+&lt;p&gt;在時間序列分析及統計的領域中，我們有基礎的馬可夫模型（Markov chain）。&lt;/p&gt;
+    
+    </summary>
+    
+      <category term="Machine Learning" scheme="https://yuehhua.github.io/categories/Machine-Learning/"/>
+    
+      <category term="機器學習模型圖書館：從傳統模型到深度學習" scheme="https://yuehhua.github.io/categories/Machine-Learning/%E6%A9%9F%E5%99%A8%E5%AD%B8%E7%BF%92%E6%A8%A1%E5%9E%8B%E5%9C%96%E6%9B%B8%E9%A4%A8%EF%BC%9A%E5%BE%9E%E5%82%B3%E7%B5%B1%E6%A8%A1%E5%9E%8B%E5%88%B0%E6%B7%B1%E5%BA%A6%E5%AD%B8%E7%BF%92/"/>
+    
+    
+  </entry>
   
   <entry>
     <title>22 Convolutional encoder-decoder 架構</title>
@@ -457,29 +481,6 @@
       &lt;p&gt;上次我們完成了感知器的介紹，感知器也有他相對應的學習演算法：perceptron learning algorithm (PLA)。&lt;/p&gt;
 &lt;p&gt;不過我們今天沒有要講 PLA，我們來講講感知器的缺點。&lt;/p&gt;
 &lt;p&gt;感知器這個模型有很多的缺點，但是因為他是最簡單的模型，我們就放他一馬（？）。&lt;/p&gt;
-    
-    </summary>
-    
-      <category term="Machine Learning" scheme="https://yuehhua.github.io/categories/Machine-Learning/"/>
-    
-      <category term="機器學習模型圖書館：從傳統模型到深度學習" scheme="https://yuehhua.github.io/categories/Machine-Learning/%E6%A9%9F%E5%99%A8%E5%AD%B8%E7%BF%92%E6%A8%A1%E5%9E%8B%E5%9C%96%E6%9B%B8%E9%A4%A8%EF%BC%9A%E5%BE%9E%E5%82%B3%E7%B5%B1%E6%A8%A1%E5%9E%8B%E5%88%B0%E6%B7%B1%E5%BA%A6%E5%AD%B8%E7%BF%92/"/>
-    
-    
-  </entry>
-  
-  <entry>
-    <title>03 從線性迴歸到感知器</title>
-    <link href="https://yuehhua.github.io/2018/10/03/03-from-linear-regression-to-perceptron/"/>
-    <id>https://yuehhua.github.io/2018/10/03/03-from-linear-regression-to-perceptron/</id>
-    <published>2018-10-03T15:24:32.123Z</published>
-    <updated>2018-10-03T15:24:32.123Z</updated>
-    
-    <content type="html"><![CDATA[<p>感知器（perceptron）是在 1957 年就被發明出來的的模型，對電腦的發展或是人工智慧來說都是非常早期的。</p><p>感知器模型他是一個二元分類的分類器，他解的是分類問題。相對我們前面的線性迴歸解的是迴歸問題，兩者在問題的定義上有根本性的不一樣，那他們兩個有什麼關聯性呢？</p><a id="more"></a><h2 id="分類"><a href="#分類" class="headerlink" title="分類"></a>分類</h2><p>現在想像一下，如果你手上有一些資料，這些資料都有兩個維度 $(x_1,x_2)$，可以他們畫在二維的平面上，這些資料有的被標記成方塊，有的被標記成圓圈。我現在希望有一種方法可以將不同標記的資料點分開，我們可以怎麼做？</p><p><img src="/images/perceptron1.svg" alt=""></p><p>在資料點上，大多相似的資料點會有接近的座標，所以資料點本身就會因為相似性而聚在一起。最直覺的方法就是畫一條直線將他們分開。</p><p><img src="/images/perceptron2.svg" alt=""></p><p>我們可以在二維平面上畫一條線來把這些點分開的話，那麼要怎麼以數學的方式呈現呢？</p><p>$$<br>x_2 = w x_1 + b<br>$$</p><p>這是我們的二維平面上的線，我們把他移項一下。</p><p>$$<br>x_2 - w x_1 - b = 0<br>$$</p><p>當你試著把資料點代入方程式的時候，你會發現不同的點算出來結果會分成兩種：</p><ol><li>$x_2 - w x_1 - b &gt; 0$</li><li>$x_2 - w x_1 - b &lt; 0$</li></ol><p>如果你的線畫的夠好的話，應該是不會有點剛好位於線上而讓 $x_2 - w x_1 - b = 0$ 發生的。所以我們是不是能夠透過將點代入公式中，計算出他的結果為正或是為負來決定他應該是方塊或是圓圈。新的資料點就可以透過這樣的運算來做預測。</p><p>如果要模型給出一個比較容易理解的預測值的話，我們可以在模型之後再加上一個 $sign$ 來取數值的正負號。</p><p>$$<br>sign(x_2 - w x_1 - b) = 0<br>$$</p><p>$$<br>sign(x) = \begin{cases}<br> -1, &amp;\text{if } x \lt 0\<br> 0, &amp;\text{if } x = 0\<br> 1, &amp;\text{if } x \gt 0<br>\end{cases}<br>$$</p><p>當整件事情拓展到了高維度空間的時候就變成這樣了：</p><p>$$<br>sign(\mathbf{w}^T\mathbf{x} + b)<br>$$</p><p>看到了嗎？中間是不是我們的線性迴歸裡的線性模型了呢？</p><p>準確來說，是跟線性迴歸沒什麼關係啦！但是同為線性模型可以應用在迴歸問題或是分類問題，有兩種些許不同的形式，是不是很妙呢？</p><h2 id="常數項"><a href="#常數項" class="headerlink" title="常數項"></a>常數項</h2><p>前面說過，常數項在分類器上有些許不一樣的的解釋。</p><p><img src="/images/perceptron3.svg" alt=""></p><p>基本上，對一條線來說，常數項仍舊是讓線可以有位移的機會，不過反過來想，如果沒有常數項的話，即便有 $\mathbf{w}^T\mathbf{x}$ 可以計算出結果，但是可能仍不足以分隔資料，所以需要加上（或是減掉）一個閾值或是臨界值。</p>]]></content>
-    
-    <summary type="html">
-    
-      &lt;p&gt;感知器（perceptron）是在 1957 年就被發明出來的的模型，對電腦的發展或是人工智慧來說都是非常早期的。&lt;/p&gt;
-&lt;p&gt;感知器模型他是一個二元分類的分類器，他解的是分類問題。相對我們前面的線性迴歸解的是迴歸問題，兩者在問題的定義上有根本性的不一樣，那他們兩個有什麼關聯性呢？&lt;/p&gt;
     
     </summary>
     
