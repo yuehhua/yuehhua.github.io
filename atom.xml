@@ -6,7 +6,7 @@
   <link href="/atom.xml" rel="self"/>
   
   <link href="https://yuehhua.github.io/"/>
-  <updated>2018-10-23T01:21:38.594Z</updated>
+  <updated>2018-10-23T13:43:49.912Z</updated>
   <id>https://yuehhua.github.io/</id>
   
   <author>
@@ -15,6 +15,32 @@
   </author>
   
   <generator uri="http://hexo.io/">Hexo</generator>
+  
+  <entry>
+    <title>24 Recurrent neural network</title>
+    <link href="https://yuehhua.github.io/2018/10/23/24-recurrent-neural-network/"/>
+    <id>https://yuehhua.github.io/2018/10/23/24-recurrent-neural-network/</id>
+    <published>2018-10-23T13:43:49.000Z</published>
+    <updated>2018-10-23T13:43:49.912Z</updated>
+    
+    <content type="html"><![CDATA[<p>接續上一篇。</p><h2 id="Recurrent-neural-network"><a href="#Recurrent-neural-network" class="headerlink" title="Recurrent neural network"></a>Recurrent neural network</h2><p>那大家所熟知的 RNN 是怎麼回事呢？我們把假設改了一下：</p><ul><li>狀態都是 <strong>連續</strong> 的。</li><li>時間是離散的。</li><li>內在狀態是不能被觀察的，外在狀態是可被觀察的。</li><li>以一個 <strong>隨機向量</strong> 作為一個狀態。</li><li><strong>允許在每個時間點給輸入</strong></li><li><strong>引入非線性</strong></li></ul><p>首先，在這邊的狀態會以一個向量做表示，大家應該也知道 RNN 的 input 是一個向量，當中的狀態也是一個向量，最後的 output 也是一個向量。而這些向量當中的的值都是連續的 $\mathbb{R}^n$（假設向量大小為 n），不像上面的模型都是離散的 $k$（假設有 k 個狀態），所以在空間上的大小可以說是擴大非常多。</p><p>接下來我們來看看時間的狀態轉換：</p><p><br></p><p><img src="/images/rnn_time.svg" alt=""></p><p><br></p><p><img src="/images/rnn_expand_time.svg" alt=""></p><p><br></p><p>在 RNN 中一樣含有內在狀態，但不同的是 RNN 可以在每個時間點上給輸入向量（$\mathbf{x^{(t)}}$），所以可以根據前一個時間點的內在狀態（$\mathbf{h^{(t)}}$）跟輸入向量去計算輸出，或是外在狀態（$\mathbf{y^{(t)}}$）。</p><p>所以大家會在一些論文上看到模型的狀態關係式長下面這個樣子：</p><p>$$<br>\mathbf{h^{(t)}} = f(\mathbf{x^{(t)}}, \mathbf{h^{(t-1)}}) = \mathbf{x^{(t)}} W_x + \mathbf{h^{(t-1)}} W_h + \mathbf{b}<br>$$</p><p>$$<br>\mathbf{y^{(t)}} = g(\mathbf{h^{(t)}}) = sigm(\mathbf{h^{(t)}} W_y)<br>$$</p><p>這邊特別引入了非線性的轉換（$sigm$）來讓模型更強大。</p><p>隨著從一開始的馬可夫模型到這邊應該對這幾個模型有點感覺，其實 RNN 可以說是很大的突破，在假設上放了很多元素讓模型變得更強大。</p><h2 id="Long-short-term-memory"><a href="#Long-short-term-memory" class="headerlink" title="Long short-term memory"></a>Long short-term memory</h2><p>人們為了改進 RNN這個模型的記憶性，希望他可以記住更遠以前的東西，所以設計了 LSTM 來替換他的 hidden layer 的運作模式，後期更有 GRU，還有人說只需要 forget gate 就有很強大的效能的 MGU。這些都是對於記憶性做的改進，個人覺得這些在工程上的貢獻比較大，真正學術上的突破其實還好。</p><p>今天的整理就先到這邊啦！</p>]]></content>
+    
+    <summary type="html">
+    
+      
+      
+        &lt;p&gt;接續上一篇。&lt;/p&gt;
+&lt;h2 id=&quot;Recurrent-neural-network&quot;&gt;&lt;a href=&quot;#Recurrent-neural-network&quot; class=&quot;headerlink&quot; title=&quot;Recurrent neural network&quot;&gt;&lt;/a&gt;
+      
+    
+    </summary>
+    
+      <category term="Machine Learning" scheme="https://yuehhua.github.io/categories/Machine-Learning/"/>
+    
+      <category term="機器學習模型圖書館：從傳統模型到深度學習" scheme="https://yuehhua.github.io/categories/Machine-Learning/%E6%A9%9F%E5%99%A8%E5%AD%B8%E7%BF%92%E6%A8%A1%E5%9E%8B%E5%9C%96%E6%9B%B8%E9%A4%A8%EF%BC%9A%E5%BE%9E%E5%82%B3%E7%B5%B1%E6%A8%A1%E5%9E%8B%E5%88%B0%E6%B7%B1%E5%BA%A6%E5%AD%B8%E7%BF%92/"/>
+    
+    
+  </entry>
   
   <entry>
     <title>23 Markov chain 及 HMM</title>
@@ -457,30 +483,6 @@
     
       &lt;p&gt;注意：整篇文章極度數學高能！！&lt;/p&gt;
 &lt;p&gt;沒有把前一篇文章看完的朋友別擔心，我們會在開頭先回顧一下。在一番數學技巧的替換過後，我們的 maximum-margin classifier 會被化成一個最佳化問題。這個最佳化問題可以用二次規劃（quadratic programming, QP）來解。&lt;/p&gt;
-    
-    </summary>
-    
-      <category term="Machine Learning" scheme="https://yuehhua.github.io/categories/Machine-Learning/"/>
-    
-      <category term="機器學習模型圖書館：從傳統模型到深度學習" scheme="https://yuehhua.github.io/categories/Machine-Learning/%E6%A9%9F%E5%99%A8%E5%AD%B8%E7%BF%92%E6%A8%A1%E5%9E%8B%E5%9C%96%E6%9B%B8%E9%A4%A8%EF%BC%9A%E5%BE%9E%E5%82%B3%E7%B5%B1%E6%A8%A1%E5%9E%8B%E5%88%B0%E6%B7%B1%E5%BA%A6%E5%AD%B8%E7%BF%92/"/>
-    
-    
-  </entry>
-  
-  <entry>
-    <title>04 從感知器到 maximum-margin classifier</title>
-    <link href="https://yuehhua.github.io/2018/10/04/04-from-perceptron-to-max-margin-classifier/"/>
-    <id>https://yuehhua.github.io/2018/10/04/04-from-perceptron-to-max-margin-classifier/</id>
-    <published>2018-10-04T15:43:46.000Z</published>
-    <updated>2018-10-15T07:05:54.545Z</updated>
-    
-    <content type="html"><![CDATA[<p>上次我們完成了感知器的介紹，感知器也有他相對應的學習演算法：perceptron learning algorithm (PLA)。</p><p>不過我們今天沒有要講 PLA，我們來講講感知器的缺點。</p><p>感知器這個模型有很多的缺點，但是因為他是最簡單的模型，我們就放他一馬（？）。</p><a id="more"></a><p>他的缺點有：</p><ol><li>只能處理線性可分（linear-separable）的資料</li><li>只要能分，大家都是好的分類器（黑貓白貓，能抓老鼠的就是好貓？）</li></ol><h2 id="線性可分"><a href="#線性可分" class="headerlink" title="線性可分"></a>線性可分</h2><p>我們一項一項來講，什麼是線性可分（linear-separable）？</p><p><img src="/images/perceptron4.svg" alt=""></p><p>像這樣是線性可分的，可以用一條直線把不同的點分開。</p><p><img src="/images/linear-separable1.svg" alt=""></p><p>像這樣根本找不到一條線可以將點分開的，不是線性可分。</p><p><img src="/images/linear-separable2.svg" alt=""></p><p>差一點點也不行！很尷尬，差一點就可以變成線性可分的了！但是他就不是！</p><p>所以整體說起來，感知器在使用上限制頗大。</p><h2 id="好的分類器？"><a href="#好的分類器？" class="headerlink" title="好的分類器？"></a>好的分類器？</h2><p>接下來，什麼叫作一個好的分類器？</p><p><img src="/images/perceptron4.svg" alt=""></p><p><img src="/images/perceptron5.svg" alt=""></p><p><img src="/images/perceptron6.svg" alt=""></p><p>以上三張圖，大家有沒有認為哪一張分的最好？</p><p>每個人可能有不同的答案，但是有沒有覺得第一張是比較好的分類器？</p><p>為什麼？</p><p>資料點都多多少少會有一些誤差，而資料我們都假設他比較相似的會在一起，所以當新的資料點出現的時候，我們通常預期他會在舊的資料點附近。所以說，如果線可以離資料點遠一點比較好，這樣的話就不會不小心分錯。</p><p>其實你心裡想的是這個樣子的：</p><p><img src="/images/max-margin_classifier.svg" alt=""></p><p>我們可以定一個東西叫作 margin，他就是線到最近的資料點的距離，然後希望 margin 可以越大越好。</p><h2 id="Maximum-margin-classifier"><a href="#Maximum-margin-classifier" class="headerlink" title="Maximum-margin classifier"></a>Maximum-margin classifier</h2><p>所以我們希望的是一個讓 margin 最大化的分類器，也就是 Maximum-margin classifier。</p><p>那麼他要怎麼以數學表達呢？</p><p>注意：以下數學高能！！</p><p>$$<br>\begin{align}<br>\mathop{\arg\max}_{\mathbf{w}, b} &amp;\ \ \ \<br>    \text{margin}(\mathbf{w}, b) \\<br>\text{subject to} &amp;\ \ \ \<br>    \text{classify } (\mathbf{x_n}, y_n) \text{ correctly} \\<br>\text{ } &amp;\ \ \ \<br>    \text{margin}(\mathbf{w}, b) = \mathop{\min}_{i = 1 \dots n} \text{distance}(\mathbf{x_n}, \mathbf{w}, b)<br>\end{align}<br>$$</p><p>總的來說，你希望 margin 越大越好，那就是我們的最佳化目標，但是會帶有一些條件，像是我們需要將點都分對，以及 margin 的定義是線到各個點的距離最短的那個。</p><p>上方式子中的 argmax 指的是改變某些變數（$\mathbf{w}, b$），讓後方的式子的值最大。subject to 則是限制式，也就是必須要滿足的條件。</p><p>但是這樣的式子無法直接套用數學方法計算，所以我們要進一步將式子公式化。</p><h2 id="進一步公式化"><a href="#進一步公式化" class="headerlink" title="進一步公式化"></a>進一步公式化</h2><p>注意：以下極度數學高能！！</p><p>談到距離的話，我們要先講講高中數學裡的點到線距離公式：</p><p>$$<br>\text{distance}(\mathbf{x_i}, \mathbf{w}, b) = \frac{|ax_i + by_i + c|}{\sqrt{a^2 + b^2}}<br>$$</p><p>不記得的話，回去翻翻課本或是 google 一下。可以觀察一下，會發現分子是線的權重向量跟資料點向量的相乘再相加，再加上一個常數項。相乘再相加的動作其實就是兩個向量的 <strong>內積運算</strong>。分母部份是線的權重向量的 <strong>長度</strong>。我們可以把這個二維的公式擴充到 n 維，就變成了：</p><p>$$<br>\text{distance}(\mathbf{x_i}, \mathbf{w}, b) = \frac{|\mathbf{w}^T\mathbf{x_i} + b|}{\left\lVert \mathbf{w} \right\rVert}<br>$$</p><p>是不是看起來漂亮許多？</p><p>接著，如果要把資料點分對，那就表示說，將資料點 $\mathbf{x_i}$ 代入模型中算出來的值會跟真實答案 $y_i$ 在線的同側，也就是正負號是相同的。利用這點，我們發現如果將資料點代入模型中算出來的值 $(\mathbf{w}^T\mathbf{x_i} + b)$ 與真實答案 $y_i$ 相乘的話，必定為正，所以 $y_i (\mathbf{w}^T\mathbf{x_i} + b) \gt 0$。</p><p>整個問題會被進一步變成這樣：</p><p>$$<br>\begin{align}<br>\mathop{\arg\max}_{\mathbf{w}, b} &amp;\ \ \ \<br>    \text{margin}(\mathbf{w}, b) \\<br>\text{subject to} &amp;\ \ \ \<br>    \forall i, y_i (\mathbf{w}^T\mathbf{x_i} + b) \gt 0 \\<br>\text{ } &amp;\ \ \ \<br>    \text{margin}(\mathbf{w}, b) = \mathop{\min}_{i = 1 \dots n} \frac{|\mathbf{w}^T\mathbf{x_i} + b|}{\left\lVert \mathbf{w} \right\rVert}<br>\end{align}<br>$$</p><p>$|\mathbf{w}^T\mathbf{x_i} + b|$ 的絕對值部份不是那麼好處理，我們可以把他替換成 $y_i (\mathbf{w}^T\mathbf{x_i} + b)$，反正他一定恆正。</p><p>$$<br>\begin{align}<br>\mathop{\arg\max}_{\mathbf{w}, b} &amp;\ \ \ \<br>    \text{margin}(\mathbf{w}, b) \\<br>\text{subject to} &amp;\ \ \ \<br>    \forall i, y_i (\mathbf{w}^T\mathbf{x_i} + b) \gt 0 \\<br>\text{ } &amp;\ \ \ \<br>    \text{margin}(\mathbf{w}, b) = \mathop{\min}_{i = 1 \dots n} \frac{y_i (\mathbf{w}^T\mathbf{x_i} + b)}{\left\lVert \mathbf{w} \right\rVert}<br>\end{align}<br>$$</p><h2 id="Scalling-trick"><a href="#Scalling-trick" class="headerlink" title="Scalling trick"></a>Scalling trick</h2><p>對於以下的部份，我們可以進一步簡化。</p><p>$$<br>\text{margin}(\mathbf{w}, b) = \mathop{\min}_{i = 1 \dots n} \frac{y_i (\mathbf{w}^T\mathbf{x_i} + b)}{\left\lVert \mathbf{w} \right\rVert}<br>$$</p><p>對於一條直線 $\mathbf{w}^T\mathbf{x_i} + b = 0$ 來說，縮放 c 倍基本上是沒有影響的 $c\mathbf{w}^T\mathbf{x_i} + cb = 0$。所以我們就乾脆將這個值縮放成剛好是 1，像下面這樣：</p><p>$$<br>\mathop{\min}_{i = 1 \dots n} y_i (\mathbf{w}^T\mathbf{x_i} + b) = 1<br>$$</p><p>這樣有什麼好處呢？如果你把他代回去我們的最佳化目標的話，margin 的大小是不是變成這樣了呢？</p><p>$$<br>\text{margin}(\mathbf{w}, b) = \frac{1}{\left\lVert \mathbf{w} \right\rVert}<br>$$</p><p>而且我們也省掉了 $y_i (\mathbf{w}^T\mathbf{x_i} + b) \gt 0$ 這個限制，畢竟最小的資料點計算出來至少有 1。整個問題就變成了這樣：</p><p>$$<br>\begin{align}<br>\mathop{\arg\max} _{\mathbf{w}, b} &amp;\ \ \ \<br>    \frac{1}{\left\lVert \mathbf{w} \right\rVert} \\<br>\text{subject to} &amp;\ \ \ \<br>    \mathop{\min} _{i = 1 \dots n} y_i (\mathbf{w}^T \mathbf{x_i} + b) = 1<br>\end{align}<br>$$</p><p>min 還是個不好處理的運算，我們與其求某個資料點代入最小值會是 1，我們不如放寬限制，變成所有資料點帶入公式都會 $\ge 1$。</p><p>$$<br>\mathop{\min}_{i = 1 \dots n} y_i (\mathbf{w}^T\mathbf{x_i} + b) = 1<br>\Rightarrow<br>y_i (\mathbf{w}^T\mathbf{x_i} + b) \ge 1<br>$$</p><p>最後，數學家都會有點潔癖，將問題變成他們喜歡的形式。像是求倒數的最大值，不如我們求最小值。要求 $\mathbf{w}$ 的長度太麻煩了，我們把長度中的根號拿掉。再加個二分之一上去。</p><p>$$<br>\begin{align}<br>\mathop{\arg\min}_{\mathbf{w}, b} &amp;\ \ \ \<br>    \frac{1}{2} \mathbf{w}^T\mathbf{w} \\<br>\text{subject to} &amp;\ \ \ \<br>    \forall i, y_i (\mathbf{w}^T\mathbf{x_i} + b) \ge 1<br>\end{align}<br>$$</p><p>maximum-margin classifier 的最終形式就完成了！這也是支持向量機（support vector machine）的雛型。</p>]]></content>
-    
-    <summary type="html">
-    
-      &lt;p&gt;上次我們完成了感知器的介紹，感知器也有他相對應的學習演算法：perceptron learning algorithm (PLA)。&lt;/p&gt;
-&lt;p&gt;不過我們今天沒有要講 PLA，我們來講講感知器的缺點。&lt;/p&gt;
-&lt;p&gt;感知器這個模型有很多的缺點，但是因為他是最簡單的模型，我們就放他一馬（？）。&lt;/p&gt;
     
     </summary>
     
