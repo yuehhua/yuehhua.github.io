@@ -6,7 +6,7 @@
     <!-- hexo-inject:begin --><!-- hexo-inject:end --><meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="generator" content="Dream Maker">
-    <title>24 Recurrent neural network - Dream Maker</title>
+    <title>25 Recurrent model 之死 - Dream Maker</title>
     <meta name="author" content="Yueh-Hua Tu">
     
         <meta name="keywords" content="machine learning,deep learning,topology,">
@@ -15,22 +15,19 @@
     
         <link rel="alternate" type="application/atom+xml" title="RSS" href="/atom.xml">
     
-    <script type="application/ld+json">{"@context":"http://schema.org","@type":"BlogPosting","author":{"@type":"Person","name":"Yueh-Hua Tu","sameAs":["https://github.com/yuehhua/","https://www.facebook.com/a504082002","https://www.linkedin.com/in/%E5%B2%B3%E8%8F%AF-%E6%9D%9C-6a3995a0/","mailto:a504082002@gmail.com"],"image":"https://www.gravatar.com/avatar/a565749fba4782b717234da670b273fd"},"articleBody":"接續上一篇。\nRecurrent neural network那大家所熟知的 RNN 是怎麼回事呢？我們把假設改了一下：\n\n狀態都是 連續 的。\n時間是離散的。\n內在狀態是不能被觀察的，外在狀態是可被觀察的。\n以一個 隨機向量 作為一個狀態。\n允許在每個時間點給輸入\n引入非線性\n\n\n首先，在這邊的狀態會以一個向量做表示，大家應該也知道 RNN 的 input 是一個向量，當中的狀態也是一個向量，最後的 output 也是一個向量。而這些向量當中的的值都是連續的 $\\mathbb{R}^n$（假設向量大小為 n），不像上面的模型都是離散的 $k$（假設有 k 個狀態），所以在空間上的大小可以說是擴大非常多。\n接下來我們來看看時間的狀態轉換：\n\n\n\n\n\n在 RNN 中一樣含有內在狀態，但不同的是 RNN 可以在每個時間點上給輸入向量（$\\mathbf{x^{(t)}}$），所以可以根據前一個時間點的內在狀態（$\\mathbf{h^{(t)}}$）跟輸入向量去計算輸出，或是外在狀態（$\\mathbf{y^{(t)}}$）。\n所以大家會在一些論文上看到模型的狀態關係式長下面這個樣子：\n$$\\mathbf{h^{(t)}} = f(\\mathbf{x^{(t)}}, \\mathbf{h^{(t-1)}}) = \\mathbf{x^{(t)}} W_x + \\mathbf{h^{(t-1)}} W_h + \\mathbf{b}$$\n$$\\mathbf{y^{(t)}} = g(\\mathbf{h^{(t)}}) = sigm(\\mathbf{h^{(t)}} W_y)$$\n這邊特別引入了非線性的轉換（$sigm$）來讓模型更強大。\n隨著從一開始的馬可夫模型到這邊應該對這幾個模型有點感覺，其實 RNN 可以說是很大的突破，在假設上放了很多元素讓模型變得更強大。\nLong short-term memory人們為了改進 RNN這個模型的記憶性，希望他可以記住更遠以前的東西，所以設計了 LSTM 來替換他的 hidden layer 的運作模式，後期更有 GRU，還有人說只需要 forget gate 就有很強大的效能的 MGU。這些都是對於記憶性做的改進，個人覺得這些在工程上的貢獻比較大，真正學術上的突破其實還好。\n今天的整理就先到這邊啦！\n","dateCreated":"2018-10-25T16:41:15+08:00","dateModified":"2018-10-25T16:41:15+08:00","datePublished":"2018-10-25T16:41:15+08:00","description":"接續上一篇。\nRecurrent neural network那大家所熟知的 RNN 是怎麼回事呢？我們把假設改了一下：\n\n狀態都是 連續 的。\n時間是離散的。\n內在狀態是不能被觀察的，外在狀態是可被觀察的。\n以一個 隨機向量 作為一個狀態。\n允許在每個時間點給輸入\n引入非線性\n","headline":"24 Recurrent neural network","image":[],"mainEntityOfPage":{"@type":"WebPage","@id":"https://yuehhua.github.io/2018/10/25/24-recurrent-neural-network-1/"},"publisher":{"@type":"Organization","name":"Yueh-Hua Tu","sameAs":["https://github.com/yuehhua/","https://www.facebook.com/a504082002","https://www.linkedin.com/in/%E5%B2%B3%E8%8F%AF-%E6%9D%9C-6a3995a0/","mailto:a504082002@gmail.com"],"image":"https://www.gravatar.com/avatar/a565749fba4782b717234da670b273fd","logo":{"@type":"ImageObject","url":"https://www.gravatar.com/avatar/a565749fba4782b717234da670b273fd"}},"url":"https://yuehhua.github.io/2018/10/25/24-recurrent-neural-network-1/"}</script>
-    <meta name="description" content="接續上一篇。 Recurrent neural network那大家所熟知的 RNN 是怎麼回事呢？我們把假設改了一下：  狀態都是 連續 的。 時間是離散的。 內在狀態是不能被觀察的，外在狀態是可被觀察的。 以一個 隨機向量 作為一個狀態。 允許在每個時間點給輸入 引入非線性">
+    <script type="application/ld+json">{"@context":"http://schema.org","@type":"BlogPosting","author":{"@type":"Person","name":"Yueh-Hua Tu","sameAs":["https://github.com/yuehhua/","https://www.facebook.com/a504082002","https://www.linkedin.com/in/%E5%B2%B3%E8%8F%AF-%E6%9D%9C-6a3995a0/","mailto:a504082002@gmail.com"],"image":"https://www.gravatar.com/avatar/a565749fba4782b717234da670b273fd"},"articleBody":"當大家正在開心的用著 RNN 跟 LSTM 等等模型之時，就有人跳出來了。\n不要再用 RNN 為基礎的模型了！！\n就是這篇 The fall of RNN / LSTM\n為什麼呢？\n基本上裏面提到 vanishing gradient 的問題一直沒有解決以外，還有沒有辦法善用硬體的侷限在。\n像這種循序型的模型，模型天生無法平行化運算，所以 GPU 就無用武之地，只能靠 CPU 慢慢跑。\n那有什麼解決辦法呢？\nSelf-attention modelAttention Is All You Need 這篇文章提出了 Transformer 這個模型，基本上這個模型使用了 self-attention 的機制。\n要講這個之前我們要先聊聊 attention model。在 attention model 之前，sequence-to-sequence model 做出了重大的突破。一個具有彈性，可以任意組合的模型誕生了，管你是要生成句子還是怎麼樣。原本是只有 RNN 一個單元一個單元慢慢去對映 X 到 Y，sequence-to-sequence model 將這樣的對應關係解耦，由一個 encoder 負責將 X 的資訊萃取出來，再經由 decoder 將資訊轉換成 Y 輸出。\n但是 LSTM 還是沒辦法記憶夠長的，後來 attention model 就誕生了。乾脆就將 encoder 所萃取到的資訊紀錄下來，變成一個，然後再丟到 decoder 去將資訊還原成目標語言，就可以完成機器翻譯了。\n但是這種方式還是不脫 recurrent model，那就乾脆做成 self-attention 的機制，也就是這邊的 Transformer，完全摒棄了 recurrent 的限制。\nAutoregressive generative model接著是今年6月的文章 When Recurrent Models Don’t Need to be Recurrent，當你的 recurrent model 不必再 recurrent！\n也就是將 RNN 的問題又重述了一遍，並且提出大家都漸漸以 autoregressive generative model 來解決這樣的問題。\n這篇算這引言，我接下來會開始一一解釋模型。\n","dateCreated":"2018-10-25T23:21:36+08:00","dateModified":"2018-10-25T23:21:36+08:00","datePublished":"2018-10-25T23:21:36+08:00","description":"","headline":"25 Recurrent model 之死","image":[],"mainEntityOfPage":{"@type":"WebPage","@id":"https://yuehhua.github.io/2018/10/25/25-death-of-recurrent-model/"},"publisher":{"@type":"Organization","name":"Yueh-Hua Tu","sameAs":["https://github.com/yuehhua/","https://www.facebook.com/a504082002","https://www.linkedin.com/in/%E5%B2%B3%E8%8F%AF-%E6%9D%9C-6a3995a0/","mailto:a504082002@gmail.com"],"image":"https://www.gravatar.com/avatar/a565749fba4782b717234da670b273fd","logo":{"@type":"ImageObject","url":"https://www.gravatar.com/avatar/a565749fba4782b717234da670b273fd"}},"url":"https://yuehhua.github.io/2018/10/25/25-death-of-recurrent-model/"}</script>
+    <meta name="description" content="當大家正在開心的用著 RNN 跟 LSTM 等等模型之時，就有人跳出來了。 不要再用 RNN 為基礎的模型了！！ 就是這篇 The fall of RNN / LSTM 為什麼呢？ 基本上裏面提到 vanishing gradient 的問題一直沒有解決以外，還有沒有辦法善用硬體的侷限在。 像這種循序型的模型，模型天生無法平行化運算，所以 GPU 就無用武之地，只能靠 CPU 慢慢跑。 那有什麼解">
 <meta name="keywords" content="machine learning,deep learning,topology">
 <meta property="og:type" content="blog">
-<meta property="og:title" content="24 Recurrent neural network">
-<meta property="og:url" content="https://yuehhua.github.io/2018/10/25/24-recurrent-neural-network-1/index.html">
+<meta property="og:title" content="25 Recurrent model 之死">
+<meta property="og:url" content="https://yuehhua.github.io/2018/10/25/25-death-of-recurrent-model/index.html">
 <meta property="og:site_name" content="Dream Maker">
-<meta property="og:description" content="接續上一篇。 Recurrent neural network那大家所熟知的 RNN 是怎麼回事呢？我們把假設改了一下：  狀態都是 連續 的。 時間是離散的。 內在狀態是不能被觀察的，外在狀態是可被觀察的。 以一個 隨機向量 作為一個狀態。 允許在每個時間點給輸入 引入非線性">
+<meta property="og:description" content="當大家正在開心的用著 RNN 跟 LSTM 等等模型之時，就有人跳出來了。 不要再用 RNN 為基礎的模型了！！ 就是這篇 The fall of RNN / LSTM 為什麼呢？ 基本上裏面提到 vanishing gradient 的問題一直沒有解決以外，還有沒有辦法善用硬體的侷限在。 像這種循序型的模型，模型天生無法平行化運算，所以 GPU 就無用武之地，只能靠 CPU 慢慢跑。 那有什麼解">
 <meta property="og:locale" content="en">
-<meta property="og:image" content="https://yuehhua.github.io/images/rnn_time.svg">
-<meta property="og:image" content="https://yuehhua.github.io/images/rnn_expand_time.svg">
-<meta property="og:updated_time" content="2018-10-25T08:41:15.480Z">
+<meta property="og:updated_time" content="2018-10-25T15:21:36.182Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="24 Recurrent neural network">
-<meta name="twitter:description" content="接續上一篇。 Recurrent neural network那大家所熟知的 RNN 是怎麼回事呢？我們把假設改了一下：  狀態都是 連續 的。 時間是離散的。 內在狀態是不能被觀察的，外在狀態是可被觀察的。 以一個 隨機向量 作為一個狀態。 允許在每個時間點給輸入 引入非線性">
-<meta name="twitter:image" content="https://yuehhua.github.io/images/rnn_time.svg">
+<meta name="twitter:title" content="25 Recurrent model 之死">
+<meta name="twitter:description" content="當大家正在開心的用著 RNN 跟 LSTM 等等模型之時，就有人跳出來了。 不要再用 RNN 為基礎的模型了！！ 就是這篇 The fall of RNN / LSTM 為什麼呢？ 基本上裏面提到 vanishing gradient 的問題一直沒有解決以外，還有沒有辦法善用硬體的侷限在。 像這種循序型的模型，模型天生無法平行化運算，所以 GPU 就無用武之地，只能靠 CPU 慢慢跑。 那有什麼解">
     
     
         
@@ -241,12 +238,12 @@
                     <div class="post-header main-content-wrap text-left">
     
         <h1 class="post-title">
-            24 Recurrent neural network
+            25 Recurrent model 之死
         </h1>
     
     
         <div class="post-meta">
-    <time datetime="2018-10-25T16:41:15+08:00">
+    <time datetime="2018-10-25T23:21:36+08:00">
 	
 		    Oct 25, 2018
     	
@@ -266,32 +263,20 @@
                         
                             <div class="post-content markdown">
                                 <div class="main-content-wrap">
-                                    <p>接續上一篇。</p>
-<h2 id="Recurrent-neural-network"><a href="#Recurrent-neural-network" class="headerlink" title="Recurrent neural network"></a>Recurrent neural network</h2><p>那大家所熟知的 RNN 是怎麼回事呢？我們把假設改了一下：</p>
-<ul>
-<li>狀態都是 <strong>連續</strong> 的。</li>
-<li>時間是離散的。</li>
-<li>內在狀態是不能被觀察的，外在狀態是可被觀察的。</li>
-<li>以一個 <strong>隨機向量</strong> 作為一個狀態。</li>
-<li><strong>允許在每個時間點給輸入</strong></li>
-<li><strong>引入非線性</strong></li>
-</ul>
-<a id="more"></a>
-<p>首先，在這邊的狀態會以一個向量做表示，大家應該也知道 RNN 的 input 是一個向量，當中的狀態也是一個向量，最後的 output 也是一個向量。而這些向量當中的的值都是連續的 $\mathbb{R}^n$（假設向量大小為 n），不像上面的模型都是離散的 $k$（假設有 k 個狀態），所以在空間上的大小可以說是擴大非常多。</p>
-<p>接下來我們來看看時間的狀態轉換：</p>
-<p><br></p>
-<p><img src="/images/rnn_time.svg" alt=""></p>
-<p><br></p>
-<p><img src="/images/rnn_expand_time.svg" alt=""></p>
-<p><br></p>
-<p>在 RNN 中一樣含有內在狀態，但不同的是 RNN 可以在每個時間點上給輸入向量（$\mathbf{x^{(t)}}$），所以可以根據前一個時間點的內在狀態（$\mathbf{h^{(t)}}$）跟輸入向量去計算輸出，或是外在狀態（$\mathbf{y^{(t)}}$）。</p>
-<p>所以大家會在一些論文上看到模型的狀態關係式長下面這個樣子：</p>
-<p>$$<br>\mathbf{h^{(t)}} = f(\mathbf{x^{(t)}}, \mathbf{h^{(t-1)}}) = \mathbf{x^{(t)}} W_x + \mathbf{h^{(t-1)}} W_h + \mathbf{b}<br>$$</p>
-<p>$$<br>\mathbf{y^{(t)}} = g(\mathbf{h^{(t)}}) = sigm(\mathbf{h^{(t)}} W_y)<br>$$</p>
-<p>這邊特別引入了非線性的轉換（$sigm$）來讓模型更強大。</p>
-<p>隨著從一開始的馬可夫模型到這邊應該對這幾個模型有點感覺，其實 RNN 可以說是很大的突破，在假設上放了很多元素讓模型變得更強大。</p>
-<h2 id="Long-short-term-memory"><a href="#Long-short-term-memory" class="headerlink" title="Long short-term memory"></a>Long short-term memory</h2><p>人們為了改進 RNN這個模型的記憶性，希望他可以記住更遠以前的東西，所以設計了 LSTM 來替換他的 hidden layer 的運作模式，後期更有 GRU，還有人說只需要 forget gate 就有很強大的效能的 MGU。這些都是對於記憶性做的改進，個人覺得這些在工程上的貢獻比較大，真正學術上的突破其實還好。</p>
-<p>今天的整理就先到這邊啦！</p>
+                                    <p>當大家正在開心的用著 RNN 跟 LSTM 等等模型之時，就有人跳出來了。</p>
+<p>不要再用 RNN 為基礎的模型了！！</p>
+<p>就是這篇 <a href="https://towardsdatascience.com/the-fall-of-rnn-lstm-2d1594c74ce0" target="_blank" rel="noopener">The fall of RNN / LSTM</a></p>
+<p>為什麼呢？</p>
+<p>基本上裏面提到 vanishing gradient 的問題一直沒有解決以外，還有沒有辦法善用硬體的侷限在。</p>
+<p>像這種循序型的模型，模型天生無法平行化運算，所以 GPU 就無用武之地，只能靠 CPU 慢慢跑。</p>
+<p>那有什麼解決辦法呢？</p>
+<h2 id="Self-attention-model"><a href="#Self-attention-model" class="headerlink" title="Self-attention model"></a>Self-attention model</h2><p><a href="https://arxiv.org/abs/1706.03762" target="_blank" rel="noopener">Attention Is All You Need</a> 這篇文章提出了 Transformer 這個模型，基本上這個模型使用了 self-attention 的機制。</p>
+<p>要講這個之前我們要先聊聊 attention model。在 attention model 之前，sequence-to-sequence model 做出了重大的突破。一個具有彈性，可以任意組合的模型誕生了，管你是要生成句子還是怎麼樣。原本是只有 RNN 一個單元一個單元慢慢去對映 X 到 Y，sequence-to-sequence model 將這樣的對應關係解耦，由一個 encoder 負責將 X 的資訊萃取出來，再經由 decoder 將資訊轉換成 Y 輸出。</p>
+<p>但是 LSTM 還是沒辦法記憶夠長的，後來 attention model 就誕生了。乾脆就將 encoder 所萃取到的資訊紀錄下來，變成一個，然後再丟到 decoder 去將資訊還原成目標語言，就可以完成機器翻譯了。</p>
+<p>但是這種方式還是不脫 recurrent model，那就乾脆做成 self-attention 的機制，也就是這邊的 Transformer，完全摒棄了 recurrent 的限制。</p>
+<h2 id="Autoregressive-generative-model"><a href="#Autoregressive-generative-model" class="headerlink" title="Autoregressive generative model"></a>Autoregressive generative model</h2><p>接著是今年6月的文章 <a href="http://www.offconvex.org/2018/07/27/approximating-recurrent/" target="_blank" rel="noopener">When Recurrent Models Don’t Need to be Recurrent</a>，當你的 recurrent model 不必再 recurrent！</p>
+<p>也就是將 RNN 的問題又重述了一遍，並且提出大家都漸漸以 autoregressive generative model 來解決這樣的問題。</p>
+<p>這篇算這引言，我接下來會開始一一解釋模型。</p>
 
                                         
 
@@ -305,8 +290,7 @@
         <ul class="post-actions post-action-nav">
             <li class="post-action">
                 
-                    
-                    <a class="post-action-btn btn btn--default tooltip--top" href="/2018/10/25/25-death-of-recurrent-model/" data-tooltip="25 Recurrent model 之死" aria-label="PREVIOUS: 25 Recurrent model 之死">
+                    <a class="post-action-btn btn btn--disabled">
                 
                     <i class="fa fa-angle-left" aria-hidden="true"></i>
                     <span class="hide-xs hide-sm text-small icon-ml">PREVIOUS</span>
@@ -315,7 +299,7 @@
             <li class="post-action">
                 
                     
-                    <a class="post-action-btn btn btn--default tooltip--top" href="/2018/10/23/24-recurrent-neural-network/" data-tooltip="24 Recurrent neural network" aria-label="NEXT: 24 Recurrent neural network">
+                    <a class="post-action-btn btn btn--default tooltip--top" href="/2018/10/25/24-recurrent-neural-network-1/" data-tooltip="24 Recurrent neural network" aria-label="NEXT: 24 Recurrent neural network">
                 
                     <span class="hide-xs hide-sm text-small icon-mr">NEXT</span>
                     <i class="fa fa-angle-right" aria-hidden="true"></i>
@@ -333,7 +317,7 @@
             
             
             <li class="post-action hide-xs">
-                <a class="post-action-btn btn btn--default" target="new" href="https://www.facebook.com/sharer/sharer.php?u=https://yuehhua.github.io/2018/10/25/24-recurrent-neural-network-1/" title="Share on Facebook">
+                <a class="post-action-btn btn btn--default" target="new" href="https://www.facebook.com/sharer/sharer.php?u=https://yuehhua.github.io/2018/10/25/25-death-of-recurrent-model/" title="Share on Facebook">
                     <i class="fa fa-facebook-official" aria-hidden="true"></i>
                 </a>
             </li>
@@ -391,8 +375,7 @@
         <ul class="post-actions post-action-nav">
             <li class="post-action">
                 
-                    
-                    <a class="post-action-btn btn btn--default tooltip--top" href="/2018/10/25/25-death-of-recurrent-model/" data-tooltip="25 Recurrent model 之死" aria-label="PREVIOUS: 25 Recurrent model 之死">
+                    <a class="post-action-btn btn btn--disabled">
                 
                     <i class="fa fa-angle-left" aria-hidden="true"></i>
                     <span class="hide-xs hide-sm text-small icon-ml">PREVIOUS</span>
@@ -401,7 +384,7 @@
             <li class="post-action">
                 
                     
-                    <a class="post-action-btn btn btn--default tooltip--top" href="/2018/10/23/24-recurrent-neural-network/" data-tooltip="24 Recurrent neural network" aria-label="NEXT: 24 Recurrent neural network">
+                    <a class="post-action-btn btn btn--default tooltip--top" href="/2018/10/25/24-recurrent-neural-network-1/" data-tooltip="24 Recurrent neural network" aria-label="NEXT: 24 Recurrent neural network">
                 
                     <span class="hide-xs hide-sm text-small icon-mr">NEXT</span>
                     <i class="fa fa-angle-right" aria-hidden="true"></i>
@@ -419,7 +402,7 @@
             
             
             <li class="post-action hide-xs">
-                <a class="post-action-btn btn btn--default" target="new" href="https://www.facebook.com/sharer/sharer.php?u=https://yuehhua.github.io/2018/10/25/24-recurrent-neural-network-1/" title="Share on Facebook">
+                <a class="post-action-btn btn btn--default" target="new" href="https://www.facebook.com/sharer/sharer.php?u=https://yuehhua.github.io/2018/10/25/25-death-of-recurrent-model/" title="Share on Facebook">
                     <i class="fa fa-facebook-official" aria-hidden="true"></i>
                 </a>
             </li>
@@ -452,7 +435,7 @@
             
             
             <li class="share-option">
-                <a class="share-option-btn" target="new" href="https://www.facebook.com/sharer/sharer.php?u=https://yuehhua.github.io/2018/10/25/24-recurrent-neural-network-1/">
+                <a class="share-option-btn" target="new" href="https://www.facebook.com/sharer/sharer.php?u=https://yuehhua.github.io/2018/10/25/25-death-of-recurrent-model/">
                     <i class="fa fa-facebook-official" aria-hidden="true"></i><span>Share on Facebook</span>
                 </a>
             </li>
@@ -504,9 +487,9 @@
     
         <script>
              var disqus_config = function () {
-                 this.page.url = 'https://yuehhua.github.io/2018/10/25/24-recurrent-neural-network-1/';
+                 this.page.url = 'https://yuehhua.github.io/2018/10/25/25-death-of-recurrent-model/';
                  
-                    this.page.identifier = '2018/10/25/24-recurrent-neural-network-1/';
+                    this.page.identifier = '2018/10/25/25-death-of-recurrent-model/';
                  
              };
             (function() {
