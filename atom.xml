@@ -6,7 +6,7 @@
   <link href="/atom.xml" rel="self"/>
   
   <link href="https://yuehhua.github.io/"/>
-  <updated>2018-10-23T13:43:49.912Z</updated>
+  <updated>2018-10-25T08:41:15.480Z</updated>
   <id>https://yuehhua.github.io/</id>
   
   <author>
@@ -15,6 +15,37 @@
   </author>
   
   <generator uri="http://hexo.io/">Hexo</generator>
+  
+  <entry>
+    <title>24 Recurrent neural network</title>
+    <link href="https://yuehhua.github.io/2018/10/25/24-recurrent-neural-network-1/"/>
+    <id>https://yuehhua.github.io/2018/10/25/24-recurrent-neural-network-1/</id>
+    <published>2018-10-25T08:41:15.000Z</published>
+    <updated>2018-10-25T08:41:15.480Z</updated>
+    
+    <content type="html"><![CDATA[<p>接續上一篇。</p><h2 id="Recurrent-neural-network"><a href="#Recurrent-neural-network" class="headerlink" title="Recurrent neural network"></a>Recurrent neural network</h2><p>那大家所熟知的 RNN 是怎麼回事呢？我們把假設改了一下：</p><ul><li>狀態都是 <strong>連續</strong> 的。</li><li>時間是離散的。</li><li>內在狀態是不能被觀察的，外在狀態是可被觀察的。</li><li>以一個 <strong>隨機向量</strong> 作為一個狀態。</li><li><strong>允許在每個時間點給輸入</strong></li><li><strong>引入非線性</strong></li></ul><a id="more"></a><p>首先，在這邊的狀態會以一個向量做表示，大家應該也知道 RNN 的 input 是一個向量，當中的狀態也是一個向量，最後的 output 也是一個向量。而這些向量當中的的值都是連續的 $\mathbb{R}^n$（假設向量大小為 n），不像上面的模型都是離散的 $k$（假設有 k 個狀態），所以在空間上的大小可以說是擴大非常多。</p><p>接下來我們來看看時間的狀態轉換：</p><p><br></p><p><img src="/images/rnn_time.svg" alt=""></p><p><br></p><p><img src="/images/rnn_expand_time.svg" alt=""></p><p><br></p><p>在 RNN 中一樣含有內在狀態，但不同的是 RNN 可以在每個時間點上給輸入向量（$\mathbf{x^{(t)}}$），所以可以根據前一個時間點的內在狀態（$\mathbf{h^{(t)}}$）跟輸入向量去計算輸出，或是外在狀態（$\mathbf{y^{(t)}}$）。</p><p>所以大家會在一些論文上看到模型的狀態關係式長下面這個樣子：</p><p>$$<br>\mathbf{h^{(t)}} = f(\mathbf{x^{(t)}}, \mathbf{h^{(t-1)}}) = \mathbf{x^{(t)}} W_x + \mathbf{h^{(t-1)}} W_h + \mathbf{b}<br>$$</p><p>$$<br>\mathbf{y^{(t)}} = g(\mathbf{h^{(t)}}) = sigm(\mathbf{h^{(t)}} W_y)<br>$$</p><p>這邊特別引入了非線性的轉換（$sigm$）來讓模型更強大。</p><p>隨著從一開始的馬可夫模型到這邊應該對這幾個模型有點感覺，其實 RNN 可以說是很大的突破，在假設上放了很多元素讓模型變得更強大。</p><h2 id="Long-short-term-memory"><a href="#Long-short-term-memory" class="headerlink" title="Long short-term memory"></a>Long short-term memory</h2><p>人們為了改進 RNN這個模型的記憶性，希望他可以記住更遠以前的東西，所以設計了 LSTM 來替換他的 hidden layer 的運作模式，後期更有 GRU，還有人說只需要 forget gate 就有很強大的效能的 MGU。這些都是對於記憶性做的改進，個人覺得這些在工程上的貢獻比較大，真正學術上的突破其實還好。</p><p>今天的整理就先到這邊啦！</p>]]></content>
+    
+    <summary type="html">
+    
+      &lt;p&gt;接續上一篇。&lt;/p&gt;
+&lt;h2 id=&quot;Recurrent-neural-network&quot;&gt;&lt;a href=&quot;#Recurrent-neural-network&quot; class=&quot;headerlink&quot; title=&quot;Recurrent neural network&quot;&gt;&lt;/a&gt;Recurrent neural network&lt;/h2&gt;&lt;p&gt;那大家所熟知的 RNN 是怎麼回事呢？我們把假設改了一下：&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;狀態都是 &lt;strong&gt;連續&lt;/strong&gt; 的。&lt;/li&gt;
+&lt;li&gt;時間是離散的。&lt;/li&gt;
+&lt;li&gt;內在狀態是不能被觀察的，外在狀態是可被觀察的。&lt;/li&gt;
+&lt;li&gt;以一個 &lt;strong&gt;隨機向量&lt;/strong&gt; 作為一個狀態。&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;允許在每個時間點給輸入&lt;/strong&gt;&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;引入非線性&lt;/strong&gt;&lt;/li&gt;
+&lt;/ul&gt;
+    
+    </summary>
+    
+      <category term="Machine Learning" scheme="https://yuehhua.github.io/categories/Machine-Learning/"/>
+    
+      <category term="機器學習模型圖書館：從傳統模型到深度學習" scheme="https://yuehhua.github.io/categories/Machine-Learning/%E6%A9%9F%E5%99%A8%E5%AD%B8%E7%BF%92%E6%A8%A1%E5%9E%8B%E5%9C%96%E6%9B%B8%E9%A4%A8%EF%BC%9A%E5%BE%9E%E5%82%B3%E7%B5%B1%E6%A8%A1%E5%9E%8B%E5%88%B0%E6%B7%B1%E5%BA%A6%E5%AD%B8%E7%BF%92/"/>
+    
+    
+  </entry>
   
   <entry>
     <title>24 Recurrent neural network</title>
@@ -460,29 +491,6 @@
     
       &lt;p&gt;從前面的 kernel SVM 當中我們已經獲得了很強大的模型，可是他還是會有不足之處，像是當資料有雜訊的時候就容易將每個資料點都個別分開。&lt;/p&gt;
 &lt;p&gt;有時候我們反而希望模型在面對雜訊上不要那麼敏感，或是不要把每個資料點都分對，這時候怎麼辦呢？&lt;/p&gt;
-    
-    </summary>
-    
-      <category term="Machine Learning" scheme="https://yuehhua.github.io/categories/Machine-Learning/"/>
-    
-      <category term="機器學習模型圖書館：從傳統模型到深度學習" scheme="https://yuehhua.github.io/categories/Machine-Learning/%E6%A9%9F%E5%99%A8%E5%AD%B8%E7%BF%92%E6%A8%A1%E5%9E%8B%E5%9C%96%E6%9B%B8%E9%A4%A8%EF%BC%9A%E5%BE%9E%E5%82%B3%E7%B5%B1%E6%A8%A1%E5%9E%8B%E5%88%B0%E6%B7%B1%E5%BA%A6%E5%AD%B8%E7%BF%92/"/>
-    
-    
-  </entry>
-  
-  <entry>
-    <title>05 從 maximum-margin classifier 到 kernel SVM</title>
-    <link href="https://yuehhua.github.io/2018/10/05/05-from-max-margin-classifier-to-kernel-svm/"/>
-    <id>https://yuehhua.github.io/2018/10/05/05-from-max-margin-classifier-to-kernel-svm/</id>
-    <published>2018-10-05T15:07:15.000Z</published>
-    <updated>2018-10-15T07:05:37.356Z</updated>
-    
-    <content type="html"><![CDATA[<p>注意：整篇文章極度數學高能！！</p><p>沒有把前一篇文章看完的朋友別擔心，我們會在開頭先回顧一下。在一番數學技巧的替換過後，我們的 maximum-margin classifier 會被化成一個最佳化問題。這個最佳化問題可以用二次規劃（quadratic programming, QP）來解。</p><a id="more"></a><p>$$<br>\begin{align}<br>\mathop{\arg\min}_{\mathbf{w}, b} &amp;\ \ \ \<br>    \frac{1}{2} \mathbf{w}^T\mathbf{w} \\<br>\text{subject to} &amp;\ \ \ \<br>    \forall i, y_i (\mathbf{w}^T\mathbf{x_i} + b) \ge 1<br>\end{align}<br>$$</p><p>當模型被轉化成一個最佳化問題之後，<del>你還有什麼不滿的？</del> 問題都解決了嗎？</p><p>當然還沒有阿！雖然說我們解決了前面的第二個缺點，但是第一個缺點還是在啊！</p><p>那如果資料不是線性可分的話，是不是支援非線性的分類問題就可以了？</p><h2 id="非線性轉換"><a href="#非線性轉換" class="headerlink" title="非線性轉換"></a>非線性轉換</h2><p>那問題簡單！既然這個分類器只能處理線性問題，那就把所有非線性問題透過一個轉換變成線性問題不就可以了？</p><p>當然用講的比較簡單…</p><p>我們就先假設有個非線性轉換，可以把原本的非線性資料 $\mathbf{x_i}$ 轉成線性資料 $\mathbf{z_i}$：</p><p>$$<br>\mathbf{z_i} = \phi(\mathbf{x_i})<br>$$</p><p>然後再把線性資料塞進模型裡不就得了？</p><p>$$<br>\begin{align}<br>\mathop{\arg\min}_{\mathbf{w}, b} &amp;\ \ \ \<br>    \frac{1}{2} \mathbf{w}^T\mathbf{w} \<br>\text{subject to} &amp;\ \ \ \<br>    \forall i, y_i (\mathbf{w}^T\mathbf{z_i} + b) \ge 1<br>\end{align}<br>$$</p><p>嗯……可是瑞凡，你知道要放到 QP 裏面算之前，要先計算出 $[\mathbf{z_i}^T\mathbf{z_j}]$，也就是把資料經過一個非線性轉換過後，還需要將每個資料向量兩兩之間內積，得到一整個矩陣才行。</p><p>計算這所有的組合可是非常花時間（$O(N^2)$）的好嗎！！尤其你的資料點很多的時候，大數據都算不下去了。</p><h2 id="Kernel-method"><a href="#Kernel-method" class="headerlink" title="Kernel method"></a>Kernel method</h2><p>我們先來看一下比較簡單的非線性轉換好了，假設是二次多項式的轉換。</p><p>我們想像中的二次多項式應該是 $\phi_2(x) = (1, x, x^2)$，這邊有三項，可是廣義的二次多項式會有：</p><p>$$<br>\mathbf{z} = \phi_2(\mathbf{x}) = (1, x_1, x_2, \dots, x_d, \<br>    x_1^2, x_1x_2, \dots, x_1x_d, \<br>    x_2x_1, x_2^2, \dots, x_2x_d, \<br>    \dots, x_d^2)<br>$$</p><p>有一個常數項、d 個一次項跟 $d + \frac{1}{2} d(d+1)$ 個二次項，如果這個向量內積的話，乘法的時間複雜度就有 $O(d^2)$ 了。</p><p>然後再讓 $\mathbf{z_i}$ 跟 $\mathbf{z_j}$ 兩兩內積，利用內積的交換性扣掉一些不用算的，好歹也需要算 $N + \frac{1}{2} N(N+1)$ 次內積，是 $O(N^2)$。</p><p>總共應該會有 $O(d^2N^2)$。</p><blockquote><p>註：d 為資料維度，N 為資料筆數</p></blockquote><p>有沒有什麼方法可以降低這個時間呢？</p><p>我們把內積的部份拿出來看看。</p><p>$$<br>\phi_2(\mathbf{x})^T\phi_2(\mathbf{x’}) = 1 + \sum_{i=1}^{d} x_ix_i’ + \sum_{i=1}^{d} \sum_{j=1}^{d} x_ix_jx_i’x_j’<br>$$</p><p>咦！是不是可以進一步整理成這樣。</p><p>$$<br>\phi_2(\mathbf{x})^T\phi_2(\mathbf{x’}) = 1 + \sum_{i=1}^{d} x_ix_i’ + \sum_{i=1}^{d} x_ix_i’ \sum_{j=1}^{d} x_jx_j’ \\<br>= 1 + \mathbf{x}^T\mathbf{x’} + (\mathbf{x}^T\mathbf{x’})(\mathbf{x}^T\mathbf{x’}) \\<br>= 1 + \mathbf{x}^T\mathbf{x’} + (\mathbf{x}^T\mathbf{x’})^2<br>$$</p><p>這樣的話需要多少時間複雜度呢？掐指一算，$\mathbf{x}^T\mathbf{x’}$ 需要 $O(d)$，$\phi_2(\mathbf{x})^T\phi_2(\mathbf{x’})$ 總共需要 $O(d) + 1$！</p><p>大大降低了！！</p><p>所以我們就把這樣的方法稱為 kernel method，並且定義 $K_\phi(\mathbf{x}, \mathbf{x’}) = \phi(\mathbf{x})^T\phi(\mathbf{x’})$。</p><p>不過大家常用的是比較廣義的版本：</p><p>$$<br>K_2(\mathbf{x}, \mathbf{x’}) = 1 + 2 \mathbf{x}^T\mathbf{x’} + (\mathbf{x}^T\mathbf{x’})^2 = (1 + \mathbf{x}^T\mathbf{x’})^2<br>$$</p><p>然後使用者通常會想要細緻控制 kernel 的強度，所以會引入一個參數：</p><p>$$<br>K_2(\mathbf{x}, \mathbf{x’}) = 1 + 2 \gamma \mathbf{x}^T\mathbf{x’} + \gamma^2 (\mathbf{x}^T\mathbf{x’})^2 = (1 + \gamma \mathbf{x}^T\mathbf{x’})^2<br>$$</p><p>我們來看一下用起來的效果如何？</p><p><img src="/images/poly2_kernel.svg" alt=""></p><blockquote><p>picture from coursera, 《機器學習技法》 - 林軒田</p></blockquote><h2 id="無限維度-kernel"><a href="#無限維度-kernel" class="headerlink" title="無限維度 kernel"></a>無限維度 kernel</h2><p>既然可以有二次的那是不是到 M 次都可以？那有沒有無限次的呢？</p><p>有！</p><p>他長成這樣：</p><p>$$<br>K(x, x’) = exp(-(x - x’)^2)<br>$$</p><p>嗯？你不要騙我！你以為擺到次方項就可以變成無限維度？</p><p>那就來證明一下啦-~~</p><p>$$<br>= exp(-x^2 + 2xx’ - x’^2) \\<br>= exp(-x^2) exp(-x’^2) exp(2xx’) \\<br>= exp(-x^2) exp(-x’^2) (\sum_{i=0}^{\infty} \frac{(2xx’)^i}{i})\text{ (Taylor expansion)}<br>$$</p><p>透過泰勒展開式展開之後我們就看到無限維度的影子了，再進一步簡化。</p><p>$$<br>= \sum_{i=0}^{\infty} \big ( exp(-x^2) exp(-x’^2) \frac{2^i}{i} x^i x’^i) \big ) \\<br>= \sum_{i=0}^{\infty} \big ( exp(-x^2) exp(-x’^2) \frac{\sqrt{2^i}}{i} \frac{\sqrt{2^i}}{i} x^i x’^i) \big ) \\<br>= \sum_{i=0}^{\infty} \big ( \frac{\sqrt{2^i}}{i} x^i exp(-x^2) \big ) \sum_{i=0}^{\infty} \big ( \frac{\sqrt{2^i}}{i} x’^i exp(-x’^2)) \big ) \\<br>= \phi(x)^T\phi(x’)<br>$$</p><p>我們的無限維度非線性轉換就完成啦！</p><p>$$<br>\phi(x) = exp(-x^2) \cdot \big ( 1, \frac{\sqrt{2}}{1} x, \frac{\sqrt{2^2}}{2} x^2, \dots, \big )<br>$$</p><p>所以這種 kernel 叫作 Gaussian kernel，使用上也是有個參數可以調整強度。</p><p>$$<br>K(\mathbf{x}, \mathbf{x’}) = exp(- \gamma \left\lVert \mathbf{x} - \mathbf{x’} \right\rVert ^2), \gamma \gt 0<br>$$</p><p>在現在的支持向量機（Support vector machine, SVM）預設是會使用 Gaussian kernel 的，這就是這個模型強大的祕密！</p>]]></content>
-    
-    <summary type="html">
-    
-      &lt;p&gt;注意：整篇文章極度數學高能！！&lt;/p&gt;
-&lt;p&gt;沒有把前一篇文章看完的朋友別擔心，我們會在開頭先回顧一下。在一番數學技巧的替換過後，我們的 maximum-margin classifier 會被化成一個最佳化問題。這個最佳化問題可以用二次規劃（quadratic programming, QP）來解。&lt;/p&gt;
     
     </summary>
     
