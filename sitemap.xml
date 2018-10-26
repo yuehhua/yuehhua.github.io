@@ -2,6 +2,13 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   
   <url>
+    <loc>https://yuehhua.github.io/2018/10/26/26-sequence-to-sequence-model/</loc>
+    
+    <lastmod>2018-10-26T15:40:23.383Z</lastmod>
+    
+  </url>
+  
+  <url>
     <loc>https://yuehhua.github.io/2018/10/25/25-death-of-recurrent-model/</loc>
     
     <lastmod>2018-10-25T15:21:36.182Z</lastmod>
