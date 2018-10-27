@@ -15,7 +15,7 @@
     
         <link rel="alternate" type="application/atom+xml" title="RSS" href="/atom.xml">
     
-    <script type="application/ld+json">{"@context":"http://schema.org","@type":"BlogPosting","author":{"@type":"Person","name":"Yueh-Hua Tu","sameAs":["https://github.com/yuehhua/","https://www.facebook.com/a504082002","https://www.linkedin.com/in/%E5%B2%B3%E8%8F%AF-%E6%9D%9C-6a3995a0/","mailto:a504082002@gmail.com"],"image":"https://www.gravatar.com/avatar/a565749fba4782b717234da670b273fd"},"articleBody":"前面有提到 seq2seq model，我們就從這邊開始。\nSeq2seq model 他採用了 encoder-decoder 架構，這時候就要來點 paper 的圖啦！\n\n\n在以往的 language model 的作法裡，會是把一個 word 塞進 RNN 裡，那麼 RNN 就會立刻吐出一個相對應的 word 出來。\n像是放進一個英文字，會吐出一個相對應的法文字。\n這麼做雖然很直覺，但是他並不能完整的翻譯一個句子。\n今天有點累，先打到這邊，明天補完。\n","dateCreated":"2018-10-26T23:40:23+08:00","dateModified":"2018-10-26T23:40:23+08:00","datePublished":"2018-10-26T23:40:23+08:00","description":"前面有提到 seq2seq model，我們就從這邊開始。\nSeq2seq model 他採用了 encoder-decoder 架構，這時候就要來點 paper 的圖啦！\n","headline":"26 seq2seq model","image":[],"mainEntityOfPage":{"@type":"WebPage","@id":"https://yuehhua.github.io/2018/10/26/26-sequence-to-sequence-model/"},"publisher":{"@type":"Organization","name":"Yueh-Hua Tu","sameAs":["https://github.com/yuehhua/","https://www.facebook.com/a504082002","https://www.linkedin.com/in/%E5%B2%B3%E8%8F%AF-%E6%9D%9C-6a3995a0/","mailto:a504082002@gmail.com"],"image":"https://www.gravatar.com/avatar/a565749fba4782b717234da670b273fd","logo":{"@type":"ImageObject","url":"https://www.gravatar.com/avatar/a565749fba4782b717234da670b273fd"}},"url":"https://yuehhua.github.io/2018/10/26/26-sequence-to-sequence-model/"}</script>
+    <script type="application/ld+json">{"@context":"http://schema.org","@type":"BlogPosting","author":{"@type":"Person","name":"Yueh-Hua Tu","sameAs":["https://github.com/yuehhua/","https://www.facebook.com/a504082002","https://www.linkedin.com/in/%E5%B2%B3%E8%8F%AF-%E6%9D%9C-6a3995a0/","mailto:a504082002@gmail.com"],"image":"https://www.gravatar.com/avatar/a565749fba4782b717234da670b273fd"},"articleBody":"前面有提到 seq2seq model，我們就從這邊開始。\nSeq2seq model 他採用了 encoder-decoder 架構，這時候就要來點 paper 的圖啦！\n\n\n在以往的 language model 的作法裡，會是把一個 word 塞進 RNN 裡，那麼 RNN 就會立刻吐出一個相對應的 word 出來。\n像是放進一個英文字，會吐出一個相對應的法文字，然後將這一層的預測結果帶給下一層。\n這麼做雖然很直覺，但是他並不能完整的翻譯一個句子。\n語言的語法各不相同，所以很難將詞語一一對映做成翻譯。\n這個 seq2seq model 採用了不同的作法，將一組 LSTM 作為 encoder，負責將要翻譯的句子轉換成固定長度的向量，再將這個向量交給另一個 LSTM 轉換成目標句子，後面這個 LSTM 就是 decoder 的角色。\n這樣的架構之下將一個模型拆成 encoder 跟 decoder 的兩個部份，讓兩個部份都可以各自接受或是產生不同長度的句子，並且得到很好的分數。\n在實作上，的確是將兩個 LSTM 接起來，所以就沒什麼細節好講的。\n但是這個模型確實的解決了以不同長度的句子產生不同長度的句子的問題。\n","dateCreated":"2018-10-26T23:40:23+08:00","dateModified":"2018-10-27T11:40:37+08:00","datePublished":"2018-10-26T23:40:23+08:00","description":"前面有提到 seq2seq model，我們就從這邊開始。\nSeq2seq model 他採用了 encoder-decoder 架構，這時候就要來點 paper 的圖啦！\n","headline":"26 seq2seq model","image":[],"mainEntityOfPage":{"@type":"WebPage","@id":"https://yuehhua.github.io/2018/10/26/26-sequence-to-sequence-model/"},"publisher":{"@type":"Organization","name":"Yueh-Hua Tu","sameAs":["https://github.com/yuehhua/","https://www.facebook.com/a504082002","https://www.linkedin.com/in/%E5%B2%B3%E8%8F%AF-%E6%9D%9C-6a3995a0/","mailto:a504082002@gmail.com"],"image":"https://www.gravatar.com/avatar/a565749fba4782b717234da670b273fd","logo":{"@type":"ImageObject","url":"https://www.gravatar.com/avatar/a565749fba4782b717234da670b273fd"}},"url":"https://yuehhua.github.io/2018/10/26/26-sequence-to-sequence-model/"}</script>
     <meta name="description" content="前面有提到 seq2seq model，我們就從這邊開始。 Seq2seq model 他採用了 encoder-decoder 架構，這時候就要來點 paper 的圖啦！">
 <meta name="keywords" content="machine learning,deep learning,topology">
 <meta property="og:type" content="blog">
@@ -25,7 +25,7 @@
 <meta property="og:description" content="前面有提到 seq2seq model，我們就從這邊開始。 Seq2seq model 他採用了 encoder-decoder 架構，這時候就要來點 paper 的圖啦！">
 <meta property="og:locale" content="en">
 <meta property="og:image" content="https://yuehhua.github.io/images/seq2seq.svg">
-<meta property="og:updated_time" content="2018-10-26T15:40:23.383Z">
+<meta property="og:updated_time" content="2018-10-27T03:40:37.108Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="26 seq2seq model">
 <meta name="twitter:description" content="前面有提到 seq2seq model，我們就從這邊開始。 Seq2seq model 他採用了 encoder-decoder 架構，這時候就要來點 paper 的圖啦！">
@@ -270,9 +270,13 @@
 <p><img src="/images/seq2seq.svg" alt=""></p>
 <a id="more"></a>
 <p>在以往的 language model 的作法裡，會是把一個 word 塞進 RNN 裡，那麼 RNN 就會立刻吐出一個相對應的 word 出來。</p>
-<p>像是放進一個英文字，會吐出一個相對應的法文字。</p>
+<p>像是放進一個英文字，會吐出一個相對應的法文字，然後將這一層的預測結果帶給下一層。</p>
 <p>這麼做雖然很直覺，但是他並不能完整的翻譯一個句子。</p>
-<p>今天有點累，先打到這邊，明天補完。</p>
+<p>語言的語法各不相同，所以很難將詞語一一對映做成翻譯。</p>
+<p>這個 seq2seq model 採用了不同的作法，將一組 LSTM 作為 encoder，負責將要翻譯的句子轉換成固定長度的向量，再將這個向量交給另一個 LSTM 轉換成目標句子，後面這個 LSTM 就是 decoder 的角色。</p>
+<p>這樣的架構之下將一個模型拆成 encoder 跟 decoder 的兩個部份，讓兩個部份都可以各自接受或是產生不同長度的句子，並且得到很好的分數。</p>
+<p>在實作上，的確是將兩個 LSTM 接起來，所以就沒什麼細節好講的。</p>
+<p>但是這個模型確實的解決了以不同長度的句子產生不同長度的句子的問題。</p>
 
                                         
 

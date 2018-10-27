@@ -6,7 +6,7 @@
   <link href="/atom.xml" rel="self"/>
   
   <link href="https://yuehhua.github.io/"/>
-  <updated>2018-10-26T15:40:23.383Z</updated>
+  <updated>2018-10-27T03:40:37.108Z</updated>
   <id>https://yuehhua.github.io/</id>
   
   <author>
@@ -21,9 +21,9 @@
     <link href="https://yuehhua.github.io/2018/10/26/26-sequence-to-sequence-model/"/>
     <id>https://yuehhua.github.io/2018/10/26/26-sequence-to-sequence-model/</id>
     <published>2018-10-26T15:40:23.000Z</published>
-    <updated>2018-10-26T15:40:23.383Z</updated>
+    <updated>2018-10-27T03:40:37.108Z</updated>
     
-    <content type="html"><![CDATA[<p>前面有提到 seq2seq model，我們就從這邊開始。</p><p>Seq2seq model 他採用了 encoder-decoder 架構，這時候就要來點 paper 的圖啦！</p><p><img src="/images/seq2seq.svg" alt=""></p><a id="more"></a><p>在以往的 language model 的作法裡，會是把一個 word 塞進 RNN 裡，那麼 RNN 就會立刻吐出一個相對應的 word 出來。</p><p>像是放進一個英文字，會吐出一個相對應的法文字。</p><p>這麼做雖然很直覺，但是他並不能完整的翻譯一個句子。</p><p>今天有點累，先打到這邊，明天補完。</p>]]></content>
+    <content type="html"><![CDATA[<p>前面有提到 seq2seq model，我們就從這邊開始。</p><p>Seq2seq model 他採用了 encoder-decoder 架構，這時候就要來點 paper 的圖啦！</p><p><img src="/images/seq2seq.svg" alt=""></p><a id="more"></a><p>在以往的 language model 的作法裡，會是把一個 word 塞進 RNN 裡，那麼 RNN 就會立刻吐出一個相對應的 word 出來。</p><p>像是放進一個英文字，會吐出一個相對應的法文字，然後將這一層的預測結果帶給下一層。</p><p>這麼做雖然很直覺，但是他並不能完整的翻譯一個句子。</p><p>語言的語法各不相同，所以很難將詞語一一對映做成翻譯。</p><p>這個 seq2seq model 採用了不同的作法，將一組 LSTM 作為 encoder，負責將要翻譯的句子轉換成固定長度的向量，再將這個向量交給另一個 LSTM 轉換成目標句子，後面這個 LSTM 就是 decoder 的角色。</p><p>這樣的架構之下將一個模型拆成 encoder 跟 decoder 的兩個部份，讓兩個部份都可以各自接受或是產生不同長度的句子，並且得到很好的分數。</p><p>在實作上，的確是將兩個 LSTM 接起來，所以就沒什麼細節好講的。</p><p>但是這個模型確實的解決了以不同長度的句子產生不同長度的句子的問題。</p>]]></content>
     
     <summary type="html">
     
