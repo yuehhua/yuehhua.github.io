@@ -2,6 +2,20 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   
   <url>
+    <loc>https://yuehhua.github.io/2018/10/28/28-transformer/</loc>
+    
+    <lastmod>2018-10-28T14:58:09.245Z</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>https://yuehhua.github.io/2018/10/27/27-attention-model/</loc>
+    
+    <lastmod>2018-10-28T03:17:36.974Z</lastmod>
+    
+  </url>
+  
+  <url>
     <loc>https://yuehhua.github.io/2018/10/26/26-sequence-to-sequence-model/</loc>
     
     <lastmod>2018-10-27T03:40:37.108Z</lastmod>

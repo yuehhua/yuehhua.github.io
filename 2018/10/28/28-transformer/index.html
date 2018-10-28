@@ -6,7 +6,7 @@
     <!-- hexo-inject:begin --><!-- hexo-inject:end --><meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="generator" content="Dream Maker">
-    <title>26 seq2seq model - Dream Maker</title>
+    <title>28 Transformer - Dream Maker</title>
     <meta name="author" content="Yueh-Hua Tu">
     
         <meta name="keywords" content="machine learning,deep learning,topology,">
@@ -15,21 +15,22 @@
     
         <link rel="alternate" type="application/atom+xml" title="RSS" href="/atom.xml">
     
-    <script type="application/ld+json">{"@context":"http://schema.org","@type":"BlogPosting","author":{"@type":"Person","name":"Yueh-Hua Tu","sameAs":["https://github.com/yuehhua/","https://www.facebook.com/a504082002","https://www.linkedin.com/in/%E5%B2%B3%E8%8F%AF-%E6%9D%9C-6a3995a0/","mailto:a504082002@gmail.com"],"image":"https://www.gravatar.com/avatar/a565749fba4782b717234da670b273fd"},"articleBody":"前面有提到 seq2seq model，我們就從這邊開始。\nSeq2seq model 他採用了 encoder-decoder 架構，這時候就要來點 paper 的圖啦！\n\n\n在以往的 language model 的作法裡，會是把一個 word 塞進 RNN 裡，那麼 RNN 就會立刻吐出一個相對應的 word 出來。\n像是放進一個英文字，會吐出一個相對應的法文字，然後將這一層的預測結果帶給下一層。\n這麼做雖然很直覺，但是他並不能完整的翻譯一個句子。\n語言的語法各不相同，所以很難將詞語一一對映做成翻譯。\n這個 seq2seq model 採用了不同的作法，將一組 LSTM 作為 encoder，負責將要翻譯的句子轉換成固定長度的向量，再將這個向量交給另一個 LSTM 轉換成目標句子，後面這個 LSTM 就是 decoder 的角色。\n這樣的架構之下將一個模型拆成 encoder 跟 decoder 的兩個部份，讓兩個部份都可以各自接受或是產生不同長度的句子，並且得到很好的分數。\n在實作上，的確是將兩個 LSTM 接起來，所以就沒什麼細節好講的。\n但是這個模型確實的解決了以不同長度的句子產生不同長度的句子的問題。\n","dateCreated":"2018-10-26T23:40:23+08:00","dateModified":"2018-10-27T11:40:37+08:00","datePublished":"2018-10-26T23:40:23+08:00","description":"前面有提到 seq2seq model，我們就從這邊開始。\nSeq2seq model 他採用了 encoder-decoder 架構，這時候就要來點 paper 的圖啦！\n","headline":"26 seq2seq model","image":[],"mainEntityOfPage":{"@type":"WebPage","@id":"https://yuehhua.github.io/2018/10/26/26-sequence-to-sequence-model/"},"publisher":{"@type":"Organization","name":"Yueh-Hua Tu","sameAs":["https://github.com/yuehhua/","https://www.facebook.com/a504082002","https://www.linkedin.com/in/%E5%B2%B3%E8%8F%AF-%E6%9D%9C-6a3995a0/","mailto:a504082002@gmail.com"],"image":"https://www.gravatar.com/avatar/a565749fba4782b717234da670b273fd","logo":{"@type":"ImageObject","url":"https://www.gravatar.com/avatar/a565749fba4782b717234da670b273fd"}},"url":"https://yuehhua.github.io/2018/10/26/26-sequence-to-sequence-model/"}</script>
-    <meta name="description" content="前面有提到 seq2seq model，我們就從這邊開始。 Seq2seq model 他採用了 encoder-decoder 架構，這時候就要來點 paper 的圖啦！">
+    <script type="application/ld+json">{"@context":"http://schema.org","@type":"BlogPosting","author":{"@type":"Person","name":"Yueh-Hua Tu","sameAs":["https://github.com/yuehhua/","https://www.facebook.com/a504082002","https://www.linkedin.com/in/%E5%B2%B3%E8%8F%AF-%E6%9D%9C-6a3995a0/","mailto:a504082002@gmail.com"],"image":"https://www.gravatar.com/avatar/a565749fba4782b717234da670b273fd"},"articleBody":"繼 Attention model 之後，由於 recurrent 架構的特性一直無法善用 GPU 的資源做加速。\n這時 Google Brain 團隊就看到別人在用 self-attention 機制，也是基於 recurrent 架構，解決了不少問題，用在閱讀理解、摘要、文字蘊涵（textual entailment）及語句表示的問題上。\nGoogle Brain 團隊就提出了史上第一個不需要依賴任何 recurrent 架構的 self-attention 機制模型，Transformer。\n（跟變形金剛一樣的名字耶！帥吧！）\n\n\n（大家等等我找個時間把後面一次寫完，不然寫一點點而且很敷淺，我自己很痛苦）\n","dateCreated":"2018-10-28T22:58:09+08:00","dateModified":"2018-10-28T22:58:09+08:00","datePublished":"2018-10-28T22:58:09+08:00","description":"","headline":"28 Transformer","image":[],"mainEntityOfPage":{"@type":"WebPage","@id":"https://yuehhua.github.io/2018/10/28/28-transformer/"},"publisher":{"@type":"Organization","name":"Yueh-Hua Tu","sameAs":["https://github.com/yuehhua/","https://www.facebook.com/a504082002","https://www.linkedin.com/in/%E5%B2%B3%E8%8F%AF-%E6%9D%9C-6a3995a0/","mailto:a504082002@gmail.com"],"image":"https://www.gravatar.com/avatar/a565749fba4782b717234da670b273fd","logo":{"@type":"ImageObject","url":"https://www.gravatar.com/avatar/a565749fba4782b717234da670b273fd"}},"url":"https://yuehhua.github.io/2018/10/28/28-transformer/"}</script>
+    <meta name="description" content="繼 Attention model 之後，由於 recurrent 架構的特性一直無法善用 GPU 的資源做加速。 這時 Google Brain 團隊就看到別人在用 self-attention 機制，也是基於 recurrent 架構，解決了不少問題，用在閱讀理解、摘要、文字蘊涵（textual entailment）及語句表示的問題上。 Google Brain 團隊就提出了史上第一個不需要">
 <meta name="keywords" content="machine learning,deep learning,topology">
 <meta property="og:type" content="blog">
-<meta property="og:title" content="26 seq2seq model">
-<meta property="og:url" content="https://yuehhua.github.io/2018/10/26/26-sequence-to-sequence-model/index.html">
+<meta property="og:title" content="28 Transformer">
+<meta property="og:url" content="https://yuehhua.github.io/2018/10/28/28-transformer/index.html">
 <meta property="og:site_name" content="Dream Maker">
-<meta property="og:description" content="前面有提到 seq2seq model，我們就從這邊開始。 Seq2seq model 他採用了 encoder-decoder 架構，這時候就要來點 paper 的圖啦！">
+<meta property="og:description" content="繼 Attention model 之後，由於 recurrent 架構的特性一直無法善用 GPU 的資源做加速。 這時 Google Brain 團隊就看到別人在用 self-attention 機制，也是基於 recurrent 架構，解決了不少問題，用在閱讀理解、摘要、文字蘊涵（textual entailment）及語句表示的問題上。 Google Brain 團隊就提出了史上第一個不需要">
 <meta property="og:locale" content="en">
-<meta property="og:image" content="https://yuehhua.github.io/images/seq2seq.svg">
-<meta property="og:updated_time" content="2018-10-27T03:40:37.108Z">
+<meta property="og:image" content="https://yuehhua.github.io/images/transformer1.svg">
+<meta property="og:image" content="https://yuehhua.github.io/images/transformer2.svg">
+<meta property="og:updated_time" content="2018-10-28T14:58:09.245Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="26 seq2seq model">
-<meta name="twitter:description" content="前面有提到 seq2seq model，我們就從這邊開始。 Seq2seq model 他採用了 encoder-decoder 架構，這時候就要來點 paper 的圖啦！">
-<meta name="twitter:image" content="https://yuehhua.github.io/images/seq2seq.svg">
+<meta name="twitter:title" content="28 Transformer">
+<meta name="twitter:description" content="繼 Attention model 之後，由於 recurrent 架構的特性一直無法善用 GPU 的資源做加速。 這時 Google Brain 團隊就看到別人在用 self-attention 機制，也是基於 recurrent 架構，解決了不少問題，用在閱讀理解、摘要、文字蘊涵（textual entailment）及語句表示的問題上。 Google Brain 團隊就提出了史上第一個不需要">
+<meta name="twitter:image" content="https://yuehhua.github.io/images/transformer1.svg">
     
     
         
@@ -240,14 +241,14 @@
                     <div class="post-header main-content-wrap text-left">
     
         <h1 class="post-title">
-            26 seq2seq model
+            28 Transformer
         </h1>
     
     
         <div class="post-meta">
-    <time datetime="2018-10-26T23:40:23+08:00">
+    <time datetime="2018-10-28T22:58:09+08:00">
 	
-		    Oct 26, 2018
+		    Oct 28, 2018
     	
     </time>
     
@@ -265,18 +266,13 @@
                         
                             <div class="post-content markdown">
                                 <div class="main-content-wrap">
-                                    <p>前面有提到 seq2seq model，我們就從這邊開始。</p>
-<p>Seq2seq model 他採用了 encoder-decoder 架構，這時候就要來點 paper 的圖啦！</p>
-<p><img src="/images/seq2seq.svg" alt=""></p>
-<a id="more"></a>
-<p>在以往的 language model 的作法裡，會是把一個 word 塞進 RNN 裡，那麼 RNN 就會立刻吐出一個相對應的 word 出來。</p>
-<p>像是放進一個英文字，會吐出一個相對應的法文字，然後將這一層的預測結果帶給下一層。</p>
-<p>這麼做雖然很直覺，但是他並不能完整的翻譯一個句子。</p>
-<p>語言的語法各不相同，所以很難將詞語一一對映做成翻譯。</p>
-<p>這個 seq2seq model 採用了不同的作法，將一組 LSTM 作為 encoder，負責將要翻譯的句子轉換成固定長度的向量，再將這個向量交給另一個 LSTM 轉換成目標句子，後面這個 LSTM 就是 decoder 的角色。</p>
-<p>這樣的架構之下將一個模型拆成 encoder 跟 decoder 的兩個部份，讓兩個部份都可以各自接受或是產生不同長度的句子，並且得到很好的分數。</p>
-<p>在實作上，的確是將兩個 LSTM 接起來，所以就沒什麼細節好講的。</p>
-<p>但是這個模型確實的解決了以不同長度的句子產生不同長度的句子的問題。</p>
+                                    <p>繼 Attention model 之後，由於 recurrent 架構的特性一直無法善用 GPU 的資源做加速。</p>
+<p>這時 Google Brain 團隊就看到別人在用 self-attention 機制，也是基於 recurrent 架構，解決了不少問題，用在閱讀理解、摘要、文字蘊涵（textual entailment）及語句表示的問題上。</p>
+<p>Google Brain 團隊就提出了史上第一個不需要依賴任何 recurrent 架構的 self-attention 機制模型，Transformer。</p>
+<p>（跟變形金剛一樣的名字耶！帥吧！）</p>
+<p><img src="/images/transformer1.svg" alt=""></p>
+<p><img src="/images/transformer2.svg" alt=""></p>
+<p>（大家等等我找個時間把後面一次寫完，不然寫一點點而且很敷淺，我自己很痛苦）</p>
 
                                         
 
@@ -290,8 +286,7 @@
         <ul class="post-actions post-action-nav">
             <li class="post-action">
                 
-                    
-                    <a class="post-action-btn btn btn--default tooltip--top" href="/2018/10/27/27-attention-model/" data-tooltip="27 Attention model" aria-label="PREVIOUS: 27 Attention model">
+                    <a class="post-action-btn btn btn--disabled">
                 
                     <i class="fa fa-angle-left" aria-hidden="true"></i>
                     <span class="hide-xs hide-sm text-small icon-ml">PREVIOUS</span>
@@ -300,7 +295,7 @@
             <li class="post-action">
                 
                     
-                    <a class="post-action-btn btn btn--default tooltip--top" href="/2018/10/25/25-death-of-recurrent-model/" data-tooltip="25 Recurrent model 之死" aria-label="NEXT: 25 Recurrent model 之死">
+                    <a class="post-action-btn btn btn--default tooltip--top" href="/2018/10/27/27-attention-model/" data-tooltip="27 Attention model" aria-label="NEXT: 27 Attention model">
                 
                     <span class="hide-xs hide-sm text-small icon-mr">NEXT</span>
                     <i class="fa fa-angle-right" aria-hidden="true"></i>
@@ -318,7 +313,7 @@
             
             
             <li class="post-action hide-xs">
-                <a class="post-action-btn btn btn--default" target="new" href="https://www.facebook.com/sharer/sharer.php?u=https://yuehhua.github.io/2018/10/26/26-sequence-to-sequence-model/" title="Share on Facebook">
+                <a class="post-action-btn btn btn--default" target="new" href="https://www.facebook.com/sharer/sharer.php?u=https://yuehhua.github.io/2018/10/28/28-transformer/" title="Share on Facebook">
                     <i class="fa fa-facebook-official" aria-hidden="true"></i>
                 </a>
             </li>
@@ -376,8 +371,7 @@
         <ul class="post-actions post-action-nav">
             <li class="post-action">
                 
-                    
-                    <a class="post-action-btn btn btn--default tooltip--top" href="/2018/10/27/27-attention-model/" data-tooltip="27 Attention model" aria-label="PREVIOUS: 27 Attention model">
+                    <a class="post-action-btn btn btn--disabled">
                 
                     <i class="fa fa-angle-left" aria-hidden="true"></i>
                     <span class="hide-xs hide-sm text-small icon-ml">PREVIOUS</span>
@@ -386,7 +380,7 @@
             <li class="post-action">
                 
                     
-                    <a class="post-action-btn btn btn--default tooltip--top" href="/2018/10/25/25-death-of-recurrent-model/" data-tooltip="25 Recurrent model 之死" aria-label="NEXT: 25 Recurrent model 之死">
+                    <a class="post-action-btn btn btn--default tooltip--top" href="/2018/10/27/27-attention-model/" data-tooltip="27 Attention model" aria-label="NEXT: 27 Attention model">
                 
                     <span class="hide-xs hide-sm text-small icon-mr">NEXT</span>
                     <i class="fa fa-angle-right" aria-hidden="true"></i>
@@ -404,7 +398,7 @@
             
             
             <li class="post-action hide-xs">
-                <a class="post-action-btn btn btn--default" target="new" href="https://www.facebook.com/sharer/sharer.php?u=https://yuehhua.github.io/2018/10/26/26-sequence-to-sequence-model/" title="Share on Facebook">
+                <a class="post-action-btn btn btn--default" target="new" href="https://www.facebook.com/sharer/sharer.php?u=https://yuehhua.github.io/2018/10/28/28-transformer/" title="Share on Facebook">
                     <i class="fa fa-facebook-official" aria-hidden="true"></i>
                 </a>
             </li>
@@ -437,7 +431,7 @@
             
             
             <li class="share-option">
-                <a class="share-option-btn" target="new" href="https://www.facebook.com/sharer/sharer.php?u=https://yuehhua.github.io/2018/10/26/26-sequence-to-sequence-model/">
+                <a class="share-option-btn" target="new" href="https://www.facebook.com/sharer/sharer.php?u=https://yuehhua.github.io/2018/10/28/28-transformer/">
                     <i class="fa fa-facebook-official" aria-hidden="true"></i><span>Share on Facebook</span>
                 </a>
             </li>
@@ -489,9 +483,9 @@
     
         <script>
              var disqus_config = function () {
-                 this.page.url = 'https://yuehhua.github.io/2018/10/26/26-sequence-to-sequence-model/';
+                 this.page.url = 'https://yuehhua.github.io/2018/10/28/28-transformer/';
                  
-                    this.page.identifier = '2018/10/26/26-sequence-to-sequence-model/';
+                    this.page.identifier = '2018/10/28/28-transformer/';
                  
              };
             (function() {
