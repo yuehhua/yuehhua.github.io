@@ -322,7 +322,13 @@
 <h3 id="Encoder"><a href="#Encoder" class="headerlink" title="Encoder"></a>Encoder</h3><p>Encoder 由 N 個完全一樣的層堆疊（stack）起來（$N = 6$）。每層包含兩個子層，第一個是一個 multi-head self-attention 的機制，第二個是簡單的全連接層網路。每個子層外都包了 residual connection 以及 layer normalization，看起來就像 $LayerNorm(x + Sublayer(x))$。</p>
 <p>Residual connection 主要可以將前層的資訊繞過一層，直接與下一層做運算。Layer normalization 有穩定學習效果的作用。</p>
 <h3 id="Decoder"><a href="#Decoder" class="headerlink" title="Decoder"></a>Decoder</h3><p>Decoder 大致上與 encoder 相同，差別是在用了兩個 multi-head self-attention 的機制，所以總共有3個子層。</p>
-<h3 id="Attention"><a href="#Attention" class="headerlink" title="Attention"></a>Attention</h3><p><img src="/images/transformer2.svg" alt=""></p>
+<h3 id="Attention"><a href="#Attention" class="headerlink" title="Attention"></a>Attention</h3><p>在 attention 的機制上，我們在上一篇講過了。這邊我們要進一步探討這個模型用到的 scaled dot product attention。在這邊就是分成 query、key 跟 value 三者，首先要先將 query 跟所有 key 做過一次的內積，並且除以 $\sqrt{d_k}$，然後過一次 softmax 函數。計算到這邊就是權重的部份，最後權重再跟 value 去計算結果。其中 $d_k$ 是 key 向量的維度。公式在這邊：</p>
+<p>$$<br>Attention(Q, K, V) = softmax(\frac{QK^T}{\sqrt{d_k}})V<br>$$</p>
+<p><img src="/images/transformer2.svg" alt=""></p>
+<p>圖的左邊是 scaled dot product attention。為什麼要除以 $\sqrt{d_k}$ 呢？文章中有提到，內積會讓整個結果變很大，會讓梯度變得極小，這會不利於訓練，所以需要除以 $\sqrt{d_k}$。</p>
+<p>在圖的右邊，是 multi-head self-attention，核心就是平行計算多個 scaled dot product attention 的結果，並把這些結果都串接起來。有了這樣的機制就可以不只注意一個地方，可以有多個關注點。</p>
+<p>在 self-attention 的機制，意味著所有的 query、key 跟 value 都來自於自己。不像之前的 attention 橫跨 encoder 跟 decoder，所以資訊會從雙方而來。</p>
+<p>在 Transformer 模型當中，有一個是 encoder-decoder attention layer，然後 encoder 跟 decoder 各有一個 self-attention layer，就是各自的第一個子層。</p>
 
                     
                         
@@ -376,7 +382,6 @@
 <p>Attention model 被用在機器翻譯、語句的摘要、語音辨識、影像理解（image caption），算是用途非常廣泛。</p>
 <p>有幾篇論文算是開始用這樣的機制：</p>
 <ol>
-<li><a href="https://arxiv.org/abs/1406.1078" target="_blank" rel="noopener">Learning Phrase Representations using RNN Encoder–Decoder for Statistical Machine Translation</a></li>
 <li><a href="https://arxiv.org/abs/1409.0473" target="_blank" rel="noopener">Neural Machine Translation by Jointly Learning to Align and Translate</a></li>
 <li><a href="https://arxiv.org/abs/1509.00685" target="_blank" rel="noopener">A Neural Attention Model for Abstractive Sentence Summarization</a></li>
 <li><a href="https://arxiv.org/abs/1509.06664" target="_blank" rel="noopener">Reasoning about Entailment with Neural Attention</a></li>
