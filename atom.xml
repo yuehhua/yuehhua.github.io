@@ -6,7 +6,7 @@
   <link href="/atom.xml" rel="self"/>
   
   <link href="https://yuehhua.github.io/"/>
-  <updated>2018-10-28T14:58:09.245Z</updated>
+  <updated>2018-10-29T15:07:42.301Z</updated>
   <id>https://yuehhua.github.io/</id>
   
   <author>
@@ -17,13 +17,39 @@
   <generator uri="http://hexo.io/">Hexo</generator>
   
   <entry>
+    <title>29 Autoregressive generative model</title>
+    <link href="https://yuehhua.github.io/2018/10/29/29-autoregressive-generative-model/"/>
+    <id>https://yuehhua.github.io/2018/10/29/29-autoregressive-generative-model/</id>
+    <published>2018-10-29T15:07:42.000Z</published>
+    <updated>2018-10-29T15:07:42.301Z</updated>
+    
+    <content type="html"><![CDATA[<p>在前面的 Transformer 的文章中有提到了 auto-regressive 的特質。</p><p>在 <a href="http://www.offconvex.org/2018/07/27/approximating-recurrent/" target="_blank" rel="noopener">When Recurrent Models Don’t Need to be Recurrent</a> 這篇文章以及他的論文當中又在重述了這件事。</p><p>他們探討了是不是所有 recurrent 模型都可以被換成 auto-regressive 的模型呢？</p><p>答案幾乎是肯定的。為什麼說幾乎是肯定的呢？因為他需要滿足一些條件，才能達成訓練上模型的穩定性要求。</p><p>（內容產生中…）</p>]]></content>
+    
+    <summary type="html">
+    
+      
+      
+        &lt;p&gt;在前面的 Transformer 的文章中有提到了 auto-regressive 的特質。&lt;/p&gt;
+&lt;p&gt;在 &lt;a href=&quot;http://www.offconvex.org/2018/07/27/approximating-recurrent/&quot; target=&quot;_b
+      
+    
+    </summary>
+    
+      <category term="Machine Learning" scheme="https://yuehhua.github.io/categories/Machine-Learning/"/>
+    
+      <category term="機器學習模型圖書館：從傳統模型到深度學習" scheme="https://yuehhua.github.io/categories/Machine-Learning/%E6%A9%9F%E5%99%A8%E5%AD%B8%E7%BF%92%E6%A8%A1%E5%9E%8B%E5%9C%96%E6%9B%B8%E9%A4%A8%EF%BC%9A%E5%BE%9E%E5%82%B3%E7%B5%B1%E6%A8%A1%E5%9E%8B%E5%88%B0%E6%B7%B1%E5%BA%A6%E5%AD%B8%E7%BF%92/"/>
+    
+    
+  </entry>
+  
+  <entry>
     <title>28 Transformer</title>
     <link href="https://yuehhua.github.io/2018/10/28/28-transformer/"/>
     <id>https://yuehhua.github.io/2018/10/28/28-transformer/</id>
     <published>2018-10-28T14:58:09.000Z</published>
-    <updated>2018-10-28T14:58:09.245Z</updated>
+    <updated>2018-10-29T13:54:46.192Z</updated>
     
-    <content type="html"><![CDATA[<p>繼 Attention model 之後，由於 recurrent 架構的特性一直無法善用 GPU 的資源做加速。</p><p>這時 Google Brain 團隊就看到別人在用 self-attention 機制，也是基於 recurrent 架構，解決了不少問題，用在閱讀理解、摘要、文字蘊涵（textual entailment）及語句表示的問題上。</p><p>Google Brain 團隊就提出了史上第一個不需要依賴任何 recurrent 架構的 self-attention 機制模型，Transformer。</p><p>（跟變形金剛一樣的名字耶！帥吧！）</p><p><img src="/images/transformer1.svg" alt=""></p><p><img src="/images/transformer2.svg" alt=""></p><p>（大家等等我找個時間把後面一次寫完，不然寫一點點而且很敷淺，我自己很痛苦）</p>]]></content>
+    <content type="html"><![CDATA[<p>繼 Attention model 之後，由於 recurrent 架構的特性一直無法善用 GPU 的資源做加速。</p><p>這時 Google Brain 團隊就看到別人在用 self-attention 機制，也是基於 recurrent 架構，解決了不少問題，用在閱讀理解、摘要、文字蘊涵（textual entailment）及語句表示的問題上。</p><p>Google Brain 團隊就提出了史上第一個不需要依賴任何 recurrent 架構的 self-attention 機制模型，Transformer。</p><p>（跟變形金剛一樣的名字耶！帥吧！）</p><h2 id="Transformer"><a href="#Transformer" class="headerlink" title="Transformer"></a>Transformer</h2><p>這個架構上延續了 encoder-decoder 的架構，encoder 會將輸入的序列 $(x_1, x_2, …, x_n)$ 轉換成 $\mathbf{z} = (z_1, z_2, …, z_n)$，而 decoder 會將 $\mathbf{z}$ 轉換成 $(y_1, y_2, …, y_m)$，一次轉換一個。在每一步當中，模型都是 auto-regressive 的，也就是說，前一次產生的結果會被當成下一次的輸入進行運算。</p><p>整個 Transformer 的架構就是在 encoder 及 decoder 上使用了 stacked self-attention 以及全連接的網路。我們來看圖，在圖的左半邊就是 encoder，右半邊就是 decoder：</p><p><img src="/images/transformer1.svg" alt=""></p><h3 id="Encoder"><a href="#Encoder" class="headerlink" title="Encoder"></a>Encoder</h3><p>Encoder 由 N 個完全一樣的層堆疊（stack）起來（$N = 6$）。每層包含兩個子層，第一個是一個 multi-head self-attention 的機制，第二個是簡單的全連接層網路。每個子層外都包了 residual connection 以及 layer normalization，看起來就像 $LayerNorm(x + Sublayer(x))$。</p><p>Residual connection 主要可以將前層的資訊繞過一層，直接與下一層做運算。Layer normalization 有穩定學習效果的作用。</p><h3 id="Decoder"><a href="#Decoder" class="headerlink" title="Decoder"></a>Decoder</h3><p>Decoder 大致上與 encoder 相同，差別是在用了兩個 multi-head self-attention 的機制，所以總共有3個子層。</p><h3 id="Attention"><a href="#Attention" class="headerlink" title="Attention"></a>Attention</h3><p><img src="/images/transformer2.svg" alt=""></p>]]></content>
     
     <summary type="html">
     
@@ -47,9 +73,9 @@
     <link href="https://yuehhua.github.io/2018/10/27/27-attention-model/"/>
     <id>https://yuehhua.github.io/2018/10/27/27-attention-model/</id>
     <published>2018-10-27T15:10:46.000Z</published>
-    <updated>2018-10-28T03:17:36.974Z</updated>
+    <updated>2018-10-29T15:03:48.096Z</updated>
     
-    <content type="html"><![CDATA[<p>繼 Seq2seq model 之後，真正可以做到 end-to-end 翻譯的，很多都是用了 attention model。</p><p>Attention model，正確來說，不是指特定的一個模型，他是模型的一個部份或是一種設計，所以有人叫他 attention mechanism。</p><p>Attention model 被用在機器翻譯、語句的摘要、語音辨識、影像理解（image caption），算是用途非常廣泛。</p><p>有幾篇論文算是開始用這樣的機制：</p><ol><li><a href="https://arxiv.org/abs/1406.1078" target="_blank" rel="noopener">Learning Phrase Representations using RNN Encoder–Decoder for Statistical Machine Translation</a></li><li><a href="https://arxiv.org/abs/1409.0473" target="_blank" rel="noopener">Neural Machine Translation by Jointly Learning to Align and Translate</a></li><li><a href="https://arxiv.org/abs/1509.00685" target="_blank" rel="noopener">A Neural Attention Model for Abstractive Sentence Summarization</a></li><li><a href="https://arxiv.org/abs/1509.06664" target="_blank" rel="noopener">Reasoning about Entailment with Neural Attention</a></li></ol><p>Attention model 在很多模型當中都是做為 encoder-decoder 之間的橋樑，原本的 encoder 跟 decoder 之間是只有一個 vector 來傳遞所有的訊息，</p>]]></content>
+    <content type="html"><![CDATA[<p>繼 Seq2seq model 之後，真正可以做到 end-to-end 翻譯的，很多都是用了 attention model。</p><p>Attention model，正確來說，不是指特定的一個模型，他是模型的一個部份或是一種設計，所以有人叫他 attention mechanism。</p><p>Attention model 被用在機器翻譯、語句的摘要、語音辨識、影像理解（image caption），算是用途非常廣泛。</p><p>有幾篇論文算是開始用這樣的機制：</p><ol><li><a href="https://arxiv.org/abs/1406.1078" target="_blank" rel="noopener">Learning Phrase Representations using RNN Encoder–Decoder for Statistical Machine Translation</a></li><li><a href="https://arxiv.org/abs/1409.0473" target="_blank" rel="noopener">Neural Machine Translation by Jointly Learning to Align and Translate</a></li><li><a href="https://arxiv.org/abs/1509.00685" target="_blank" rel="noopener">A Neural Attention Model for Abstractive Sentence Summarization</a></li><li><a href="https://arxiv.org/abs/1509.06664" target="_blank" rel="noopener">Reasoning about Entailment with Neural Attention</a></li></ol><p>Attention model 在很多模型當中都是做為 encoder-decoder 之間的橋樑，原本的 encoder 跟 decoder 之間是只有一個 vector 來傳遞所有的訊息，但是多了 attention mechanism 就不一樣了。</p><p><img src="/images/seq2seq2.svg" alt=""></p><p>Attention mechanism 主要可以動態的去抓到 encoder 中傳遞的訊息，並且將這些訊息與 decoder 輸出的前一個訊息互相比對之後，透過線性組合之後輸出。這樣的輸出有什麼效果呢？他可以動態地去找到兩邊最相符的資訊，並且將他重要的部份以權重的方式凸顯出來，所以這部份是做線性組合。</p><p><img src="/images/attention.svg" alt=""></p><p>我看到一個廣義的描述方法，他是這樣說的，我們可以把 attention model 想成是一個函數，這個函數會吃兩種東西，一種是 query，另一種是 key-value 的資料結構，讓 query 去比對所有的 key 找到吻合的，會透過一個 compatibility function 去計算吻合的程度，並且作為權重，最後將權重與相對應的 value 做內積。</p><p>在這邊 query 會是 decoder 的 $z_0$，而 key 就是 encoder 的</p>]]></content>
     
     <summary type="html">
     
@@ -479,30 +505,6 @@
     
       &lt;p&gt;我們前面探討了不同的資料型態可以對應不同的迴歸模型。&lt;/p&gt;
 &lt;p&gt;不覺得每個迴歸模型都有那麼點相似的地方嗎？&lt;/p&gt;
-    
-    </summary>
-    
-      <category term="Machine Learning" scheme="https://yuehhua.github.io/categories/Machine-Learning/"/>
-    
-      <category term="機器學習模型圖書館：從傳統模型到深度學習" scheme="https://yuehhua.github.io/categories/Machine-Learning/%E6%A9%9F%E5%99%A8%E5%AD%B8%E7%BF%92%E6%A8%A1%E5%9E%8B%E5%9C%96%E6%9B%B8%E9%A4%A8%EF%BC%9A%E5%BE%9E%E5%82%B3%E7%B5%B1%E6%A8%A1%E5%9E%8B%E5%88%B0%E6%B7%B1%E5%BA%A6%E5%AD%B8%E7%BF%92/"/>
-    
-    
-  </entry>
-  
-  <entry>
-    <title>10 從線性迴歸到 Poisson 迴歸</title>
-    <link href="https://yuehhua.github.io/2018/10/10/10-from-linear-regression-to-poisson-regression/"/>
-    <id>https://yuehhua.github.io/2018/10/10/10-from-linear-regression-to-poisson-regression/</id>
-    <published>2018-10-10T14:56:34.000Z</published>
-    <updated>2018-10-15T07:04:28.010Z</updated>
-    
-    <content type="html"><![CDATA[<p>上次我們講完了線性迴歸跟羅吉斯迴歸的差異。</p><p>可是並不是每一種資料都是連續型的或是類別型的。</p><p>這次要來介紹 Poisson 迴歸，當你要預測的是計數型資料（count data）就可以用他。</p><a id="more"></a><h2 id="Poisson-distribution"><a href="#Poisson-distribution" class="headerlink" title="Poisson distribution"></a>Poisson distribution</h2><p>在講 Poisson 迴歸之前要先來講講 Poisson 分佈，他的公式大概是長的像這樣：</p><p>$$<br>P(Y=y; \lambda) = \frac{e^{- \lambda} \lambda^y}{y!}<br>$$</p><p>圖形的話看起來是這樣。</p><p><img src="/images/Poisson_distribution.svg" alt=""></p><blockquote><p>圖片來自維基百科</p></blockquote><p>要怎麼看懂這個分佈呢？</p><p>我們先想像一個情境好了，假設我們經營一家便利商店，在一天之中來光臨這家商店的人數不同時段不一樣。即使是同一個時段，你也很難準確預測會有多少人進到店裡來。這時候我們就會用機率的描述方式，在這邊 k 指的是當我們觀察每段時間區間內進入店裡的客人數量，那麼 $\lambda$ 就是平均來說，每個時間區間的來客人數。你可以看到在 $\lambda = 1$ 的分佈上，來客人數是 0 或是 1 的機率其實很高，但是大於 1 的情形並不是沒有，只是機率比較低罷了。</p><p>因此，我們可以用這樣的分佈來估算計數型的資料</p><h2 id="Poisson-迴歸"><a href="#Poisson-迴歸" class="headerlink" title="Poisson 迴歸"></a>Poisson 迴歸</h2><p>計數型的資料難道不能用一般的線性迴歸嗎？</p><p>其實這兩者有非常大的差別：</p><ol><li>計數型的資料不會有負值</li><li>計數型的資料不會有小數點</li></ol><p>基於以上兩點資料性質上的差異，我們必須把不同資料分別看待。</p><p>但是也不是完全不能用線性迴歸，只是需要動點手腳，就是對資料取 log。</p><p>如果你對上面的 Poisson 分佈取 log 的話會發生什麼事呢？</p><p>$$<br>ln(P(Y=y; \lambda)) = - \lambda + y ln(\lambda) - \sum_{y}^{j=1} j<br>$$</p><p>看到了吧！$\lambda$ 跳出來了！而平均數 $\lambda$ 是連續型的數值，可以作為線性迴歸要預測的對象的。</p><blockquote><p>注意：以上並非正式的證明，請勿用於正式推導</p></blockquote><p>其實我們的 Poisson 迴歸是長成這樣的：</p><p>$$<br>ln(\mathbb{E}[y]) = ln(\mathbb{E}[P(Y=y; \lambda)]) = \mathbf{w}^T\mathbf{x} + b<br>$$</p><p>是不是跟我們前面提到的羅吉斯迴歸有 87% 像呢？</p><p>而且我們在上面有提到 $\lambda$ 是平均數，所以呢…</p><p>$$<br>ln(\mathbb{E}[y]) = ln(\lambda) = \mathbf{w}^T\mathbf{x} + b<br>$$</p><p>Poisson 迴歸在預測的根本是 $ln(\lambda)$ 嘛！</p>]]></content>
-    
-    <summary type="html">
-    
-      &lt;p&gt;上次我們講完了線性迴歸跟羅吉斯迴歸的差異。&lt;/p&gt;
-&lt;p&gt;可是並不是每一種資料都是連續型的或是類別型的。&lt;/p&gt;
-&lt;p&gt;這次要來介紹 Poisson 迴歸，當你要預測的是計數型資料（count data）就可以用他。&lt;/p&gt;
     
     </summary>
     

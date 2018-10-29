@@ -15,7 +15,7 @@
     
         <link rel="alternate" type="application/atom+xml" title="RSS" href="/atom.xml">
     
-    <script type="application/ld+json">{"@context":"http://schema.org","@type":"BlogPosting","author":{"@type":"Person","name":"Yueh-Hua Tu","sameAs":["https://github.com/yuehhua/","https://www.facebook.com/a504082002","https://www.linkedin.com/in/%E5%B2%B3%E8%8F%AF-%E6%9D%9C-6a3995a0/","mailto:a504082002@gmail.com"],"image":"https://www.gravatar.com/avatar/a565749fba4782b717234da670b273fd"},"articleBody":"繼 Seq2seq model 之後，真正可以做到 end-to-end 翻譯的，很多都是用了 attention model。\nAttention model，正確來說，不是指特定的一個模型，他是模型的一個部份或是一種設計，所以有人叫他 attention mechanism。\nAttention model 被用在機器翻譯、語句的摘要、語音辨識、影像理解（image caption），算是用途非常廣泛。\n有幾篇論文算是開始用這樣的機制：\n\nLearning Phrase Representations using RNN Encoder–Decoder for Statistical Machine Translation\nNeural Machine Translation by Jointly Learning to Align and Translate\nA Neural Attention Model for Abstractive Sentence Summarization\nReasoning about Entailment with Neural Attention\n\nAttention model 在很多模型當中都是做為 encoder-decoder 之間的橋樑，原本的 encoder 跟 decoder 之間是只有一個 vector 來傳遞所有的訊息，\n","dateCreated":"2018-10-27T23:10:46+08:00","dateModified":"2018-10-28T11:17:36+08:00","datePublished":"2018-10-27T23:10:46+08:00","description":"","headline":"27 Attention model","image":[],"mainEntityOfPage":{"@type":"WebPage","@id":"https://yuehhua.github.io/2018/10/27/27-attention-model/"},"publisher":{"@type":"Organization","name":"Yueh-Hua Tu","sameAs":["https://github.com/yuehhua/","https://www.facebook.com/a504082002","https://www.linkedin.com/in/%E5%B2%B3%E8%8F%AF-%E6%9D%9C-6a3995a0/","mailto:a504082002@gmail.com"],"image":"https://www.gravatar.com/avatar/a565749fba4782b717234da670b273fd","logo":{"@type":"ImageObject","url":"https://www.gravatar.com/avatar/a565749fba4782b717234da670b273fd"}},"url":"https://yuehhua.github.io/2018/10/27/27-attention-model/"}</script>
+    <script type="application/ld+json">{"@context":"http://schema.org","@type":"BlogPosting","author":{"@type":"Person","name":"Yueh-Hua Tu","sameAs":["https://github.com/yuehhua/","https://www.facebook.com/a504082002","https://www.linkedin.com/in/%E5%B2%B3%E8%8F%AF-%E6%9D%9C-6a3995a0/","mailto:a504082002@gmail.com"],"image":"https://www.gravatar.com/avatar/a565749fba4782b717234da670b273fd"},"articleBody":"繼 Seq2seq model 之後，真正可以做到 end-to-end 翻譯的，很多都是用了 attention model。\nAttention model，正確來說，不是指特定的一個模型，他是模型的一個部份或是一種設計，所以有人叫他 attention mechanism。\nAttention model 被用在機器翻譯、語句的摘要、語音辨識、影像理解（image caption），算是用途非常廣泛。\n有幾篇論文算是開始用這樣的機制：\n\nLearning Phrase Representations using RNN Encoder–Decoder for Statistical Machine Translation\nNeural Machine Translation by Jointly Learning to Align and Translate\nA Neural Attention Model for Abstractive Sentence Summarization\nReasoning about Entailment with Neural Attention\n\nAttention model 在很多模型當中都是做為 encoder-decoder 之間的橋樑，原本的 encoder 跟 decoder 之間是只有一個 vector 來傳遞所有的訊息，但是多了 attention mechanism 就不一樣了。\n\nAttention mechanism 主要可以動態的去抓到 encoder 中傳遞的訊息，並且將這些訊息與 decoder 輸出的前一個訊息互相比對之後，透過線性組合之後輸出。這樣的輸出有什麼效果呢？他可以動態地去找到兩邊最相符的資訊，並且將他重要的部份以權重的方式凸顯出來，所以這部份是做線性組合。\n\n我看到一個廣義的描述方法，他是這樣說的，我們可以把 attention model 想成是一個函數，這個函數會吃兩種東西，一種是 query，另一種是 key-value 的資料結構，讓 query 去比對所有的 key 找到吻合的，會透過一個 compatibility function 去計算吻合的程度，並且作為權重，最後將權重與相對應的 value 做內積。\n在這邊 query 會是 decoder 的 $z_0$，而 key 就是 encoder 的\n","dateCreated":"2018-10-27T23:10:46+08:00","dateModified":"2018-10-29T23:03:48+08:00","datePublished":"2018-10-27T23:10:46+08:00","description":"","headline":"27 Attention model","image":[],"mainEntityOfPage":{"@type":"WebPage","@id":"https://yuehhua.github.io/2018/10/27/27-attention-model/"},"publisher":{"@type":"Organization","name":"Yueh-Hua Tu","sameAs":["https://github.com/yuehhua/","https://www.facebook.com/a504082002","https://www.linkedin.com/in/%E5%B2%B3%E8%8F%AF-%E6%9D%9C-6a3995a0/","mailto:a504082002@gmail.com"],"image":"https://www.gravatar.com/avatar/a565749fba4782b717234da670b273fd","logo":{"@type":"ImageObject","url":"https://www.gravatar.com/avatar/a565749fba4782b717234da670b273fd"}},"url":"https://yuehhua.github.io/2018/10/27/27-attention-model/"}</script>
     <meta name="description" content="繼 Seq2seq model 之後，真正可以做到 end-to-end 翻譯的，很多都是用了 attention model。 Attention model，正確來說，不是指特定的一個模型，他是模型的一個部份或是一種設計，所以有人叫他 attention mechanism。 Attention model 被用在機器翻譯、語句的摘要、語音辨識、影像理解（image caption），算是用途">
 <meta name="keywords" content="machine learning,deep learning,topology">
 <meta property="og:type" content="blog">
@@ -24,10 +24,13 @@
 <meta property="og:site_name" content="Dream Maker">
 <meta property="og:description" content="繼 Seq2seq model 之後，真正可以做到 end-to-end 翻譯的，很多都是用了 attention model。 Attention model，正確來說，不是指特定的一個模型，他是模型的一個部份或是一種設計，所以有人叫他 attention mechanism。 Attention model 被用在機器翻譯、語句的摘要、語音辨識、影像理解（image caption），算是用途">
 <meta property="og:locale" content="en">
-<meta property="og:updated_time" content="2018-10-28T03:17:36.974Z">
+<meta property="og:image" content="https://yuehhua.github.io/images/seq2seq2.svg">
+<meta property="og:image" content="https://yuehhua.github.io/images/attention.svg">
+<meta property="og:updated_time" content="2018-10-29T15:03:48.096Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="27 Attention model">
 <meta name="twitter:description" content="繼 Seq2seq model 之後，真正可以做到 end-to-end 翻譯的，很多都是用了 attention model。 Attention model，正確來說，不是指特定的一個模型，他是模型的一個部份或是一種設計，所以有人叫他 attention mechanism。 Attention model 被用在機器翻譯、語句的摘要、語音辨識、影像理解（image caption），算是用途">
+<meta name="twitter:image" content="https://yuehhua.github.io/images/seq2seq2.svg">
     
     
         
@@ -273,7 +276,12 @@
 <li><a href="https://arxiv.org/abs/1509.00685" target="_blank" rel="noopener">A Neural Attention Model for Abstractive Sentence Summarization</a></li>
 <li><a href="https://arxiv.org/abs/1509.06664" target="_blank" rel="noopener">Reasoning about Entailment with Neural Attention</a></li>
 </ol>
-<p>Attention model 在很多模型當中都是做為 encoder-decoder 之間的橋樑，原本的 encoder 跟 decoder 之間是只有一個 vector 來傳遞所有的訊息，</p>
+<p>Attention model 在很多模型當中都是做為 encoder-decoder 之間的橋樑，原本的 encoder 跟 decoder 之間是只有一個 vector 來傳遞所有的訊息，但是多了 attention mechanism 就不一樣了。</p>
+<p><img src="/images/seq2seq2.svg" alt=""></p>
+<p>Attention mechanism 主要可以動態的去抓到 encoder 中傳遞的訊息，並且將這些訊息與 decoder 輸出的前一個訊息互相比對之後，透過線性組合之後輸出。這樣的輸出有什麼效果呢？他可以動態地去找到兩邊最相符的資訊，並且將他重要的部份以權重的方式凸顯出來，所以這部份是做線性組合。</p>
+<p><img src="/images/attention.svg" alt=""></p>
+<p>我看到一個廣義的描述方法，他是這樣說的，我們可以把 attention model 想成是一個函數，這個函數會吃兩種東西，一種是 query，另一種是 key-value 的資料結構，讓 query 去比對所有的 key 找到吻合的，會透過一個 compatibility function 去計算吻合的程度，並且作為權重，最後將權重與相對應的 value 做內積。</p>
+<p>在這邊 query 會是 decoder 的 $z_0$，而 key 就是 encoder 的</p>
 
                                         
 

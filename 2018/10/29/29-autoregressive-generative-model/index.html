@@ -6,7 +6,7 @@
     <!-- hexo-inject:begin --><!-- hexo-inject:end --><meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="generator" content="Dream Maker">
-    <title>28 Transformer - Dream Maker</title>
+    <title>29 Autoregressive generative model - Dream Maker</title>
     <meta name="author" content="Yueh-Hua Tu">
     
         <meta name="keywords" content="machine learning,deep learning,topology,">
@@ -15,22 +15,19 @@
     
         <link rel="alternate" type="application/atom+xml" title="RSS" href="/atom.xml">
     
-    <script type="application/ld+json">{"@context":"http://schema.org","@type":"BlogPosting","author":{"@type":"Person","name":"Yueh-Hua Tu","sameAs":["https://github.com/yuehhua/","https://www.facebook.com/a504082002","https://www.linkedin.com/in/%E5%B2%B3%E8%8F%AF-%E6%9D%9C-6a3995a0/","mailto:a504082002@gmail.com"],"image":"https://www.gravatar.com/avatar/a565749fba4782b717234da670b273fd"},"articleBody":"繼 Attention model 之後，由於 recurrent 架構的特性一直無法善用 GPU 的資源做加速。\n這時 Google Brain 團隊就看到別人在用 self-attention 機制，也是基於 recurrent 架構，解決了不少問題，用在閱讀理解、摘要、文字蘊涵（textual entailment）及語句表示的問題上。\nGoogle Brain 團隊就提出了史上第一個不需要依賴任何 recurrent 架構的 self-attention 機制模型，Transformer。\n（跟變形金剛一樣的名字耶！帥吧！）\nTransformer這個架構上延續了 encoder-decoder 的架構，encoder 會將輸入的序列 $(x_1, x_2, …, x_n)$ 轉換成 $\\mathbf{z} = (z_1, z_2, …, z_n)$，而 decoder 會將 $\\mathbf{z}$ 轉換成 $(y_1, y_2, …, y_m)$，一次轉換一個。在每一步當中，模型都是 auto-regressive 的，也就是說，前一次產生的結果會被當成下一次的輸入進行運算。\n整個 Transformer 的架構就是在 encoder 及 decoder 上使用了 stacked self-attention 以及全連接的網路。我們來看圖，在圖的左半邊就是 encoder，右半邊就是 decoder：\n\nEncoderEncoder 由 N 個完全一樣的層堆疊（stack）起來（$N = 6$）。每層包含兩個子層，第一個是一個 multi-head self-attention 的機制，第二個是簡單的全連接層網路。每個子層外都包了 residual connection 以及 layer normalization，看起來就像 $LayerNorm(x + Sublayer(x))$。\nResidual connection 主要可以將前層的資訊繞過一層，直接與下一層做運算。Layer normalization 有穩定學習效果的作用。\nDecoderDecoder 大致上與 encoder 相同，差別是在用了兩個 multi-head self-attention 的機制，所以總共有3個子層。\nAttention\n","dateCreated":"2018-10-28T22:58:09+08:00","dateModified":"2018-10-29T21:54:46+08:00","datePublished":"2018-10-28T22:58:09+08:00","description":"","headline":"28 Transformer","image":[],"mainEntityOfPage":{"@type":"WebPage","@id":"https://yuehhua.github.io/2018/10/28/28-transformer/"},"publisher":{"@type":"Organization","name":"Yueh-Hua Tu","sameAs":["https://github.com/yuehhua/","https://www.facebook.com/a504082002","https://www.linkedin.com/in/%E5%B2%B3%E8%8F%AF-%E6%9D%9C-6a3995a0/","mailto:a504082002@gmail.com"],"image":"https://www.gravatar.com/avatar/a565749fba4782b717234da670b273fd","logo":{"@type":"ImageObject","url":"https://www.gravatar.com/avatar/a565749fba4782b717234da670b273fd"}},"url":"https://yuehhua.github.io/2018/10/28/28-transformer/"}</script>
-    <meta name="description" content="繼 Attention model 之後，由於 recurrent 架構的特性一直無法善用 GPU 的資源做加速。 這時 Google Brain 團隊就看到別人在用 self-attention 機制，也是基於 recurrent 架構，解決了不少問題，用在閱讀理解、摘要、文字蘊涵（textual entailment）及語句表示的問題上。 Google Brain 團隊就提出了史上第一個不需要">
+    <script type="application/ld+json">{"@context":"http://schema.org","@type":"BlogPosting","author":{"@type":"Person","name":"Yueh-Hua Tu","sameAs":["https://github.com/yuehhua/","https://www.facebook.com/a504082002","https://www.linkedin.com/in/%E5%B2%B3%E8%8F%AF-%E6%9D%9C-6a3995a0/","mailto:a504082002@gmail.com"],"image":"https://www.gravatar.com/avatar/a565749fba4782b717234da670b273fd"},"articleBody":"在前面的 Transformer 的文章中有提到了 auto-regressive 的特質。\n在 When Recurrent Models Don’t Need to be Recurrent 這篇文章以及他的論文當中又在重述了這件事。\n他們探討了是不是所有 recurrent 模型都可以被換成 auto-regressive 的模型呢？\n答案幾乎是肯定的。為什麼說幾乎是肯定的呢？因為他需要滿足一些條件，才能達成訓練上模型的穩定性要求。\n（內容產生中…）\n","dateCreated":"2018-10-29T23:07:42+08:00","dateModified":"2018-10-29T23:07:42+08:00","datePublished":"2018-10-29T23:07:42+08:00","description":"","headline":"29 Autoregressive generative model","image":[],"mainEntityOfPage":{"@type":"WebPage","@id":"https://yuehhua.github.io/2018/10/29/29-autoregressive-generative-model/"},"publisher":{"@type":"Organization","name":"Yueh-Hua Tu","sameAs":["https://github.com/yuehhua/","https://www.facebook.com/a504082002","https://www.linkedin.com/in/%E5%B2%B3%E8%8F%AF-%E6%9D%9C-6a3995a0/","mailto:a504082002@gmail.com"],"image":"https://www.gravatar.com/avatar/a565749fba4782b717234da670b273fd","logo":{"@type":"ImageObject","url":"https://www.gravatar.com/avatar/a565749fba4782b717234da670b273fd"}},"url":"https://yuehhua.github.io/2018/10/29/29-autoregressive-generative-model/"}</script>
+    <meta name="description" content="在前面的 Transformer 的文章中有提到了 auto-regressive 的特質。 在 When Recurrent Models Don’t Need to be Recurrent 這篇文章以及他的論文當中又在重述了這件事。 他們探討了是不是所有 recurrent 模型都可以被換成 auto-regressive 的模型呢？ 答案幾乎是肯定的。為什麼說幾乎是肯定的呢？因為他需要滿足">
 <meta name="keywords" content="machine learning,deep learning,topology">
 <meta property="og:type" content="blog">
-<meta property="og:title" content="28 Transformer">
-<meta property="og:url" content="https://yuehhua.github.io/2018/10/28/28-transformer/index.html">
+<meta property="og:title" content="29 Autoregressive generative model">
+<meta property="og:url" content="https://yuehhua.github.io/2018/10/29/29-autoregressive-generative-model/index.html">
 <meta property="og:site_name" content="Dream Maker">
-<meta property="og:description" content="繼 Attention model 之後，由於 recurrent 架構的特性一直無法善用 GPU 的資源做加速。 這時 Google Brain 團隊就看到別人在用 self-attention 機制，也是基於 recurrent 架構，解決了不少問題，用在閱讀理解、摘要、文字蘊涵（textual entailment）及語句表示的問題上。 Google Brain 團隊就提出了史上第一個不需要">
+<meta property="og:description" content="在前面的 Transformer 的文章中有提到了 auto-regressive 的特質。 在 When Recurrent Models Don’t Need to be Recurrent 這篇文章以及他的論文當中又在重述了這件事。 他們探討了是不是所有 recurrent 模型都可以被換成 auto-regressive 的模型呢？ 答案幾乎是肯定的。為什麼說幾乎是肯定的呢？因為他需要滿足">
 <meta property="og:locale" content="en">
-<meta property="og:image" content="https://yuehhua.github.io/images/transformer1.svg">
-<meta property="og:image" content="https://yuehhua.github.io/images/transformer2.svg">
-<meta property="og:updated_time" content="2018-10-29T13:54:46.192Z">
+<meta property="og:updated_time" content="2018-10-29T15:07:42.301Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="28 Transformer">
-<meta name="twitter:description" content="繼 Attention model 之後，由於 recurrent 架構的特性一直無法善用 GPU 的資源做加速。 這時 Google Brain 團隊就看到別人在用 self-attention 機制，也是基於 recurrent 架構，解決了不少問題，用在閱讀理解、摘要、文字蘊涵（textual entailment）及語句表示的問題上。 Google Brain 團隊就提出了史上第一個不需要">
-<meta name="twitter:image" content="https://yuehhua.github.io/images/transformer1.svg">
+<meta name="twitter:title" content="29 Autoregressive generative model">
+<meta name="twitter:description" content="在前面的 Transformer 的文章中有提到了 auto-regressive 的特質。 在 When Recurrent Models Don’t Need to be Recurrent 這篇文章以及他的論文當中又在重述了這件事。 他們探討了是不是所有 recurrent 模型都可以被換成 auto-regressive 的模型呢？ 答案幾乎是肯定的。為什麼說幾乎是肯定的呢？因為他需要滿足">
     
     
         
@@ -241,14 +238,14 @@
                     <div class="post-header main-content-wrap text-left">
     
         <h1 class="post-title">
-            28 Transformer
+            29 Autoregressive generative model
         </h1>
     
     
         <div class="post-meta">
-    <time datetime="2018-10-28T22:58:09+08:00">
+    <time datetime="2018-10-29T23:07:42+08:00">
 	
-		    Oct 28, 2018
+		    Oct 29, 2018
     	
     </time>
     
@@ -266,17 +263,11 @@
                         
                             <div class="post-content markdown">
                                 <div class="main-content-wrap">
-                                    <p>繼 Attention model 之後，由於 recurrent 架構的特性一直無法善用 GPU 的資源做加速。</p>
-<p>這時 Google Brain 團隊就看到別人在用 self-attention 機制，也是基於 recurrent 架構，解決了不少問題，用在閱讀理解、摘要、文字蘊涵（textual entailment）及語句表示的問題上。</p>
-<p>Google Brain 團隊就提出了史上第一個不需要依賴任何 recurrent 架構的 self-attention 機制模型，Transformer。</p>
-<p>（跟變形金剛一樣的名字耶！帥吧！）</p>
-<h2 id="Transformer"><a href="#Transformer" class="headerlink" title="Transformer"></a>Transformer</h2><p>這個架構上延續了 encoder-decoder 的架構，encoder 會將輸入的序列 $(x_1, x_2, …, x_n)$ 轉換成 $\mathbf{z} = (z_1, z_2, …, z_n)$，而 decoder 會將 $\mathbf{z}$ 轉換成 $(y_1, y_2, …, y_m)$，一次轉換一個。在每一步當中，模型都是 auto-regressive 的，也就是說，前一次產生的結果會被當成下一次的輸入進行運算。</p>
-<p>整個 Transformer 的架構就是在 encoder 及 decoder 上使用了 stacked self-attention 以及全連接的網路。我們來看圖，在圖的左半邊就是 encoder，右半邊就是 decoder：</p>
-<p><img src="/images/transformer1.svg" alt=""></p>
-<h3 id="Encoder"><a href="#Encoder" class="headerlink" title="Encoder"></a>Encoder</h3><p>Encoder 由 N 個完全一樣的層堆疊（stack）起來（$N = 6$）。每層包含兩個子層，第一個是一個 multi-head self-attention 的機制，第二個是簡單的全連接層網路。每個子層外都包了 residual connection 以及 layer normalization，看起來就像 $LayerNorm(x + Sublayer(x))$。</p>
-<p>Residual connection 主要可以將前層的資訊繞過一層，直接與下一層做運算。Layer normalization 有穩定學習效果的作用。</p>
-<h3 id="Decoder"><a href="#Decoder" class="headerlink" title="Decoder"></a>Decoder</h3><p>Decoder 大致上與 encoder 相同，差別是在用了兩個 multi-head self-attention 的機制，所以總共有3個子層。</p>
-<h3 id="Attention"><a href="#Attention" class="headerlink" title="Attention"></a>Attention</h3><p><img src="/images/transformer2.svg" alt=""></p>
+                                    <p>在前面的 Transformer 的文章中有提到了 auto-regressive 的特質。</p>
+<p>在 <a href="http://www.offconvex.org/2018/07/27/approximating-recurrent/" target="_blank" rel="noopener">When Recurrent Models Don’t Need to be Recurrent</a> 這篇文章以及他的論文當中又在重述了這件事。</p>
+<p>他們探討了是不是所有 recurrent 模型都可以被換成 auto-regressive 的模型呢？</p>
+<p>答案幾乎是肯定的。為什麼說幾乎是肯定的呢？因為他需要滿足一些條件，才能達成訓練上模型的穩定性要求。</p>
+<p>（內容產生中…）</p>
 
                                         
 
@@ -290,8 +281,7 @@
         <ul class="post-actions post-action-nav">
             <li class="post-action">
                 
-                    
-                    <a class="post-action-btn btn btn--default tooltip--top" href="/2018/10/29/29-autoregressive-generative-model/" data-tooltip="29 Autoregressive generative model" aria-label="PREVIOUS: 29 Autoregressive generative model">
+                    <a class="post-action-btn btn btn--disabled">
                 
                     <i class="fa fa-angle-left" aria-hidden="true"></i>
                     <span class="hide-xs hide-sm text-small icon-ml">PREVIOUS</span>
@@ -300,7 +290,7 @@
             <li class="post-action">
                 
                     
-                    <a class="post-action-btn btn btn--default tooltip--top" href="/2018/10/27/27-attention-model/" data-tooltip="27 Attention model" aria-label="NEXT: 27 Attention model">
+                    <a class="post-action-btn btn btn--default tooltip--top" href="/2018/10/28/28-transformer/" data-tooltip="28 Transformer" aria-label="NEXT: 28 Transformer">
                 
                     <span class="hide-xs hide-sm text-small icon-mr">NEXT</span>
                     <i class="fa fa-angle-right" aria-hidden="true"></i>
@@ -318,7 +308,7 @@
             
             
             <li class="post-action hide-xs">
-                <a class="post-action-btn btn btn--default" target="new" href="https://www.facebook.com/sharer/sharer.php?u=https://yuehhua.github.io/2018/10/28/28-transformer/" title="Share on Facebook">
+                <a class="post-action-btn btn btn--default" target="new" href="https://www.facebook.com/sharer/sharer.php?u=https://yuehhua.github.io/2018/10/29/29-autoregressive-generative-model/" title="Share on Facebook">
                     <i class="fa fa-facebook-official" aria-hidden="true"></i>
                 </a>
             </li>
@@ -376,8 +366,7 @@
         <ul class="post-actions post-action-nav">
             <li class="post-action">
                 
-                    
-                    <a class="post-action-btn btn btn--default tooltip--top" href="/2018/10/29/29-autoregressive-generative-model/" data-tooltip="29 Autoregressive generative model" aria-label="PREVIOUS: 29 Autoregressive generative model">
+                    <a class="post-action-btn btn btn--disabled">
                 
                     <i class="fa fa-angle-left" aria-hidden="true"></i>
                     <span class="hide-xs hide-sm text-small icon-ml">PREVIOUS</span>
@@ -386,7 +375,7 @@
             <li class="post-action">
                 
                     
-                    <a class="post-action-btn btn btn--default tooltip--top" href="/2018/10/27/27-attention-model/" data-tooltip="27 Attention model" aria-label="NEXT: 27 Attention model">
+                    <a class="post-action-btn btn btn--default tooltip--top" href="/2018/10/28/28-transformer/" data-tooltip="28 Transformer" aria-label="NEXT: 28 Transformer">
                 
                     <span class="hide-xs hide-sm text-small icon-mr">NEXT</span>
                     <i class="fa fa-angle-right" aria-hidden="true"></i>
@@ -404,7 +393,7 @@
             
             
             <li class="post-action hide-xs">
-                <a class="post-action-btn btn btn--default" target="new" href="https://www.facebook.com/sharer/sharer.php?u=https://yuehhua.github.io/2018/10/28/28-transformer/" title="Share on Facebook">
+                <a class="post-action-btn btn btn--default" target="new" href="https://www.facebook.com/sharer/sharer.php?u=https://yuehhua.github.io/2018/10/29/29-autoregressive-generative-model/" title="Share on Facebook">
                     <i class="fa fa-facebook-official" aria-hidden="true"></i>
                 </a>
             </li>
@@ -437,7 +426,7 @@
             
             
             <li class="share-option">
-                <a class="share-option-btn" target="new" href="https://www.facebook.com/sharer/sharer.php?u=https://yuehhua.github.io/2018/10/28/28-transformer/">
+                <a class="share-option-btn" target="new" href="https://www.facebook.com/sharer/sharer.php?u=https://yuehhua.github.io/2018/10/29/29-autoregressive-generative-model/">
                     <i class="fa fa-facebook-official" aria-hidden="true"></i><span>Share on Facebook</span>
                 </a>
             </li>
@@ -489,9 +478,9 @@
     
         <script>
              var disqus_config = function () {
-                 this.page.url = 'https://yuehhua.github.io/2018/10/28/28-transformer/';
+                 this.page.url = 'https://yuehhua.github.io/2018/10/29/29-autoregressive-generative-model/';
                  
-                    this.page.identifier = '2018/10/28/28-transformer/';
+                    this.page.identifier = '2018/10/29/29-autoregressive-generative-model/';
                  
              };
             (function() {
