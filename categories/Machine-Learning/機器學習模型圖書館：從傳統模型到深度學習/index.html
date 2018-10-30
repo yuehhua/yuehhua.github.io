@@ -387,6 +387,8 @@
 <p>在圖的右邊，是 multi-head self-attention，核心就是平行計算多個 scaled dot product attention 的結果，並把這些結果都串接起來。有了這樣的機制就可以不只注意一個地方，可以有多個關注點。</p>
 <p>在 self-attention 的機制，意味著所有的 query、key 跟 value 都來自於自己。不像之前的 attention 橫跨 encoder 跟 decoder，所以資訊會從雙方而來。</p>
 <p>在 Transformer 模型當中，有一個是 encoder-decoder attention layer，然後 encoder 跟 decoder 各有一個 self-attention layer，就是各自的第一個子層。</p>
+<p>如此構成了整個 Transformer 模型，如果各位想知道這個模型的應用跟效能的話，請移駕去看論文，論文寫的還蠻簡單易懂的。</p>
+<p>當然這麼模型當中有不少巧思在裡頭，有需要說明的話就提問囉！</p>
 
                     
                         
