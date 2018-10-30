@@ -6,7 +6,7 @@
     <!-- hexo-inject:begin --><!-- hexo-inject:end --><meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="generator" content="Dream Maker">
-    <title>29 Autoregressive generative model - Dream Maker</title>
+    <title>30 結語 - Dream Maker</title>
     <meta name="author" content="Yueh-Hua Tu">
     
         <meta name="keywords" content="machine learning,deep learning,topology,">
@@ -15,19 +15,19 @@
     
         <link rel="alternate" type="application/atom+xml" title="RSS" href="/atom.xml">
     
-    <script type="application/ld+json">{"@context":"http://schema.org","@type":"BlogPosting","author":{"@type":"Person","name":"Yueh-Hua Tu","sameAs":["https://github.com/yuehhua/","https://www.facebook.com/a504082002","https://www.linkedin.com/in/%E5%B2%B3%E8%8F%AF-%E6%9D%9C-6a3995a0/","mailto:a504082002@gmail.com"],"image":"https://www.gravatar.com/avatar/a565749fba4782b717234da670b273fd"},"articleBody":"在前面的 Transformer 的文章中有提到了 auto-regressive 的特質。\n在 When Recurrent Models Don’t Need to be Recurrent 這篇文章以及他的論文當中又在重述了這件事。\n他們探討了是不是所有 recurrent 模型都可以被換成 auto-regressive 的模型呢？\n答案幾乎是肯定的。為什麼說幾乎是肯定的呢？因為他需要滿足一些條件，才能達成訓練上模型的穩定性要求。\n（內容產生中…）\n","dateCreated":"2018-10-29T23:07:42+08:00","dateModified":"2018-10-29T23:07:42+08:00","datePublished":"2018-10-29T23:07:42+08:00","description":"","headline":"29 Autoregressive generative model","image":[],"mainEntityOfPage":{"@type":"WebPage","@id":"https://yuehhua.github.io/2018/10/29/29-autoregressive-generative-model/"},"publisher":{"@type":"Organization","name":"Yueh-Hua Tu","sameAs":["https://github.com/yuehhua/","https://www.facebook.com/a504082002","https://www.linkedin.com/in/%E5%B2%B3%E8%8F%AF-%E6%9D%9C-6a3995a0/","mailto:a504082002@gmail.com"],"image":"https://www.gravatar.com/avatar/a565749fba4782b717234da670b273fd","logo":{"@type":"ImageObject","url":"https://www.gravatar.com/avatar/a565749fba4782b717234da670b273fd"}},"url":"https://yuehhua.github.io/2018/10/29/29-autoregressive-generative-model/"}</script>
-    <meta name="description" content="在前面的 Transformer 的文章中有提到了 auto-regressive 的特質。 在 When Recurrent Models Don’t Need to be Recurrent 這篇文章以及他的論文當中又在重述了這件事。 他們探討了是不是所有 recurrent 模型都可以被換成 auto-regressive 的模型呢？ 答案幾乎是肯定的。為什麼說幾乎是肯定的呢？因為他需要滿足">
+    <script type="application/ld+json">{"@context":"http://schema.org","@type":"BlogPosting","author":{"@type":"Person","name":"Yueh-Hua Tu","sameAs":["https://github.com/yuehhua/","https://www.facebook.com/a504082002","https://www.linkedin.com/in/%E5%B2%B3%E8%8F%AF-%E6%9D%9C-6a3995a0/","mailto:a504082002@gmail.com"],"image":"https://www.gravatar.com/avatar/a565749fba4782b717234da670b273fd"},"articleBody":"原本是算到今天就會發完 30 天的文章了，不過系統似乎把第一天跟第二天的文章判定是第一天的了。\n我記得我最早參加鐵人賽的時候，一次接受兩個挑戰，分別寫了 Julia 語言以及基礎的機器學習。\n這次的系列文章是在基礎之上，讓大家得以理解不同模型之間的來龍去脈以及變化性，這樣才有辦法更進一步進展到深度學習的領域。\n完成這次鐵人賽的意義在於讓大家理解模型的來龍去脈，以及為什麼要用什麼樣的數學元件去兜一個模型。\n當你遇到問題的時候，不可能會有一個 ready-to-use 的模型等在那邊給你用，對於人工智慧的技術應用，你必須要為自己所面對的問題和狀況自己去量身訂作自己的模型。\n是的！你沒看錯，必須要由領域專家去理解自己要的是什麼，然後自己做出專門給這個情境的模型。\n當你的情境非常特殊的時候，讓深度學習專家來深入其他知識領域是非常花時間的。如果以領域專家及深度學習專家之間以合作模式進行，那將會花費更高的成本在溝通上，因為人工智慧的技術應用需要對特定領域非常敏感。我個人認為只有領域專家繼續鑽研成為深度學習專家才有辦法徹底解決特定領域的問題。當然這條路非常的漫長，等於是需要一個特定領域的博士，以及深度學習的博士的等級。這些問題，只有當領域專家自己 理解 之後，不是只有 解決 問題，才能夠算是真正的 解決 了。\n這系列文獻給擁有機器學習基礎，想繼續晉升到深度學習領域的朋友們。\n感謝大家的支持！\n","dateCreated":"2018-10-31T00:14:33+08:00","dateModified":"2018-10-31T00:14:33+08:00","datePublished":"2018-10-31T00:14:33+08:00","description":"","headline":"30 結語","image":[],"mainEntityOfPage":{"@type":"WebPage","@id":"https://yuehhua.github.io/2018/10/31/30-conclusions/"},"publisher":{"@type":"Organization","name":"Yueh-Hua Tu","sameAs":["https://github.com/yuehhua/","https://www.facebook.com/a504082002","https://www.linkedin.com/in/%E5%B2%B3%E8%8F%AF-%E6%9D%9C-6a3995a0/","mailto:a504082002@gmail.com"],"image":"https://www.gravatar.com/avatar/a565749fba4782b717234da670b273fd","logo":{"@type":"ImageObject","url":"https://www.gravatar.com/avatar/a565749fba4782b717234da670b273fd"}},"url":"https://yuehhua.github.io/2018/10/31/30-conclusions/"}</script>
+    <meta name="description" content="原本是算到今天就會發完 30 天的文章了，不過系統似乎把第一天跟第二天的文章判定是第一天的了。 我記得我最早參加鐵人賽的時候，一次接受兩個挑戰，分別寫了 Julia 語言以及基礎的機器學習。 這次的系列文章是在基礎之上，讓大家得以理解不同模型之間的來龍去脈以及變化性，這樣才有辦法更進一步進展到深度學習的領域。 完成這次鐵人賽的意義在於讓大家理解模型的來龍去脈，以及為什麼要用什麼樣的數學元件去兜一個">
 <meta name="keywords" content="machine learning,deep learning,topology">
 <meta property="og:type" content="blog">
-<meta property="og:title" content="29 Autoregressive generative model">
-<meta property="og:url" content="https://yuehhua.github.io/2018/10/29/29-autoregressive-generative-model/index.html">
+<meta property="og:title" content="30 結語">
+<meta property="og:url" content="https://yuehhua.github.io/2018/10/31/30-conclusions/index.html">
 <meta property="og:site_name" content="Dream Maker">
-<meta property="og:description" content="在前面的 Transformer 的文章中有提到了 auto-regressive 的特質。 在 When Recurrent Models Don’t Need to be Recurrent 這篇文章以及他的論文當中又在重述了這件事。 他們探討了是不是所有 recurrent 模型都可以被換成 auto-regressive 的模型呢？ 答案幾乎是肯定的。為什麼說幾乎是肯定的呢？因為他需要滿足">
+<meta property="og:description" content="原本是算到今天就會發完 30 天的文章了，不過系統似乎把第一天跟第二天的文章判定是第一天的了。 我記得我最早參加鐵人賽的時候，一次接受兩個挑戰，分別寫了 Julia 語言以及基礎的機器學習。 這次的系列文章是在基礎之上，讓大家得以理解不同模型之間的來龍去脈以及變化性，這樣才有辦法更進一步進展到深度學習的領域。 完成這次鐵人賽的意義在於讓大家理解模型的來龍去脈，以及為什麼要用什麼樣的數學元件去兜一個">
 <meta property="og:locale" content="en">
-<meta property="og:updated_time" content="2018-10-29T15:07:42.301Z">
+<meta property="og:updated_time" content="2018-10-30T16:14:33.301Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="29 Autoregressive generative model">
-<meta name="twitter:description" content="在前面的 Transformer 的文章中有提到了 auto-regressive 的特質。 在 When Recurrent Models Don’t Need to be Recurrent 這篇文章以及他的論文當中又在重述了這件事。 他們探討了是不是所有 recurrent 模型都可以被換成 auto-regressive 的模型呢？ 答案幾乎是肯定的。為什麼說幾乎是肯定的呢？因為他需要滿足">
+<meta name="twitter:title" content="30 結語">
+<meta name="twitter:description" content="原本是算到今天就會發完 30 天的文章了，不過系統似乎把第一天跟第二天的文章判定是第一天的了。 我記得我最早參加鐵人賽的時候，一次接受兩個挑戰，分別寫了 Julia 語言以及基礎的機器學習。 這次的系列文章是在基礎之上，讓大家得以理解不同模型之間的來龍去脈以及變化性，這樣才有辦法更進一步進展到深度學習的領域。 完成這次鐵人賽的意義在於讓大家理解模型的來龍去脈，以及為什麼要用什麼樣的數學元件去兜一個">
     
     
         
@@ -238,14 +238,14 @@
                     <div class="post-header main-content-wrap text-left">
     
         <h1 class="post-title">
-            29 Autoregressive generative model
+            30 結語
         </h1>
     
     
         <div class="post-meta">
-    <time datetime="2018-10-29T23:07:42+08:00">
+    <time datetime="2018-10-31T00:14:33+08:00">
 	
-		    Oct 29, 2018
+		    Oct 31, 2018
     	
     </time>
     
@@ -263,11 +263,15 @@
                         
                             <div class="post-content markdown">
                                 <div class="main-content-wrap">
-                                    <p>在前面的 Transformer 的文章中有提到了 auto-regressive 的特質。</p>
-<p>在 <a href="http://www.offconvex.org/2018/07/27/approximating-recurrent/" target="_blank" rel="noopener">When Recurrent Models Don’t Need to be Recurrent</a> 這篇文章以及他的論文當中又在重述了這件事。</p>
-<p>他們探討了是不是所有 recurrent 模型都可以被換成 auto-regressive 的模型呢？</p>
-<p>答案幾乎是肯定的。為什麼說幾乎是肯定的呢？因為他需要滿足一些條件，才能達成訓練上模型的穩定性要求。</p>
-<p>（內容產生中…）</p>
+                                    <p>原本是算到今天就會發完 30 天的文章了，不過系統似乎把第一天跟第二天的文章判定是第一天的了。</p>
+<p>我記得我最早參加鐵人賽的時候，一次接受兩個挑戰，分別寫了 Julia 語言以及基礎的機器學習。</p>
+<p>這次的系列文章是在基礎之上，讓大家得以理解不同模型之間的來龍去脈以及變化性，這樣才有辦法更進一步進展到深度學習的領域。</p>
+<p>完成這次鐵人賽的意義在於讓大家理解模型的來龍去脈，以及為什麼要用什麼樣的數學元件去兜一個模型。</p>
+<p>當你遇到問題的時候，不可能會有一個 ready-to-use 的模型等在那邊給你用，對於人工智慧的技術應用，你必須要為自己所面對的問題和狀況自己去量身訂作自己的模型。</p>
+<p>是的！你沒看錯，必須要由領域專家去理解自己要的是什麼，然後自己做出專門給這個情境的模型。</p>
+<p>當你的情境非常特殊的時候，讓深度學習專家來深入其他知識領域是非常花時間的。如果以領域專家及深度學習專家之間以合作模式進行，那將會花費更高的成本在溝通上，因為人工智慧的技術應用需要對特定領域非常敏感。我個人認為只有領域專家繼續鑽研成為深度學習專家才有辦法徹底解決特定領域的問題。當然這條路非常的漫長，等於是需要一個特定領域的博士，以及深度學習的博士的等級。這些問題，只有當領域專家自己 <strong>理解</strong> 之後，不是只有 <strong>解決</strong> 問題，才能夠算是真正的 <strong>解決</strong> 了。</p>
+<p>這系列文獻給擁有機器學習基礎，想繼續晉升到深度學習領域的朋友們。</p>
+<p>感謝大家的支持！</p>
 
                                         
 
@@ -281,8 +285,7 @@
         <ul class="post-actions post-action-nav">
             <li class="post-action">
                 
-                    
-                    <a class="post-action-btn btn btn--default tooltip--top" href="/2018/10/31/30-conclusions/" data-tooltip="30 結語" aria-label="PREVIOUS: 30 結語">
+                    <a class="post-action-btn btn btn--disabled">
                 
                     <i class="fa fa-angle-left" aria-hidden="true"></i>
                     <span class="hide-xs hide-sm text-small icon-ml">PREVIOUS</span>
@@ -291,7 +294,7 @@
             <li class="post-action">
                 
                     
-                    <a class="post-action-btn btn btn--default tooltip--top" href="/2018/10/28/28-transformer/" data-tooltip="28 Transformer" aria-label="NEXT: 28 Transformer">
+                    <a class="post-action-btn btn btn--default tooltip--top" href="/2018/10/29/29-autoregressive-generative-model/" data-tooltip="29 Autoregressive generative model" aria-label="NEXT: 29 Autoregressive generative model">
                 
                     <span class="hide-xs hide-sm text-small icon-mr">NEXT</span>
                     <i class="fa fa-angle-right" aria-hidden="true"></i>
@@ -309,7 +312,7 @@
             
             
             <li class="post-action hide-xs">
-                <a class="post-action-btn btn btn--default" target="new" href="https://www.facebook.com/sharer/sharer.php?u=https://yuehhua.github.io/2018/10/29/29-autoregressive-generative-model/" title="Share on Facebook">
+                <a class="post-action-btn btn btn--default" target="new" href="https://www.facebook.com/sharer/sharer.php?u=https://yuehhua.github.io/2018/10/31/30-conclusions/" title="Share on Facebook">
                     <i class="fa fa-facebook-official" aria-hidden="true"></i>
                 </a>
             </li>
@@ -367,8 +370,7 @@
         <ul class="post-actions post-action-nav">
             <li class="post-action">
                 
-                    
-                    <a class="post-action-btn btn btn--default tooltip--top" href="/2018/10/31/30-conclusions/" data-tooltip="30 結語" aria-label="PREVIOUS: 30 結語">
+                    <a class="post-action-btn btn btn--disabled">
                 
                     <i class="fa fa-angle-left" aria-hidden="true"></i>
                     <span class="hide-xs hide-sm text-small icon-ml">PREVIOUS</span>
@@ -377,7 +379,7 @@
             <li class="post-action">
                 
                     
-                    <a class="post-action-btn btn btn--default tooltip--top" href="/2018/10/28/28-transformer/" data-tooltip="28 Transformer" aria-label="NEXT: 28 Transformer">
+                    <a class="post-action-btn btn btn--default tooltip--top" href="/2018/10/29/29-autoregressive-generative-model/" data-tooltip="29 Autoregressive generative model" aria-label="NEXT: 29 Autoregressive generative model">
                 
                     <span class="hide-xs hide-sm text-small icon-mr">NEXT</span>
                     <i class="fa fa-angle-right" aria-hidden="true"></i>
@@ -395,7 +397,7 @@
             
             
             <li class="post-action hide-xs">
-                <a class="post-action-btn btn btn--default" target="new" href="https://www.facebook.com/sharer/sharer.php?u=https://yuehhua.github.io/2018/10/29/29-autoregressive-generative-model/" title="Share on Facebook">
+                <a class="post-action-btn btn btn--default" target="new" href="https://www.facebook.com/sharer/sharer.php?u=https://yuehhua.github.io/2018/10/31/30-conclusions/" title="Share on Facebook">
                     <i class="fa fa-facebook-official" aria-hidden="true"></i>
                 </a>
             </li>
@@ -428,7 +430,7 @@
             
             
             <li class="share-option">
-                <a class="share-option-btn" target="new" href="https://www.facebook.com/sharer/sharer.php?u=https://yuehhua.github.io/2018/10/29/29-autoregressive-generative-model/">
+                <a class="share-option-btn" target="new" href="https://www.facebook.com/sharer/sharer.php?u=https://yuehhua.github.io/2018/10/31/30-conclusions/">
                     <i class="fa fa-facebook-official" aria-hidden="true"></i><span>Share on Facebook</span>
                 </a>
             </li>
@@ -480,9 +482,9 @@
     
         <script>
              var disqus_config = function () {
-                 this.page.url = 'https://yuehhua.github.io/2018/10/29/29-autoregressive-generative-model/';
+                 this.page.url = 'https://yuehhua.github.io/2018/10/31/30-conclusions/';
                  
-                    this.page.identifier = '2018/10/29/29-autoregressive-generative-model/';
+                    this.page.identifier = '2018/10/31/30-conclusions/';
                  
              };
             (function() {
