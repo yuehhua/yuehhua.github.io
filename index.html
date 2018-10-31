@@ -341,7 +341,11 @@
 <li>Lipschitz assumptions</li>
 </ol>
 <p>這幾個條件簡單來說，就是你的 loss function 需要是平滑的，那麼你的梯度就不會起伏太大，導致梯度爆炸或是消失的狀況。在這樣的狀況下，就可以用 feed-forward network 去逼近。</p>
-<h2 id="Feed-forward-network-逼近"><a href="#Feed-forward-network-逼近" class="headerlink" title="Feed-forward network 逼近"></a>Feed-forward network 逼近</h2><p>那用 feed-forward network 去逼近有什麼好處呢？</p>
+<h2 id="Feed-forward-network-逼近"><a href="#Feed-forward-network-逼近" class="headerlink" title="Feed-forward network 逼近"></a>Feed-forward network 逼近</h2><p><img src="/images/wavenet.gif" alt=""></p>
+<blockquote>
+<p>動畫取自 <a href="https://deepmind.com/blog/wavenet-generative-model-raw-audio/" target="_blank" rel="noopener">WaveNet 官網</a></p>
+</blockquote>
+<p>那用 feed-forward network 去逼近有什麼好處呢？</p>
 <p>文章中提到三大好處：</p>
 <ol>
 <li>平行化：你可以善用 GPU 加速</li>
