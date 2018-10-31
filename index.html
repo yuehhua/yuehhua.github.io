@@ -287,7 +287,7 @@
     </article>
     
     
-    <article class="postShorten postShorten--thumbnailimg-bottom">
+    <article class="postShorten postShorten--thumbnailimg-right">
         <div class="postShorten-wrap">
             
             <div class="postShorten-header">
@@ -315,55 +315,15 @@
 
             </div>
             
-                <div class="postShorten-content">
+                <div class="postShorten-excerpt">
                     <p>在前面的 Transformer 的文章中有提到了 auto-regressive 的特質。</p>
 <p>在 <a href="http://www.offconvex.org/2018/07/27/approximating-recurrent/" target="_blank" rel="noopener">When Recurrent Models Don’t Need to be Recurrent</a> 這篇文章以及他的論文當中又在重述了這件事。</p>
 <p>他們探討了是不是所有 recurrent 模型都可以被換成 auto-regressive 的模型呢？</p>
-<p>答案幾乎是肯定的。為什麼說幾乎是肯定的呢？因為他需要滿足一些條件，才能達成訓練上模型的穩定性要求。</p>
-<h2 id="Stable-recurrent-models"><a href="#Stable-recurrent-models" class="headerlink" title="Stable recurrent models"></a>Stable recurrent models</h2><p>問題描述是這樣的：</p>
-<blockquote>
-<p>理論上來說，一個有 <strong>好行為（well-behaved）</strong> 的 recurrent neural network 是否總是可以被差不多大小的 feed-forward network 取代，在不損失效能的情況下？</p>
-</blockquote>
-<p>這時候我們就需要知道什麼樣的 RNN 是有好行為（well-behaved）的？</p>
-<p>當然你可以設計一個非線性的 RNN 讓 feed-forward network 無法取代，只要讓他無法用 gradient descent 訓練起來就可以了。</p>
-<p>也就是說，<strong>好行為</strong> 的 RNN 就是，有辦法用 gradient descent 訓練起來，而不會讓梯度爆炸或是消失的模型。這樣穩定（stable）的模型就有辦法用 feed-forward network 去逼近。</p>
-<p>論文中證明了一個重要的定理（論文中有正式的版本），我先寫他的原始描述，然後解釋：</p>
-<blockquote>
-<p>Thm.</p>
-</blockquote>
-<p>Assume the system $\phi$ is <em>$\lambda$-contractive</em>. Under <em>additional smoothness</em> and <em>Lipschitz assumptions</em> on the system $\phi$, the prediction function $f$, and the loss $p$, if</p>
-<p>$$<br>k \ge O(log(N^{1/(1-\lambda)^3} / (\epsilon (1-\lambda)^2)))<br>$$</p>
-<p>then after N steps of projected gradient descent with decaying step size $\alpha_t = O(1/t)$, $||w_{recurr} - w_{trunc}|| \le \epsilon$, which in turn implies $||y_t(w_{recurr}) - y_t^k(w_{trunc})|| \le O(\epsilon)$.</p>
-<p>當你把以上定理認真看完之後你就會昏了。基本上是說，一個模型本身會要滿足幾個條件：</p>
-<ol>
-<li>$\lambda$-contractive</li>
-<li>additional smoothness</li>
-<li>Lipschitz assumptions</li>
-</ol>
-<p>這幾個條件簡單來說，就是你的 loss function 需要是平滑的，那麼你的梯度就不會起伏太大，導致梯度爆炸或是消失的狀況。在這樣的狀況下，就可以用 feed-forward network 去逼近。</p>
-<h2 id="Feed-forward-network-逼近"><a href="#Feed-forward-network-逼近" class="headerlink" title="Feed-forward network 逼近"></a>Feed-forward network 逼近</h2><p><img src="/images/wavenet.gif" alt=""></p>
-<blockquote>
-<p>動畫取自 <a href="https://deepmind.com/blog/wavenet-generative-model-raw-audio/" target="_blank" rel="noopener">WaveNet 官網</a></p>
-</blockquote>
-<p>那用 feed-forward network 去逼近有什麼好處呢？</p>
-<p>文章中提到三大好處：</p>
-<ol>
-<li>平行化：你可以善用 GPU 加速</li>
-<li>可訓練：以往 RNN 都不好訓練，但是如果可以換成 feed-forward network 就會比較容易訓練起來</li>
-<li>推論速度：在速度上更快</li>
-</ol>
-<p>近年來非常多的模型都採用了 auto-regressive 的架構，從前面提到的 Transformer，到新版的 Google 小姐 - WaveNet 都用了這樣的架構。</p>
-
                     
+                        <a href="/2018/10/29/29-autoregressive-generative-model/" class="postShorten-excerpt_link link">
+                            Continue reading
+                        </a>
                         
-
-                    
-                    
-                        <p>
-                            <a href="/2018/10/29/29-autoregressive-generative-model/#post-footer" class="postShorten-excerpt_link link">
-                                Comment and share
-                            </a>
-                        </p>
                     
                 </div>
             
@@ -372,7 +332,7 @@
     </article>
     
     
-    <article class="postShorten postShorten--thumbnailimg-bottom">
+    <article class="postShorten postShorten--thumbnailimg-right">
         <div class="postShorten-wrap">
             
             <div class="postShorten-header">
@@ -400,37 +360,16 @@
 
             </div>
             
-                <div class="postShorten-content">
+                <div class="postShorten-excerpt">
                     <p>繼 Attention model 之後，由於 recurrent 架構的特性一直無法善用 GPU 的資源做加速。</p>
 <p>這時 Google Brain 團隊就看到別人在用 self-attention 機制，也是基於 recurrent 架構，解決了不少問題，用在閱讀理解、摘要、文字蘊涵（textual entailment）及語句表示的問題上。</p>
 <p>Google Brain 團隊就提出了史上第一個不需要依賴任何 recurrent 架構的 self-attention 機制模型，Transformer。</p>
 <p>（跟變形金剛一樣的名字耶！帥吧！）</p>
-<h2 id="Transformer"><a href="#Transformer" class="headerlink" title="Transformer"></a>Transformer</h2><p>這個架構上延續了 encoder-decoder 的架構，encoder 會將輸入的序列 $(x_1, x_2, …, x_n)$ 轉換成 $\mathbf{z} = (z_1, z_2, …, z_n)$，而 decoder 會將 $\mathbf{z}$ 轉換成 $(y_1, y_2, …, y_m)$，一次轉換一個。在每一步當中，模型都是 auto-regressive 的，也就是說，前一次產生的結果會被當成下一次的輸入進行運算。</p>
-<p>整個 Transformer 的架構就是在 encoder 及 decoder 上使用了 stacked self-attention 以及全連接的網路。我們來看圖，在圖的左半邊就是 encoder，右半邊就是 decoder：</p>
-<p><img src="/images/transformer1.svg" alt=""></p>
-<h3 id="Encoder"><a href="#Encoder" class="headerlink" title="Encoder"></a>Encoder</h3><p>Encoder 由 N 個完全一樣的層堆疊（stack）起來（$N = 6$）。每層包含兩個子層，第一個是一個 multi-head self-attention 的機制，第二個是簡單的全連接層網路。每個子層外都包了 residual connection 以及 layer normalization，看起來就像 $LayerNorm(x + Sublayer(x))$。</p>
-<p>Residual connection 主要可以將前層的資訊繞過一層，直接與下一層做運算。Layer normalization 有穩定學習效果的作用。</p>
-<h3 id="Decoder"><a href="#Decoder" class="headerlink" title="Decoder"></a>Decoder</h3><p>Decoder 大致上與 encoder 相同，差別是在用了兩個 multi-head self-attention 的機制，所以總共有3個子層。</p>
-<h3 id="Attention"><a href="#Attention" class="headerlink" title="Attention"></a>Attention</h3><p>在 attention 的機制上，我們在上一篇講過了。這邊我們要進一步探討這個模型用到的 scaled dot product attention。在這邊就是分成 query、key 跟 value 三者，首先要先將 query 跟所有 key 做過一次的內積，並且除以 $\sqrt{d_k}$，然後過一次 softmax 函數。計算到這邊就是權重的部份，最後權重再跟 value 去計算結果。其中 $d_k$ 是 key 向量的維度。公式在這邊：</p>
-<p>$$<br>Attention(Q, K, V) = softmax(\frac{QK^T}{\sqrt{d_k}})V<br>$$</p>
-<p><img src="/images/transformer2.svg" alt=""></p>
-<p>圖的左邊是 scaled dot product attention。為什麼要除以 $\sqrt{d_k}$ 呢？文章中有提到，內積會讓整個結果變很大，會讓梯度變得極小，這會不利於訓練，所以需要除以 $\sqrt{d_k}$。</p>
-<p>在圖的右邊，是 multi-head self-attention，核心就是平行計算多個 scaled dot product attention 的結果，並把這些結果都串接起來。有了這樣的機制就可以不只注意一個地方，可以有多個關注點。</p>
-<p>在 self-attention 的機制，意味著所有的 query、key 跟 value 都來自於自己。不像之前的 attention 橫跨 encoder 跟 decoder，所以資訊會從雙方而來。</p>
-<p>在 Transformer 模型當中，有一個是 encoder-decoder attention layer，然後 encoder 跟 decoder 各有一個 self-attention layer，就是各自的第一個子層。</p>
-<p>如此構成了整個 Transformer 模型，如果各位想知道這個模型的應用跟效能的話，請移駕去看論文，論文寫的還蠻簡單易懂的。</p>
-<p>當然這麼模型當中有不少巧思在裡頭，有需要說明的話就提問囉！</p>
-
                     
+                        <a href="/2018/10/28/28-transformer/" class="postShorten-excerpt_link link">
+                            Continue reading
+                        </a>
                         
-
-                    
-                    
-                        <p>
-                            <a href="/2018/10/28/28-transformer/#post-footer" class="postShorten-excerpt_link link">
-                                Comment and share
-                            </a>
-                        </p>
                     
                 </div>
             
@@ -439,7 +378,7 @@
     </article>
     
     
-    <article class="postShorten postShorten--thumbnailimg-bottom">
+    <article class="postShorten postShorten--thumbnailimg-right">
         <div class="postShorten-wrap">
             
             <div class="postShorten-header">
@@ -467,36 +406,15 @@
 
             </div>
             
-                <div class="postShorten-content">
+                <div class="postShorten-excerpt">
                     <p>繼 Seq2seq model 之後，真正可以做到 end-to-end 翻譯的，很多都是用了 attention model。</p>
 <p>Attention model，正確來說，不是指特定的一個模型，他是模型的一個部份或是一種設計，所以有人叫他 attention mechanism。</p>
 <p>Attention model 被用在機器翻譯、語句的摘要、語音辨識、影像理解（image caption），算是用途非常廣泛。</p>
-<p>有幾篇論文算是開始用這樣的機制：</p>
-<ol>
-<li><a href="https://arxiv.org/abs/1409.0473" target="_blank" rel="noopener">Neural Machine Translation by Jointly Learning to Align and Translate</a></li>
-<li><a href="https://arxiv.org/abs/1509.00685" target="_blank" rel="noopener">A Neural Attention Model for Abstractive Sentence Summarization</a></li>
-<li><a href="https://arxiv.org/abs/1509.06664" target="_blank" rel="noopener">Reasoning about Entailment with Neural Attention</a></li>
-</ol>
-<p>Attention model 在很多模型當中都是做為 encoder-decoder 之間的橋樑，原本的 encoder 跟 decoder 之間是只有一個 vector 來傳遞所有的訊息，但是多了 attention mechanism 就不一樣了。</p>
-<p><img src="/images/seq2seq2.svg" alt=""></p>
-<p>Attention mechanism 主要可以動態的去抓到 encoder 中傳遞的訊息，並且將這些訊息與 decoder 輸出的前一個訊息互相比對之後，透過線性組合之後輸出。這樣的輸出有什麼效果呢？他可以動態地去找到兩邊最相符的資訊，並且將他重要的部份以權重的方式凸顯出來，所以這部份是做線性組合。</p>
-<p><img src="/images/attention.svg" alt=""></p>
-<p>我看到一個廣義的描述方法，他是這樣說的，我們可以把 attention model 想成是一個函數，這個函數會吃兩種東西，一種是 query，另一種是 key-value 的資料結構，讓 query 去比對所有的 key 找到吻合的，會透過一個 compatibility function 去計算吻合的程度，並且作為權重，最後將權重與相對應的 value 做內積。在這邊 query、key、value 三者都是向量。</p>
-<p>在這邊 query 會是 decoder 的 $z_0$，而 key 就是 encoder 的 $h^1, h^2, …$。每一個 key 都會去跟 query 個別通過 compatibility function 算一次吻合程度 $\alpha_0^1, \alpha_0^2, …$。這些 $\alpha_0^1, \alpha_0^2, …$ 就是權重，會去跟 value $h^1, h^2, …$ 做線性組合。在這邊為了簡單所以讓 value 跟 key 是一樣的，其實可以是不同的東西。計算出來的結果 $c^1$ 就是 context vector，會作為 decoder 的輸入，與 $z_0$ 一起計算出 $z_1$。</p>
-<p>這樣就算是完成一輪 attention mechanism 了。下一次再繼續用 $z_1$ 當成 query 進行比對。</p>
-<p>如此一來，就可以以動態的方式去產生序列了。Encoder 負責的是將輸入的序列轉成固定大小的向量，decoder 將這樣的向量轉換回序列，而中間需要動態調整的部份就像人的注意力一樣，會去掃視跟比對哪個部份的翻譯是最吻合的，然後將他做一個線性組合的調整。</p>
-<p>今天的解析就到這邊啦！</p>
-
                     
+                        <a href="/2018/10/27/27-attention-model/" class="postShorten-excerpt_link link">
+                            Continue reading
+                        </a>
                         
-
-                    
-                    
-                        <p>
-                            <a href="/2018/10/27/27-attention-model/#post-footer" class="postShorten-excerpt_link link">
-                                Comment and share
-                            </a>
-                        </p>
                     
                 </div>
             
