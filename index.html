@@ -1,6 +1,6 @@
 
 <!DOCTYPE html>
-<html lang="en">
+<html lang="zh-tw,en,default">
     
 <head>
     <!-- hexo-inject:begin --><!-- hexo-inject:end --><meta charset="UTF-8">
@@ -21,7 +21,7 @@
 <meta property="og:title" content="Dream Maker">
 <meta property="og:url" content="https://yuehhua.github.io/index.html">
 <meta property="og:site_name" content="Dream Maker">
-<meta property="og:locale" content="en">
+<meta property="og:locale" content="zh-tw">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Dream Maker">
     
@@ -87,11 +87,11 @@
                         <a  class="sidebar-button-link "
                              href="/ "
                             
-                            title="Home"
+                            title="首頁"
                         >
                     
                         <i class="sidebar-button-icon fa fa-home" aria-hidden="true"></i>
-                        <span class="sidebar-button-desc">Home</span>
+                        <span class="sidebar-button-desc">首頁</span>
                     </a>
             </li>
             
@@ -100,11 +100,11 @@
                         <a  class="sidebar-button-link "
                              href="/all-categories"
                             
-                            title="Categories"
+                            title="分類"
                         >
                     
                         <i class="sidebar-button-icon fa fa-bookmark" aria-hidden="true"></i>
-                        <span class="sidebar-button-desc">Categories</span>
+                        <span class="sidebar-button-desc">分類</span>
                     </a>
             </li>
             
@@ -113,11 +113,11 @@
                         <a  class="sidebar-button-link "
                              href="/all-tags"
                             
-                            title="Tags"
+                            title="標籤"
                         >
                     
                         <i class="sidebar-button-icon fa fa-tags" aria-hidden="true"></i>
-                        <span class="sidebar-button-desc">Tags</span>
+                        <span class="sidebar-button-desc">標籤</span>
                     </a>
             </li>
             
@@ -126,11 +126,11 @@
                         <a  class="sidebar-button-link "
                              href="/all-archives"
                             
-                            title="Archives"
+                            title="所有文章"
                         >
                     
                         <i class="sidebar-button-icon fa fa-archive" aria-hidden="true"></i>
-                        <span class="sidebar-button-desc">Archives</span>
+                        <span class="sidebar-button-desc">所有文章</span>
                     </a>
             </li>
             
@@ -139,11 +139,11 @@
                         <a  class="sidebar-button-link open-algolia-search"
                              href="#search"
                             
-                            title="Search"
+                            title="搜尋"
                         >
                     
                         <i class="sidebar-button-icon fa fa-search" aria-hidden="true"></i>
-                        <span class="sidebar-button-desc">Search</span>
+                        <span class="sidebar-button-desc">搜尋</span>
                     </a>
             </li>
             
@@ -152,11 +152,11 @@
                         <a  class="sidebar-button-link "
                              href="#about"
                             
-                            title="About"
+                            title="關於"
                         >
                     
                         <i class="sidebar-button-icon fa fa-question" aria-hidden="true"></i>
-                        <span class="sidebar-button-desc">About</span>
+                        <span class="sidebar-button-desc">關於</span>
                     </a>
             </li>
             
@@ -193,10 +193,10 @@
             
                 <li class="sidebar-button">
                     
-                        <a  class="sidebar-button-link " href="mailto:a504082002@gmail.com" target="_blank" rel="noopener" title="Mail">
+                        <a  class="sidebar-button-link " href="mailto:a504082002@gmail.com" target="_blank" rel="noopener" title="Email">
                     
                         <i class="sidebar-button-icon fab fa-envelope" aria-hidden="true"></i>
-                        <span class="sidebar-button-desc">Mail</span>
+                        <span class="sidebar-button-desc">Email</span>
                     </a>
             </li>
             
@@ -209,11 +209,11 @@
                         <a  class="sidebar-button-link "
                              href="/atom.xml"
                             
-                            title="RSS"
+                            title="Atom"
                         >
                     
                         <i class="sidebar-button-icon fa fa-rss" aria-hidden="true"></i>
-                        <span class="sidebar-button-desc">RSS</span>
+                        <span class="sidebar-button-desc">Atom</span>
                     </a>
             </li>
             
@@ -236,6 +236,77 @@
             <div class="postShorten-header">
                 <h1 class="postShorten-title">
                     
+                        <a class="link-unstyled" href="/2018/11/14/31-variational-autoencoder/">
+                            31 Variational autoencoder
+                        </a>
+                    
+                </h1>
+                <div class="postShorten-meta">
+    <time datetime="2018-11-14T16:34:28+08:00">
+	
+		    11月 14, 2018
+    	
+    </time>
+    
+        <span>分類 </span>
+        
+    <a class="category-link" href="/categories/Machine-Learning/">Machine Learning</a>, <a class="category-link" href="/categories/Machine-Learning/機器學習模型圖書館：從傳統模型到深度學習/">機器學習模型圖書館：從傳統模型到深度學習</a>
+
+
+    
+</div>
+
+            </div>
+            
+                <div class="postShorten-content">
+                    <p>在 autoencoder 的模型裏面，會希望以一個 unsupervised 方法來做到特徵萃取的目的。</p>
+<p>你也可以說他是一種降維的方法或是有損壓縮的方法。</p>
+<p>基本上就是透過一個線性轉換將原來的特徵，映射到比較低維度的特徵空間上。</p>
+<p><img src="/images/autoencoder1.svg" alt=""></p>
+<p>圖中就是一個基本的 autoencoder 的樣子，而中間的 hidden layer 就是我們希望的特徵萃取結果。</p>
+<p>我們希望所萃取到的特徵，可以被 <strong>還原</strong> 成原本圖形的樣子。他就會是類似壓縮跟解壓縮的概念。</p>
+<p><img src="/images/autoencoder2.svg" alt=""></p>
+<p>如果我們想看看他會壓縮成什麼樣子，我們可以將中間的 hidden layer 換成兩個 node 就好，如此一來，我們就可以將他視覺化。</p>
+<p><img src="/images/autoencoder3.svg" alt=""></p>
+<h2 id="問題"><a href="#問題" class="headerlink" title="問題"></a>問題</h2><p>常常在訓練 autoencoder 之後，我們希望他的 decoder，也就是後半的部份，可以被拿出來作為一個獨立的 generative model 使用。例如，我可以把 MNIST 資料集當中的數字 1 的圖片輸入 encoder 會得到一個特徵向量 $\mathbf{z}$，相對，這個特徵向量 $\mathbf{z}$ 可以被放到 decoder 中還原回原本的數字 1 圖片，我們希望如果日後知道某個特徵向量 $\mathbf{z}$ 也可以用同樣的作法還原出他原本的樣子。</p>
+<p><img src="/images/autoencoder3.svg" alt=""></p>
+<p>但往往行不通，在 $\mathbf{z}$ 上有些許的差異，就有可能產生很奇怪的結果。原因在於訓練資料通過 encoder 之後所產生的特徵向量的（流形）空間分佈，只有在訓練資料相對應的特徵向量分佈的附近才能產生出好的結果，離這些特徵向量太遠的是沒辦法產生好的結果，所以模型沒有看到過的資料就無法產生好的結果。</p>
+<p>Variational autoencoder（VAE） 就是為了解決這樣的問題引進了 evidence lower bound（ELOB）的方法，並且將他改進成可用在 gradient-based method 上的模型。接下來會以兩種觀點切入講解，先講比較直觀的觀點。</p>
+<h2 id="直觀觀點"><a href="#直觀觀點" class="headerlink" title="直觀觀點"></a>直觀觀點</h2><p>如果不在點附近的區域就無法產生合理的結果，我們可以去找出這些點是不是會呈現什麼樣的分佈，並且去得到這些分佈的參數。</p>
+<p>如果是使用機率分佈的話，就可以減少空間上有 <strong>洞</strong> 的情形發生，也就是比較不會有模型沒看過的資料的地方，導致產生的圖不合理的狀況。</p>
+<p>在 VAE 中，假設特徵向量會呈現常態分佈，所以我們會去計算這個分佈的平均值 $\mu$ 與標準差 $\sigma$，每個 hidden layer 的 node 都有一個相對應的平均值與標準差向量。</p>
+<p><img src="/images/VAE1.svg" alt=""></p>
+<p>相似的特徵向量會在空間分佈上在比較相近的位置，不同的特徵向量就各自形成各自的分佈情形。舉例來說，數字 1 的特徵向量會在空間分佈上比較接近，所以會形成一個分佈，跟數字 2 的分佈是不同的。如此一來，就可以用機率分佈的方式去涵蓋一些沒有被模型看過的資料。</p>
+<p><img src="/images/VAE2.svg" alt=""></p>
+<p>但是這要怎麼接續後面的 decoder 呢？當我們知道分佈之後，我們可以從分佈中做抽樣阿！</p>
+<p>既然是數字 1 的分佈，我就可以從這個分佈當中做抽樣，抽樣出來的向量應該要可以還原回原本的樣子。</p>
+<p>我們就可以將 encoder 跟 decoder 一起做訓練了！</p>
+<h2 id="機率圖模型觀點"><a href="#機率圖模型觀點" class="headerlink" title="機率圖模型觀點"></a>機率圖模型觀點</h2><p>接下來會以比較抽象的觀點來說明。</p>
+
+                    
+                        
+
+                    
+                    
+                        <p>
+                            <a href="/2018/11/14/31-variational-autoencoder/#post-footer" class="postShorten-excerpt_link link">
+                                留言與分享
+                            </a>
+                        </p>
+                    
+                </div>
+            
+        </div>
+        
+    </article>
+    
+    
+    <article class="postShorten postShorten--thumbnailimg-bottom">
+        <div class="postShorten-wrap">
+            
+            <div class="postShorten-header">
+                <h1 class="postShorten-title">
+                    
                         <a class="link-unstyled" href="/2018/10/31/30-conclusions/">
                             30 結語
                         </a>
@@ -244,11 +315,11 @@
                 <div class="postShorten-meta">
     <time datetime="2018-10-31T00:14:33+08:00">
 	
-		    Oct 31, 2018
+		    10月 31, 2018
     	
     </time>
     
-        <span>in </span>
+        <span>分類 </span>
         
     <a class="category-link" href="/categories/Machine-Learning/">Machine Learning</a>, <a class="category-link" href="/categories/Machine-Learning/機器學習模型圖書館：從傳統模型到深度學習/">機器學習模型圖書館：從傳統模型到深度學習</a>
 
@@ -276,7 +347,7 @@
                     
                         <p>
                             <a href="/2018/10/31/30-conclusions/#post-footer" class="postShorten-excerpt_link link">
-                                Comment and share
+                                留言與分享
                             </a>
                         </p>
                     
@@ -301,11 +372,11 @@
                 <div class="postShorten-meta">
     <time datetime="2018-10-29T23:07:42+08:00">
 	
-		    Oct 29, 2018
+		    10月 29, 2018
     	
     </time>
     
-        <span>in </span>
+        <span>分類 </span>
         
     <a class="category-link" href="/categories/Machine-Learning/">Machine Learning</a>, <a class="category-link" href="/categories/Machine-Learning/機器學習模型圖書館：從傳統模型到深度學習/">機器學習模型圖書館：從傳統模型到深度學習</a>
 
@@ -321,7 +392,7 @@
 <p>他們探討了是不是所有 recurrent 模型都可以被換成 auto-regressive 的模型呢？</p>
                     
                         <a href="/2018/10/29/29-autoregressive-generative-model/" class="postShorten-excerpt_link link">
-                            Continue reading
+                            繼續閱讀
                         </a>
                         
                     
@@ -346,11 +417,11 @@
                 <div class="postShorten-meta">
     <time datetime="2018-10-28T22:58:09+08:00">
 	
-		    Oct 28, 2018
+		    10月 28, 2018
     	
     </time>
     
-        <span>in </span>
+        <span>分類 </span>
         
     <a class="category-link" href="/categories/Machine-Learning/">Machine Learning</a>, <a class="category-link" href="/categories/Machine-Learning/機器學習模型圖書館：從傳統模型到深度學習/">機器學習模型圖書館：從傳統模型到深度學習</a>
 
@@ -367,7 +438,7 @@
 <p>（跟變形金剛一樣的名字耶！帥吧！）</p>
                     
                         <a href="/2018/10/28/28-transformer/" class="postShorten-excerpt_link link">
-                            Continue reading
+                            繼續閱讀
                         </a>
                         
                     
@@ -392,11 +463,11 @@
                 <div class="postShorten-meta">
     <time datetime="2018-10-27T23:10:46+08:00">
 	
-		    Oct 27, 2018
+		    10月 27, 2018
     	
     </time>
     
-        <span>in </span>
+        <span>分類 </span>
         
     <a class="category-link" href="/categories/Machine-Learning/">Machine Learning</a>, <a class="category-link" href="/categories/Machine-Learning/機器學習模型圖書館：從傳統模型到深度學習/">機器學習模型圖書館：從傳統模型到深度學習</a>
 
@@ -412,7 +483,7 @@
 <p>Attention model 被用在機器翻譯、語句的摘要、語音辨識、影像理解（image caption），算是用途非常廣泛。</p>
                     
                         <a href="/2018/10/27/27-attention-model/" class="postShorten-excerpt_link link">
-                            Continue reading
+                            繼續閱讀
                         </a>
                         
                     
@@ -437,11 +508,11 @@
                 <div class="postShorten-meta">
     <time datetime="2018-10-26T23:40:23+08:00">
 	
-		    Oct 26, 2018
+		    10月 26, 2018
     	
     </time>
     
-        <span>in </span>
+        <span>分類 </span>
         
     <a class="category-link" href="/categories/Machine-Learning/">Machine Learning</a>, <a class="category-link" href="/categories/Machine-Learning/機器學習模型圖書館：從傳統模型到深度學習/">機器學習模型圖書館：從傳統模型到深度學習</a>
 
@@ -457,7 +528,7 @@
 <p><img src="/images/seq2seq.svg" alt=""></p>
                     
                         <a href="/2018/10/26/26-sequence-to-sequence-model/" class="postShorten-excerpt_link link">
-                            Continue reading
+                            繼續閱讀
                         </a>
                         
                     
@@ -482,11 +553,11 @@
                 <div class="postShorten-meta">
     <time datetime="2018-10-25T23:21:36+08:00">
 	
-		    Oct 25, 2018
+		    10月 25, 2018
     	
     </time>
     
-        <span>in </span>
+        <span>分類 </span>
         
     <a class="category-link" href="/categories/Machine-Learning/">Machine Learning</a>, <a class="category-link" href="/categories/Machine-Learning/機器學習模型圖書館：從傳統模型到深度學習/">機器學習模型圖書館：從傳統模型到深度學習</a>
 
@@ -519,7 +590,7 @@
                     
                         <p>
                             <a href="/2018/10/25/25-death-of-recurrent-model/#post-footer" class="postShorten-excerpt_link link">
-                                Comment and share
+                                留言與分享
                             </a>
                         </p>
                     
@@ -544,11 +615,11 @@
                 <div class="postShorten-meta">
     <time datetime="2018-10-25T16:41:15+08:00">
 	
-		    Oct 25, 2018
+		    10月 25, 2018
     	
     </time>
     
-        <span>in </span>
+        <span>分類 </span>
         
     <a class="category-link" href="/categories/Machine-Learning/">Machine Learning</a>, <a class="category-link" href="/categories/Machine-Learning/機器學習模型圖書館：從傳統模型到深度學習/">機器學習模型圖書館：從傳統模型到深度學習</a>
 
@@ -571,7 +642,7 @@
 </ul>
                     
                         <a href="/2018/10/25/24-recurrent-neural-network-1/" class="postShorten-excerpt_link link">
-                            Continue reading
+                            繼續閱讀
                         </a>
                         
                     
@@ -596,11 +667,11 @@
                 <div class="postShorten-meta">
     <time datetime="2018-10-23T21:43:49+08:00">
 	
-		    Oct 23, 2018
+		    10月 23, 2018
     	
     </time>
     
-        <span>in </span>
+        <span>分類 </span>
         
     <a class="category-link" href="/categories/Machine-Learning/">Machine Learning</a>, <a class="category-link" href="/categories/Machine-Learning/機器學習模型圖書館：從傳統模型到深度學習/">機器學習模型圖書館：從傳統模型到深度學習</a>
 
@@ -644,7 +715,7 @@
                     
                         <p>
                             <a href="/2018/10/23/24-recurrent-neural-network/#post-footer" class="postShorten-excerpt_link link">
-                                Comment and share
+                                留言與分享
                             </a>
                         </p>
                     
@@ -669,11 +740,11 @@
                 <div class="postShorten-meta">
     <time datetime="2018-10-23T09:21:38+08:00">
 	
-		    Oct 23, 2018
+		    10月 23, 2018
     	
     </time>
     
-        <span>in </span>
+        <span>分類 </span>
         
     <a class="category-link" href="/categories/Machine-Learning/">Machine Learning</a>, <a class="category-link" href="/categories/Machine-Learning/機器學習模型圖書館：從傳統模型到深度學習/">機器學習模型圖書館：從傳統模型到深度學習</a>
 
@@ -689,56 +760,7 @@
 <p>在時間序列分析及統計的領域中，我們有基礎的馬可夫模型（Markov chain）。</p>
                     
                         <a href="/2018/10/23/23-markov-chain-and-hmm/" class="postShorten-excerpt_link link">
-                            Continue reading
-                        </a>
-                        
-                    
-                </div>
-            
-        </div>
-        
-    </article>
-    
-    
-    <article class="postShorten postShorten--thumbnailimg-right">
-        <div class="postShorten-wrap">
-            
-            <div class="postShorten-header">
-                <h1 class="postShorten-title">
-                    
-                        <a class="link-unstyled" href="/2018/10/22/22-convolutional-encoder-decoder-architecture/">
-                            22 Convolutional encoder-decoder 架構
-                        </a>
-                    
-                </h1>
-                <div class="postShorten-meta">
-    <time datetime="2018-10-22T23:10:35+08:00">
-	
-		    Oct 22, 2018
-    	
-    </time>
-    
-        <span>in </span>
-        
-    <a class="category-link" href="/categories/Machine-Learning/">Machine Learning</a>, <a class="category-link" href="/categories/Machine-Learning/機器學習模型圖書館：從傳統模型到深度學習/">機器學習模型圖書館：從傳統模型到深度學習</a>
-
-
-    
-</div>
-
-            </div>
-            
-                <div class="postShorten-excerpt">
-                    <p>標題這不是一個專有名詞。</p>
-<p>在電腦視覺的領域中有幾個有名的問題：</p>
-<ol>
-<li>影像辨識（Image recognition）</li>
-<li>物件辨識（Object detection）</li>
-<li>語意分割（Semantic segmentation）</li>
-</ol>
-                    
-                        <a href="/2018/10/22/22-convolutional-encoder-decoder-architecture/" class="postShorten-excerpt_link link">
-                            Continue reading
+                            繼續閱讀
                         </a>
                         
                     
@@ -754,12 +776,12 @@
         
           <li class="pagination-next">
             <a class="btn btn--default btn--small" href="/page/2/">
-              <span>OLDER POSTS</span>
+              <span>下一頁</span>
               <i class="fa fa-angle-right text-base icon-ml"></i>
             </a>
           </li>
         
-        <li class="pagination-number">page 1 of 6</li>
+        <li class="pagination-number">第 1 頁 共 6 頁</li>
     </ul>
 </div>
 
@@ -786,14 +808,14 @@
         
             <h4 id="about-card-name">Yueh-Hua Tu</h4>
         
-            <div id="about-card-bio"><p>Aim to be a computational biologist!</br>Systems Biology, Computational Biology, Machine Learning</br>Organizer of Julia Taiwan community</p>
+            <div id="about-card-bio"><p>目標是計算生物學家！</br>Systems Biology, Computational Biology, Machine Learning</br>Julia Taiwan 發起人</p>
 </div>
         
         
             <div id="about-card-job">
                 <i class="fa fa-briefcase"></i>
                 <br/>
-                <p>Research assistant, Taiwan CDC</p>
+                <p>研發替代役研究助理</p>
 
             </div>
         
