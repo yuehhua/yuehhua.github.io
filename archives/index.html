@@ -297,7 +297,7 @@
 <h3 id="Evidence-lower-bound"><a href="#Evidence-lower-bound" class="headerlink" title="Evidence lower bound"></a>Evidence lower bound</h3><p>在這邊作者使用了 evidence lower bound（ELOB）的方法，既然要估 $p_{\theta}(\mathbf{x})$ 很困難，那麼我們直接去估 $p_{\theta}(\mathbf{z} | \mathbf{x})$ 如何？</p>
 <p>那要怎麼估 $p_{\theta}(\mathbf{z} | \mathbf{x})$ 呢？如果直接算的話就是回到上面的方法，所以 ELOB 方法假設了另一個類似的 $q_{\phi}(\mathbf{z} | \mathbf{x})$ 來逼近 $p_{\theta}(\mathbf{z} | \mathbf{x})$。</p>
 <p>要逼近 $p_{\theta}(\mathbf{z} | \mathbf{x})$，也就是要求兩個機率分佈的 KL divergence（$D_{KL}[q_{\phi}(\mathbf{z} | \mathbf{x}) || p_{\theta}(\mathbf{z} | \mathbf{x})]$）愈小愈好。</p>
-<h3 id="問題-1"><a href="#問題-1" class="headerlink" title="問題"></a>問題</h3><p><img src="/images/VAE3.svg" alt=""></p>
+<h3 id="架構"><a href="#架構" class="headerlink" title="架構"></a>架構</h3><p><img src="/images/VAE3.svg" alt=""></p>
 <p>原本的問題就從左圖變成右圖，也就是以 $q_{\phi}(\mathbf{z} | \mathbf{x})$ 來逼近 $p_{\theta}(\mathbf{z} | \mathbf{x})$。$q_{\phi}(\mathbf{z} | \mathbf{x})$ 就是虛線箭頭的部份。</p>
 <p><img src="/images/VAE4.svg" alt=""></p>
 <p>我們再把右圖當中的兩個箭頭拆開，$q_{\phi}(\mathbf{z} | \mathbf{x})$ 就是 encoder，而在</p>
@@ -305,6 +305,7 @@
 <p>當中的 $p_{\theta}(\mathbf{x} | \mathbf{z})$ 就是 decoder 的部份。Encoder 對應到實際神經網路模型中，則是一個 $\mathbf{z} = f(\mathbf{x})$ 函數，decoder 對應的是另一個函數 $\mathbf{x} = g(\mathbf{z})$。</p>
 <p><img src="/images/VAE5.svg" alt=""></p>
 <p>我們可以把他轉換成這個樣子，這樣就形成了 autoencoder 的架構雛型了。</p>
+<h3 id="抽樣"><a href="#抽樣" class="headerlink" title="抽樣"></a>抽樣</h3><p>回到前面的老問題，</p>
 
                     
                         
@@ -717,16 +718,16 @@
 </ul>
 <p>首先，在這邊的狀態會以一個向量做表示，大家應該也知道 RNN 的 input 是一個向量，當中的狀態也是一個向量，最後的 output 也是一個向量。而這些向量當中的的值都是連續的 $\mathbb{R}^n$（假設向量大小為 n），不像上面的模型都是離散的 $k$（假設有 k 個狀態），所以在空間上的大小可以說是擴大非常多。</p>
 <p>接下來我們來看看時間的狀態轉換：</p>
-<p>&lt;/br&gt;</p>
+<p><br></p>
 <p><img src="/images/rnn_time.svg" alt=""></p>
-<p>&lt;/br&gt;</p>
+<p><br></p>
 <p><img src="/images/rnn_expand_time.svg" alt=""></p>
-<p>&lt;/br&gt;</p>
+<p><br></p>
 <p>在 RNN 中一樣含有內在狀態，但不同的是 RNN 可以在每個時間點上給輸入向量（$\mathbf{x^{(t)}}$），所以可以根據前一個時間點的內在狀態（$\mathbf{h^{(t)}}$）跟輸入向量去計算輸出，或是外在狀態（$\mathbf{y^{(t)}}$）。</p>
 <p>所以大家會在一些論文上看到模型的狀態關係式長下面這個樣子：</p>
-<script type="math/tex; mode=display">
-\mathbf{h^{(t)}} = f(\mathbf{x^{(t)}}, \mathbf{h^{(t-1)}}) = \mathbf{x^{(t)}} W_x + \mathbf{h^{(t-1)}} W_h + \mathbf{b}</script><script type="math/tex; mode=display">
-\mathbf{y^{(t)}} = g(\mathbf{h^{(t)}}) = sigm(\mathbf{h^{(t)}} W_y)</script><p>這邊特別引入了非線性的轉換（$sigm$）來讓模型更強大。</p>
+<p>$$<br>\mathbf{h^{(t)}} = f(\mathbf{x^{(t)}}, \mathbf{h^{(t-1)}}) = \mathbf{x^{(t)}} W_x + \mathbf{h^{(t-1)}} W_h + \mathbf{b}<br>$$</p>
+<p>$$<br>\mathbf{y^{(t)}} = g(\mathbf{h^{(t)}}) = sigm(\mathbf{h^{(t)}} W_y)<br>$$</p>
+<p>這邊特別引入了非線性的轉換（$sigm$）來讓模型更強大。</p>
 <p>隨著從一開始的馬可夫模型到這邊應該對這幾個模型有點感覺，其實 RNN 可以說是很大的突破，在假設上放了很多元素讓模型變得更強大。</p>
 <h2 id="Long-short-term-memory"><a href="#Long-short-term-memory" class="headerlink" title="Long short-term memory"></a>Long short-term memory</h2><p>人們為了改進 RNN這個模型的記憶性，希望他可以記住更遠以前的東西，所以設計了 LSTM 來替換他的 hidden layer 的運作模式，後期更有 GRU，還有人說只需要 forget gate 就有很強大的效能的 MGU。這些都是對於記憶性做的改進，個人覺得這些在工程上的貢獻比較大，真正學術上的突破其實還好。</p>
 <p>今天的整理就先到這邊啦！</p>

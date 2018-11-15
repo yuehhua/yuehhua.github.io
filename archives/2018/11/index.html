@@ -297,7 +297,7 @@
 <h3 id="Evidence-lower-bound"><a href="#Evidence-lower-bound" class="headerlink" title="Evidence lower bound"></a>Evidence lower bound</h3><p>在這邊作者使用了 evidence lower bound（ELOB）的方法，既然要估 $p_{\theta}(\mathbf{x})$ 很困難，那麼我們直接去估 $p_{\theta}(\mathbf{z} | \mathbf{x})$ 如何？</p>
 <p>那要怎麼估 $p_{\theta}(\mathbf{z} | \mathbf{x})$ 呢？如果直接算的話就是回到上面的方法，所以 ELOB 方法假設了另一個類似的 $q_{\phi}(\mathbf{z} | \mathbf{x})$ 來逼近 $p_{\theta}(\mathbf{z} | \mathbf{x})$。</p>
 <p>要逼近 $p_{\theta}(\mathbf{z} | \mathbf{x})$，也就是要求兩個機率分佈的 KL divergence（$D_{KL}[q_{\phi}(\mathbf{z} | \mathbf{x}) || p_{\theta}(\mathbf{z} | \mathbf{x})]$）愈小愈好。</p>
-<h3 id="問題-1"><a href="#問題-1" class="headerlink" title="問題"></a>問題</h3><p><img src="/images/VAE3.svg" alt=""></p>
+<h3 id="架構"><a href="#架構" class="headerlink" title="架構"></a>架構</h3><p><img src="/images/VAE3.svg" alt=""></p>
 <p>原本的問題就從左圖變成右圖，也就是以 $q_{\phi}(\mathbf{z} | \mathbf{x})$ 來逼近 $p_{\theta}(\mathbf{z} | \mathbf{x})$。$q_{\phi}(\mathbf{z} | \mathbf{x})$ 就是虛線箭頭的部份。</p>
 <p><img src="/images/VAE4.svg" alt=""></p>
 <p>我們再把右圖當中的兩個箭頭拆開，$q_{\phi}(\mathbf{z} | \mathbf{x})$ 就是 encoder，而在</p>
@@ -305,6 +305,7 @@
 <p>當中的 $p_{\theta}(\mathbf{x} | \mathbf{z})$ 就是 decoder 的部份。Encoder 對應到實際神經網路模型中，則是一個 $\mathbf{z} = f(\mathbf{x})$ 函數，decoder 對應的是另一個函數 $\mathbf{x} = g(\mathbf{z})$。</p>
 <p><img src="/images/VAE5.svg" alt=""></p>
 <p>我們可以把他轉換成這個樣子，這樣就形成了 autoencoder 的架構雛型了。</p>
+<h3 id="抽樣"><a href="#抽樣" class="headerlink" title="抽樣"></a>抽樣</h3><p>回到前面的老問題，</p>
 
                     
                         

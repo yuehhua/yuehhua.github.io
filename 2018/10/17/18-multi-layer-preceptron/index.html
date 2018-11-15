@@ -15,7 +15,7 @@
     
         <link rel="alternate" type="application/atom+xml" title="RSS" href="/atom.xml">
     
-    <script type="application/ld+json">{"@context":"http://schema.org","@type":"BlogPosting","author":{"@type":"Person","name":"Yueh-Hua Tu","sameAs":["https://github.com/yuehhua/","https://www.facebook.com/a504082002","https://www.linkedin.com/in/%E5%B2%B3%E8%8F%AF-%E6%9D%9C-6a3995a0/","mailto:a504082002@gmail.com"],"image":"https://www.gravatar.com/avatar/a565749fba4782b717234da670b273fd"},"articleBody":"我們來更具體一點講 multi-layer perceptron (MLP)。\n最簡單的版本莫過於 linear MLP，不過不太會有人去用他，其實只是每層 layer 的 activation function 都是採用 identity。你可以想像他是有很多的線性轉換所疊起來的模型。\n\n\n一般線性模型：$f(\\mathbf{x}) = W^{\\prime T}\\mathbf{x} + b = W^T\\mathbf{x}$\nLinear MLP：\n$f_1(\\mathbf{x}) = W_1^T\\mathbf{x}$\n$f_2(\\mathbf{x}) = W_2^Tf_1(\\mathbf{x})$\n$f_3(\\mathbf{x}) = W_3^Tf_2(\\mathbf{x})$\n…\n$fn(\\mathbf{x}) = W_n^Tf{n-1}(\\mathbf{x})$\n\n那這樣這個有什麼好講的呢？\n大家應該有看到在這邊唯一的運算：內積（inner product）\n內積的意義有念過線性代數的人應該對內積這個運算還算熟悉（在這邊都假設大家有一定線性代數基礎）。\n\n = \\mathbf{x}^T \\mathbf{y}\n= \\begin{bmatrix}\nx_1 \\\\\nx_2 \\\\\n\\vdots \\\\\nx_n\n\\end{bmatrix}^T\n\n\\begin{bmatrix}\ny_1 \\\\\ny_2 \\\\\n\\vdots \\\\\ny_n\n\\end{bmatrix}\n\n=\n\\begin{bmatrix}\nx_1, x_2, \\cdots, x_n\n\\end{bmatrix}\n\n\\begin{bmatrix}\ny_1 \\\\\ny_2 \\\\\n\\vdots \\\\\ny_n\n\\end{bmatrix}內積，要先定義矩陣相乘的運算，而矩陣的相乘其實是一種線性轉換。\n\nf(\\mathbf{x}) = A\\mathbf{x}我們來觀察一下內積這個運算，這兩個向量會先把相對應的分量相乘。\n\n\\begin{bmatrix}\nx_1 \\\\\nx_2 \\\\\n\\vdots \\\\\nx_n\n\\end{bmatrix}\n\n\\leftrightarrow\n\n\\begin{bmatrix}\ny_1 \\\\\ny_2 \\\\\n\\vdots \\\\\ny_n\n\\end{bmatrix}接著，再相加。\n\nx_1y_1 + x_2y_2 + \\cdots + x_ny_n這時候我們可以想想看，如果當一邊是權重另一邊是資料的時候所代表的意義是什麼？\n當兩個分量的大小都很大的時候，相乘會讓整個值變很大，相對，如果兩個都很接近零的話，結果值就不大。如果很多分量乘積結果都很大，相加會讓整體結果變得很大。\n內積，其實隱含了 相似性 的概念在裡面，也就是說，如果你的權重跟資料很匹配的話，計算出來的值會很大。大家有沒有從裏面看出些端倪呢？\n我們再由另一個角度切入看內積，內積我們可以把他寫成另一種形式，這個應該在大家的高中數學課本當中都有：\n\n\\mathbf{x}^T \\mathbf{y} = ||\\mathbf{x}|| ||\\mathbf{y}|| cos \\theta這時候我們就可以看到內積可以被拆成3個部份：分別是兩個向量的大小跟向量夾角的 $cos \\theta$ 值。\n而當中 $cos \\theta$ 就隱含著相似性在裡頭，也就是說，當兩個向量的夾角愈小，$cos \\theta$ 會愈接近 1。相反，如果兩個向量夾角愈接近 180 度，那 $cos \\theta$ 會愈接近 -1。剛好呈現 90 度就代表這兩個向量是 沒有關係的。\n這時候可能有人會說內積又不是完全反應相似性而已，沒錯！因為他也考慮了兩個向量的長度，當一組向量夾角與另一組向量夾角相同，但是第1組的向量長度都比較長，那內積的結果第1組向量就會比較大。\n所以內積是沒有去除掉向量長度因素的運算，如果單純想要用向量夾角來當成相似性的度量的話可以考慮用 cos similarity。\n\ncos \\theta = \\frac{\\mathbf{x}^T \\mathbf{y}}{||\\mathbf{x}|| ||\\mathbf{y}||}內積與 MLP那 MLP 當中內積扮演了什麼樣的角色呢？\n在純粹線性的 MLP 當中，多層的 $f(\\mathbf{x})$ 疊起來，我們可以把他看做是做非常多次的線性轉換或是座標轉換（change of basis），但是這是在 inference 階段的解釋。\n那在 training 階段內積扮演了什麼樣的角色呢？\n這邊提供一個新的想法：在 training 的過程中，我們的 dataset 是不變的，會變動的是 weight ，而內積則是在衡量這兩者之間的 feature norm 及向量夾角，所以 weight 會調整成匹配這樣特性的樣子。換句話說，內積考慮了 data 與 weight 之間的相似性與大小，並且藉由 training 去調整 weight 讓他與資料匹配。\n在 inference 階段，你就可以把他看成是，weight 正在幫你做出某種程度的篩選，跟 weight 匹配的資料，內積值就會比較大，相對的是，weight 不匹配的資料，內積值就會比較小，藉由這樣將內積結果遞進到下一層的運算。\n機率與內積其實還有一個觀點，就是機率觀點，機率要求一個 distribution 的長度為 1，$\\int_{-\\infty}^{\\infty} P(X) = 1$。在這邊我們的 distribution 常常以一個 vector（或是 random variable）的形式呈現。事實上就是把一個計算好的向量去除以他的長度。如此一來，我們就去除了長度影響的因素，以符合機率的要求。\n那機率當中的內積指的是什麼呢？\n你如果動動手 google 一下就會發現在機率當中的內積就是這個運算\n\n\\mathbb{E}[XY] = \\int XY dP如果有念過統計的人，是不是覺得這東西很眼熟呢？\n\ncov(X, Y) = \\mathbb{E}[XY] - \\mathbb{E}[X]\\mathbb{E}[Y]是的！他跟共變異數是有相關的，共變異數還是跟我們要去度量兩個隨機變數之間的 相似性 有關係。\n\n\\rho = \\frac{cov(X, Y)}{\\sigma_X \\sigma_Y}只要把他除以隨機變數的標準差就可以得到相關係數了呢！\n加入非線性事實上，在我們生活中遇到的事物都是非線性的居多，線性模型可以施展手腳的範疇就不大了。\n這時我們就希望在 MLP 中加入非線性的元素以增加模型的表達力。這時候模型的每一層就變成了：\n\nf(\\mathbf{x}) = \\sigma (W^T \\mathbf{x})而當中的 $\\sigma$ 就成了我們的 activation function 了，也就是非線性的來源！\nFully connected layer當這些層的 node 都互相連接，就代表了所有 node 都參與了計算，這個計算所考慮的資料是 global 的。\n這些層所做的運算是相對 簡單 的（相對 convolution 來說）。\n每個 node 對每一層運算所做的貢獻是 弱 的。當一層的 node 數很多，e.g. 上千個 node，每個 node 的運算結果就會被稀釋掉了。即便內積運算有包含個別值的大小的成份在裡頭，當 node 數一多，這樣的影響也會被減弱，剩下的是整體向量與向量之間的相似性。但有一個情況例外，當有 node 的值極大，e.g. $x_i / x_j = 1000$，當有人是別人的千倍以上的話就要注意一下了，這也是很常在機器學習當中會遇到的問題，這時候就會需要做 normalization 來處理。\n最後提醒，內積的運算中雖然有隱含相似性在其中，但是他 不等同 於 去計算相似性。\n今天的討論就到這邊告一個段落，希望在大家思考 deep learning 模型的時候，這些東西有幫上一些忙。\n","dateCreated":"2018-10-17T22:58:18+08:00","dateModified":"2018-10-17T22:58:18+08:00","datePublished":"2018-10-17T22:58:18+08:00","description":"我們來更具體一點講 multi-layer perceptron (MLP)。\n最簡單的版本莫過於 linear MLP，不過不太會有人去用他，其實只是每層 layer 的 activation function 都是採用 identity。你可以想像他是有很多的線性轉換所疊起來的模型。","headline":"18 Multi-layer preceptron","image":[],"mainEntityOfPage":{"@type":"WebPage","@id":"https://yuehhua.github.io/2018/10/17/18-multi-layer-preceptron/"},"publisher":{"@type":"Organization","name":"Yueh-Hua Tu","sameAs":["https://github.com/yuehhua/","https://www.facebook.com/a504082002","https://www.linkedin.com/in/%E5%B2%B3%E8%8F%AF-%E6%9D%9C-6a3995a0/","mailto:a504082002@gmail.com"],"image":"https://www.gravatar.com/avatar/a565749fba4782b717234da670b273fd","logo":{"@type":"ImageObject","url":"https://www.gravatar.com/avatar/a565749fba4782b717234da670b273fd"}},"url":"https://yuehhua.github.io/2018/10/17/18-multi-layer-preceptron/"}</script>
+    <script type="application/ld+json">{"@context":"http://schema.org","@type":"BlogPosting","author":{"@type":"Person","name":"Yueh-Hua Tu","sameAs":["https://github.com/yuehhua/","https://www.facebook.com/a504082002","https://www.linkedin.com/in/%E5%B2%B3%E8%8F%AF-%E6%9D%9C-6a3995a0/","mailto:a504082002@gmail.com"],"image":"https://www.gravatar.com/avatar/a565749fba4782b717234da670b273fd"},"articleBody":"我們來更具體一點講 multi-layer perceptron (MLP)。\n最簡單的版本莫過於 linear MLP，不過不太會有人去用他，其實只是每層 layer 的 activation function 都是採用 identity。你可以想像他是有很多的線性轉換所疊起來的模型。\n\n\n一般線性模型：$f(\\mathbf{x}) = W^{\\prime T}\\mathbf{x} + b = W^T\\mathbf{x}$\nLinear MLP：\n$f_1(\\mathbf{x}) = W_1^T\\mathbf{x}$\n$f_2(\\mathbf{x}) = W_2^Tf_1(\\mathbf{x})$\n$f_3(\\mathbf{x}) = W_3^Tf_2(\\mathbf{x})$\n…\n$f_n(\\mathbf{x}) = W_n^Tf_{n-1}(\\mathbf{x})$\n\n那這樣這個有什麼好講的呢？\n大家應該有看到在這邊唯一的運算：內積（inner product）\n內積的意義有念過線性代數的人應該對內積這個運算還算熟悉（在這邊都假設大家有一定線性代數基礎）。\n$$&lt;\\mathbf{x}, \\mathbf{y}&gt; = \\mathbf{x}^T \\mathbf{y}$$\n$$= \\begin{bmatrix}x_1 \\x_2 \\\\vdots \\x_n\\end{bmatrix}^T\n\\begin{bmatrix}y_1 \\y_2 \\\\vdots \\y_n\\end{bmatrix}\n=\\begin{bmatrix}x_1, x_2, \\cdots, x_n\\end{bmatrix}\n\\begin{bmatrix}y_1 \\y_2 \\\\vdots \\y_n\\end{bmatrix}$$\n內積，要先定義矩陣相乘的運算，而矩陣的相乘其實是一種線性轉換。\n$$f(\\mathbf{x}) = A\\mathbf{x}$$\n我們來觀察一下內積這個運算，這兩個向量會先把相對應的分量相乘。\n$$\\begin{bmatrix}x_1 \\x_2 \\\\vdots \\x_n\\end{bmatrix}\n\\leftrightarrow\n\\begin{bmatrix}y_1 \\y_2 \\\\vdots \\y_n\\end{bmatrix}$$\n接著，再相加。\n$$x_1y_1 + x_2y_2 + \\cdots + x_ny_n$$\n這時候我們可以想想看，如果當一邊是權重另一邊是資料的時候所代表的意義是什麼？\n當兩個分量的大小都很大的時候，相乘會讓整個值變很大，相對，如果兩個都很接近零的話，結果值就不大。如果很多分量乘積結果都很大，相加會讓整體結果變得很大。\n內積，其實隱含了 相似性 的概念在裡面，也就是說，如果你的權重跟資料很匹配的話，計算出來的值會很大。大家有沒有從裏面看出些端倪呢？\n我們再由另一個角度切入看內積，內積我們可以把他寫成另一種形式，這個應該在大家的高中數學課本當中都有：\n$$\\mathbf{x}^T \\mathbf{y} = ||\\mathbf{x}|| ||\\mathbf{y}|| cos \\theta$$\n這時候我們就可以看到內積可以被拆成3個部份：分別是兩個向量的大小跟向量夾角的 $cos \\theta$ 值。\n而當中 $cos \\theta$ 就隱含著相似性在裡頭，也就是說，當兩個向量的夾角愈小，$cos \\theta$ 會愈接近 1。相反，如果兩個向量夾角愈接近 180 度，那 $cos \\theta$ 會愈接近 -1。剛好呈現 90 度就代表這兩個向量是 沒有關係的。\n這時候可能有人會說內積又不是完全反應相似性而已，沒錯！因為他也考慮了兩個向量的長度，當一組向量夾角與另一組向量夾角相同，但是第1組的向量長度都比較長，那內積的結果第1組向量就會比較大。\n所以內積是沒有去除掉向量長度因素的運算，如果單純想要用向量夾角來當成相似性的度量的話可以考慮用 cos similarity。\n$$cos \\theta = \\frac{\\mathbf{x}^T \\mathbf{y}}{||\\mathbf{x}|| ||\\mathbf{y}||}$$\n內積與 MLP那 MLP 當中內積扮演了什麼樣的角色呢？\n在純粹線性的 MLP 當中，多層的 $f(\\mathbf{x})$ 疊起來，我們可以把他看做是做非常多次的線性轉換或是座標轉換（change of basis），但是這是在 inference 階段的解釋。\n那在 training 階段內積扮演了什麼樣的角色呢？\n這邊提供一個新的想法：在 training 的過程中，我們的 dataset 是不變的，會變動的是 weight ，而內積則是在衡量這兩者之間的 feature norm 及向量夾角，所以 weight 會調整成匹配這樣特性的樣子。換句話說，內積考慮了 data 與 weight 之間的相似性與大小，並且藉由 training 去調整 weight 讓他與資料匹配。\n在 inference 階段，你就可以把他看成是，weight 正在幫你做出某種程度的篩選，跟 weight 匹配的資料，內積值就會比較大，相對的是，weight 不匹配的資料，內積值就會比較小，藉由這樣將內積結果遞進到下一層的運算。\n機率與內積其實還有一個觀點，就是機率觀點，機率要求一個 distribution 的長度為 1，$\\int_{-\\infty}^{\\infty} P(X) = 1$。在這邊我們的 distribution 常常以一個 vector（或是 random variable）的形式呈現。事實上就是把一個計算好的向量去除以他的長度。如此一來，我們就去除了長度影響的因素，以符合機率的要求。\n那機率當中的內積指的是什麼呢？\n你如果動動手 google 一下就會發現在機率當中的內積就是這個運算\n$$\\mathbb{E}[XY] = \\int XY dP$$\n如果有念過統計的人，是不是覺得這東西很眼熟呢？\n$$cov(X, Y) = \\mathbb{E}[XY] - \\mathbb{E}[X]\\mathbb{E}[Y]$$\n是的！他跟共變異數是有相關的，共變異數還是跟我們要去度量兩個隨機變數之間的 相似性 有關係。\n$$\\rho = \\frac{cov(X, Y)}{\\sigma_X \\sigma_Y}$$\n只要把他除以隨機變數的標準差就可以得到相關係數了呢！\n加入非線性事實上，在我們生活中遇到的事物都是非線性的居多，線性模型可以施展手腳的範疇就不大了。\n這時我們就希望在 MLP 中加入非線性的元素以增加模型的表達力。這時候模型的每一層就變成了：\n$$f(\\mathbf{x}) = \\sigma (W^T \\mathbf{x})$$\n而當中的 $\\sigma$ 就成了我們的 activation function 了，也就是非線性的來源！\nFully connected layer當這些層的 node 都互相連接，就代表了所有 node 都參與了計算，這個計算所考慮的資料是 global 的。\n這些層所做的運算是相對 簡單 的（相對 convolution 來說）。\n每個 node 對每一層運算所做的貢獻是 弱 的。當一層的 node 數很多，e.g. 上千個 node，每個 node 的運算結果就會被稀釋掉了。即便內積運算有包含個別值的大小的成份在裡頭，當 node 數一多，這樣的影響也會被減弱，剩下的是整體向量與向量之間的相似性。但有一個情況例外，當有 node 的值極大，e.g. $x_i / x_j = 1000$，當有人是別人的千倍以上的話就要注意一下了，這也是很常在機器學習當中會遇到的問題，這時候就會需要做 normalization 來處理。\n最後提醒，內積的運算中雖然有隱含相似性在其中，但是他 不等同 於 去計算相似性。\n今天的討論就到這邊告一個段落，希望在大家思考 deep learning 模型的時候，這些東西有幫上一些忙。\n","dateCreated":"2018-10-17T22:58:18+08:00","dateModified":"2018-10-17T22:58:18+08:00","datePublished":"2018-10-17T22:58:18+08:00","description":"我們來更具體一點講 multi-layer perceptron (MLP)。\n最簡單的版本莫過於 linear MLP，不過不太會有人去用他，其實只是每層 layer 的 activation function 都是採用 identity。你可以想像他是有很多的線性轉換所疊起來的模型。","headline":"18 Multi-layer preceptron","image":[],"mainEntityOfPage":{"@type":"WebPage","@id":"https://yuehhua.github.io/2018/10/17/18-multi-layer-preceptron/"},"publisher":{"@type":"Organization","name":"Yueh-Hua Tu","sameAs":["https://github.com/yuehhua/","https://www.facebook.com/a504082002","https://www.linkedin.com/in/%E5%B2%B3%E8%8F%AF-%E6%9D%9C-6a3995a0/","mailto:a504082002@gmail.com"],"image":"https://www.gravatar.com/avatar/a565749fba4782b717234da670b273fd","logo":{"@type":"ImageObject","url":"https://www.gravatar.com/avatar/a565749fba4782b717234da670b273fd"}},"url":"https://yuehhua.github.io/2018/10/17/18-multi-layer-preceptron/"}</script>
     <meta name="description" content="我們來更具體一點講 multi-layer perceptron (MLP)。 最簡單的版本莫過於 linear MLP，不過不太會有人去用他，其實只是每層 layer 的 activation function 都是採用 identity。你可以想像他是有很多的線性轉換所疊起來的模型。">
 <meta name="keywords" content="machine learning,deep learning,topology">
 <meta property="og:type" content="blog">
@@ -273,68 +273,35 @@
 <p>$f_2(\mathbf{x}) = W_2^Tf_1(\mathbf{x})$</p>
 <p>$f_3(\mathbf{x}) = W_3^Tf_2(\mathbf{x})$</p>
 <p>…</p>
-<p>$f<em>n(\mathbf{x}) = W_n^Tf</em>{n-1}(\mathbf{x})$</p>
+<p>$f_n(\mathbf{x}) = W_n^Tf_{n-1}(\mathbf{x})$</p>
 <hr>
 <p>那這樣這個有什麼好講的呢？</p>
 <p>大家應該有看到在這邊唯一的運算：內積（inner product）</p>
 <h2 id="內積的意義"><a href="#內積的意義" class="headerlink" title="內積的意義"></a>內積的意義</h2><p>有念過線性代數的人應該對內積這個運算還算熟悉（在這邊都假設大家有一定線性代數基礎）。</p>
-<script type="math/tex; mode=display">
-<\mathbf{x}, \mathbf{y}> = \mathbf{x}^T \mathbf{y}</script><script type="math/tex; mode=display">
-= \begin{bmatrix}
-x_1 \\
-x_2 \\
-\vdots \\
-x_n
-\end{bmatrix}^T
-
-\begin{bmatrix}
-y_1 \\
-y_2 \\
-\vdots \\
-y_n
-\end{bmatrix}
-
-=
-\begin{bmatrix}
-x_1, x_2, \cdots, x_n
-\end{bmatrix}
-
-\begin{bmatrix}
-y_1 \\
-y_2 \\
-\vdots \\
-y_n
-\end{bmatrix}</script><p>內積，要先定義矩陣相乘的運算，而矩陣的相乘其實是一種線性轉換。</p>
-<script type="math/tex; mode=display">
-f(\mathbf{x}) = A\mathbf{x}</script><p>我們來觀察一下內積這個運算，這兩個向量會先把相對應的分量相乘。</p>
-<script type="math/tex; mode=display">
-\begin{bmatrix}
-x_1 \\
-x_2 \\
-\vdots \\
-x_n
-\end{bmatrix}
-
-\leftrightarrow
-
-\begin{bmatrix}
-y_1 \\
-y_2 \\
-\vdots \\
-y_n
-\end{bmatrix}</script><p>接著，再相加。</p>
-<script type="math/tex; mode=display">
-x_1y_1 + x_2y_2 + \cdots + x_ny_n</script><p>這時候我們可以想想看，如果當一邊是權重另一邊是資料的時候所代表的意義是什麼？</p>
+<p>$$<br>&lt;\mathbf{x}, \mathbf{y}&gt; = \mathbf{x}^T \mathbf{y}<br>$$</p>
+<p>$$<br>= \begin{bmatrix}<br>x_1 \<br>x_2 \<br>\vdots \<br>x_n<br>\end{bmatrix}^T</p>
+<p>\begin{bmatrix}<br>y_1 \<br>y_2 \<br>\vdots \<br>y_n<br>\end{bmatrix}</p>
+<p>=<br>\begin{bmatrix}<br>x_1, x_2, \cdots, x_n<br>\end{bmatrix}</p>
+<p>\begin{bmatrix}<br>y_1 \<br>y_2 \<br>\vdots \<br>y_n<br>\end{bmatrix}<br>$$</p>
+<p>內積，要先定義矩陣相乘的運算，而矩陣的相乘其實是一種線性轉換。</p>
+<p>$$<br>f(\mathbf{x}) = A\mathbf{x}<br>$$</p>
+<p>我們來觀察一下內積這個運算，這兩個向量會先把相對應的分量相乘。</p>
+<p>$$<br>\begin{bmatrix}<br>x_1 \<br>x_2 \<br>\vdots \<br>x_n<br>\end{bmatrix}</p>
+<p>\leftrightarrow</p>
+<p>\begin{bmatrix}<br>y_1 \<br>y_2 \<br>\vdots \<br>y_n<br>\end{bmatrix}<br>$$</p>
+<p>接著，再相加。</p>
+<p>$$<br>x_1y_1 + x_2y_2 + \cdots + x_ny_n<br>$$</p>
+<p>這時候我們可以想想看，如果當一邊是權重另一邊是資料的時候所代表的意義是什麼？</p>
 <p>當兩個分量的大小都很大的時候，相乘會讓整個值變很大，相對，如果兩個都很接近零的話，結果值就不大。如果很多分量乘積結果都很大，相加會讓整體結果變得很大。</p>
 <p>內積，其實隱含了 <strong>相似性</strong> 的概念在裡面，也就是說，如果你的權重跟資料很匹配的話，計算出來的值會很大。大家有沒有從裏面看出些端倪呢？</p>
 <p>我們再由另一個角度切入看內積，內積我們可以把他寫成另一種形式，這個應該在大家的高中數學課本當中都有：</p>
-<script type="math/tex; mode=display">
-\mathbf{x}^T \mathbf{y} = ||\mathbf{x}|| ||\mathbf{y}|| cos \theta</script><p>這時候我們就可以看到內積可以被拆成3個部份：分別是兩個向量的大小跟向量夾角的 $cos \theta$ 值。</p>
+<p>$$<br>\mathbf{x}^T \mathbf{y} = ||\mathbf{x}|| ||\mathbf{y}|| cos \theta<br>$$</p>
+<p>這時候我們就可以看到內積可以被拆成3個部份：分別是兩個向量的大小跟向量夾角的 $cos \theta$ 值。</p>
 <p>而當中 $cos \theta$ 就隱含著相似性在裡頭，也就是說，當兩個向量的夾角愈小，$cos \theta$ 會愈接近 1。相反，如果兩個向量夾角愈接近 180 度，那 $cos \theta$ 會愈接近 -1。剛好呈現 90 度就代表這兩個向量是 <strong>沒有關係的</strong>。</p>
 <p>這時候可能有人會說內積又不是完全反應相似性而已，沒錯！因為他也考慮了兩個向量的長度，當一組向量夾角與另一組向量夾角相同，但是第1組的向量長度都比較長，那內積的結果第1組向量就會比較大。</p>
 <p>所以內積是沒有去除掉向量長度因素的運算，如果單純想要用向量夾角來當成相似性的度量的話可以考慮用 cos similarity。</p>
-<script type="math/tex; mode=display">
-cos \theta = \frac{\mathbf{x}^T \mathbf{y}}{||\mathbf{x}|| ||\mathbf{y}||}</script><h2 id="內積與-MLP"><a href="#內積與-MLP" class="headerlink" title="內積與 MLP"></a>內積與 MLP</h2><p>那 MLP 當中內積扮演了什麼樣的角色呢？</p>
+<p>$$<br>cos \theta = \frac{\mathbf{x}^T \mathbf{y}}{||\mathbf{x}|| ||\mathbf{y}||}<br>$$</p>
+<h2 id="內積與-MLP"><a href="#內積與-MLP" class="headerlink" title="內積與 MLP"></a>內積與 MLP</h2><p>那 MLP 當中內積扮演了什麼樣的角色呢？</p>
 <p>在純粹線性的 MLP 當中，多層的 $f(\mathbf{x})$ 疊起來，我們可以把他看做是做非常多次的線性轉換或是座標轉換（change of basis），但是這是在 inference 階段的解釋。</p>
 <p>那在 training 階段內積扮演了什麼樣的角色呢？</p>
 <p>這邊提供一個新的想法：在 training 的過程中，我們的 dataset 是不變的，會變動的是 weight ，而內積則是在衡量這兩者之間的 feature norm 及向量夾角，所以 weight 會調整成匹配這樣特性的樣子。換句話說，內積考慮了 data 與 weight 之間的相似性與大小，並且藉由 training 去調整 weight 讓他與資料匹配。</p>
@@ -342,16 +309,16 @@ cos \theta = \frac{\mathbf{x}^T \mathbf{y}}{||\mathbf{x}|| ||\mathbf{y}||}</scri
 <h2 id="機率與內積"><a href="#機率與內積" class="headerlink" title="機率與內積"></a>機率與內積</h2><p>其實還有一個觀點，就是機率觀點，機率要求一個 distribution 的長度為 1，$\int_{-\infty}^{\infty} P(X) = 1$。在這邊我們的 distribution 常常以一個 vector（或是 random variable）的形式呈現。事實上就是把一個計算好的向量去除以他的長度。如此一來，我們就去除了長度影響的因素，以符合機率的要求。</p>
 <p>那機率當中的內積指的是什麼呢？</p>
 <p>你如果動動手 google 一下就會發現在機率當中的內積就是這個運算</p>
-<script type="math/tex; mode=display">
-\mathbb{E}[XY] = \int XY dP</script><p>如果有念過統計的人，是不是覺得這東西很眼熟呢？</p>
-<script type="math/tex; mode=display">
-cov(X, Y) = \mathbb{E}[XY] - \mathbb{E}[X]\mathbb{E}[Y]</script><p>是的！他跟共變異數是有相關的，共變異數還是跟我們要去度量兩個隨機變數之間的 <strong>相似性</strong> 有關係。</p>
-<script type="math/tex; mode=display">
-\rho = \frac{cov(X, Y)}{\sigma_X \sigma_Y}</script><p>只要把他除以隨機變數的標準差就可以得到相關係數了呢！</p>
+<p>$$<br>\mathbb{E}[XY] = \int XY dP<br>$$</p>
+<p>如果有念過統計的人，是不是覺得這東西很眼熟呢？</p>
+<p>$$<br>cov(X, Y) = \mathbb{E}[XY] - \mathbb{E}[X]\mathbb{E}[Y]<br>$$</p>
+<p>是的！他跟共變異數是有相關的，共變異數還是跟我們要去度量兩個隨機變數之間的 <strong>相似性</strong> 有關係。</p>
+<p>$$<br>\rho = \frac{cov(X, Y)}{\sigma_X \sigma_Y}<br>$$</p>
+<p>只要把他除以隨機變數的標準差就可以得到相關係數了呢！</p>
 <h2 id="加入非線性"><a href="#加入非線性" class="headerlink" title="加入非線性"></a>加入非線性</h2><p>事實上，在我們生活中遇到的事物都是非線性的居多，線性模型可以施展手腳的範疇就不大了。</p>
 <p>這時我們就希望在 MLP 中加入非線性的元素以增加模型的表達力。這時候模型的每一層就變成了：</p>
-<script type="math/tex; mode=display">
-f(\mathbf{x}) = \sigma (W^T \mathbf{x})</script><p>而當中的 $\sigma$ 就成了我們的 activation function 了，也就是非線性的來源！</p>
+<p>$$<br>f(\mathbf{x}) = \sigma (W^T \mathbf{x})<br>$$</p>
+<p>而當中的 $\sigma$ 就成了我們的 activation function 了，也就是非線性的來源！</p>
 <h2 id="Fully-connected-layer"><a href="#Fully-connected-layer" class="headerlink" title="Fully connected layer"></a>Fully connected layer</h2><p>當這些層的 node 都互相連接，就代表了所有 node 都參與了計算，這個計算所考慮的資料是 <strong>global</strong> 的。</p>
 <p>這些層所做的運算是相對 <strong>簡單</strong> 的（相對 convolution 來說）。</p>
 <p>每個 node 對每一層運算所做的貢獻是 <strong>弱</strong> 的。當一層的 node 數很多，e.g. 上千個 node，每個 node 的運算結果就會被稀釋掉了。即便內積運算有包含個別值的大小的成份在裡頭，當 node 數一多，這樣的影響也會被減弱，剩下的是整體向量與向量之間的相似性。但有一個情況例外，當有 node 的值極大，e.g. $x_i / x_j = 1000$，當有人是別人的千倍以上的話就要注意一下了，這也是很常在機器學習當中會遇到的問題，這時候就會需要做 normalization 來處理。</p>
