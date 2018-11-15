@@ -15,19 +15,19 @@
     
         <link rel="alternate" type="application/atom+xml" title="RSS" href="/atom.xml">
     
-    <script type="application/ld+json">{"@context":"http://schema.org","@type":"BlogPosting","author":{"@type":"Person","name":"Yueh-Hua Tu","sameAs":["https://github.com/yuehhua/","https://www.facebook.com/a504082002","https://www.linkedin.com/in/%E5%B2%B3%E8%8F%AF-%E6%9D%9C-6a3995a0/","mailto:a504082002@gmail.com"],"image":"https://www.gravatar.com/avatar/a565749fba4782b717234da670b273fd"},"articleBody":"我們把線性模型們都大統一了。\n$$y \\overset{f}{\\longleftrightarrow} \\mathbb{E}[y] \\leftrightarrow \\eta = \\mathbf{w}^T\\mathbf{x} + b$$\n接下來就要進入到令人興奮的神經網路模型了！\n\n首先，我們先來介紹著名的感知器…嗯…前面不是介紹過了？\n喔喔！對喔！他長這個樣子：\n$$y = \\sigma(\\mathbf{w}^T\\mathbf{x} + b)$$\n其中 $\\mathbf{w}^T\\mathbf{x} + b$ 是我們熟悉的線性模型，然後 $\\sigma$ 就是所謂的 activation function。\n不覺得這看起來跟上面的很相似嗎？\n我們動點手腳：\n$$\\sigma^{-1}(y) = \\mathbf{w}^T\\mathbf{x} + b$$\n是的！發現了嗎？其實 $\\sigma^{-1}$ 就是在廣義線性模型裡的鏈結函數阿！他會是 activation function 的反函數！\n這樣是不是又了結了一樁心事了呢？\n堆疊在神經網路當中，我們會把一個一個神經元並排起來，數學上看起來就是把預測單一個 y 擴張成多個維度：\n$$\\mathbf{y} = \\sigma(W^T\\mathbf{x} + \\mathbf{b})$$\n所以在權重 W 的部份也隨之從一個向量擴張成一個矩陣，b 的部份也是，可以自己驗算看看。\n但是預測多維向量並不是讓模型強大的地方，讓模型強大是因為把很多個這樣的模型頭尾接起來。\n$$\\mathbf{x} \\overset{f^{(0)}}{\\longrightarrow} \\mathbf{h}^{(1)} \\overset{f^{(1)}}{\\longrightarrow} \\dots \\overset{f^{(k-1)}}{\\longrightarrow} \\mathbf{h}^{(k)} \\overset{f^{(k)}}{\\longrightarrow} \\mathbf{y}$$\n當中的這些函數們 $f^{(k))}$ 就是我們說的層。\n$$\\mathbf{h}^{(k)} = f^{(k))}(\\mathbf{h}^{(k-1)}) = \\sigma(W^T\\mathbf{h}^{(k-1)} + \\mathbf{b})$$\n神經網路模型之所以強大的原因是因為將模型頭尾相接，並不是因為他是模擬生物系統，只是靈感是從生物系統上得來的而已。\n搭配上 activation function 的非線性轉換，就可以模擬很多非線性的現象。\n\n\n\nmodel\nlink function\nactivation function\n\n\n\n\nlinear regression\nidentity function: $y = x$\nidentity function: $y = x$\n\n\nlogistic regression\nlogit function: $y = \\frac{x}{1-x}$\nsigmoid function: $y = \\frac{1}{1 + e^{-x}}$\n\n\nPoisson regression\nlog function: $y = ln(x)$\nexponential function: $y = exp(x)$\n\n\n\n","dateCreated":"2018-10-12T23:46:06+08:00","dateModified":"2018-10-15T15:04:53+08:00","datePublished":"2018-10-12T23:46:06+08:00","description":"我們把線性模型們都大統一了。\n$$y \\overset{f}{\\longleftrightarrow} \\mathbb{E}[y] \\leftrightarrow \\eta = \\mathbf{w}^T\\mathbf{x} + b$$\n接下來就要進入到令人興奮的神經網路模型了！","headline":"12 從線性模型到神經網路","image":[],"mainEntityOfPage":{"@type":"WebPage","@id":"https://yuehhua.github.io/2018/10/12/12-from-linear-model-to-neural-network/"},"publisher":{"@type":"Organization","name":"Yueh-Hua Tu","sameAs":["https://github.com/yuehhua/","https://www.facebook.com/a504082002","https://www.linkedin.com/in/%E5%B2%B3%E8%8F%AF-%E6%9D%9C-6a3995a0/","mailto:a504082002@gmail.com"],"image":"https://www.gravatar.com/avatar/a565749fba4782b717234da670b273fd","logo":{"@type":"ImageObject","url":"https://www.gravatar.com/avatar/a565749fba4782b717234da670b273fd"}},"url":"https://yuehhua.github.io/2018/10/12/12-from-linear-model-to-neural-network/"}</script>
-    <meta name="description" content="我們把線性模型們都大統一了。 $$y \overset{f}{\longleftrightarrow} \mathbb{E}[y] \leftrightarrow \eta = \mathbf{w}^T\mathbf{x} + b$$ 接下來就要進入到令人興奮的神經網路模型了！">
+    <script type="application/ld+json">{"@context":"http://schema.org","@type":"BlogPosting","author":{"@type":"Person","name":"Yueh-Hua Tu","sameAs":["https://github.com/yuehhua/","https://www.facebook.com/a504082002","https://www.linkedin.com/in/%E5%B2%B3%E8%8F%AF-%E6%9D%9C-6a3995a0/","mailto:a504082002@gmail.com"],"image":"https://www.gravatar.com/avatar/a565749fba4782b717234da670b273fd"},"articleBody":"我們把線性模型們都大統一了。\n\ny \\overset{f}{\\longleftrightarrow} \\mathbb{E}[y] \\leftrightarrow \\eta = \\mathbf{w}^T\\mathbf{x} + b接下來就要進入到令人興奮的神經網路模型了！\n\n首先，我們先來介紹著名的感知器…嗯…前面不是介紹過了？\n喔喔！對喔！他長這個樣子：\n\ny = \\sigma(\\mathbf{w}^T\\mathbf{x} + b)其中 $\\mathbf{w}^T\\mathbf{x} + b$ 是我們熟悉的線性模型，然後 $\\sigma$ 就是所謂的 activation function。\n不覺得這看起來跟上面的很相似嗎？\n我們動點手腳：\n\n\\sigma^{-1}(y) = \\mathbf{w}^T\\mathbf{x} + b是的！發現了嗎？其實 $\\sigma^{-1}$ 就是在廣義線性模型裡的鏈結函數阿！他會是 activation function 的反函數！\n這樣是不是又了結了一樁心事了呢？\n堆疊在神經網路當中，我們會把一個一個神經元並排起來，數學上看起來就是把預測單一個 y 擴張成多個維度：\n\n\\mathbf{y} = \\sigma(W^T\\mathbf{x} + \\mathbf{b})所以在權重 W 的部份也隨之從一個向量擴張成一個矩陣，b 的部份也是，可以自己驗算看看。\n但是預測多維向量並不是讓模型強大的地方，讓模型強大是因為把很多個這樣的模型頭尾接起來。\n\n\\mathbf{x} \\overset{f^{(0)}}{\\longrightarrow} \\mathbf{h}^{(1)} \\overset{f^{(1)}}{\\longrightarrow} \\dots \\overset{f^{(k-1)}}{\\longrightarrow} \\mathbf{h}^{(k)} \\overset{f^{(k)}}{\\longrightarrow} \\mathbf{y}當中的這些函數們 $f^{(k))}$ 就是我們說的層。\n\n\\mathbf{h}^{(k)} = f^{(k))}(\\mathbf{h}^{(k-1)}) = \\sigma(W^T\\mathbf{h}^{(k-1)} + \\mathbf{b})神經網路模型之所以強大的原因是因為將模型頭尾相接，並不是因為他是模擬生物系統，只是靈感是從生物系統上得來的而已。\n搭配上 activation function 的非線性轉換，就可以模擬很多非線性的現象。\n\n\n\n\nmodel\nlink function\nactivation function\n\n\n\n\nlinear regression\nidentity function: $y = x$\nidentity function: $y = x$\n\n\nlogistic regression\nlogit function: $y = \\frac{x}{1-x}$\nsigmoid function: $y = \\frac{1}{1 + e^{-x}}$\n\n\nPoisson regression\nlog function: $y = ln(x)$\nexponential function: $y = exp(x)$\n\n\n\n\n","dateCreated":"2018-10-12T23:46:06+08:00","dateModified":"2018-10-15T15:04:53+08:00","datePublished":"2018-10-12T23:46:06+08:00","description":"我們把線性模型們都大統一了。\n\ny \\overset{f}{\\longleftrightarrow} \\mathbb{E}[y] \\leftrightarrow \\eta = \\mathbf{w}^T\\mathbf{x} + b接下來就要進入到令人興奮的神經網路模型了！","headline":"12 從線性模型到神經網路","image":[],"mainEntityOfPage":{"@type":"WebPage","@id":"https://yuehhua.github.io/2018/10/12/12-from-linear-model-to-neural-network/"},"publisher":{"@type":"Organization","name":"Yueh-Hua Tu","sameAs":["https://github.com/yuehhua/","https://www.facebook.com/a504082002","https://www.linkedin.com/in/%E5%B2%B3%E8%8F%AF-%E6%9D%9C-6a3995a0/","mailto:a504082002@gmail.com"],"image":"https://www.gravatar.com/avatar/a565749fba4782b717234da670b273fd","logo":{"@type":"ImageObject","url":"https://www.gravatar.com/avatar/a565749fba4782b717234da670b273fd"}},"url":"https://yuehhua.github.io/2018/10/12/12-from-linear-model-to-neural-network/"}</script>
+    <meta name="description" content="我們把線性模型們都大統一了。  y \overset{f}{\longleftrightarrow} \mathbb{E}[y] \leftrightarrow \eta = \mathbf{w}^T\mathbf{x} + b接下來就要進入到令人興奮的神經網路模型了！">
 <meta name="keywords" content="machine learning,deep learning,topology">
 <meta property="og:type" content="blog">
 <meta property="og:title" content="12 從線性模型到神經網路">
 <meta property="og:url" content="https://yuehhua.github.io/2018/10/12/12-from-linear-model-to-neural-network/index.html">
 <meta property="og:site_name" content="Dream Maker">
-<meta property="og:description" content="我們把線性模型們都大統一了。 $$y \overset{f}{\longleftrightarrow} \mathbb{E}[y] \leftrightarrow \eta = \mathbf{w}^T\mathbf{x} + b$$ 接下來就要進入到令人興奮的神經網路模型了！">
+<meta property="og:description" content="我們把線性模型們都大統一了。  y \overset{f}{\longleftrightarrow} \mathbb{E}[y] \leftrightarrow \eta = \mathbf{w}^T\mathbf{x} + b接下來就要進入到令人興奮的神經網路模型了！">
 <meta property="og:locale" content="zh-tw">
 <meta property="og:updated_time" content="2018-10-15T07:04:53.018Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="12 從線性模型到神經網路">
-<meta name="twitter:description" content="我們把線性模型們都大統一了。 $$y \overset{f}{\longleftrightarrow} \mathbb{E}[y] \leftrightarrow \eta = \mathbf{w}^T\mathbf{x} + b$$ 接下來就要進入到令人興奮的神經網路模型了！">
+<meta name="twitter:description" content="我們把線性模型們都大統一了。  y \overset{f}{\longleftrightarrow} \mathbb{E}[y] \leftrightarrow \eta = \mathbf{w}^T\mathbf{x} + b接下來就要進入到令人興奮的神經網路模型了！">
     
     
         
@@ -264,27 +264,28 @@
                             <div class="post-content markdown">
                                 <div class="main-content-wrap">
                                     <p>我們把線性模型們都大統一了。</p>
-<p>$$<br>y \overset{f}{\longleftrightarrow} \mathbb{E}[y] \leftrightarrow \eta = \mathbf{w}^T\mathbf{x} + b<br>$$</p>
-<p>接下來就要進入到令人興奮的神經網路模型了！</p>
+<script type="math/tex; mode=display">
+y \overset{f}{\longleftrightarrow} \mathbb{E}[y] \leftrightarrow \eta = \mathbf{w}^T\mathbf{x} + b</script><p>接下來就要進入到令人興奮的神經網路模型了！</p>
 <a id="more"></a>
 <p>首先，我們先來介紹著名的感知器…嗯…前面不是介紹過了？</p>
 <p>喔喔！對喔！他長這個樣子：</p>
-<p>$$<br>y = \sigma(\mathbf{w}^T\mathbf{x} + b)<br>$$</p>
-<p>其中 $\mathbf{w}^T\mathbf{x} + b$ 是我們熟悉的線性模型，然後 $\sigma$ 就是所謂的 activation function。</p>
+<script type="math/tex; mode=display">
+y = \sigma(\mathbf{w}^T\mathbf{x} + b)</script><p>其中 $\mathbf{w}^T\mathbf{x} + b$ 是我們熟悉的線性模型，然後 $\sigma$ 就是所謂的 activation function。</p>
 <p>不覺得這看起來跟上面的很相似嗎？</p>
 <p>我們動點手腳：</p>
-<p>$$<br>\sigma^{-1}(y) = \mathbf{w}^T\mathbf{x} + b<br>$$</p>
-<p>是的！發現了嗎？其實 $\sigma^{-1}$ 就是在廣義線性模型裡的鏈結函數阿！他會是 activation function 的反函數！</p>
+<script type="math/tex; mode=display">
+\sigma^{-1}(y) = \mathbf{w}^T\mathbf{x} + b</script><p>是的！發現了嗎？其實 $\sigma^{-1}$ 就是在廣義線性模型裡的鏈結函數阿！他會是 activation function 的反函數！</p>
 <p>這樣是不是又了結了一樁心事了呢？</p>
 <h2 id="堆疊"><a href="#堆疊" class="headerlink" title="堆疊"></a>堆疊</h2><p>在神經網路當中，我們會把一個一個神經元並排起來，數學上看起來就是把預測單一個 y 擴張成多個維度：</p>
-<p>$$<br>\mathbf{y} = \sigma(W^T\mathbf{x} + \mathbf{b})<br>$$</p>
-<p>所以在權重 W 的部份也隨之從一個向量擴張成一個矩陣，b 的部份也是，可以自己驗算看看。</p>
+<script type="math/tex; mode=display">
+\mathbf{y} = \sigma(W^T\mathbf{x} + \mathbf{b})</script><p>所以在權重 W 的部份也隨之從一個向量擴張成一個矩陣，b 的部份也是，可以自己驗算看看。</p>
 <p>但是預測多維向量並不是讓模型強大的地方，讓模型強大是因為把很多個這樣的模型頭尾接起來。</p>
-<p>$$<br>\mathbf{x} \overset{f^{(0)}}{\longrightarrow} \mathbf{h}^{(1)} \overset{f^{(1)}}{\longrightarrow} \dots \overset{f^{(k-1)}}{\longrightarrow} \mathbf{h}^{(k)} \overset{f^{(k)}}{\longrightarrow} \mathbf{y}<br>$$</p>
-<p>當中的這些函數們 $f^{(k))}$ 就是我們說的層。</p>
-<p>$$<br>\mathbf{h}^{(k)} = f^{(k))}(\mathbf{h}^{(k-1)}) = \sigma(W^T\mathbf{h}^{(k-1)} + \mathbf{b})<br>$$</p>
-<p>神經網路模型之所以強大的原因是因為將模型頭尾相接，並不是因為他是模擬生物系統，只是靈感是從生物系統上得來的而已。</p>
+<script type="math/tex; mode=display">
+\mathbf{x} \overset{f^{(0)}}{\longrightarrow} \mathbf{h}^{(1)} \overset{f^{(1)}}{\longrightarrow} \dots \overset{f^{(k-1)}}{\longrightarrow} \mathbf{h}^{(k)} \overset{f^{(k)}}{\longrightarrow} \mathbf{y}</script><p>當中的這些函數們 $f^{(k))}$ 就是我們說的層。</p>
+<script type="math/tex; mode=display">
+\mathbf{h}^{(k)} = f^{(k))}(\mathbf{h}^{(k-1)}) = \sigma(W^T\mathbf{h}^{(k-1)} + \mathbf{b})</script><p>神經網路模型之所以強大的原因是因為將模型頭尾相接，並不是因為他是模擬生物系統，只是靈感是從生物系統上得來的而已。</p>
 <p>搭配上 activation function 的非線性轉換，就可以模擬很多非線性的現象。</p>
+<div class="table-container">
 <table>
 <thead>
 <tr>
@@ -311,6 +312,7 @@
 </tr>
 </tbody>
 </table>
+</div>
 
                                         
 

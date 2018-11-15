@@ -283,6 +283,28 @@
 <p>既然是數字 1 的分佈，我就可以從這個分佈當中做抽樣，抽樣出來的向量應該要可以還原回原本的樣子。</p>
 <p>我們就可以將 encoder 跟 decoder 一起做訓練了！</p>
 <h2 id="機率圖模型觀點"><a href="#機率圖模型觀點" class="headerlink" title="機率圖模型觀點"></a>機率圖模型觀點</h2><p>接下來會以比較抽象的觀點來說明。</p>
+<h3 id="隱含因素"><a href="#隱含因素" class="headerlink" title="隱含因素"></a>隱含因素</h3><p>我們的目標是想造出一個 generative model，這個 generative model 需要產出不同的結果（$\mathbf{x}$），例如 MNIST 數字，而且我們會給一個 input（$\mathbf{z}$）來決定要產生出什麼數字，這個 input 就是決定要產生出什麼數字的 <strong>因素</strong>，我們希望從模型自己去學出來。整體來說，他是一個 unsupervised 問題，我們只能從結果（$\mathbf{x}$）去做回推這個 generative model（$p(\mathbf{x}, \mathbf{z})$）的長相，並且試圖猜測 input（$\mathbf{z}$）。</p>
+<p>作者從貝氏定理出發，我們手上的資料只有 $\mathbf{x}$，想去求 $\mathbf{z}$，我們會假設資料產生的過程是個隨機過程，他牽涉到一個無法觀察的變數 $\mathbf{z}$。</p>
+<p>$$<br>p_{\theta}(\mathbf{z} | \mathbf{x}) = \frac{p_{\theta}(\mathbf{x}, \mathbf{z})}{p_{\theta}(\mathbf{x})} = \frac{p_{\theta}(\mathbf{x} | \mathbf{z}) p_{\theta}(\mathbf{z})}{p_{\theta}(\mathbf{x})}<br>$$</p>
+<p>這個過程包含了兩個部份：</p>
+<ol>
+<li>$p(\mathbf{z})$，$\mathbf{z}$ 是怎麼被產生的？</li>
+<li>$p(\mathbf{x} | \mathbf{z})$，$\mathbf{x}$ 是如何從 $\mathbf{z}$ 產生的？</li>
+</ol>
+<h3 id="難題"><a href="#難題" class="headerlink" title="難題"></a>難題</h3><p>一般來說，使用貝氏定理會遇到一個難題，也就是需要知道分母怎麼估算，其中需要對 $\mathbf{z}$ 積分，那麼就需要知道所有的 $\mathbf{z}$ 排列組合，但是這是不可能的。</p>
+<p>$$<br>p_{\theta}(\mathbf{x}) = \int p_{\theta}(\mathbf{x} | \mathbf{z}) p_{\theta}(\mathbf{z}) d\mathbf{z}<br>$$</p>
+<p>目前貝氏的方法是用抽樣的方法（Markov chain Monte Calro）去估 $p_{\theta}(\mathbf{x})$，避開了直接去積分他。而且這樣的方法也太慢了，所以作者希望用 SGD 的方法來取代抽樣的方法。</p>
+<h3 id="Evidence-lower-bound"><a href="#Evidence-lower-bound" class="headerlink" title="Evidence lower bound"></a>Evidence lower bound</h3><p>在這邊作者使用了 evidence lower bound（ELOB）的方法，既然要估 $p_{\theta}(\mathbf{x})$ 很困難，那麼我們直接去估 $p_{\theta}(\mathbf{z} | \mathbf{x})$ 如何？</p>
+<p>那要怎麼估 $p_{\theta}(\mathbf{z} | \mathbf{x})$ 呢？如果直接算的話就是回到上面的方法，所以 ELOB 方法假設了另一個類似的 $q_{\phi}(\mathbf{z} | \mathbf{x})$ 來逼近 $p_{\theta}(\mathbf{z} | \mathbf{x})$。</p>
+<p>要逼近 $p_{\theta}(\mathbf{z} | \mathbf{x})$，也就是要求兩個機率分佈的 KL divergence（$D_{KL}[q_{\phi}(\mathbf{z} | \mathbf{x}) || p_{\theta}(\mathbf{z} | \mathbf{x})]$）愈小愈好。</p>
+<h3 id="問題-1"><a href="#問題-1" class="headerlink" title="問題"></a>問題</h3><p><img src="/images/VAE3.svg" alt=""></p>
+<p>原本的問題就從左圖變成右圖，也就是以 $q_{\phi}(\mathbf{z} | \mathbf{x})$ 來逼近 $p_{\theta}(\mathbf{z} | \mathbf{x})$。$q_{\phi}(\mathbf{z} | \mathbf{x})$ 就是虛線箭頭的部份。</p>
+<p><img src="/images/VAE4.svg" alt=""></p>
+<p>我們再把右圖當中的兩個箭頭拆開，$q_{\phi}(\mathbf{z} | \mathbf{x})$ 就是 encoder，而在</p>
+<p>$$<br>p_{\theta}(\mathbf{z} | \mathbf{x}) = \frac{p_{\theta}(\mathbf{x} | \mathbf{z}) p_{\theta}(\mathbf{z})}{p_{\theta}(\mathbf{x})}<br>$$</p>
+<p>當中的 $p_{\theta}(\mathbf{x} | \mathbf{z})$ 就是 decoder 的部份。Encoder 對應到實際神經網路模型中，則是一個 $\mathbf{z} = f(\mathbf{x})$ 函數，decoder 對應的是另一個函數 $\mathbf{x} = g(\mathbf{z})$。</p>
+<p><img src="/images/VAE5.svg" alt=""></p>
+<p>我們可以把他轉換成這個樣子，這樣就形成了 autoencoder 的架構雛型了。</p>
 
                     
                         
