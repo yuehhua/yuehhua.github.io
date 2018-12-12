@@ -2,6 +2,13 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   
   <url>
+    <loc>https://yuehhua.github.io/2018/10/03/01-introduction/</loc>
+    
+    <lastmod>2018-12-12T14:50:25.152Z</lastmod>
+    
+  </url>
+  
+  <url>
     <loc>https://yuehhua.github.io/2018/11/14/31-variational-autoencoder/</loc>
     
     <lastmod>2018-11-15T13:34:32.947Z</lastmod>
@@ -47,13 +54,6 @@
     <loc>https://yuehhua.github.io/2018/10/25/25-death-of-recurrent-model/</loc>
     
     <lastmod>2018-10-25T15:21:36.182Z</lastmod>
-    
-  </url>
-  
-  <url>
-    <loc>https://yuehhua.github.io/2018/10/25/24-recurrent-neural-network-1/</loc>
-    
-    <lastmod>2018-10-25T08:41:15.480Z</lastmod>
     
   </url>
   
@@ -229,13 +229,6 @@
     <loc>https://yuehhua.github.io/2018/10/03/03-from-linear-regression-to-perceptron/</loc>
     
     <lastmod>2018-10-03T15:24:32.123Z</lastmod>
-    
-  </url>
-  
-  <url>
-    <loc>https://yuehhua.github.io/2018/10/03/01-introduction/</loc>
-    
-    <lastmod>2018-10-03T06:09:16.636Z</lastmod>
     
   </url>
   

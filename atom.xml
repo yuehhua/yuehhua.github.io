@@ -197,37 +197,6 @@
   
   <entry>
     <title>24 Recurrent neural network</title>
-    <link href="https://yuehhua.github.io/2018/10/25/24-recurrent-neural-network-1/"/>
-    <id>https://yuehhua.github.io/2018/10/25/24-recurrent-neural-network-1/</id>
-    <published>2018-10-25T08:41:15.000Z</published>
-    <updated>2018-10-25T08:41:15.480Z</updated>
-    
-    <content type="html"><![CDATA[<p>接續上一篇。</p><h2 id="Recurrent-neural-network"><a href="#Recurrent-neural-network" class="headerlink" title="Recurrent neural network"></a>Recurrent neural network</h2><p>那大家所熟知的 RNN 是怎麼回事呢？我們把假設改了一下：</p><ul><li>狀態都是 <strong>連續</strong> 的。</li><li>時間是離散的。</li><li>內在狀態是不能被觀察的，外在狀態是可被觀察的。</li><li>以一個 <strong>隨機向量</strong> 作為一個狀態。</li><li><strong>允許在每個時間點給輸入</strong></li><li><strong>引入非線性</strong></li></ul><a id="more"></a><p>首先，在這邊的狀態會以一個向量做表示，大家應該也知道 RNN 的 input 是一個向量，當中的狀態也是一個向量，最後的 output 也是一個向量。而這些向量當中的的值都是連續的 $\mathbb{R}^n$（假設向量大小為 n），不像上面的模型都是離散的 $k$（假設有 k 個狀態），所以在空間上的大小可以說是擴大非常多。</p><p>接下來我們來看看時間的狀態轉換：</p><p><br></p><p><img src="/images/rnn_time.svg" alt=""></p><p><br></p><p><img src="/images/rnn_expand_time.svg" alt=""></p><p><br></p><p>在 RNN 中一樣含有內在狀態，但不同的是 RNN 可以在每個時間點上給輸入向量（$\mathbf{x^{(t)}}$），所以可以根據前一個時間點的內在狀態（$\mathbf{h^{(t)}}$）跟輸入向量去計算輸出，或是外在狀態（$\mathbf{y^{(t)}}$）。</p><p>所以大家會在一些論文上看到模型的狀態關係式長下面這個樣子：</p><p>$$<br>\mathbf{h^{(t)}} = f(\mathbf{x^{(t)}}, \mathbf{h^{(t-1)}}) = \mathbf{x^{(t)}} W_x + \mathbf{h^{(t-1)}} W_h + \mathbf{b}<br>$$</p><p>$$<br>\mathbf{y^{(t)}} = g(\mathbf{h^{(t)}}) = sigm(\mathbf{h^{(t)}} W_y)<br>$$</p><p>這邊特別引入了非線性的轉換（$sigm$）來讓模型更強大。</p><p>隨著從一開始的馬可夫模型到這邊應該對這幾個模型有點感覺，其實 RNN 可以說是很大的突破，在假設上放了很多元素讓模型變得更強大。</p><h2 id="Long-short-term-memory"><a href="#Long-short-term-memory" class="headerlink" title="Long short-term memory"></a>Long short-term memory</h2><p>人們為了改進 RNN這個模型的記憶性，希望他可以記住更遠以前的東西，所以設計了 LSTM 來替換他的 hidden layer 的運作模式，後期更有 GRU，還有人說只需要 forget gate 就有很強大的效能的 MGU。這些都是對於記憶性做的改進，個人覺得這些在工程上的貢獻比較大，真正學術上的突破其實還好。</p><p>今天的整理就先到這邊啦！</p>]]></content>
-    
-    <summary type="html">
-    
-      &lt;p&gt;接續上一篇。&lt;/p&gt;
-&lt;h2 id=&quot;Recurrent-neural-network&quot;&gt;&lt;a href=&quot;#Recurrent-neural-network&quot; class=&quot;headerlink&quot; title=&quot;Recurrent neural network&quot;&gt;&lt;/a&gt;Recurrent neural network&lt;/h2&gt;&lt;p&gt;那大家所熟知的 RNN 是怎麼回事呢？我們把假設改了一下：&lt;/p&gt;
-&lt;ul&gt;
-&lt;li&gt;狀態都是 &lt;strong&gt;連續&lt;/strong&gt; 的。&lt;/li&gt;
-&lt;li&gt;時間是離散的。&lt;/li&gt;
-&lt;li&gt;內在狀態是不能被觀察的，外在狀態是可被觀察的。&lt;/li&gt;
-&lt;li&gt;以一個 &lt;strong&gt;隨機向量&lt;/strong&gt; 作為一個狀態。&lt;/li&gt;
-&lt;li&gt;&lt;strong&gt;允許在每個時間點給輸入&lt;/strong&gt;&lt;/li&gt;
-&lt;li&gt;&lt;strong&gt;引入非線性&lt;/strong&gt;&lt;/li&gt;
-&lt;/ul&gt;
-    
-    </summary>
-    
-      <category term="Machine Learning" scheme="https://yuehhua.github.io/categories/Machine-Learning/"/>
-    
-      <category term="機器學習模型圖書館：從傳統模型到深度學習" scheme="https://yuehhua.github.io/categories/Machine-Learning/%E6%A9%9F%E5%99%A8%E5%AD%B8%E7%BF%92%E6%A8%A1%E5%9E%8B%E5%9C%96%E6%9B%B8%E9%A4%A8%EF%BC%9A%E5%BE%9E%E5%82%B3%E7%B5%B1%E6%A8%A1%E5%9E%8B%E5%88%B0%E6%B7%B1%E5%BA%A6%E5%AD%B8%E7%BF%92/"/>
-    
-    
-  </entry>
-  
-  <entry>
-    <title>24 Recurrent neural network</title>
     <link href="https://yuehhua.github.io/2018/10/23/24-recurrent-neural-network/"/>
     <id>https://yuehhua.github.io/2018/10/23/24-recurrent-neural-network/</id>
     <published>2018-10-23T13:43:49.000Z</published>
@@ -508,6 +477,30 @@
 &lt;p&gt;可能有的人會覺得我怎麼不放神經網路的圖，看數學式子看的很痛苦。&lt;/p&gt;
 &lt;p&gt;是的，我的確沒打算放圖。一來神經網路的圖在各大網站或是 google 上遍地都是我實在沒有必要再放一張，二來因為這個模型的核心根本不是哪些圖，那些圖只是幫助理解，理解之後就都是看數學式了，再回去看圖就太小兒科了。&lt;/p&gt;
 &lt;p&gt;神經網路的概念在於將多個模型串接起來，也就是前面提到的堆疊的概念。&lt;/p&gt;
+    
+    </summary>
+    
+      <category term="Machine Learning" scheme="https://yuehhua.github.io/categories/Machine-Learning/"/>
+    
+      <category term="機器學習模型圖書館：從傳統模型到深度學習" scheme="https://yuehhua.github.io/categories/Machine-Learning/%E6%A9%9F%E5%99%A8%E5%AD%B8%E7%BF%92%E6%A8%A1%E5%9E%8B%E5%9C%96%E6%9B%B8%E9%A4%A8%EF%BC%9A%E5%BE%9E%E5%82%B3%E7%B5%B1%E6%A8%A1%E5%9E%8B%E5%88%B0%E6%B7%B1%E5%BA%A6%E5%AD%B8%E7%BF%92/"/>
+    
+    
+  </entry>
+  
+  <entry>
+    <title>12 從線性模型到神經網路</title>
+    <link href="https://yuehhua.github.io/2018/10/12/12-from-linear-model-to-neural-network/"/>
+    <id>https://yuehhua.github.io/2018/10/12/12-from-linear-model-to-neural-network/</id>
+    <published>2018-10-12T15:46:06.000Z</published>
+    <updated>2018-10-15T07:04:53.018Z</updated>
+    
+    <content type="html"><![CDATA[<p>我們把線性模型們都大統一了。</p><p>$$<br>y \overset{f}{\longleftrightarrow} \mathbb{E}[y] \leftrightarrow \eta = \mathbf{w}^T\mathbf{x} + b<br>$$</p><p>接下來就要進入到令人興奮的神經網路模型了！</p><a id="more"></a><p>首先，我們先來介紹著名的感知器…嗯…前面不是介紹過了？</p><p>喔喔！對喔！他長這個樣子：</p><p>$$<br>y = \sigma(\mathbf{w}^T\mathbf{x} + b)<br>$$</p><p>其中 $\mathbf{w}^T\mathbf{x} + b$ 是我們熟悉的線性模型，然後 $\sigma$ 就是所謂的 activation function。</p><p>不覺得這看起來跟上面的很相似嗎？</p><p>我們動點手腳：</p><p>$$<br>\sigma^{-1}(y) = \mathbf{w}^T\mathbf{x} + b<br>$$</p><p>是的！發現了嗎？其實 $\sigma^{-1}$ 就是在廣義線性模型裡的鏈結函數阿！他會是 activation function 的反函數！</p><p>這樣是不是又了結了一樁心事了呢？</p><h2 id="堆疊"><a href="#堆疊" class="headerlink" title="堆疊"></a>堆疊</h2><p>在神經網路當中，我們會把一個一個神經元並排起來，數學上看起來就是把預測單一個 y 擴張成多個維度：</p><p>$$<br>\mathbf{y} = \sigma(W^T\mathbf{x} + \mathbf{b})<br>$$</p><p>所以在權重 W 的部份也隨之從一個向量擴張成一個矩陣，b 的部份也是，可以自己驗算看看。</p><p>但是預測多維向量並不是讓模型強大的地方，讓模型強大是因為把很多個這樣的模型頭尾接起來。</p><p>$$<br>\mathbf{x} \overset{f^{(0)}}{\longrightarrow} \mathbf{h}^{(1)} \overset{f^{(1)}}{\longrightarrow} \dots \overset{f^{(k-1)}}{\longrightarrow} \mathbf{h}^{(k)} \overset{f^{(k)}}{\longrightarrow} \mathbf{y}<br>$$</p><p>當中的這些函數們 $f^{(k))}$ 就是我們說的層。</p><p>$$<br>\mathbf{h}^{(k)} = f^{(k))}(\mathbf{h}^{(k-1)}) = \sigma(W^T\mathbf{h}^{(k-1)} + \mathbf{b})<br>$$</p><p>神經網路模型之所以強大的原因是因為將模型頭尾相接，並不是因為他是模擬生物系統，只是靈感是從生物系統上得來的而已。</p><p>搭配上 activation function 的非線性轉換，就可以模擬很多非線性的現象。</p><table><thead><tr><th style="text-align:center">model</th><th style="text-align:center">link function</th><th style="text-align:center">activation function</th></tr></thead><tbody><tr><td style="text-align:center">linear regression</td><td style="text-align:center">identity function: $y = x$</td><td style="text-align:center">identity function: $y = x$</td></tr><tr><td style="text-align:center">logistic regression</td><td style="text-align:center">logit function: $y = \frac{x}{1-x}$</td><td style="text-align:center">sigmoid function: $y = \frac{1}{1 + e^{-x}}$</td></tr><tr><td style="text-align:center">Poisson regression</td><td style="text-align:center">log function: $y = ln(x)$</td><td style="text-align:center">exponential function: $y = exp(x)$</td></tr></tbody></table>]]></content>
+    
+    <summary type="html">
+    
+      &lt;p&gt;我們把線性模型們都大統一了。&lt;/p&gt;
+&lt;p&gt;$$&lt;br&gt;y \overset{f}{\longleftrightarrow} \mathbb{E}[y] \leftrightarrow \eta = \mathbf{w}^T\mathbf{x} + b&lt;br&gt;$$&lt;/p&gt;
+&lt;p&gt;接下來就要進入到令人興奮的神經網路模型了！&lt;/p&gt;
     
     </summary>
     
