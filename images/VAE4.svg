@@ -108,14 +108,14 @@
      <g class="Page">
       <g class="com.sun.star.drawing.ClosedBezierShape">
        <g id="id3">
-        <rect class="BoundingBox" stroke="none" fill="none" x="10457" y="8937" width="720" height="719"/>
+        <rect class="BoundingBox" stroke="none" fill="none" x="10457" y="8937" width="719" height="719"/>
         <path fill="rgb(223,223,223)" stroke="none" d="M 11168,9295 C 11168,9101 11011,8944 10816,8944 10622,8944 10464,9101 10464,9295 10464,9490 10622,9648 10816,9648 11011,9648 11168,9490 11168,9295 Z"/>
         <path fill="none" stroke="rgb(0,0,0)" stroke-width="14" stroke-linejoin="miter" d="M 11168,9295 C 11168,9101 11011,8944 10816,8944 10622,8944 10464,9101 10464,9295 10464,9490 10622,9648 10816,9648 11011,9648 11168,9490 11168,9295 Z"/>
        </g>
       </g>
       <g class="com.sun.star.drawing.ClosedBezierShape">
        <g id="id4">
-        <rect class="BoundingBox" stroke="none" fill="none" x="10457" y="7220" width="720" height="720"/>
+        <rect class="BoundingBox" stroke="none" fill="none" x="10457" y="7220" width="719" height="719"/>
         <path fill="rgb(255,255,255)" stroke="none" d="M 11168,7579 C 11168,7385 11011,7227 10816,7227 10622,7227 10464,7385 10464,7579 10464,7773 10622,7931 10816,7931 11011,7931 11168,7773 11168,7579 Z"/>
         <path fill="none" stroke="rgb(0,0,0)" stroke-width="14" stroke-linejoin="miter" d="M 11168,7579 C 11168,7385 11011,7227 10816,7227 10622,7227 10464,7385 10464,7579 10464,7773 10622,7931 10816,7931 11011,7931 11168,7773 11168,7579 Z"/>
        </g>
@@ -123,13 +123,13 @@
       <g class="com.sun.star.drawing.TextShape">
        <g id="id5">
         <rect class="BoundingBox" stroke="none" fill="none" x="10710" y="9048" width="351" height="413"/>
-        <text class="TextShape"><tspan class="TextParagraph" font-family="Computer Modern" font-size="351px" font-weight="700"><tspan class="TextPosition" x="10710" y="9374"><tspan fill="rgb(0,0,0)" stroke="none">x</tspan></tspan></tspan></text>
+        <text class="TextShape"><tspan class="TextParagraph" font-family="Computer Modern" font-size="353px" font-weight="700"><tspan class="TextPosition" x="10710" y="9374"><tspan fill="rgb(0,0,0)" stroke="none">x</tspan></tspan></tspan></text>
        </g>
       </g>
       <g class="com.sun.star.drawing.TextShape">
        <g id="id6">
         <rect class="BoundingBox" stroke="none" fill="none" x="10727" y="7331" width="351" height="413"/>
-        <text class="TextShape"><tspan class="TextParagraph" font-family="Computer Modern" font-size="351px" font-weight="700"><tspan class="TextPosition" x="10727" y="7657"><tspan fill="rgb(0,0,0)" stroke="none">z</tspan></tspan></tspan></text>
+        <text class="TextShape"><tspan class="TextParagraph" font-family="Computer Modern" font-size="353px" font-weight="700"><tspan class="TextPosition" x="10727" y="7657"><tspan fill="rgb(0,0,0)" stroke="none">z</tspan></tspan></tspan></text>
        </g>
       </g>
       <g class="com.sun.star.drawing.LineShape">
@@ -140,21 +140,21 @@
       </g>
       <g class="com.sun.star.drawing.PolyPolygonShape">
        <g id="id8">
-        <rect class="BoundingBox" stroke="none" fill="none" x="10722" y="8716" width="189" height="223"/>
+        <rect class="BoundingBox" stroke="none" fill="none" x="10722" y="8717" width="189" height="222"/>
         <path fill="rgb(0,0,0)" stroke="none" d="M 10899,8724 L 10817,8920 10733,8724 10899,8724 Z"/>
         <path fill="none" stroke="rgb(0,0,0)" stroke-width="14" stroke-linejoin="miter" d="M 10899,8724 L 10817,8920 10733,8724 10899,8724 Z"/>
        </g>
       </g>
       <g class="com.sun.star.drawing.ClosedBezierShape">
        <g id="id9">
-        <rect class="BoundingBox" stroke="none" fill="none" x="6157" y="8938" width="720" height="719"/>
+        <rect class="BoundingBox" stroke="none" fill="none" x="6157" y="8938" width="719" height="720"/>
         <path fill="rgb(223,223,223)" stroke="none" d="M 6868,9296 C 6868,9102 6711,8945 6516,8945 6322,8945 6164,9102 6164,9296 6164,9491 6322,9649 6516,9649 6711,9649 6868,9491 6868,9296 Z"/>
         <path fill="none" stroke="rgb(0,0,0)" stroke-width="14" stroke-linejoin="miter" d="M 6868,9296 C 6868,9102 6711,8945 6516,8945 6322,8945 6164,9102 6164,9296 6164,9491 6322,9649 6516,9649 6711,9649 6868,9491 6868,9296 Z"/>
        </g>
       </g>
       <g class="com.sun.star.drawing.ClosedBezierShape">
        <g id="id10">
-        <rect class="BoundingBox" stroke="none" fill="none" x="6157" y="7221" width="720" height="720"/>
+        <rect class="BoundingBox" stroke="none" fill="none" x="6157" y="7221" width="719" height="719"/>
         <path fill="rgb(255,255,255)" stroke="none" d="M 6868,7580 C 6868,7386 6711,7228 6516,7228 6322,7228 6164,7386 6164,7580 6164,7774 6322,7932 6516,7932 6711,7932 6868,7774 6868,7580 Z"/>
         <path fill="none" stroke="rgb(0,0,0)" stroke-width="14" stroke-linejoin="miter" d="M 6868,7580 C 6868,7386 6711,7228 6516,7228 6322,7228 6164,7386 6164,7580 6164,7774 6322,7932 6516,7932 6711,7932 6868,7774 6868,7580 Z"/>
        </g>
@@ -162,13 +162,13 @@
       <g class="com.sun.star.drawing.TextShape">
        <g id="id11">
         <rect class="BoundingBox" stroke="none" fill="none" x="6410" y="9049" width="351" height="413"/>
-        <text class="TextShape"><tspan class="TextParagraph" font-family="Computer Modern" font-size="351px" font-weight="700"><tspan class="TextPosition" x="6410" y="9375"><tspan fill="rgb(0,0,0)" stroke="none">x</tspan></tspan></tspan></text>
+        <text class="TextShape"><tspan class="TextParagraph" font-family="Computer Modern" font-size="353px" font-weight="700"><tspan class="TextPosition" x="6410" y="9375"><tspan fill="rgb(0,0,0)" stroke="none">x</tspan></tspan></tspan></text>
        </g>
       </g>
       <g class="com.sun.star.drawing.TextShape">
        <g id="id12">
         <rect class="BoundingBox" stroke="none" fill="none" x="6427" y="7332" width="351" height="413"/>
-        <text class="TextShape"><tspan class="TextParagraph" font-family="Computer Modern" font-size="351px" font-weight="700"><tspan class="TextPosition" x="6427" y="7658"><tspan fill="rgb(0,0,0)" stroke="none">z</tspan></tspan></tspan></text>
+        <text class="TextShape"><tspan class="TextParagraph" font-family="Computer Modern" font-size="353px" font-weight="700"><tspan class="TextPosition" x="6427" y="7658"><tspan fill="rgb(0,0,0)" stroke="none">z</tspan></tspan></tspan></text>
        </g>
       </g>
       <g class="com.sun.star.drawing.OpenBezierShape">
@@ -223,20 +223,20 @@
       </g>
       <g class="OLE2">
        <g id="id18">
-        <rect class="BoundingBox" stroke="none" fill="none" x="9000" y="8100" width="1508" height="514"/>
+        <rect class="BoundingBox" stroke="none" fill="none" x="9000" y="8087" width="1508" height="514"/>
         <defs>
          <clipPath id="clip_path_2" clipPathUnits="userSpaceOnUse">
-          <path d="M 8996,8096 L 10504,8096 10504,8625 8996,8625 8996,8096 Z"/>
+          <path d="M 8996,8096 L 10504,8096 10504,8599 8996,8599 8996,8096 Z"/>
          </clipPath>
         </defs>
         <g clip-path="url(#clip_path_2)">
-         <text class="TextShape"><tspan class="TextParagraph" font-family="Liberation Serif, serif" font-size="422px" font-style="italic" font-weight="400"><tspan class="TextPosition" x="9159" y="8497"><tspan fill="rgb(0,0,0)" stroke="none">p</tspan></tspan></tspan></text>
-         <text class="TextShape"><tspan class="TextParagraph" font-family="OpenSymbol" font-size="253px" font-style="italic" font-weight="400"><tspan class="TextPosition" x="9370" y="8576"><tspan fill="rgb(0,0,0)" stroke="none">θ</tspan></tspan></tspan></text>
-         <text class="TextShape"><tspan class="TextParagraph" font-family="OpenSymbol" font-size="422px" font-weight="400"><tspan class="TextPosition" x="9529" y="8497"><tspan fill="rgb(0,0,0)" stroke="none">(</tspan></tspan></tspan></text>
-         <text class="TextShape"><tspan class="TextParagraph" font-family="Liberation Serif, serif" font-size="422px" font-style="italic" font-weight="400"><tspan class="TextPosition" x="9714" y="8497"><tspan fill="rgb(0,0,0)" stroke="none">z</tspan></tspan></tspan></text>
-         <text class="TextShape"><tspan class="TextParagraph" font-family="OpenSymbol" font-size="422px" font-weight="400"><tspan class="TextPosition" x="9873" y="8497"><tspan fill="rgb(0,0,0)" stroke="none">∣</tspan></tspan></tspan></text>
-         <text class="TextShape"><tspan class="TextParagraph" font-family="Liberation Serif, serif" font-size="422px" font-style="italic" font-weight="400"><tspan class="TextPosition" x="10032" y="8497"><tspan fill="rgb(0,0,0)" stroke="none">x</tspan></tspan></tspan></text>
-         <text class="TextShape"><tspan class="TextParagraph" font-family="OpenSymbol" font-size="422px" font-weight="400"><tspan class="TextPosition" x="10270" y="8497"><tspan fill="rgb(0,0,0)" stroke="none">)</tspan></tspan></tspan></text>
+         <text class="TextShape"><tspan class="TextParagraph" font-family="Liberation Serif, serif" font-size="422px" font-style="italic" font-weight="400"><tspan class="TextPosition" x="9159" y="8484"><tspan fill="rgb(0,0,0)" stroke="none">p</tspan></tspan></tspan></text>
+         <text class="TextShape"><tspan class="TextParagraph" font-family="OpenSymbol" font-size="253px" font-style="italic" font-weight="400"><tspan class="TextPosition" x="9370" y="8563"><tspan fill="rgb(0,0,0)" stroke="none">θ</tspan></tspan></tspan></text>
+         <text class="TextShape"><tspan class="TextParagraph" font-family="OpenSymbol" font-size="422px" font-weight="400"><tspan class="TextPosition" x="9529" y="8484"><tspan fill="rgb(0,0,0)" stroke="none">(</tspan></tspan></tspan></text>
+         <text class="TextShape"><tspan class="TextParagraph" font-family="Liberation Serif, serif" font-size="422px" font-style="italic" font-weight="400"><tspan class="TextPosition" x="9714" y="8484"><tspan fill="rgb(0,0,0)" stroke="none">x</tspan></tspan></tspan></text>
+         <text class="TextShape"><tspan class="TextParagraph" font-family="OpenSymbol" font-size="422px" font-weight="400"><tspan class="TextPosition" x="9900" y="8484"><tspan fill="rgb(0,0,0)" stroke="none">∣</tspan></tspan></tspan></text>
+         <text class="TextShape"><tspan class="TextParagraph" font-family="Liberation Serif, serif" font-size="422px" font-style="italic" font-weight="400"><tspan class="TextPosition" x="10058" y="8484"><tspan fill="rgb(0,0,0)" stroke="none">z</tspan></tspan></tspan></text>
+         <text class="TextShape"><tspan class="TextParagraph" font-family="OpenSymbol" font-size="422px" font-weight="400"><tspan class="TextPosition" x="10270" y="8484"><tspan fill="rgb(0,0,0)" stroke="none">)</tspan></tspan></tspan></text>
         </g>
        </g>
       </g>
@@ -305,13 +305,13 @@
       <g class="com.sun.star.drawing.TextShape">
        <g id="id25">
         <rect class="BoundingBox" stroke="none" fill="none" x="12173" y="7380" width="351" height="413"/>
-        <text class="TextShape"><tspan class="TextParagraph" font-family="Computer Modern" font-size="351px" font-style="italic" font-weight="400"><tspan class="TextPosition" x="12173" y="7706"><tspan fill="rgb(0,0,0)" stroke="none">θ</tspan></tspan></tspan></text>
+        <text class="TextShape"><tspan class="TextParagraph" font-family="Computer Modern" font-size="353px" font-style="italic" font-weight="400"><tspan class="TextPosition" x="12173" y="7706"><tspan fill="rgb(0,0,0)" stroke="none">θ</tspan></tspan></tspan></text>
        </g>
       </g>
       <g class="com.sun.star.drawing.TextShape">
        <g id="id26">
         <rect class="BoundingBox" stroke="none" fill="none" x="4948" y="7339" width="351" height="413"/>
-        <text class="TextShape"><tspan class="TextParagraph" font-family="Computer Modern" font-size="351px" font-style="italic" font-weight="400"><tspan class="TextPosition" x="4948" y="7665"><tspan fill="rgb(0,0,0)" stroke="none">φ</tspan></tspan></tspan></text>
+        <text class="TextShape"><tspan class="TextParagraph" font-family="Computer Modern" font-size="353px" font-style="italic" font-weight="400"><tspan class="TextPosition" x="4948" y="7665"><tspan fill="rgb(0,0,0)" stroke="none">φ</tspan></tspan></tspan></text>
        </g>
       </g>
       <g class="com.sun.star.drawing.LineShape">

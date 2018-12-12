@@ -15,7 +15,7 @@
     
         <link rel="alternate" type="application/atom+xml" title="RSS" href="/atom.xml">
     
-    <script type="application/ld+json">{"@context":"http://schema.org","@type":"BlogPosting","author":{"@type":"Person","name":"Yueh-Hua Tu","sameAs":["https://github.com/yuehhua/","https://www.facebook.com/a504082002","https://www.linkedin.com/in/%E5%B2%B3%E8%8F%AF-%E6%9D%9C-6a3995a0/","mailto:a504082002@gmail.com"],"image":"https://www.gravatar.com/avatar/a565749fba4782b717234da670b273fd"},"articleBody":"接著我們就來到了蠻重要的問題，既然一個 hidden layer 的網路架構就可以逼近任何連續函數，那麼為什麼要深度學習？\n\n對於這個問題，台大李宏毅老師有非常詳細的講解：\n\n\n影片裏面實驗很多，所以我還是總結一下：\n\n用邏輯電路類比神經網路的話，你一樣可以用單層的並聯將所有邏輯閘都起來成為一個電路，一樣可以達到相同的效果，但是用多層的串聯可以將所需要的邏輯閘數目減少（類比神經網路的神經元），所以可以達到減少參數的效果。\n使用 ReLU 作為 activation function 就是要用分段線性的方式來逼近一個函數，在網路參數相進的情況下，單層網路所能產生的”段”比較少，多層網路所產生的”段”比較多，產生的線段較多就可以去逼近一個更複雜的函數，所以模型就比較強大。\n計算分段線性的數量，當你有 $N$ 個神經元，單層網路裡最多只能產生 $N - 1$ 個線段，多層網路，每層安排兩個神經元，可以產生 $2^{\\frac{N}{2}}$ 個線段。\n\n更有文獻提到，計算線段的數量，如果你的網路每層有 $K$ 個神經元，而且有 $H$ 層，那麼至少會有 $K^H$ 個線段。\n由於深度是放在指數上面，所以增加深度就可以簡單地提高模型的複雜度，也就可以讓模型變得比較強大。\n計算複雜度在一些電腦的問題上，我們常常形容問題是 NP 或者不是 NP，來描述一個問題的複雜度有多高。\n一個問題的時間複雜度可以在多項式時間內的，我們稱為 P，如果不是，那我們稱為 NP。\nNP-complete 問題是 NP 問題當中最難的了，計算複雜度大概會是指數級成長，這種成長速度應該使用神經網路有辦法克服。\n","dateCreated":"2018-10-15T14:56:39+08:00","dateModified":"2018-10-15T15:03:37+08:00","datePublished":"2018-10-15T14:56:39+08:00","description":"接著我們就來到了蠻重要的問題，既然一個 hidden layer 的網路架構就可以逼近任何連續函數，那麼為什麼要深度學習？","headline":"15 為什麼要深？","image":[],"mainEntityOfPage":{"@type":"WebPage","@id":"https://yuehhua.github.io/2018/10/15/15-why-deep/"},"publisher":{"@type":"Organization","name":"Yueh-Hua Tu","sameAs":["https://github.com/yuehhua/","https://www.facebook.com/a504082002","https://www.linkedin.com/in/%E5%B2%B3%E8%8F%AF-%E6%9D%9C-6a3995a0/","mailto:a504082002@gmail.com"],"image":"https://www.gravatar.com/avatar/a565749fba4782b717234da670b273fd","logo":{"@type":"ImageObject","url":"https://www.gravatar.com/avatar/a565749fba4782b717234da670b273fd"}},"url":"https://yuehhua.github.io/2018/10/15/15-why-deep/"}</script>
+    <script type="application/ld+json">{"@context":"http://schema.org","@type":"BlogPosting","author":{"@type":"Person","name":"Yueh-Hua Tu","sameAs":["https://github.com/yuehhua/","https://www.facebook.com/a504082002","https://www.linkedin.com/in/%E5%B2%B3%E8%8F%AF-%E6%9D%9C-6a3995a0/","mailto:a504082002@gmail.com"],"image":"https://www.gravatar.com/avatar/a565749fba4782b717234da670b273fd"},"articleBody":"接著我們就來到了蠻重要的問題，既然一個 hidden layer 的網路架構就可以逼近任何連續函數，那麼為什麼要深度學習？\n\n對於這個問題，台大李宏毅老師有非常詳細的講解：\n\n\n影片裏面實驗很多，所以我還是總結一下：\n\n用邏輯電路類比神經網路的話，你一樣可以用單層的並聯將所有邏輯閘都起來成為一個電路，一樣可以達到相同的效果，但是用多層的串聯可以將所需要的邏輯閘數目減少（類比神經網路的神經元），所以可以達到減少參數的效果。\n使用 ReLU 作為 activation function 就是要用分段線性的方式來逼近一個函數，在網路參數相進的情況下，單層網路所能產生的”段”比較少，多層網路所產生的”段”比較多，產生的線段較多就可以去逼近一個更複雜的函數，所以模型就比較強大。\n計算分段線性的數量，當你有 $N$ 個神經元，單層網路裡最多只能產生 $N - 1$ 個線段，多層網路，每層安排兩個神經元，可以產生 $2^{\\frac{N}{2}}$ 個線段。\n\n更有文獻提到，計算線段的數量，如果你的網路每層有 $K$ 個神經元，而且有 $H$ 層，那麼至少會有 $K^H$ 個線段。\n由於深度是放在指數上面，所以增加深度就可以簡單地提高模型的複雜度，也就可以讓模型變得比較強大。\n計算複雜度在一些電腦的問題上，我們常常形容問題是 NP 或者不是 NP，來描述一個問題的複雜度有多高。\n一個問題的時間複雜度可以由現代電腦在多項式時間內解決，我們稱為 P（polynomial time）。如果一個問題至少跟 P 一樣或是更難，那我們稱為 NP（nondeterministic polynomial time）。\n\nNP 的形式定義為：一個問題可以由 non-deterministic Turing machine 在多項式時間內解決的問題。\n\nNP-complete 問題是 NP 問題當中最難的了，計算複雜度大概會是指數級成長，這種成長速度應該使用神經網路有辦法克服。\n","dateCreated":"2018-10-15T14:56:39+08:00","dateModified":"2018-12-12T22:52:34+08:00","datePublished":"2018-10-15T14:56:39+08:00","description":"接著我們就來到了蠻重要的問題，既然一個 hidden layer 的網路架構就可以逼近任何連續函數，那麼為什麼要深度學習？","headline":"15 為什麼要深？","image":[],"mainEntityOfPage":{"@type":"WebPage","@id":"https://yuehhua.github.io/2018/10/15/15-why-deep/"},"publisher":{"@type":"Organization","name":"Yueh-Hua Tu","sameAs":["https://github.com/yuehhua/","https://www.facebook.com/a504082002","https://www.linkedin.com/in/%E5%B2%B3%E8%8F%AF-%E6%9D%9C-6a3995a0/","mailto:a504082002@gmail.com"],"image":"https://www.gravatar.com/avatar/a565749fba4782b717234da670b273fd","logo":{"@type":"ImageObject","url":"https://www.gravatar.com/avatar/a565749fba4782b717234da670b273fd"}},"url":"https://yuehhua.github.io/2018/10/15/15-why-deep/"}</script>
     <meta name="description" content="接著我們就來到了蠻重要的問題，既然一個 hidden layer 的網路架構就可以逼近任何連續函數，那麼為什麼要深度學習？">
 <meta name="keywords" content="machine learning,deep learning,topology">
 <meta property="og:type" content="blog">
@@ -24,7 +24,7 @@
 <meta property="og:site_name" content="Dream Maker">
 <meta property="og:description" content="接著我們就來到了蠻重要的問題，既然一個 hidden layer 的網路架構就可以逼近任何連續函數，那麼為什麼要深度學習？">
 <meta property="og:locale" content="zh-tw">
-<meta property="og:updated_time" content="2018-10-15T07:03:37.605Z">
+<meta property="og:updated_time" content="2018-12-12T14:52:34.204Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="15 為什麼要深？">
 <meta name="twitter:description" content="接著我們就來到了蠻重要的問題，既然一個 hidden layer 的網路架構就可以逼近任何連續函數，那麼為什麼要深度學習？">
@@ -277,7 +277,10 @@
 <p>更有文獻提到，計算線段的數量，如果你的網路每層有 $K$ 個神經元，而且有 $H$ 層，那麼至少會有 $K^H$ 個線段。</p>
 <p>由於深度是放在指數上面，所以增加深度就可以簡單地提高模型的複雜度，也就可以讓模型變得比較強大。</p>
 <h2 id="計算複雜度"><a href="#計算複雜度" class="headerlink" title="計算複雜度"></a>計算複雜度</h2><p>在一些電腦的問題上，我們常常形容問題是 NP 或者不是 NP，來描述一個問題的複雜度有多高。</p>
-<p>一個問題的時間複雜度可以在多項式時間內的，我們稱為 P，如果不是，那我們稱為 NP。</p>
+<p>一個問題的時間複雜度可以由現代電腦在多項式時間內解決，我們稱為 P（polynomial time）。如果一個問題至少跟 P 一樣或是更難，那我們稱為 NP（nondeterministic polynomial time）。</p>
+<blockquote>
+<p>NP 的形式定義為：一個問題可以由 non-deterministic Turing machine 在多項式時間內解決的問題。</p>
+</blockquote>
 <p>NP-complete 問題是 NP 問題當中最難的了，計算複雜度大概會是指數級成長，這種成長速度應該使用神經網路有辦法克服。</p>
 
                                         
