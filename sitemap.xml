@@ -2,6 +2,20 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   
   <url>
+    <loc>https://yuehhua.github.io/2018/12/15/ning/</loc>
+    
+    <lastmod>2018-12-15T06:29:57.428Z</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>https://yuehhua.github.io/2018/11/14/31-variational-autoencoder/</loc>
+    
+    <lastmod>2018-12-15T06:28:08.137Z</lastmod>
+    
+  </url>
+  
+  <url>
     <loc>https://yuehhua.github.io/2018/10/15/15-why-deep/</loc>
     
     <lastmod>2018-12-12T14:52:34.204Z</lastmod>
@@ -12,13 +26,6 @@
     <loc>https://yuehhua.github.io/2018/10/03/01-introduction/</loc>
     
     <lastmod>2018-12-12T14:50:25.152Z</lastmod>
-    
-  </url>
-  
-  <url>
-    <loc>https://yuehhua.github.io/2018/11/14/31-variational-autoencoder/</loc>
-    
-    <lastmod>2018-11-15T13:34:32.947Z</lastmod>
     
   </url>
   
