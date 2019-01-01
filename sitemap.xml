@@ -2,6 +2,13 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   
   <url>
+    <loc>https://yuehhua.github.io/2018/11/14/31-variational-autoencoder/</loc>
+    
+    <lastmod>2019-01-01T14:04:26.947Z</lastmod>
+    
+  </url>
+  
+  <url>
     <loc>https://yuehhua.github.io/2018/12/20/rms-and-variance/</loc>
     
     <lastmod>2019-01-01T13:24:51.817Z</lastmod>
@@ -12,13 +19,6 @@
     <loc>https://yuehhua.github.io/2018/12/15/ning/</loc>
     
     <lastmod>2018-12-15T06:29:57.428Z</lastmod>
-    
-  </url>
-  
-  <url>
-    <loc>https://yuehhua.github.io/2018/11/14/31-variational-autoencoder/</loc>
-    
-    <lastmod>2018-12-15T06:28:08.137Z</lastmod>
     
   </url>
   
