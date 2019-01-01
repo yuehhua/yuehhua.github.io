@@ -231,7 +231,7 @@
     <section class="postShorten-group main-content-wrap">
     
     
-    <article class="postShorten postShorten--thumbnailimg-bottom">
+    <article class="postShorten postShorten--thumbnailimg-right">
         <div class="postShorten-wrap">
             
             <div class="postShorten-header">
@@ -259,73 +259,14 @@
 
             </div>
             
-                <div class="postShorten-content">
+                <div class="postShorten-excerpt">
                     <p>不久前跟好朋友聊天聊到 random walk 的問題，一個醉漢會在一維的空間上隨機往前或往後走一步。</p>
 <p>這樣的話，他最後會走到哪裡去呢？</p>
-<p>基本上如果有看過隨機過程的話，會知道當 $n \rightarrow \infty$ 的時候會收斂到原點。</p>
-<h2 id="平均位移"><a href="#平均位移" class="headerlink" title="平均位移"></a>平均位移</h2><p>如果我們考慮走了 $N$ 步之後的位移 $S$</p>
-<p>$$<br>S = \sum_{i=1}^{N} x_i<br>$$</p>
-<p>那麼平均位移說起來就是</p>
-<p>$$<br>\mathbb{E}[S] = \mathbb{E}[\sum_{i=1}^{N} x_i] = \sum_{i=1}^{N} \mathbb{E}[x_i]<br>$$</p>
-<p>當中的 $\mathbb{E}[x_i]$，由於每次要不是往前走一步或是往後退一步，而且兩者發生的機率一樣，所以每步的位移平均是 0，所以整體平均位移也是 0。</p>
-<p>$$<br>\mathbb{E}[S] = 0<br>$$</p>
-<p>如果你真的用電腦跑模擬，去紀錄多次走 5000 步（或是更多）最終的位移會是多少。</p>
-<p>如此一來，你會得到一個以 0 為平均的常態分佈曲線。</p>
-<h2 id="有沒有更有意義的資訊？"><a href="#有沒有更有意義的資訊？" class="headerlink" title="有沒有更有意義的資訊？"></a>有沒有更有意義的資訊？</h2><p>我們除了可以看平均以外還可以看什麼？</p>
-<p>我們或許可以看位移平方後的平均</p>
-<p>$$<br>\mathbb{E}[S^2] = \mathbb{E}[(\sum_{i=1}^{N} x_i)^2] \\<br>= \mathbb{E}[(x_1 + x_2 + \dots + x_N)^2] \\<br>= \mathbb{E}[(x_1^2 + x_2^2 + \dots + x_N^2) + 2(x_1x_2 + x_1x_3 + \dots + x_{N-1}x_N)] \\<br>= \mathbb{E}[x_1^2] + \mathbb{E}[x_2^2] + \dots + \mathbb{E}[x_N^2] + 2(\mathbb{E}[x_1x_2] + \mathbb{E}[x_1x_3] + \dots + \mathbb{E}[x_{N-1}x_N)]) \\<br>$$</p>
-<p>如同前面的假設，如果我們將位移給平方了，那我們會得到每一項都是 1。至於相乘項的部份，可以自己動手試試看計算比較小的組合，不過理論上會是 0。</p>
-<p>$$<br>= 1 + 1 + \dots + 1 + 2(0 + 0 + \dots + 0) \\<br>= N<br>$$</p>
-<p>我們得到了位移平方後的平均是 $N$！</p>
-<h2 id="方均根"><a href="#方均根" class="headerlink" title="方均根"></a>方均根</h2><p>大家可能在高中物理中聽到方均根（root-mean-square）這個計算方式，我們也可以求得方均根位移。</p>
-<p>只要再開個根號就可以了，$\sqrt{\mathbb{E}[S^2]} = \sqrt{N}$。</p>
-<p>這東西是不是看起來跟統計上的標準差很像呢？</p>
-<p>$$<br>\sigma = \sqrt{Var[X]} = \sqrt{\frac{1}{N} \sum_{i=1}^{N} (x - \mu)^2}<br>$$</p>
-<p>大概差別只會在於裏面有沒有把 $\mu$ 給減掉而已，不過也可以藉由將 $\mu$ 設定成 0 來達到同樣的效果。</p>
-<p>意思也就是說，當醉漢走了 $N$ 步之後，會呈現一個常態分佈，而平均值是 0，標準差則是 $\sqrt{N}$。</p>
-<p>也就是當醉漢走愈多步，終究會回歸原點，但是也會有機率距離原點一段距離，而這段距離會隨著步數的增加而變長。</p>
-<p>在隨機過程中，這是個很經典的問題。</p>
-<p>既然談到了方均根，就不難聯想到高中物理中講到的方均根速度。</p>
-<h2 id="氣體動力論"><a href="#氣體動力論" class="headerlink" title="氣體動力論"></a>氣體動力論</h2><p>在氣體動力論當中，我們可以去計算一個空間中的氣體分子運動速度，以方均根的形式表示</p>
-<p>$$<br>v_{rms} = \sqrt{\frac{3kT}{m}}<br>$$</p>
-<p>而這個氣體速度會呈現一個分佈情形，稱為馬克士威-波茲曼速率分佈。</p>
-<h2 id="馬克士威-波茲曼速率分佈"><a href="#馬克士威-波茲曼速率分佈" class="headerlink" title="馬克士威-波茲曼速率分佈"></a>馬克士威-波茲曼速率分佈</h2><p>我們可以從維基百科上找到以下的速度分佈。</p>
-<blockquote>
-<p>Maxwell–Boltzmann velocity distribution</p>
-</blockquote>
-<p>$$<br>f(\nu_x, \nu_y, \nu_z) = (\frac{m}{2 \pi kT})^{3/2} exp \big[ - \frac{m(\nu_x^2 + \nu_y^2 + \nu_z^2)}{2kT} \big]<br>$$</p>
-<p>他描述了一個氣體分子在三維空間上有 $\nu_x, \nu_y, \nu_z$ 三種不同的速度分量，可以利用這些分量來計算出整體的速度分佈情形。</p>
-<p>不覺得上式跟常態分佈有點相似嗎？</p>
-<p>來呼叫一下常態分佈。</p>
-<p>$$<br>f(x; \mu, \sigma) = \frac{1}{\sqrt{2 \pi} \sigma} exp \big[ - \frac{(x - \mu)^2}{2 \sigma^2} \big]<br>$$</p>
-<p>那我們來動動手，做點簡單的驗證吧！</p>
-<p>$$<br>f(\nu_x, \nu_y, \nu_z) = (\frac{m}{2 \pi kT})^{3/2} exp \big[ - \frac{m(\nu_x^2 + \nu_y^2 + \nu_z^2)}{2kT} \big] \\<br>= (\frac{1}{\sqrt{2 \pi} \sqrt{\frac{kT}{m}} })^3 exp \big[ - \frac{(\nu_x^2 + \nu_y^2 + \nu_z^2)}{2 (\sqrt{\frac{kT}{m}})^2 } \big]<br>$$</p>
-<p>我們做點簡單的整理，然後將標準差抓出來。</p>
-<p>let $\sigma = \sqrt{\frac{kT}{m}}$</p>
-<p>代入之後就會成為</p>
-<p>$$<br>= (\frac{1}{\sqrt{2 \pi} \sigma })^3 exp \big[ - \frac{(\nu_x^2 + \nu_y^2 + \nu_z^2)}{2 \sigma^2 } \big]<br>$$</p>
-<p>是不是變得更像了呢？那麼指數項中的速度平方和怎麼處理？</p>
-<p>當然是把指數拆開囉！</p>
-<p>$$<br>= \big ( \frac{1}{\sqrt{2 \pi} \sigma } exp [ - \frac{\nu_x^2}{2 \sigma^2 } ] \big)<br>\big ( \frac{1}{\sqrt{2 \pi} \sigma } exp [ - \frac{\nu_y^2}{2 \sigma^2 } ] \big)<br>\big ( \frac{1}{\sqrt{2 \pi} \sigma } exp [ - \frac{\nu_z^2}{2 \sigma^2 } ] \big)<br>$$</p>
-<p>我們會發現馬克士威-波茲曼速率分佈其實是三個常態分佈的乘積，或是多元常態分佈（Multivariate normal distribution）！</p>
-<p>$$<br>= f_x \cdot f_y \cdot f_z<br>$$</p>
-<p>三個常態分佈各是對映三維空間中的三個速度分量，也就是不同速度分量之間是各自獨立，不互相影響的。</p>
-<p>跟真正的常態分佈的差異仍舊是有沒有將平均值減掉。</p>
-<p>$$<br>\nu_x = v_x - \mu_x<br>$$</p>
-<p>$\nu_x$：相對速度</p>
-<p>$v_x$：絕對速度</p>
-<p>或許我們可以這樣解釋，在這整個空間中，整個氣體是靜止不動的，所以他的整體平均速度是 0，而氣體的微觀速度 $\nu_x$ 就是他真正的速度。如果整體氣體是有一個速度在移動的，那麼你可以透過相對速度及平均速度來推得氣體的絕對速度。</p>
-
                     
+                        <a href="/2018/12/20/rms-and-variance/" class="postShorten-excerpt_link link">
+                            繼續閱讀
+                        </a>
                         
-
-                    
-                    
-                        <p>
-                            <a href="/2018/12/20/rms-and-variance/#post-footer" class="postShorten-excerpt_link link">
-                                留言與分享
-                            </a>
-                        </p>
                     
                 </div>
             
@@ -818,7 +759,7 @@
 
                 <footer id="footer" class="main-content-wrap">
     <span class="copyrights">
-        Copyrights &copy; 2018 Yueh-Hua Tu. All Rights Reserved.
+        Copyrights &copy; 2019 Yueh-Hua Tu. All Rights Reserved.
     </span>
 </footer>
 
