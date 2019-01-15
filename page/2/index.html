@@ -230,6 +230,79 @@
                 <section class="postShorten-group main-content-wrap">
     
     
+    <article class="postShorten postShorten--thumbnailimg-bottom">
+        <div class="postShorten-wrap">
+            
+            <div class="postShorten-header">
+                <h1 class="postShorten-title">
+                    
+                        <a class="link-unstyled" href="/2018/10/23/24-recurrent-neural-network/">
+                            24 Recurrent neural network
+                        </a>
+                    
+                </h1>
+                <div class="postShorten-meta">
+    <time datetime="2018-10-23T21:43:49+08:00">
+	
+		    10月 23, 2018
+    	
+    </time>
+    
+        <span>分類 </span>
+        
+    <a class="category-link" href="/categories/Machine-Learning/">Machine Learning</a>, <a class="category-link" href="/categories/Machine-Learning/機器學習模型圖書館：從傳統模型到深度學習/">機器學習模型圖書館：從傳統模型到深度學習</a>
+
+
+    
+</div>
+
+            </div>
+            
+                <div class="postShorten-content">
+                    <p>接續上一篇。</p>
+<h2 id="Recurrent-neural-network"><a href="#Recurrent-neural-network" class="headerlink" title="Recurrent neural network"></a>Recurrent neural network</h2><p>那大家所熟知的 RNN 是怎麼回事呢？我們把假設改了一下：</p>
+<ul>
+<li>狀態都是 <strong>連續</strong> 的。</li>
+<li>時間是離散的。</li>
+<li>內在狀態是不能被觀察的，外在狀態是可被觀察的。</li>
+<li>以一個 <strong>隨機向量</strong> 作為一個狀態。</li>
+<li><strong>允許在每個時間點給輸入</strong></li>
+<li><strong>引入非線性</strong></li>
+</ul>
+<p>首先，在這邊的狀態會以一個向量做表示，大家應該也知道 RNN 的 input 是一個向量，當中的狀態也是一個向量，最後的 output 也是一個向量。而這些向量當中的的值都是連續的 $\mathbb{R}^n$（假設向量大小為 n），不像上面的模型都是離散的 $k$（假設有 k 個狀態），所以在空間上的大小可以說是擴大非常多。</p>
+<p>接下來我們來看看時間的狀態轉換：</p>
+<p><br></p>
+<p><img src="/images/rnn_time.svg" alt=""></p>
+<p><br></p>
+<p><img src="/images/rnn_expand_time.svg" alt=""></p>
+<p><br></p>
+<p>在 RNN 中一樣含有內在狀態，但不同的是 RNN 可以在每個時間點上給輸入向量（$\mathbf{x^{(t)}}$），所以可以根據前一個時間點的內在狀態（$\mathbf{h^{(t)}}$）跟輸入向量去計算輸出，或是外在狀態（$\mathbf{y^{(t)}}$）。</p>
+<p>所以大家會在一些論文上看到模型的狀態關係式長下面這個樣子：</p>
+<p>$$<br>\mathbf{h^{(t)}} = f(\mathbf{x^{(t)}}, \mathbf{h^{(t-1)}}) = \mathbf{x^{(t)}} W_x + \mathbf{h^{(t-1)}} W_h + \mathbf{b}<br>$$</p>
+<p>$$<br>\mathbf{y^{(t)}} = g(\mathbf{h^{(t)}}) = sigm(\mathbf{h^{(t)}} W_y)<br>$$</p>
+<p>這邊特別引入了非線性的轉換（$sigm$）來讓模型更強大。</p>
+<p>隨著從一開始的馬可夫模型到這邊應該對這幾個模型有點感覺，其實 RNN 可以說是很大的突破，在假設上放了很多元素讓模型變得更強大。</p>
+<h2 id="Long-short-term-memory"><a href="#Long-short-term-memory" class="headerlink" title="Long short-term memory"></a>Long short-term memory</h2><p>人們為了改進 RNN這個模型的記憶性，希望他可以記住更遠以前的東西，所以設計了 LSTM 來替換他的 hidden layer 的運作模式，後期更有 GRU，還有人說只需要 forget gate 就有很強大的效能的 MGU。這些都是對於記憶性做的改進，個人覺得這些在工程上的貢獻比較大，真正學術上的突破其實還好。</p>
+<p>今天的整理就先到這邊啦！</p>
+
+                    
+                        
+
+                    
+                    
+                        <p>
+                            <a href="/2018/10/23/24-recurrent-neural-network/#post-footer" class="postShorten-excerpt_link link">
+                                留言與分享
+                            </a>
+                        </p>
+                    
+                </div>
+            
+        </div>
+        
+    </article>
+    
+    
     <article class="postShorten postShorten--thumbnailimg-right">
         <div class="postShorten-wrap">
             
@@ -624,52 +697,6 @@
                     <p>接著我們就來到了蠻重要的問題，既然一個 hidden layer 的網路架構就可以逼近任何連續函數，那麼為什麼要深度學習？</p>
                     
                         <a href="/2018/10/15/15-why-deep/" class="postShorten-excerpt_link link">
-                            繼續閱讀
-                        </a>
-                        
-                    
-                </div>
-            
-        </div>
-        
-    </article>
-    
-    
-    <article class="postShorten postShorten--thumbnailimg-right">
-        <div class="postShorten-wrap">
-            
-            <div class="postShorten-header">
-                <h1 class="postShorten-title">
-                    
-                        <a class="link-unstyled" href="/2018/10/14/14-shallow-neural-network/">
-                            14 淺層神經網路
-                        </a>
-                    
-                </h1>
-                <div class="postShorten-meta">
-    <time datetime="2018-10-14T23:16:02+08:00">
-	
-		    10月 14, 2018
-    	
-    </time>
-    
-        <span>分類 </span>
-        
-    <a class="category-link" href="/categories/Machine-Learning/">Machine Learning</a>, <a class="category-link" href="/categories/Machine-Learning/機器學習模型圖書館：從傳統模型到深度學習/">機器學習模型圖書館：從傳統模型到深度學習</a>
-
-
-    
-</div>
-
-            </div>
-            
-                <div class="postShorten-excerpt">
-                    <p>為什麼大家到現在都這麼迷神經網路模型？</p>
-<p>我想主因不是因為他是模擬生物而來，他有一些更扎實的數學特性。</p>
-<p>我們前面講過各種線性模型，然後將他過渡到神經網路。</p>
-<p>今天要告訴大家，即便是淺層的神經網路也是很厲害的。</p>
-                    
-                        <a href="/2018/10/14/14-shallow-neural-network/" class="postShorten-excerpt_link link">
                             繼續閱讀
                         </a>
                         

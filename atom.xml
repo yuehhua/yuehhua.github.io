@@ -6,7 +6,7 @@
   <link href="/atom.xml" rel="self"/>
   
   <link href="https://yuehhua.github.io/"/>
-  <updated>2019-01-01T13:24:51.817Z</updated>
+  <updated>2019-01-15T01:22:16.348Z</updated>
   <id>https://yuehhua.github.io/</id>
   
   <author>
@@ -15,6 +15,41 @@
   </author>
   
   <generator uri="http://hexo.io/">Hexo</generator>
+  
+  <entry>
+    <title>Compare Clustering and Embedding</title>
+    <link href="https://yuehhua.github.io/2019/01/15/compare-clustering-and-embedding/"/>
+    <id>https://yuehhua.github.io/2019/01/15/compare-clustering-and-embedding/</id>
+    <published>2019-01-15T01:10:33.000Z</published>
+    <updated>2019-01-15T01:22:16.348Z</updated>
+    
+    <content type="html"><![CDATA[<table><thead><tr><th></th><th>Clustering</th><th>Embedding</th></tr></thead><tbody><tr><td>Target space</td><td>discrete</td><td>continuous</td></tr><tr><td>Target dimension</td><td>$d$</td><td>$\mathbb{R}^d$</td></tr><tr><td>Transformed result can be</td><td>composable</td><td>correlated</td></tr><tr><td>Assumption</td><td>globally static context (dataset)</td><td>globally dynamic context (dataset)</td></tr></tbody></table>]]></content>
+    
+    <summary type="html">
+    
+      
+      
+        &lt;table&gt;
+&lt;thead&gt;
+&lt;tr&gt;
+&lt;th&gt;&lt;/th&gt;
+&lt;th&gt;Clustering&lt;/th&gt;
+&lt;th&gt;Embedding&lt;/th&gt;
+&lt;/tr&gt;
+&lt;/thead&gt;
+&lt;tbody&gt;
+&lt;tr&gt;
+&lt;td&gt;Target space&lt;/td&gt;
+&lt;td&gt;discrete&lt;/td&gt;
+&lt;t
+      
+    
+    </summary>
+    
+      <category term="Machine Learning" scheme="https://yuehhua.github.io/categories/Machine-Learning/"/>
+    
+    
+  </entry>
   
   <entry>
     <title>方均根、標準差、馬克士威-波茲曼分佈</title>
@@ -469,31 +504,6 @@
     <summary type="html">
     
       &lt;p&gt;接著我們就來到了蠻重要的問題，既然一個 hidden layer 的網路架構就可以逼近任何連續函數，那麼為什麼要深度學習？&lt;/p&gt;
-    
-    </summary>
-    
-      <category term="Machine Learning" scheme="https://yuehhua.github.io/categories/Machine-Learning/"/>
-    
-      <category term="機器學習模型圖書館：從傳統模型到深度學習" scheme="https://yuehhua.github.io/categories/Machine-Learning/%E6%A9%9F%E5%99%A8%E5%AD%B8%E7%BF%92%E6%A8%A1%E5%9E%8B%E5%9C%96%E6%9B%B8%E9%A4%A8%EF%BC%9A%E5%BE%9E%E5%82%B3%E7%B5%B1%E6%A8%A1%E5%9E%8B%E5%88%B0%E6%B7%B1%E5%BA%A6%E5%AD%B8%E7%BF%92/"/>
-    
-    
-  </entry>
-  
-  <entry>
-    <title>14 淺層神經網路</title>
-    <link href="https://yuehhua.github.io/2018/10/14/14-shallow-neural-network/"/>
-    <id>https://yuehhua.github.io/2018/10/14/14-shallow-neural-network/</id>
-    <published>2018-10-14T15:16:02.000Z</published>
-    <updated>2018-10-15T07:03:50.798Z</updated>
-    
-    <content type="html"><![CDATA[<p>為什麼大家到現在都這麼迷神經網路模型？</p><p>我想主因不是因為他是模擬生物而來，他有一些更扎實的數學特性。</p><p>我們前面講過各種線性模型，然後將他過渡到神經網路。</p><p>今天要告訴大家，即便是淺層的神經網路也是很厲害的。</p><a id="more"></a><h2 id="Universal-approximation-theorem"><a href="#Universal-approximation-theorem" class="headerlink" title="Universal approximation theorem"></a>Universal approximation theorem</h2><p>Universal approximation theorem 是個淺層的神經網路的數學定理。</p><p>他說：一個簡單的 feedforward network，只包含了一個 hidden layer，並且有適切的 activation function，包含有限個神經元的情況下，可以去逼近任何連續函數。</p><p>在 1989 就以經由 George Cybenko 先生第一次證實了這個定理，他使用了 sigmoid activation function。</p><p>如果大家對細節有興趣，請參閱 <a href="https://en.wikipedia.org/wiki/Universal_approximation_theorem" target="_blank" rel="noopener">維基百科的條目</a>。</p><p>這代表什麼呢？</p><p>到目前為止，我們都會將一個現實中的問題化成一個數學問題，一個數學問題基本上都是包含函數的。</p><p>像是影像辨識，我們就可以看成一個可以輸入影像的函數，這個函數會輸出辨識結果，也就是分類。</p><p>我們可以這樣寫 $f: \text{images} \rightarrow \text{classes}$。</p><p>所以語音辨識就是 $f: \text{speech} \rightarrow \text{text}$。</p><p>聊天機器人就是 $f: \text{text} \rightarrow \text{text}$。</p><p>…</p><p>到這邊你可以想想，幾乎人類的問題都可以化成一個函數來解答。</p><p>所以可以逼近任何連續函數的模型根本就可以解答任何問題的意思阿！</p><p>所以大家才拼了命的用這個模型去解決很多問題。</p><h2 id="待解問題"><a href="#待解問題" class="headerlink" title="待解問題"></a>待解問題</h2><p>如果這個模型這麼萬能，那麼他就真的沒有缺點嗎？</p><p>我們需要從這個定理切入，定理中描述的有限個神經元，但至少不是無限，他並沒有說需要幾個。</p><p>這理所當然，因為沒有人知道你的問題有多複雜，需要用多難的方法解嘛！</p><p>然後 activation function 也是沒有提的。</p><p>所以這就是留給現代的大家去決定的。</p>]]></content>
-    
-    <summary type="html">
-    
-      &lt;p&gt;為什麼大家到現在都這麼迷神經網路模型？&lt;/p&gt;
-&lt;p&gt;我想主因不是因為他是模擬生物而來，他有一些更扎實的數學特性。&lt;/p&gt;
-&lt;p&gt;我們前面講過各種線性模型，然後將他過渡到神經網路。&lt;/p&gt;
-&lt;p&gt;今天要告訴大家，即便是淺層的神經網路也是很厲害的。&lt;/p&gt;
     
     </summary>
     
