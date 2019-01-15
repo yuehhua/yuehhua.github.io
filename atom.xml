@@ -6,7 +6,7 @@
   <link href="/atom.xml" rel="self"/>
   
   <link href="https://yuehhua.github.io/"/>
-  <updated>2019-01-15T01:22:16.348Z</updated>
+  <updated>2019-01-15T12:55:39.273Z</updated>
   <id>https://yuehhua.github.io/</id>
   
   <author>
@@ -15,6 +15,30 @@
   </author>
   
   <generator uri="http://hexo.io/">Hexo</generator>
+  
+  <entry>
+    <title>Functional</title>
+    <link href="https://yuehhua.github.io/2019/01/15/functional/"/>
+    <id>https://yuehhua.github.io/2019/01/15/functional/</id>
+    <published>2019-01-15T12:34:54.000Z</published>
+    <updated>2019-01-15T12:55:39.273Z</updated>
+    
+    <content type="html"><![CDATA[<p>一般我們數學上稱 $f: \mathbb{R} \rightarrow \mathbb{R}$ 為函數 function。</p><p>然而，如果一個函數可以接受另一個函數作為他的輸入變數，而輸出是一個純量，$F: S \rightarrow \mathbb{R}$ 泛函 functional，其中 $S$ 是一個向量空間，函數是一種廣義的向量。</p><p>在最佳化理論或是機器學習當中最常遇到的就是損失函數 $\mathcal{L}$，他其實是一個泛函。</p><p>$$<br>\mathcal{L}[f] = \frac{1}{N} \sum_{i=1}^{N} (y_i - f(x_i))^2<br>$$</p><p>當我們有不同的資料，需要計算這些資料的 mean square error 的時候就會寫成像上面這個樣子。</p><p>$$<br>\mathcal{L}[f] = \lim_{n \rightarrow \infty} \int_b^a |f(x) - \sum_{i=1}^N a_i f_i(x)|^2 dx<br>$$</p><p>如果我們處理的不是資料，而是一段連續的空間，那我們就可以用以上這個連續的版本。</p>]]></content>
+    
+    <summary type="html">
+    
+      
+      
+        &lt;p&gt;一般我們數學上稱 $f: \mathbb{R} \rightarrow \mathbb{R}$ 為函數 function。&lt;/p&gt;
+&lt;p&gt;然而，如果一個函數可以接受另一個函數作為他的輸入變數，而輸出是一個純量，$F: S \rightarrow \mathbb{R}$ 泛函
+      
+    
+    </summary>
+    
+      <category term="Math" scheme="https://yuehhua.github.io/categories/Math/"/>
+    
+    
+  </entry>
   
   <entry>
     <title>Compare Clustering and Embedding</title>
@@ -482,28 +506,6 @@
     
       &lt;p&gt;機器學習的技術已經發展了非常久的時間，我們有非常多的模型可以幫我們做預測，包含像是 regression、classification、clustering、semi-supervised learning、reinforcement learning。這些都可以幫助我們去做出預測，或是從資料當中去挖掘知識跟資訊。這些模型需要數學與統計作為基礎。&lt;/p&gt;
 &lt;p&gt;當你使用這些模型之後你會發現，你輸入的資料會大大的影響整個成效，像是你給的特徵不夠好，模型的表現就變得很糟糕，或是模型要預測的資訊根本不在這些資料當中，那麼模型根本就預測不出來，所以玩過機器學習的人就會知道特徵工程的重要性。&lt;/p&gt;
-    
-    </summary>
-    
-      <category term="Machine Learning" scheme="https://yuehhua.github.io/categories/Machine-Learning/"/>
-    
-      <category term="機器學習模型圖書館：從傳統模型到深度學習" scheme="https://yuehhua.github.io/categories/Machine-Learning/%E6%A9%9F%E5%99%A8%E5%AD%B8%E7%BF%92%E6%A8%A1%E5%9E%8B%E5%9C%96%E6%9B%B8%E9%A4%A8%EF%BC%9A%E5%BE%9E%E5%82%B3%E7%B5%B1%E6%A8%A1%E5%9E%8B%E5%88%B0%E6%B7%B1%E5%BA%A6%E5%AD%B8%E7%BF%92/"/>
-    
-    
-  </entry>
-  
-  <entry>
-    <title>15 為什麼要深？</title>
-    <link href="https://yuehhua.github.io/2018/10/15/15-why-deep/"/>
-    <id>https://yuehhua.github.io/2018/10/15/15-why-deep/</id>
-    <published>2018-10-15T06:56:39.000Z</published>
-    <updated>2018-12-12T14:52:34.204Z</updated>
-    
-    <content type="html"><![CDATA[<p>接著我們就來到了蠻重要的問題，既然一個 hidden layer 的網路架構就可以逼近任何連續函數，那麼為什麼要深度學習？</p><a id="more"></a><p>對於這個問題，台大李宏毅老師有非常詳細的講解：</p><iframe width="560" height="315" src="https://www.youtube.com/embed/FN8jclCrqY0" frameborder="0" allow="autoplay; encrypted-media" allowfullscreen></iframe><p>影片裏面實驗很多，所以我還是總結一下：</p><ol><li>用邏輯電路類比神經網路的話，你一樣可以用單層的並聯將所有邏輯閘都起來成為一個電路，一樣可以達到相同的效果，但是用多層的串聯可以將所需要的邏輯閘數目減少（類比神經網路的神經元），所以可以達到減少參數的效果。</li><li>使用 ReLU 作為 activation function 就是要用分段線性的方式來逼近一個函數，在網路參數相進的情況下，單層網路所能產生的”段”比較少，多層網路所產生的”段”比較多，產生的線段較多就可以去逼近一個更複雜的函數，所以模型就比較強大。</li><li>計算分段線性的數量，當你有 $N$ 個神經元，單層網路裡最多只能產生 $N - 1$ 個線段，多層網路，每層安排兩個神經元，可以產生 $2^{\frac{N}{2}}$ 個線段。</li></ol><p>更有文獻提到，計算線段的數量，如果你的網路每層有 $K$ 個神經元，而且有 $H$ 層，那麼至少會有 $K^H$ 個線段。</p><p>由於深度是放在指數上面，所以增加深度就可以簡單地提高模型的複雜度，也就可以讓模型變得比較強大。</p><h2 id="計算複雜度"><a href="#計算複雜度" class="headerlink" title="計算複雜度"></a>計算複雜度</h2><p>在一些電腦的問題上，我們常常形容問題是 NP 或者不是 NP，來描述一個問題的複雜度有多高。</p><p>一個問題的時間複雜度可以由現代電腦在多項式時間內解決，我們稱為 P（polynomial time）。如果一個問題至少跟 P 一樣或是更難，那我們稱為 NP（nondeterministic polynomial time）。</p><blockquote><p>NP 的形式定義為：一個問題可以由 non-deterministic Turing machine 在多項式時間內解決的問題。</p></blockquote><p>NP-complete 問題是 NP 問題當中最難的了，計算複雜度大概會是指數級成長，這種成長速度應該使用神經網路有辦法克服。</p>]]></content>
-    
-    <summary type="html">
-    
-      &lt;p&gt;接著我們就來到了蠻重要的問題，既然一個 hidden layer 的網路架構就可以逼近任何連續函數，那麼為什麼要深度學習？&lt;/p&gt;
     
     </summary>
     
