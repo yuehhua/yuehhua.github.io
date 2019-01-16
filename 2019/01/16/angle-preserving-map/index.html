@@ -6,7 +6,7 @@
     <!-- hexo-inject:begin --><!-- hexo-inject:end --><meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="generator" content="Dream Maker">
-    <title>Functional - Dream Maker</title>
+    <title>保角映射 - Dream Maker</title>
     <meta name="author" content="Yueh-Hua Tu">
     
         <meta name="keywords" content="machine learning,deep learning,topology,">
@@ -15,19 +15,19 @@
     
         <link rel="alternate" type="application/atom+xml" title="RSS" href="/atom.xml">
     
-    <script type="application/ld+json">{"@context":"http://schema.org","@type":"BlogPosting","author":{"@type":"Person","name":"Yueh-Hua Tu","sameAs":["https://github.com/yuehhua/","https://www.facebook.com/a504082002","https://www.linkedin.com/in/%E5%B2%B3%E8%8F%AF-%E6%9D%9C-6a3995a0/","mailto:a504082002@gmail.com"],"image":"https://www.gravatar.com/avatar/a565749fba4782b717234da670b273fd"},"articleBody":"一般我們數學上稱 $f: \\mathbb{R} \\rightarrow \\mathbb{R}$ 為函數 function。\n然而，如果一個函數可以接受另一個函數作為他的輸入變數，而輸出是一個純量，$F: S \\rightarrow \\mathbb{R}$ 泛函 functional，其中 $S$ 是一個向量空間，函數是一種廣義的向量。\n在最佳化理論或是機器學習當中最常遇到的就是損失函數 $\\mathcal{L}$，他其實是一個泛函。\n$$\\mathcal{L}[f] = \\frac{1}{N} \\sum_{i=1}^{N} (y_i - f(x_i))^2$$\n當我們有不同的資料，需要計算這些資料的 mean square error 的時候就會寫成像上面這個樣子。\n$$\\mathcal{L}[f] = \\lim_{n \\rightarrow \\infty} \\int_b^a |f(x) - \\sum_{i=1}^N a_i f_i(x)|^2 dx$$\n如果我們處理的不是資料，而是一段連續的空間，那我們就可以用以上這個連續的版本。\n","dateCreated":"2019-01-15T20:34:54+08:00","dateModified":"2019-01-15T20:55:39+08:00","datePublished":"2019-01-15T20:34:54+08:00","description":"","headline":"Functional","image":[],"mainEntityOfPage":{"@type":"WebPage","@id":"https://yuehhua.github.io/2019/01/15/functional/"},"publisher":{"@type":"Organization","name":"Yueh-Hua Tu","sameAs":["https://github.com/yuehhua/","https://www.facebook.com/a504082002","https://www.linkedin.com/in/%E5%B2%B3%E8%8F%AF-%E6%9D%9C-6a3995a0/","mailto:a504082002@gmail.com"],"image":"https://www.gravatar.com/avatar/a565749fba4782b717234da670b273fd","logo":{"@type":"ImageObject","url":"https://www.gravatar.com/avatar/a565749fba4782b717234da670b273fd"}},"url":"https://yuehhua.github.io/2019/01/15/functional/"}</script>
-    <meta name="description" content="一般我們數學上稱 $f: \mathbb{R} \rightarrow \mathbb{R}$ 為函數 function。 然而，如果一個函數可以接受另一個函數作為他的輸入變數，而輸出是一個純量，$F: S \rightarrow \mathbb{R}$ 泛函 functional，其中 $S$ 是一個向量空間，函數是一種廣義的向量。 在最佳化理論或是機器學習當中最常遇到的就是損失函數 $\mat">
+    <script type="application/ld+json">{"@context":"http://schema.org","@type":"BlogPosting","author":{"@type":"Person","name":"Yueh-Hua Tu","sameAs":["https://github.com/yuehhua/","https://www.facebook.com/a504082002","https://www.linkedin.com/in/%E5%B2%B3%E8%8F%AF-%E6%9D%9C-6a3995a0/","mailto:a504082002@gmail.com"],"image":"https://www.gravatar.com/avatar/a565749fba4782b717234da670b273fd"},"articleBody":"$\\mathcal{Def}$.$A$ 為保角映射（angle-preserving map）\n$$\\frac{(Ax)^T(Ay)}{||Ax|| \\cdot ||Ay||} = \\frac{x^Ty}{||x|| \\cdot ||y||} \\\\(\\Rightarrow A\\text{ is invertible})$$\n$$\\Rightarrow A = sQ, Q^TQ = I, s \\ne 0$$\n$s$ 代表伸縮量\n$det Q = 1$: 伸縮 + 旋轉$det Q = -1$: 伸縮 + 鏡射\n","dateCreated":"2019-01-16T11:47:36+08:00","dateModified":"2019-01-16T14:09:23+08:00","datePublished":"2019-01-16T11:47:36+08:00","description":"","headline":"保角映射","image":[],"mainEntityOfPage":{"@type":"WebPage","@id":"https://yuehhua.github.io/2019/01/16/angle-preserving-map/"},"publisher":{"@type":"Organization","name":"Yueh-Hua Tu","sameAs":["https://github.com/yuehhua/","https://www.facebook.com/a504082002","https://www.linkedin.com/in/%E5%B2%B3%E8%8F%AF-%E6%9D%9C-6a3995a0/","mailto:a504082002@gmail.com"],"image":"https://www.gravatar.com/avatar/a565749fba4782b717234da670b273fd","logo":{"@type":"ImageObject","url":"https://www.gravatar.com/avatar/a565749fba4782b717234da670b273fd"}},"url":"https://yuehhua.github.io/2019/01/16/angle-preserving-map/"}</script>
+    <meta name="description" content="$\mathcal{Def}$.$A$ 為保角映射（angle-preserving map） $$\frac{(Ax)^T(Ay)}{||Ax|| \cdot ||Ay||} = \frac{x^Ty}{||x|| \cdot ||y||} \\(\Rightarrow A\text{ is invertible})$$ $$\Rightarrow A = sQ, Q^TQ = I, s \ne">
 <meta name="keywords" content="machine learning,deep learning,topology">
 <meta property="og:type" content="blog">
-<meta property="og:title" content="Functional">
-<meta property="og:url" content="https://yuehhua.github.io/2019/01/15/functional/index.html">
+<meta property="og:title" content="保角映射">
+<meta property="og:url" content="https://yuehhua.github.io/2019/01/16/angle-preserving-map/index.html">
 <meta property="og:site_name" content="Dream Maker">
-<meta property="og:description" content="一般我們數學上稱 $f: \mathbb{R} \rightarrow \mathbb{R}$ 為函數 function。 然而，如果一個函數可以接受另一個函數作為他的輸入變數，而輸出是一個純量，$F: S \rightarrow \mathbb{R}$ 泛函 functional，其中 $S$ 是一個向量空間，函數是一種廣義的向量。 在最佳化理論或是機器學習當中最常遇到的就是損失函數 $\mat">
+<meta property="og:description" content="$\mathcal{Def}$.$A$ 為保角映射（angle-preserving map） $$\frac{(Ax)^T(Ay)}{||Ax|| \cdot ||Ay||} = \frac{x^Ty}{||x|| \cdot ||y||} \\(\Rightarrow A\text{ is invertible})$$ $$\Rightarrow A = sQ, Q^TQ = I, s \ne">
 <meta property="og:locale" content="zh-tw">
-<meta property="og:updated_time" content="2019-01-15T12:55:39.273Z">
+<meta property="og:updated_time" content="2019-01-16T06:09:23.456Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="Functional">
-<meta name="twitter:description" content="一般我們數學上稱 $f: \mathbb{R} \rightarrow \mathbb{R}$ 為函數 function。 然而，如果一個函數可以接受另一個函數作為他的輸入變數，而輸出是一個純量，$F: S \rightarrow \mathbb{R}$ 泛函 functional，其中 $S$ 是一個向量空間，函數是一種廣義的向量。 在最佳化理論或是機器學習當中最常遇到的就是損失函數 $\mat">
+<meta name="twitter:title" content="保角映射">
+<meta name="twitter:description" content="$\mathcal{Def}$.$A$ 為保角映射（angle-preserving map） $$\frac{(Ax)^T(Ay)}{||Ax|| \cdot ||Ay||} = \frac{x^Ty}{||x|| \cdot ||y||} \\(\Rightarrow A\text{ is invertible})$$ $$\Rightarrow A = sQ, Q^TQ = I, s \ne">
     
     
         
@@ -238,14 +238,14 @@
                     <div class="post-header main-content-wrap text-left">
     
         <h1 class="post-title">
-            Functional
+            保角映射
         </h1>
     
     
         <div class="post-meta">
-    <time datetime="2019-01-15T20:34:54+08:00">
+    <time datetime="2019-01-16T11:47:36+08:00">
 	
-		    1月 15, 2019
+		    1月 16, 2019
     	
     </time>
     
@@ -263,13 +263,11 @@
                         
                             <div class="post-content markdown">
                                 <div class="main-content-wrap">
-                                    <p>一般我們數學上稱 $f: \mathbb{R} \rightarrow \mathbb{R}$ 為函數 function。</p>
-<p>然而，如果一個函數可以接受另一個函數作為他的輸入變數，而輸出是一個純量，$F: S \rightarrow \mathbb{R}$ 泛函 functional，其中 $S$ 是一個向量空間，函數是一種廣義的向量。</p>
-<p>在最佳化理論或是機器學習當中最常遇到的就是損失函數 $\mathcal{L}$，他其實是一個泛函。</p>
-<p>$$<br>\mathcal{L}[f] = \frac{1}{N} \sum_{i=1}^{N} (y_i - f(x_i))^2<br>$$</p>
-<p>當我們有不同的資料，需要計算這些資料的 mean square error 的時候就會寫成像上面這個樣子。</p>
-<p>$$<br>\mathcal{L}[f] = \lim_{n \rightarrow \infty} \int_b^a |f(x) - \sum_{i=1}^N a_i f_i(x)|^2 dx<br>$$</p>
-<p>如果我們處理的不是資料，而是一段連續的空間，那我們就可以用以上這個連續的版本。</p>
+                                    <h5 id="mathcal-Def"><a href="#mathcal-Def" class="headerlink" title="$\mathcal{Def}$."></a>$\mathcal{Def}$.</h5><p>$A$ 為保角映射（angle-preserving map）</p>
+<p>$$<br>\frac{(Ax)^T(Ay)}{||Ax|| \cdot ||Ay||} = \frac{x^Ty}{||x|| \cdot ||y||} \\<br>(\Rightarrow A\text{ is invertible})<br>$$</p>
+<p>$$<br>\Rightarrow A = sQ, Q^TQ = I, s \ne 0<br>$$</p>
+<p>$s$ 代表伸縮量</p>
+<p>$det Q = 1$: 伸縮 + 旋轉<br>$det Q = -1$: 伸縮 + 鏡射</p>
 
                                         
 
@@ -283,8 +281,7 @@
         <ul class="post-actions post-action-nav">
             <li class="post-action">
                 
-                    
-                    <a class="post-action-btn btn btn--default tooltip--top" href="/2019/01/16/isometry/" data-tooltip="等距同構" aria-label="上一篇: 等距同構">
+                    <a class="post-action-btn btn btn--disabled">
                 
                     <i class="fa fa-angle-left" aria-hidden="true"></i>
                     <span class="hide-xs hide-sm text-small icon-ml">上一篇</span>
@@ -293,7 +290,7 @@
             <li class="post-action">
                 
                     
-                    <a class="post-action-btn btn btn--default tooltip--top" href="/2019/01/15/compare-clustering-and-embedding/" data-tooltip="Compare Clustering and Embedding" aria-label="下一篇: Compare Clustering and Embedding">
+                    <a class="post-action-btn btn btn--default tooltip--top" href="/2019/01/16/isometry/" data-tooltip="等距同構" aria-label="下一篇: 等距同構">
                 
                     <span class="hide-xs hide-sm text-small icon-mr">下一篇</span>
                     <i class="fa fa-angle-right" aria-hidden="true"></i>
@@ -311,7 +308,7 @@
             
             
             <li class="post-action hide-xs">
-                <a class="post-action-btn btn btn--default" target="new" href="https://www.facebook.com/sharer/sharer.php?u=https://yuehhua.github.io/2019/01/15/functional/" title="分享到 Facebook">
+                <a class="post-action-btn btn btn--default" target="new" href="https://www.facebook.com/sharer/sharer.php?u=https://yuehhua.github.io/2019/01/16/angle-preserving-map/" title="分享到 Facebook">
                     <i class="fa fa-facebook-official" aria-hidden="true"></i>
                 </a>
             </li>
@@ -369,8 +366,7 @@
         <ul class="post-actions post-action-nav">
             <li class="post-action">
                 
-                    
-                    <a class="post-action-btn btn btn--default tooltip--top" href="/2019/01/16/isometry/" data-tooltip="等距同構" aria-label="上一篇: 等距同構">
+                    <a class="post-action-btn btn btn--disabled">
                 
                     <i class="fa fa-angle-left" aria-hidden="true"></i>
                     <span class="hide-xs hide-sm text-small icon-ml">上一篇</span>
@@ -379,7 +375,7 @@
             <li class="post-action">
                 
                     
-                    <a class="post-action-btn btn btn--default tooltip--top" href="/2019/01/15/compare-clustering-and-embedding/" data-tooltip="Compare Clustering and Embedding" aria-label="下一篇: Compare Clustering and Embedding">
+                    <a class="post-action-btn btn btn--default tooltip--top" href="/2019/01/16/isometry/" data-tooltip="等距同構" aria-label="下一篇: 等距同構">
                 
                     <span class="hide-xs hide-sm text-small icon-mr">下一篇</span>
                     <i class="fa fa-angle-right" aria-hidden="true"></i>
@@ -397,7 +393,7 @@
             
             
             <li class="post-action hide-xs">
-                <a class="post-action-btn btn btn--default" target="new" href="https://www.facebook.com/sharer/sharer.php?u=https://yuehhua.github.io/2019/01/15/functional/" title="分享到 Facebook">
+                <a class="post-action-btn btn btn--default" target="new" href="https://www.facebook.com/sharer/sharer.php?u=https://yuehhua.github.io/2019/01/16/angle-preserving-map/" title="分享到 Facebook">
                     <i class="fa fa-facebook-official" aria-hidden="true"></i>
                 </a>
             </li>
@@ -430,7 +426,7 @@
             
             
             <li class="share-option">
-                <a class="share-option-btn" target="new" href="https://www.facebook.com/sharer/sharer.php?u=https://yuehhua.github.io/2019/01/15/functional/">
+                <a class="share-option-btn" target="new" href="https://www.facebook.com/sharer/sharer.php?u=https://yuehhua.github.io/2019/01/16/angle-preserving-map/">
                     <i class="fa fa-facebook-official" aria-hidden="true"></i><span>分享到 Facebook</span>
                 </a>
             </li>
@@ -482,9 +478,9 @@
     
         <script>
              var disqus_config = function () {
-                 this.page.url = 'https://yuehhua.github.io/2019/01/15/functional/';
+                 this.page.url = 'https://yuehhua.github.io/2019/01/16/angle-preserving-map/';
                  
-                    this.page.identifier = '2019/01/15/functional/';
+                    this.page.identifier = '2019/01/16/angle-preserving-map/';
                  
              };
             (function() {
