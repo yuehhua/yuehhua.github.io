@@ -277,12 +277,20 @@
 <li>lossy compression (for signal)</li>
 <li>maximally informative clustering (for machine learning)</li>
 </ul>
-<h2 id="IB"><a href="#IB" class="headerlink" title="IB"></a>IB</h2><p>$$<br>min\ \mathcal{L} [q(t|x)] = I(T; X) - \beta I(T; Y), \beta &gt; 0<br>$$</p>
-<p>$I(T; X)$: compression<br>$I(T; Y)$: relevance</p>
+<h2 id="IB"><a href="#IB" class="headerlink" title="IB"></a>IB</h2><script type="math/tex; mode=display">
+min\ \mathcal{L} [q(t|x)] = I(T; X) - \beta I(T; Y), \beta > 0</script><p>$I(T; X)$: compression<br>$I(T; Y)$: relevance</p>
 <p>Markov constraint: $T \leftarrow X \leftrightarrow Y$</p>
-<p>$$<br>q(t|x) = \frac{q(t)}{Z(x, \beta)} exp(- \beta D_{KL} [p(y|x) || q(y|t)])) \\<br>q(t) = \sum_x p(x)q(t|x) \\<br>q(y|t) = \frac{1}{q(t)} \sum_x p(y|x)q(t|x)p(x)<br>$$</p>
-<p>$I(T; X)$ from channel coding, rate distortion theory</p>
-<h2 id="DIB"><a href="#DIB" class="headerlink" title="DIB"></a>DIB</h2>
+<script type="math/tex; mode=display">
+q(t|x) = \frac{q(t)}{Z(x, \beta)} exp(- \beta D_{KL} [p(y|x) || q(y|t)])) \\\\
+q(t) = \sum_x p(x)q(t|x) \\\\
+q(y|t) = \frac{1}{q(t)} \sum_x p(y|x)q(t|x)p(x)</script><p>$I(T; X)$ from channel coding, rate distortion theory</p>
+<h2 id="DIB"><a href="#DIB" class="headerlink" title="DIB"></a>DIB</h2><script type="math/tex; mode=display">
+min\ \mathcal{L} [q(t|x)] = H(T) - \beta I(T; Y)</script><p>$H(T)$: penalize coding itself<br>$I(T; Y)$: lead to deterministic $\mathcal{L}_{IB}$</p>
+<script type="math/tex; mode=display">
+\mathcal{L} _{IB} - \mathcal{L} _{DIB} = I(T; X) - H(T) = -H(T|X)</script><p>$\mathcal{L}_{IB}$: implicit encourage of stochastic</p>
+<h2 id="Generalized-IB"><a href="#Generalized-IB" class="headerlink" title="Generalized IB"></a>Generalized IB</h2><script type="math/tex; mode=display">
+\mathcal{L}_{\alpha} = H(T) - \alpha H(T|X) - \beta I(Y; T)</script><p>$\alpha = 1 \Rightarrow \mathcal{L} <em>{IB}$: stochastic $\rightarrow$ soft clustering<br>$\alpha = 0 \Rightarrow \mathcal{L} </em>{DIB}$: deterministic $\rightarrow$ hard clustering</p>
+
                     
                         
 
@@ -832,7 +840,7 @@
         
             <h4 id="about-card-name">Yueh-Hua Tu</h4>
         
-            <div id="about-card-bio"><p>目標是計算生物學家！</br>Systems Biology, Computational Biology, Machine Learning</br>Julia Taiwan 發起人</p>
+            <div id="about-card-bio"><p>目標是計算生物學家！&lt;/br&gt;Systems Biology, Computational Biology, Machine Learning&lt;/br&gt;Julia Taiwan 發起人</p>
 </div>
         
         

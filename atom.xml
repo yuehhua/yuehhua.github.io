@@ -6,7 +6,7 @@
   <link href="/atom.xml" rel="self"/>
   
   <link href="https://yuehhua.github.io/"/>
-  <updated>2019-01-18T08:35:27.021Z</updated>
+  <updated>2019-01-18T13:12:23.064Z</updated>
   <id>https://yuehhua.github.io/</id>
   
   <author>
@@ -21,9 +21,9 @@
     <link href="https://yuehhua.github.io/2019/01/18/deterministic-information-bottleneck/"/>
     <id>https://yuehhua.github.io/2019/01/18/deterministic-information-bottleneck/</id>
     <published>2019-01-18T03:39:06.000Z</published>
-    <updated>2019-01-18T08:35:27.021Z</updated>
+    <updated>2019-01-18T13:12:23.064Z</updated>
     
-    <content type="html"><![CDATA[<p>在 Information Bottleneck 之後出現了不少驚豔的呼喊，也出現了指出這個方法的缺點及詮釋錯誤。</p><p>在這之後有人專注在確定性這件事上。</p><iframe width="560" height="315" src="https://www.youtube.com/embed/-D5b_zCJxrs" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe><pre class="mermaid">graph LR    X -->|"p(x, y)"|Y    X -->|"q(t|x)"|T    T --- Y    X((X))    Y((Y))    T((T))</pre><p>$T$:</p><ul><li>soft sufficient statistics (for statistics)</li><li>lossy compression (for signal)</li><li>maximally informative clustering (for machine learning)</li></ul><h2 id="IB"><a href="#IB" class="headerlink" title="IB"></a>IB</h2><p>$$<br>min\ \mathcal{L} [q(t|x)] = I(T; X) - \beta I(T; Y), \beta &gt; 0<br>$$</p><p>$I(T; X)$: compression<br>$I(T; Y)$: relevance</p><p>Markov constraint: $T \leftarrow X \leftrightarrow Y$</p><p>$$<br>q(t|x) = \frac{q(t)}{Z(x, \beta)} exp(- \beta D_{KL} [p(y|x) || q(y|t)])) \\<br>q(t) = \sum_x p(x)q(t|x) \\<br>q(y|t) = \frac{1}{q(t)} \sum_x p(y|x)q(t|x)p(x)<br>$$</p><p>$I(T; X)$ from channel coding, rate distortion theory</p><h2 id="DIB"><a href="#DIB" class="headerlink" title="DIB"></a>DIB</h2>]]></content>
+    <content type="html"><![CDATA[<p>在 Information Bottleneck 之後出現了不少驚豔的呼喊，也出現了指出這個方法的缺點及詮釋錯誤。</p><p>在這之後有人專注在確定性這件事上。</p><iframe width="560" height="315" src="https://www.youtube.com/embed/-D5b_zCJxrs" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe><pre class="mermaid">graph LR    X -->|"p(x, y)"|Y    X -->|"q(t|x)"|T    T --- Y    X((X))    Y((Y))    T((T))</pre><p>$T$:</p><ul><li>soft sufficient statistics (for statistics)</li><li>lossy compression (for signal)</li><li>maximally informative clustering (for machine learning)</li></ul><h2 id="IB"><a href="#IB" class="headerlink" title="IB"></a>IB</h2><script type="math/tex; mode=display">min\ \mathcal{L} [q(t|x)] = I(T; X) - \beta I(T; Y), \beta > 0</script><p>$I(T; X)$: compression<br>$I(T; Y)$: relevance</p><p>Markov constraint: $T \leftarrow X \leftrightarrow Y$</p><script type="math/tex; mode=display">q(t|x) = \frac{q(t)}{Z(x, \beta)} exp(- \beta D_{KL} [p(y|x) || q(y|t)])) \\\\q(t) = \sum_x p(x)q(t|x) \\\\q(y|t) = \frac{1}{q(t)} \sum_x p(y|x)q(t|x)p(x)</script><p>$I(T; X)$ from channel coding, rate distortion theory</p><h2 id="DIB"><a href="#DIB" class="headerlink" title="DIB"></a>DIB</h2><script type="math/tex; mode=display">min\ \mathcal{L} [q(t|x)] = H(T) - \beta I(T; Y)</script><p>$H(T)$: penalize coding itself<br>$I(T; Y)$: lead to deterministic $\mathcal{L}_{IB}$</p><script type="math/tex; mode=display">\mathcal{L} _{IB} - \mathcal{L} _{DIB} = I(T; X) - H(T) = -H(T|X)</script><p>$\mathcal{L}_{IB}$: implicit encourage of stochastic</p><h2 id="Generalized-IB"><a href="#Generalized-IB" class="headerlink" title="Generalized IB"></a>Generalized IB</h2><script type="math/tex; mode=display">\mathcal{L}_{\alpha} = H(T) - \alpha H(T|X) - \beta I(Y; T)</script><p>$\alpha = 1 \Rightarrow \mathcal{L} <em>{IB}$: stochastic $\rightarrow$ soft clustering<br>$\alpha = 0 \Rightarrow \mathcal{L} </em>{DIB}$: deterministic $\rightarrow$ hard clustering</p>]]></content>
     
     <summary type="html">
     
