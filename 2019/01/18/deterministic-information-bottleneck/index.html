@@ -6,7 +6,7 @@
     <!-- hexo-inject:begin --><!-- hexo-inject:end --><meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="generator" content="Dream Maker">
-    <title>共形映射 - Dream Maker</title>
+    <title>The Deterministic Information Bottleneck - Dream Maker</title>
     <meta name="author" content="Yueh-Hua Tu">
     
         <meta name="keywords" content="machine learning,deep learning,topology,">
@@ -15,19 +15,19 @@
     
         <link rel="alternate" type="application/atom+xml" title="RSS" href="/atom.xml">
     
-    <script type="application/ld+json">{"@context":"http://schema.org","@type":"BlogPosting","author":{"@type":"Person","name":"Yueh-Hua Tu","sameAs":["https://github.com/yuehhua/","https://www.facebook.com/a504082002","https://www.linkedin.com/in/%E5%B2%B3%E8%8F%AF-%E6%9D%9C-6a3995a0/","mailto:a504082002@gmail.com"],"image":"https://www.gravatar.com/avatar/a565749fba4782b717234da670b273fd"},"articleBody":"$\\Omega \\subset \\mathbb{R}^2, f: \\Omega \\rightarrow \\mathbb{R}^2$\n$$f(x, y) = (u(x, y), v(x, y))$$\n$$J(x, y) =\\begin{bmatrix}\\frac{\\partial u}{\\partial x}&amp; \\frac{\\partial u}{\\partial y} \\\\\\frac{\\partial v}{\\partial x}&amp; \\frac{\\partial v}{\\partial y}\\end{bmatrix}$$\n$(x, y) \\in \\Omega, J(x, y) = s(x, y)R(x, y)$\n$s$ is a non-zero scalar.\n$R$ is a $2 \\times 2$ rotation matrix.\n$\\mathcal{prop.}$\n$f: \\Omega \\rightarrow \\mathbb{R}^2 \\text{ and } g: f(\\Omega) \\rightarrow \\mathbb{R}^2$ are conformal map, then $g \\circ f$ is conformal map\n$f: \\Omega \\rightarrow \\mathbb{R}^2$ is conformal map, $f^{-1}$ is conformal map\n\n","dateCreated":"2019-01-16T14:22:27+08:00","dateModified":"2019-01-16T14:41:37+08:00","datePublished":"2019-01-16T14:22:27+08:00","description":"","headline":"共形映射","image":[],"mainEntityOfPage":{"@type":"WebPage","@id":"https://yuehhua.github.io/2019/01/16/conformal-map/"},"publisher":{"@type":"Organization","name":"Yueh-Hua Tu","sameAs":["https://github.com/yuehhua/","https://www.facebook.com/a504082002","https://www.linkedin.com/in/%E5%B2%B3%E8%8F%AF-%E6%9D%9C-6a3995a0/","mailto:a504082002@gmail.com"],"image":"https://www.gravatar.com/avatar/a565749fba4782b717234da670b273fd","logo":{"@type":"ImageObject","url":"https://www.gravatar.com/avatar/a565749fba4782b717234da670b273fd"}},"url":"https://yuehhua.github.io/2019/01/16/conformal-map/"}</script>
-    <meta name="description" content="$\Omega \subset \mathbb{R}^2, f: \Omega \rightarrow \mathbb{R}^2$ $$f(x, y) = (u(x, y), v(x, y))$$ $$J(x, y) =\begin{bmatrix}\frac{\partial u}{\partial x}&amp;amp; \frac{\partial u}{\partial y} \\\frac{\p">
+    <script type="application/ld+json">{"@context":"http://schema.org","@type":"BlogPosting","author":{"@type":"Person","name":"Yueh-Hua Tu","sameAs":["https://github.com/yuehhua/","https://www.facebook.com/a504082002","https://www.linkedin.com/in/%E5%B2%B3%E8%8F%AF-%E6%9D%9C-6a3995a0/","mailto:a504082002@gmail.com"],"image":"https://www.gravatar.com/avatar/a565749fba4782b717234da670b273fd"},"articleBody":"在 Information Bottleneck 之後出現了不少驚豔的呼喊，也出現了指出這個方法的缺點及詮釋錯誤。\n在這之後有人專注在確定性這件事上。\n\n\ngraph LR\n    X -->|\"p(x, y)\"|Y\n    X -->|\"q(t|x)\"|T\n    T --- Y\n    X((X))\n    Y((Y))\n    T((T))\n\n$T$:\n\nsoft sufficient statistics (for statistics)\nlossy compression (for signal)\nmaximally informative clustering (for machine learning)\n\nIB$$min\\ \\mathcal{L} [q(t|x)] = I(T; X) - \\beta I(T; Y), \\beta &gt; 0$$\n$I(T; X)$: compression$I(T; Y)$: relevance\nMarkov constraint: $T \\leftarrow X \\leftrightarrow Y$\n$$q(t|x) = \\frac{q(t)}{Z(x, \\beta)} exp(- \\beta D_{KL} [p(y|x) || q(y|t)])) \\\\q(t) = \\sum_x p(x)q(t|x) \\\\q(y|t) = \\frac{1}{q(t)} \\sum_x p(y|x)q(t|x)p(x)$$\n$I(T; X)$ from channel coding, rate distortion theory\nDIB","dateCreated":"2019-01-18T11:39:06+08:00","dateModified":"2019-01-18T16:35:27+08:00","datePublished":"2019-01-18T11:39:06+08:00","description":"","headline":"The Deterministic Information Bottleneck","image":[],"mainEntityOfPage":{"@type":"WebPage","@id":"https://yuehhua.github.io/2019/01/18/deterministic-information-bottleneck/"},"publisher":{"@type":"Organization","name":"Yueh-Hua Tu","sameAs":["https://github.com/yuehhua/","https://www.facebook.com/a504082002","https://www.linkedin.com/in/%E5%B2%B3%E8%8F%AF-%E6%9D%9C-6a3995a0/","mailto:a504082002@gmail.com"],"image":"https://www.gravatar.com/avatar/a565749fba4782b717234da670b273fd","logo":{"@type":"ImageObject","url":"https://www.gravatar.com/avatar/a565749fba4782b717234da670b273fd"}},"url":"https://yuehhua.github.io/2019/01/18/deterministic-information-bottleneck/"}</script>
+    <meta name="description" content="在 Information Bottleneck 之後出現了不少驚豔的呼喊，也出現了指出這個方法的缺點及詮釋錯誤。 在這之後有人專注在確定性這件事上。   graph LR     X --&amp;gt;|&quot;p(x, y)&quot;|Y     X --&amp;gt;|&quot;q(t|x)&quot;|T     T --- Y     X((X))     Y((Y))     T((T))  $T$:  soft sufficient st">
 <meta name="keywords" content="machine learning,deep learning,topology">
 <meta property="og:type" content="blog">
-<meta property="og:title" content="共形映射">
-<meta property="og:url" content="https://yuehhua.github.io/2019/01/16/conformal-map/index.html">
+<meta property="og:title" content="The Deterministic Information Bottleneck">
+<meta property="og:url" content="https://yuehhua.github.io/2019/01/18/deterministic-information-bottleneck/index.html">
 <meta property="og:site_name" content="Dream Maker">
-<meta property="og:description" content="$\Omega \subset \mathbb{R}^2, f: \Omega \rightarrow \mathbb{R}^2$ $$f(x, y) = (u(x, y), v(x, y))$$ $$J(x, y) =\begin{bmatrix}\frac{\partial u}{\partial x}&amp;amp; \frac{\partial u}{\partial y} \\\frac{\p">
+<meta property="og:description" content="在 Information Bottleneck 之後出現了不少驚豔的呼喊，也出現了指出這個方法的缺點及詮釋錯誤。 在這之後有人專注在確定性這件事上。   graph LR     X --&amp;gt;|&quot;p(x, y)&quot;|Y     X --&amp;gt;|&quot;q(t|x)&quot;|T     T --- Y     X((X))     Y((Y))     T((T))  $T$:  soft sufficient st">
 <meta property="og:locale" content="zh-tw">
-<meta property="og:updated_time" content="2019-01-16T06:41:37.404Z">
+<meta property="og:updated_time" content="2019-01-18T08:35:27.021Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="共形映射">
-<meta name="twitter:description" content="$\Omega \subset \mathbb{R}^2, f: \Omega \rightarrow \mathbb{R}^2$ $$f(x, y) = (u(x, y), v(x, y))$$ $$J(x, y) =\begin{bmatrix}\frac{\partial u}{\partial x}&amp;amp; \frac{\partial u}{\partial y} \\\frac{\p">
+<meta name="twitter:title" content="The Deterministic Information Bottleneck">
+<meta name="twitter:description" content="在 Information Bottleneck 之後出現了不少驚豔的呼喊，也出現了指出這個方法的缺點及詮釋錯誤。 在這之後有人專注在確定性這件事上。   graph LR     X --&amp;gt;|&quot;p(x, y)&quot;|Y     X --&amp;gt;|&quot;q(t|x)&quot;|T     T --- Y     X((X))     Y((Y))     T((T))  $T$:  soft sufficient st">
     
     
         
@@ -238,20 +238,20 @@
                     <div class="post-header main-content-wrap text-left">
     
         <h1 class="post-title">
-            共形映射
+            The Deterministic Information Bottleneck
         </h1>
     
     
         <div class="post-meta">
-    <time datetime="2019-01-16T14:22:27+08:00">
+    <time datetime="2019-01-18T11:39:06+08:00">
 	
-		    1月 16, 2019
+		    1月 18, 2019
     	
     </time>
     
         <span>分類 </span>
         
-    <a class="category-link" href="/categories/Math/">Math</a>
+    <a class="category-link" href="/categories/Deep-Learning/">Deep Learning</a>
 
 
     
@@ -263,17 +263,30 @@
                         
                             <div class="post-content markdown">
                                 <div class="main-content-wrap">
-                                    <p>$<br>\Omega \subset \mathbb{R}^2, f: \Omega \rightarrow \mathbb{R}^2<br>$</p>
-<p>$$<br>f(x, y) = (u(x, y), v(x, y))<br>$$</p>
-<p>$$<br>J(x, y) =<br>\begin{bmatrix}<br>\frac{\partial u}{\partial x}&amp; \frac{\partial u}{\partial y} \\<br>\frac{\partial v}{\partial x}&amp; \frac{\partial v}{\partial y}<br>\end{bmatrix}<br>$$</p>
-<p>$<br>(x, y) \in \Omega, J(x, y) = s(x, y)R(x, y)<br>$</p>
-<p>$s$ is a non-zero scalar.</p>
-<p>$R$ is a $2 \times 2$ rotation matrix.</p>
-<h5 id="mathcal-prop"><a href="#mathcal-prop" class="headerlink" title="$\mathcal{prop.}$"></a>$\mathcal{prop.}$</h5><ol>
-<li>$f: \Omega \rightarrow \mathbb{R}^2 \text{ and } g: f(\Omega) \rightarrow \mathbb{R}^2$ are conformal map, then $g \circ f$ is conformal map</li>
-<li>$f: \Omega \rightarrow \mathbb{R}^2$ is conformal map, $f^{-1}$ is conformal map</li>
-</ol>
+                                    <p>在 Information Bottleneck 之後出現了不少驚豔的呼喊，也出現了指出這個方法的缺點及詮釋錯誤。</p>
+<p>在這之後有人專注在確定性這件事上。</p>
+<iframe width="560" height="315" src="https://www.youtube.com/embed/-D5b_zCJxrs" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
 
+<pre class="mermaid">graph LR
+    X -->|"p(x, y)"|Y
+    X -->|"q(t|x)"|T
+    T --- Y
+    X((X))
+    Y((Y))
+    T((T))</pre>
+
+<p>$T$:</p>
+<ul>
+<li>soft sufficient statistics (for statistics)</li>
+<li>lossy compression (for signal)</li>
+<li>maximally informative clustering (for machine learning)</li>
+</ul>
+<h2 id="IB"><a href="#IB" class="headerlink" title="IB"></a>IB</h2><p>$$<br>min\ \mathcal{L} [q(t|x)] = I(T; X) - \beta I(T; Y), \beta &gt; 0<br>$$</p>
+<p>$I(T; X)$: compression<br>$I(T; Y)$: relevance</p>
+<p>Markov constraint: $T \leftarrow X \leftrightarrow Y$</p>
+<p>$$<br>q(t|x) = \frac{q(t)}{Z(x, \beta)} exp(- \beta D_{KL} [p(y|x) || q(y|t)])) \\<br>q(t) = \sum_x p(x)q(t|x) \\<br>q(y|t) = \frac{1}{q(t)} \sum_x p(y|x)q(t|x)p(x)<br>$$</p>
+<p>$I(T; X)$ from channel coding, rate distortion theory</p>
+<h2 id="DIB"><a href="#DIB" class="headerlink" title="DIB"></a>DIB</h2>
                                         
 
                                 </div>
@@ -286,8 +299,7 @@
         <ul class="post-actions post-action-nav">
             <li class="post-action">
                 
-                    
-                    <a class="post-action-btn btn btn--default tooltip--top" href="/2019/01/18/deterministic-information-bottleneck/" data-tooltip="The Deterministic Information Bottleneck" aria-label="上一篇: The Deterministic Information Bottleneck">
+                    <a class="post-action-btn btn btn--disabled">
                 
                     <i class="fa fa-angle-left" aria-hidden="true"></i>
                     <span class="hide-xs hide-sm text-small icon-ml">上一篇</span>
@@ -296,7 +308,7 @@
             <li class="post-action">
                 
                     
-                    <a class="post-action-btn btn btn--default tooltip--top" href="/2019/01/16/angle-preserving-map/" data-tooltip="保角映射" aria-label="下一篇: 保角映射">
+                    <a class="post-action-btn btn btn--default tooltip--top" href="/2019/01/16/conformal-map/" data-tooltip="共形映射" aria-label="下一篇: 共形映射">
                 
                     <span class="hide-xs hide-sm text-small icon-mr">下一篇</span>
                     <i class="fa fa-angle-right" aria-hidden="true"></i>
@@ -314,7 +326,7 @@
             
             
             <li class="post-action hide-xs">
-                <a class="post-action-btn btn btn--default" target="new" href="https://www.facebook.com/sharer/sharer.php?u=https://yuehhua.github.io/2019/01/16/conformal-map/" title="分享到 Facebook">
+                <a class="post-action-btn btn btn--default" target="new" href="https://www.facebook.com/sharer/sharer.php?u=https://yuehhua.github.io/2019/01/18/deterministic-information-bottleneck/" title="分享到 Facebook">
                     <i class="fa fa-facebook-official" aria-hidden="true"></i>
                 </a>
             </li>
@@ -372,8 +384,7 @@
         <ul class="post-actions post-action-nav">
             <li class="post-action">
                 
-                    
-                    <a class="post-action-btn btn btn--default tooltip--top" href="/2019/01/18/deterministic-information-bottleneck/" data-tooltip="The Deterministic Information Bottleneck" aria-label="上一篇: The Deterministic Information Bottleneck">
+                    <a class="post-action-btn btn btn--disabled">
                 
                     <i class="fa fa-angle-left" aria-hidden="true"></i>
                     <span class="hide-xs hide-sm text-small icon-ml">上一篇</span>
@@ -382,7 +393,7 @@
             <li class="post-action">
                 
                     
-                    <a class="post-action-btn btn btn--default tooltip--top" href="/2019/01/16/angle-preserving-map/" data-tooltip="保角映射" aria-label="下一篇: 保角映射">
+                    <a class="post-action-btn btn btn--default tooltip--top" href="/2019/01/16/conformal-map/" data-tooltip="共形映射" aria-label="下一篇: 共形映射">
                 
                     <span class="hide-xs hide-sm text-small icon-mr">下一篇</span>
                     <i class="fa fa-angle-right" aria-hidden="true"></i>
@@ -400,7 +411,7 @@
             
             
             <li class="post-action hide-xs">
-                <a class="post-action-btn btn btn--default" target="new" href="https://www.facebook.com/sharer/sharer.php?u=https://yuehhua.github.io/2019/01/16/conformal-map/" title="分享到 Facebook">
+                <a class="post-action-btn btn btn--default" target="new" href="https://www.facebook.com/sharer/sharer.php?u=https://yuehhua.github.io/2019/01/18/deterministic-information-bottleneck/" title="分享到 Facebook">
                     <i class="fa fa-facebook-official" aria-hidden="true"></i>
                 </a>
             </li>
@@ -433,7 +444,7 @@
             
             
             <li class="share-option">
-                <a class="share-option-btn" target="new" href="https://www.facebook.com/sharer/sharer.php?u=https://yuehhua.github.io/2019/01/16/conformal-map/">
+                <a class="share-option-btn" target="new" href="https://www.facebook.com/sharer/sharer.php?u=https://yuehhua.github.io/2019/01/18/deterministic-information-bottleneck/">
                     <i class="fa fa-facebook-official" aria-hidden="true"></i><span>分享到 Facebook</span>
                 </a>
             </li>
@@ -485,9 +496,9 @@
     
         <script>
              var disqus_config = function () {
-                 this.page.url = 'https://yuehhua.github.io/2019/01/16/conformal-map/';
+                 this.page.url = 'https://yuehhua.github.io/2019/01/18/deterministic-information-bottleneck/';
                  
-                    this.page.identifier = '2019/01/16/conformal-map/';
+                    this.page.identifier = '2019/01/18/deterministic-information-bottleneck/';
                  
              };
             (function() {

@@ -237,6 +237,77 @@
             <div class="postShorten-header">
                 <h1 class="postShorten-title">
                     
+                        <a class="link-unstyled" href="/2019/01/18/deterministic-information-bottleneck/">
+                            The Deterministic Information Bottleneck
+                        </a>
+                    
+                </h1>
+                <div class="postShorten-meta">
+    <time datetime="2019-01-18T11:39:06+08:00">
+	
+		    1月 18, 2019
+    	
+    </time>
+    
+        <span>分類 </span>
+        
+    <a class="category-link" href="/categories/Deep-Learning/">Deep Learning</a>
+
+
+    
+</div>
+
+            </div>
+            
+                <div class="postShorten-content">
+                    <p>在 Information Bottleneck 之後出現了不少驚豔的呼喊，也出現了指出這個方法的缺點及詮釋錯誤。</p>
+<p>在這之後有人專注在確定性這件事上。</p>
+<iframe width="560" height="315" src="https://www.youtube.com/embed/-D5b_zCJxrs" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+
+<pre class="mermaid">graph LR
+    X -->|"p(x, y)"|Y
+    X -->|"q(t|x)"|T
+    T --- Y
+    X((X))
+    Y((Y))
+    T((T))</pre>
+
+<p>$T$:</p>
+<ul>
+<li>soft sufficient statistics (for statistics)</li>
+<li>lossy compression (for signal)</li>
+<li>maximally informative clustering (for machine learning)</li>
+</ul>
+<h2 id="IB"><a href="#IB" class="headerlink" title="IB"></a>IB</h2><p>$$<br>min\ \mathcal{L} [q(t|x)] = I(T; X) - \beta I(T; Y), \beta &gt; 0<br>$$</p>
+<p>$I(T; X)$: compression<br>$I(T; Y)$: relevance</p>
+<p>Markov constraint: $T \leftarrow X \leftrightarrow Y$</p>
+<p>$$<br>q(t|x) = \frac{q(t)}{Z(x, \beta)} exp(- \beta D_{KL} [p(y|x) || q(y|t)])) \\<br>q(t) = \sum_x p(x)q(t|x) \\<br>q(y|t) = \frac{1}{q(t)} \sum_x p(y|x)q(t|x)p(x)<br>$$</p>
+<p>$I(T; X)$ from channel coding, rate distortion theory</p>
+<h2 id="DIB"><a href="#DIB" class="headerlink" title="DIB"></a>DIB</h2>
+                    
+                        
+
+                    
+                    
+                        <p>
+                            <a href="/2019/01/18/deterministic-information-bottleneck/#post-footer" class="postShorten-excerpt_link link">
+                                留言與分享
+                            </a>
+                        </p>
+                    
+                </div>
+            
+        </div>
+        
+    </article>
+    
+    
+    <article class="postShorten postShorten--thumbnailimg-bottom">
+        <div class="postShorten-wrap">
+            
+            <div class="postShorten-header">
+                <h1 class="postShorten-title">
+                    
                         <a class="link-unstyled" href="/2019/01/16/conformal-map/">
                             共形映射
                         </a>

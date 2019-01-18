@@ -2,6 +2,20 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   
   <url>
+    <loc>https://yuehhua.github.io/2019/01/18/deterministic-information-bottleneck/</loc>
+    
+    <lastmod>2019-01-18T08:35:27.021Z</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>https://yuehhua.github.io/2018/10/08/08-l2-regularized-linear-model/</loc>
+    
+    <lastmod>2019-01-18T01:59:36.260Z</lastmod>
+    
+  </url>
+  
+  <url>
     <loc>https://yuehhua.github.io/2019/01/16/conformal-map/</loc>
     
     <lastmod>2019-01-16T06:41:37.404Z</lastmod>
@@ -194,13 +208,6 @@
     <loc>https://yuehhua.github.io/2018/07/21/why-mlp/</loc>
     
     <lastmod>2018-10-17T14:49:12.444Z</lastmod>
-    
-  </url>
-  
-  <url>
-    <loc>https://yuehhua.github.io/2018/10/08/08-l2-regularized-linear-model/</loc>
-    
-    <lastmod>2018-10-16T17:13:42.913Z</lastmod>
     
   </url>
   
