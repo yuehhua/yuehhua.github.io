@@ -6,7 +6,7 @@
   <link href="/atom.xml" rel="self"/>
   
   <link href="https://yuehhua.github.io/"/>
-  <updated>2019-01-18T13:12:23.064Z</updated>
+  <updated>2019-01-19T16:06:04.499Z</updated>
   <id>https://yuehhua.github.io/</id>
   
   <author>
@@ -17,13 +17,36 @@
   <generator uri="http://hexo.io/">Hexo</generator>
   
   <entry>
+    <title>溫柔而強大</title>
+    <link href="https://yuehhua.github.io/2019/01/19/kindness-and-powerful/"/>
+    <id>https://yuehhua.github.io/2019/01/19/kindness-and-powerful/</id>
+    <published>2019-01-19T15:07:41.000Z</published>
+    <updated>2019-01-19T16:06:04.499Z</updated>
+    
+    <content type="html"><![CDATA[<p>已經好一段時間沒有用文章紀錄下自己的心情跟想法了。</p><p>這段期間都在專注寫技術文章。</p><p>在 2018 年 5 月剛好興趣參與了 Pytorch Taichung 的社群聚會，當時其實只是想去看看 Deep learning 技術發展到什麼階段了，自己當時也讀了一些進階的論文，像是 Attention model。</p><p>第一場是我給的開場演講，介紹了機器學習的概論。記得當時的主持人是生澀的副社長敬宇，以國際演討會的規格介紹整個流程，看來不是怎麼熟練，卻很有精神。</p><p>在經營社群來說，我也在群眾前演講一段時間了。一般社群小聚互動其實沒有那麼拘謹，我也就輕鬆開始我的演講。</p><p>記得演講結束之後，大家不太發言，是由副社問了 dropout 機制的問題，展開了一系列的討論。</p><p>往後一直到我出了我第一本書，這本書成為一個契機。敬宇跟我敲碗很久了，也就剛好拿到書的那個禮拜就有機會拿給他，就一起吃了午餐。</p><p>兩個人聊的很開心，也不顧時間到了，依依不捨。記得他下午還要趕去做實驗呢。</p><p>以往社群的人很欣賞我論文的報告，不流於形式，好理解，敬宇更是成為了迷弟。</p><p>後來就成為了很要好的朋友，無所不聊，從數學物理電腦到經濟哲學價值觀。</p><p>慢慢了解到敬宇的一些事情，發現他是需要幫助的孩子。</p><p>表面上沈默，私底下非常努力的孩子，慢熟而堅強。</p><p>身為好友應該可以給一些支援，雖然他很少主動開口。</p><p>對我而言，有能力幫助別人也是一種成功，成為一個 Giver。</p><p>一個溫柔而強大的 Giver。</p><p>大概是我這一年目標想做的的事情吧。</p>]]></content>
+    
+    <summary type="html">
+    
+      
+      
+        &lt;p&gt;已經好一段時間沒有用文章紀錄下自己的心情跟想法了。&lt;/p&gt;
+&lt;p&gt;這段期間都在專注寫技術文章。&lt;/p&gt;
+&lt;p&gt;在 2018 年 5 月剛好興趣參與了 Pytorch Taichung 的社群聚會，當時其實只是想去看看 Deep learning 技術發展到什麼階段了，自己當
+      
+    
+    </summary>
+    
+    
+  </entry>
+  
+  <entry>
     <title>The Deterministic Information Bottleneck</title>
     <link href="https://yuehhua.github.io/2019/01/18/deterministic-information-bottleneck/"/>
     <id>https://yuehhua.github.io/2019/01/18/deterministic-information-bottleneck/</id>
     <published>2019-01-18T03:39:06.000Z</published>
     <updated>2019-01-18T13:12:23.064Z</updated>
     
-    <content type="html"><![CDATA[<p>在 Information Bottleneck 之後出現了不少驚豔的呼喊，也出現了指出這個方法的缺點及詮釋錯誤。</p><p>在這之後有人專注在確定性這件事上。</p><iframe width="560" height="315" src="https://www.youtube.com/embed/-D5b_zCJxrs" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe><pre class="mermaid">graph LR    X -->|"p(x, y)"|Y    X -->|"q(t|x)"|T    T --- Y    X((X))    Y((Y))    T((T))</pre><p>$T$:</p><ul><li>soft sufficient statistics (for statistics)</li><li>lossy compression (for signal)</li><li>maximally informative clustering (for machine learning)</li></ul><h2 id="IB"><a href="#IB" class="headerlink" title="IB"></a>IB</h2><script type="math/tex; mode=display">min\ \mathcal{L} [q(t|x)] = I(T; X) - \beta I(T; Y), \beta > 0</script><p>$I(T; X)$: compression<br>$I(T; Y)$: relevance</p><p>Markov constraint: $T \leftarrow X \leftrightarrow Y$</p><script type="math/tex; mode=display">q(t|x) = \frac{q(t)}{Z(x, \beta)} exp(- \beta D_{KL} [p(y|x) || q(y|t)])) \\\\q(t) = \sum_x p(x)q(t|x) \\\\q(y|t) = \frac{1}{q(t)} \sum_x p(y|x)q(t|x)p(x)</script><p>$I(T; X)$ from channel coding, rate distortion theory</p><h2 id="DIB"><a href="#DIB" class="headerlink" title="DIB"></a>DIB</h2><script type="math/tex; mode=display">min\ \mathcal{L} [q(t|x)] = H(T) - \beta I(T; Y)</script><p>$H(T)$: penalize coding itself<br>$I(T; Y)$: lead to deterministic $\mathcal{L}_{IB}$</p><script type="math/tex; mode=display">\mathcal{L} _{IB} - \mathcal{L} _{DIB} = I(T; X) - H(T) = -H(T|X)</script><p>$\mathcal{L}_{IB}$: implicit encourage of stochastic</p><h2 id="Generalized-IB"><a href="#Generalized-IB" class="headerlink" title="Generalized IB"></a>Generalized IB</h2><script type="math/tex; mode=display">\mathcal{L}_{\alpha} = H(T) - \alpha H(T|X) - \beta I(Y; T)</script><p>$\alpha = 1 \Rightarrow \mathcal{L} <em>{IB}$: stochastic $\rightarrow$ soft clustering<br>$\alpha = 0 \Rightarrow \mathcal{L} </em>{DIB}$: deterministic $\rightarrow$ hard clustering</p>]]></content>
+    <content type="html"><![CDATA[<p>在 Information Bottleneck 之後出現了不少驚豔的呼喊，也出現了指出這個方法的缺點及詮釋錯誤。</p><p>在這之後有人專注在確定性這件事上。</p><iframe width="560" height="315" src="https://www.youtube.com/embed/-D5b_zCJxrs" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe><pre class="mermaid">graph LR    X -->|"p(x, y)"|Y    X -->|"q(t|x)"|T    T --- Y    X((X))    Y((Y))    T((T))</pre><p>$T$:</p><ul><li>soft sufficient statistics (for statistics)</li><li>lossy compression (for signal)</li><li>maximally informative clustering (for machine learning)</li></ul><h2 id="IB"><a href="#IB" class="headerlink" title="IB"></a>IB</h2><p>$$<br>min\ \mathcal{L} [q(t|x)] = I(T; X) - \beta I(T; Y), \beta &gt; 0<br>$$</p><p>$I(T; X)$: compression<br>$I(T; Y)$: relevance</p><p>Markov constraint: $T \leftarrow X \leftrightarrow Y$</p><p>$$<br>q(t|x) = \frac{q(t)}{Z(x, \beta)} exp(- \beta D_{KL} [p(y|x) || q(y|t)])) \\<br>q(t) = \sum_x p(x)q(t|x) \\<br>q(y|t) = \frac{1}{q(t)} \sum_x p(y|x)q(t|x)p(x)<br>$$</p><p>$I(T; X)$ from channel coding, rate distortion theory</p><h2 id="DIB"><a href="#DIB" class="headerlink" title="DIB"></a>DIB</h2><p>$$<br>min\ \mathcal{L} [q(t|x)] = H(T) - \beta I(T; Y)<br>$$</p><p>$H(T)$: penalize coding itself<br>$I(T; Y)$: lead to deterministic $\mathcal{L}_{IB}$</p><p>$$<br>\mathcal{L} _{IB} - \mathcal{L} _{DIB} = I(T; X) - H(T) = -H(T|X)<br>$$</p><p>$\mathcal{L}_{IB}$: implicit encourage of stochastic</p><h2 id="Generalized-IB"><a href="#Generalized-IB" class="headerlink" title="Generalized IB"></a>Generalized IB</h2><p>$$<br>\mathcal{L}_{\alpha} = H(T) - \alpha H(T|X) - \beta I(Y; T)<br>$$</p><p>$\alpha = 1 \Rightarrow \mathcal{L} _{IB}$: stochastic $\rightarrow$ soft clustering<br>$\alpha = 0 \Rightarrow \mathcal{L} _{DIB}$: deterministic $\rightarrow$ hard clustering</p>]]></content>
     
     <summary type="html">
     
@@ -488,29 +511,6 @@
 &lt;p&gt;有上到比較後面的線性代數的同學，應該有爬過 SVD 這座高山。&lt;/p&gt;
 &lt;p&gt;推薦可以看周老師的線代啟示錄 &lt;a href=&quot;https://ccjou.wordpress.com/2009/09/01/%E5%A5%87%E7%95%B0%E5%80%BC%E5%88%86%E8%A7%A3-svd/&quot; target=&quot;_blank&quot; rel=&quot;noopener&quot;&gt;奇異值分解 (SVD)&lt;/a&gt;&lt;/p&gt;
 &lt;p&gt;我們可以知道一個矩陣可以被看成線性轉換，而矩陣這個線性轉換可以被分解成 3 個矩陣：&lt;/p&gt;
-    
-    </summary>
-    
-      <category term="Machine Learning" scheme="https://yuehhua.github.io/categories/Machine-Learning/"/>
-    
-      <category term="機器學習模型圖書館：從傳統模型到深度學習" scheme="https://yuehhua.github.io/categories/Machine-Learning/%E6%A9%9F%E5%99%A8%E5%AD%B8%E7%BF%92%E6%A8%A1%E5%9E%8B%E5%9C%96%E6%9B%B8%E9%A4%A8%EF%BC%9A%E5%BE%9E%E5%82%B3%E7%B5%B1%E6%A8%A1%E5%9E%8B%E5%88%B0%E6%B7%B1%E5%BA%A6%E5%AD%B8%E7%BF%92/"/>
-    
-    
-  </entry>
-  
-  <entry>
-    <title>20 Convolutional neural network</title>
-    <link href="https://yuehhua.github.io/2018/10/17/20-convolutional-neural-network/"/>
-    <id>https://yuehhua.github.io/2018/10/17/20-convolutional-neural-network/</id>
-    <published>2018-10-17T14:58:40.000Z</published>
-    <updated>2018-10-17T14:58:40.101Z</updated>
-    
-    <content type="html"><![CDATA[<h2 id="Convolution-layer"><a href="#Convolution-layer" class="headerlink" title="Convolution layer"></a>Convolution layer</h2><p>這邊我們回到我們的 convolution layer，如果把以上的一維向量拓展到二維的矩陣資料會長什麼樣子呢？</p><p>我們先來看二維的 cross-correlation 長什麼樣子。</p><a id="more"></a><p><img src="/images/ccor2d.svg" alt=""></p><p>然後是反序的 convolution。</p><p><img src="/images/conv2d.svg" alt=""></p><p>這樣有沒有搞懂一點 convolution 的運算了呢？</p><p>接著，想像在右手邊比較小的方框就是你的 filter （或是 kernel），然後他會沿著兩個軸去移動，去掃描看看有沒有跟 filter 的 pattern 很像的，當他偵測到很像的 pattern 的時候，輸出的 feature map 的值就會很高，所以這樣就可以做到上面講的第二點，也就是位移的不變性。不過說起來也不是真的有什麼位移不變性啦！他只是沿著軸去做掃描可以減少訓練的參數，這樣 filter 還是有在位移阿！只是對於要偵測的 pattern 看起來好像有”位移不變性”一樣。到這邊我們第一點跟第二點都解決了，剩下第三點。</p><h2 id="Subsampling"><a href="#Subsampling" class="headerlink" title="Subsampling"></a>Subsampling</h2><p>跟第三點相關的就是 subsampling，也就是如果讓圖片變小，不只可以降低要辨識的區塊大小，還可以降低需要訓練的參數量。那要怎麼讓圖片變小？</p><p>Maxpooling 是目前主流的方法，也就是在一個 window 的範圍內去找最大值，只保留最大值。還有一種是 meanpooling，顧名思義，他取整個 window 的平均值作為保留值。</p><p>所以 subsampling 在一些應用場景是需要的，有些是不需要的，像是有些 pattern 的辨識是不能去除細節的，一旦去除細節就會造成辨識困難，那就代表他沒有辦法用 subsampling。有時候照片縮小到一定程度人類也會無法辨識當中的圖像是什麼，所以也不要用過頭。</p><h2 id="Feature-extractor-classifier-架構"><a href="#Feature-extractor-classifier-架構" class="headerlink" title="Feature extractor-classifier 架構"></a>Feature extractor-classifier 架構</h2><p>經過以上介紹後，我們可以把 convolution layer 跟 subsampling 結合起來，成為所謂的 feature extractor。</p><p>經由以上三點特性，這些 layer 的巧妙運用可以是非常棒的 feature extractor。不同種的資料特性需要不同設計的 feature extractor，接下來就是 classifier 上場了。</p><p>典型的 classifier 可以是 SVM，或是要用比較潮的 deep learning 也可以，最單純的就是前一篇提到的 MLP 了。</p><p>這樣前後組合好就是個 CNN 的雛型了！</p><h2 id="MLP-做不好的事情"><a href="#MLP-做不好的事情" class="headerlink" title="MLP 做不好的事情"></a>MLP 做不好的事情</h2><p>前一篇我們有提到 MLP 因為會從整體特徵去做內積，所以整體的模式會優先被考慮，如果有區域性的特徵並不一定會被凸顯出來。在 MLP 相對上會比較注重整體性而不是區域性，所以使用 MLP 在影像處理上就比 CNN 不是那麼有利。</p><h2 id="關鍵在哪裡？"><a href="#關鍵在哪裡？" class="headerlink" title="關鍵在哪裡？"></a>關鍵在哪裡？</h2><p>我個人認為關鍵在資料的 <strong>區域性</strong>，也就是你想做的事情其實是跟資料的區域性有關係，或是你的資料是週期性資料（週期性出現的模式也可以視為是一種區域性模式重複出現），這樣你就可以用 convolution layer！（注意！不是 CNN！）</p><p>像是音樂當中有週期性的模式就可以用，在生物領域，蛋白質會去辨認 DNA 序列，有被辨認到的部份就會有蛋白質黏附上去，生物學家會想知道到底哪些地方有蛋白質黏附，黏附的序列是區域性的，所以也有應用 CNN 技術在這方面上。</p><p>最重要的還是去了解你的資料的特性，然後了解模型當中各元件的性質跟數學特性，這樣才能正確地使用這些技術解決問題，走到這邊需要同時是領域知識的專家，也同時是 DL 的專家才行阿！</p>]]></content>
-    
-    <summary type="html">
-    
-      &lt;h2 id=&quot;Convolution-layer&quot;&gt;&lt;a href=&quot;#Convolution-layer&quot; class=&quot;headerlink&quot; title=&quot;Convolution layer&quot;&gt;&lt;/a&gt;Convolution layer&lt;/h2&gt;&lt;p&gt;這邊我們回到我們的 convolution layer，如果把以上的一維向量拓展到二維的矩陣資料會長什麼樣子呢？&lt;/p&gt;
-&lt;p&gt;我們先來看二維的 cross-correlation 長什麼樣子。&lt;/p&gt;
     
     </summary>
     
