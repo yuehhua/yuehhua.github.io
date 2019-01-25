@@ -470,21 +470,21 @@
             <div class="postShorten-header">
                 <h1 class="postShorten-title">
                     
-                        <a class="link-unstyled" href="/2013/12/05/mbti-again/">
-                            MBTI again
+                        <a class="link-unstyled" href="/2017/06/05/state-centered-behavior-centered-oop/">
+                            狀態為中心與行為為中心的物件導向（State-centered and behavior-centered OOP）
                         </a>
                     
                 </h1>
                 <div class="postShorten-meta">
-    <time datetime="2013-12-05T07:13:00+08:00">
+    <time datetime="2017-06-05T00:33:00+08:00">
 	
-		    12月 05, 2013
+		    6月 05, 2017
     	
     </time>
     
         <span>分類 </span>
         
-    <a class="category-link" href="/categories/My-Style/">My Style</a>, <a class="category-link" href="/categories/My-Style/Believe。Think。Soul/">Believe。Think。Soul</a>
+    <a class="category-link" href="/categories/My-Style/">My Style</a>, <a class="category-link" href="/categories/My-Style/Computer-Science/">Computer Science</a>, <a class="category-link" href="/categories/My-Style/Computer-Science/Julialang/">Julialang</a>
 
 
     
@@ -493,12 +493,78 @@
             </div>
             
                 <div class="postShorten-content">
-                    <p>又在一次偶然的情況下接觸了MBTI的測試<br>想起很久一前作過一次<br>發現這次做出來結果不大一樣  </p>
-<p>這次:  </p>
-<p><img src="/images/intp.png" alt=""></p>
-<p>似乎是成為學者的料的感覺 名人居然是有名的Albert Einstein<br>“思考者”或是”建築師”的形容很符合我的網誌標題呢(笑  </p>
-<p>附上之前測試的結果:<br><a href="http://yuehhua.github.io/2009/05/04/mbti/">之前的結果(ENFJ)</a><br><a href="http://zh.wikipedia.org/wiki/INTP]" target="_blank" rel="noopener">維基百科_INTP</a><br><a href="http://zh.wikipedia.org/wiki/ENFJ" target="_blank" rel="noopener">維基百科_ENFJ</a></p>
-<p>似乎除了N以外其他都翻盤了是吧= =”<br>轉性轉很大呢XD</p>
+                    <h1 id="Julia-的物件導向"><a href="#Julia-的物件導向" class="headerlink" title="Julia 的物件導向"></a>Julia 的物件導向</h1><p>今天特別要來談談Julia這個語言的物件導向模型。</p>
+<p>我已經聽到有些人跟我說「Julia才沒有物件導向」或是「我不承認這是物件導向」等等這類的話。</p>
+<p>不過我得要跟大家說，物件導向不是只有大家看到的C++或是Java那個樣子的物件導向模型。</p>
+<h1 id="介紹-Julia-的物件導向模型"><a href="#介紹-Julia-的物件導向模型" class="headerlink" title="介紹 Julia 的物件導向模型"></a>介紹 Julia 的物件導向模型</h1><p>如果你的背景是C++, Java, Python, Ruby等等語言的話，那你應該非常熟悉物件導向的幾個要素：</p>
+<ol>
+<li>封裝</li>
+<li>繼承</li>
+<li>多型</li>
+</ol>
+<p>談到封裝，Julia幾乎沒有封裝的概念。</p>
+<p>是的，Julia不封裝！</p>
+<p>Julia宣告的是型別，不是類別；型別他只宣告了有哪些欄位，他也不會把方法宣告在型別裡頭。</p>
+<p>所以Julia的型別感覺上會比較像是C的<code>struct</code>，只存資料或狀態，不帶任何的方法。</p>
+<p>那方法怎麼辦？</p>
+<p>方法會由 Julia 的多重分派（multiple dispatch）引入。</p>
+<p>也就是說，我只要去設計任何函式，這個函式他所用到的參數型別，那這個funciton就是<strong>這些參數</strong>的方法。</p>
+<p>Julia會視caller 函式的參數型別，來決定到底要執行哪一種方法。</p>
+<p>看完之後應該會很傻眼，既然沒有封裝，然後又不帶方法，那這樣要怎麼實現物件導向呢？</p>
+<h2 id="Julia’s-型別系統"><a href="#Julia’s-型別系統" class="headerlink" title="Julia’s 型別系統"></a>Julia’s 型別系統</h2><p>概念上來說，Julia會藉由兩種型別來建立型別階層（type hierarchy）：抽象型別跟複合型別</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">abstract type Number end</span><br><span class="line">abstract type Complex &lt;: Number end</span><br><span class="line">abstract type Real &lt;: Number end</span><br><span class="line"></span><br><span class="line">struct Integer &lt;: Real</span><br><span class="line">    x</span><br><span class="line">end</span><br></pre></td></tr></table></figure>
+<p>以上宣告了 3 個抽象型別以及一個複合型別。</p>
+<p>抽象型別只有一行宣告，也就是說明這代表什麼樣的概念，他不具有欄位。</p>
+<p><code>&lt;:</code> 代表的是 <code>is subtype of</code>，<code>abstract type Complex &lt;: Number end</code>代表的是<code>Complex</code>是<code>Number</code>的子型別。</p>
+<p>複合型別就像<code>Integer</code>，他有一個field <code>x</code>，他是<code>Real</code>的子型別。</p>
+<p>子型別可以是抽象型別或是複合型別，但相反的是，父型別只能是抽象型別。</p>
+<p>以上我們描繪了一個型別階層，位於最頂端的是<code>Number</code>，所有人都是<code>Number</code>的子型別。</p>
+<p>而複合型別只能位於這棵型別階層的leaf的位置。</p>
+<p>在Julia中，所有的型別都是<code>Any</code>的子型別，相反，所有型別的子型別則是<code>Union{}</code>。</p>
+<p>這樣的hierarchy完全不俱備傳統物件導向的繼承概念，雖然觀念上也滿足<strong>is-a</strong>的關係，但是他並沒有從父型別上繼承任何東西，也沒有東西可以被繼承。</p>
+<p>你可能會問：那這樣的型別階層有什麼用呢？</p>
+<p>這就要配合多重分派來用拉~~</p>
+<h2 id="Julia-的多重分派"><a href="#Julia-的多重分派" class="headerlink" title="Julia 的多重分派"></a>Julia 的多重分派</h2><p>大家比較熟悉的應該是single dispatch，也就是區別<code>foo.method()</code>與<code>bar.method()</code>的不同。</p>
+<p>傳統的物件導向當他呼叫<code>foo.method()</code>與<code>bar.method()</code>這兩者時，同樣都是呼叫<code>method()</code>這個函式，可是到底要呼叫誰的實作呢？</p>
+<p>Single dispatch會告訴你：去找擁有這個函式的人，也就是<code>.</code>前面的那個傢伙。</p>
+<p>但是Julia的設計理念是：函式並不屬於任何人，也就是不會有人<strong>擁有</strong>函式。</p>
+<p>所以Julia裡的函式會是<code>method(foo)</code>跟<code>method(bar)</code>這樣的形式。</p>
+<p>Julia設計上很聰明，他會告訴函式去執行擁有跟參數型別相同排列組合的那個實作。</p>
+<p>這也就是多重分派了，他不依賴單一的型別去判斷，而是所有的參數型別的組合！</p>
+<p>所以當你宣告了一個像這樣的函式：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">function foo(a, b, c)</span><br><span class="line">    ....</span><br><span class="line">end</span><br></pre></td></tr></table></figure>
+<p>他會接受<em>任意的3個參數</em>，當沒宣告參數型別時就自動是<code>Any</code>。</p>
+<p>那以下這個狀況：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">function foo(a::Int64, b)</span><br><span class="line">    ....</span><br><span class="line">end</span><br></pre></td></tr></table></figure>
+<p>就只接受<em>第一個參數型別是<code>Int64</code></em>，而輸入<em>兩個參數</em>的情況了。</p>
+<h2 id="OOP-in-Julia"><a href="#OOP-in-Julia" class="headerlink" title="OOP in Julia"></a>OOP in Julia</h2><p>以這樣的type system以及多重分派作為建構物件導向的核心機制。</p>
+<p>我們不能在以傳統的思維去想物件導向。</p>
+<p>我們需要思考的是物件導向的核心是什麼？</p>
+<p>物件導向的引入主要幫助我們去塑造一個物件概念，並且幫助我們減少重複的程式碼，提高程式碼的reuse。</p>
+<p>我們訴求的是高內聚，低耦合的程式碼。</p>
+<p>在Julia中，複合型別提供了一個類似物件、結構的角色，由於沒有繼承關係，也不會有過高的內聚。</p>
+<p>繼承所需要的元素可以由合成（composition）來達成，但相對犧牲了部份的field reuse的可能性。</p>
+<p>方法的部份還原成了最初始的函式的樣貌，而函式本身是更加自由的。</p>
+<p>藉由多重分派可以更加<strong>細緻地</strong>定義函式的行為，可以在不同的參數型別上提供多樣的語意。</p>
+<p>例如，<code>*(Int64, Int64)</code>的含意是數字的乘法，<code>*(String, String)</code>則是字串的串接，同樣的運算子或是函數名稱，可以提供不同context下，不同的語意，這不是很像人類的語言習慣嗎？</p>
+<p>在Julia的精神中，我們關注的是context跟行為，去定義不同context下的函式以及語意（行為）是重要的。</p>
+<p>這方面Julia提供了絕佳的多型（polymorphism），但完全不支援繼承與封裝，對資訊的存取權更是無法控制。</p>
+<p>但他更強調的是readability！如果設計者考慮到context，那讀程式碼的人就更能進入這個context去思考。</p>
+<p>在函式的使用上更是毋庸置疑的靈活而鬆耦合，所以在程式碼的撰寫上，可以自然的達成<strong>高內聚，低耦合</strong>，更可以提升readability，最後的reuse就端看設計者最佳化的功力拉！</p>
+<p>Julia是一個達成物件導向精神的語言！</p>
+<h1 id="State-centered-and-behavior-centered-OOP"><a href="#State-centered-and-behavior-centered-OOP" class="headerlink" title="State-centered and behavior-centered OOP"></a>State-centered and behavior-centered OOP</h1><h2 id="The-state-centered-OOP"><a href="#The-state-centered-OOP" class="headerlink" title="The state-centered OOP"></a>The state-centered OOP</h2><p>傳統大家認知的物件導向，大多都由一個<strong>概念</strong>或是<strong>實體</strong>所構成。</p>
+<p>大家在做程式設計的時候，大家所關注的大多是一個變數的<em>值是如何變化</em>或是一個物件的<em>狀態如何變化</em>。</p>
+<p>所以很自然的會從一個實體或是概念著手，進而去設計他應該有怎樣的properties或是做什麼事情。</p>
+<p>會慢慢凝聚出一個概念，並且把這個概念化成一個個的class，並把這個class描繪清楚。</p>
+<p>class描繪仔細了以後，就去關注class跟class之間的互動關係，進而完成整個演算法或是架構。</p>
+<h2 id="The-behavior-centered-OOP"><a href="#The-behavior-centered-OOP" class="headerlink" title="The behavior-centered OOP"></a>The behavior-centered OOP</h2><p>在Julia的物件導向則是敘述<strong>關係</strong>或是<strong>行為</strong>。</p>
+<p>Julia會以函式的角度出發，Julia中的物件導向指的是<strong>design a set of methods</strong>這回事。</p>
+<p>Julia會使你關注在參數之間的關係，他們應該如何一起完成工作？參數如何被dispatch？函式跟函式之間會不會衝突？</p>
+<p>型別應該會有什麼樣的行為？<code>*</code>用在數字上跟用在字串上的語意有沒有一樣？</p>
+<p>方法其實是在圈定一群型別，他們會一起作用，就是這麼簡單。</p>
+<p>所以Julia的物件導向觀點都會圍繞在設計方法上面，而這樣的觀點又可以讓Julia很自然的融入functional programming當中。</p>
+<p>這讓Julia可以花比較少力氣在斤斤計較欄位的設計上，也花比較少力氣在思考繼承關係上。</p>
+<p>相對花比較多力氣在這個方法被宣告、進入整個語言系統當中的運作情形，也就是對整個系統的影響上。</p>
 
                     
                         
@@ -506,7 +572,7 @@
                     
                     
                         <p>
-                            <a href="/2013/12/05/mbti-again/#post-footer" class="postShorten-excerpt_link link">
+                            <a href="/2017/06/05/state-centered-behavior-centered-oop/#post-footer" class="postShorten-excerpt_link link">
                                 留言與分享
                             </a>
                         </p>
@@ -524,21 +590,21 @@
             <div class="postShorten-header">
                 <h1 class="postShorten-title">
                     
-                        <a class="link-unstyled" href="/2013/11/17/ood/">
-                            物件導向設計(OOD)
+                        <a class="link-unstyled" href="/2016/05/31/mind-and-courage/">
+                            心智與勇氣
                         </a>
                     
                 </h1>
                 <div class="postShorten-meta">
-    <time datetime="2013-11-17T22:00:00+08:00">
+    <time datetime="2016-05-31T22:58:00+08:00">
 	
-		    11月 17, 2013
+		    5月 31, 2016
     	
     </time>
     
         <span>分類 </span>
         
-    <a class="category-link" href="/categories/Computer-Science/">Computer Science</a>
+    <a class="category-link" href="/categories/My-Style/">My Style</a>, <a class="category-link" href="/categories/My-Style/BelieveThinkSoul/">BelieveThinkSoul</a>
 
 
     
@@ -547,33 +613,19 @@
             </div>
             
                 <div class="postShorten-content">
-                    <p>自從接觸java之後 修了資訊安全 開始寫了些密碼學的東西<br>其中很多可以藉由java的物件導向概念讓程式更為強健 不紊亂<br>這算是小筆記<br>先介紹物件導向的概念(沒有附程式碼也沒有圖)  </p>
-<hr>
-<h3 id="1-封裝-encapsulation"><a href="#1-封裝-encapsulation" class="headerlink" title="1.封裝(encapsulation):"></a>1.封裝(encapsulation):</h3><p>在物件導向的概念中第一個講的一定是封裝<br>當我今天要寫一隻龜兔賽跑的模擬程式<br>在以往的結構化程式中大概會把race(), run()等等動作寫成一個函式<br>至於跑了幾秒、速度各是多少等等就會把這些參數寫到main()當中<br>物件導向提供了不一樣的方法來描述這個問題<br>物件導向最主要提供的是<strong>相近於人類的思考方式</strong><br>然而在軟體工程觀點，物件導向最大的優點是<strong>code reusability(程式碼的重複利用)</strong><br>我們可以把烏龜當成一個物件，對這個物件描述他的屬性(attribute)跟方法(method)<br>屬性可以是烏龜跑步的速度、烏龜的名字或是烏龜的成績等等<br>只要是關於烏龜的特性都可以藉由定義成屬性加以使用<br>方法則是描述烏龜的行為，他可以是run()、rush()、isWin()等等<br>run()可以讓烏龜開始賽跑，rush()可以讓烏龜進行衝刺，用isWin()來看烏龜是否贏得比賽等等<br>等到我們把屬性及方法都定義好之後就要進行封裝<br>到這裡我要來介紹一個原則，要依據這個原則進行封裝  </p>
-<h3 id="2-最小權限原則-Principle-of-least-privilege"><a href="#2-最小權限原則-Principle-of-least-privilege" class="headerlink" title="2.最小權限原則(Principle of least privilege):"></a>2.最小權限原則(Principle of least privilege):</h3><p>當我們把物件的屬性跟方法定義好之後，物件是需要與程式互動的<br>所以程式以可能會需要用到物件的屬性或是方法，但是直接存取物件的屬性是危險的<br>因為我們不知道什麼時候物件的屬性會遭到外界竄改而發生錯誤<br>所以在這裡引用最小權限原則的原文:  </p>
+                    <blockquote>
+<p>如果家人親友遭逢重大變故<br>知道事情的真相比較好還是不知道比較好？<br>知道事實怕自己無法改變既定事實又怕受傷害<br>不知道事實又懸著一顆心，忐忑不安</p>
+</blockquote>
+<p>最近朋友的親人遭逢重大變故<br>該不該讓其他家人知道，讓他傷透腦筋</p>
 <blockquote>
-<p>Every program and every privileged user of the system should operate using the least amount of privilege necessary to complete the job.  <em>– Jerome Saltzer</em></p>
+<p>是不是知道世界上所有的事實就能變得無敵、變得快樂？<br>但知道了以後，又怕看到這個世界是極其的噁心汙濁，自己又無能為力<br>是不是當個傻瓜比較好？<br>傻瓜連自己怎麼死的都不知道，可能跌進水溝就死了</p>
 </blockquote>
-<p>「在每個程式跟系統的使用者應該使用最小的必要權限去完成工作」，換言之，物件要開放讓其他人存取的東西應該是”最少且必要的”，如此才能保障物件內部的運作可以順利，免於受到外界程式修改屬性的影響<br>所以通常會把物件的屬性設成private(私有)，將方法設成public(公開)<br>當然這只是通常的作法，物件應該視不同情況需求有所變動<br>那如果某天我想要存取物件的屬性怎麼辦<br>我們會設一個setter跟一個getter的方法，利用setter去對某屬性加以設定，利用getter去得到屬性的值<br>與原本直接存取屬性不同是，我們可以在setter中加入限制，以防輸入錯誤的值<br>像剛剛的烏龜的速度speed，可以藉由setSpeed()去限制烏龜的速度在什麼範圍<br>要是烏龜的速度被設成跟飛機一樣快那不是糟了<br>同樣可以寫一個getSpeed()去得到烏龜的速度<br>如此一來，其他程式在使用烏龜這個物件的時候就不必考慮到內部的運作  </p>
-<h3 id="3-類別-class"><a href="#3-類別-class" class="headerlink" title="3.類別(class):"></a>3.類別(class):</h3><p>當我們把烏龜寫好，他會被java存成一個類別<br>外界程式會經由宣告這個類別，將烏龜變成一個實例(instance)，我們可以叫他小龜<br>我們可以藉由這種方式將很多的烏龜實例加以宣告，造出很多的烏龜，有紅的、有藍的(誤)<br>所以類別只是描述烏龜這個物件的一個藍圖，真正將他宣告出來才能加以使用  </p>
-<h3 id="4-繼承-inheritance"><a href="#4-繼承-inheritance" class="headerlink" title="4.繼承(inheritance):"></a>4.繼承(inheritance):</h3><p>繼承是物件導向當中一個重要的概念<br>在表現上類似於生物的分類表，就像貓跟狗都是哺乳類一樣<br>所以延續上面的例子，龜兔都是動物，所以龜兔都可以繼承自”動物”這個類別<br>我們可以設計動物這個類別，他可含有名字這個屬性，也可以對他get或set<br>所以當烏龜或兔子類別繼承自動物的時候<br>這時候我們說動物是烏龜跟兔子的父類別(superclass)，烏龜就是動物的子類別(subclass)<br>(在C語言中稱為基礎類別 base class及衍生類別derived class)<br>這時動物的屬性及方法就會被繼承到子類別中，如此可以避免重複的程式碼出現也好維護程式<br>這時我們會說繼承關係是<strong>is-a</strong>關係，<strong>是一種</strong>關係<br>也就是「烏龜<strong>is-a(是一種)</strong>動物」的關係，這也是重要的概念  </p>
-<h3 id="5-多型-polymorphism"><a href="#5-多型-polymorphism" class="headerlink" title="5.多型(polymorphism):"></a>5.多型(polymorphism):</h3><p>來接續講講多型<br>多型這個字的英文其實跟生物的物種多型性是同一個字<br>生物的多型性是指同一物種當中的同一族群擁有兩種以上的表現型<br>程式的多型也是如此，繼承於同樣的父類別下的<strong>子類別可以有不同的表現</strong><br>就像之前的例子，動物類別可以有run()，當烏龜跟兔子類別繼承了動物類別的run()<br>烏龜的run()有自己的執行方式，兔子也是<br>所以當需要執行烏龜自己的run()時，可以多型地使用，而不會繼承到動物類別的<br>更進一步，可以將烏龜的run()及兔子的run()中<strong>相同的部份加以抽象化</strong>並提升到動物類別中<br><strong>以避免重複的程式碼</strong>，也好維護，同時可以達到多種表現的效果<br>多型必須利用<strong>覆寫(override)</strong>父類別的方法來達到效果<br>覆寫父類別的方法時，區塊內可以使用父類別的方法來加以建構<br>多型當中還有很多的細節，我只在這邊做粗略的介紹而已  </p>
-<h3 id="6-抽象類別-abstract-class-amp-介面-interface"><a href="#6-抽象類別-abstract-class-amp-介面-interface" class="headerlink" title="6.抽象類別(abstract class)&amp;介面(interface):"></a>6.抽象類別(abstract class)&amp;介面(interface):</h3><p>到這邊為止應該是在程式設計上有點基礎之後的進階說明<br>很多人一開始都會有疑問，抽象類別跟介面有什麼差別?<br>在語法上似乎是差不多的，抽象類別允許宣告抽象方法，介面的方法全是抽象方法<br>其實還有很多，我就不贅述<br>但是在設計觀點，這兩者是不一樣的<br>抽象類別仍然還是<strong>類別(class)</strong>，所以他跟其他類別的關係是繼承關係，是<strong>is-a</strong>關係<br>就像「烏龜<strong>是一種</strong>動物」一樣，動物是抽象的概念，可被寫成抽象類別<br>但介面並不一樣，介面跟其他類別的關係是<strong>實現(realization)</strong>，是<strong>契約關係</strong><br>他會規範其他類別遵守介面定下的標準，必須要<strong>實作介面的抽象方法</strong><br>舉個例，鳥會飛，飛機也會飛，但是鳥跟飛機是不同的東西，也不會繼承於相同的父類別之下<br>所以我們可以寫一個”會飛的”介面，這個介面定義抽象方法fly()<br>當鳥與飛機都實現”會飛的”介面時，就必須要把fly()實作為具體方法(concrete method)<br>所以鳥跟”會飛的”介面的關係是<strong>has-a (擁有, 會)</strong><br>這兩者在設計概念上是不同的  </p>
-<h3 id="7-單一職責原則-single-responsibility-principle"><a href="#7-單一職責原則-single-responsibility-principle" class="headerlink" title="7.單一職責原則(single responsibility principle):"></a>7.單一職責原則(single responsibility principle):</h3><p>接下來講講物件導向設計(OOD)中著名的SOLID原則<br>第一個S就是單一職責原則<br>這個原則很簡單，他是說<strong>一個類別只要有一種職責(功能)就好</strong><br>有時候工程師會追求一個類別的強大加了許多附加的功能<br>這會使得這個類別難以維護，也失去類別的意義<br>所以這個原則強調一個類別只要顧好他自己的職責所在，有簡單而呼應職責的方法即可<br>相對也避免單一職責分散在各個類別中  </p>
-<h3 id="8-開放封閉原則-open-closed-principle"><a href="#8-開放封閉原則-open-closed-principle" class="headerlink" title="8.開放封閉原則(open/closed principle):"></a>8.開放封閉原則(open/closed principle):</h3><p>第二個O指的是開放封閉原則，直接引用原文:  </p>
-<blockquote>
-<p>Software entities (classes, modules, functions, etc.) should be open for extension, but closed for modification.  <em>– Bertrand Meyer</em></p>
-</blockquote>
-<p>在軟體的類別、模組、函式中應該<strong>對擴充開放，而對修改關閉</strong><br>每當我們要將既有的軟體中加入新的功能，我們應該是將新的元素加入而不是修改既有的程式碼讓他擁有新的功能<br>修改會讓程式碼變得越來越龐雜，加入並延伸是讓軟體具有更多的小部份各自運作<br>軟體具有這樣的特性的同時，也遵守單一職責原則會讓軟體更好  </p>
-<h3 id="9-芮氏替換原則-Liskov-substitution-principle"><a href="#9-芮氏替換原則-Liskov-substitution-principle" class="headerlink" title="9.芮氏替換原則(Liskov substitution principle):"></a>9.芮氏替換原則(Liskov substitution principle):</h3><blockquote>
-<p>Let <em>q(x)</em> be a property provable about objects _x_ of type _T_. Then <em>q(y)</em> should be provable for objects _y_ of type _S_ where _S_ is a subtype of _T_.  _– Barbara Liskov <em>and</em> Jeannette Wing_</p>
-</blockquote>
-<p>一開始就把抽象的原文拉進來，這是個關於抽象化的部份<br>在敘述一個繼承關係的時候，子類別是一種父類別，所以<strong>子類別可以替換父類別被使用</strong><br>將原文解釋一下: 假設S是T的subtype，x是T中的物件，q(x)是成立的，那對y是S的物件，q(y)也是成立的<br>這是用來避免一些狀況，當有一個鳥的類別被老鷹類別及鴕鳥類別繼承<br>通常鳥都會飛，所以我們在鳥類別中加入fly()，但是鴕鳥卻不會飛<br>這種狀況阻礙了多型的操作，鴕鳥無法飛，也無法override父類別的fly()<br>比較好的作法是做一個”會飛的”介面，並讓會飛的鳥去實現，將鳥類別中的fly()移除  </p>
-<h3 id="10-介面隔離原則-interface-segregation-principle"><a href="#10-介面隔離原則-interface-segregation-principle" class="headerlink" title="10.介面隔離原則(interface segregation principle):"></a>10.介面隔離原則(interface segregation principle):</h3><p>在物件導向設計當中，介面(interfaces)提供了一個抽象化層，可以在提供<strong>概念上的解釋</strong>，同時<strong>避免依賴性</strong>的屏障<br>物件的功能會隨需求越多，類別會越來越龐大，繼承的層數也會增多<br>當底層的類別還要在被子類別繼承時，子類別會依賴於父類別的方法<br>或許子類別並不會用到父類別的某些方法，這些方法會變成子類別的累贅<br>這時應該定義新的介面，讓需要的類別去實現介面，這樣就不會有多餘的方法被繼承<br>當然，介面所定義的方法也要盡可能的少，才能被廣泛的使用  </p>
-<h3 id="11-依賴反轉原則-dependency-inversion-principle"><a href="#11-依賴反轉原則-dependency-inversion-principle" class="headerlink" title="11.依賴反轉原則(dependency inversion principle):"></a>11.依賴反轉原則(dependency inversion principle):</h3><p>在傳統的應用架構中，低層次的模組被高層次的模組使用，進而構成一個複雜的系統<br>在這種複合關係(composition)下，高層次的模組直接依賴於低層次的模組去執行一些任務<br>這個時候低層次模組的依賴限制了高層次模組的重複使用性<br>在這種情況下，為了使得高層次的模組不依賴於低層次的模組，規定:<br>1.<strong>高層次的模組不應該依賴於低層次的模組，兩者都應該依賴於抽象體</strong><br>2.抽象體不應該依賴於具體細節，而具體細節則應該依賴於抽象體  </p>
-<h4 id="12-Don’t-repeat-yourself-DRY"><a href="#12-Don’t-repeat-yourself-DRY" class="headerlink" title="12.Don’t repeat yourself (DRY):"></a>12.Don’t repeat yourself (DRY):</h4><p>接下來講講簡單的<br>如字面上的意思一樣，<strong>盡量不要寫重複的程式碼</strong>  </p>
-<h4 id="13-Keep-it-simple-stupid-KISS"><a href="#13-Keep-it-simple-stupid-KISS" class="headerlink" title="13.Keep it simple, stupid (KISS)"></a>13.Keep it simple, stupid (KISS)</h4><p>如以上縮寫，寫程式需要親親(誤)，快結尾了不說笑XD<br>程式碼越簡單越”笨”越好<br>當然並不是把簡單可以完成的工作使用了很多if else完成<br>單一的函式只處理他”分內的工作”就好，不要去理外界需要什麼  </p>
-<p>參考:<a href="http://butunclebob.com/ArticleS.UncleBob.PrinciplesOfOod" target="_blank" rel="noopener">PrinciplesOfOod</a></p>
+<p>我認為最重要的不是成為全知的人或是成為愚笨的人<br><strong>擁有勇氣跟足夠的心智能力</strong>才是重點</p>
+<p>成為了全知的人，如果擁有極其強大的勇氣跟能夠處理這些事實的心智能力<br>自然不必為這些事實悲傷<br>勇氣會帶你克服這些情緒，心智能力能良好的處理這些資訊</p>
+<p>如果沒有了勇氣跟心智，知道太多的事實必然掉入悲觀的深淵中<br>你不知道如何運用這些事實，你不知道如何解釋你的人生，你沒有勇氣面對他們</p>
+<p>相反，有勇氣的傻瓜就是個有勇無謀的匹夫<br>只會戰死在第一線上，可能有貢獻、可能沒有</p>
+<p>如果傻瓜連勇氣都沒有，也沒有足夠的心智能力<br>快樂的活著會是你人生的唯一目標<br>但是！！！<br>你不知道快樂何時會消失？你不知道怎麼留住他？<br>但你仍然過你的生活<br>某天，他消失了，你如同一隻無助的小動物一樣，手足無措<br>想掙扎，但又不知如何找回以往的快樂……………</p>
+<p>勇氣跟心智能力或許比聰明來的重要<br>擁有勇氣跟心智能力可以活的不錯<br>但是變得聰明、知道更多事實，才能突破限制、抓住幸福的尾巴<br>聰明、勇氣跟心智能力是需要一起成長的</p>
 
                     
                         
@@ -581,7 +633,7 @@
                     
                     
                         <p>
-                            <a href="/2013/11/17/ood/#post-footer" class="postShorten-excerpt_link link">
+                            <a href="/2016/05/31/mind-and-courage/#post-footer" class="postShorten-excerpt_link link">
                                 留言與分享
                             </a>
                         </p>
@@ -599,21 +651,21 @@
             <div class="postShorten-header">
                 <h1 class="postShorten-title">
                     
-                        <a class="link-unstyled" href="/2009/05/04/mbti/">
-                            MBTI 職業性格測試報告
+                        <a class="link-unstyled" href="/2016/05/11/open-minded/">
+                            多元價值觀
                         </a>
                     
                 </h1>
                 <div class="postShorten-meta">
-    <time datetime="2009-05-04T07:50:00+08:00">
+    <time datetime="2016-05-11T20:49:00+08:00">
 	
-		    5月 04, 2009
+		    5月 11, 2016
     	
     </time>
     
         <span>分類 </span>
         
-    <a class="category-link" href="/categories/My-Style/">My Style</a>, <a class="category-link" href="/categories/My-Style/Believe。Think。Soul/">Believe。Think。Soul</a>
+    <a class="category-link" href="/categories/My-Style/">My Style</a>, <a class="category-link" href="/categories/My-Style/BelieveThinkSoul/">BelieveThinkSoul</a>
 
 
     
@@ -622,62 +674,169 @@
             </div>
             
                 <div class="postShorten-content">
-                    <p>推薦個好網站~  </p>
-<p><a href="https://www.arealme.com/16types/zh/" target="_blank" rel="noopener">16型人格職業性格測試</a></p>
-<p>大家可以去測測看喔~  </p>
-<p>以下是我測出來的結果:  </p>
-<hr>
-<p>分析：您的性格類型是「ENFJ」( 教育家 )</p>
-<p>溫情，有同情心，反應敏捷，有責任感。非常關注別人的情緒、需要和動機。善於發現他人的潛能，並希望能幫助他們實現。能夠成為個人或群體成長和進步的催化劑。忠誠，對讚美和批評都能做出積極地回應。友善、好 社交。在團體中能很好地幫助他人，並有鼓舞他人的領導能力。</p>
-<p>ENFJ型的人熱愛人類，他們認為人的感情是最重要的。而且他們很自然地關心別人，以熱情的態度對待生命，感受與個人相關的所有事物。由於他們很理想化，按照自己的價值觀生活，因此ENFJ型的人對於他們所尊重和敬 佩的人、事業和機構非常忠誠。他們精力充沛、滿腔熱情、富有責任感、勤勤勤懇懇、鍥而不捨。</p>
-<p>ENFJ型的人具有自我批評的自然傾向。然而，他們對他人的情感具有責任心，所以ENFJ型的人很少在公共場合批評人。他們 敏銳地意識到什麼是（或不是）合適的行為。他們彬彬有禮、富有魅力、討人喜歡、深諳社會。ENFJ型的人具有平和的性格與忍耐力，他們長於外交，擅長在自己的周圍激發幽默感。他們是天然的領導者，受人歡迎而有魅 力。他們常常得利於自己口頭表達的天份，願意成為出色的傳播工作者。</p>
-<p>ENFJ型的人在自已對情況感受的基礎上做決定，而不是基於事實本身。他們對顯而易見的事物之外的可能性，以及這些可能性以怎樣的方式影響他人 感興趣。 ENFJ型的人天生具有條理性，他們喜歡一種有安排的世界，並且希望別人也是如此。即使其他人正在做決定，他們還是喜歡把問題解決了。</p>
-<p>ENFJ型的人富有同情心和理解力，願意培養和支持他人。他們能很好地 理解別人，有責任感和關心他人。由於他們是理想主義者，因此他們通常能看到別人身上的優點。</p>
-<p>您適合的領域有：培訓、諮詢、教育、新聞傳播、公共關係、文化藝術</p>
-<p>您適合的職業有：</p>
+                    <p><strong><em>為什麼美女一定要皮膚白、長的瘦、高顏值，不同體態的人有不同姿態的美</em></strong><br><strong><em>為什麼不接受同性戀，同性戀跟異性戀一樣愛人跟被愛</em></strong><br><strong><em>為什麼看動漫被視為宅，看卡通被認為幼稚</em></strong><br><strong><em>為什麼害怕精神病患，雖然行為舉止怪異，他仍舊是人，仍然有感覺</em></strong></p>
+<p>台灣社會極度推崇<strong>單一</strong>的主流價值觀<br>對於不同文化或是價值觀的族群接受度不高</p>
+<p>這次鄭捷的事件提醒了我們這件事<br>我們無法以更開放、接受的態度，科學性的精神去探討議題<br>就憑藉著直覺、單一的，去裁決這件事<br>他的死並沒有帶給這個社會任何美好，只代表這個社會又忽視了當中的議題，等待下次事件發生</p>
+<p>這就像當事件發生了，你卻把眼睛遮起來當作沒看到一樣的愚蠢<br>沒看到事件發生就代表沒發生事件嗎</p>
+<p>這個社會極度的被<strong>框架</strong>所綁架<br>胖並不等於醜，瘦也不等於美<br>動漫是興趣不等於宅<br>殺人不等於死刑</p>
+<p>我們從不開放自己的心態去看一件事</p>
+<blockquote>
+<p>在《行為的藝術》一書中，簡單的邏輯提到：<br>5台機器生產5件衣服需5分鐘，那麼100台機器生產100件衣服需要多久？<br>如果你的答案是100分鐘的話，請多想想<br>正確答案是5分鐘，如果你達出錯誤的答案是因為你的直覺跳出來主導一切<br>這類的題目被稱為認知反射測試（Cognitive Reflection Test, CRT）<br>心理學家Shane Frederick測試了很多人，當中麻省理工學院學生表現最優異<br>CRT值低的人傾向依直覺行事，CRT高的人較擅長以意志力駕馭，以理性思考<br>研究發現，美國人當中，CRT較高的多為無神論者，CRT較低則傾向信仰上帝<br>相對容易聽信直覺的人，愈無法以理智挑戰其宗教觀念</p>
+</blockquote>
+
+                    
+                        
+
+                    
+                    
+                        <p>
+                            <a href="/2016/05/11/open-minded/#post-footer" class="postShorten-excerpt_link link">
+                                留言與分享
+                            </a>
+                        </p>
+                    
+                </div>
+            
+        </div>
+        
+    </article>
+    
+    
+    <article class="postShorten postShorten--thumbnailimg-bottom">
+        <div class="postShorten-wrap">
+            
+            <div class="postShorten-header">
+                <h1 class="postShorten-title">
+                    
+                        <a class="link-unstyled" href="/2016/05/09/rule/">
+                            Rule
+                        </a>
+                    
+                </h1>
+                <div class="postShorten-meta">
+    <time datetime="2016-05-09T23:05:00+08:00">
+	
+		    5月 09, 2016
+    	
+    </time>
+    
+        <span>分類 </span>
+        
+    <a class="category-link" href="/categories/My-Style/">My Style</a>, <a class="category-link" href="/categories/My-Style/BelieveThinkSoul/">BelieveThinkSoul</a>
+
+
+    
+</div>
+
+            </div>
+            
+                <div class="postShorten-content">
+                    <p><strong><em>你所描繪的理想世界</em></strong><br><strong><em>柏拉圖稱為”理型”</em></strong><br><strong><em>然後要不要去實踐這樣的理想</em></strong><br><strong><em>或是趨近於理想</em></strong></p>
+<blockquote>
+<p>你覺得”應該”怎麼做，那會變成理想的其中一條rule</p>
+</blockquote>
+<p><strong>很多rule的集合組織了整個世界</strong><br><strong>所以當rule多到一定程度的時候，世界就會浮現</strong></p>
+<p>話說我小學的時候就在想這個問題</p>
+<p>怎樣才算一個rule<br>或是一個好的rule<br>rule跟rule之間會不會對衝</p>
+<p>所以想要去檢驗”時間就是金錢”, “金錢就是力量”等等的<br>到底哪些在人們的觀念中存在的rule哪些是真的而不互相矛盾的</p>
+<p>從而藉由這些經驗跟觀念來構築自己的世界</p>
+
+                    
+                        
+
+                    
+                    
+                        <p>
+                            <a href="/2016/05/09/rule/#post-footer" class="postShorten-excerpt_link link">
+                                留言與分享
+                            </a>
+                        </p>
+                    
+                </div>
+            
+        </div>
+        
+    </article>
+    
+    
+    <article class="postShorten postShorten--thumbnailimg-bottom">
+        <div class="postShorten-wrap">
+            
+            <div class="postShorten-header">
+                <h1 class="postShorten-title">
+                    
+                        <a class="link-unstyled" href="/2016/04/28/life-decision/">
+                            人生決斷
+                        </a>
+                    
+                </h1>
+                <div class="postShorten-meta">
+    <time datetime="2016-04-28T09:54:00+08:00">
+	
+		    4月 28, 2016
+    	
+    </time>
+    
+        <span>分類 </span>
+        
+    <a class="category-link" href="/categories/Master-in-NYMU/">Master in NYMU</a>, <a class="category-link" href="/categories/Master-in-NYMU/Life/">Life</a>
+
+
+    
+</div>
+
+            </div>
+            
+                <div class="postShorten-content">
+                    <p>人生大概來到了要做出決斷的時候</p>
+<p>事發是昨天跟老師們的對話<br>基本上就是有三位老師要留我下來念博班<br>有我們老師跟師母還有一位老師的朋友</p>
+<p>我大概解說了我的研究，老師們想繼續發展我的研究，並且寫成研究計劃</p>
+<blockquote>
+<p>(老師們)：你畢業後來我們 lab我一定收你！！</p>
+</blockquote>
+<p>…(猶豫)…</p>
+<h2 id="確認"><a href="#確認" class="headerlink" title="確認"></a>確認</h2><h3 id="喜不喜歡唸書"><a href="#喜不喜歡唸書" class="headerlink" title="喜不喜歡唸書"></a>喜不喜歡唸書</h3><p>老師們有問到我喜不喜歡唸書這件事<br>老實說，我滿喜歡唸書的<br>甚至買了很多教科書 (都是傳說中的聖經本)<br>也買了很多閒書 (很多是科普或是資訊相關書籍)<br>很喜歡看開放式課程<br>從大學時期會自己上coursera訂閱課程自己看 (雖然到現在還沒看完)<br>涉獵範圍有點大：電磁學、量子力學、相對論、線性代數跟抽象代數、機率模型、最佳化理論<br>資訊相關的有Agile method (敏捷開發法)、機器學習跟資料探勘、資料庫、作業系統、編譯器等等<br>到現在擴張到心理學跟經濟學<br>只要是科學相關的都很好，從易懂的科普書籍到艱深的教科書理論都把他當閒書看</p>
+<h3 id="有沒有能力"><a href="#有沒有能力" class="headerlink" title="有沒有能力"></a>有沒有能力</h3><p>有沒有做研究的能力 (應該說潛力)<br>這件事也被提出來問<br>也被我們老師肯定了<br>基本上做研究的能力不外乎：</p>
 <ul>
-<li>人力資源培訓主任</li>
-<li>銷售經理</li>
-<li>小企業經理</li>
-<li>程序設計員</li>
-<li>生態旅遊業專家</li>
-<li>廣告客戶經理</li>
-<li>公關專業人士</li>
-<li>協調人</li>
-<li>交流總裁</li>
-<li>作家／記者</li>
-<li>非營利機構總裁</li>
-<li>雜誌編輯</li>
-<li>電視製片人</li>
-<li>市場專員</li>
-<li>社會工作者</li>
-<li>人力資源管理</li>
-<li>職業指導顧問</li>
-<li>心理咨詢工作者 </li>
-<li>大學教師（人文學科類）</li>
-<li>教育學、心理學研究人員</li>
-<li>撰稿人</li>
-<li>節目主持人（新聞、採訪類）</li>
-<li>公共關係專家</li>
-<li>社會活動家</li>
-<li>文藝工作者</li>
-<li>平面設計師</li>
-<li>畫家</li>
-<li>音樂家  </li>
+<li>問一個好問題 (找到問題或定義問題)</li>
+<li>想解法</li>
+<li>解他</li>
+<li>(重複循環)</li>
 </ul>
-<hr>
-<p>那我以後是不是要當老師阿~@@  </p>
-<p>如果要的話我想當大學教授^^  </p>
-<p>因為有自己的研究室  </p>
-<p>也可以教教書  </p>
-<p>還不錯~  </p>
-<p>生態旅遊業專家~   </p>
-<p>聽起來還不錯ㄟ  </p>
-<p>說真的我還蠻嚮往之前那個去大堡礁當生態導覽的工作的^^  </p>
-<p>畫家也可以(尤其是漫畫家)~  </p>
-<p>愛畫畫的我^^~  </p>
-<hr>
-<p>大家也把自己測完的結果複製貼上來喔~</p>
+<p>從我碩一進來不知道方向，跑去找老師問問看有什麼可以做<br>拿到一個方向，自己找相關的論文看，自己找可以用的data<br>雖然第一次的嘗試並沒有成功，但是他引入了更重要的方向跟主題<br>然後也是做到有點小成果，但是看了看不滿意<br>自己又把結果翻掉重新來，這樣前前後後，我現在的成果大概是第三次了<br>自己找論文的過程中學到了別人如何找到一個好問題、如何嘗試、如何思考</p>
+<h2 id="經歷"><a href="#經歷" class="headerlink" title="經歷"></a>經歷</h2><p>面臨人生的問題目前也不知道怎麼解他<br>畢業，有兵役問題、就業問題、人生方向的選擇<br>這些都無關對錯，也無從去做最佳化</p>
+<h3 id="面試"><a href="#面試" class="headerlink" title="面試"></a>面試</h3><p>其實看了很多朋友的當兵心得<br>不外乎”在國軍的訓練中並不會學到新的東西，反而教你如何在這樣的環境下，躲避責任、逃避上級的指令”<br>然而環境不受改變，只能服從跟改變自己<br>如果這說是社會的樣貌的話，那我寧可不要活在這個世界上</p>
+<p>考慮各種條件下，我選擇去替代役或是研發替代役<br>相對來說，我更願意付出自己的力量去服務社會，如果可以運用我的專業的話就更棒了<br>所以先去找新創媒合會找公司，當中有我喜歡的或是可以發揮我的專業的<br>不過他們都因為沒有開研發替代役的缺而成為遺珠</p>
+<h3 id="教育"><a href="#教育" class="headerlink" title="教育"></a>教育</h3><p>也在FB上看到<strong>均一教育平台</strong>的徵人廣告<br>一開始引發我注意是因為蘇文鈺老師的推荐<br>他是我在成大時候很欣賞的老師，而且老師也對我的期末專案給了很高的評價<br>而老師現在正在推廣偏鄉兒童的程式教育</p>
+<p>教育，我一直有再關注政府的教育政策跟底層教育的現況<br>所以老師一開始推廣這個計劃的時候我剛決定要北上念研究所<br>不然我一定留下來陪老師一起推這個計劃<br>而現在我有看到我可以改變台灣教育現況的機會<br>即使均一教育平台並不是營利機構，可以支付的薪資不高<br>但是這樣有意義的事情我願意做</p>
+<h2 id="價值"><a href="#價值" class="headerlink" title="價值"></a>價值</h2><p>在思維上我認為我跟一般人很不一樣<br>就找工作來說，<strong>擁有自由的時間</strong>會比<strong>支付多少薪資</strong>的priority高<br>當然大多數人都把薪資看的最重要<br>對我來說，我從事創造性的工作，擁有自由時間才能為自己創造更多附加價值<br>當附加價值到達一定程度就可以成為主要價值<br>當然不希望台灣老闆讓有創造性能力的人才去做機械性工作，並且支付較低的薪資，用以往的管理學管理<br>(以往的管理學之所以會奏效是因為他的對象是機械性工作的人)</p>
+<h2 id="問題"><a href="#問題" class="headerlink" title="問題"></a>問題</h2><p>對我來說，找工作不只是找工作<br>既然老闆找來人才，就是希望可以幫老闆解決問題<br>所以站在解決問題的角度，我的選擇有下面這幾個：</p>
+<ul>
+<li>解決基礎生物的學術問題，以後可以應用在癌症跟其他疾病的預測與治療上，基本上我的研究就是解開基因跟癌症祕密的那把鑰匙<ul>
+<li>投入學術界，念博班</li>
+</ul>
+</li>
+<li>解決台灣教育現況的問題，這個的影響會從台灣的底層開始革命，要改變台灣社會的既有價值觀<ul>
+<li>追隨蘇老師或是均一教育平台</li>
+</ul>
+</li>
+<li>解決軟體開發的問題跟客戶需求的問題<ul>
+<li>幫軟體公司開發軟體賺錢</li>
+</ul>
+</li>
+</ul>
+<p>說實在，我不知道第一個跟第二個誰比較重要</p>
+<h2 id="教育改革"><a href="#教育改革" class="headerlink" title="教育改革"></a>教育改革</h2><p>教育改革談了很久，不僅台灣，美國跟歐洲也再談論這個問題<br>以往教育改革的重點是放在教育體制跟師資上面<br>但是社會學的研究告訴我們，比起學校的老師，家長對於小孩教育的影響更大<br>家長從小孩很小的時候就開始教育小孩，教孩子怎麼選擇、怎麼做事，建立他們的價值觀<br>教師，是有經過特殊訓練的教育從業人員，然而家長並沒有<br>只要有繁殖能力，有錢養小孩就可以當上<strong>家長</strong><br>我們沒有辦法訓練家長從一個壞的家長變成一個好的家長<br>我們始終都沒有把焦點放對地方</p>
+<p><strong><em>要改革的不是體制、不是老師，而是家長的價值觀</em></strong></p>
+<p>牽涉到家長的價值觀這塊，就直接連動到社會的整體價值觀跟氛圍<br>簡單說，如果不改變社會既有價值觀的話，就無法改變家長的價值觀，也無法改變教育現狀<br><strong>如果從事教育，不處理社會價值觀的問題的話，永遠不會成功</strong></p>
+<h3 id="既有價值觀"><a href="#既有價值觀" class="headerlink" title="既有價值觀"></a>既有價值觀</h3><p>社會的價值觀含有多過的偏見跟倫理道德問題<br>舉例：在阿德勒心理學中表示，世界上所有問題都來自於人際關係，也就是<strong>所有問題都是人際關係的問題</strong><br>人際關係中有<strong>上對下的關係</strong>，還有<strong>水平關係</strong><br><strong>上對下的關係</strong>容易使人際關係崩解，解法就是將<strong>上對下的關係</strong>轉化成<strong>水平關係</strong><br>什麼是<strong>上對下的關係</strong>？就是君臣 (老闆對屬下)、夫婦、父子等等關係，具有從屬關係的特質<br>為什麼從屬關係不好？因為這樣的不對等造成命令的一方通常不必付任何的責任，然而責任會落到執行的人身上</p>
+<p>父母要求孩子唸書，站在父母的觀點是為了孩子的未來著想，但是孩子的未來是孩子要自己負責<br>如果父母嚴加管制，讓孩子去唸書，當然孩子就自然討厭唸書這回事，也不覺得考高分是因為父母的逼迫<br>反而覺得有唸書又考低分，他花了大半的時間唸書 (痛苦)，又無法做他想要做的事情，將這怪罪到父母身上<br>阿德勒心理學說：決定要不要唸書是孩子的課題，父母一旦干涉了這個課題會讓關係變糟，因為課題導致的結果會回到孩子身上，父母完全不用對這件事負責</p>
+<p>然而<strong>上對下的關係</strong>普遍存在在中華文化影響所及的範圍內，包括台灣、中國大陸、日本、韓國<br>這是社會價值觀所存在的問題之一，也是需要改變的點之一</p>
+<p><strong><em>教育是一場注定由下而上的革命     –  肯．羅賓森</em></strong></p>
+<p><strong><em>教育問題已經不單單是教育的問題而已，是牽涉到社會價值觀的問題</em></strong></p>
+<h3 id="方法"><a href="#方法" class="headerlink" title="方法"></a>方法</h3><p>Google的出現，導致人們重新看待資訊的態度，就像電力一樣<br>在電線跟電力網路建立以前，要取得電力是一件不容易的事情<br>現在因為網路跟搜尋引擎的發達，人們要取得資訊非常容易<br>這種變遷之下，會造成人們的生活方式或價值觀改變，像是出門不需事先查好地圖，你只要有手機有無線網路<br>每個劃時代的事物都可以造成人們的價值觀變化<br>那是不是參與g0v或是非營教育事業會是一個契機呢？<br>這一樣是利用事物的變遷設法對價值觀產生影響的方法</p>
+<h2 id="後記"><a href="#後記" class="headerlink" title="後記"></a>後記</h2><p>對我來說，有沒有能力勝任某項工作件事完全不是問題，也不是會成立的問題<br>學術研究來說，已經有老師認証過了<br>教育部份，沒有什麼勝任不勝任的問題</p>
+<p>最後萬事具備只欠東風<br>我到底要決定做什麼<br>這不是客觀理性的分析題<br>這是主觀的喜好選擇題</p>
 
                     
                         
@@ -685,7 +844,7 @@
                     
                     
                         <p>
-                            <a href="/2009/05/04/mbti/#post-footer" class="postShorten-excerpt_link link">
+                            <a href="/2016/04/28/life-decision/#post-footer" class="postShorten-excerpt_link link">
                                 留言與分享
                             </a>
                         </p>
@@ -707,7 +866,14 @@
           </li>
         
         
-        <li class="pagination-number">第 7 頁 共 7 頁</li>
+          <li class="pagination-next">
+            <a class="btn btn--default btn--small" href="/page/8/">
+              <span>下一頁</span>
+              <i class="fa fa-angle-right text-base icon-ml"></i>
+            </a>
+          </li>
+        
+        <li class="pagination-number">第 7 頁 共 8 頁</li>
     </ul>
 </div>
 

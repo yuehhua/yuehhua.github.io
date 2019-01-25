@@ -326,6 +326,412 @@
             <div class="postShorten-header">
                 <h1 class="postShorten-title">
                     
+                        <a class="link-unstyled" href="/2017/06/05/state-centered-behavior-centered-oop/">
+                            狀態為中心與行為為中心的物件導向（State-centered and behavior-centered OOP）
+                        </a>
+                    
+                </h1>
+                <div class="postShorten-meta">
+    <time datetime="2017-06-05T00:33:00+08:00">
+	
+		    6月 05, 2017
+    	
+    </time>
+    
+        <span>分類 </span>
+        
+    <a class="category-link" href="/categories/My-Style/">My Style</a>, <a class="category-link" href="/categories/My-Style/Computer-Science/">Computer Science</a>, <a class="category-link" href="/categories/My-Style/Computer-Science/Julialang/">Julialang</a>
+
+
+    
+</div>
+
+            </div>
+            
+                <div class="postShorten-content">
+                    <h1 id="Julia-的物件導向"><a href="#Julia-的物件導向" class="headerlink" title="Julia 的物件導向"></a>Julia 的物件導向</h1><p>今天特別要來談談Julia這個語言的物件導向模型。</p>
+<p>我已經聽到有些人跟我說「Julia才沒有物件導向」或是「我不承認這是物件導向」等等這類的話。</p>
+<p>不過我得要跟大家說，物件導向不是只有大家看到的C++或是Java那個樣子的物件導向模型。</p>
+<h1 id="介紹-Julia-的物件導向模型"><a href="#介紹-Julia-的物件導向模型" class="headerlink" title="介紹 Julia 的物件導向模型"></a>介紹 Julia 的物件導向模型</h1><p>如果你的背景是C++, Java, Python, Ruby等等語言的話，那你應該非常熟悉物件導向的幾個要素：</p>
+<ol>
+<li>封裝</li>
+<li>繼承</li>
+<li>多型</li>
+</ol>
+<p>談到封裝，Julia幾乎沒有封裝的概念。</p>
+<p>是的，Julia不封裝！</p>
+<p>Julia宣告的是型別，不是類別；型別他只宣告了有哪些欄位，他也不會把方法宣告在型別裡頭。</p>
+<p>所以Julia的型別感覺上會比較像是C的<code>struct</code>，只存資料或狀態，不帶任何的方法。</p>
+<p>那方法怎麼辦？</p>
+<p>方法會由 Julia 的多重分派（multiple dispatch）引入。</p>
+<p>也就是說，我只要去設計任何函式，這個函式他所用到的參數型別，那這個funciton就是<strong>這些參數</strong>的方法。</p>
+<p>Julia會視caller 函式的參數型別，來決定到底要執行哪一種方法。</p>
+<p>看完之後應該會很傻眼，既然沒有封裝，然後又不帶方法，那這樣要怎麼實現物件導向呢？</p>
+<h2 id="Julia’s-型別系統"><a href="#Julia’s-型別系統" class="headerlink" title="Julia’s 型別系統"></a>Julia’s 型別系統</h2><p>概念上來說，Julia會藉由兩種型別來建立型別階層（type hierarchy）：抽象型別跟複合型別</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">abstract type Number end</span><br><span class="line">abstract type Complex &lt;: Number end</span><br><span class="line">abstract type Real &lt;: Number end</span><br><span class="line"></span><br><span class="line">struct Integer &lt;: Real</span><br><span class="line">    x</span><br><span class="line">end</span><br></pre></td></tr></table></figure>
+<p>以上宣告了 3 個抽象型別以及一個複合型別。</p>
+<p>抽象型別只有一行宣告，也就是說明這代表什麼樣的概念，他不具有欄位。</p>
+<p><code>&lt;:</code> 代表的是 <code>is subtype of</code>，<code>abstract type Complex &lt;: Number end</code>代表的是<code>Complex</code>是<code>Number</code>的子型別。</p>
+<p>複合型別就像<code>Integer</code>，他有一個field <code>x</code>，他是<code>Real</code>的子型別。</p>
+<p>子型別可以是抽象型別或是複合型別，但相反的是，父型別只能是抽象型別。</p>
+<p>以上我們描繪了一個型別階層，位於最頂端的是<code>Number</code>，所有人都是<code>Number</code>的子型別。</p>
+<p>而複合型別只能位於這棵型別階層的leaf的位置。</p>
+<p>在Julia中，所有的型別都是<code>Any</code>的子型別，相反，所有型別的子型別則是<code>Union{}</code>。</p>
+<p>這樣的hierarchy完全不俱備傳統物件導向的繼承概念，雖然觀念上也滿足<strong>is-a</strong>的關係，但是他並沒有從父型別上繼承任何東西，也沒有東西可以被繼承。</p>
+<p>你可能會問：那這樣的型別階層有什麼用呢？</p>
+<p>這就要配合多重分派來用拉~~</p>
+<h2 id="Julia-的多重分派"><a href="#Julia-的多重分派" class="headerlink" title="Julia 的多重分派"></a>Julia 的多重分派</h2><p>大家比較熟悉的應該是single dispatch，也就是區別<code>foo.method()</code>與<code>bar.method()</code>的不同。</p>
+<p>傳統的物件導向當他呼叫<code>foo.method()</code>與<code>bar.method()</code>這兩者時，同樣都是呼叫<code>method()</code>這個函式，可是到底要呼叫誰的實作呢？</p>
+<p>Single dispatch會告訴你：去找擁有這個函式的人，也就是<code>.</code>前面的那個傢伙。</p>
+<p>但是Julia的設計理念是：函式並不屬於任何人，也就是不會有人<strong>擁有</strong>函式。</p>
+<p>所以Julia裡的函式會是<code>method(foo)</code>跟<code>method(bar)</code>這樣的形式。</p>
+<p>Julia設計上很聰明，他會告訴函式去執行擁有跟參數型別相同排列組合的那個實作。</p>
+<p>這也就是多重分派了，他不依賴單一的型別去判斷，而是所有的參數型別的組合！</p>
+<p>所以當你宣告了一個像這樣的函式：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">function foo(a, b, c)</span><br><span class="line">    ....</span><br><span class="line">end</span><br></pre></td></tr></table></figure>
+<p>他會接受<em>任意的3個參數</em>，當沒宣告參數型別時就自動是<code>Any</code>。</p>
+<p>那以下這個狀況：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">function foo(a::Int64, b)</span><br><span class="line">    ....</span><br><span class="line">end</span><br></pre></td></tr></table></figure>
+<p>就只接受<em>第一個參數型別是<code>Int64</code></em>，而輸入<em>兩個參數</em>的情況了。</p>
+<h2 id="OOP-in-Julia"><a href="#OOP-in-Julia" class="headerlink" title="OOP in Julia"></a>OOP in Julia</h2><p>以這樣的type system以及多重分派作為建構物件導向的核心機制。</p>
+<p>我們不能在以傳統的思維去想物件導向。</p>
+<p>我們需要思考的是物件導向的核心是什麼？</p>
+<p>物件導向的引入主要幫助我們去塑造一個物件概念，並且幫助我們減少重複的程式碼，提高程式碼的reuse。</p>
+<p>我們訴求的是高內聚，低耦合的程式碼。</p>
+<p>在Julia中，複合型別提供了一個類似物件、結構的角色，由於沒有繼承關係，也不會有過高的內聚。</p>
+<p>繼承所需要的元素可以由合成（composition）來達成，但相對犧牲了部份的field reuse的可能性。</p>
+<p>方法的部份還原成了最初始的函式的樣貌，而函式本身是更加自由的。</p>
+<p>藉由多重分派可以更加<strong>細緻地</strong>定義函式的行為，可以在不同的參數型別上提供多樣的語意。</p>
+<p>例如，<code>*(Int64, Int64)</code>的含意是數字的乘法，<code>*(String, String)</code>則是字串的串接，同樣的運算子或是函數名稱，可以提供不同context下，不同的語意，這不是很像人類的語言習慣嗎？</p>
+<p>在Julia的精神中，我們關注的是context跟行為，去定義不同context下的函式以及語意（行為）是重要的。</p>
+<p>這方面Julia提供了絕佳的多型（polymorphism），但完全不支援繼承與封裝，對資訊的存取權更是無法控制。</p>
+<p>但他更強調的是readability！如果設計者考慮到context，那讀程式碼的人就更能進入這個context去思考。</p>
+<p>在函式的使用上更是毋庸置疑的靈活而鬆耦合，所以在程式碼的撰寫上，可以自然的達成<strong>高內聚，低耦合</strong>，更可以提升readability，最後的reuse就端看設計者最佳化的功力拉！</p>
+<p>Julia是一個達成物件導向精神的語言！</p>
+<h1 id="State-centered-and-behavior-centered-OOP"><a href="#State-centered-and-behavior-centered-OOP" class="headerlink" title="State-centered and behavior-centered OOP"></a>State-centered and behavior-centered OOP</h1><h2 id="The-state-centered-OOP"><a href="#The-state-centered-OOP" class="headerlink" title="The state-centered OOP"></a>The state-centered OOP</h2><p>傳統大家認知的物件導向，大多都由一個<strong>概念</strong>或是<strong>實體</strong>所構成。</p>
+<p>大家在做程式設計的時候，大家所關注的大多是一個變數的<em>值是如何變化</em>或是一個物件的<em>狀態如何變化</em>。</p>
+<p>所以很自然的會從一個實體或是概念著手，進而去設計他應該有怎樣的properties或是做什麼事情。</p>
+<p>會慢慢凝聚出一個概念，並且把這個概念化成一個個的class，並把這個class描繪清楚。</p>
+<p>class描繪仔細了以後，就去關注class跟class之間的互動關係，進而完成整個演算法或是架構。</p>
+<h2 id="The-behavior-centered-OOP"><a href="#The-behavior-centered-OOP" class="headerlink" title="The behavior-centered OOP"></a>The behavior-centered OOP</h2><p>在Julia的物件導向則是敘述<strong>關係</strong>或是<strong>行為</strong>。</p>
+<p>Julia會以函式的角度出發，Julia中的物件導向指的是<strong>design a set of methods</strong>這回事。</p>
+<p>Julia會使你關注在參數之間的關係，他們應該如何一起完成工作？參數如何被dispatch？函式跟函式之間會不會衝突？</p>
+<p>型別應該會有什麼樣的行為？<code>*</code>用在數字上跟用在字串上的語意有沒有一樣？</p>
+<p>方法其實是在圈定一群型別，他們會一起作用，就是這麼簡單。</p>
+<p>所以Julia的物件導向觀點都會圍繞在設計方法上面，而這樣的觀點又可以讓Julia很自然的融入functional programming當中。</p>
+<p>這讓Julia可以花比較少力氣在斤斤計較欄位的設計上，也花比較少力氣在思考繼承關係上。</p>
+<p>相對花比較多力氣在這個方法被宣告、進入整個語言系統當中的運作情形，也就是對整個系統的影響上。</p>
+
+                    
+                        
+
+                    
+                    
+                        <p>
+                            <a href="/2017/06/05/state-centered-behavior-centered-oop/#post-footer" class="postShorten-excerpt_link link">
+                                留言與分享
+                            </a>
+                        </p>
+                    
+                </div>
+            
+        </div>
+        
+    </article>
+    
+    
+    <article class="postShorten postShorten--thumbnailimg-bottom">
+        <div class="postShorten-wrap">
+            
+            <div class="postShorten-header">
+                <h1 class="postShorten-title">
+                    
+                        <a class="link-unstyled" href="/2016/05/31/mind-and-courage/">
+                            心智與勇氣
+                        </a>
+                    
+                </h1>
+                <div class="postShorten-meta">
+    <time datetime="2016-05-31T22:58:00+08:00">
+	
+		    5月 31, 2016
+    	
+    </time>
+    
+        <span>分類 </span>
+        
+    <a class="category-link" href="/categories/My-Style/">My Style</a>, <a class="category-link" href="/categories/My-Style/BelieveThinkSoul/">BelieveThinkSoul</a>
+
+
+    
+</div>
+
+            </div>
+            
+                <div class="postShorten-content">
+                    <blockquote>
+<p>如果家人親友遭逢重大變故<br>知道事情的真相比較好還是不知道比較好？<br>知道事實怕自己無法改變既定事實又怕受傷害<br>不知道事實又懸著一顆心，忐忑不安</p>
+</blockquote>
+<p>最近朋友的親人遭逢重大變故<br>該不該讓其他家人知道，讓他傷透腦筋</p>
+<blockquote>
+<p>是不是知道世界上所有的事實就能變得無敵、變得快樂？<br>但知道了以後，又怕看到這個世界是極其的噁心汙濁，自己又無能為力<br>是不是當個傻瓜比較好？<br>傻瓜連自己怎麼死的都不知道，可能跌進水溝就死了</p>
+</blockquote>
+<p>我認為最重要的不是成為全知的人或是成為愚笨的人<br><strong>擁有勇氣跟足夠的心智能力</strong>才是重點</p>
+<p>成為了全知的人，如果擁有極其強大的勇氣跟能夠處理這些事實的心智能力<br>自然不必為這些事實悲傷<br>勇氣會帶你克服這些情緒，心智能力能良好的處理這些資訊</p>
+<p>如果沒有了勇氣跟心智，知道太多的事實必然掉入悲觀的深淵中<br>你不知道如何運用這些事實，你不知道如何解釋你的人生，你沒有勇氣面對他們</p>
+<p>相反，有勇氣的傻瓜就是個有勇無謀的匹夫<br>只會戰死在第一線上，可能有貢獻、可能沒有</p>
+<p>如果傻瓜連勇氣都沒有，也沒有足夠的心智能力<br>快樂的活著會是你人生的唯一目標<br>但是！！！<br>你不知道快樂何時會消失？你不知道怎麼留住他？<br>但你仍然過你的生活<br>某天，他消失了，你如同一隻無助的小動物一樣，手足無措<br>想掙扎，但又不知如何找回以往的快樂……………</p>
+<p>勇氣跟心智能力或許比聰明來的重要<br>擁有勇氣跟心智能力可以活的不錯<br>但是變得聰明、知道更多事實，才能突破限制、抓住幸福的尾巴<br>聰明、勇氣跟心智能力是需要一起成長的</p>
+
+                    
+                        
+
+                    
+                    
+                        <p>
+                            <a href="/2016/05/31/mind-and-courage/#post-footer" class="postShorten-excerpt_link link">
+                                留言與分享
+                            </a>
+                        </p>
+                    
+                </div>
+            
+        </div>
+        
+    </article>
+    
+    
+    <article class="postShorten postShorten--thumbnailimg-bottom">
+        <div class="postShorten-wrap">
+            
+            <div class="postShorten-header">
+                <h1 class="postShorten-title">
+                    
+                        <a class="link-unstyled" href="/2016/05/11/open-minded/">
+                            多元價值觀
+                        </a>
+                    
+                </h1>
+                <div class="postShorten-meta">
+    <time datetime="2016-05-11T20:49:00+08:00">
+	
+		    5月 11, 2016
+    	
+    </time>
+    
+        <span>分類 </span>
+        
+    <a class="category-link" href="/categories/My-Style/">My Style</a>, <a class="category-link" href="/categories/My-Style/BelieveThinkSoul/">BelieveThinkSoul</a>
+
+
+    
+</div>
+
+            </div>
+            
+                <div class="postShorten-content">
+                    <p><strong><em>為什麼美女一定要皮膚白、長的瘦、高顏值，不同體態的人有不同姿態的美</em></strong><br><strong><em>為什麼不接受同性戀，同性戀跟異性戀一樣愛人跟被愛</em></strong><br><strong><em>為什麼看動漫被視為宅，看卡通被認為幼稚</em></strong><br><strong><em>為什麼害怕精神病患，雖然行為舉止怪異，他仍舊是人，仍然有感覺</em></strong></p>
+<p>台灣社會極度推崇<strong>單一</strong>的主流價值觀<br>對於不同文化或是價值觀的族群接受度不高</p>
+<p>這次鄭捷的事件提醒了我們這件事<br>我們無法以更開放、接受的態度，科學性的精神去探討議題<br>就憑藉著直覺、單一的，去裁決這件事<br>他的死並沒有帶給這個社會任何美好，只代表這個社會又忽視了當中的議題，等待下次事件發生</p>
+<p>這就像當事件發生了，你卻把眼睛遮起來當作沒看到一樣的愚蠢<br>沒看到事件發生就代表沒發生事件嗎</p>
+<p>這個社會極度的被<strong>框架</strong>所綁架<br>胖並不等於醜，瘦也不等於美<br>動漫是興趣不等於宅<br>殺人不等於死刑</p>
+<p>我們從不開放自己的心態去看一件事</p>
+<blockquote>
+<p>在《行為的藝術》一書中，簡單的邏輯提到：<br>5台機器生產5件衣服需5分鐘，那麼100台機器生產100件衣服需要多久？<br>如果你的答案是100分鐘的話，請多想想<br>正確答案是5分鐘，如果你達出錯誤的答案是因為你的直覺跳出來主導一切<br>這類的題目被稱為認知反射測試（Cognitive Reflection Test, CRT）<br>心理學家Shane Frederick測試了很多人，當中麻省理工學院學生表現最優異<br>CRT值低的人傾向依直覺行事，CRT高的人較擅長以意志力駕馭，以理性思考<br>研究發現，美國人當中，CRT較高的多為無神論者，CRT較低則傾向信仰上帝<br>相對容易聽信直覺的人，愈無法以理智挑戰其宗教觀念</p>
+</blockquote>
+
+                    
+                        
+
+                    
+                    
+                        <p>
+                            <a href="/2016/05/11/open-minded/#post-footer" class="postShorten-excerpt_link link">
+                                留言與分享
+                            </a>
+                        </p>
+                    
+                </div>
+            
+        </div>
+        
+    </article>
+    
+    
+    <article class="postShorten postShorten--thumbnailimg-bottom">
+        <div class="postShorten-wrap">
+            
+            <div class="postShorten-header">
+                <h1 class="postShorten-title">
+                    
+                        <a class="link-unstyled" href="/2016/05/09/rule/">
+                            Rule
+                        </a>
+                    
+                </h1>
+                <div class="postShorten-meta">
+    <time datetime="2016-05-09T23:05:00+08:00">
+	
+		    5月 09, 2016
+    	
+    </time>
+    
+        <span>分類 </span>
+        
+    <a class="category-link" href="/categories/My-Style/">My Style</a>, <a class="category-link" href="/categories/My-Style/BelieveThinkSoul/">BelieveThinkSoul</a>
+
+
+    
+</div>
+
+            </div>
+            
+                <div class="postShorten-content">
+                    <p><strong><em>你所描繪的理想世界</em></strong><br><strong><em>柏拉圖稱為”理型”</em></strong><br><strong><em>然後要不要去實踐這樣的理想</em></strong><br><strong><em>或是趨近於理想</em></strong></p>
+<blockquote>
+<p>你覺得”應該”怎麼做，那會變成理想的其中一條rule</p>
+</blockquote>
+<p><strong>很多rule的集合組織了整個世界</strong><br><strong>所以當rule多到一定程度的時候，世界就會浮現</strong></p>
+<p>話說我小學的時候就在想這個問題</p>
+<p>怎樣才算一個rule<br>或是一個好的rule<br>rule跟rule之間會不會對衝</p>
+<p>所以想要去檢驗”時間就是金錢”, “金錢就是力量”等等的<br>到底哪些在人們的觀念中存在的rule哪些是真的而不互相矛盾的</p>
+<p>從而藉由這些經驗跟觀念來構築自己的世界</p>
+
+                    
+                        
+
+                    
+                    
+                        <p>
+                            <a href="/2016/05/09/rule/#post-footer" class="postShorten-excerpt_link link">
+                                留言與分享
+                            </a>
+                        </p>
+                    
+                </div>
+            
+        </div>
+        
+    </article>
+    
+    
+    <article class="postShorten postShorten--thumbnailimg-bottom">
+        <div class="postShorten-wrap">
+            
+            <div class="postShorten-header">
+                <h1 class="postShorten-title">
+                    
+                        <a class="link-unstyled" href="/2015/07/27/molecular-biology-for-non-biology-background/">
+                            給非生物背景的分子生物學
+                        </a>
+                    
+                </h1>
+                <div class="postShorten-meta">
+    <time datetime="2015-07-27T11:17:00+08:00">
+	
+		    7月 27, 2015
+    	
+    </time>
+    
+        <span>分類 </span>
+        
+    <a class="category-link" href="/categories/My-Style/">My Style</a>, <a class="category-link" href="/categories/My-Style/Science/">Science</a>
+
+
+    
+</div>
+
+            </div>
+            
+                <div class="postShorten-content">
+                    <p>很多人念了生物，甚至是分子生物學<br>但是都不知道DNA，RNA跟protien之間到底是什麼關係<br>這篇就是用簡單的比喻來說明他們的關係</p>
+<hr>
+<p>先來引用一下維基百科的圖</p>
+<p><img src="https://upload.wikimedia.org/wikipedia/commons/6/68/Central_Dogma_of_Molecular_Biochemistry_with_Enzymes.jpg" alt=""></p>
+<p>常常我們說DNA是生命的藍圖，DNA其實是”這種分子”的名字<br>不如我們把細胞想成是一台車子，DNA就是這台車子的設計總藍圖<br>他很大很大一張，裏面寫滿了各式各樣車子零件的設計圖還有要怎麼組裝起來<br>RNA就是從設計總藍圖 (DNA)上複製下來的某個零件的藍圖<br>protien就是根據零件的藍圖 (RNA)製作出來的零件本身</p>
+<p>那我們開始囉~~<br>DNA要轉錄 (transcription)成RNA，也就是把零件的藍圖從總藍圖裡抄寫出來<br>RNA polymerase佔了很重要的角色，因為他就是那個抄寫員<br>他會一字不漏的把DNA上的訊息都抄寫成RNA<br>接著呢在他開始抄寫的時候，會在零件藍圖的開頭加個註記 (capping)<br>在他超寫完畢的時候呢，會在零件藍圖的結尾加個註記 (polyA tail)<br>加上這些註記之後，就可以避免這張藍圖被回收人員 (RNase)當成垃圾清掉<br>大家以為到這邊這張零件藍圖就算完整了嗎<br>其實不是，這張藍圖還需要做客製化修改 (splicing)，修改的過程有點複雜<br>但是簡單的講，就是依據細胞目前的需求跟狀態，把RNA稍稍修改成他的設計<br>如此一來，零件藍圖 (messenger RNA)就算是完成了</p>
+<p>那從零件藍圖 (messenger RNA)做成零件 (protien)呢<br>這位工匠就是ribosome (核醣體)大大拉~~~<br>這位工匠會依據RNA上的設計打造 (translation)一個新的零件<br>他把amino acid (胺基酸)抓來串起來成為peptide (胜肽鍊)<br>peptide只是零件的雛型而已，需要加以修飾才會變成真正的零件<br>這些零件的雛型會被送到細胞核外進行修飾 (post-translational modification)、折疊 (folding)</p>
+<p>在DNA上纏繞著一些組蛋白 (histone)<br>他就像總藍圖的捲軸一樣，會把藍圖捲起來<br>如此一來，RNA polymerase這個抄寫員就無法抄寫 (transcription)某部份的藍圖 (DNA)<br>這樣細胞就可以依據環境的改變或是需求改變，去調整該製造出哪些零件<br>這個領域的學問被稱為epigenetics (表觀遺傳學)</p>
+<p>我們都知道gene (基因)在DNA上，然而gene跟gene之間是會互動的！<br>這個我們稱為基因之間的互相調控，也就是當某些protien變得比較多的時候，他就會告訴gene不要製造這麼多出來，以達到一個平衡<br>我們再回到汽車零件的比喻，當我生產過多的螺絲零件 (protien)的時候，當然會覺得我用不到這麼多螺絲，所以會跟上游的<br>製造商溝通，要他們不要製造這麼多<br>所以細胞當中無時不刻都在進行這種溝通 (調控；gene regulation)</p>
+<p>現在發現不只是protien會去調控基因，RNA也會調控基因<br>所以細胞就處於一種互相調控的網路當中，維持著平衡</p>
+<p>如果我們可以了解細胞當中，各種分子是怎麼溝通的話，我們就有辦法去告訴細胞一些事情<br>例如避免細胞轉變成癌細胞等等事情</p>
+
+                    
+                        
+
+                    
+                    
+                        <p>
+                            <a href="/2015/07/27/molecular-biology-for-non-biology-background/#post-footer" class="postShorten-excerpt_link link">
+                                留言與分享
+                            </a>
+                        </p>
+                    
+                </div>
+            
+        </div>
+        
+    </article>
+    
+    
+    <article class="postShorten postShorten--thumbnailimg-bottom">
+        <div class="postShorten-wrap">
+            
+            <div class="postShorten-header">
+                <h1 class="postShorten-title">
+                    
+                        <a class="link-unstyled" href="/2015/07/08/persuasion-and-empathy/">
+                            說服與同理心
+                        </a>
+                    
+                </h1>
+                <div class="postShorten-meta">
+    <time datetime="2015-07-08T22:03:00+08:00">
+	
+		    7月 08, 2015
+    	
+    </time>
+    
+        <span>分類 </span>
+        
+    <a class="category-link" href="/categories/My-Style/">My Style</a>, <a class="category-link" href="/categories/My-Style/BelieveThinkSoul/">BelieveThinkSoul</a>
+
+
+    
+</div>
+
+            </div>
+            
+                <div class="postShorten-content">
+                    <p>我們在日常生活中常常需要溝通<br>溝通之餘，如果有意見相左的情況，就會想要試著說服對方站在自己的立場<br>但通常我們以為的說服需要的是理性的力量<br>就是將事情條理分明的說明清楚，並且加以分析清楚<br>我們以為如此一來就可以讓對方站在自己的立場</p>
+<p>這招有時有用有時沒用<br>畢竟人類相信一件事並不是因為理性或是邏輯而相信<br>人類的相信其實是建立在感情面上的</p>
+<h3 id="理性並不會讓人信服"><a href="#理性並不會讓人信服" class="headerlink" title="理性並不會讓人信服"></a>理性並不會讓人信服</h3><p>你需要的是同理心的力量<br>同理心可以從感性的一面切入問題點</p>
+<h3 id="同理心vs同情心"><a href="#同理心vs同情心" class="headerlink" title="同理心vs同情心"></a>同理心vs同情心</h3><p>(有空補)</p>
+<iframe width="560" height="315" src="https://www.youtube.com/embed/1Evwgu369Jw" frameborder="0" allowfullscreen></iframe>
+                    
+                        
+
+                    
+                    
+                        <p>
+                            <a href="/2015/07/08/persuasion-and-empathy/#post-footer" class="postShorten-excerpt_link link">
+                                留言與分享
+                            </a>
+                        </p>
+                    
+                </div>
+            
+        </div>
+        
+    </article>
+    
+    
+    <article class="postShorten postShorten--thumbnailimg-bottom">
+        <div class="postShorten-wrap">
+            
+            <div class="postShorten-header">
+                <h1 class="postShorten-title">
+                    
                         <a class="link-unstyled" href="/2013/12/05/mbti-again/">
                             MBTI again
                         </a>
