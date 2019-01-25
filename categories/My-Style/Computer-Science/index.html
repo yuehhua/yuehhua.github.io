@@ -275,20 +275,20 @@
 <p>所以Julia的型別感覺上會比較像是C的<code>struct</code>，只存資料或狀態，不帶任何的方法。</p>
 <p>那方法怎麼辦？</p>
 <p>方法會由 Julia 的多重分派（multiple dispatch）引入。</p>
-<p>也就是說，我只要去設計任何函式，這個函式他所用到的參數型別，那這個funciton就是<strong>這些參數</strong>的方法。</p>
-<p>Julia會視caller 函式的參數型別，來決定到底要執行哪一種方法。</p>
+<p>也就是說，我只要去設計任何函式，這個函式他所用到的參數型別，那這個函式就是<strong>這些參數</strong>的方法。</p>
+<p>Julia會視函式呼叫的參數型別組合，來決定到底要執行哪一種方法。</p>
 <p>看完之後應該會很傻眼，既然沒有封裝，然後又不帶方法，那這樣要怎麼實現物件導向呢？</p>
-<h2 id="Julia’s-型別系統"><a href="#Julia’s-型別系統" class="headerlink" title="Julia’s 型別系統"></a>Julia’s 型別系統</h2><p>概念上來說，Julia會藉由兩種型別來建立型別階層（type hierarchy）：抽象型別跟複合型別</p>
+<h2 id="Julia-的型別系統"><a href="#Julia-的型別系統" class="headerlink" title="Julia 的型別系統"></a>Julia 的型別系統</h2><p>概念上來說，Julia會藉由兩種型別來建立型別階層（type hierarchy）：抽象型別跟複合型別</p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">abstract type Number end</span><br><span class="line">abstract type Complex &lt;: Number end</span><br><span class="line">abstract type Real &lt;: Number end</span><br><span class="line"></span><br><span class="line">struct Integer &lt;: Real</span><br><span class="line">    x</span><br><span class="line">end</span><br></pre></td></tr></table></figure>
 <p>以上宣告了 3 個抽象型別以及一個複合型別。</p>
 <p>抽象型別只有一行宣告，也就是說明這代表什麼樣的概念，他不具有欄位。</p>
-<p><code>&lt;:</code> 代表的是 <code>is subtype of</code>，<code>abstract type Complex &lt;: Number end</code>代表的是<code>Complex</code>是<code>Number</code>的子型別。</p>
+<p><code>&lt;:</code> 代表的是 <strong>is subtype of</strong>，<code>abstract type Complex &lt;: Number end</code>代表的是<code>Complex</code>是<code>Number</code>的子型別。</p>
 <p>複合型別就像<code>Integer</code>，他有一個field <code>x</code>，他是<code>Real</code>的子型別。</p>
 <p>子型別可以是抽象型別或是複合型別，但相反的是，父型別只能是抽象型別。</p>
 <p>以上我們描繪了一個型別階層，位於最頂端的是<code>Number</code>，所有人都是<code>Number</code>的子型別。</p>
-<p>而複合型別只能位於這棵型別階層的leaf的位置。</p>
+<p>而複合型別只能位於這棵型別階層的末端的位置。</p>
 <p>在Julia中，所有的型別都是<code>Any</code>的子型別，相反，所有型別的子型別則是<code>Union{}</code>。</p>
-<p>這樣的hierarchy完全不俱備傳統物件導向的繼承概念，雖然觀念上也滿足<strong>is-a</strong>的關係，但是他並沒有從父型別上繼承任何東西，也沒有東西可以被繼承。</p>
+<p>這樣的階層完全不俱備傳統物件導向的繼承概念，雖然觀念上也滿足<strong>is-a</strong>的關係，但是他並沒有從父型別上繼承任何東西，也沒有東西可以被繼承。</p>
 <p>你可能會問：那這樣的型別階層有什麼用呢？</p>
 <p>這就要配合多重分派來用拉~~</p>
 <h2 id="Julia-的多重分派"><a href="#Julia-的多重分派" class="headerlink" title="Julia 的多重分派"></a>Julia 的多重分派</h2><p>大家比較熟悉的應該是single dispatch，也就是區別<code>foo.method()</code>與<code>bar.method()</code>的不同。</p>
@@ -307,17 +307,17 @@
 <h2 id="OOP-in-Julia"><a href="#OOP-in-Julia" class="headerlink" title="OOP in Julia"></a>OOP in Julia</h2><p>以這樣的type system以及多重分派作為建構物件導向的核心機制。</p>
 <p>我們不能在以傳統的思維去想物件導向。</p>
 <p>我們需要思考的是物件導向的核心是什麼？</p>
-<p>物件導向的引入主要幫助我們去塑造一個物件概念，並且幫助我們減少重複的程式碼，提高程式碼的reuse。</p>
+<p>物件導向的引入主要幫助我們去塑造一個物件概念，並且幫助我們減少重複的程式碼，提高程式碼的再利用（reuse）。</p>
 <p>我們訴求的是高內聚，低耦合的程式碼。</p>
 <p>在Julia中，複合型別提供了一個類似物件、結構的角色，由於沒有繼承關係，也不會有過高的內聚。</p>
-<p>繼承所需要的元素可以由合成（composition）來達成，但相對犧牲了部份的field reuse的可能性。</p>
+<p>繼承所需要的元素可以由合成（composition）來達成，但相對犧牲了部份的欄位再利用的可能性。</p>
 <p>方法的部份還原成了最初始的函式的樣貌，而函式本身是更加自由的。</p>
 <p>藉由多重分派可以更加<strong>細緻地</strong>定義函式的行為，可以在不同的參數型別上提供多樣的語意。</p>
 <p>例如，<code>*(Int64, Int64)</code>的含意是數字的乘法，<code>*(String, String)</code>則是字串的串接，同樣的運算子或是函數名稱，可以提供不同context下，不同的語意，這不是很像人類的語言習慣嗎？</p>
 <p>在Julia的精神中，我們關注的是context跟行為，去定義不同context下的函式以及語意（行為）是重要的。</p>
 <p>這方面Julia提供了絕佳的多型（polymorphism），但完全不支援繼承與封裝，對資訊的存取權更是無法控制。</p>
 <p>但他更強調的是readability！如果設計者考慮到context，那讀程式碼的人就更能進入這個context去思考。</p>
-<p>在函式的使用上更是毋庸置疑的靈活而鬆耦合，所以在程式碼的撰寫上，可以自然的達成<strong>高內聚，低耦合</strong>，更可以提升readability，最後的reuse就端看設計者最佳化的功力拉！</p>
+<p>在函式的使用上更是毋庸置疑的靈活而鬆耦合，所以在程式碼的撰寫上，可以自然的達成<strong>高內聚，低耦合</strong>，更可以提升readability，最後的再利用就端看設計者最佳化的功力拉！</p>
 <p>Julia是一個達成物件導向精神的語言！</p>
 <h1 id="State-centered-and-behavior-centered-OOP"><a href="#State-centered-and-behavior-centered-OOP" class="headerlink" title="State-centered and behavior-centered OOP"></a>State-centered and behavior-centered OOP</h1><h2 id="The-state-centered-OOP"><a href="#The-state-centered-OOP" class="headerlink" title="The state-centered OOP"></a>The state-centered OOP</h2><p>傳統大家認知的物件導向，大多都由一個<strong>概念</strong>或是<strong>實體</strong>所構成。</p>
 <p>大家在做程式設計的時候，大家所關注的大多是一個變數的<em>值是如何變化</em>或是一個物件的<em>狀態如何變化</em>。</p>
