@@ -6,7 +6,7 @@
   <link href="/atom.xml" rel="self"/>
   
   <link href="https://yuehhua.github.io/"/>
-  <updated>2019-01-31T16:25:47.679Z</updated>
+  <updated>2019-02-05T16:02:53.088Z</updated>
   <id>https://yuehhua.github.io/</id>
   
   <author>
@@ -15,6 +15,35 @@
   </author>
   
   <generator uri="http://hexo.io/">Hexo</generator>
+  
+  <entry>
+    <title>Note - Mathematical objects</title>
+    <link href="https://yuehhua.github.io/2019/02/06/mathematical-objects/"/>
+    <id>https://yuehhua.github.io/2019/02/06/mathematical-objects/</id>
+    <published>2019-02-05T16:02:53.000Z</published>
+    <updated>2019-02-05T16:02:53.088Z</updated>
+    
+    <content type="html"><![CDATA[<p>20th century Cantor:</p><blockquote><p>All mathematical objects can be defined as sets.</p></blockquote><p>Fundamentals:</p><ul><li>numbers</li><li>permutations</li><li>partitions</li><li>matrices</li><li>sets</li><li>functions</li><li>relations</li></ul><p>Geometry:</p><ul><li>hexagons</li><li>points</li><li>lines</li><li>triangles</li><li>circles</li><li>spheres</li><li>polyhedra</li><li>topological space</li><li>manifolds</li></ul><p>Algebra:</p><ul><li>groups</li><li>rings</li><li>fields</li><li>lattices</li></ul>]]></content>
+    
+    <summary type="html">
+    
+      
+      
+        &lt;p&gt;20th century Cantor:&lt;/p&gt;
+&lt;blockquote&gt;
+&lt;p&gt;All mathematical objects can be defined as sets.&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;p&gt;Fundamentals:&lt;/p&gt;
+&lt;ul&gt;
+&lt;li
+      
+    
+    </summary>
+    
+      <category term="Math" scheme="https://yuehhua.github.io/categories/Math/"/>
+    
+    
+  </entry>
   
   <entry>
     <title>生物資訊的初衷</title>
@@ -160,9 +189,9 @@
     <link href="https://yuehhua.github.io/2019/01/15/functional/"/>
     <id>https://yuehhua.github.io/2019/01/15/functional/</id>
     <published>2019-01-15T12:34:54.000Z</published>
-    <updated>2019-01-15T12:55:39.273Z</updated>
+    <updated>2019-02-05T15:36:16.818Z</updated>
     
-    <content type="html"><![CDATA[<p>一般我們數學上稱 $f: \mathbb{R} \rightarrow \mathbb{R}$ 為函數 function。</p><p>然而，如果一個函數可以接受另一個函數作為他的輸入變數，而輸出是一個純量，$F: S \rightarrow \mathbb{R}$ 泛函 functional，其中 $S$ 是一個向量空間，函數是一種廣義的向量。</p><p>在最佳化理論或是機器學習當中最常遇到的就是損失函數 $\mathcal{L}$，他其實是一個泛函。</p><p>$$<br>\mathcal{L}[f] = \frac{1}{N} \sum_{i=1}^{N} (y_i - f(x_i))^2<br>$$</p><p>當我們有不同的資料，需要計算這些資料的 mean square error 的時候就會寫成像上面這個樣子。</p><p>$$<br>\mathcal{L}[f] = \lim_{n \rightarrow \infty} \int_b^a |f(x) - \sum_{i=1}^N a_i f_i(x)|^2 dx<br>$$</p><p>如果我們處理的不是資料，而是一段連續的空間，那我們就可以用以上這個連續的版本。</p>]]></content>
+    <content type="html"><![CDATA[<p>一般我們數學上稱 $f: \mathbb{R} \rightarrow \mathbb{R}$ 為函數 function。</p><p>然而，如果一個函數可以接受另一個函數作為他的輸入變數，而輸出是一個純量，$F: S \rightarrow \mathbb{R}$ 泛函 functional，其中 $S$ 是一個向量空間，函數是一種廣義的向量。</p><p>在最佳化理論或是機器學習當中最常遇到的就是損失函數 $\mathcal{L}$，他其實是一個泛函。</p><p>$$<br>\mathcal{L}[f] = \frac{1}{N} \sum_{i=1}^{N} (y_i - f(x_i))^2<br>$$</p><p>當我們有不同的資料，需要計算這些資料的 mean square error 的時候就會寫成像上面這個樣子。</p><p>$$<br>\mathcal{L}[f] = \lim_{n \rightarrow \infty} \int_b^a |f(x) - \sum_{i=1}^N a_i f_i(x)|^2 dx<br>$$</p><p>如果我們處理的不是資料，而是一段連續的空間，那我們就可以用以上這個連續的版本。</p><blockquote><p>ex.</p></blockquote><p>consider $X, Y \in V$</p><ol><li>$g: X \rightarrow \mathbb{R}$ is functional</li><li>$g: X \rightarrow \mathbb{R}^n$ is functional</li><li>$g: X \rightarrow Y$ is operator</li></ol>]]></content>
     
     <summary type="html">
     
@@ -475,34 +504,6 @@
       &lt;p&gt;上次我們講完在空間上，我們可以知道資料的區域性，並且利用 convolution 來萃取特徵。&lt;/p&gt;
 &lt;p&gt;這次我們來講時間，其實不一定要是”時間”序列資料，只要是有先後順序的資料就可以。&lt;/p&gt;
 &lt;p&gt;在時間序列分析及統計的領域中，我們有基礎的馬可夫模型（Markov chain）。&lt;/p&gt;
-    
-    </summary>
-    
-      <category term="Machine Learning" scheme="https://yuehhua.github.io/categories/Machine-Learning/"/>
-    
-      <category term="機器學習模型圖書館：從傳統模型到深度學習" scheme="https://yuehhua.github.io/categories/Machine-Learning/%E6%A9%9F%E5%99%A8%E5%AD%B8%E7%BF%92%E6%A8%A1%E5%9E%8B%E5%9C%96%E6%9B%B8%E9%A4%A8%EF%BC%9A%E5%BE%9E%E5%82%B3%E7%B5%B1%E6%A8%A1%E5%9E%8B%E5%88%B0%E6%B7%B1%E5%BA%A6%E5%AD%B8%E7%BF%92/"/>
-    
-    
-  </entry>
-  
-  <entry>
-    <title>22 Convolutional encoder-decoder 架構</title>
-    <link href="https://yuehhua.github.io/2018/10/22/22-convolutional-encoder-decoder-architecture/"/>
-    <id>https://yuehhua.github.io/2018/10/22/22-convolutional-encoder-decoder-architecture/</id>
-    <published>2018-10-22T15:10:35.000Z</published>
-    <updated>2018-10-23T00:53:57.844Z</updated>
-    
-    <content type="html"><![CDATA[<p>標題這不是一個專有名詞。</p><p>在電腦視覺的領域中有幾個有名的問題：</p><ol><li>影像辨識（Image recognition）</li><li>物件辨識（Object detection）</li><li>語意分割（Semantic segmentation）</li></ol><a id="more"></a><p><img src="/images/cv-tasks.jpg" alt=""></p><p>影像辨識是給一張影像，希望模型可以辨識出當中的東西是什麼。輸入模型的會是影像向量，輸出的會是類別向量。</p><p>物件辨識給的同樣是一張影像，除了需要辨識出當中的物件以外，還要給出這個物體所在的位置，輸出的除了類別向量以外，還有座標。</p><p>語意分割可能無法一眼看出當中的含意，對一個句子來說，詞本身帶有一些含意，對比到影像上，句子就是影像，而詞意就是影像中的物體。語意分割是給一張影像，需要將影像中的物件切割出來，所以必須對每個像素做分類。</p><p><img src="/images/semantic_seg.jpeg" alt=""></p><p>三者是各自不同的任務。</p><p>不同的任務有些共通性，這些共通性讓他們可能都可以適用 CNN 的架構。不過這麼說還是太過粗糙了。</p><p>對於影像辨識來說，一般性架構會是有 convolution layer 為主的 feature extractor，接著會是以 fully-connected layer 為主的 classifier。在不同階段有不同的目的，在輸入影像之後要先對影像進一步抽取特徵，有了足夠的特徵之後才進行分類。</p><p>語意分割也有類似的架構，在前面會有 convolution layer 為主的 feature extractor，但是為了將每個樣素做分類，必須對每一個像素做預測，預測像素的類別。在後半的部份，有人提出了 Fully convolution network，試圖做像素的類別預測。</p><p>像素的類別預測這件事從另一個角度切入，會很像是一種生成的過程。也就是，我們在前面要將影像的特徵萃取出來，是一種將資訊壓縮的過程，在後半我們希望將壓縮的資訊還原到某種程度，我們需要產生器（generator）。</p><p><img src="/images/segnet.svg" alt=""></p><blockquote><p><a href="http://mi.eng.cam.ac.uk/projects/segnet/" target="_blank" rel="noopener">SegNet [2015, University of Cambridge]</a></p></blockquote><p>在語意分割這個問題，後來就一路發展到了 encoder-decoder 架構，我們又回到類似 autoencoder 的樣子，讓 encoder 跟 decoder 一起訓練的模型架構。在這邊 encoder 就是 feature extractor，decoder 就是一種 generator。</p>]]></content>
-    
-    <summary type="html">
-    
-      &lt;p&gt;標題這不是一個專有名詞。&lt;/p&gt;
-&lt;p&gt;在電腦視覺的領域中有幾個有名的問題：&lt;/p&gt;
-&lt;ol&gt;
-&lt;li&gt;影像辨識（Image recognition）&lt;/li&gt;
-&lt;li&gt;物件辨識（Object detection）&lt;/li&gt;
-&lt;li&gt;語意分割（Semantic segmentation）&lt;/li&gt;
-&lt;/ol&gt;
     
     </summary>
     
