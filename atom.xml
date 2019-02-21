@@ -6,7 +6,7 @@
   <link href="/atom.xml" rel="self"/>
   
   <link href="https://yuehhua.github.io/"/>
-  <updated>2019-02-05T16:02:53.088Z</updated>
+  <updated>2019-02-21T17:22:42.393Z</updated>
   <id>https://yuehhua.github.io/</id>
   
   <author>
@@ -15,6 +15,32 @@
   </author>
   
   <generator uri="http://hexo.io/">Hexo</generator>
+  
+  <entry>
+    <title>在參數化型別中定義值</title>
+    <link href="https://yuehhua.github.io/2019/02/22/define-values-in-parametric-type/"/>
+    <id>https://yuehhua.github.io/2019/02/22/define-values-in-parametric-type/</id>
+    <published>2019-02-21T17:22:42.000Z</published>
+    <updated>2019-02-21T17:22:42.393Z</updated>
+    
+    <content type="html"><![CDATA[<p>應該不少人看到這個標題會摸不著頭緒到底要做什麼，但是看完 Julia 中常見的程式碼你就會了解了。</p><figure class="highlight julia"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">Array</span>&#123;<span class="built_in">Any</span>, <span class="number">2</span>&#125;</span><br></pre></td></tr></table></figure><p>有沒有曾經納悶過那個數字 2 到底是怎麼進到參數的位置上的呢？</p><p>參數的位置不是只能放型別（type）嗎？</p><p>這同時也是我困惑已久的問題，就搜尋了一下，果不其然被我找到了方法：</p><figure class="highlight julia"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">struct</span> A&#123;T&#125;</span><br><span class="line"><span class="keyword">end</span></span><br></pre></td></tr></table></figure><figure class="highlight julia"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">A&#123;<span class="number">5</span>&#125;()</span><br></pre></td></tr></table></figure><p>原來這麼簡單就可以完成了！語法上並沒有限定一定要是<em>型別</em>，要放型別以外的東西似乎是可以的。</p><p>我目前測試了可以的有：Int64、Float64、Complex、Char、Bool、Symbol，所以估計數字應該都是可以的。</p><p>不行的有：String、Array，估計物件或是陣列都是不行的。</p><h2 id="定義範圍"><a href="#定義範圍" class="headerlink" title="定義範圍"></a>定義範圍</h2><p>不過使用上並沒有任何限制會有點危險，所以還是定義一下範圍會比較好，像是：</p><figure class="highlight julia"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">struct</span> A&#123;<span class="literal">I</span>&#125;</span><br><span class="line">    <span class="keyword">function</span> A&#123;<span class="literal">I</span>&#125;() <span class="keyword">where</span> &#123;<span class="literal">I</span>&#125;</span><br><span class="line">        <span class="keyword">isa</span>(<span class="literal">I</span>,<span class="built_in">Integer</span>) || error(<span class="string">"bad parameter"</span>)</span><br><span class="line">        new()</span><br><span class="line">    <span class="keyword">end</span></span><br><span class="line"><span class="keyword">end</span></span><br></pre></td></tr></table></figure><p>這樣就可以限制參數要是整數的範圍。</p><h2 id="從參數取值"><a href="#從參數取值" class="headerlink" title="從參數取值"></a>從參數取值</h2><p>那我們能不能從型別的參數當中取值呢？</p><p>可以。</p><figure class="highlight julia"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">get_value(::A&#123;<span class="literal">I</span>&#125;) <span class="keyword">where</span> A&#123;<span class="literal">I</span>&#125; = <span class="literal">I</span></span><br></pre></td></tr></table></figure><p>如此一來，我們就可以從型別中拿到值了。</p><h2 id="好處？"><a href="#好處？" class="headerlink" title="好處？"></a>好處？</h2><p>這麼做有什麼好處？</p><p>當你把值的資訊放到型別當中，型別就多了一些資訊可以提供編譯器處理，這對於要自己設計型別階層可是非常好用的。</p><p>例如像是你可以將陣列的長度資訊儲存到型別上，這樣編譯器就可以處理陣列的長度資訊了。</p><p>這樣的程式風格會跟 dependent type language 有些相似了。</p><p>大家可以玩玩看。</p>]]></content>
+    
+    <summary type="html">
+    
+      
+      
+        &lt;p&gt;應該不少人看到這個標題會摸不著頭緒到底要做什麼，但是看完 Julia 中常見的程式碼你就會了解了。&lt;/p&gt;
+&lt;figure class=&quot;highlight julia&quot;&gt;&lt;table&gt;&lt;tr&gt;&lt;td class=&quot;gutter&quot;&gt;&lt;pre&gt;&lt;span class=&quot;lin
+      
+    
+    </summary>
+    
+      <category term="Computer Science" scheme="https://yuehhua.github.io/categories/Computer-Science/"/>
+    
+      <category term="Julialang" scheme="https://yuehhua.github.io/categories/Computer-Science/Julialang/"/>
+    
+    
+  </entry>
   
   <entry>
     <title>Note - Mathematical objects</title>
@@ -480,30 +506,6 @@
         &lt;p&gt;接續上一篇。&lt;/p&gt;
 &lt;h2 id=&quot;Recurrent-neural-network&quot;&gt;&lt;a href=&quot;#Recurrent-neural-network&quot; class=&quot;headerlink&quot; title=&quot;Recurrent neural network&quot;&gt;&lt;/a&gt;
       
-    
-    </summary>
-    
-      <category term="Machine Learning" scheme="https://yuehhua.github.io/categories/Machine-Learning/"/>
-    
-      <category term="機器學習模型圖書館：從傳統模型到深度學習" scheme="https://yuehhua.github.io/categories/Machine-Learning/%E6%A9%9F%E5%99%A8%E5%AD%B8%E7%BF%92%E6%A8%A1%E5%9E%8B%E5%9C%96%E6%9B%B8%E9%A4%A8%EF%BC%9A%E5%BE%9E%E5%82%B3%E7%B5%B1%E6%A8%A1%E5%9E%8B%E5%88%B0%E6%B7%B1%E5%BA%A6%E5%AD%B8%E7%BF%92/"/>
-    
-    
-  </entry>
-  
-  <entry>
-    <title>23 Markov chain 及 HMM</title>
-    <link href="https://yuehhua.github.io/2018/10/23/23-markov-chain-and-hmm/"/>
-    <id>https://yuehhua.github.io/2018/10/23/23-markov-chain-and-hmm/</id>
-    <published>2018-10-23T01:21:38.000Z</published>
-    <updated>2018-10-23T01:21:38.594Z</updated>
-    
-    <content type="html"><![CDATA[<p>上次我們講完在空間上，我們可以知道資料的區域性，並且利用 convolution 來萃取特徵。</p><p>這次我們來講時間，其實不一定要是”時間”序列資料，只要是有先後順序的資料就可以。</p><p>在時間序列分析及統計的領域中，我們有基礎的馬可夫模型（Markov chain）。</p><a id="more"></a><h2 id="Markov-chain"><a href="#Markov-chain" class="headerlink" title="Markov chain"></a>Markov chain</h2><p>馬可夫模型是這樣的，他假設一個變數有不同種的狀態，例如下圖：</p><p><br></p><p><img src="/images/markov_model.svg" alt=""></p><p><br></p><p>在這邊有4個狀態，一個圓圈代表一個狀態，狀態跟狀態之間會隨著時間改變，每個狀態會有一定機率變成其他狀態，或是維持原本的狀態不變。</p><p>我們可以把目前的狀態用一個向量來表達：</p><p>$$<br>\mathbf{y} =<br>\begin{bmatrix}<br>y_1&amp;y_2&amp;y_3&amp;y_4 \\<br>\end{bmatrix}<br>$$</p><blockquote><p>注意：我們這邊使用的向量為列向量（row vector），一般在其他數學領域使用的則是行向量（column vector），兩者是可以藉由轉置來互換的，並不影響運算結果</p></blockquote><p>我們這邊用 $\mathbf{y}$ 代表他是可以被觀察到的。狀態變化我們可以用一個矩陣來表達：</p><p>$$<br>A = [a_{ij}] =<br>\begin{bmatrix}<br>a_{11}&amp; a_{12}&amp; a_{13}&amp; a_{14} \\<br>a_{21}&amp; a_{22}&amp; a_{23}&amp; a_{24} \\<br>a_{31}&amp; a_{32}&amp; a_{33}&amp; a_{34} \\<br>a_{41}&amp; a_{42}&amp; a_{43}&amp; a_{44} \\<br>\end{bmatrix}<br>$$</p><p>其中 $a_{ij}$ 代表的是由狀態 $i$ 變成狀態 $j$ 的機率，這邊要注意的是，每一個列（row）的機率總和要是 1。</p><blockquote><p>補充：<br>由於我們的向量都是 row vector<br>$A$ 為一 right stochastic matrix，運算形式為 $\mathbf{y} A$<br>由狀態 $i$ 變成其他狀態之機率和為 1（$A \mathbf{1} = \mathbf{1}$）<br>感謝陳杰翰先生幫忙指正</p></blockquote><p>所以不同時間點的狀態變化關係可以寫成以下式子：</p><p>$$<br>\mathbf{y^{(t)}} = \mathbf{y^{(t-1)}} A<br>$$</p><p>$\mathbf{y^{(t)}}$ 的意思是第 t 次（或是時間為 t）的狀態，$\mathbf{y^{(t-1)}}$ 狀態會經過一次轉換或是運算轉變成 $\mathbf{y^{(t)}}$。</p><p>如果你把其中的第一項的運算拆開來看就會長這樣，可以自行檢驗狀態的變化：</p><p>$$<br>y_1^{(t)} = a_{11}y_1^{(t-1)} + a_{12}y_2^{(t-1)} + a_{13}y_3^{(t-1)} + a_{14}y_4^{(t-1)}<br>$$</p><p>從時間軸上來看，我們可以把狀態的轉變畫出來像是這樣：</p><p><br></p><p><img src="/images/markov_model_expand_time.svg" alt=""></p><p><br></p><p>每次的轉變我們都可以看成一個函數 $f$，他其實等同於上面提到的矩陣：</p><p>$$<br>\mathbf{y^{(t)}} = f(\mathbf{y^{(t-1)}}) = \mathbf{y^{(t-1)}} A<br>$$</p><p>所以他的意思是，$\mathbf{y^{(t-1)}}$ 會經由 $f$ 變成 $\mathbf{y^{(t)}}$，所以這是單純的狀態變化。</p><p>上面的矩陣當中其實內容是機率，我們也可以把他轉成機率的寫法，但是解釋會變得不太一樣：</p><p>$$<br>p = f(\mathbf{y^{(t)}} \mid \mathbf{y^{(t-1)}}) = P(\mathbf{y^{(t)}} \mid \mathbf{y^{(t-1)}})<br>$$</p><p>這邊的解釋是，$\mathbf{y^{(t-1)}}$ 會經由 $f$ 變成 $\mathbf{y^{(t)}}$ <strong>的機率</strong>。</p><p>下句跟上句的不同在於，上句的描述是肯定的，他只描述了狀態的改變，但是下句多加描述了 <strong>這件事會發生的機率</strong>，所以應該要把 $\mathbf{y^{(t)}} \mid \mathbf{y^{(t-1)}}$ 理解成 <strong>這一件事</strong>，那麼 $f$ 的輸出就是機率了。</p><p>我們可以把上圖 <em>收起來</em>，所以看起來會像這樣：</p><p><br></p><p><img src="/images/markov_model_time.svg" alt=""></p><p><br></p><p>花了點時間把一些符號跟數學概念講完了，來談談他的假設，一般來說，馬可夫模型最大的假設在於：</p><p>$$<br>P(\mathbf{y^{(t)}} \mid \mathbf{y^{(1)}}, \mathbf{y^{(2)}}, \dots, \mathbf{y^{(t-1)}}) = P(\mathbf{y^{(t)}} \mid \mathbf{y^{(t-1)}})<br>$$</p><p>也就是要預測第 t 單位時間的狀態，我們經歷了第 1~(t - 1) 單位時間，但是他只需要用前一個時間單位的狀態就可以預測下一個狀態，前面很多狀態都是不必要的，這我們稱為一階馬可夫模型（first-order Markov chain）。</p><p>當然可以推廣到 m 階馬可夫模型（m th-order Markov chain），那代表需要前 m 個狀態來預測下一個狀態，順帶一提，有零階馬可夫模型，那就跟我們一般的機率分佈模型（$P(\mathbf{y^{(t)}}）$）一樣。</p><p>沒有特別提的話，通常大家談的馬可夫模型都是一階馬可夫模型。一般來說，他有個非常重要的特性，就是 <strong>無記憶性</strong>，也就是他不會去記住他所經歷的狀態，他只需要用現在的狀態就可以預測下一個狀態。</p><p>不過我要特別提一下這個模型的一些其他假設：</p><ul><li>狀態是離散的。在馬可夫模型的狀態空間中是離散的，也就是你可以用一個正整數來數出有幾種狀態存在。</li><li>時間是離散的。我們剛剛有看到他計算的是第 t 單位時間，下一次就是乘上一個矩陣之後成為第 t+1 單位時間。</li><li>狀態是可被觀察的。</li><li>以一個隨機變數作為一個狀態。</li></ul><p>接下來我們來談談另一個模型。</p><p><br></p><h2 id="Hidden-Markov-model"><a href="#Hidden-Markov-model" class="headerlink" title="Hidden Markov model"></a>Hidden Markov model</h2><p>接下來是進階版的隱馬可夫模型（hidden Markov model），他的假設是這樣的，在一個系統中存在一些我們看不到的狀態，是系統的內在狀態，隨著系統的內在狀態不同，他所表現出來的外在狀態也不同，而外在狀態是我們可以觀測到的。</p><p><br></p><p><img src="/images/hmm.svg" alt=""></p><p><br></p><p>大家可以看到這個圖跟剛剛的很相似，帶是又多了一些東西。較大的圈圈是內在狀態，小的圈圈是外在狀態。隨著時間改變，內在狀態會隨著變動，內在狀態的變動我們可以用一個矩陣來表示：</p><p>$$<br>A = [a_{ij}] =<br>\begin{bmatrix}<br>a_{11}&amp; a_{12}&amp; a_{13}&amp; a_{14} \\<br>a_{21}&amp; a_{22}&amp; a_{23}&amp; a_{24} \\<br>a_{31}&amp; a_{32}&amp; a_{33}&amp; a_{34} \\<br>a_{41}&amp; a_{42}&amp; a_{43}&amp; a_{44} \\<br>\end{bmatrix}<br>$$</p><p>裏面裝的一樣是機率。接下來，不同的內在狀態有不同的機率會噴出（emit）外在狀態，這也會用另一個矩陣表示：</p><p>$$<br>B = [b_{ij}] =<br>\begin{bmatrix}<br>b_{11}&amp; b_{12}&amp; b_{13}&amp; b_{14} \\<br>b_{21}&amp; b_{22}&amp; b_{23}&amp; b_{24} \\<br>b_{31}&amp; b_{32}&amp; b_{33}&amp; b_{34} \\<br>\end{bmatrix}<br>$$</p><p>寫成狀態轉移的關係式的話會變成：</p><p>$$<br>\mathbf{h^{(t)}} = \mathbf{h^{(t-1)}} A<br>$$</p><p>$\mathbf{h^{(t)}}$ 代表在第 t 單位時間的內在狀態。</p><p>$$<br>\mathbf{y^{(t)}} = \mathbf{h^{(t)}} B<br>$$</p><p>$\mathbf{y^{(t)}}$ 代表在第 t 單位時間根據內在狀態噴出的外在狀態。</p><p>如果在時間軸上表達的話是這個樣子：</p><p><br></p><p><img src="/images/hmm_expand_time.svg" alt=""></p><p><br></p><p><img src="/images/hmm_time.svg" alt=""></p><p><br></p><p>由於在這邊又多了一個內在狀態，所以在模型的表達力上遠遠超越馬可夫模型。舉個例子好了，假設小明很好奇在不同天氣的時候外面的人吃冰淇淋的狀況是如何，但是小明又很懶得出門看天氣，這時候他就假設天氣（晴天、陰天、雨天）是內在狀態（看不到），然後他觀察路上的人吃冰淇淋（外在狀態，吃、不吃）的多寡，這時候這麼模型就可以派上用場，他藉由持續觀察路人有沒有吃冰淇淋，可以推論外面天氣的變化狀況。</p><p>這時候我們也來總結一下，這個模型的假設：</p><ul><li>內在狀態跟外在狀態都是離散的。</li><li>時間是離散的。</li><li>內在狀態是不能被觀察的，外在狀態是可被觀察的。</li><li>以一個隨機變數作為一個狀態。</li></ul>]]></content>
-    
-    <summary type="html">
-    
-      &lt;p&gt;上次我們講完在空間上，我們可以知道資料的區域性，並且利用 convolution 來萃取特徵。&lt;/p&gt;
-&lt;p&gt;這次我們來講時間，其實不一定要是”時間”序列資料，只要是有先後順序的資料就可以。&lt;/p&gt;
-&lt;p&gt;在時間序列分析及統計的領域中，我們有基礎的馬可夫模型（Markov chain）。&lt;/p&gt;
     
     </summary>
     

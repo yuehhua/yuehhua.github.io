@@ -237,6 +237,76 @@
             <div class="postShorten-header">
                 <h1 class="postShorten-title">
                     
+                        <a class="link-unstyled" href="/2019/02/22/define-values-in-parametric-type/">
+                            在參數化型別中定義值
+                        </a>
+                    
+                </h1>
+                <div class="postShorten-meta">
+    <time datetime="2019-02-22T01:22:42+08:00">
+	
+		    2月 22, 2019
+    	
+    </time>
+    
+        <span>分類 </span>
+        
+    <a class="category-link" href="/categories/Computer-Science/">Computer Science</a>, <a class="category-link" href="/categories/Computer-Science/Julialang/">Julialang</a>
+
+
+    
+</div>
+
+            </div>
+            
+                <div class="postShorten-content">
+                    <p>應該不少人看到這個標題會摸不著頭緒到底要做什麼，但是看完 Julia 中常見的程式碼你就會了解了。</p>
+<figure class="highlight julia"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">Array</span>&#123;<span class="built_in">Any</span>, <span class="number">2</span>&#125;</span><br></pre></td></tr></table></figure>
+<p>有沒有曾經納悶過那個數字 2 到底是怎麼進到參數的位置上的呢？</p>
+<p>參數的位置不是只能放型別（type）嗎？</p>
+<p>這同時也是我困惑已久的問題，就搜尋了一下，果不其然被我找到了方法：</p>
+<figure class="highlight julia"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">struct</span> A&#123;T&#125;</span><br><span class="line"><span class="keyword">end</span></span><br></pre></td></tr></table></figure>
+<figure class="highlight julia"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">A&#123;<span class="number">5</span>&#125;()</span><br></pre></td></tr></table></figure>
+<p>原來這麼簡單就可以完成了！語法上並沒有限定一定要是<em>型別</em>，要放型別以外的東西似乎是可以的。</p>
+<p>我目前測試了可以的有：Int64、Float64、Complex、Char、Bool、Symbol，所以估計數字應該都是可以的。</p>
+<p>不行的有：String、Array，估計物件或是陣列都是不行的。</p>
+<h2 id="定義範圍"><a href="#定義範圍" class="headerlink" title="定義範圍"></a>定義範圍</h2><p>不過使用上並沒有任何限制會有點危險，所以還是定義一下範圍會比較好，像是：</p>
+<figure class="highlight julia"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">struct</span> A&#123;<span class="literal">I</span>&#125;</span><br><span class="line">    <span class="keyword">function</span> A&#123;<span class="literal">I</span>&#125;() <span class="keyword">where</span> &#123;<span class="literal">I</span>&#125;</span><br><span class="line">        <span class="keyword">isa</span>(<span class="literal">I</span>,<span class="built_in">Integer</span>) || error(<span class="string">"bad parameter"</span>)</span><br><span class="line">        new()</span><br><span class="line">    <span class="keyword">end</span></span><br><span class="line"><span class="keyword">end</span></span><br></pre></td></tr></table></figure>
+<p>這樣就可以限制參數要是整數的範圍。</p>
+<h2 id="從參數取值"><a href="#從參數取值" class="headerlink" title="從參數取值"></a>從參數取值</h2><p>那我們能不能從型別的參數當中取值呢？</p>
+<p>可以。</p>
+<figure class="highlight julia"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">get_value(::A&#123;<span class="literal">I</span>&#125;) <span class="keyword">where</span> A&#123;<span class="literal">I</span>&#125; = <span class="literal">I</span></span><br></pre></td></tr></table></figure>
+<p>如此一來，我們就可以從型別中拿到值了。</p>
+<h2 id="好處？"><a href="#好處？" class="headerlink" title="好處？"></a>好處？</h2><p>這麼做有什麼好處？</p>
+<p>當你把值的資訊放到型別當中，型別就多了一些資訊可以提供編譯器處理，這對於要自己設計型別階層可是非常好用的。</p>
+<p>例如像是你可以將陣列的長度資訊儲存到型別上，這樣編譯器就可以處理陣列的長度資訊了。</p>
+<p>這樣的程式風格會跟 dependent type language 有些相似了。</p>
+<p>大家可以玩玩看。</p>
+
+                    
+                        
+
+                    
+                    
+                        <p>
+                            <a href="/2019/02/22/define-values-in-parametric-type/#post-footer" class="postShorten-excerpt_link link">
+                                留言與分享
+                            </a>
+                        </p>
+                    
+                </div>
+            
+        </div>
+        
+    </article>
+    
+    
+    <article class="postShorten postShorten--thumbnailimg-bottom">
+        <div class="postShorten-wrap">
+            
+            <div class="postShorten-header">
+                <h1 class="postShorten-title">
+                    
                         <a class="link-unstyled" href="/2019/02/06/mathematical-objects/">
                             Note - Mathematical objects
                         </a>
@@ -820,7 +890,6 @@
         <!--SCRIPTS-->
 <script src="/assets/js/script-xzfezjobyekpxrjktw5tz6muvzqfsbmo5n6atk3p5om9ulfptldi3p7cyqd8.min.js"></script>
 <!--SCRIPTS END-->
-
 
 
     <script type="text/x-mathjax-config">

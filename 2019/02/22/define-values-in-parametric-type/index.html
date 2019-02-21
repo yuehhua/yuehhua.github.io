@@ -6,7 +6,7 @@
     <!-- hexo-inject:begin --><!-- hexo-inject:end --><meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="generator" content="Dream Maker">
-    <title>06 從 hard-margin SVM 到 soft-margin SVM - Dream Maker</title>
+    <title>在參數化型別中定義值 - Dream Maker</title>
     <meta name="author" content="Yueh-Hua Tu">
     
         <meta name="keywords" content="machine learning,deep learning,topology,">
@@ -15,22 +15,19 @@
     
         <link rel="alternate" type="application/atom+xml" title="RSS" href="/atom.xml">
     
-    <script type="application/ld+json">{"@context":"http://schema.org","@type":"BlogPosting","author":{"@type":"Person","name":"Yueh-Hua Tu","sameAs":["https://github.com/yuehhua/","https://www.facebook.com/a504082002","https://www.linkedin.com/in/%E5%B2%B3%E8%8F%AF-%E6%9D%9C-6a3995a0/","mailto:a504082002@gmail.com"],"image":"https://www.gravatar.com/avatar/a565749fba4782b717234da670b273fd"},"articleBody":"從前面的 kernel SVM 當中我們已經獲得了很強大的模型，可是他還是會有不足之處，像是當資料有雜訊的時候就容易將每個資料點都個別分開。\n有時候我們反而希望模型在面對雜訊上不要那麼敏感，或是不要把每個資料點都分對，這時候怎麼辦呢？\n\nHard-margin SVM\n從這張圖來看，我們或許可以接受這樣的線其實還不錯，只是資料多了一點雜訊。如果讓模型硬要把所有資料點都分對的話，邊界就會非常複雜，就會變成 overfitting。\n我們是不是有什麼辦法去修正這個模型呢？\n我們原本的模型是：\n$$\\begin{align}\\mathop{\\arg\\min}_{\\mathbf{w}, b} &amp;\\ \\ \\ \\    \\frac{1}{2} \\mathbf{w}^T\\mathbf{w} \\\\\\text{subject to} &amp;\\ \\ \\ \\    \\forall i, y_i (\\mathbf{w}^T\\mathbf{x_i} + b) \\ge 1\\end{align}$$\n我們可以藉由在最佳化目標上加上一些 regularization $\\sum _{n=1}^N [y_n \\ne sign(\\mathbf{w}^T\\mathbf{z_n} + b) ]$。\n$$\\begin{align}\\mathop{\\arg\\min}_{\\mathbf{w}, b} &amp;\\ \\ \\ \\    \\frac{1}{2} \\mathbf{w}^T\\mathbf{w} + C \\sum _{n=1}^N [y_n \\ne sign(\\mathbf{w}^T\\mathbf{z_n} + b) ] \\\\\\text{subject to} &amp;\\ \\ \\ \\    …\\end{align}$$\n這樣的 regularization 項我們可以仿照之前的方法，把他改成 $\\sum _{n=1}^N y_n (\\mathbf{w}^T\\mathbf{z_n} + b)$。\n如果考慮 $y_n (\\mathbf{w}^T\\mathbf{z_n} + b)$，如果答對的話，他會是大於等於 1 的值，相反，如果答錯的話………..，我們只能確定他是負值，沒辦法確定他的範圍。\n\n這樣的話，我們 直接引入一個值 $\\xi$ 來代表 $y_n (\\mathbf{w}^T\\mathbf{z_n} + b)$ 到底有多大程度答錯了。\n$$\\begin{align}\\mathop{\\arg\\min}_{\\mathbf{w}, b, \\mathbf{\\xi}} &amp;\\ \\ \\ \\    \\frac{1}{2} \\mathbf{w}^T\\mathbf{w} + C \\sum _{n=1}^N \\xi_n \\\\\\text{subject to} &amp;\\ \\ \\ \\    \\forall i, y_i (\\mathbf{w}^T\\mathbf{x_i} + b) \\ge 1 - \\xi_n \\\\\\text{ } &amp;\\ \\ \\ \\    \\forall n, \\xi_n \\ge 0\\end{align}$$\n所以在最佳化目標上有 regularization，然後放寬一下限制，讓 $y_i (\\mathbf{w}^T\\mathbf{x_i} + b)$ 的值可以有個容忍度 $1 - \\xi_n$。\n也就是，我們可以在 margin 儘量大的情形下，去限制讓模型不能做錯太多，這個程度可以藉由 C 做調整。\n","dateCreated":"2018-10-06T21:10:06+08:00","dateModified":"2018-10-15T15:05:25+08:00","datePublished":"2018-10-06T21:10:06+08:00","description":"從前面的 kernel SVM 當中我們已經獲得了很強大的模型，可是他還是會有不足之處，像是當資料有雜訊的時候就容易將每個資料點都個別分開。\n有時候我們反而希望模型在面對雜訊上不要那麼敏感，或是不要把每個資料點都分對，這時候怎麼辦呢？","headline":"06 從 hard-margin SVM 到 soft-margin SVM","image":[],"mainEntityOfPage":{"@type":"WebPage","@id":"https://yuehhua.github.io/2018/10/06/06-from-hard-margin-svm-to-soft-margin-svm/"},"publisher":{"@type":"Organization","name":"Yueh-Hua Tu","sameAs":["https://github.com/yuehhua/","https://www.facebook.com/a504082002","https://www.linkedin.com/in/%E5%B2%B3%E8%8F%AF-%E6%9D%9C-6a3995a0/","mailto:a504082002@gmail.com"],"image":"https://www.gravatar.com/avatar/a565749fba4782b717234da670b273fd","logo":{"@type":"ImageObject","url":"https://www.gravatar.com/avatar/a565749fba4782b717234da670b273fd"}},"url":"https://yuehhua.github.io/2018/10/06/06-from-hard-margin-svm-to-soft-margin-svm/"}</script>
-    <meta name="description" content="從前面的 kernel SVM 當中我們已經獲得了很強大的模型，可是他還是會有不足之處，像是當資料有雜訊的時候就容易將每個資料點都個別分開。 有時候我們反而希望模型在面對雜訊上不要那麼敏感，或是不要把每個資料點都分對，這時候怎麼辦呢？">
+    <script type="application/ld+json">{"@context":"http://schema.org","@type":"BlogPosting","author":{"@type":"Person","name":"Yueh-Hua Tu","sameAs":["https://github.com/yuehhua/","https://www.facebook.com/a504082002","https://www.linkedin.com/in/%E5%B2%B3%E8%8F%AF-%E6%9D%9C-6a3995a0/","mailto:a504082002@gmail.com"],"image":"https://www.gravatar.com/avatar/a565749fba4782b717234da670b273fd"},"articleBody":"應該不少人看到這個標題會摸不著頭緒到底要做什麼，但是看完 Julia 中常見的程式碼你就會了解了。\n1Array&#123;Any, 2&#125;\n有沒有曾經納悶過那個數字 2 到底是怎麼進到參數的位置上的呢？\n參數的位置不是只能放型別（type）嗎？\n這同時也是我困惑已久的問題，就搜尋了一下，果不其然被我找到了方法：\n12struct A&#123;T&#125;end\n1A&#123;5&#125;()\n原來這麼簡單就可以完成了！語法上並沒有限定一定要是型別，要放型別以外的東西似乎是可以的。\n我目前測試了可以的有：Int64、Float64、Complex、Char、Bool、Symbol，所以估計數字應該都是可以的。\n不行的有：String、Array，估計物件或是陣列都是不行的。\n定義範圍不過使用上並沒有任何限制會有點危險，所以還是定義一下範圍會比較好，像是：\n123456struct A&#123;I&#125;    function A&#123;I&#125;() where &#123;I&#125;        isa(I,Integer) || error(\"bad parameter\")        new()    endend\n這樣就可以限制參數要是整數的範圍。\n從參數取值那我們能不能從型別的參數當中取值呢？\n可以。\n1get_value(::A&#123;I&#125;) where A&#123;I&#125; = I\n如此一來，我們就可以從型別中拿到值了。\n好處？這麼做有什麼好處？\n當你把值的資訊放到型別當中，型別就多了一些資訊可以提供編譯器處理，這對於要自己設計型別階層可是非常好用的。\n例如像是你可以將陣列的長度資訊儲存到型別上，這樣編譯器就可以處理陣列的長度資訊了。\n這樣的程式風格會跟 dependent type language 有些相似了。\n大家可以玩玩看。\n","dateCreated":"2019-02-22T01:22:42+08:00","dateModified":"2019-02-22T01:22:42+08:00","datePublished":"2019-02-22T01:22:42+08:00","description":"","headline":"在參數化型別中定義值","image":[],"mainEntityOfPage":{"@type":"WebPage","@id":"https://yuehhua.github.io/2019/02/22/define-values-in-parametric-type/"},"publisher":{"@type":"Organization","name":"Yueh-Hua Tu","sameAs":["https://github.com/yuehhua/","https://www.facebook.com/a504082002","https://www.linkedin.com/in/%E5%B2%B3%E8%8F%AF-%E6%9D%9C-6a3995a0/","mailto:a504082002@gmail.com"],"image":"https://www.gravatar.com/avatar/a565749fba4782b717234da670b273fd","logo":{"@type":"ImageObject","url":"https://www.gravatar.com/avatar/a565749fba4782b717234da670b273fd"}},"url":"https://yuehhua.github.io/2019/02/22/define-values-in-parametric-type/"}</script>
+    <meta name="description" content="應該不少人看到這個標題會摸不著頭緒到底要做什麼，但是看完 Julia 中常見的程式碼你就會了解了。 1Array&amp;#123;Any, 2&amp;#125; 有沒有曾經納悶過那個數字 2 到底是怎麼進到參數的位置上的呢？ 參數的位置不是只能放型別（type）嗎？ 這同時也是我困惑已久的問題，就搜尋了一下，果不其然被我找到了方法： 12struct A&amp;#123;T&amp;#125;end 1A&amp;#123;5&amp;#">
 <meta name="keywords" content="machine learning,deep learning,topology">
 <meta property="og:type" content="blog">
-<meta property="og:title" content="06 從 hard-margin SVM 到 soft-margin SVM">
-<meta property="og:url" content="https://yuehhua.github.io/2018/10/06/06-from-hard-margin-svm-to-soft-margin-svm/index.html">
+<meta property="og:title" content="在參數化型別中定義值">
+<meta property="og:url" content="https://yuehhua.github.io/2019/02/22/define-values-in-parametric-type/index.html">
 <meta property="og:site_name" content="Dream Maker">
-<meta property="og:description" content="從前面的 kernel SVM 當中我們已經獲得了很強大的模型，可是他還是會有不足之處，像是當資料有雜訊的時候就容易將每個資料點都個別分開。 有時候我們反而希望模型在面對雜訊上不要那麼敏感，或是不要把每個資料點都分對，這時候怎麼辦呢？">
+<meta property="og:description" content="應該不少人看到這個標題會摸不著頭緒到底要做什麼，但是看完 Julia 中常見的程式碼你就會了解了。 1Array&amp;#123;Any, 2&amp;#125; 有沒有曾經納悶過那個數字 2 到底是怎麼進到參數的位置上的呢？ 參數的位置不是只能放型別（type）嗎？ 這同時也是我困惑已久的問題，就搜尋了一下，果不其然被我找到了方法： 12struct A&amp;#123;T&amp;#125;end 1A&amp;#123;5&amp;#">
 <meta property="og:locale" content="zh-tw">
-<meta property="og:image" content="https://yuehhua.github.io/images/linear-separable2.svg">
-<meta property="og:image" content="https://yuehhua.github.io/images/soft-margin_SVM.svg">
-<meta property="og:updated_time" content="2018-10-15T07:05:25.883Z">
+<meta property="og:updated_time" content="2019-02-21T17:22:42.393Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="06 從 hard-margin SVM 到 soft-margin SVM">
-<meta name="twitter:description" content="從前面的 kernel SVM 當中我們已經獲得了很強大的模型，可是他還是會有不足之處，像是當資料有雜訊的時候就容易將每個資料點都個別分開。 有時候我們反而希望模型在面對雜訊上不要那麼敏感，或是不要把每個資料點都分對，這時候怎麼辦呢？">
-<meta name="twitter:image" content="https://yuehhua.github.io/images/linear-separable2.svg">
+<meta name="twitter:title" content="在參數化型別中定義值">
+<meta name="twitter:description" content="應該不少人看到這個標題會摸不著頭緒到底要做什麼，但是看完 Julia 中常見的程式碼你就會了解了。 1Array&amp;#123;Any, 2&amp;#125; 有沒有曾經納悶過那個數字 2 到底是怎麼進到參數的位置上的呢？ 參數的位置不是只能放型別（type）嗎？ 這同時也是我困惑已久的問題，就搜尋了一下，果不其然被我找到了方法： 12struct A&amp;#123;T&amp;#125;end 1A&amp;#123;5&amp;#">
     
     
         
@@ -241,20 +238,20 @@
                     <div class="post-header main-content-wrap text-left">
     
         <h1 class="post-title">
-            06 從 hard-margin SVM 到 soft-margin SVM
+            在參數化型別中定義值
         </h1>
     
     
         <div class="post-meta">
-    <time datetime="2018-10-06T21:10:06+08:00">
+    <time datetime="2019-02-22T01:22:42+08:00">
 	
-		    10月 06, 2018
+		    2月 22, 2019
     	
     </time>
     
         <span>分類 </span>
         
-    <a class="category-link" href="/categories/Machine-Learning/">Machine Learning</a>, <a class="category-link" href="/categories/Machine-Learning/機器學習模型圖書館：從傳統模型到深度學習/">機器學習模型圖書館：從傳統模型到深度學習</a>
+    <a class="category-link" href="/categories/Computer-Science/">Computer Science</a>, <a class="category-link" href="/categories/Computer-Science/Julialang/">Julialang</a>
 
 
     
@@ -266,23 +263,28 @@
                         
                             <div class="post-content markdown">
                                 <div class="main-content-wrap">
-                                    <p>從前面的 kernel SVM 當中我們已經獲得了很強大的模型，可是他還是會有不足之處，像是當資料有雜訊的時候就容易將每個資料點都個別分開。</p>
-<p>有時候我們反而希望模型在面對雜訊上不要那麼敏感，或是不要把每個資料點都分對，這時候怎麼辦呢？</p>
-<a id="more"></a>
-<h2 id="Hard-margin-SVM"><a href="#Hard-margin-SVM" class="headerlink" title="Hard-margin SVM"></a>Hard-margin SVM</h2><p><img src="/images/linear-separable2.svg" alt=""></p>
-<p>從這張圖來看，我們或許可以接受這樣的線其實還不錯，只是資料多了一點雜訊。如果讓模型硬要把所有資料點都分對的話，邊界就會非常複雜，就會變成 overfitting。</p>
-<p>我們是不是有什麼辦法去修正這個模型呢？</p>
-<p>我們原本的模型是：</p>
-<p>$$<br>\begin{align}<br>\mathop{\arg\min}_{\mathbf{w}, b} &amp;\ \ \ \<br>    \frac{1}{2} \mathbf{w}^T\mathbf{w} \\<br>\text{subject to} &amp;\ \ \ \<br>    \forall i, y_i (\mathbf{w}^T\mathbf{x_i} + b) \ge 1<br>\end{align}<br>$$</p>
-<p>我們可以藉由在最佳化目標上加上一些 regularization $\sum _{n=1}^N [y_n \ne sign(\mathbf{w}^T\mathbf{z_n} + b) ]$。</p>
-<p>$$<br>\begin{align}<br>\mathop{\arg\min}_{\mathbf{w}, b} &amp;\ \ \ \<br>    \frac{1}{2} \mathbf{w}^T\mathbf{w} + C \sum _{n=1}^N [y_n \ne sign(\mathbf{w}^T\mathbf{z_n} + b) ] \\<br>\text{subject to} &amp;\ \ \ \<br>    …<br>\end{align}<br>$$</p>
-<p>這樣的 regularization 項我們可以仿照之前的方法，把他改成 $\sum _{n=1}^N y_n (\mathbf{w}^T\mathbf{z_n} + b)$。</p>
-<p>如果考慮 $y_n (\mathbf{w}^T\mathbf{z_n} + b)$，如果答對的話，他會是大於等於 1 的值，相反，如果答錯的話………..，我們只能確定他是負值，沒辦法確定他的範圍。</p>
-<p><img src="/images/soft-margin_SVM.svg" alt=""></p>
-<p>這樣的話，我們 直接引入一個值 $\xi$ 來代表 $y_n (\mathbf{w}^T\mathbf{z_n} + b)$ 到底有多大程度答錯了。</p>
-<p>$$<br>\begin{align}<br>\mathop{\arg\min}_{\mathbf{w}, b, \mathbf{\xi}} &amp;\ \ \ \<br>    \frac{1}{2} \mathbf{w}^T\mathbf{w} + C \sum _{n=1}^N \xi_n \\<br>\text{subject to} &amp;\ \ \ \<br>    \forall i, y_i (\mathbf{w}^T\mathbf{x_i} + b) \ge 1 - \xi_n \\<br>\text{ } &amp;\ \ \ \<br>    \forall n, \xi_n \ge 0<br>\end{align}<br>$$</p>
-<p>所以在最佳化目標上有 regularization，然後放寬一下限制，讓 $y_i (\mathbf{w}^T\mathbf{x_i} + b)$ 的值可以有個容忍度 $1 - \xi_n$。</p>
-<p>也就是，我們可以在 margin 儘量大的情形下，去限制讓模型不能做錯太多，這個程度可以藉由 C 做調整。</p>
+                                    <p>應該不少人看到這個標題會摸不著頭緒到底要做什麼，但是看完 Julia 中常見的程式碼你就會了解了。</p>
+<figure class="highlight julia"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">Array</span>&#123;<span class="built_in">Any</span>, <span class="number">2</span>&#125;</span><br></pre></td></tr></table></figure>
+<p>有沒有曾經納悶過那個數字 2 到底是怎麼進到參數的位置上的呢？</p>
+<p>參數的位置不是只能放型別（type）嗎？</p>
+<p>這同時也是我困惑已久的問題，就搜尋了一下，果不其然被我找到了方法：</p>
+<figure class="highlight julia"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">struct</span> A&#123;T&#125;</span><br><span class="line"><span class="keyword">end</span></span><br></pre></td></tr></table></figure>
+<figure class="highlight julia"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">A&#123;<span class="number">5</span>&#125;()</span><br></pre></td></tr></table></figure>
+<p>原來這麼簡單就可以完成了！語法上並沒有限定一定要是<em>型別</em>，要放型別以外的東西似乎是可以的。</p>
+<p>我目前測試了可以的有：Int64、Float64、Complex、Char、Bool、Symbol，所以估計數字應該都是可以的。</p>
+<p>不行的有：String、Array，估計物件或是陣列都是不行的。</p>
+<h2 id="定義範圍"><a href="#定義範圍" class="headerlink" title="定義範圍"></a>定義範圍</h2><p>不過使用上並沒有任何限制會有點危險，所以還是定義一下範圍會比較好，像是：</p>
+<figure class="highlight julia"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">struct</span> A&#123;<span class="literal">I</span>&#125;</span><br><span class="line">    <span class="keyword">function</span> A&#123;<span class="literal">I</span>&#125;() <span class="keyword">where</span> &#123;<span class="literal">I</span>&#125;</span><br><span class="line">        <span class="keyword">isa</span>(<span class="literal">I</span>,<span class="built_in">Integer</span>) || error(<span class="string">"bad parameter"</span>)</span><br><span class="line">        new()</span><br><span class="line">    <span class="keyword">end</span></span><br><span class="line"><span class="keyword">end</span></span><br></pre></td></tr></table></figure>
+<p>這樣就可以限制參數要是整數的範圍。</p>
+<h2 id="從參數取值"><a href="#從參數取值" class="headerlink" title="從參數取值"></a>從參數取值</h2><p>那我們能不能從型別的參數當中取值呢？</p>
+<p>可以。</p>
+<figure class="highlight julia"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">get_value(::A&#123;<span class="literal">I</span>&#125;) <span class="keyword">where</span> A&#123;<span class="literal">I</span>&#125; = <span class="literal">I</span></span><br></pre></td></tr></table></figure>
+<p>如此一來，我們就可以從型別中拿到值了。</p>
+<h2 id="好處？"><a href="#好處？" class="headerlink" title="好處？"></a>好處？</h2><p>這麼做有什麼好處？</p>
+<p>當你把值的資訊放到型別當中，型別就多了一些資訊可以提供編譯器處理，這對於要自己設計型別階層可是非常好用的。</p>
+<p>例如像是你可以將陣列的長度資訊儲存到型別上，這樣編譯器就可以處理陣列的長度資訊了。</p>
+<p>這樣的程式風格會跟 dependent type language 有些相似了。</p>
+<p>大家可以玩玩看。</p>
 
                                         
 
@@ -296,8 +298,7 @@
         <ul class="post-actions post-action-nav">
             <li class="post-action">
                 
-                    
-                    <a class="post-action-btn btn btn--default tooltip--top" href="/2018/10/07/07-standard-svm/" data-tooltip="07 標準 SVM" aria-label="上一篇: 07 標準 SVM">
+                    <a class="post-action-btn btn btn--disabled">
                 
                     <i class="fa fa-angle-left" aria-hidden="true"></i>
                     <span class="hide-xs hide-sm text-small icon-ml">上一篇</span>
@@ -306,7 +307,7 @@
             <li class="post-action">
                 
                     
-                    <a class="post-action-btn btn btn--default tooltip--top" href="/2018/10/05/05-from-max-margin-classifier-to-kernel-svm/" data-tooltip="05 從 maximum-margin classifier 到 kernel SVM" aria-label="下一篇: 05 從 maximum-margin classifier 到 kernel SVM">
+                    <a class="post-action-btn btn btn--default tooltip--top" href="/2019/02/06/mathematical-objects/" data-tooltip="Note - Mathematical objects" aria-label="下一篇: Note - Mathematical objects">
                 
                     <span class="hide-xs hide-sm text-small icon-mr">下一篇</span>
                     <i class="fa fa-angle-right" aria-hidden="true"></i>
@@ -324,7 +325,7 @@
             
             
             <li class="post-action hide-xs">
-                <a class="post-action-btn btn btn--default" target="new" href="https://www.facebook.com/sharer/sharer.php?u=https://yuehhua.github.io/2018/10/06/06-from-hard-margin-svm-to-soft-margin-svm/" title="分享到 Facebook">
+                <a class="post-action-btn btn btn--default" target="new" href="https://www.facebook.com/sharer/sharer.php?u=https://yuehhua.github.io/2019/02/22/define-values-in-parametric-type/" title="分享到 Facebook">
                     <i class="fa fa-facebook-official" aria-hidden="true"></i>
                 </a>
             </li>
@@ -382,8 +383,7 @@
         <ul class="post-actions post-action-nav">
             <li class="post-action">
                 
-                    
-                    <a class="post-action-btn btn btn--default tooltip--top" href="/2018/10/07/07-standard-svm/" data-tooltip="07 標準 SVM" aria-label="上一篇: 07 標準 SVM">
+                    <a class="post-action-btn btn btn--disabled">
                 
                     <i class="fa fa-angle-left" aria-hidden="true"></i>
                     <span class="hide-xs hide-sm text-small icon-ml">上一篇</span>
@@ -392,7 +392,7 @@
             <li class="post-action">
                 
                     
-                    <a class="post-action-btn btn btn--default tooltip--top" href="/2018/10/05/05-from-max-margin-classifier-to-kernel-svm/" data-tooltip="05 從 maximum-margin classifier 到 kernel SVM" aria-label="下一篇: 05 從 maximum-margin classifier 到 kernel SVM">
+                    <a class="post-action-btn btn btn--default tooltip--top" href="/2019/02/06/mathematical-objects/" data-tooltip="Note - Mathematical objects" aria-label="下一篇: Note - Mathematical objects">
                 
                     <span class="hide-xs hide-sm text-small icon-mr">下一篇</span>
                     <i class="fa fa-angle-right" aria-hidden="true"></i>
@@ -410,7 +410,7 @@
             
             
             <li class="post-action hide-xs">
-                <a class="post-action-btn btn btn--default" target="new" href="https://www.facebook.com/sharer/sharer.php?u=https://yuehhua.github.io/2018/10/06/06-from-hard-margin-svm-to-soft-margin-svm/" title="分享到 Facebook">
+                <a class="post-action-btn btn btn--default" target="new" href="https://www.facebook.com/sharer/sharer.php?u=https://yuehhua.github.io/2019/02/22/define-values-in-parametric-type/" title="分享到 Facebook">
                     <i class="fa fa-facebook-official" aria-hidden="true"></i>
                 </a>
             </li>
@@ -443,7 +443,7 @@
             
             
             <li class="share-option">
-                <a class="share-option-btn" target="new" href="https://www.facebook.com/sharer/sharer.php?u=https://yuehhua.github.io/2018/10/06/06-from-hard-margin-svm-to-soft-margin-svm/">
+                <a class="share-option-btn" target="new" href="https://www.facebook.com/sharer/sharer.php?u=https://yuehhua.github.io/2019/02/22/define-values-in-parametric-type/">
                     <i class="fa fa-facebook-official" aria-hidden="true"></i><span>分享到 Facebook</span>
                 </a>
             </li>
@@ -495,9 +495,9 @@
 
 <script>
     var disqus_config = function () {
-        this.page.url = 'https://yuehhua.github.io/2018/10/06/06-from-hard-margin-svm-to-soft-margin-svm/';
+        this.page.url = 'https://yuehhua.github.io/2019/02/22/define-values-in-parametric-type/';
                  
-            this.page.identifier = '2018/10/06/06-from-hard-margin-svm-to-soft-margin-svm/';
+            this.page.identifier = '2019/02/22/define-values-in-parametric-type/';
                  
              };
     (function () {
