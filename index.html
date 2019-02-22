@@ -236,6 +236,81 @@
             <div class="postShorten-header">
                 <h1 class="postShorten-title">
                     
+                        <a class="link-unstyled" href="/2019/02/22/performance-analysis-of-value-in-parametric-type/">
+                            在參數化型別中使用值的效能分析
+                        </a>
+                    
+                </h1>
+                <div class="postShorten-meta">
+    <time datetime="2019-02-22T12:24:37+08:00">
+	
+		    2月 22, 2019
+    	
+    </time>
+    
+        <span>分類 </span>
+        
+    <a class="category-link" href="/categories/Computer-Science/">Computer Science</a>, <a class="category-link" href="/categories/Computer-Science/Julialang/">Julialang</a>
+
+
+    
+</div>
+
+            </div>
+            
+                <div class="postShorten-content">
+                    <p>我在使用的時候有注意到<em>在參數化型別中使用值</em>的方式與<em>傳統封裝</em>的方式有效能上的差異。</p>
+<p>所以我就做了一些測試。</p>
+<p>在參數化型別中使用值：</p>
+<figure class="highlight julia"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">struct</span> A&#123;T&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">end</span></span><br></pre></td></tr></table></figure>
+<p>傳統型別封裝：</p>
+<figure class="highlight julia"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">struct</span> B</span><br><span class="line">    x::<span class="built_in">Integer</span></span><br><span class="line"><span class="keyword">end</span></span><br></pre></td></tr></table></figure>
+<p><em>全文出現的程式碼為實際測試程式碼</em></p>
+<p>因為 Julia 有提供好用的 <code>@code_llvm</code> 及 <code>@code_native</code> 來觀察一行程式碼實際被轉換成 LLVM 或是組合語言的時候會產生多少行的程式碼，藉此我們可以用低階程式碼來評估是否有效率。程式碼的行數愈少是越有效率的。</p>
+<h2 id="建立"><a href="#建立" class="headerlink" title="建立"></a>建立</h2><p>我們來測試一個物件被建立需要多少行的程式碼。</p>
+<h3 id="A-LLVM"><a href="#A-LLVM" class="headerlink" title="A - LLVM"></a>A - LLVM</h3><figure class="highlight julia"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@code_llvm</span> A&#123;<span class="number">5</span>&#125;()</span><br></pre></td></tr></table></figure>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">;  @ REPL[1]:3 within `Type<span class="string">'</span></span><br><span class="line"><span class="string">define nonnull %jl_value_t addrspace(10)* @japi1_Type_12238(%jl_value_t addrspace(10)*, %jl_value_t addrspace(10)**, i32) #0 &#123;</span></span><br><span class="line"><span class="string">top:</span></span><br><span class="line"><span class="string">  %3 = alloca %jl_value_t addrspace(10)**, align 8</span></span><br><span class="line"><span class="string">  store volatile %jl_value_t addrspace(10)** %1, %jl_value_t addrspace(10)*** %3, align 8</span></span><br><span class="line"><span class="string">  ret %jl_value_t addrspace(10)* addrspacecast (%jl_value_t* inttoptr (i64 140407726014496 to %jl_value_t*) to %jl_value_t addrspace(10)*)</span></span><br><span class="line"><span class="string">&#125;</span></span><br></pre></td></tr></table></figure>
+<h3 id="B-LLVM"><a href="#B-LLVM" class="headerlink" title="B - LLVM"></a>B - LLVM</h3><figure class="highlight julia"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@code_llvm</span> B(<span class="number">5</span>)</span><br></pre></td></tr></table></figure>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br></pre></td><td class="code"><pre><span class="line">;  @ REPL[2]:2 within `Type<span class="string">'</span></span><br><span class="line"><span class="string">define nonnull %jl_value_t addrspace(10)* @julia_Type_12239(%jl_value_t addrspace(10)*, i64) &#123;</span></span><br><span class="line"><span class="string">top:</span></span><br><span class="line"><span class="string">  %gcframe = alloca %jl_value_t addrspace(10)*, i32 3</span></span><br><span class="line"><span class="string">  %2 = bitcast %jl_value_t addrspace(10)** %gcframe to i8*</span></span><br><span class="line"><span class="string">  call void @llvm.memset.p0i8.i32(i8* %2, i8 0, i32 24, i32 0, i1 false)</span></span><br><span class="line"><span class="string">  %thread_ptr = call i8* asm "movq %fs:0, $0", "=r"()</span></span><br><span class="line"><span class="string">  %ptls_i8 = getelementptr i8, i8* %thread_ptr, i64 -15552</span></span><br><span class="line"><span class="string">  %ptls = bitcast i8* %ptls_i8 to %jl_value_t***</span></span><br><span class="line"><span class="string">  %3 = getelementptr %jl_value_t addrspace(10)*, %jl_value_t addrspace(10)** %gcframe, i32 0</span></span><br><span class="line"><span class="string">  %4 = bitcast %jl_value_t addrspace(10)** %3 to i64*</span></span><br><span class="line"><span class="string">  store i64 2, i64* %4</span></span><br><span class="line"><span class="string">  %5 = getelementptr %jl_value_t**, %jl_value_t*** %ptls, i32 0</span></span><br><span class="line"><span class="string">  %6 = getelementptr %jl_value_t addrspace(10)*, %jl_value_t addrspace(10)** %gcframe, i32 1</span></span><br><span class="line"><span class="string">  %7 = bitcast %jl_value_t addrspace(10)** %6 to %jl_value_t***</span></span><br><span class="line"><span class="string">  %8 = load %jl_value_t**, %jl_value_t*** %5</span></span><br><span class="line"><span class="string">  store %jl_value_t** %8, %jl_value_t*** %7</span></span><br><span class="line"><span class="string">  %9 = bitcast %jl_value_t*** %5 to %jl_value_t addrspace(10)***</span></span><br><span class="line"><span class="string">  store %jl_value_t addrspace(10)** %gcframe, %jl_value_t addrspace(10)*** %9</span></span><br><span class="line"><span class="string">  %10 = bitcast %jl_value_t*** %ptls to i8*</span></span><br><span class="line"><span class="string">  %11 = call noalias nonnull %jl_value_t addrspace(10)* @jl_gc_pool_alloc(i8* %10, i32 1664, i32 16) #1</span></span><br><span class="line"><span class="string">  %12 = bitcast %jl_value_t addrspace(10)* %11 to %jl_value_t addrspace(10)* addrspace(10)*</span></span><br><span class="line"><span class="string">  %13 = getelementptr %jl_value_t addrspace(10)*, %jl_value_t addrspace(10)* addrspace(10)* %12, i64 -1</span></span><br><span class="line"><span class="string">  store %jl_value_t addrspace(10)* addrspacecast (%jl_value_t* inttoptr (i64 140407746213792 to %jl_value_t*) to %jl_value_t addrspace(10)*), %jl_value_t addrspace(10)* addrspace(10)* %13</span></span><br><span class="line"><span class="string">  %14 = addrspacecast %jl_value_t addrspace(10)* %11 to %jl_value_t addrspace(11)*</span></span><br><span class="line"><span class="string">  %15 = bitcast %jl_value_t addrspace(11)* %14 to %jl_value_t addrspace(10)* addrspace(11)*</span></span><br><span class="line"><span class="string">  store %jl_value_t addrspace(10)* null, %jl_value_t addrspace(10)* addrspace(11)* %15, align 8</span></span><br><span class="line"><span class="string">  %16 = getelementptr %jl_value_t addrspace(10)*, %jl_value_t addrspace(10)** %gcframe, i32 2</span></span><br><span class="line"><span class="string">  store %jl_value_t addrspace(10)* %11, %jl_value_t addrspace(10)** %16</span></span><br><span class="line"><span class="string">  %17 = call %jl_value_t addrspace(10)* @jl_box_int64(i64 signext %1)</span></span><br><span class="line"><span class="string">  %18 = bitcast %jl_value_t addrspace(10)* %11 to %jl_value_t addrspace(10)* addrspace(10)*</span></span><br><span class="line"><span class="string">  store %jl_value_t addrspace(10)* %17, %jl_value_t addrspace(10)* addrspace(10)* %18, align 8</span></span><br><span class="line"><span class="string">  %19 = bitcast %jl_value_t addrspace(10)* %11 to i64 addrspace(10)*</span></span><br><span class="line"><span class="string">  %20 = getelementptr i64, i64 addrspace(10)* %19, i64 -1</span></span><br><span class="line"><span class="string">  %21 = load i64, i64 addrspace(10)* %20</span></span><br><span class="line"><span class="string">  %22 = and i64 %21, 3</span></span><br><span class="line"><span class="string">  %23 = icmp eq i64 %22, 3</span></span><br><span class="line"><span class="string">  br i1 %23, label %24, label %31</span></span><br><span class="line"><span class="string"></span></span><br><span class="line"><span class="string">; &lt;label&gt;:24:                                     ; preds = %top</span></span><br><span class="line"><span class="string">  %25 = bitcast %jl_value_t addrspace(10)* %17 to i64 addrspace(10)*</span></span><br><span class="line"><span class="string">  %26 = getelementptr i64, i64 addrspace(10)* %25, i64 -1</span></span><br><span class="line"><span class="string">  %27 = load i64, i64 addrspace(10)* %26</span></span><br><span class="line"><span class="string">  %28 = and i64 %27, 1</span></span><br><span class="line"><span class="string">  %29 = icmp eq i64 %28, 0</span></span><br><span class="line"><span class="string">  br i1 %29, label %30, label %31</span></span><br><span class="line"><span class="string"></span></span><br><span class="line"><span class="string">; &lt;label&gt;:30:                                     ; preds = %24</span></span><br><span class="line"><span class="string">  call void @jl_gc_queue_root(%jl_value_t addrspace(10)* %11)</span></span><br><span class="line"><span class="string">  br label %31</span></span><br><span class="line"><span class="string"></span></span><br><span class="line"><span class="string">; &lt;label&gt;:31:                                     ; preds = %30, %24, %top</span></span><br><span class="line"><span class="string">  %32 = getelementptr %jl_value_t addrspace(10)*, %jl_value_t addrspace(10)** %gcframe, i32 1</span></span><br><span class="line"><span class="string">  %33 = load %jl_value_t addrspace(10)*, %jl_value_t addrspace(10)** %32</span></span><br><span class="line"><span class="string">  %34 = getelementptr %jl_value_t**, %jl_value_t*** %ptls, i32 0</span></span><br><span class="line"><span class="string">  %35 = bitcast %jl_value_t*** %34 to %jl_value_t addrspace(10)**</span></span><br><span class="line"><span class="string">  store %jl_value_t addrspace(10)* %33, %jl_value_t addrspace(10)** %35</span></span><br><span class="line"><span class="string">  ret %jl_value_t addrspace(10)* %11</span></span><br><span class="line"><span class="string">&#125;</span></span><br></pre></td></tr></table></figure>
+<h3 id="A-Machine-code"><a href="#A-Machine-code" class="headerlink" title="A - Machine code"></a>A - Machine code</h3><figure class="highlight julia"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@code_native</span> A&#123;<span class="number">5</span>&#125;()</span><br></pre></td></tr></table></figure>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">; ┌ @ REPL[1]:3 within `Type<span class="string">'</span></span><br><span class="line"><span class="string">	movq	%rsi, -8(%rsp)</span></span><br><span class="line"><span class="string">	movabsq	$140407726014496, %rax  # imm = 0x7FB338A20020</span></span><br><span class="line"><span class="string">	retq</span></span><br><span class="line"><span class="string">; └</span></span><br></pre></td></tr></table></figure>
+<h3 id="B-Machine-code"><a href="#B-Machine-code" class="headerlink" title="B - Machine code"></a>B - Machine code</h3><figure class="highlight julia"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@code_native</span> B(<span class="number">5</span>)</span><br></pre></td></tr></table></figure>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br></pre></td><td class="code"><pre><span class="line">; ┌ @ REPL[2]:2 within `Type<span class="string">'</span></span><br><span class="line"><span class="string">	pushq	%r15</span></span><br><span class="line"><span class="string">	pushq	%r14</span></span><br><span class="line"><span class="string">	pushq	%rbx</span></span><br><span class="line"><span class="string">	subq	$32, %rsp</span></span><br><span class="line"><span class="string">	movq	%rsi, %r15</span></span><br><span class="line"><span class="string">	vxorps	%xmm0, %xmm0, %xmm0</span></span><br><span class="line"><span class="string">	vmovaps	%xmm0, (%rsp)</span></span><br><span class="line"><span class="string">	movq	$0, 16(%rsp)</span></span><br><span class="line"><span class="string">	movq	%fs:0, %rax</span></span><br><span class="line"><span class="string">	movq	$2, (%rsp)</span></span><br><span class="line"><span class="string">	movq	-15552(%rax), %rcx</span></span><br><span class="line"><span class="string">	movq	%rcx, 8(%rsp)</span></span><br><span class="line"><span class="string">	movq	%rsp, %rcx</span></span><br><span class="line"><span class="string">	movq	%rcx, -15552(%rax)</span></span><br><span class="line"><span class="string">	leaq	-15552(%rax), %r14</span></span><br><span class="line"><span class="string">	movabsq	$jl_gc_pool_alloc, %rax</span></span><br><span class="line"><span class="string">	movl	$1664, %esi             # imm = 0x680</span></span><br><span class="line"><span class="string">	movl	$16, %edx</span></span><br><span class="line"><span class="string">	movq	%r14, %rdi</span></span><br><span class="line"><span class="string">	callq	*%rax</span></span><br><span class="line"><span class="string">	movq	%rax, %rbx</span></span><br><span class="line"><span class="string">	movabsq	$140407746213792, %rax  # imm = 0x7FB339D637A0</span></span><br><span class="line"><span class="string">	movq	%rax, -8(%rbx)</span></span><br><span class="line"><span class="string">	movq	$0, (%rbx)</span></span><br><span class="line"><span class="string">	movq	%rbx, 16(%rsp)</span></span><br><span class="line"><span class="string">	movabsq	$jl_box_int64, %rax</span></span><br><span class="line"><span class="string">	movq	%r15, %rdi</span></span><br><span class="line"><span class="string">	callq	*%rax</span></span><br><span class="line"><span class="string">	movq	%rax, (%rbx)</span></span><br><span class="line"><span class="string">	movq	-8(%rbx), %rcx</span></span><br><span class="line"><span class="string">	andl	$3, %ecx</span></span><br><span class="line"><span class="string">	cmpq	$3, %rcx</span></span><br><span class="line"><span class="string">	jne	L167</span></span><br><span class="line"><span class="string">	testb	$1, -8(%rax)</span></span><br><span class="line"><span class="string">	je	L188</span></span><br><span class="line"><span class="string">L167:</span></span><br><span class="line"><span class="string">	movq	8(%rsp), %rax</span></span><br><span class="line"><span class="string">	movq	%rax, (%r14)</span></span><br><span class="line"><span class="string">	movq	%rbx, %rax</span></span><br><span class="line"><span class="string">	addq	$32, %rsp</span></span><br><span class="line"><span class="string">	popq	%rbx</span></span><br><span class="line"><span class="string">	popq	%r14</span></span><br><span class="line"><span class="string">	popq	%r15</span></span><br><span class="line"><span class="string">	retq</span></span><br><span class="line"><span class="string">L188:</span></span><br><span class="line"><span class="string">	movabsq	$jl_gc_queue_root, %rax</span></span><br><span class="line"><span class="string">	movq	%rbx, %rdi</span></span><br><span class="line"><span class="string">	callq	*%rax</span></span><br><span class="line"><span class="string">	jmp	L167</span></span><br><span class="line"><span class="string">	nopl	(%rax)</span></span><br><span class="line"><span class="string">; └</span></span><br></pre></td></tr></table></figure>
+<h2 id="取值"><a href="#取值" class="headerlink" title="取值"></a>取值</h2><figure class="highlight julia"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">get_value(::A&#123;T&#125;) <span class="keyword">where</span> &#123;T&#125; = T</span><br><span class="line">get_value(b::B) = b.x</span><br></pre></td></tr></table></figure>
+<figure class="highlight julia"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">a = A&#123;<span class="number">5</span>&#125;()</span><br><span class="line">b = B(<span class="number">5</span>)</span><br></pre></td></tr></table></figure>
+<h3 id="A-LLVM-1"><a href="#A-LLVM-1" class="headerlink" title="A - LLVM"></a>A - LLVM</h3><figure class="highlight julia"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@code_llvm</span> get_value(a)</span><br></pre></td></tr></table></figure>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">;  @ REPL[8]:1 within `get_value<span class="string">'</span></span><br><span class="line"><span class="string">define i64 @julia_get_value_12274() &#123;</span></span><br><span class="line"><span class="string">top:</span></span><br><span class="line"><span class="string">  ret i64 5</span></span><br><span class="line"><span class="string">&#125;</span></span><br></pre></td></tr></table></figure>
+<h3 id="B-LLVM-1"><a href="#B-LLVM-1" class="headerlink" title="B - LLVM"></a>B - LLVM</h3><figure class="highlight julia"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@code_llvm</span> get_value(b)</span><br></pre></td></tr></table></figure>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">;  @ REPL[9]:1 within `get_value<span class="string">'</span></span><br><span class="line"><span class="string">define nonnull %jl_value_t addrspace(10)* @japi1_get_value_12276(%jl_value_t addrspace(10)*, %jl_value_t addrspace(10)**, i32) #0 &#123;</span></span><br><span class="line"><span class="string">top:</span></span><br><span class="line"><span class="string">  %3 = alloca %jl_value_t addrspace(10)**, align 8</span></span><br><span class="line"><span class="string">  store volatile %jl_value_t addrspace(10)** %1, %jl_value_t addrspace(10)*** %3, align 8</span></span><br><span class="line"><span class="string">  %4 = load %jl_value_t addrspace(10)*, %jl_value_t addrspace(10)** %1, align 8</span></span><br><span class="line"><span class="string">; ┌ @ sysimg.jl:18 within `getproperty'</span></span><br><span class="line">   %5 = addrspacecast %jl_value_t addrspace(10)* %4 to %jl_value_t addrspace(11)*</span><br><span class="line">   %6 = bitcast %jl_value_t addrspace(11)* %5 to %jl_value_t addrspace(10)* addrspace(11)*</span><br><span class="line">   %7 = load %jl_value_t addrspace(10)*, %jl_value_t addrspace(10)* addrspace(11)* %6, align 8</span><br><span class="line">; └</span><br><span class="line">  ret %jl_value_t addrspace(10)* %7</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h3 id="A-Machine-code-1"><a href="#A-Machine-code-1" class="headerlink" title="A - Machine code"></a>A - Machine code</h3><figure class="highlight julia"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@code_native</span> get_value(a)</span><br></pre></td></tr></table></figure>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">; ┌ @ REPL[8]:1 within `get_value<span class="string">'</span></span><br><span class="line"><span class="string">	movl	$5, %eax</span></span><br><span class="line"><span class="string">	retq</span></span><br><span class="line"><span class="string">	nopw	%cs:(%rax,%rax)</span></span><br><span class="line"><span class="string">; └</span></span><br></pre></td></tr></table></figure>
+<h3 id="B-Machine-code-1"><a href="#B-Machine-code-1" class="headerlink" title="B - Machine code"></a>B - Machine code</h3><figure class="highlight julia"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@code_native</span> get_value(b)</span><br></pre></td></tr></table></figure>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">; ┌ @ REPL[9]:1 within `get_value<span class="string">'</span></span><br><span class="line"><span class="string">	movq	%rsi, -8(%rsp)</span></span><br><span class="line"><span class="string">	movq	(%rsi), %rax</span></span><br><span class="line"><span class="string">; │┌ @ sysimg.jl:18 within `getproperty'</span></span><br><span class="line">	movq	(%rax), %rax</span><br><span class="line">; │└</span><br><span class="line">	retq</span><br><span class="line">; └</span><br></pre></td></tr></table></figure>
+
+                    
+                        
+
+                    
+                    
+                        <p>
+                            <a href="/2019/02/22/performance-analysis-of-value-in-parametric-type/#post-footer" class="postShorten-excerpt_link link">
+                                留言與分享
+                            </a>
+                        </p>
+                    
+                </div>
+            
+        </div>
+        
+    </article>
+    
+    
+    <article class="postShorten postShorten--thumbnailimg-bottom">
+        <div class="postShorten-wrap">
+            
+            <div class="postShorten-header">
+                <h1 class="postShorten-title">
+                    
                         <a class="link-unstyled" href="/2019/02/22/define-values-in-parametric-type/">
                             在參數化型別中定義值
                         </a>
@@ -741,85 +816,6 @@
                     
                         <p>
                             <a href="/2019/01/15/functional/#post-footer" class="postShorten-excerpt_link link">
-                                留言與分享
-                            </a>
-                        </p>
-                    
-                </div>
-            
-        </div>
-        
-    </article>
-    
-    
-    <article class="postShorten postShorten--thumbnailimg-bottom">
-        <div class="postShorten-wrap">
-            
-            <div class="postShorten-header">
-                <h1 class="postShorten-title">
-                    
-                        <a class="link-unstyled" href="/2019/01/15/compare-clustering-and-embedding/">
-                            Compare Clustering and Embedding
-                        </a>
-                    
-                </h1>
-                <div class="postShorten-meta">
-    <time datetime="2019-01-15T09:10:33+08:00">
-	
-		    1月 15, 2019
-    	
-    </time>
-    
-        <span>分類 </span>
-        
-    <a class="category-link" href="/categories/Machine-Learning/">Machine Learning</a>
-
-
-    
-</div>
-
-            </div>
-            
-                <div class="postShorten-content">
-                    <table>
-<thead>
-<tr>
-<th></th>
-<th>Clustering</th>
-<th>Embedding</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>Target space</td>
-<td>discrete</td>
-<td>continuous</td>
-</tr>
-<tr>
-<td>Target dimension</td>
-<td>$d$</td>
-<td>$\mathbb{R}^d$</td>
-</tr>
-<tr>
-<td>Transformed result can be</td>
-<td>composable</td>
-<td>correlated</td>
-</tr>
-<tr>
-<td>Assumption</td>
-<td>globally static context (dataset)</td>
-<td>globally dynamic context (dataset)</td>
-</tr>
-</tbody>
-</table>
-
-                    
-                        
-
-                    
-                    
-                        <p>
-                            <a href="/2019/01/15/compare-clustering-and-embedding/#post-footer" class="postShorten-excerpt_link link">
                                 留言與分享
                             </a>
                         </p>
