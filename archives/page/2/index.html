@@ -237,6 +237,70 @@
             <div class="postShorten-header">
                 <h1 class="postShorten-title">
                     
+                        <a class="link-unstyled" href="/2019/01/15/functional/">
+                            Functional
+                        </a>
+                    
+                </h1>
+                <div class="postShorten-meta">
+    <time datetime="2019-01-15T20:34:54+08:00">
+	
+		    1月 15, 2019
+    	
+    </time>
+    
+        <span>分類 </span>
+        
+    <a class="category-link" href="/categories/Math/">Math</a>
+
+
+    
+</div>
+
+            </div>
+            
+                <div class="postShorten-content">
+                    <p>一般我們數學上稱 $f: \mathbb{R} \rightarrow \mathbb{R}$ 為函數 function。</p>
+<p>然而，如果一個函數可以接受另一個函數作為他的輸入變數，而輸出是一個純量，$F: S \rightarrow \mathbb{R}$ 泛函 functional，其中 $S$ 是一個向量空間，函數是一種廣義的向量。</p>
+<p>在最佳化理論或是機器學習當中最常遇到的就是損失函數 $\mathcal{L}$，他其實是一個泛函。</p>
+<p>$$<br>\mathcal{L}[f] = \frac{1}{N} \sum_{i=1}^{N} (y_i - f(x_i))^2<br>$$</p>
+<p>當我們有不同的資料，需要計算這些資料的 mean square error 的時候就會寫成像上面這個樣子。</p>
+<p>$$<br>\mathcal{L}[f] = \lim_{n \rightarrow \infty} \int_b^a |f(x) - \sum_{i=1}^N a_i f_i(x)|^2 dx<br>$$</p>
+<p>如果我們處理的不是資料，而是一段連續的空間，那我們就可以用以上這個連續的版本。</p>
+<blockquote>
+<p>ex.</p>
+</blockquote>
+<p>consider $X, Y \in V$</p>
+<ol>
+<li>$g: X \rightarrow \mathbb{R}$ is functional</li>
+<li>$g: X \rightarrow \mathbb{R}^n$ is functional</li>
+<li>$g: X \rightarrow Y$ is operator</li>
+</ol>
+
+                    
+                        
+
+                    
+                    
+                        <p>
+                            <a href="/2019/01/15/functional/#post-footer" class="postShorten-excerpt_link link">
+                                留言與分享
+                            </a>
+                        </p>
+                    
+                </div>
+            
+        </div>
+        
+    </article>
+    
+    
+    <article class="postShorten postShorten--thumbnailimg-bottom">
+        <div class="postShorten-wrap">
+            
+            <div class="postShorten-header">
+                <h1 class="postShorten-title">
+                    
                         <a class="link-unstyled" href="/2019/01/15/compare-clustering-and-embedding/">
                             Compare Clustering and Embedding
                         </a>
@@ -682,68 +746,6 @@
         
     </article>
     
-    
-    <article class="postShorten postShorten--thumbnailimg-bottom">
-        <div class="postShorten-wrap">
-            
-            <div class="postShorten-header">
-                <h1 class="postShorten-title">
-                    
-                        <a class="link-unstyled" href="/2018/10/25/25-death-of-recurrent-model/">
-                            25 Recurrent model 之死
-                        </a>
-                    
-                </h1>
-                <div class="postShorten-meta">
-    <time datetime="2018-10-25T23:21:36+08:00">
-	
-		    10月 25, 2018
-    	
-    </time>
-    
-        <span>分類 </span>
-        
-    <a class="category-link" href="/categories/Machine-Learning/">Machine Learning</a>, <a class="category-link" href="/categories/Machine-Learning/機器學習模型圖書館：從傳統模型到深度學習/">機器學習模型圖書館：從傳統模型到深度學習</a>
-
-
-    
-</div>
-
-            </div>
-            
-                <div class="postShorten-content">
-                    <p>當大家正在開心的用著 RNN 跟 LSTM 等等模型之時，就有人跳出來了。</p>
-<p>不要再用 RNN 為基礎的模型了！！</p>
-<p>就是這篇 <a href="https://towardsdatascience.com/the-fall-of-rnn-lstm-2d1594c74ce0" target="_blank" rel="noopener">The fall of RNN / LSTM</a></p>
-<p>為什麼呢？</p>
-<p>基本上裏面提到 vanishing gradient 的問題一直沒有解決以外，還有沒有辦法善用硬體的侷限在。</p>
-<p>像這種循序型的模型，模型天生無法平行化運算，所以 GPU 就無用武之地，只能靠 CPU 慢慢跑。</p>
-<p>那有什麼解決辦法呢？</p>
-<h2 id="Self-attention-model"><a href="#Self-attention-model" class="headerlink" title="Self-attention model"></a>Self-attention model</h2><p><a href="https://arxiv.org/abs/1706.03762" target="_blank" rel="noopener">Attention Is All You Need</a> 這篇文章提出了 Transformer 這個模型，基本上這個模型使用了 self-attention 的機制。</p>
-<p>要講這個之前我們要先聊聊 attention model。在 attention model 之前，sequence-to-sequence model 做出了重大的突破。一個具有彈性，可以任意組合的模型誕生了，管你是要生成句子還是怎麼樣。原本是只有 RNN 一個單元一個單元慢慢去對映 X 到 Y，sequence-to-sequence model 將這樣的對應關係解耦，由一個 encoder 負責將 X 的資訊萃取出來，再經由 decoder 將資訊轉換成 Y 輸出。</p>
-<p>但是 LSTM 還是沒辦法記憶夠長的，後來 attention model 就誕生了。乾脆就將 encoder 所萃取到的資訊紀錄下來，變成一個，然後再丟到 decoder 去將資訊還原成目標語言，就可以完成機器翻譯了。</p>
-<p>但是這種方式還是不脫 recurrent model，那就乾脆做成 self-attention 的機制，也就是這邊的 Transformer，完全摒棄了 recurrent 的限制。</p>
-<h2 id="Autoregressive-generative-model"><a href="#Autoregressive-generative-model" class="headerlink" title="Autoregressive generative model"></a>Autoregressive generative model</h2><p>接著是今年6月的文章 <a href="http://www.offconvex.org/2018/07/27/approximating-recurrent/" target="_blank" rel="noopener">When Recurrent Models Don’t Need to be Recurrent</a>，當你的 recurrent model 不必再 recurrent！</p>
-<p>也就是將 RNN 的問題又重述了一遍，並且提出大家都漸漸以 autoregressive generative model 來解決這樣的問題。</p>
-<p>這篇算這引言，我接下來會開始一一解釋模型。</p>
-
-                    
-                        
-
-                    
-                    
-                        <p>
-                            <a href="/2018/10/25/25-death-of-recurrent-model/#post-footer" class="postShorten-excerpt_link link">
-                                留言與分享
-                            </a>
-                        </p>
-                    
-                </div>
-            
-        </div>
-        
-    </article>
-    
     <div class="pagination-bar">
     <ul class="pagination">
         
@@ -762,7 +764,7 @@
             </a>
           </li>
         
-        <li class="pagination-number">第 2 頁 共 8 頁</li>
+        <li class="pagination-number">第 2 頁 共 9 頁</li>
     </ul>
 </div>
 

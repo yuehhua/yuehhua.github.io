@@ -237,6 +237,86 @@
             <div class="postShorten-header">
                 <h1 class="postShorten-title">
                     
+                        <a class="link-unstyled" href="/2019/02/24/note-of-vector-space-to-function-space/">
+                            筆記 - 從向量空間到函數空間
+                        </a>
+                    
+                </h1>
+                <div class="postShorten-meta">
+    <time datetime="2019-02-24T12:54:02+08:00">
+	
+		    2月 24, 2019
+    	
+    </time>
+    
+        <span>分類 </span>
+        
+    <a class="category-link" href="/categories/Math/">Math</a>
+
+
+    
+</div>
+
+            </div>
+            
+                <div class="postShorten-content">
+                    <p>參考<a href="https://ccjou.wordpress.com/2009/08/18/%E5%BE%9E%E5%B9%BE%E4%BD%95%E5%90%91%E9%87%8F%E7%A9%BA%E9%96%93%E5%88%B0%E5%87%BD%E6%95%B8%E7%A9%BA%E9%96%93/" target="_blank" rel="noopener">從幾何向量空間到函數空間| 線代啟示錄</a>。</p>
+<ol>
+<li>由 $\mathbb{R}^n$ 拓展到 $\mathbb{R}^{\infty}$ 所需俱備的條件是什麼？</li>
+</ol>
+<p>由於一個向量 $\mathbb{v} \in \mathbb{R}^{\infty}$，在無限維度下我們需要考慮一個問題，就是 norm。</p>
+<p>如果這個空間有定義 norm 的話，我們就要考慮他有沒有收斂，也就是 $||\mathbb{v}||^2$ 要存在。</p>
+<p>所以條件就是</p>
+<p>$$<br>||\mathbb{v}||^2 = \sum_{i=1}^{\infty} v_i^2<br>$$</p>
+<p>要收斂。</p>
+<ol start="2">
+<li>從 $\mathbb{R}^{\infty}$ 無限維度的向量空間再拓展到 $C^{\omega}$ 函數空間，所需要俱備的條件是什麼？</li>
+</ol>
+<p>一個無限維度的向量是一個離散的版本，由剛剛的式子可以看的出來</p>
+<p>$$<br>||\mathbb{v}||^2 = \sum_{i=1}^{\infty} v_i^2<br>$$</p>
+<p>而一個（解析）函數則是連續的</p>
+<p>$$<br>||f||^2 = \int f^2(x) dx<br>$$</p>
+<p>除了以上的 norm 要收斂外，從離散到連續應該有些假設或是條件才是。</p>
+<ol start="3">
+<li>函數的基底</li>
+</ol>
+<p>Fourier series</p>
+<p>$$<br>f(x) = a_0 + a_1 \cos x + b_1 \sin x + a_2 \cos 2x + b_2 \sin 2x + \cdots<br>$$</p>
+<p>所以基底就是</p>
+<p>$$<br>&lt;\beta&gt; = &lt;1, \cos x, \sin x, \cos 2x, \sin 2x, \cdots&gt;<br>$$</p>
+<ol start="4">
+<li>非週期性函數基底</li>
+</ol>
+<p>Legendre polynomial</p>
+<ol start="5">
+<li>Least square problem</li>
+</ol>
+<p>$$<br>(A^TA)\hat{y} = A^Tb<br>$$</p>
+
+                    
+                        
+
+                    
+                    
+                        <p>
+                            <a href="/2019/02/24/note-of-vector-space-to-function-space/#post-footer" class="postShorten-excerpt_link link">
+                                留言與分享
+                            </a>
+                        </p>
+                    
+                </div>
+            
+        </div>
+        
+    </article>
+    
+    
+    <article class="postShorten postShorten--thumbnailimg-bottom">
+        <div class="postShorten-wrap">
+            
+            <div class="postShorten-header">
+                <h1 class="postShorten-title">
+                    
                         <a class="link-unstyled" href="/2019/02/22/performance-analysis-of-value-in-parametric-type/">
                             在參數化型別中使用值的效能分析
                         </a>
@@ -757,70 +837,6 @@
                     
                         <p>
                             <a href="/2019/01/16/isometry/#post-footer" class="postShorten-excerpt_link link">
-                                留言與分享
-                            </a>
-                        </p>
-                    
-                </div>
-            
-        </div>
-        
-    </article>
-    
-    
-    <article class="postShorten postShorten--thumbnailimg-bottom">
-        <div class="postShorten-wrap">
-            
-            <div class="postShorten-header">
-                <h1 class="postShorten-title">
-                    
-                        <a class="link-unstyled" href="/2019/01/15/functional/">
-                            Functional
-                        </a>
-                    
-                </h1>
-                <div class="postShorten-meta">
-    <time datetime="2019-01-15T20:34:54+08:00">
-	
-		    1月 15, 2019
-    	
-    </time>
-    
-        <span>分類 </span>
-        
-    <a class="category-link" href="/categories/Math/">Math</a>
-
-
-    
-</div>
-
-            </div>
-            
-                <div class="postShorten-content">
-                    <p>一般我們數學上稱 $f: \mathbb{R} \rightarrow \mathbb{R}$ 為函數 function。</p>
-<p>然而，如果一個函數可以接受另一個函數作為他的輸入變數，而輸出是一個純量，$F: S \rightarrow \mathbb{R}$ 泛函 functional，其中 $S$ 是一個向量空間，函數是一種廣義的向量。</p>
-<p>在最佳化理論或是機器學習當中最常遇到的就是損失函數 $\mathcal{L}$，他其實是一個泛函。</p>
-<p>$$<br>\mathcal{L}[f] = \frac{1}{N} \sum_{i=1}^{N} (y_i - f(x_i))^2<br>$$</p>
-<p>當我們有不同的資料，需要計算這些資料的 mean square error 的時候就會寫成像上面這個樣子。</p>
-<p>$$<br>\mathcal{L}[f] = \lim_{n \rightarrow \infty} \int_b^a |f(x) - \sum_{i=1}^N a_i f_i(x)|^2 dx<br>$$</p>
-<p>如果我們處理的不是資料，而是一段連續的空間，那我們就可以用以上這個連續的版本。</p>
-<blockquote>
-<p>ex.</p>
-</blockquote>
-<p>consider $X, Y \in V$</p>
-<ol>
-<li>$g: X \rightarrow \mathbb{R}$ is functional</li>
-<li>$g: X \rightarrow \mathbb{R}^n$ is functional</li>
-<li>$g: X \rightarrow Y$ is operator</li>
-</ol>
-
-                    
-                        
-
-                    
-                    
-                        <p>
-                            <a href="/2019/01/15/functional/#post-footer" class="postShorten-excerpt_link link">
                                 留言與分享
                             </a>
                         </p>

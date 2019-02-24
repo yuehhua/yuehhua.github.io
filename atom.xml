@@ -6,7 +6,7 @@
   <link href="/atom.xml" rel="self"/>
   
   <link href="https://yuehhua.github.io/"/>
-  <updated>2019-02-22T14:12:14.663Z</updated>
+  <updated>2019-02-24T04:54:02.908Z</updated>
   <id>https://yuehhua.github.io/</id>
   
   <author>
@@ -15,6 +15,29 @@
   </author>
   
   <generator uri="http://hexo.io/">Hexo</generator>
+  
+  <entry>
+    <title>筆記 - 從向量空間到函數空間</title>
+    <link href="https://yuehhua.github.io/2019/02/24/note-of-vector-space-to-function-space/"/>
+    <id>https://yuehhua.github.io/2019/02/24/note-of-vector-space-to-function-space/</id>
+    <published>2019-02-24T04:54:02.000Z</published>
+    <updated>2019-02-24T04:54:02.908Z</updated>
+    
+    <content type="html"><![CDATA[<p>參考<a href="https://ccjou.wordpress.com/2009/08/18/%E5%BE%9E%E5%B9%BE%E4%BD%95%E5%90%91%E9%87%8F%E7%A9%BA%E9%96%93%E5%88%B0%E5%87%BD%E6%95%B8%E7%A9%BA%E9%96%93/" target="_blank" rel="noopener">從幾何向量空間到函數空間| 線代啟示錄</a>。</p><ol><li>由 $\mathbb{R}^n$ 拓展到 $\mathbb{R}^{\infty}$ 所需俱備的條件是什麼？</li></ol><p>由於一個向量 $\mathbb{v} \in \mathbb{R}^{\infty}$，在無限維度下我們需要考慮一個問題，就是 norm。</p><p>如果這個空間有定義 norm 的話，我們就要考慮他有沒有收斂，也就是 $||\mathbb{v}||^2$ 要存在。</p><p>所以條件就是</p><p>$$<br>||\mathbb{v}||^2 = \sum_{i=1}^{\infty} v_i^2<br>$$</p><p>要收斂。</p><ol start="2"><li>從 $\mathbb{R}^{\infty}$ 無限維度的向量空間再拓展到 $C^{\omega}$ 函數空間，所需要俱備的條件是什麼？</li></ol><p>一個無限維度的向量是一個離散的版本，由剛剛的式子可以看的出來</p><p>$$<br>||\mathbb{v}||^2 = \sum_{i=1}^{\infty} v_i^2<br>$$</p><p>而一個（解析）函數則是連續的</p><p>$$<br>||f||^2 = \int f^2(x) dx<br>$$</p><p>除了以上的 norm 要收斂外，從離散到連續應該有些假設或是條件才是。</p><ol start="3"><li>函數的基底</li></ol><p>Fourier series</p><p>$$<br>f(x) = a_0 + a_1 \cos x + b_1 \sin x + a_2 \cos 2x + b_2 \sin 2x + \cdots<br>$$</p><p>所以基底就是</p><p>$$<br>&lt;\beta&gt; = &lt;1, \cos x, \sin x, \cos 2x, \sin 2x, \cdots&gt;<br>$$</p><ol start="4"><li>非週期性函數基底</li></ol><p>Legendre polynomial</p><ol start="5"><li>Least square problem</li></ol><p>$$<br>(A^TA)\hat{y} = A^Tb<br>$$</p>]]></content>
+    
+    <summary type="html">
+    
+      
+      
+        &lt;p&gt;參考&lt;a href=&quot;https://ccjou.wordpress.com/2009/08/18/%E5%BE%9E%E5%B9%BE%E4%BD%95%E5%90%91%E9%87%8F%E7%A9%BA%E9%96%93%E5%88%B0%E5%87%BD%E6%95
+      
+    
+    </summary>
+    
+      <category term="Math" scheme="https://yuehhua.github.io/categories/Math/"/>
+    
+    
+  </entry>
   
   <entry>
     <title>在參數化型別中使用值的效能分析</title>
@@ -481,33 +504,6 @@
       &lt;p&gt;前面有提到 seq2seq model，我們就從這邊開始。&lt;/p&gt;
 &lt;p&gt;Seq2seq model 他採用了 encoder-decoder 架構，這時候就要來點 paper 的圖啦！&lt;/p&gt;
 &lt;p&gt;&lt;img src=&quot;/images/seq2seq.svg&quot; alt=&quot;&quot;&gt;&lt;/p&gt;
-    
-    </summary>
-    
-      <category term="Machine Learning" scheme="https://yuehhua.github.io/categories/Machine-Learning/"/>
-    
-      <category term="機器學習模型圖書館：從傳統模型到深度學習" scheme="https://yuehhua.github.io/categories/Machine-Learning/%E6%A9%9F%E5%99%A8%E5%AD%B8%E7%BF%92%E6%A8%A1%E5%9E%8B%E5%9C%96%E6%9B%B8%E9%A4%A8%EF%BC%9A%E5%BE%9E%E5%82%B3%E7%B5%B1%E6%A8%A1%E5%9E%8B%E5%88%B0%E6%B7%B1%E5%BA%A6%E5%AD%B8%E7%BF%92/"/>
-    
-    
-  </entry>
-  
-  <entry>
-    <title>25 Recurrent model 之死</title>
-    <link href="https://yuehhua.github.io/2018/10/25/25-death-of-recurrent-model/"/>
-    <id>https://yuehhua.github.io/2018/10/25/25-death-of-recurrent-model/</id>
-    <published>2018-10-25T15:21:36.000Z</published>
-    <updated>2018-10-25T15:21:36.182Z</updated>
-    
-    <content type="html"><![CDATA[<p>當大家正在開心的用著 RNN 跟 LSTM 等等模型之時，就有人跳出來了。</p><p>不要再用 RNN 為基礎的模型了！！</p><p>就是這篇 <a href="https://towardsdatascience.com/the-fall-of-rnn-lstm-2d1594c74ce0" target="_blank" rel="noopener">The fall of RNN / LSTM</a></p><p>為什麼呢？</p><p>基本上裏面提到 vanishing gradient 的問題一直沒有解決以外，還有沒有辦法善用硬體的侷限在。</p><p>像這種循序型的模型，模型天生無法平行化運算，所以 GPU 就無用武之地，只能靠 CPU 慢慢跑。</p><p>那有什麼解決辦法呢？</p><h2 id="Self-attention-model"><a href="#Self-attention-model" class="headerlink" title="Self-attention model"></a>Self-attention model</h2><p><a href="https://arxiv.org/abs/1706.03762" target="_blank" rel="noopener">Attention Is All You Need</a> 這篇文章提出了 Transformer 這個模型，基本上這個模型使用了 self-attention 的機制。</p><p>要講這個之前我們要先聊聊 attention model。在 attention model 之前，sequence-to-sequence model 做出了重大的突破。一個具有彈性，可以任意組合的模型誕生了，管你是要生成句子還是怎麼樣。原本是只有 RNN 一個單元一個單元慢慢去對映 X 到 Y，sequence-to-sequence model 將這樣的對應關係解耦，由一個 encoder 負責將 X 的資訊萃取出來，再經由 decoder 將資訊轉換成 Y 輸出。</p><p>但是 LSTM 還是沒辦法記憶夠長的，後來 attention model 就誕生了。乾脆就將 encoder 所萃取到的資訊紀錄下來，變成一個，然後再丟到 decoder 去將資訊還原成目標語言，就可以完成機器翻譯了。</p><p>但是這種方式還是不脫 recurrent model，那就乾脆做成 self-attention 的機制，也就是這邊的 Transformer，完全摒棄了 recurrent 的限制。</p><h2 id="Autoregressive-generative-model"><a href="#Autoregressive-generative-model" class="headerlink" title="Autoregressive generative model"></a>Autoregressive generative model</h2><p>接著是今年6月的文章 <a href="http://www.offconvex.org/2018/07/27/approximating-recurrent/" target="_blank" rel="noopener">When Recurrent Models Don’t Need to be Recurrent</a>，當你的 recurrent model 不必再 recurrent！</p><p>也就是將 RNN 的問題又重述了一遍，並且提出大家都漸漸以 autoregressive generative model 來解決這樣的問題。</p><p>這篇算這引言，我接下來會開始一一解釋模型。</p>]]></content>
-    
-    <summary type="html">
-    
-      
-      
-        &lt;p&gt;當大家正在開心的用著 RNN 跟 LSTM 等等模型之時，就有人跳出來了。&lt;/p&gt;
-&lt;p&gt;不要再用 RNN 為基礎的模型了！！&lt;/p&gt;
-&lt;p&gt;就是這篇 &lt;a href=&quot;https://towardsdatascience.com/the-fall-of-rnn-lstm-
-      
     
     </summary>
     
