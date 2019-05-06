@@ -2,16 +2,23 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   
   <url>
-    <loc>https://yuehhua.github.io/2019/03/11/changhua-with-ning/</loc>
+    <loc>https://yuehhua.github.io/2019/03/01/money-is-the-cheapest-expression/</loc>
     
-    <lastmod>2019-03-11T02:50:10.770Z</lastmod>
+    <lastmod>2019-05-06T05:59:11.172Z</lastmod>
     
   </url>
   
   <url>
-    <loc>https://yuehhua.github.io/2019/03/01/money-is-the-cheapest-expression/</loc>
+    <loc>https://yuehhua.github.io/2019/03/11/changhua-with-ning/</loc>
     
-    <lastmod>2019-03-01T04:26:02.299Z</lastmod>
+    <lastmod>2019-05-06T05:58:10.535Z</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>https://yuehhua.github.io/2019/05/06/operate-value-in-julia-parametric-type/</loc>
+    
+    <lastmod>2019-05-06T05:56:52.382Z</lastmod>
     
   </url>
   
