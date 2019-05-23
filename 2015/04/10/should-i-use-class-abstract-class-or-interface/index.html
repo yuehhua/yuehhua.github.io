@@ -6,7 +6,7 @@
     <!-- hexo-inject:begin --><!-- hexo-inject:end --><meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="generator" content="Dream Maker">
-    <title>MBTI again - Dream Maker</title>
+    <title>我該用class, abstract class還是interface? - Dream Maker</title>
     <meta name="author" content="Yueh-Hua Tu">
     
         <meta name="keywords" content="machine learning,deep learning,topology,">
@@ -15,21 +15,19 @@
     
         <link rel="alternate" type="application/atom+xml" title="RSS" href="/atom.xml">
     
-    <script type="application/ld+json">{"@context":"http://schema.org","@type":"BlogPosting","author":{"@type":"Person","name":"Yueh-Hua Tu","sameAs":["https://github.com/yuehhua/","https://www.facebook.com/a504082002","https://www.linkedin.com/in/%E5%B2%B3%E8%8F%AF-%E6%9D%9C-6a3995a0/","mailto:a504082002@gmail.com"],"image":"https://www.gravatar.com/avatar/a565749fba4782b717234da670b273fd"},"articleBody":"又在一次偶然的情況下接觸了MBTI的測試想起很久一前作過一次發現這次做出來結果不大一樣  \n這次:  \n\n似乎是成為學者的料的感覺 名人居然是有名的Albert Einstein“思考者”或是”建築師”的形容很符合我的網誌標題呢(笑  \n附上之前測試的結果:之前的結果(ENFJ)維基百科_INTP維基百科_ENFJ\n似乎除了N以外其他都翻盤了是吧= =”轉性轉很大呢XD\n","dateCreated":"2013-12-05T07:13:00+08:00","dateModified":"2019-01-06T17:58:28+08:00","datePublished":"2013-12-05T07:13:00+08:00","description":"","headline":"MBTI again","image":[],"mainEntityOfPage":{"@type":"WebPage","@id":"https://yuehhua.github.io/2013/12/05/mbti-again/"},"publisher":{"@type":"Organization","name":"Yueh-Hua Tu","sameAs":["https://github.com/yuehhua/","https://www.facebook.com/a504082002","https://www.linkedin.com/in/%E5%B2%B3%E8%8F%AF-%E6%9D%9C-6a3995a0/","mailto:a504082002@gmail.com"],"image":"https://www.gravatar.com/avatar/a565749fba4782b717234da670b273fd","logo":{"@type":"ImageObject","url":"https://www.gravatar.com/avatar/a565749fba4782b717234da670b273fd"}},"url":"https://yuehhua.github.io/2013/12/05/mbti-again/"}</script>
-    <meta name="description" content="又在一次偶然的情況下接觸了MBTI的測試想起很久一前作過一次發現這次做出來結果不大一樣   這次:    似乎是成為學者的料的感覺 名人居然是有名的Albert Einstein“思考者”或是”建築師”的形容很符合我的網誌標題呢(笑   附上之前測試的結果:之前的結果(ENFJ)維基百科_INTP維基百科_ENFJ 似乎除了N以外其他都翻盤了是吧= =”轉性轉很大呢XD">
+    <script type="application/ld+json">{"@context":"http://schema.org","@type":"BlogPosting","author":{"@type":"Person","name":"Yueh-Hua Tu","sameAs":["https://github.com/yuehhua/","https://www.facebook.com/a504082002","https://www.linkedin.com/in/%E5%B2%B3%E8%8F%AF-%E6%9D%9C-6a3995a0/","mailto:a504082002@gmail.com"],"image":"https://www.gravatar.com/avatar/a565749fba4782b717234da670b273fd"},"articleBody":"很多初學java的人都會有這樣的疑問\n\n我該用class, abstract class還是interface?\n\n尤其在學 java 之前沒有碰過物件導向概念的人在多種選擇的情況下，我該用哪一個比較好呢？\n我們可以分幾個觀點來看這個問題\n概念解釋觀點在物件導向的語言裏面，物件跟類別是被抽象化的概念也得力於這樣的抽象化，我們可以把某些東西廣義化應用到不同的層面這樣的抽象化有賴於encapsulation (封裝)、inheritance (繼承)、polymorphism (多型)的落實encapsulation可以將概念相同的程式碼放在一起，這些程式碼做同一件事，所以他們代表同一個概念同時也比較好維護inheritance可以提高reusabiity的機會，同時也展現了概念上的相似性polymorphism就是一種同中求異的概念位於同一個繼承體系之下，可以有不同的行為\n承續我先前寫過的文章inheritance是is-a的概念，而實作interface是has-a的概念這些概念是不相違背的，所以我們可以簡單的把class, abstract class, interface分開class跟abstract class應該位於繼承體系之下，因為abstract class也有is-a關係但是相對於(concrete) class，abstract class是不允許被實體化 (instantiate)的為什麼？舉個例，Cat跟Dog都繼承於Animal，因為Cat is an Animal and Dog is an Animal.這時我們會把Animal寫成abstract class，因為Animal被實體化之後不具任何意義他只是我們在繼承體系上或是概念上的類別，他並不是一個具體的物件，不具屬性跟行為所以Animal不應該被寫成(concrete) class\n那不能被實體化的class我還需要去定義他的attributes, methods嗎？當然要！回到我們的例子，通常只要是Animal就會eat(), move()，或是我想給Animal id或是name這時我們不會把這些東西寫在Cat或是Dog裏面我們會把他通通寫到Animal裏面，如此一來下面的子類別就可以簡單的具有這些attributes, methods了\n這時我們來講講interface，就如同我前面提到的interface的實作是has-a的關係所以他提供了在一個繼承體系之外的功能性他可以讓繼承於Animal的Bird擁有fly()的行為他可以讓繼承於Animal的Turtle擁有swim()的行為這些都是無法從Animal繼承過來的東西\n那無法繼承過來的話，自己寫就好阿，大驚小怪！錯！這時我們就會看到會fly() (飛)的Bird (鳥)會transport() (運輸)的Airplane (飛機)會swing() (拍翅膀)的Swan (天鵝)但是他們想表達的都是在天上飛的概念所以interface可以達到統一格式的效果大家都實作同樣的method來表達同樣的行為或許行為的實際內容不一樣，但是在概念上是相同的\n軟體工程觀點在前一個觀點當中提到抽象化抽象化使得同樣的一段程式碼可以提高他使用的頻率也達到reusability (重複利用性)的效果\n我們有了繼承體系來提高reusability在程式碼上，子類別不用重寫同樣的程式碼，只要從父類別繼承來就好相對於同樣的程式碼散落在各個子類別，當要維護的時候就要一個一個修改這樣父類別就控制了子類別的行為如果父類別的方法被修改的話，也會影響到子類別\n如果你不希望父類別的改變影響到子類別的話，這時請確認兩者是否真的要使用繼承關係如果是繼承關係但又不希望受影響，那就用多型吧！\n我們使用interface來提高系統的flexibility (靈活性)當你需要有相同概念的方法時只要實作同樣的interface就可以達到同時規定同樣的interface便於管理維護只要實作同樣的interface就可以簡單地擴充模組這是一個靈活的系統該有的特徵\n相對於多重繼承 (ex. C++)相對於C++的多重繼承，java只允許單一繼承在多重繼承當中，可以讓一個類別擁有很多身份一個類別可以是很多種東西這樣的概念其實可以讓人容易了解這個類別在做些什麼像是Computer is a Machine and Computer is a Calculator.這樣我們可以理解電腦是一種會計算的機器但是相對應的他也帶來一些不必要的副作用繼承於多樣的父類別，也同時繼承到了父類別的attributes, methods但是並不是所有的attributes跟methods都是有用的甚至有些attributes或methods根本用不到當你沒有要使用到的時候卻又繼承了太多的東西這就造成了另一種的設計不良的狀況這會讓別人誤解子類別有擁有父類別的某些方法，但卻不知道那是不應該出現的造成誤用問題就更大了這樣的問題小至程式錯誤，大至系統崩潰這就成了系統的弱點之一了\n","dateCreated":"2015-04-10T00:46:00+08:00","dateModified":"2019-05-23T15:07:18+08:00","datePublished":"2015-04-10T00:46:00+08:00","description":"","headline":"我該用class, abstract class還是interface?","image":[],"mainEntityOfPage":{"@type":"WebPage","@id":"https://yuehhua.github.io/2015/04/10/should-i-use-class-abstract-class-or-interface/"},"publisher":{"@type":"Organization","name":"Yueh-Hua Tu","sameAs":["https://github.com/yuehhua/","https://www.facebook.com/a504082002","https://www.linkedin.com/in/%E5%B2%B3%E8%8F%AF-%E6%9D%9C-6a3995a0/","mailto:a504082002@gmail.com"],"image":"https://www.gravatar.com/avatar/a565749fba4782b717234da670b273fd","logo":{"@type":"ImageObject","url":"https://www.gravatar.com/avatar/a565749fba4782b717234da670b273fd"}},"url":"https://yuehhua.github.io/2015/04/10/should-i-use-class-abstract-class-or-interface/"}</script>
+    <meta name="description" content="很多初學java的人都會有這樣的疑問  我該用class, abstract class還是interface?  尤其在學 java 之前沒有碰過物件導向概念的人在多種選擇的情況下，我該用哪一個比較好呢？ 我們可以分幾個觀點來看這個問題 概念解釋觀點在物件導向的語言裏面，物件跟類別是被抽象化的概念也得力於這樣的抽象化，我們可以把某些東西廣義化應用到不同的層面這樣的抽象化有賴於encapsulat">
 <meta name="keywords" content="machine learning,deep learning,topology">
 <meta property="og:type" content="blog">
-<meta property="og:title" content="MBTI again">
-<meta property="og:url" content="https://yuehhua.github.io/2013/12/05/mbti-again/index.html">
+<meta property="og:title" content="我該用class, abstract class還是interface?">
+<meta property="og:url" content="https://yuehhua.github.io/2015/04/10/should-i-use-class-abstract-class-or-interface/index.html">
 <meta property="og:site_name" content="Dream Maker">
-<meta property="og:description" content="又在一次偶然的情況下接觸了MBTI的測試想起很久一前作過一次發現這次做出來結果不大一樣   這次:    似乎是成為學者的料的感覺 名人居然是有名的Albert Einstein“思考者”或是”建築師”的形容很符合我的網誌標題呢(笑   附上之前測試的結果:之前的結果(ENFJ)維基百科_INTP維基百科_ENFJ 似乎除了N以外其他都翻盤了是吧= =”轉性轉很大呢XD">
+<meta property="og:description" content="很多初學java的人都會有這樣的疑問  我該用class, abstract class還是interface?  尤其在學 java 之前沒有碰過物件導向概念的人在多種選擇的情況下，我該用哪一個比較好呢？ 我們可以分幾個觀點來看這個問題 概念解釋觀點在物件導向的語言裏面，物件跟類別是被抽象化的概念也得力於這樣的抽象化，我們可以把某些東西廣義化應用到不同的層面這樣的抽象化有賴於encapsulat">
 <meta property="og:locale" content="zh-tw">
-<meta property="og:image" content="https://yuehhua.github.io/images/intp.png">
-<meta property="og:updated_time" content="2019-01-06T09:58:28.777Z">
+<meta property="og:updated_time" content="2019-05-23T07:07:18.818Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="MBTI again">
-<meta name="twitter:description" content="又在一次偶然的情況下接觸了MBTI的測試想起很久一前作過一次發現這次做出來結果不大一樣   這次:    似乎是成為學者的料的感覺 名人居然是有名的Albert Einstein“思考者”或是”建築師”的形容很符合我的網誌標題呢(笑   附上之前測試的結果:之前的結果(ENFJ)維基百科_INTP維基百科_ENFJ 似乎除了N以外其他都翻盤了是吧= =”轉性轉很大呢XD">
-<meta name="twitter:image" content="https://yuehhua.github.io/images/intp.png">
+<meta name="twitter:title" content="我該用class, abstract class還是interface?">
+<meta name="twitter:description" content="很多初學java的人都會有這樣的疑問  我該用class, abstract class還是interface?  尤其在學 java 之前沒有碰過物件導向概念的人在多種選擇的情況下，我該用哪一個比較好呢？ 我們可以分幾個觀點來看這個問題 概念解釋觀點在物件導向的語言裏面，物件跟類別是被抽象化的概念也得力於這樣的抽象化，我們可以把某些東西廣義化應用到不同的層面這樣的抽象化有賴於encapsulat">
     
     
         
@@ -240,20 +238,20 @@
                     <div class="post-header main-content-wrap text-left">
     
         <h1 class="post-title">
-            MBTI again
+            我該用class, abstract class還是interface?
         </h1>
     
     
         <div class="post-meta">
-    <time datetime="2013-12-05T07:13:00+08:00">
+    <time datetime="2015-04-10T00:46:00+08:00">
 	
-		    12月 05, 2013
+		    4月 10, 2015
     	
     </time>
     
         <span>分類 </span>
         
-    <a class="category-link" href="/categories/My-Style/">My Style</a>, <a class="category-link" href="/categories/My-Style/Believe。Think。Soul/">Believe。Think。Soul</a>
+    <a class="category-link" href="/categories/Computer-Science/">Computer Science</a>
 
 
     
@@ -265,12 +263,22 @@
                         
                             <div class="post-content markdown">
                                 <div class="main-content-wrap">
-                                    <p>又在一次偶然的情況下接觸了MBTI的測試<br>想起很久一前作過一次<br>發現這次做出來結果不大一樣  </p>
-<p>這次:  </p>
-<p><img src="/images/intp.png" alt=""></p>
-<p>似乎是成為學者的料的感覺 名人居然是有名的Albert Einstein<br>“思考者”或是”建築師”的形容很符合我的網誌標題呢(笑  </p>
-<p>附上之前測試的結果:<br><a href="http://yuehhua.github.io/2009/05/04/mbti/">之前的結果(ENFJ)</a><br><a href="http://zh.wikipedia.org/wiki/INTP]" target="_blank" rel="noopener">維基百科_INTP</a><br><a href="http://zh.wikipedia.org/wiki/ENFJ" target="_blank" rel="noopener">維基百科_ENFJ</a></p>
-<p>似乎除了N以外其他都翻盤了是吧= =”<br>轉性轉很大呢XD</p>
+                                    <p>很多初學java的人都會有這樣的疑問</p>
+<blockquote>
+<p>我該用class, abstract class還是interface?</p>
+</blockquote>
+<p>尤其在學 java 之前沒有碰過物件導向概念的人<br>在多種選擇的情況下，我該用哪一個比較好呢？</p>
+<p>我們可以分幾個觀點來看這個問題</p>
+<h3 id="概念解釋觀點"><a href="#概念解釋觀點" class="headerlink" title="概念解釋觀點"></a><strong>概念解釋觀點</strong></h3><p>在物件導向的語言裏面，物件跟類別是被抽象化的概念<br>也得力於這樣的抽象化，我們可以把某些東西<strong>廣義化</strong>應用到不同的層面<br>這樣的抽象化有賴於encapsulation (封裝)、inheritance (繼承)、polymorphism (多型)的落實<br>encapsulation可以將<strong>概念相同的程式碼放在一起</strong>，這些程式碼做同一件事，所以他們代表同一個概念<br>同時也比較好維護<br>inheritance可以<strong>提高reusabiity的機會</strong>，同時也展現了<strong>概念上的相似性</strong><br>polymorphism就是一種<em>同中求異</em>的概念<br>位於同一個繼承體系之下，可以有不同的行為</p>
+<p>承續我先前寫過的文章<br>inheritance是<strong>is-a</strong>的概念，而實作interface是<strong>has-a</strong>的概念<br>這些概念是不相違背的，所以我們可以簡單的把class, abstract class, interface分開<br>class跟abstract class應該位於繼承體系之下，因為abstract class也有<strong>is-a</strong>關係<br>但是相對於(concrete) class，abstract class是不允許被實體化 (instantiate)的<br>為什麼？<br>舉個例，Cat跟Dog都繼承於Animal，因為Cat is an Animal and Dog is an Animal.<br>這時我們會把Animal寫成abstract class，因為Animal被實體化之後不具任何意義<br>他只是我們在繼承體系上或是概念上的類別，他並不是一個具體的物件，不具屬性跟行為<br>所以Animal不應該被寫成(concrete) class</p>
+<p>那不能被實體化的class我還需要去定義他的attributes, methods嗎？<br>當然要！<br>回到我們的例子，通常只要是Animal就會eat(), move()，或是我想給Animal id或是name<br>這時我們不會把這些東西寫在Cat或是Dog裏面<br>我們會把他通通寫到Animal裏面，如此一來下面的子類別就可以簡單的具有這些attributes, methods了</p>
+<p>這時我們來講講interface，就如同我前面提到的<br>interface的實作是<strong>has-a</strong>的關係<br>所以他提供了在一個繼承體系之外的<strong>功能性</strong><br>他可以讓繼承於Animal的Bird擁有fly()的行為<br>他可以讓繼承於Animal的Turtle擁有swim()的行為<br>這些都是無法從Animal繼承過來的東西</p>
+<p>那無法繼承過來的話，自己寫就好阿，大驚小怪！<br>錯！<br>這時我們就會看到<br>會fly() (飛)的Bird (鳥)<br>會transport() (運輸)的Airplane (飛機)<br>會swing() (拍翅膀)的Swan (天鵝)<br>但是他們想表達的都是<strong>在天上飛</strong>的概念<br>所以interface可以達到統一格式的效果<br>大家都實作同樣的method來表達同樣的行為<br>或許行為的實際內容不一樣，但是在概念上是相同的</p>
+<h3 id="軟體工程觀點"><a href="#軟體工程觀點" class="headerlink" title="軟體工程觀點"></a><strong>軟體工程觀點</strong></h3><p>在前一個觀點當中提到抽象化<br>抽象化使得同樣的一段程式碼可以提高他使用的頻率<br>也達到<strong>reusability (重複利用性)</strong>的效果</p>
+<p>我們有了繼承體系來<strong>提高reusability</strong><br>在程式碼上，子類別不用重寫同樣的程式碼，只要從父類別繼承來就好<br>相對於同樣的程式碼散落在各個子類別，當要維護的時候就要一個一個修改<br>這樣父類別就控制了子類別的行為<br>如果父類別的方法被修改的話，也會影響到子類別</p>
+<p>如果你不希望父類別的改變影響到子類別的話，這時請確認兩者是否真的要使用繼承關係<br>如果是繼承關係但又不希望受影響，那就用多型吧！</p>
+<p>我們使用interface來提高系統的<strong>flexibility (靈活性)</strong><br>當你需要有相同概念的方法時只要實作同樣的interface就可以達到<br>同時規定同樣的interface便於管理維護<br>只要實作同樣的interface就可以簡單地擴充模組<br>這是一個靈活的系統該有的特徵</p>
+<h3 id="相對於多重繼承-ex-C"><a href="#相對於多重繼承-ex-C" class="headerlink" title="相對於多重繼承 (ex. C++)"></a><strong>相對於多重繼承 (ex. C++)</strong></h3><p>相對於C++的多重繼承，java只允許單一繼承<br>在多重繼承當中，可以讓一個類別<strong>擁有很多身份</strong><br>一個類別可以<strong>是</strong>很多種東西<br>這樣的概念其實可以讓人容易了解這個類別在做些什麼<br>像是Computer is a Machine and Computer is a Calculator.<br>這樣我們可以理解電腦是一種會計算的機器<br>但是相對應的他也帶來一些不必要的副作用<br>繼承於多樣的父類別，也同時繼承到了父類別的attributes, methods<br>但是並不是所有的attributes跟methods都是有用的<br>甚至有些attributes或methods根本用不到<br>當你沒有要使用到的時候卻又繼承了太多的東西<br>這就造成了另一種的設計不良的狀況<br>這會讓別人誤解子類別有擁有父類別的某些方法，但卻不知道那是不應該出現的<br>造成誤用問題就更大了<br>這樣的問題小至程式錯誤，大至系統崩潰<br>這就成了系統的弱點之一了</p>
 
                                         
 
@@ -285,7 +293,7 @@
             <li class="post-action">
                 
                     
-                    <a class="post-action-btn btn btn--default tooltip--top" href="/2015/04/10/should-i-use-class-abstract-class-or-interface/" data-tooltip="我該用class, abstract class還是interface?" aria-label="上一篇: 我該用class, abstract class還是interface?">
+                    <a class="post-action-btn btn btn--default tooltip--top" href="/2015/07/08/persuasion-and-empathy/" data-tooltip="說服與同理心" aria-label="上一篇: 說服與同理心">
                 
                     <i class="fa fa-angle-left" aria-hidden="true"></i>
                     <span class="hide-xs hide-sm text-small icon-ml">上一篇</span>
@@ -294,7 +302,7 @@
             <li class="post-action">
                 
                     
-                    <a class="post-action-btn btn btn--default tooltip--top" href="/2013/11/17/ood/" data-tooltip="物件導向設計(OOD)" aria-label="下一篇: 物件導向設計(OOD)">
+                    <a class="post-action-btn btn btn--default tooltip--top" href="/2013/12/05/mbti-again/" data-tooltip="MBTI again" aria-label="下一篇: MBTI again">
                 
                     <span class="hide-xs hide-sm text-small icon-mr">下一篇</span>
                     <i class="fa fa-angle-right" aria-hidden="true"></i>
@@ -312,7 +320,7 @@
             
             
             <li class="post-action hide-xs">
-                <a class="post-action-btn btn btn--default" target="new" href="https://www.facebook.com/sharer/sharer.php?u=https://yuehhua.github.io/2013/12/05/mbti-again/" title="分享到 Facebook">
+                <a class="post-action-btn btn btn--default" target="new" href="https://www.facebook.com/sharer/sharer.php?u=https://yuehhua.github.io/2015/04/10/should-i-use-class-abstract-class-or-interface/" title="分享到 Facebook">
                     <i class="fa fa-facebook-official" aria-hidden="true"></i>
                 </a>
             </li>
@@ -371,7 +379,7 @@
             <li class="post-action">
                 
                     
-                    <a class="post-action-btn btn btn--default tooltip--top" href="/2015/04/10/should-i-use-class-abstract-class-or-interface/" data-tooltip="我該用class, abstract class還是interface?" aria-label="上一篇: 我該用class, abstract class還是interface?">
+                    <a class="post-action-btn btn btn--default tooltip--top" href="/2015/07/08/persuasion-and-empathy/" data-tooltip="說服與同理心" aria-label="上一篇: 說服與同理心">
                 
                     <i class="fa fa-angle-left" aria-hidden="true"></i>
                     <span class="hide-xs hide-sm text-small icon-ml">上一篇</span>
@@ -380,7 +388,7 @@
             <li class="post-action">
                 
                     
-                    <a class="post-action-btn btn btn--default tooltip--top" href="/2013/11/17/ood/" data-tooltip="物件導向設計(OOD)" aria-label="下一篇: 物件導向設計(OOD)">
+                    <a class="post-action-btn btn btn--default tooltip--top" href="/2013/12/05/mbti-again/" data-tooltip="MBTI again" aria-label="下一篇: MBTI again">
                 
                     <span class="hide-xs hide-sm text-small icon-mr">下一篇</span>
                     <i class="fa fa-angle-right" aria-hidden="true"></i>
@@ -398,7 +406,7 @@
             
             
             <li class="post-action hide-xs">
-                <a class="post-action-btn btn btn--default" target="new" href="https://www.facebook.com/sharer/sharer.php?u=https://yuehhua.github.io/2013/12/05/mbti-again/" title="分享到 Facebook">
+                <a class="post-action-btn btn btn--default" target="new" href="https://www.facebook.com/sharer/sharer.php?u=https://yuehhua.github.io/2015/04/10/should-i-use-class-abstract-class-or-interface/" title="分享到 Facebook">
                     <i class="fa fa-facebook-official" aria-hidden="true"></i>
                 </a>
             </li>
@@ -431,7 +439,7 @@
             
             
             <li class="share-option">
-                <a class="share-option-btn" target="new" href="https://www.facebook.com/sharer/sharer.php?u=https://yuehhua.github.io/2013/12/05/mbti-again/">
+                <a class="share-option-btn" target="new" href="https://www.facebook.com/sharer/sharer.php?u=https://yuehhua.github.io/2015/04/10/should-i-use-class-abstract-class-or-interface/">
                     <i class="fa fa-facebook-official" aria-hidden="true"></i><span>分享到 Facebook</span>
                 </a>
             </li>
@@ -483,9 +491,9 @@
 
 <script>
     var disqus_config = function () {
-        this.page.url = 'https://yuehhua.github.io/2013/12/05/mbti-again/';
+        this.page.url = 'https://yuehhua.github.io/2015/04/10/should-i-use-class-abstract-class-or-interface/';
                  
-            this.page.identifier = '2013/12/05/mbti-again/';
+            this.page.identifier = '2015/04/10/should-i-use-class-abstract-class-or-interface/';
                  
              };
     (function () {

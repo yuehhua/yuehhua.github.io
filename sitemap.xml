@@ -2,6 +2,20 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   
   <url>
+    <loc>https://yuehhua.github.io/2015/04/10/should-i-use-class-abstract-class-or-interface/</loc>
+    
+    <lastmod>2019-05-23T07:07:18.818Z</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>https://yuehhua.github.io/2013/11/17/ood/</loc>
+    
+    <lastmod>2019-05-23T07:03:42.815Z</lastmod>
+    
+  </url>
+  
+  <url>
     <loc>https://yuehhua.github.io/2019/03/01/money-is-the-cheapest-expression/</loc>
     
     <lastmod>2019-05-06T05:59:11.172Z</lastmod>
@@ -173,13 +187,6 @@
     <loc>https://yuehhua.github.io/2019/01/15/compare-clustering-and-embedding/</loc>
     
     <lastmod>2019-01-15T01:22:16.348Z</lastmod>
-    
-  </url>
-  
-  <url>
-    <loc>https://yuehhua.github.io/2013/11/17/ood/</loc>
-    
-    <lastmod>2019-01-11T16:44:25.148Z</lastmod>
     
   </url>
   

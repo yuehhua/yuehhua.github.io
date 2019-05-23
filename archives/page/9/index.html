@@ -348,6 +348,70 @@
             <div class="postShorten-header">
                 <h1 class="postShorten-title">
                     
+                        <a class="link-unstyled" href="/2015/04/10/should-i-use-class-abstract-class-or-interface/">
+                            我該用class, abstract class還是interface?
+                        </a>
+                    
+                </h1>
+                <div class="postShorten-meta">
+    <time datetime="2015-04-10T00:46:00+08:00">
+	
+		    4月 10, 2015
+    	
+    </time>
+    
+        <span>分類 </span>
+        
+    <a class="category-link" href="/categories/Computer-Science/">Computer Science</a>
+
+
+    
+</div>
+
+            </div>
+            
+                <div class="postShorten-content">
+                    <p>很多初學java的人都會有這樣的疑問</p>
+<blockquote>
+<p>我該用class, abstract class還是interface?</p>
+</blockquote>
+<p>尤其在學 java 之前沒有碰過物件導向概念的人<br>在多種選擇的情況下，我該用哪一個比較好呢？</p>
+<p>我們可以分幾個觀點來看這個問題</p>
+<h3 id="概念解釋觀點"><a href="#概念解釋觀點" class="headerlink" title="概念解釋觀點"></a><strong>概念解釋觀點</strong></h3><p>在物件導向的語言裏面，物件跟類別是被抽象化的概念<br>也得力於這樣的抽象化，我們可以把某些東西<strong>廣義化</strong>應用到不同的層面<br>這樣的抽象化有賴於encapsulation (封裝)、inheritance (繼承)、polymorphism (多型)的落實<br>encapsulation可以將<strong>概念相同的程式碼放在一起</strong>，這些程式碼做同一件事，所以他們代表同一個概念<br>同時也比較好維護<br>inheritance可以<strong>提高reusabiity的機會</strong>，同時也展現了<strong>概念上的相似性</strong><br>polymorphism就是一種<em>同中求異</em>的概念<br>位於同一個繼承體系之下，可以有不同的行為</p>
+<p>承續我先前寫過的文章<br>inheritance是<strong>is-a</strong>的概念，而實作interface是<strong>has-a</strong>的概念<br>這些概念是不相違背的，所以我們可以簡單的把class, abstract class, interface分開<br>class跟abstract class應該位於繼承體系之下，因為abstract class也有<strong>is-a</strong>關係<br>但是相對於(concrete) class，abstract class是不允許被實體化 (instantiate)的<br>為什麼？<br>舉個例，Cat跟Dog都繼承於Animal，因為Cat is an Animal and Dog is an Animal.<br>這時我們會把Animal寫成abstract class，因為Animal被實體化之後不具任何意義<br>他只是我們在繼承體系上或是概念上的類別，他並不是一個具體的物件，不具屬性跟行為<br>所以Animal不應該被寫成(concrete) class</p>
+<p>那不能被實體化的class我還需要去定義他的attributes, methods嗎？<br>當然要！<br>回到我們的例子，通常只要是Animal就會eat(), move()，或是我想給Animal id或是name<br>這時我們不會把這些東西寫在Cat或是Dog裏面<br>我們會把他通通寫到Animal裏面，如此一來下面的子類別就可以簡單的具有這些attributes, methods了</p>
+<p>這時我們來講講interface，就如同我前面提到的<br>interface的實作是<strong>has-a</strong>的關係<br>所以他提供了在一個繼承體系之外的<strong>功能性</strong><br>他可以讓繼承於Animal的Bird擁有fly()的行為<br>他可以讓繼承於Animal的Turtle擁有swim()的行為<br>這些都是無法從Animal繼承過來的東西</p>
+<p>那無法繼承過來的話，自己寫就好阿，大驚小怪！<br>錯！<br>這時我們就會看到<br>會fly() (飛)的Bird (鳥)<br>會transport() (運輸)的Airplane (飛機)<br>會swing() (拍翅膀)的Swan (天鵝)<br>但是他們想表達的都是<strong>在天上飛</strong>的概念<br>所以interface可以達到統一格式的效果<br>大家都實作同樣的method來表達同樣的行為<br>或許行為的實際內容不一樣，但是在概念上是相同的</p>
+<h3 id="軟體工程觀點"><a href="#軟體工程觀點" class="headerlink" title="軟體工程觀點"></a><strong>軟體工程觀點</strong></h3><p>在前一個觀點當中提到抽象化<br>抽象化使得同樣的一段程式碼可以提高他使用的頻率<br>也達到<strong>reusability (重複利用性)</strong>的效果</p>
+<p>我們有了繼承體系來<strong>提高reusability</strong><br>在程式碼上，子類別不用重寫同樣的程式碼，只要從父類別繼承來就好<br>相對於同樣的程式碼散落在各個子類別，當要維護的時候就要一個一個修改<br>這樣父類別就控制了子類別的行為<br>如果父類別的方法被修改的話，也會影響到子類別</p>
+<p>如果你不希望父類別的改變影響到子類別的話，這時請確認兩者是否真的要使用繼承關係<br>如果是繼承關係但又不希望受影響，那就用多型吧！</p>
+<p>我們使用interface來提高系統的<strong>flexibility (靈活性)</strong><br>當你需要有相同概念的方法時只要實作同樣的interface就可以達到<br>同時規定同樣的interface便於管理維護<br>只要實作同樣的interface就可以簡單地擴充模組<br>這是一個靈活的系統該有的特徵</p>
+<h3 id="相對於多重繼承-ex-C"><a href="#相對於多重繼承-ex-C" class="headerlink" title="相對於多重繼承 (ex. C++)"></a><strong>相對於多重繼承 (ex. C++)</strong></h3><p>相對於C++的多重繼承，java只允許單一繼承<br>在多重繼承當中，可以讓一個類別<strong>擁有很多身份</strong><br>一個類別可以<strong>是</strong>很多種東西<br>這樣的概念其實可以讓人容易了解這個類別在做些什麼<br>像是Computer is a Machine and Computer is a Calculator.<br>這樣我們可以理解電腦是一種會計算的機器<br>但是相對應的他也帶來一些不必要的副作用<br>繼承於多樣的父類別，也同時繼承到了父類別的attributes, methods<br>但是並不是所有的attributes跟methods都是有用的<br>甚至有些attributes或methods根本用不到<br>當你沒有要使用到的時候卻又繼承了太多的東西<br>這就造成了另一種的設計不良的狀況<br>這會讓別人誤解子類別有擁有父類別的某些方法，但卻不知道那是不應該出現的<br>造成誤用問題就更大了<br>這樣的問題小至程式錯誤，大至系統崩潰<br>這就成了系統的弱點之一了</p>
+
+                    
+                        
+
+                    
+                    
+                        <p>
+                            <a href="/2015/04/10/should-i-use-class-abstract-class-or-interface/#post-footer" class="postShorten-excerpt_link link">
+                                留言與分享
+                            </a>
+                        </p>
+                    
+                </div>
+            
+        </div>
+        
+    </article>
+    
+    
+    <article class="postShorten postShorten--thumbnailimg-bottom">
+        <div class="postShorten-wrap">
+            
+            <div class="postShorten-header">
+                <h1 class="postShorten-title">
+                    
                         <a class="link-unstyled" href="/2013/12/05/mbti-again/">
                             MBTI again
                         </a>
@@ -425,32 +489,33 @@
             </div>
             
                 <div class="postShorten-content">
-                    <p>自從接觸java之後 修了資訊安全 開始寫了些密碼學的東西<br>其中很多可以藉由java的物件導向概念讓程式更為強健 不紊亂<br>這算是小筆記<br>先介紹物件導向的概念(沒有附程式碼也沒有圖)  </p>
+                    <p>自從接觸 java 之後，修了資訊安全，開始寫了些密碼學的東西。<br>其中很多可以藉由 java 的物件導向概念讓程式更為強健、不紊亂。<br>這算是小筆記，先介紹物件導向的概念（沒有附程式碼也沒有圖）。</p>
 <hr>
-<h3 id="1-封裝-encapsulation"><a href="#1-封裝-encapsulation" class="headerlink" title="1.封裝(encapsulation):"></a>1.封裝(encapsulation):</h3><p>在物件導向的概念中第一個講的一定是封裝<br>當我今天要寫一隻龜兔賽跑的模擬程式<br>在以往的結構化程式中大概會把race(), run()等等動作寫成一個函式<br>至於跑了幾秒、速度各是多少等等就會把這些參數寫到main()當中<br>物件導向提供了不一樣的方法來描述這個問題<br>物件導向最主要提供的是<strong>相近於人類的思考方式</strong><br>然而在軟體工程觀點，物件導向最大的優點是<strong>code reusability(程式碼的重複利用)</strong><br>我們可以把烏龜當成一個物件，對這個物件描述他的屬性(attribute)跟方法(method)<br>屬性可以是烏龜跑步的速度、烏龜的名字或是烏龜的成績等等<br>只要是關於烏龜的特性都可以藉由定義成屬性加以使用<br>方法則是描述烏龜的行為，他可以是run()、rush()、isWin()等等<br>run()可以讓烏龜開始賽跑，rush()可以讓烏龜進行衝刺，用isWin()來看烏龜是否贏得比賽等等<br>等到我們把屬性及方法都定義好之後就要進行封裝<br>到這裡我要來介紹一個原則，要依據這個原則進行封裝  </p>
-<h3 id="2-最小權限原則-Principle-of-least-privilege"><a href="#2-最小權限原則-Principle-of-least-privilege" class="headerlink" title="2.最小權限原則(Principle of least privilege):"></a>2.最小權限原則(Principle of least privilege):</h3><p>當我們把物件的屬性跟方法定義好之後，物件是需要與程式互動的<br>所以程式以可能會需要用到物件的屬性或是方法，但是直接存取物件的屬性是危險的<br>因為我們不知道什麼時候物件的屬性會遭到外界竄改而發生錯誤<br>所以在這裡引用最小權限原則的原文:  </p>
+<h2 id="物件導向程式設計"><a href="#物件導向程式設計" class="headerlink" title="物件導向程式設計"></a>物件導向程式設計</h2><h3 id="1-封裝（encapsulation）"><a href="#1-封裝（encapsulation）" class="headerlink" title="1. 封裝（encapsulation）"></a>1. 封裝（encapsulation）</h3><p>在物件導向的概念中第一個講的一定是封裝<br>當我今天要寫一隻龜兔賽跑的模擬程式<br>在以往的結構化程式中大概會把race(), run()等等動作寫成一個函式<br>至於跑了幾秒、速度各是多少等等就會把這些參數寫到main()當中<br>物件導向提供了不一樣的方法來描述這個問題<br>物件導向最主要提供的是<strong>相近於人類的思考方式</strong><br>然而在軟體工程觀點，物件導向最大的優點是<strong>code reusability(程式碼的重複利用)</strong><br>我們可以把烏龜當成一個物件，對這個物件描述他的屬性（attribute）跟方法（method）<br>屬性可以是烏龜跑步的速度、烏龜的名字或是烏龜的成績等等<br>只要是關於烏龜的特性都可以藉由定義成屬性加以使用<br>方法則是描述烏龜的行為，他可以是run()、rush()、isWin()等等<br>run()可以讓烏龜開始賽跑，rush()可以讓烏龜進行衝刺，用isWin()來看烏龜是否贏得比賽等等<br>等到我們把屬性及方法都定義好之後就要進行封裝<br>到這裡我要來介紹一個原則，要依據這個原則進行封裝  </p>
+<h3 id="2-最小權限原則（Principle-of-least-privilege）"><a href="#2-最小權限原則（Principle-of-least-privilege）" class="headerlink" title="2. 最小權限原則（Principle of least privilege）"></a>2. 最小權限原則（Principle of least privilege）</h3><p>當我們把物件的屬性跟方法定義好之後，物件是需要與程式互動的<br>所以程式以可能會需要用到物件的屬性或是方法，但是直接存取物件的屬性是危險的<br>因為我們不知道什麼時候物件的屬性會遭到外界竄改而發生錯誤<br>所以在這裡引用最小權限原則的原文:  </p>
 <blockquote>
-<p>Every program and every privileged user of the system should operate using the least amount of privilege necessary to complete the job.  <em>– Jerome Saltzer</em></p>
+<p>Every program and every privileged user of the system should operate using the least amount of privilege necessary to complete the job.  – Jerome Saltzer</p>
 </blockquote>
 <p>「在每個程式跟系統的使用者應該使用最小的必要權限去完成工作」，換言之，物件要開放讓其他人存取的東西應該是”最少且必要的”，如此才能保障物件內部的運作可以順利，免於受到外界程式修改屬性的影響<br>所以通常會把物件的屬性設成private(私有)，將方法設成public(公開)<br>當然這只是通常的作法，物件應該視不同情況需求有所變動<br>那如果某天我想要存取物件的屬性怎麼辦<br>我們會設一個setter跟一個getter的方法，利用setter去對某屬性加以設定，利用getter去得到屬性的值<br>與原本直接存取屬性不同是，我們可以在setter中加入限制，以防輸入錯誤的值<br>像剛剛的烏龜的速度speed，可以藉由setSpeed()去限制烏龜的速度在什麼範圍<br>要是烏龜的速度被設成跟飛機一樣快那不是糟了<br>同樣可以寫一個getSpeed()去得到烏龜的速度<br>如此一來，其他程式在使用烏龜這個物件的時候就不必考慮到內部的運作  </p>
-<h3 id="3-類別-class"><a href="#3-類別-class" class="headerlink" title="3.類別(class):"></a>3.類別(class):</h3><p>當我們把烏龜寫好，他會被java存成一個類別<br>外界程式會經由宣告這個類別，將烏龜變成一個實例(instance)，我們可以叫他小龜<br>我們可以藉由這種方式將很多的烏龜實例加以宣告，造出很多的烏龜，有紅的、有藍的(誤)<br>所以類別只是描述烏龜這個物件的一個藍圖，真正將他宣告出來才能加以使用  </p>
-<h3 id="4-繼承-inheritance"><a href="#4-繼承-inheritance" class="headerlink" title="4.繼承(inheritance):"></a>4.繼承(inheritance):</h3><p>繼承是物件導向當中一個重要的概念<br>在表現上類似於生物的分類表，就像貓跟狗都是哺乳類一樣<br>所以延續上面的例子，龜兔都是動物，所以龜兔都可以繼承自”動物”這個類別<br>我們可以設計動物這個類別，他可含有名字這個屬性，也可以對他get或set<br>所以當烏龜或兔子類別繼承自動物的時候<br>這時候我們說動物是烏龜跟兔子的父類別(superclass)，烏龜就是動物的子類別(subclass)<br>(在C語言中稱為基礎類別 base class及衍生類別derived class)<br>這時動物的屬性及方法就會被繼承到子類別中，如此可以避免重複的程式碼出現也好維護程式<br>這時我們會說繼承關係是<strong>is-a</strong>關係，<strong>是一種</strong>關係<br>也就是「烏龜<strong>is-a(是一種)</strong>動物」的關係，這也是重要的概念  </p>
-<h3 id="5-多型-polymorphism"><a href="#5-多型-polymorphism" class="headerlink" title="5.多型(polymorphism):"></a>5.多型(polymorphism):</h3><p>來接續講講多型<br>多型這個字的英文其實跟生物的物種多型性是同一個字<br>生物的多型性是指同一物種當中的同一族群擁有兩種以上的表現型<br>程式的多型也是如此，繼承於同樣的父類別下的<strong>子類別可以有不同的表現</strong><br>就像之前的例子，動物類別可以有run()，當烏龜跟兔子類別繼承了動物類別的run()<br>烏龜的run()有自己的執行方式，兔子也是<br>所以當需要執行烏龜自己的run()時，可以多型地使用，而不會繼承到動物類別的<br>更進一步，可以將烏龜的run()及兔子的run()中<strong>相同的部份加以抽象化</strong>並提升到動物類別中<br><strong>以避免重複的程式碼</strong>，也好維護，同時可以達到多種表現的效果<br>多型必須利用<strong>覆寫(override)</strong>父類別的方法來達到效果<br>覆寫父類別的方法時，區塊內可以使用父類別的方法來加以建構<br>多型當中還有很多的細節，我只在這邊做粗略的介紹而已  </p>
-<h3 id="6-抽象類別-abstract-class-amp-介面-interface"><a href="#6-抽象類別-abstract-class-amp-介面-interface" class="headerlink" title="6.抽象類別(abstract class)&amp;介面(interface):"></a>6.抽象類別(abstract class)&amp;介面(interface):</h3><p>到這邊為止應該是在程式設計上有點基礎之後的進階說明<br>很多人一開始都會有疑問，抽象類別跟介面有什麼差別?<br>在語法上似乎是差不多的，抽象類別允許宣告抽象方法，介面的方法全是抽象方法<br>其實還有很多，我就不贅述<br>但是在設計觀點，這兩者是不一樣的<br>抽象類別仍然還是<strong>類別(class)</strong>，所以他跟其他類別的關係是繼承關係，是<strong>is-a</strong>關係<br>就像「烏龜<strong>是一種</strong>動物」一樣，動物是抽象的概念，可被寫成抽象類別<br>但介面並不一樣，介面跟其他類別的關係是<strong>實現(realization)</strong>，是<strong>契約關係</strong><br>他會規範其他類別遵守介面定下的標準，必須要<strong>實作介面的抽象方法</strong><br>舉個例，鳥會飛，飛機也會飛，但是鳥跟飛機是不同的東西，也不會繼承於相同的父類別之下<br>所以我們可以寫一個”會飛的”介面，這個介面定義抽象方法fly()<br>當鳥與飛機都實現”會飛的”介面時，就必須要把fly()實作為具體方法(concrete method)<br>所以鳥跟”會飛的”介面的關係是<strong>has-a (擁有, 會)</strong><br>這兩者在設計概念上是不同的  </p>
-<h3 id="7-單一職責原則-single-responsibility-principle"><a href="#7-單一職責原則-single-responsibility-principle" class="headerlink" title="7.單一職責原則(single responsibility principle):"></a>7.單一職責原則(single responsibility principle):</h3><p>接下來講講物件導向設計(OOD)中著名的SOLID原則<br>第一個S就是單一職責原則<br>這個原則很簡單，他是說<strong>一個類別只要有一種職責(功能)就好</strong><br>有時候工程師會追求一個類別的強大加了許多附加的功能<br>這會使得這個類別難以維護，也失去類別的意義<br>所以這個原則強調一個類別只要顧好他自己的職責所在，有簡單而呼應職責的方法即可<br>相對也避免單一職責分散在各個類別中  </p>
-<h3 id="8-開放封閉原則-open-closed-principle"><a href="#8-開放封閉原則-open-closed-principle" class="headerlink" title="8.開放封閉原則(open/closed principle):"></a>8.開放封閉原則(open/closed principle):</h3><p>第二個O指的是開放封閉原則，直接引用原文:  </p>
+<h3 id="3-類別（class）"><a href="#3-類別（class）" class="headerlink" title="3. 類別（class）"></a>3. 類別（class）</h3><p>當我們把烏龜寫好，他會被java存成一個類別<br>外界程式會經由宣告這個類別，將烏龜變成一個實例(instance)，我們可以叫他小龜<br>我們可以藉由這種方式將很多的烏龜實例加以宣告，造出很多的烏龜，有紅的、有藍的(誤)<br>所以類別只是描述烏龜這個物件的一個藍圖，真正將他宣告出來才能加以使用  </p>
+<h3 id="4-繼承（inheritance）"><a href="#4-繼承（inheritance）" class="headerlink" title="4. 繼承（inheritance）"></a>4. 繼承（inheritance）</h3><p>繼承是物件導向當中一個重要的概念<br>在表現上類似於生物的分類表，就像貓跟狗都是哺乳類一樣<br>所以延續上面的例子，龜兔都是動物，所以龜兔都可以繼承自”動物”這個類別<br>我們可以設計動物這個類別，他可含有名字這個屬性，也可以對他get或set<br>所以當烏龜或兔子類別繼承自動物的時候<br>這時候我們說動物是烏龜跟兔子的父類別(superclass)，烏龜就是動物的子類別(subclass)<br>(在C語言中稱為基礎類別 base class及衍生類別derived class)<br>這時動物的屬性及方法就會被繼承到子類別中，如此可以避免重複的程式碼出現也好維護程式<br>這時我們會說繼承關係是<strong>is-a</strong>關係，<strong>是一種</strong>關係<br>也就是「烏龜<strong>is-a(是一種)</strong>動物」的關係，這也是重要的概念  </p>
+<h3 id="5-多型（polymorphism）"><a href="#5-多型（polymorphism）" class="headerlink" title="5. 多型（polymorphism）"></a>5. 多型（polymorphism）</h3><p>來接續講講多型<br>多型這個字的英文其實跟生物的物種多型性是同一個字<br>生物的多型性是指同一物種當中的同一族群擁有兩種以上的表現型<br>程式的多型也是如此，繼承於同樣的父類別下的<strong>子類別可以有不同的表現</strong><br>就像之前的例子，動物類別可以有run()，當烏龜跟兔子類別繼承了動物類別的run()<br>烏龜的run()有自己的執行方式，兔子也是<br>所以當需要執行烏龜自己的run()時，可以多型地使用，而不會繼承到動物類別的<br>更進一步，可以將烏龜的run()及兔子的run()中<strong>相同的部份加以抽象化</strong>並提升到動物類別中<br><strong>以避免重複的程式碼</strong>，也好維護，同時可以達到多種表現的效果<br>多型必須利用<strong>覆寫(override)</strong>父類別的方法來達到效果<br>覆寫父類別的方法時，區塊內可以使用父類別的方法來加以建構<br>多型當中還有很多的細節，我只在這邊做粗略的介紹而已  </p>
+<h3 id="6-抽象類別（abstract-class）及介面（interface）"><a href="#6-抽象類別（abstract-class）及介面（interface）" class="headerlink" title="6. 抽象類別（abstract class）及介面（interface）"></a>6. 抽象類別（abstract class）及介面（interface）</h3><p>到這邊為止應該是在程式設計上有點基礎之後的進階說明<br>很多人一開始都會有疑問，抽象類別跟介面有什麼差別?<br>在語法上似乎是差不多的，抽象類別允許宣告抽象方法，介面的方法全是抽象方法<br>其實還有很多，我就不贅述<br>但是在設計觀點，這兩者是不一樣的<br>抽象類別仍然還是<strong>類別(class)</strong>，所以他跟其他類別的關係是繼承關係，是<strong>is-a</strong>關係<br>就像「烏龜<strong>是一種</strong>動物」一樣，動物是抽象的概念，可被寫成抽象類別<br>但介面並不一樣，介面跟其他類別的關係是<strong>實現(realization)</strong>，是<strong>契約關係</strong><br>他會規範其他類別遵守介面定下的標準，必須要<strong>實作介面的抽象方法</strong><br>舉個例，鳥會飛，飛機也會飛，但是鳥跟飛機是不同的東西，也不會繼承於相同的父類別之下<br>所以我們可以寫一個”會飛的”介面，這個介面定義抽象方法 <code>fly()</code><br>當鳥與飛機都實現”會飛的”介面時，就必須要把 <code>fly()</code> 實作為具體方法(concrete method)<br>所以鳥跟”會飛的”介面的關係是<strong>has-a (擁有, 會)</strong><br>這兩者在設計概念上是不同的  </p>
+<h2 id="物件導向設計原則"><a href="#物件導向設計原則" class="headerlink" title="物件導向設計原則"></a>物件導向設計原則</h2><h3 id="7-單一職責原則（single-responsibility-principle）"><a href="#7-單一職責原則（single-responsibility-principle）" class="headerlink" title="7. 單一職責原則（single responsibility principle）"></a>7. 單一職責原則（single responsibility principle）</h3><p>接下來講講物件導向設計（OOD）中著名的 SOLID 原則<br>第一個S就是單一職責原則<br>這個原則很簡單，他是說<strong>一個類別只要有一種職責（功能）就好</strong><br>有時候工程師會追求一個類別的強大加了許多附加的功能<br>這會使得這個類別難以維護，也失去類別的意義<br>所以這個原則強調一個類別只要顧好他自己的職責所在，有簡單而呼應職責的方法即可<br>相對也避免單一職責分散在各個類別中  </p>
+<h3 id="8-開放封閉原則（open-closed-principle）"><a href="#8-開放封閉原則（open-closed-principle）" class="headerlink" title="8. 開放封閉原則（open/closed principle）"></a>8. 開放封閉原則（open/closed principle）</h3><p>第二個O指的是開放封閉原則，直接引用原文:  </p>
 <blockquote>
 <p>Software entities (classes, modules, functions, etc.) should be open for extension, but closed for modification.  <em>– Bertrand Meyer</em></p>
 </blockquote>
 <p>在軟體的類別、模組、函式中應該<strong>對擴充開放，而對修改關閉</strong><br>每當我們要將既有的軟體中加入新的功能，我們應該是將新的元素加入而不是修改既有的程式碼讓他擁有新的功能<br>修改會讓程式碼變得越來越龐雜，加入並延伸是讓軟體具有更多的小部份各自運作<br>軟體具有這樣的特性的同時，也遵守單一職責原則會讓軟體更好  </p>
-<h3 id="9-芮氏替換原則-Liskov-substitution-principle"><a href="#9-芮氏替換原則-Liskov-substitution-principle" class="headerlink" title="9.芮氏替換原則(Liskov substitution principle):"></a>9.芮氏替換原則(Liskov substitution principle):</h3><blockquote>
-<p>Let <em>q(x)</em> be a property provable about objects _x_ of type _T_. Then <em>q(y)</em> should be provable for objects _y_ of type _S_ where _S_ is a subtype of _T_.  _– Barbara Liskov <em>and</em> Jeannette Wing_</p>
+<h3 id="9-芮氏替換原則（Liskov-substitution-principle）"><a href="#9-芮氏替換原則（Liskov-substitution-principle）" class="headerlink" title="9. 芮氏替換原則（Liskov substitution principle）"></a>9. 芮氏替換原則（Liskov substitution principle）</h3><blockquote>
+<p>Let <code>q(x)</code> be a property provable about objects <code>x</code> of type <code>T</code>. Then <code>q(y)</code> should be provable for objects <code>y</code> of type <code>S</code> where <code>S</code> is a subtype of <code>T</code>.  – Barbara Liskov and Jeannette Wing</p>
 </blockquote>
-<p>一開始就把抽象的原文拉進來，這是個關於抽象化的部份<br>在敘述一個繼承關係的時候，子類別是一種父類別，所以<strong>子類別可以替換父類別被使用</strong><br>將原文解釋一下: 假設S是T的subtype，x是T中的物件，q(x)是成立的，那對y是S的物件，q(y)也是成立的<br>這是用來避免一些狀況，當有一個鳥的類別被老鷹類別及鴕鳥類別繼承<br>通常鳥都會飛，所以我們在鳥類別中加入fly()，但是鴕鳥卻不會飛<br>這種狀況阻礙了多型的操作，鴕鳥無法飛，也無法override父類別的fly()<br>比較好的作法是做一個”會飛的”介面，並讓會飛的鳥去實現，將鳥類別中的fly()移除  </p>
-<h3 id="10-介面隔離原則-interface-segregation-principle"><a href="#10-介面隔離原則-interface-segregation-principle" class="headerlink" title="10.介面隔離原則(interface segregation principle):"></a>10.介面隔離原則(interface segregation principle):</h3><p>在物件導向設計當中，介面(interfaces)提供了一個抽象化層，可以在提供<strong>概念上的解釋</strong>，同時<strong>避免依賴性</strong>的屏障<br>物件的功能會隨需求越多，類別會越來越龐大，繼承的層數也會增多<br>當底層的類別還要在被子類別繼承時，子類別會依賴於父類別的方法<br>或許子類別並不會用到父類別的某些方法，這些方法會變成子類別的累贅<br>這時應該定義新的介面，讓需要的類別去實現介面，這樣就不會有多餘的方法被繼承<br>當然，介面所定義的方法也要盡可能的少，才能被廣泛的使用  </p>
-<h3 id="11-依賴反轉原則-dependency-inversion-principle"><a href="#11-依賴反轉原則-dependency-inversion-principle" class="headerlink" title="11.依賴反轉原則(dependency inversion principle):"></a>11.依賴反轉原則(dependency inversion principle):</h3><p>在傳統的應用架構中，低層次的模組被高層次的模組使用，進而構成一個複雜的系統<br>在這種複合關係(composition)下，高層次的模組直接依賴於低層次的模組去執行一些任務<br>這個時候低層次模組的依賴限制了高層次模組的重複使用性<br>在這種情況下，為了使得高層次的模組不依賴於低層次的模組，規定:<br>1.<strong>高層次的模組不應該依賴於低層次的模組，兩者都應該依賴於抽象體</strong><br>2.抽象體不應該依賴於具體細節，而具體細節則應該依賴於抽象體  </p>
-<h4 id="12-Don’t-repeat-yourself-DRY"><a href="#12-Don’t-repeat-yourself-DRY" class="headerlink" title="12.Don’t repeat yourself (DRY):"></a>12.Don’t repeat yourself (DRY):</h4><p>接下來講講簡單的<br>如字面上的意思一樣，<strong>盡量不要寫重複的程式碼</strong>  </p>
-<h4 id="13-Keep-it-simple-stupid-KISS"><a href="#13-Keep-it-simple-stupid-KISS" class="headerlink" title="13.Keep it simple, stupid (KISS)"></a>13.Keep it simple, stupid (KISS)</h4><p>如以上縮寫，寫程式需要親親(誤)，快結尾了不說笑XD<br>程式碼越簡單越”笨”越好<br>當然並不是把簡單可以完成的工作使用了很多if else完成<br>單一的函式只處理他”分內的工作”就好，不要去理外界需要什麼  </p>
+<p>一開始就把抽象的原文拉進來，這是個關於抽象化的部份<br>在敘述一個繼承關係的時候，子類別是一種父類別，所以<strong>子類別可以替換父類別被使用</strong><br>將原文解釋一下: 假設 <code>S</code> 是 <code>T</code> 的 subtype，<code>x</code> 是 <code>T</code> 中的物件，<code>q(x)</code> 是成立的，那對 <code>y</code> 是 <code>S</code> 的物件，<code>q(y)</code> 也是成立的<br>這是用來避免一些狀況，當有一個鳥的類別被老鷹類別及鴕鳥類別繼承<br>通常鳥都會飛，所以我們在鳥類別中加入 <code>fly()</code>，但是鴕鳥卻不會飛<br>這種狀況阻礙了多型的操作，鴕鳥無法飛，也無法 override 父類別的 <code>fly()</code><br>比較好的作法是做一個”會飛的”介面，並讓會飛的鳥去實現，將鳥類別中的 <code>fly()</code> 移除  </p>
+<h3 id="10-介面隔離原則（interface-segregation-principle）"><a href="#10-介面隔離原則（interface-segregation-principle）" class="headerlink" title="10. 介面隔離原則（interface segregation principle）"></a>10. 介面隔離原則（interface segregation principle）</h3><p>在物件導向設計當中，介面（interfaces）提供了一個抽象化層，可以在提供<strong>概念上的解釋</strong>，同時<strong>避免依賴性</strong>的屏障<br>物件的功能會隨需求越多，類別會越來越龐大，繼承的層數也會增多<br>當底層的類別還要在被子類別繼承時，子類別會依賴於父類別的方法<br>或許子類別並不會用到父類別的某些方法，這些方法會變成子類別的累贅<br>這時應該定義新的介面，讓需要的類別去實現介面，這樣就不會有多餘的方法被繼承<br>當然，介面所定義的方法也要盡可能的少，才能被廣泛的使用  </p>
+<h3 id="11-依賴反轉原則（dependency-inversion-principle）"><a href="#11-依賴反轉原則（dependency-inversion-principle）" class="headerlink" title="11. 依賴反轉原則（dependency inversion principle）"></a>11. 依賴反轉原則（dependency inversion principle）</h3><p>在傳統的應用架構中，低層次的模組被高層次的模組使用，進而構成一個複雜的系統<br>在這種複合關係（composition）下，高層次的模組直接依賴於低層次的模組去執行一些任務<br>這個時候低層次模組的依賴限制了高層次模組的重複使用性<br>在這種情況下，為了使得高層次的模組不依賴於低層次的模組，規定:<br>1.<strong>高層次的模組不應該依賴於低層次的模組，兩者都應該依賴於抽象體</strong><br>2.抽象體不應該依賴於具體細節，而具體細節則應該依賴於抽象體  </p>
+<h3 id="12-Don’t-repeat-yourself（DRY）"><a href="#12-Don’t-repeat-yourself（DRY）" class="headerlink" title="12. Don’t repeat yourself（DRY）"></a>12. Don’t repeat yourself（DRY）</h3><p>接下來講講簡單的<br>如字面上的意思一樣，<strong>盡量不要寫重複的程式碼</strong>  </p>
+<h3 id="13-Keep-it-simple-stupid（KISS）"><a href="#13-Keep-it-simple-stupid（KISS）" class="headerlink" title="13. Keep it simple, stupid（KISS）"></a>13. Keep it simple, stupid（KISS）</h3><p>如以上縮寫，寫程式需要親親(誤)，快結尾了不說笑XD<br>程式碼越簡單越”笨”越好<br>當然並不是把簡單可以完成的工作使用了很多if else完成<br>單一的函式只處理他”分內的工作”就好，不要去理外界需要什麼</p>
+<h3 id="14-Program-to-an-interface-not-an-implementation"><a href="#14-Program-to-an-interface-not-an-implementation" class="headerlink" title="14. Program to an interface, not an implementation."></a>14. Program to an interface, not an implementation.</h3><p>這算是一句至理名言。寫程式到了一定的程度之後，比起實作，更需要關注的是那些介面。<br>對介面的設計，比起對實作的設計要來得重要的多。</p>
 <p>參考:<a href="http://butunclebob.com/ArticleS.UncleBob.PrinciplesOfOod" target="_blank" rel="noopener">PrinciplesOfOod</a></p>
 
                     
