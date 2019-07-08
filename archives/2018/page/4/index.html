@@ -618,8 +618,17 @@
             
                 <div class="postShorten-excerpt">
                     <p>今天我們來談談 activation function 吧！</p>
-<h2 id="先談談線性轉換"><a href="#先談談線性轉換" class="headerlink" title="先談談線性轉換"></a>先談談線性轉換</h2><p>談 activation function 之前先要談談線性轉換。</p>
-<p>有上到比較後面的線性代數的同學，應該有爬過 SVD 這座高山。</p>
+<h2 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h2><p>在神經網路模型（neural network）及深度學習（deep learning）中，activation function 一直扮演重要的角色。</p>
+<p>網路模型中的層的概念基本上是由以下的式子構成：</p>
+<p>$$<br>\sigma(Wx + b)<br>$$</p>
+<p>其中 $Wx$ 的矩陣相乘是大家在線性代數中常見的線性運算（linear operation），$Wx + b$ 嚴格來說是稱為仿射運算（affine operation）。相對應線性空間，仿射運算會構成仿射空間，不過兩者只差一個位移 $b$ 而已，但是大家都把它叫做線性（其實是錯誤的阿阿阿阿阿阿阿阿）。最後就是最外層的 $\sigma$ 了。這就是我們今天要談的 activation function。大家應該知道 activation function 會提供神經網路模型非線性的特性，而在沒有非線性特性前的神經網路長什麼樣子呢？</p>
+<h2 id="仿射？線性？"><a href="#仿射？線性？" class="headerlink" title="仿射？線性？"></a>仿射？線性？</h2><p>其實是可以將仿射看成線性的。假設</p>
+<p>$$<br>Wx + b = \begin{bmatrix}<br>w_{11}&amp; w_{12}&amp; \cdots&amp; w_{1n} \\<br>\vdots&amp; \vdots&amp; \ddots&amp; \vdots \\<br>w_{m1}&amp; w_{m2}&amp; \cdots&amp; w_{mn} \\<br>\end{bmatrix}<br>\begin{bmatrix}<br>x_{1} \\<br>\vdots \\<br>x_{n} \\<br>\end{bmatrix} + \begin{bmatrix}<br>b_{1} \\<br>\vdots \\<br>b_{m} \\<br>\end{bmatrix}<br>$$</p>
+<p>然後把 $W$ 跟 $b$ 合併，有點像高中學的增廣矩陣那樣，就變成了：</p>
+<p>$$<br>= \begin{bmatrix}<br>w_{11}&amp; w_{12}&amp; \cdots&amp; w_{1n}&amp; b_{1} \\<br>\vdots&amp; \vdots&amp; \ddots&amp; \vdots&amp; \vdots \\<br>w_{m1}&amp; w_{m2}&amp; \cdots&amp; w_{mn}&amp; b_{m} \\<br>\end{bmatrix}<br>\begin{bmatrix}<br>x_{1} \\<br>\vdots \\<br>x_{n} \\<br>1<br>\end{bmatrix} = W’x’<br>$$</p>
+<p>這樣就可以把 $b$ 吸收到 $W$ 裡面，整體就變成線性的了。</p>
+<h2 id="先談談線性轉換"><a href="#先談談線性轉換" class="headerlink" title="先談談線性轉換"></a>先談談線性轉換</h2><p>談 activation function 之前先要談談線性轉換。去除掉 activation function 後的神經網路層只剩下 $Wx + b$ 的部份，而如果講這部份看成線性，我們就可以用線性代數裡的東西來解釋它。</p>
+<p>有上到比較後面的線性代數的同學，應該有爬過 SVD 這座高山。基本上，SVD 是一種矩陣分解的技巧，可以適用各式的矩陣（只要是可分解的）。SVD 可以告訴我們一些關於線性運算的特質。</p>
 <p>推薦可以看周老師的線代啟示錄 <a href="https://ccjou.wordpress.com/2009/09/01/%E5%A5%87%E7%95%B0%E5%80%BC%E5%88%86%E8%A7%A3-svd/" target="_blank" rel="noopener">奇異值分解 (SVD)</a></p>
 <p>我們可以知道一個矩陣可以被看成線性轉換，而矩陣這個線性轉換可以被分解成 3 個矩陣：</p>
                     
