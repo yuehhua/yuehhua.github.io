@@ -353,6 +353,106 @@
             <div class="postShorten-header">
                 <h1 class="postShorten-title">
                     
+                        <a class="link-unstyled" href="/2019/07/08/opensource-contribution-experience/">
+                            一次開源專案貢獻經驗
+                        </a>
+                    
+                </h1>
+                <div class="postShorten-meta">
+    <time datetime="2019-07-08T22:08:04+08:00">
+	
+		    7月 08, 2019
+    	
+    </time>
+    
+        <span>分類 </span>
+        
+    <a class="category-link" href="/categories/My-Style/">My Style</a>, <a class="category-link" href="/categories/My-Style/Computer-Science/">Computer Science</a>
+
+
+    
+</div>
+
+            </div>
+            
+                <div class="postShorten-excerpt">
+                    <p>來分享一下最近貢獻開源專案的小心得，雖然我自己貢獻開源專案的次數跟時間不是很多，不過一個 PR 可以產生不少文字跟討論算是值得紀錄一下的。</p>
+<p>我自己在 Julia 的一個統計相關的專案上發了一個 PR，希望補齊在標準化上的一些功能，並且可以支援一維的陣列標準化。</p>
+                    
+                        <a href="/2019/07/08/opensource-contribution-experience/" class="postShorten-excerpt_link link">
+                            繼續閱讀
+                        </a>
+                        
+                    
+                </div>
+            
+        </div>
+        
+    </article>
+    
+    
+    <article class="postShorten postShorten--thumbnailimg-bottom">
+        <div class="postShorten-wrap">
+            
+            <div class="postShorten-header">
+                <h1 class="postShorten-title">
+                    
+                        <a class="link-unstyled" href="/2019/05/06/operate-value-in-julia-parametric-type/">
+                            運算 Julia 參數型別上的值
+                        </a>
+                    
+                </h1>
+                <div class="postShorten-meta">
+    <time datetime="2019-05-06T13:56:52+08:00">
+	
+		    5月 06, 2019
+    	
+    </time>
+    
+        <span>分類 </span>
+        
+    <a class="category-link" href="/categories/My-Style/">My Style</a>, <a class="category-link" href="/categories/My-Style/Computer-Science/">Computer Science</a>, <a class="category-link" href="/categories/My-Style/Computer-Science/Julialang/">Julialang</a>
+
+
+    
+</div>
+
+            </div>
+            
+                <div class="postShorten-content">
+                    <p>之前介紹過將值放在參數型別上。</p>
+<p>今天來介紹一下如何可以做到類似運算的效果。</p>
+<figure class="highlight julia"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">struct</span> A&#123;T&#125;</span><br><span class="line"><span class="keyword">end</span></span><br><span class="line"></span><br><span class="line">a1 = A&#123;<span class="number">5</span>&#125;()</span><br><span class="line">a2 = A&#123;<span class="number">3</span>&#125;()</span><br></pre></td></tr></table></figure>
+<p>在一些應用場景上會希望將參數欄位上的值做運算，例如加總。</p>
+<p>這時候我們可以這樣做：</p>
+<figure class="highlight julia"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> Base:+</span><br><span class="line"></span><br><span class="line"><span class="keyword">function</span> +(::A&#123;T&#125;, ::A&#123;S&#125;) <span class="keyword">where</span> &#123;T, S&#125;</span><br><span class="line">	x = T + S</span><br><span class="line">	<span class="keyword">return</span> A&#123;x&#125;()</span><br><span class="line"><span class="keyword">end</span></span><br></pre></td></tr></table></figure>
+<p>如此一來，就可以簡單搞定囉！</p>
+<figure class="highlight julia"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">println(a1 + a2)</span><br></pre></td></tr></table></figure>
+<figure class="highlight julia"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">A&#123;<span class="number">8</span>&#125;()</span><br></pre></td></tr></table></figure>
+                    
+                        
+
+                    
+                    
+                        <p>
+                            <a href="/2019/05/06/operate-value-in-julia-parametric-type/#post-footer" class="postShorten-excerpt_link link">
+                                留言與分享
+                            </a>
+                        </p>
+                    
+                </div>
+            
+        </div>
+        
+    </article>
+    
+    
+    <article class="postShorten postShorten--thumbnailimg-right">
+        <div class="postShorten-wrap">
+            
+            <div class="postShorten-header">
+                <h1 class="postShorten-title">
+                    
                         <a class="link-unstyled" href="/2019/03/11/changhua-with-ning/">
                             彰化行
                         </a>
@@ -428,6 +528,155 @@
                             繼續閱讀
                         </a>
                         
+                    
+                </div>
+            
+        </div>
+        
+    </article>
+    
+    
+    <article class="postShorten postShorten--thumbnailimg-bottom">
+        <div class="postShorten-wrap">
+            
+            <div class="postShorten-header">
+                <h1 class="postShorten-title">
+                    
+                        <a class="link-unstyled" href="/2019/02/22/performance-analysis-of-value-in-parametric-type/">
+                            在參數化型別中使用值的效能分析
+                        </a>
+                    
+                </h1>
+                <div class="postShorten-meta">
+    <time datetime="2019-02-22T12:24:37+08:00">
+	
+		    2月 22, 2019
+    	
+    </time>
+    
+        <span>分類 </span>
+        
+    <a class="category-link" href="/categories/My-Style/">My Style</a>, <a class="category-link" href="/categories/My-Style/Computer-Science/">Computer Science</a>, <a class="category-link" href="/categories/My-Style/Computer-Science/Julialang/">Julialang</a>
+
+
+    
+</div>
+
+            </div>
+            
+                <div class="postShorten-content">
+                    <p>我在使用的時候有注意到<em>在參數化型別中使用值</em>的方式與<em>傳統封裝</em>的方式有效能上的差異。</p>
+<p>所以我就做了一些測試。</p>
+<p>在參數化型別中使用值：</p>
+<figure class="highlight julia"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">struct</span> A&#123;T&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">end</span></span><br></pre></td></tr></table></figure>
+<p>傳統型別封裝：</p>
+<figure class="highlight julia"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">struct</span> B</span><br><span class="line">    x::<span class="built_in">Int64</span></span><br><span class="line"><span class="keyword">end</span></span><br></pre></td></tr></table></figure>
+<p><em>全文出現的程式碼為實際測試程式碼</em></p>
+<p>因為 Julia 有提供好用的 <code>@code_llvm</code> 及 <code>@code_native</code> 來觀察一行程式碼實際被轉換成 LLVM 或是組合語言的時候會產生多少行的程式碼，藉此我們可以用低階程式碼來評估是否有效率。程式碼的行數愈少是越有效率的。</p>
+<h2 id="建立"><a href="#建立" class="headerlink" title="建立"></a>建立</h2><p>我們來測試一個物件被建立需要多少行的程式碼。</p>
+<h3 id="A-LLVM"><a href="#A-LLVM" class="headerlink" title="A - LLVM"></a>A - LLVM</h3><figure class="highlight julia"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@code_llvm</span> A&#123;<span class="number">5</span>&#125;()</span><br></pre></td></tr></table></figure>
+<figure class="highlight llvm"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">;  @ REPL[1]:3 within `Type'</span></span><br><span class="line"><span class="comment">define nonnull %jl_value_t addrspace(10)* @japi1_Type_12238(%jl_value_t addrspace(10)*, %jl_value_t addrspace(10)**, i32) #0 &#123;</span></span><br><span class="line"><span class="comment">top:</span></span><br><span class="line"><span class="comment">  %3 = alloca %jl_value_t addrspace(10)**, align 8</span></span><br><span class="line"><span class="comment">  store volatile %jl_value_t addrspace(10)** %1, %jl_value_t addrspace(10)*** %3, align 8</span></span><br><span class="line"><span class="comment">  ret %jl_value_t addrspace(10)* addrspacecast (%jl_value_t* inttoptr (i64 140407726014496 to %jl_value_t*) to %jl_value_t addrspace(10)*)</span></span><br><span class="line"><span class="comment">&#125;</span></span><br></pre></td></tr></table></figure>
+<h3 id="B-LLVM"><a href="#B-LLVM" class="headerlink" title="B - LLVM"></a>B - LLVM</h3><figure class="highlight julia"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@code_llvm</span> B(<span class="number">5</span>)</span><br></pre></td></tr></table></figure>
+<figure class="highlight llvm"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">;  @ REPL[1]:2 within `Type'</span></span><br><span class="line"><span class="comment">define &#123; i64 &#125; @julia_Type_12221(%jl_value_t addrspace(10)*, i64) &#123;</span></span><br><span class="line"><span class="comment">top:</span></span><br><span class="line"><span class="comment">  %.fca.0.insert = insertvalue &#123; i64 &#125; undef, i64 %1, 0</span></span><br><span class="line"><span class="comment">  ret &#123; i64 &#125; %.fca.0.insert</span></span><br><span class="line"><span class="comment">&#125;</span></span><br></pre></td></tr></table></figure>
+<h3 id="A-Assembly"><a href="#A-Assembly" class="headerlink" title="A - Assembly"></a>A - Assembly</h3><figure class="highlight julia"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@code_native</span> A&#123;<span class="number">5</span>&#125;()</span><br></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">; ┌ @ REPL[1]:3 within `Type&apos;</span><br><span class="line">	movq	%rsi, -8(%rsp)</span><br><span class="line">	movabsq	$140407726014496, %rax  # imm = 0x7FB338A20020</span><br><span class="line">	retq</span><br><span class="line">; └</span><br></pre></td></tr></table></figure>
+<h3 id="B-Assembly"><a href="#B-Assembly" class="headerlink" title="B - Assembly"></a>B - Assembly</h3><figure class="highlight julia"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@code_native</span> B(<span class="number">5</span>)</span><br></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">; ┌ @ REPL[1]:2 within `Type&apos;</span><br><span class="line">	movq	%rsi, %rax</span><br><span class="line">	retq</span><br><span class="line">	nopw	%cs:(%rax,%rax)</span><br><span class="line">; └</span><br></pre></td></tr></table></figure>
+<h2 id="取值"><a href="#取值" class="headerlink" title="取值"></a>取值</h2><p>接著測試從物件當中取值出來的效能。</p>
+<p>定義取值的方法：</p>
+<figure class="highlight julia"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">get_value(::A&#123;T&#125;) <span class="keyword">where</span> &#123;T&#125; = T</span><br><span class="line">get_value(b::B) = b.x</span><br></pre></td></tr></table></figure>
+<p>事先建立好物件：</p>
+<figure class="highlight julia"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">a = A&#123;<span class="number">5</span>&#125;()</span><br><span class="line">b = B(<span class="number">5</span>)</span><br></pre></td></tr></table></figure>
+<h3 id="A-LLVM-1"><a href="#A-LLVM-1" class="headerlink" title="A - LLVM"></a>A - LLVM</h3><figure class="highlight julia"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@code_llvm</span> get_value(a)</span><br></pre></td></tr></table></figure>
+<figure class="highlight llvm"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">;  @ REPL[8]:1 within `get_value'</span></span><br><span class="line"><span class="comment">define i64 @julia_get_value_12274() &#123;</span></span><br><span class="line"><span class="comment">top:</span></span><br><span class="line"><span class="comment">  ret i64 5</span></span><br><span class="line"><span class="comment">&#125;</span></span><br></pre></td></tr></table></figure>
+<h3 id="B-LLVM-1"><a href="#B-LLVM-1" class="headerlink" title="B - LLVM"></a>B - LLVM</h3><figure class="highlight julia"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@code_llvm</span> get_value(b)</span><br></pre></td></tr></table></figure>
+<figure class="highlight llvm"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">;  @ REPL[5]:1 within `get_value'</span></span><br><span class="line"><span class="comment">define i64 @julia_get_value_12630(&#123; i64 &#125; addrspace(11)* nocapture nonnull readonly dereferenceable(8)) &#123;</span></span><br><span class="line"><span class="comment">top:</span></span><br><span class="line"><span class="comment">; ┌ @ sysimg.jl:18 within `getproperty'</span></span><br><span class="line"><span class="comment">   %1 = getelementptr inbounds &#123; i64 &#125;, &#123; i64 &#125; addrspace(11)* %0, i64 0, i32 0</span></span><br><span class="line"><span class="comment">; └</span></span><br><span class="line"><span class="comment">  %2 = load i64, i64 addrspace(11)* %1, align 8</span></span><br><span class="line"><span class="comment">  ret i64 %2</span></span><br><span class="line"><span class="comment">&#125;</span></span><br></pre></td></tr></table></figure>
+<h3 id="A-Assembly-1"><a href="#A-Assembly-1" class="headerlink" title="A - Assembly"></a>A - Assembly</h3><figure class="highlight julia"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@code_native</span> get_value(a)</span><br></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">; ┌ @ REPL[8]:1 within `get_value&apos;</span><br><span class="line">	movl	$5, %eax</span><br><span class="line">	retq</span><br><span class="line">	nopw	%cs:(%rax,%rax)</span><br><span class="line">; └</span><br></pre></td></tr></table></figure>
+<h3 id="B-Assembly-1"><a href="#B-Assembly-1" class="headerlink" title="B - Assembly"></a>B - Assembly</h3><figure class="highlight julia"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@code_native</span> get_value(b)</span><br></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">; ┌ @ REPL[5]:1 within `get_value&apos;</span><br><span class="line">	movq	(%rdi), %rax</span><br><span class="line">	retq</span><br><span class="line">	nopw	%cs:(%rax,%rax)</span><br><span class="line">; └</span><br></pre></td></tr></table></figure>
+<p>給大家參考。</p>
+
+                    
+                        
+
+                    
+                    
+                        <p>
+                            <a href="/2019/02/22/performance-analysis-of-value-in-parametric-type/#post-footer" class="postShorten-excerpt_link link">
+                                留言與分享
+                            </a>
+                        </p>
+                    
+                </div>
+            
+        </div>
+        
+    </article>
+    
+    
+    <article class="postShorten postShorten--thumbnailimg-bottom">
+        <div class="postShorten-wrap">
+            
+            <div class="postShorten-header">
+                <h1 class="postShorten-title">
+                    
+                        <a class="link-unstyled" href="/2019/02/22/define-values-in-parametric-type/">
+                            在參數化型別中定義值
+                        </a>
+                    
+                </h1>
+                <div class="postShorten-meta">
+    <time datetime="2019-02-22T01:22:42+08:00">
+	
+		    2月 22, 2019
+    	
+    </time>
+    
+        <span>分類 </span>
+        
+    <a class="category-link" href="/categories/My-Style/">My Style</a>, <a class="category-link" href="/categories/My-Style/Computer-Science/">Computer Science</a>, <a class="category-link" href="/categories/My-Style/Computer-Science/Julialang/">Julialang</a>
+
+
+    
+</div>
+
+            </div>
+            
+                <div class="postShorten-content">
+                    <p>應該不少人看到這個標題會摸不著頭緒到底要做什麼，但是看完 Julia 中常見的程式碼你就會了解了。</p>
+<figure class="highlight julia"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">Array</span>&#123;<span class="built_in">Any</span>, <span class="number">2</span>&#125;</span><br></pre></td></tr></table></figure>
+<p>有沒有曾經納悶過那個數字 2 到底是怎麼進到參數的位置上的呢？</p>
+<p>參數的位置不是只能放型別（type）嗎？</p>
+<p>這同時也是我困惑已久的問題，就搜尋了一下，果不其然被我找到了方法：</p>
+<figure class="highlight julia"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">struct</span> A&#123;T&#125;</span><br><span class="line"><span class="keyword">end</span></span><br></pre></td></tr></table></figure>
+<figure class="highlight julia"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">A&#123;<span class="number">5</span>&#125;()</span><br></pre></td></tr></table></figure>
+<p>原來這麼簡單就可以完成了！語法上並沒有限定一定要是<em>型別</em>，要放型別以外的東西似乎是可以的。</p>
+<p>我目前測試了可以的有：Int64、Float64、Complex、Char、Bool、Symbol，所以估計數字應該都是可以的。</p>
+<p>不行的有：String、Array，估計物件或是陣列都是不行的。</p>
+<h2 id="定義範圍"><a href="#定義範圍" class="headerlink" title="定義範圍"></a>定義範圍</h2><p>不過使用上並沒有任何限制會有點危險，所以還是定義一下範圍會比較好，像是：</p>
+<figure class="highlight julia"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">struct</span> A&#123;<span class="literal">I</span>&#125;</span><br><span class="line">    <span class="keyword">function</span> A&#123;<span class="literal">I</span>&#125;() <span class="keyword">where</span> &#123;<span class="literal">I</span>&#125;</span><br><span class="line">        <span class="keyword">isa</span>(<span class="literal">I</span>,<span class="built_in">Integer</span>) || error(<span class="string">"bad parameter"</span>)</span><br><span class="line">        new()</span><br><span class="line">    <span class="keyword">end</span></span><br><span class="line"><span class="keyword">end</span></span><br></pre></td></tr></table></figure>
+<p>這樣就可以限制參數要是整數的範圍。</p>
+<h2 id="從參數取值"><a href="#從參數取值" class="headerlink" title="從參數取值"></a>從參數取值</h2><p>那我們能不能從型別的參數當中取值呢？</p>
+<p>可以。</p>
+<figure class="highlight julia"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">get_value(::A&#123;<span class="literal">I</span>&#125;) <span class="keyword">where</span> A&#123;<span class="literal">I</span>&#125; = <span class="literal">I</span></span><br></pre></td></tr></table></figure>
+<p>如此一來，我們就可以從型別中拿到值了。</p>
+<h2 id="好處？"><a href="#好處？" class="headerlink" title="好處？"></a>好處？</h2><p>這麼做有什麼好處？</p>
+<p>當你把值的資訊放到型別當中，型別就多了一些資訊可以提供編譯器處理，這對於要自己設計型別階層可是非常好用的。</p>
+<p>例如像是你可以將陣列的長度資訊儲存到型別上，這樣編譯器就可以處理陣列的長度資訊了。</p>
+<p>這樣的程式風格會跟 dependent type language 有些相似了。</p>
+<p>大家可以玩玩看。</p>
+
+                    
+                        
+
+                    
+                    
+                        <p>
+                            <a href="/2019/02/22/define-values-in-parametric-type/#post-footer" class="postShorten-excerpt_link link">
+                                留言與分享
+                            </a>
+                        </p>
                     
                 </div>
             
@@ -524,353 +773,6 @@
         
     </article>
     
-    
-    <article class="postShorten postShorten--thumbnailimg-bottom">
-        <div class="postShorten-wrap">
-            
-            <div class="postShorten-header">
-                <h1 class="postShorten-title">
-                    
-                        <a class="link-unstyled" href="/2017/08/16/scrum-does-not-work-here-in-asia/">
-                            翻譯 - Scrum在亞洲不管用（Scrum does not work here in Asia）
-                        </a>
-                    
-                </h1>
-                <div class="postShorten-meta">
-    <time datetime="2017-08-16T10:07:00+08:00">
-	
-		    8月 16, 2017
-    	
-    </time>
-    
-        <span>分類 </span>
-        
-    <a class="category-link" href="/categories/My-Style/">My Style</a>, <a class="category-link" href="/categories/My-Style/Believe。Think。Soul/">Believe。Think。Soul</a>
-
-
-    
-</div>
-
-            </div>
-            
-                <div class="postShorten-content">
-                    <blockquote>
-<p>以下翻譯自<a href="https://enterprisepathtoagility.com/scrum-does-not-work-here-in-asia-72d7bccccb4d" target="_blank" rel="noopener">Scrum does not work here in Asia</a></p>
-</blockquote>
-<p><br></p>
-<p>我過去在當地的咖啡廳跟一個敏捷教練（Agile Coach）談過Scrum及敏捷方法（Agile），他在澳洲最大的銀行工作。我們談到的其中一個主題是敏捷方法及Scrum在亞洲的採用情形。他一直想了解是否有任何亞洲的銀行採取敏捷方法，從高階管理階層到員工階層。他想要比較這些亞洲銀行跟自己工作的銀行採取Scrum成熟度上的差異。他目前工作的銀行在東南亞的國家開了許多分公司，因此，管理部門要求他飛到東南亞在當地導入Scrum及敏捷方法。然而，他受到了來自當地管理者的阻礙。當地管理者要求他找其他採用Scrum典範的亞洲銀行。很多亞洲領導者相信無論它在西方世界運作得多好，不代表在東方世界一定可以運作。</p>
-<p><br></p>
-<p>在他的研究中，他發現多數亞洲銀行並不會全力衝刺敏捷方法。他對他自己的發現感到驚訝，因為大多數在澳洲的大型銀行視敏捷方法為必須，而不是其中的一個選項。他也驚訝於在亞洲多數採行Scrum的只限於軟體開發，然而管理上並不採用敏捷管理方法。多數（可能並非所有）亞洲公司非常保守也不敢全面採用敏捷方法。多數聲稱採行敏捷方法的亞洲公司也只在軟體開發的管理上採用了Scrum方法而已，管理者仍然使用傳統的方法。</p>
-<p><br></p>
-<p>我在過去的5年內在香港、杜拜、印尼、日本、南韓、菲律賓、馬來西亞、新加坡、泰國、越南公司有執行過的Scrum訓練跟Scrum教練課程。我看到這個部份世界的人們對於Scrum及敏捷方法有許多誤解。亞洲公司的管理者認知的Scrum以及敏捷方法就如同軟體開發一樣，他們還不理解熱烈的參與以及對Scrum及敏捷方法有良好的認識是必須的，如此，公司才能充份利用敏捷方法。這些年來，我也做了許多小型研究以及關於當地文化的訪談。研究當然不是非常嚴謹，因為我想用更親近、更個人的形式跟這些人談當地文化。這些當地文化阻礙了在亞洲大規模採用Scrum及敏捷方法，這就是為什麼管理部門仍然抗拒採用敏捷方法的原因。</p>
-<p><br></p>
-<p>只有少數亞洲公司會盡全力衝刺敏捷方法，這些公司通常是由年輕的一代領軍的網路公司，他們曾經在歐洲、澳洲或是北美工作或是學習過。這些領導者是Scrum及敏捷方法的信徒，因為他們曾經在他們以前的工作地點見識過他有用。不只是當地亞洲公司他們努力掙扎去了解敏捷的真諦，研發中心在亞洲的跨國公司也無法充份利用Scrum及敏捷方法，因為當地管理者仍然採用傳統方法來管理公司及Scrum團隊。</p>
-<p><br></p>
-<p>Ken Schwaber寫了一篇部落格文章，當中寫道文化上習慣預測的人將會確切地看到糟糕的軟體、錯過的時程、浪費的金錢、士氣低落的員工。 以下是由我增加的理由，解釋為什麼Scrum以及敏捷方法在亞洲不管用。我在這些理由上做了不少廣義化。事情當然都有例外，不過例外不會太多。</p>
-<p><br><br><br></p>
-<h2 id="1-生命中的每件事都有階層關係"><a href="#1-生命中的每件事都有階層關係" class="headerlink" title="1: 生命中的每件事都有階層關係"></a>1: 生命中的每件事都有階層關係</h2><p><br></p>
-<p>亞洲人相信我們存在的宇宙正系統性地運作著，每件事都應該有他的階層關係。有陰陽，有種姓制度。年輕的一代應該尊重較老的一代。下屬應該聽從老闆的話，因為多數人認為老闆有所有的答案。在一些亞洲國家國王代表絕對的統治者，國王應該有所有最終的答案。採行一黨制的國家也有相同的現象。</p>
-<p><br></p>
-<p>當西方人相信平等主義，多數亞洲人甘願處於階層當中，他們知道他們的位置跟在這個位置上的慣例或是行為準則。沒有既定結構，每個人相互合作地工作，以及跨職能團隊的自我組織的方式被認為是不合邏輯的，他看起來就是失序的系統。<em>人們期待被告知要做什麼，也想要告訴別人該做什麼，因為這才是一個有秩序的系統的運作方式。</em></p>
-<p><br></p>
-<p>在多數的亞洲文化，在公司的位置也決定了社會地位。亞洲人寧願擔任專案經理（PM），因為這個腳色非常明確，也因為PM擁有很多事情的決定權，相較之下，敏捷教練（Agile coach）或是Scrum Master並沒有任何的權力告訴別人該做什麼。對大多數亞洲人來說，作為一個敏捷教練或是Scrum Master看起來較低等。這就是為什麼當你瀏覽LinkedIn，你會常常看人們聲稱他是他們公司的Scrum Master，同時也把專案經理放在底下，因為他們想受到朋友的敬重。為什麼很多亞洲人他們聲稱自己是敏捷教練或是Scrum Master，仍然把專案經理的頭銜放在他們的LinkedIn個人頁面的理由，是因為他們公司不承認敏捷教練或是Scrum Master這個角色，或是因為他們想看起來掌握公司的權力且同時跟上敏捷的潮流。即使一個敏捷教練，他沒有專案經理的頭銜，仍然不能抗拒告訴人們該做什麼。亞洲人還沒有了解到Scrum Master是真正的管理者，是不同種類的管理者。</p>
-<p><br></p>
-<p>除了Scrum Master在很多亞洲公司仍然維持著像傳統上對下的管理者外，也沒有像授權的”產品負責人”這樣的東西，我稱之為迷你CEO，對他的產品負責。任何產品負責人做的決策可以被（也極有可能會被）任何公司中有最高政治權力的人推翻。在亞洲公司，多數的產品負責人就像裝飾品，他（她）對他所管理的產品並沒有任何的控制權。但最有趣的是，這些擁有更高政治權力的人並不想要變成產品負責人，因為他們太『忙』以至於無法在開發團隊中協力開發。授權這個字在多數亞洲公司的意思就是，把權力從較低位者抽走。</p>
-<p><br></p>
-<p>儘管這些社會階層在西方文化看似也沒那麼重要，在亞洲文化卻十分重要。在大多數亞洲公司，程式設計師位於整個階層的最底層。在階層中的地位大多數時候也決定了薪水。這也是為什麼主流亞洲程式設計師不會夢想後半輩子還是一個程式設計師，因為程式設計師是位於整個公司的最底層。如果他們後半輩子還是個程式設計師，社會會認為他們的生涯是停滯沒有前進的。你將會常常在Scrum或是敏捷社群論壇看到問題，問題圍繞在如何在一個實作99% Scrum的組織成為一個Scrum Master或是開發者。</p>
-<p><br></p>
-<p>據我先前的觀察，生命中的每件事都有階層關係這個信念是最主要的理由為什麼Scrum無法完全在亞洲發揮作用。</p>
-<p><br><br></p>
-<h2 id="2-以和為貴（Let’s-keep-things-in-harmony）"><a href="#2-以和為貴（Let’s-keep-things-in-harmony）" class="headerlink" title="2: 以和為貴（Let’s keep things in harmony）"></a>2: 以和為貴（Let’s keep things in harmony）</h2><p><br></p>
-<p>亞洲人非常會以和為貴。亞洲人為了要保持同儕間的合諧傾向去避免衝突。這沒有什麼不對，但是這跟西方人十分的不同，他們不害怕面對衝突、直接而勇敢面對、不吝批評指教、討論有爭議的主題、堅持個人認為是對的主張。一個敏捷團隊會鼓勵要有面對衝突的勇氣，但這極少在亞洲公司中看到，特別是跟老闆衝突。跟老闆衝突會被視為是叛亂的一件事。</p>
-<p><br></p>
-<p>這樣不面對衝突的習慣影響了亞洲整個敏捷團隊執行Sprint Planning、Sprint Review、Sprint Retrospectives和Daily Scrum。更不用說Pair Programming了。人們傾向保留他們的意見因為他們不習慣於安份的環境製造太多錯誤。回顧就變得乏味而令人生厭，因為大家就只會在Sprint上說沒有問題，而現實則是大家害怕見到問題被別人暴露出來，過一陣子之後大家認為他們的回顧一點用也沒有，應該盡早停止。Sprint Planning變得單調，大多數人只會跟隨講話最大聲的那個人。Sprint Review只變成一個單向的demo，以及向主管報告專案進度的場合。Sprint Planning只是變成一個約定，沒有資訊交換，沒有協商，跟瀑布開發流程沒有差別。Daily Scrum變成定期舉辦的進度更新會議，而不是一個每天的計劃協力調整。</p>
-<p><br></p>
-<p>一整天下來，很難從這樣的團隊中看到透明性，Scrum的三大支柱之一，因為人們會設法講你想聽的話。人們懼怕面對衝突和陷入麻煩。這也很常見，人們會拉長時間工作來掩蓋目前正在發生的問題而不讓老闆知道。人們不知道為什麼Scrum變成一個微管理工具，因為人們喜歡以和為貴，也因為人們想保住他們的飯碗，管理階層認為他們是可取代的。</p>
-<p><br><br></p>
-<h2 id="3-不同教育體系，不同款思維"><a href="#3-不同教育體系，不同款思維" class="headerlink" title="3: 不同教育體系，不同款思維"></a>3: 不同教育體系，不同款思維</h2><p><br></p>
-<p>亞洲的教育體系跟西方的教育體系非常的不同。就如同老闆看起來總是會有個答案，同樣的情況也適用於教室，老師或是講者也看起來要是教室中最聰明的人。多數西方學校傾向使用案例讓所有人熱烈參與討論，亞洲學校仍然強調機械性的反覆背誦。如此的作法會養成很會考試的人，但也在學生身上放了巨大的壓力，而且不鼓勵獨立思考。亞洲的教育體系只有成績跟排名，沒有實驗、自我探索以及犯錯，這些都是敏捷方法所訴求的。</p>
-<p><br></p>
-<p>曾經在學校以及大學教書，那裡的人不被鼓勵犯大量錯誤和去見老師或是講者整整十六年，自然地亞洲人對於在工作場合犯錯感到不安全。</p>
-<p><br></p>
-<p>亞洲的教育體系影響了人們在職場的思考及行為。自我組織，Scrum的重要教義，很難在亞洲公司達成，因為自我組織是學校或大學不會教的事情。亞洲人已經被教育成要要遵守規則、遵循整個系統，打破他會被視為造反。亞洲人希望被教練或顧問告知如何變得敏捷以及如何適當地執行Scrum，而不是由他們自己找到答案。要教會亞洲人自我組織及自我探索等於消滅了在學校或大學整整十六年所教的東西。</p>
-<p><br><br></p>
-<h2 id="4-外包-—每件事最後都會走到cost-down（正確說法：reducing-costs）"><a href="#4-外包-—每件事最後都會走到cost-down（正確說法：reducing-costs）" class="headerlink" title="4: 外包 —每件事最後都會走到cost down（正確說法：reducing costs）"></a>4: 外包 —每件事最後都會走到cost down（正確說法：reducing costs）</h2><p><br></p>
-<p>為什麼Scrum跟敏捷方法在亞洲公司這麼難推行的最後一個理由，就是因為亞洲是個外包天堂。你可能會疑惑：為什麼外包是個問題？</p>
-<p><br></p>
-<p>在歐洲、北美和澳洲的公司會外包到亞洲的其他國家來降低成本。不幸的是，這也帶來成本。就是因為這些公司已經看到Scrum和敏捷方法在世界的一部份成功，這不代表可以簡單地移植敏捷的文化到亞洲。甚至，有了敏捷方法你可以節省開發成本，這不代表建構敏捷文化也同樣便宜。事實上，敏捷方法期待好的團隊成員，而且最好的軟體開發人員大多數都不便宜。</p>
-<p><br></p>
-<p>因為這樣的便宜心態，我已經看多非常多次人們採取最便宜的方法來做到敏捷：受最便宜的訓練，他會把Scrum教得像公式解、線上教學、拿到最便宜的敏捷證照，甚至找槍手去考Scrum Master的認証考試等等。很多亞洲人仍然認為Scrum是一個專案管理的方法學，他可以直接安裝而不用任何苦功，然後日後的每件事就這樣固定下來。這樣便宜的見解也會從一些（善於騙人的）訓練人員以及顧問來，他們會教公式化Scrum跟『敏捷專案管理』。</p>
-<p><br></p>
-<p>接受Scrum訓練並得到Scrum認証並不代表自動讓任何組織變得敏捷。變得敏捷需要努力、耐心、breaking the silos、放下自傲、管理階層的參與、信任、勇氣、很多組織上的變革、很多的實驗及很多失敗（也包含有經驗的敏捷教練）執行多年。以上所有都十分的昂貴。如果打造一個敏捷的組織是這麼地昂貴，打造亞洲的敏捷組織必定更為昂貴，理由我在前面已經有提過。</p>
-<p><br></p>
-<p>只要人們持續認為轉換到敏捷方法就跟薯片一樣便宜簡單（cheap as chips），Scrum在亞洲就不管用。</p>
-<p><br></p>
-<p>這就是全部了嗎？他怎麼能這麼難？</p>
-<p><br></p>
-<p>確實有非常多其他為什麼Scrum和敏捷方法在亞洲不奏效的原因，以及為什麼很多亞洲公司無法充份利用Scrum和敏捷方法，但我的一些朋友給我一些忠告，叫我不要在公眾空間寫出來，一旦被很多人找到會是敏感而冒犯的。甚至是我在寫這篇文章的時候，我需要一些勇氣，當我想到一些人可能會覺得被冒犯。</p>
-<p><br></p>
-<p>Scrum未來有沒有可能在亞洲運作？這些事情能不能被改變？</p>
-<p><br></p>
-<p>在大多數的亞洲公司敏捷方法仍然像是附屬品，人們並不是為了他背後的價值而去實踐他，只是為了在這世界上保持在潮流的前端。亞洲公司不想要被敏捷的浪潮拋下，但不是全力擁抱敏捷且在組織中做出改變，他們包裝任何他們目前在做的事情並且把它稱為敏捷。</p>
-<p><br></p>
-<p>我個人認為，要發起一場革命，讓亞洲公司大量採用Scrum和敏捷方法，也讓亞洲領導者完全了解到有非常多文化本質上的障礙要先克服，才能讓Scrum像西方公司那樣完整運作，特別是階層式的上對下管理方法，仍然是大多數亞洲公司一個厚重的包袱。但事情仍舊有希望，很多新一代想要改變二十一世紀亞洲組織運作的方式。我希望我可以活到看見Scrum和敏捷方法在亞洲變成規範而不再是選項的那一天。我邊這麼想著，邊啜飲我最後一口咖啡。</p>
-
-                    
-                        
-
-                    
-                    
-                        <p>
-                            <a href="/2017/08/16/scrum-does-not-work-here-in-asia/#post-footer" class="postShorten-excerpt_link link">
-                                留言與分享
-                            </a>
-                        </p>
-                    
-                </div>
-            
-        </div>
-        
-    </article>
-    
-    
-    <article class="postShorten postShorten--thumbnailimg-bottom">
-        <div class="postShorten-wrap">
-            
-            <div class="postShorten-header">
-                <h1 class="postShorten-title">
-                    
-                        <a class="link-unstyled" href="/2017/06/05/state-centered-behavior-centered-oop/">
-                            狀態為中心與行為為中心的物件導向（State-centered and behavior-centered OOP）
-                        </a>
-                    
-                </h1>
-                <div class="postShorten-meta">
-    <time datetime="2017-06-05T00:33:00+08:00">
-	
-		    6月 05, 2017
-    	
-    </time>
-    
-        <span>分類 </span>
-        
-    <a class="category-link" href="/categories/My-Style/">My Style</a>, <a class="category-link" href="/categories/My-Style/Computer-Science/">Computer Science</a>, <a class="category-link" href="/categories/My-Style/Computer-Science/Julialang/">Julialang</a>
-
-
-    
-</div>
-
-            </div>
-            
-                <div class="postShorten-content">
-                    <h1 id="Julia-的物件導向"><a href="#Julia-的物件導向" class="headerlink" title="Julia 的物件導向"></a>Julia 的物件導向</h1><p>今天特別要來談談Julia這個語言的物件導向模型。</p>
-<p>我已經聽到有些人跟我說「Julia才沒有物件導向」或是「我不承認這是物件導向」等等這類的話。</p>
-<p>不過我得要跟大家說，物件導向不是只有大家看到的C++或是Java那個樣子的物件導向模型。</p>
-<h1 id="介紹-Julia-的物件導向模型"><a href="#介紹-Julia-的物件導向模型" class="headerlink" title="介紹 Julia 的物件導向模型"></a>介紹 Julia 的物件導向模型</h1><p>如果你的背景是C++, Java, Python, Ruby等等語言的話，那你應該非常熟悉物件導向的幾個要素：</p>
-<ol>
-<li>封裝</li>
-<li>繼承</li>
-<li>多型</li>
-</ol>
-<p>談到封裝，Julia幾乎沒有封裝的概念。</p>
-<p>是的，Julia不封裝！</p>
-<p>Julia宣告的是型別，不是類別；型別他只宣告了有哪些欄位，他也不會把方法宣告在型別裡頭。</p>
-<p>所以Julia的型別感覺上會比較像是C的<code>struct</code>，只存資料或狀態，不帶任何的方法。</p>
-<p>那方法怎麼辦？</p>
-<p>方法會由 Julia 的多重分派（multiple dispatch）引入。</p>
-<p>也就是說，我只要去設計任何函式，這個函式他所用到的參數型別，那這個函式就是<strong>這些參數</strong>的方法。</p>
-<p>Julia會視函式呼叫的參數型別組合，來決定到底要執行哪一種方法。</p>
-<p>看完之後應該會很傻眼，既然沒有封裝，然後又不帶方法，那這樣要怎麼實現物件導向呢？</p>
-<h2 id="Julia-的型別系統"><a href="#Julia-的型別系統" class="headerlink" title="Julia 的型別系統"></a>Julia 的型別系統</h2><p>概念上來說，Julia會藉由兩種型別來建立型別階層（type hierarchy）：抽象型別跟複合型別</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">abstract type Number end</span><br><span class="line">abstract type Complex &lt;: Number end</span><br><span class="line">abstract type Real &lt;: Number end</span><br><span class="line"></span><br><span class="line">struct Integer &lt;: Real</span><br><span class="line">    x</span><br><span class="line">end</span><br></pre></td></tr></table></figure>
-<p>以上宣告了 3 個抽象型別以及一個複合型別。</p>
-<p>抽象型別只有一行宣告，也就是說明這代表什麼樣的概念，他不具有欄位。</p>
-<p><code>&lt;:</code> 代表的是 <strong>is subtype of</strong>，<code>abstract type Complex &lt;: Number end</code>代表的是<code>Complex</code>是<code>Number</code>的子型別。</p>
-<p>複合型別就像<code>Integer</code>，他有一個field <code>x</code>，他是<code>Real</code>的子型別。</p>
-<p>子型別可以是抽象型別或是複合型別，但相反的是，父型別只能是抽象型別。</p>
-<p>以上我們描繪了一個型別階層，位於最頂端的是<code>Number</code>，所有人都是<code>Number</code>的子型別。</p>
-<p>而複合型別只能位於這棵型別階層的末端的位置。</p>
-<p>在Julia中，所有的型別都是<code>Any</code>的子型別，相反，所有型別的子型別則是<code>Union{}</code>。</p>
-<p>這樣的階層完全不俱備傳統物件導向的繼承概念，雖然觀念上也滿足<strong>is-a</strong>的關係，但是他並沒有從父型別上繼承任何東西，也沒有東西可以被繼承。</p>
-<p>你可能會問：那這樣的型別階層有什麼用呢？</p>
-<p>這就要配合多重分派來用拉~~</p>
-<h2 id="Julia-的多重分派"><a href="#Julia-的多重分派" class="headerlink" title="Julia 的多重分派"></a>Julia 的多重分派</h2><p>大家比較熟悉的應該是single dispatch，也就是區別<code>foo.method()</code>與<code>bar.method()</code>的不同。</p>
-<p>傳統的物件導向當他呼叫<code>foo.method()</code>與<code>bar.method()</code>這兩者時，同樣都是呼叫<code>method()</code>這個函式，可是到底要呼叫誰的實作呢？</p>
-<p>Single dispatch會告訴你：去找擁有這個函式的人，也就是<code>.</code>前面的那個傢伙。</p>
-<p>但是Julia的設計理念是：函式並不屬於任何人，也就是不會有人<strong>擁有</strong>函式。</p>
-<p>所以Julia裡的函式會是<code>method(foo)</code>跟<code>method(bar)</code>這樣的形式。</p>
-<p>Julia設計上很聰明，他會告訴函式去執行擁有跟參數型別相同排列組合的那個實作。</p>
-<p>這也就是多重分派了，他不依賴單一的型別去判斷，而是所有的參數型別的組合！</p>
-<p>所以當你宣告了一個像這樣的函式：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">function foo(a, b, c)</span><br><span class="line">    ....</span><br><span class="line">end</span><br></pre></td></tr></table></figure>
-<p>他會接受<em>任意的3個參數</em>，當沒宣告參數型別時就自動是<code>Any</code>。</p>
-<p>那以下這個狀況：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">function foo(a::Int64, b)</span><br><span class="line">    ....</span><br><span class="line">end</span><br></pre></td></tr></table></figure>
-<p>就只接受<em>第一個參數型別是<code>Int64</code></em>，而輸入<em>兩個參數</em>的情況了。</p>
-<h2 id="OOP-in-Julia"><a href="#OOP-in-Julia" class="headerlink" title="OOP in Julia"></a>OOP in Julia</h2><p>以這樣的type system以及多重分派作為建構物件導向的核心機制。</p>
-<p>我們不能在以傳統的思維去想物件導向。</p>
-<p>我們需要思考的是物件導向的核心是什麼？</p>
-<p>物件導向的引入主要幫助我們去塑造一個物件概念，並且幫助我們減少重複的程式碼，提高程式碼的再利用（reuse）。</p>
-<p>我們訴求的是高內聚，低耦合的程式碼。</p>
-<p>在Julia中，複合型別提供了一個類似物件、結構的角色，由於沒有繼承關係，也不會有過高的內聚。</p>
-<p>繼承所需要的元素可以由合成（composition）來達成，但相對犧牲了部份的欄位再利用的可能性。</p>
-<p>方法的部份還原成了最初始的函式的樣貌，而函式本身是更加自由的。</p>
-<p>藉由多重分派可以更加<strong>細緻地</strong>定義函式的行為，可以在不同的參數型別上提供多樣的語意。</p>
-<p>例如，<code>*(Int64, Int64)</code>的含意是數字的乘法，<code>*(String, String)</code>則是字串的串接，同樣的運算子或是函數名稱，可以提供不同context下，不同的語意，這不是很像人類的語言習慣嗎？</p>
-<p>在Julia的精神中，我們關注的是context跟行為，去定義不同context下的函式以及語意（行為）是重要的。</p>
-<p>這方面Julia提供了絕佳的多型（polymorphism），但完全不支援繼承與封裝，對資訊的存取權更是無法控制。</p>
-<p>但他更強調的是readability！如果設計者考慮到context，那讀程式碼的人就更能進入這個context去思考。</p>
-<p>在函式的使用上更是毋庸置疑的靈活而鬆耦合，所以在程式碼的撰寫上，可以自然的達成<strong>高內聚，低耦合</strong>，更可以提升readability，最後的再利用就端看設計者最佳化的功力拉！</p>
-<p>Julia是一個達成物件導向精神的語言！</p>
-<h1 id="State-centered-and-behavior-centered-OOP"><a href="#State-centered-and-behavior-centered-OOP" class="headerlink" title="State-centered and behavior-centered OOP"></a>State-centered and behavior-centered OOP</h1><h2 id="The-state-centered-OOP"><a href="#The-state-centered-OOP" class="headerlink" title="The state-centered OOP"></a>The state-centered OOP</h2><p>傳統大家認知的物件導向，大多都由一個<strong>概念</strong>或是<strong>實體</strong>所構成。</p>
-<p>大家在做程式設計的時候，大家所關注的大多是一個變數的<em>值是如何變化</em>或是一個物件的<em>狀態如何變化</em>。</p>
-<p>所以很自然的會從一個實體或是概念著手，進而去設計他應該有怎樣的properties或是做什麼事情。</p>
-<p>會慢慢凝聚出一個概念，並且把這個概念化成一個個的class，並把這個class描繪清楚。</p>
-<p>class描繪仔細了以後，就去關注class跟class之間的互動關係，進而完成整個演算法或是架構。</p>
-<h2 id="The-behavior-centered-OOP"><a href="#The-behavior-centered-OOP" class="headerlink" title="The behavior-centered OOP"></a>The behavior-centered OOP</h2><p>在Julia的物件導向則是敘述<strong>關係</strong>或是<strong>行為</strong>。</p>
-<p>Julia會以函式的角度出發，Julia中的物件導向指的是<strong>design a set of methods</strong>這回事。</p>
-<p>Julia會使你關注在參數之間的關係，他們應該如何一起完成工作？參數如何被dispatch？函式跟函式之間會不會衝突？</p>
-<p>型別應該會有什麼樣的行為？<code>*</code>用在數字上跟用在字串上的語意有沒有一樣？</p>
-<p>方法其實是在圈定一群型別，他們會一起作用，就是這麼簡單。</p>
-<p>所以Julia的物件導向觀點都會圍繞在設計方法上面，而這樣的觀點又可以讓Julia很自然的融入functional programming當中。</p>
-<p>這讓Julia可以花比較少力氣在斤斤計較欄位的設計上，也花比較少力氣在思考繼承關係上。</p>
-<p>相對花比較多力氣在這個方法被宣告、進入整個語言系統當中的運作情形，也就是對整個系統的影響上。</p>
-
-                    
-                        
-
-                    
-                    
-                        <p>
-                            <a href="/2017/06/05/state-centered-behavior-centered-oop/#post-footer" class="postShorten-excerpt_link link">
-                                留言與分享
-                            </a>
-                        </p>
-                    
-                </div>
-            
-        </div>
-        
-    </article>
-    
-    
-    <article class="postShorten postShorten--thumbnailimg-bottom">
-        <div class="postShorten-wrap">
-            
-            <div class="postShorten-header">
-                <h1 class="postShorten-title">
-                    
-                        <a class="link-unstyled" href="/2016/05/31/mind-and-courage/">
-                            心智與勇氣
-                        </a>
-                    
-                </h1>
-                <div class="postShorten-meta">
-    <time datetime="2016-05-31T22:58:00+08:00">
-	
-		    5月 31, 2016
-    	
-    </time>
-    
-        <span>分類 </span>
-        
-    <a class="category-link" href="/categories/My-Style/">My Style</a>, <a class="category-link" href="/categories/My-Style/Believe。Think。Soul/">Believe。Think。Soul</a>
-
-
-    
-</div>
-
-            </div>
-            
-                <div class="postShorten-content">
-                    <blockquote>
-<p>如果家人親友遭逢重大變故<br>知道事情的真相比較好還是不知道比較好？<br>知道事實怕自己無法改變既定事實又怕受傷害<br>不知道事實又懸著一顆心，忐忑不安</p>
-</blockquote>
-<p>最近朋友的親人遭逢重大變故<br>該不該讓其他家人知道，讓他傷透腦筋</p>
-<blockquote>
-<p>是不是知道世界上所有的事實就能變得無敵、變得快樂？<br>但知道了以後，又怕看到這個世界是極其的噁心汙濁，自己又無能為力<br>是不是當個傻瓜比較好？<br>傻瓜連自己怎麼死的都不知道，可能跌進水溝就死了</p>
-</blockquote>
-<p>我認為最重要的不是成為全知的人或是成為愚笨的人<br><strong>擁有勇氣跟足夠的心智能力</strong>才是重點</p>
-<p>成為了全知的人，如果擁有極其強大的勇氣跟能夠處理這些事實的心智能力<br>自然不必為這些事實悲傷<br>勇氣會帶你克服這些情緒，心智能力能良好的處理這些資訊</p>
-<p>如果沒有了勇氣跟心智，知道太多的事實必然掉入悲觀的深淵中<br>你不知道如何運用這些事實，你不知道如何解釋你的人生，你沒有勇氣面對他們</p>
-<p>相反，有勇氣的傻瓜就是個有勇無謀的匹夫<br>只會戰死在第一線上，可能有貢獻、可能沒有</p>
-<p>如果傻瓜連勇氣都沒有，也沒有足夠的心智能力<br>快樂的活著會是你人生的唯一目標<br>但是！！！<br>你不知道快樂何時會消失？你不知道怎麼留住他？<br>但你仍然過你的生活<br>某天，他消失了，你如同一隻無助的小動物一樣，手足無措<br>想掙扎，但又不知如何找回以往的快樂……………</p>
-<p>勇氣跟心智能力或許比聰明來的重要<br>擁有勇氣跟心智能力可以活的不錯<br>但是變得聰明、知道更多事實，才能突破限制、抓住幸福的尾巴<br>聰明、勇氣跟心智能力是需要一起成長的</p>
-
-                    
-                        
-
-                    
-                    
-                        <p>
-                            <a href="/2016/05/31/mind-and-courage/#post-footer" class="postShorten-excerpt_link link">
-                                留言與分享
-                            </a>
-                        </p>
-                    
-                </div>
-            
-        </div>
-        
-    </article>
-    
-    
-    <article class="postShorten postShorten--thumbnailimg-bottom">
-        <div class="postShorten-wrap">
-            
-            <div class="postShorten-header">
-                <h1 class="postShorten-title">
-                    
-                        <a class="link-unstyled" href="/2016/05/11/open-minded/">
-                            多元價值觀
-                        </a>
-                    
-                </h1>
-                <div class="postShorten-meta">
-    <time datetime="2016-05-11T20:49:00+08:00">
-	
-		    5月 11, 2016
-    	
-    </time>
-    
-        <span>分類 </span>
-        
-    <a class="category-link" href="/categories/My-Style/">My Style</a>, <a class="category-link" href="/categories/My-Style/Believe。Think。Soul/">Believe。Think。Soul</a>
-
-
-    
-</div>
-
-            </div>
-            
-                <div class="postShorten-content">
-                    <p><strong><em>為什麼美女一定要皮膚白、長的瘦、高顏值，不同體態的人有不同姿態的美</em></strong><br><strong><em>為什麼不接受同性戀，同性戀跟異性戀一樣愛人跟被愛</em></strong><br><strong><em>為什麼看動漫被視為宅，看卡通被認為幼稚</em></strong><br><strong><em>為什麼害怕精神病患，雖然行為舉止怪異，他仍舊是人，仍然有感覺</em></strong></p>
-<p>台灣社會極度推崇<strong>單一</strong>的主流價值觀<br>對於不同文化或是價值觀的族群接受度不高</p>
-<p>這次鄭捷的事件提醒了我們這件事<br>我們無法以更開放、接受的態度，科學性的精神去探討議題<br>就憑藉著直覺、單一的，去裁決這件事<br>他的死並沒有帶給這個社會任何美好，只代表這個社會又忽視了當中的議題，等待下次事件發生</p>
-<p>這就像當事件發生了，你卻把眼睛遮起來當作沒看到一樣的愚蠢<br>沒看到事件發生就代表沒發生事件嗎</p>
-<p>這個社會極度的被<strong>框架</strong>所綁架<br>胖並不等於醜，瘦也不等於美<br>動漫是興趣不等於宅<br>殺人不等於死刑</p>
-<p>我們從不開放自己的心態去看一件事</p>
-<blockquote>
-<p>在《行為的藝術》一書中，簡單的邏輯提到：<br>5台機器生產5件衣服需5分鐘，那麼100台機器生產100件衣服需要多久？<br>如果你的答案是100分鐘的話，請多想想<br>正確答案是5分鐘，如果你達出錯誤的答案是因為你的直覺跳出來主導一切<br>這類的題目被稱為認知反射測試（Cognitive Reflection Test, CRT）<br>心理學家Shane Frederick測試了很多人，當中麻省理工學院學生表現最優異<br>CRT值低的人傾向依直覺行事，CRT高的人較擅長以意志力駕馭，以理性思考<br>研究發現，美國人當中，CRT較高的多為無神論者，CRT較低則傾向信仰上帝<br>相對容易聽信直覺的人，愈無法以理智挑戰其宗教觀念</p>
-</blockquote>
-
-                    
-                        
-
-                    
-                    
-                        <p>
-                            <a href="/2016/05/11/open-minded/#post-footer" class="postShorten-excerpt_link link">
-                                留言與分享
-                            </a>
-                        </p>
-                    
-                </div>
-            
-        </div>
-        
-    </article>
-    
     <div class="pagination-bar">
     <ul class="pagination">
         
@@ -882,7 +784,7 @@
             </a>
           </li>
         
-        <li class="pagination-number">第 1 頁 共 2 頁</li>
+        <li class="pagination-number">第 1 頁 共 3 頁</li>
     </ul>
 </div>
 

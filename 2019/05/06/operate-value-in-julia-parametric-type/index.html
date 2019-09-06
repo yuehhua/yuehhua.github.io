@@ -15,7 +15,7 @@
     
         <link rel="alternate" type="application/atom+xml" title="RSS" href="/atom.xml">
     
-    <script type="application/ld+json">{"@context":"http://schema.org","@type":"BlogPosting","author":{"@type":"Person","name":"Yueh-Hua Tu","sameAs":["https://github.com/yuehhua/","https://www.facebook.com/a504082002","https://www.linkedin.com/in/%E5%B2%B3%E8%8F%AF-%E6%9D%9C-6a3995a0/","mailto:a504082002@gmail.com"],"image":"https://www.gravatar.com/avatar/a565749fba4782b717234da670b273fd"},"articleBody":"之前介紹過將值放在參數型別上。\n今天來介紹一下如何可以做到類似運算的效果。\n12345struct A&#123;T&#125;enda1 = A&#123;5&#125;()a2 = A&#123;3&#125;()\n在一些應用場景上會希望將參數欄位上的值做運算，例如加總。\n這時候我們可以這樣做：\n123456import Base:+function +(::A&#123;T&#125;, ::A&#123;S&#125;) where &#123;T, S&#125;\tx = T + S\treturn A&#123;x&#125;()end\n如此一來，就可以簡單搞定囉！\n1println(a1 + a2)\n1A&#123;8&#125;()","dateCreated":"2019-05-06T13:56:52+08:00","dateModified":"2019-05-06T13:56:52+08:00","datePublished":"2019-05-06T13:56:52+08:00","description":"","headline":"運算 Julia 參數型別上的值","image":[],"mainEntityOfPage":{"@type":"WebPage","@id":"https://yuehhua.github.io/2019/05/06/operate-value-in-julia-parametric-type/"},"publisher":{"@type":"Organization","name":"Yueh-Hua Tu","sameAs":["https://github.com/yuehhua/","https://www.facebook.com/a504082002","https://www.linkedin.com/in/%E5%B2%B3%E8%8F%AF-%E6%9D%9C-6a3995a0/","mailto:a504082002@gmail.com"],"image":"https://www.gravatar.com/avatar/a565749fba4782b717234da670b273fd","logo":{"@type":"ImageObject","url":"https://www.gravatar.com/avatar/a565749fba4782b717234da670b273fd"}},"url":"https://yuehhua.github.io/2019/05/06/operate-value-in-julia-parametric-type/"}</script>
+    <script type="application/ld+json">{"@context":"http://schema.org","@type":"BlogPosting","author":{"@type":"Person","name":"Yueh-Hua Tu","sameAs":["https://github.com/yuehhua/","https://www.facebook.com/a504082002","https://www.linkedin.com/in/%E5%B2%B3%E8%8F%AF-%E6%9D%9C-6a3995a0/","mailto:a504082002@gmail.com"],"image":"https://www.gravatar.com/avatar/a565749fba4782b717234da670b273fd"},"articleBody":"之前介紹過將值放在參數型別上。\n今天來介紹一下如何可以做到類似運算的效果。\n12345struct A&#123;T&#125;enda1 = A&#123;5&#125;()a2 = A&#123;3&#125;()\n在一些應用場景上會希望將參數欄位上的值做運算，例如加總。\n這時候我們可以這樣做：\n123456import Base:+function +(::A&#123;T&#125;, ::A&#123;S&#125;) where &#123;T, S&#125;\tx = T + S\treturn A&#123;x&#125;()end\n如此一來，就可以簡單搞定囉！\n1println(a1 + a2)\n1A&#123;8&#125;()","dateCreated":"2019-05-06T13:56:52+08:00","dateModified":"2019-09-06T11:19:59+08:00","datePublished":"2019-05-06T13:56:52+08:00","description":"","headline":"運算 Julia 參數型別上的值","image":[],"mainEntityOfPage":{"@type":"WebPage","@id":"https://yuehhua.github.io/2019/05/06/operate-value-in-julia-parametric-type/"},"publisher":{"@type":"Organization","name":"Yueh-Hua Tu","sameAs":["https://github.com/yuehhua/","https://www.facebook.com/a504082002","https://www.linkedin.com/in/%E5%B2%B3%E8%8F%AF-%E6%9D%9C-6a3995a0/","mailto:a504082002@gmail.com"],"image":"https://www.gravatar.com/avatar/a565749fba4782b717234da670b273fd","logo":{"@type":"ImageObject","url":"https://www.gravatar.com/avatar/a565749fba4782b717234da670b273fd"}},"url":"https://yuehhua.github.io/2019/05/06/operate-value-in-julia-parametric-type/"}</script>
     <meta name="description" content="之前介紹過將值放在參數型別上。 今天來介紹一下如何可以做到類似運算的效果。 12345struct A&amp;#123;T&amp;#125;enda1 = A&amp;#123;5&amp;#125;()a2 = A&amp;#123;3&amp;#125;() 在一些應用場景上會希望將參數欄位上的值做運算，例如加總。 這時候我們可以這樣做： 123456import Base:+function +(::A&amp;#123;T&amp;#125;, :">
 <meta name="keywords" content="machine learning,deep learning,topology">
 <meta property="og:type" content="blog">
@@ -24,7 +24,7 @@
 <meta property="og:site_name" content="Dream Maker">
 <meta property="og:description" content="之前介紹過將值放在參數型別上。 今天來介紹一下如何可以做到類似運算的效果。 12345struct A&amp;#123;T&amp;#125;enda1 = A&amp;#123;5&amp;#125;()a2 = A&amp;#123;3&amp;#125;() 在一些應用場景上會希望將參數欄位上的值做運算，例如加總。 這時候我們可以這樣做： 123456import Base:+function +(::A&amp;#123;T&amp;#125;, :">
 <meta property="og:locale" content="zh-tw">
-<meta property="og:updated_time" content="2019-05-06T05:56:52.382Z">
+<meta property="og:updated_time" content="2019-09-06T03:19:59.125Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="運算 Julia 參數型別上的值">
 <meta name="twitter:description" content="之前介紹過將值放在參數型別上。 今天來介紹一下如何可以做到類似運算的效果。 12345struct A&amp;#123;T&amp;#125;enda1 = A&amp;#123;5&amp;#125;()a2 = A&amp;#123;3&amp;#125;() 在一些應用場景上會希望將參數欄位上的值做運算，例如加總。 這時候我們可以這樣做： 123456import Base:+function +(::A&amp;#123;T&amp;#125;, :">
@@ -251,7 +251,7 @@
     
         <span>分類 </span>
         
-    <a class="category-link" href="/categories/Computer-Science/">Computer Science</a>, <a class="category-link" href="/categories/Computer-Science/Julialang/">Julialang</a>
+    <a class="category-link" href="/categories/My-Style/">My Style</a>, <a class="category-link" href="/categories/My-Style/Computer-Science/">Computer Science</a>, <a class="category-link" href="/categories/My-Style/Computer-Science/Julialang/">Julialang</a>
 
 
     

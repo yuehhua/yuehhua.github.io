@@ -2,6 +2,69 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   
   <url>
+    <loc>https://yuehhua.github.io/2019/01/15/functional/</loc>
+    
+    <lastmod>2019-09-06T03:22:22.301Z</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>https://yuehhua.github.io/2015/03/17/flexibility-of-the-software-engineering/</loc>
+    
+    <lastmod>2019-09-06T03:21:57.909Z</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>https://yuehhua.github.io/2019/02/22/define-values-in-parametric-type/</loc>
+    
+    <lastmod>2019-09-06T03:21:46.486Z</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>https://yuehhua.github.io/2015/03/31/be-excellent-in-one-programming-language/</loc>
+    
+    <lastmod>2019-09-06T03:21:33.314Z</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>https://yuehhua.github.io/2015/04/10/should-i-use-class-abstract-class-or-interface/</loc>
+    
+    <lastmod>2019-09-06T03:20:24.497Z</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>https://yuehhua.github.io/2019/02/22/performance-analysis-of-value-in-parametric-type/</loc>
+    
+    <lastmod>2019-09-06T03:20:20.510Z</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>https://yuehhua.github.io/2019/05/06/operate-value-in-julia-parametric-type/</loc>
+    
+    <lastmod>2019-09-06T03:19:59.125Z</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>https://yuehhua.github.io/2019/07/08/opensource-contribution-experience/</loc>
+    
+    <lastmod>2019-09-06T03:19:49.032Z</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>https://yuehhua.github.io/2013/11/17/ood/</loc>
+    
+    <lastmod>2019-09-06T03:19:27.686Z</lastmod>
+    
+  </url>
+  
+  <url>
     <loc>https://yuehhua.github.io/2019/09/06/inbounds-in-julia/</loc>
     
     <lastmod>2019-09-06T03:17:13.549Z</lastmod>
@@ -16,44 +79,9 @@
   </url>
   
   <url>
-    <loc>https://yuehhua.github.io/2019/07/08/opensource-contribution-experience/</loc>
-    
-    <lastmod>2019-07-08T14:08:41.323Z</lastmod>
-    
-  </url>
-  
-  <url>
     <loc>https://yuehhua.github.io/2018/07/27/activation-function/</loc>
     
     <lastmod>2019-07-08T09:10:27.484Z</lastmod>
-    
-  </url>
-  
-  <url>
-    <loc>https://yuehhua.github.io/2013/11/17/ood/</loc>
-    
-    <lastmod>2019-05-23T07:54:09.190Z</lastmod>
-    
-  </url>
-  
-  <url>
-    <loc>https://yuehhua.github.io/2015/04/10/should-i-use-class-abstract-class-or-interface/</loc>
-    
-    <lastmod>2019-05-23T07:32:44.371Z</lastmod>
-    
-  </url>
-  
-  <url>
-    <loc>https://yuehhua.github.io/2015/03/31/be-excellent-in-one-programming-language/</loc>
-    
-    <lastmod>2019-05-23T07:19:43.743Z</lastmod>
-    
-  </url>
-  
-  <url>
-    <loc>https://yuehhua.github.io/2015/03/17/flexibility-of-the-software-engineering/</loc>
-    
-    <lastmod>2019-05-23T07:17:38.523Z</lastmod>
     
   </url>
   
@@ -79,13 +107,6 @@
   </url>
   
   <url>
-    <loc>https://yuehhua.github.io/2019/05/06/operate-value-in-julia-parametric-type/</loc>
-    
-    <lastmod>2019-05-06T05:56:52.382Z</lastmod>
-    
-  </url>
-  
-  <url>
     <loc>https://yuehhua.github.io/2019/02/24/neural-ode/</loc>
     
     <lastmod>2019-02-25T16:18:15.950Z</lastmod>
@@ -100,30 +121,9 @@
   </url>
   
   <url>
-    <loc>https://yuehhua.github.io/2019/02/22/performance-analysis-of-value-in-parametric-type/</loc>
-    
-    <lastmod>2019-02-22T14:12:14.663Z</lastmod>
-    
-  </url>
-  
-  <url>
-    <loc>https://yuehhua.github.io/2019/02/22/define-values-in-parametric-type/</loc>
-    
-    <lastmod>2019-02-21T17:22:42.393Z</lastmod>
-    
-  </url>
-  
-  <url>
     <loc>https://yuehhua.github.io/2019/02/06/mathematical-objects/</loc>
     
     <lastmod>2019-02-05T16:02:53.088Z</lastmod>
-    
-  </url>
-  
-  <url>
-    <loc>https://yuehhua.github.io/2019/01/15/functional/</loc>
-    
-    <lastmod>2019-02-05T15:36:16.818Z</lastmod>
     
   </url>
   
