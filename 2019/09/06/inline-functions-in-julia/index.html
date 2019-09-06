@@ -6,7 +6,7 @@
     <!-- hexo-inject:begin --><!-- hexo-inject:end --><meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="generator" content="Dream Maker">
-    <title>一次開源專案貢獻經驗 - Dream Maker</title>
+    <title>Julia 中的行內函式（inline functions） - Dream Maker</title>
     <meta name="author" content="Yueh-Hua Tu">
     
         <meta name="keywords" content="machine learning,deep learning,topology,">
@@ -15,19 +15,19 @@
     
         <link rel="alternate" type="application/atom+xml" title="RSS" href="/atom.xml">
     
-    <script type="application/ld+json">{"@context":"http://schema.org","@type":"BlogPosting","author":{"@type":"Person","name":"Yueh-Hua Tu","sameAs":["https://github.com/yuehhua/","https://www.facebook.com/a504082002","https://www.linkedin.com/in/%E5%B2%B3%E8%8F%AF-%E6%9D%9C-6a3995a0/","mailto:a504082002@gmail.com"],"image":"https://www.gravatar.com/avatar/a565749fba4782b717234da670b273fd"},"articleBody":"來分享一下最近貢獻開源專案的小心得，雖然我自己貢獻開源專案的次數跟時間不是很多，不過一個 PR 可以產生不少文字跟討論算是值得紀錄一下的。\n我自己在 Julia 的一個統計相關的專案上發了一個 PR，希望補齊在標準化上的一些功能，並且可以支援一維的陣列標準化。\n\n起初，我只想用最簡單、直接的方式可以相容於原本的 API，並且達到我想要的功能。\n後來專案的審查者希望我將較為底層的功能一起做調整，在不是很情願的情形下，我提出了我認為比較好的修改方案。畢竟動下去等於是整個架構要重新改掉了。\n幾次的來回討論以及確認目標後，我確實需要把這部份的功能全部打掉重做。\n其中包含審查者注意到 Julia 是個 column-major 的語言，原本的 row-major 的計算方式要改掉，以讓效能最大化。要如何處理 API 的更動，無非是加入 deprecation warning，然後還得考慮預設值的問題，在這邊審查者一直無法決定預設值該是什麼。\n再來是，由 API 將資料收進來之後，該如何有效率而優雅地處理資料是個問題。有效率代表程式碼不能有多餘的動作，包含多餘的記憶體耗用、轉置與否。優雅代表 API 底下設計的函式之間的轉換跟呼叫也需要保持簡潔跟可讀性，如函數式程式設計般簡潔，如物件導向般可讀性，不能有重複的程式碼（Don’t repeat yourself, DRY）。像是在 API 下層還要繼續設計 API 一般，直到最底層演算法都要保持這樣的原則，你不會有機會做骯髒的手腳。\n來來回回在 PR 上的討論，一則都會有十行以上的文字。想必工程師最討厭的就是需要不斷地跟別人溝通想法，會不斷有想法拋出去，也不斷地被否決，理由通常都是這麼做不夠簡潔、不夠有可讀性、不夠有效率。\n不過我想我們的目標是一致的，希望貢獻開源專案，無非是將好的東西貢獻到專案上。種種的批評跟新想法都是促進彼此的成長，有時候是我的方法不夠有效率，有時候是審查者的想法無法通過自動測試，這時候他會為他的想法道歉。我也曾經誤解了他的英文，讓他需要再重新解釋一遍。\n很多時候會遇到一些挫折，像是我覺得他這樣做超級蠢，或是我辛辛苦苦改完一個版本上傳，但是對方卻隔了一個禮拜沒有來看。我想除了技術以外，如何跟別人溝通就在這裡展現出重要性。我講講我自己的心法：\n\n開源專案是大家一起討論出來的結果，沒有辦法說是誰的 idea，除非你真的貢獻超級多或是是專案的擁有者。\n\n溝通的時候先溝通目的，將目的說明清楚，別讓別人摸不著頭緒或是不斷猜測浪費時間。\n\n溝通時請儘量客觀而表達明確，有必要的話，直接寫一個小的例子。\n\n不斷來回的議題通常會產生一些負面情緒，請耐著性子跟對方解釋清楚。在做的好的地方不吝給個稱讚或是表情符號。\n\n你認為是對的事情就該明確講出來，將事情說明清楚就好，不需要過於強烈的用字。\n\n\n到目前為止，PR 都還沒 merge，卻已經歷時了兩個月，累積了 93 次的對話，產生了 15 次的 commit。增加了 339 行程式碼，刪除了 112 程式碼，diff 100%，意味著所有程式碼都被我修改過了。不過我想這不會是最後一次，不過會是一次蠻特別的經驗。\n","dateCreated":"2019-07-08T22:08:04+08:00","dateModified":"2019-07-08T22:08:41+08:00","datePublished":"2019-07-08T22:08:04+08:00","description":"來分享一下最近貢獻開源專案的小心得，雖然我自己貢獻開源專案的次數跟時間不是很多，不過一個 PR 可以產生不少文字跟討論算是值得紀錄一下的。\n我自己在 Julia 的一個統計相關的專案上發了一個 PR，希望補齊在標準化上的一些功能，並且可以支援一維的陣列標準化。","headline":"一次開源專案貢獻經驗","image":[],"mainEntityOfPage":{"@type":"WebPage","@id":"https://yuehhua.github.io/2019/07/08/opensource-contribution-experience/"},"publisher":{"@type":"Organization","name":"Yueh-Hua Tu","sameAs":["https://github.com/yuehhua/","https://www.facebook.com/a504082002","https://www.linkedin.com/in/%E5%B2%B3%E8%8F%AF-%E6%9D%9C-6a3995a0/","mailto:a504082002@gmail.com"],"image":"https://www.gravatar.com/avatar/a565749fba4782b717234da670b273fd","logo":{"@type":"ImageObject","url":"https://www.gravatar.com/avatar/a565749fba4782b717234da670b273fd"}},"url":"https://yuehhua.github.io/2019/07/08/opensource-contribution-experience/"}</script>
-    <meta name="description" content="來分享一下最近貢獻開源專案的小心得，雖然我自己貢獻開源專案的次數跟時間不是很多，不過一個 PR 可以產生不少文字跟討論算是值得紀錄一下的。 我自己在 Julia 的一個統計相關的專案上發了一個 PR，希望補齊在標準化上的一些功能，並且可以支援一維的陣列標準化。">
+    <script type="application/ld+json">{"@context":"http://schema.org","@type":"BlogPosting","author":{"@type":"Person","name":"Yueh-Hua Tu","sameAs":["https://github.com/yuehhua/","https://www.facebook.com/a504082002","https://www.linkedin.com/in/%E5%B2%B3%E8%8F%AF-%E6%9D%9C-6a3995a0/","mailto:a504082002@gmail.com"],"image":"https://www.gravatar.com/avatar/a565749fba4782b717234da670b273fd"},"articleBody":"剛好看到一些跟編譯器相關的議題，所以來紀錄一下。\n在一些語言中會有行內函式（inline function）的設計，使用的話一般會讓程式的效能變好。\n最知名應該是 C 跟 C++ 的 inline。\nInline function 會在編譯時期直接將函式內容展開到程式碼中，不過展開與否是由編譯器決定的，inline 的標記只是告訴編譯器這個函式可以成為 inline function。\nInline expansion 就是編譯時期會由編譯器執行的一個動作，看起來與 macro expansion 相似，但不同的是 macro expansion 是在前處理（preprocessing）時期做的，會直接展開在原始碼裡頭，而 inline expansion 則是在編譯時期做的，會在呼叫位點（call site）直接展開。\n展開後編譯器便可以進行最佳化，執行時，就不需要做函式呼叫，也不會在 function stack 上多配置空間。一般使用在短小的函式上會有好處，在巨大的函式上使用不一定會有好處。然而過多的 inline function 反而可能造成過多的指令快取的消耗，造成反效果。\n在 Julia 中，編譯器會自動偵測哪些函式可以被展開，會自動做 inline expansion。一般短小的函式會自動被編譯器判定要 inline，不過也可以由程式設計師自己指定哪些巨大函式可以 inline，可以參考文件]。\n除了 @inline 以外，還有 @noinline。為了避免過多的 inline 反而傷害效能，也可以標記一些短小的函式不要 inline。\n範例：\n123@inline function bigfunc(x)    ...end\n相關技術：Inline caching\n","dateCreated":"2019-09-06T10:34:58+08:00","dateModified":"2019-09-06T10:38:11+08:00","datePublished":"2019-09-06T10:34:58+08:00","description":"","headline":"Julia 中的行內函式（inline functions）","image":[],"mainEntityOfPage":{"@type":"WebPage","@id":"https://yuehhua.github.io/2019/09/06/inline-functions-in-julia/"},"publisher":{"@type":"Organization","name":"Yueh-Hua Tu","sameAs":["https://github.com/yuehhua/","https://www.facebook.com/a504082002","https://www.linkedin.com/in/%E5%B2%B3%E8%8F%AF-%E6%9D%9C-6a3995a0/","mailto:a504082002@gmail.com"],"image":"https://www.gravatar.com/avatar/a565749fba4782b717234da670b273fd","logo":{"@type":"ImageObject","url":"https://www.gravatar.com/avatar/a565749fba4782b717234da670b273fd"}},"url":"https://yuehhua.github.io/2019/09/06/inline-functions-in-julia/"}</script>
+    <meta name="description" content="剛好看到一些跟編譯器相關的議題，所以來紀錄一下。 在一些語言中會有行內函式（inline function）的設計，使用的話一般會讓程式的效能變好。 最知名應該是 C 跟 C++ 的 inline。 Inline function 會在編譯時期直接將函式內容展開到程式碼中，不過展開與否是由編譯器決定的，inline 的標記只是告訴編譯器這個函式可以成為 inline function。 Inlin">
 <meta name="keywords" content="machine learning,deep learning,topology">
 <meta property="og:type" content="blog">
-<meta property="og:title" content="一次開源專案貢獻經驗">
-<meta property="og:url" content="https://yuehhua.github.io/2019/07/08/opensource-contribution-experience/index.html">
+<meta property="og:title" content="Julia 中的行內函式（inline functions）">
+<meta property="og:url" content="https://yuehhua.github.io/2019/09/06/inline-functions-in-julia/index.html">
 <meta property="og:site_name" content="Dream Maker">
-<meta property="og:description" content="來分享一下最近貢獻開源專案的小心得，雖然我自己貢獻開源專案的次數跟時間不是很多，不過一個 PR 可以產生不少文字跟討論算是值得紀錄一下的。 我自己在 Julia 的一個統計相關的專案上發了一個 PR，希望補齊在標準化上的一些功能，並且可以支援一維的陣列標準化。">
+<meta property="og:description" content="剛好看到一些跟編譯器相關的議題，所以來紀錄一下。 在一些語言中會有行內函式（inline function）的設計，使用的話一般會讓程式的效能變好。 最知名應該是 C 跟 C++ 的 inline。 Inline function 會在編譯時期直接將函式內容展開到程式碼中，不過展開與否是由編譯器決定的，inline 的標記只是告訴編譯器這個函式可以成為 inline function。 Inlin">
 <meta property="og:locale" content="zh-tw">
-<meta property="og:updated_time" content="2019-07-08T14:08:41.323Z">
+<meta property="og:updated_time" content="2019-09-06T02:38:11.368Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="一次開源專案貢獻經驗">
-<meta name="twitter:description" content="來分享一下最近貢獻開源專案的小心得，雖然我自己貢獻開源專案的次數跟時間不是很多，不過一個 PR 可以產生不少文字跟討論算是值得紀錄一下的。 我自己在 Julia 的一個統計相關的專案上發了一個 PR，希望補齊在標準化上的一些功能，並且可以支援一維的陣列標準化。">
+<meta name="twitter:title" content="Julia 中的行內函式（inline functions）">
+<meta name="twitter:description" content="剛好看到一些跟編譯器相關的議題，所以來紀錄一下。 在一些語言中會有行內函式（inline function）的設計，使用的話一般會讓程式的效能變好。 最知名應該是 C 跟 C++ 的 inline。 Inline function 會在編譯時期直接將函式內容展開到程式碼中，不過展開與否是由編譯器決定的，inline 的標記只是告訴編譯器這個函式可以成為 inline function。 Inlin">
     
     
         
@@ -238,16 +238,22 @@
                     <div class="post-header main-content-wrap text-left">
     
         <h1 class="post-title">
-            一次開源專案貢獻經驗
+            Julia 中的行內函式（inline functions）
         </h1>
     
     
         <div class="post-meta">
-    <time datetime="2019-07-08T22:08:04+08:00">
+    <time datetime="2019-09-06T10:34:58+08:00">
 	
-		    7月 08, 2019
+		    9月 06, 2019
     	
     </time>
+    
+        <span>分類 </span>
+        
+    <a class="category-link" href="/categories/My-Style/">My Style</a>, <a class="category-link" href="/categories/My-Style/Computer-Science/">Computer Science</a>, <a class="category-link" href="/categories/My-Style/Computer-Science/Julialang/">Julialang</a>, <a class="category-link" href="/categories/My-Style/Computer-Science/Julialang/Optimization/">Optimization</a>
+
+
     
 </div>
 
@@ -257,30 +263,17 @@
                         
                             <div class="post-content markdown">
                                 <div class="main-content-wrap">
-                                    <p>來分享一下最近貢獻開源專案的小心得，雖然我自己貢獻開源專案的次數跟時間不是很多，不過一個 PR 可以產生不少文字跟討論算是值得紀錄一下的。</p>
-<p>我自己在 Julia 的一個統計相關的專案上發了一個 PR，希望補齊在標準化上的一些功能，並且可以支援一維的陣列標準化。</p>
-<a id="more"></a>
-<p>起初，我只想用最簡單、直接的方式可以相容於原本的 API，並且達到我想要的功能。</p>
-<p>後來專案的審查者希望我將較為底層的功能一起做調整，在不是很情願的情形下，我提出了我認為比較好的修改方案。畢竟動下去等於是整個架構要重新改掉了。</p>
-<p>幾次的來回討論以及確認目標後，我確實需要把這部份的功能全部打掉重做。</p>
-<p>其中包含審查者注意到 Julia 是個 column-major 的語言，原本的 row-major 的計算方式要改掉，以讓效能最大化。要如何處理 API 的更動，無非是加入 deprecation warning，然後還得考慮預設值的問題，在這邊審查者一直無法決定預設值該是什麼。</p>
-<p>再來是，由 API 將資料收進來之後，該如何有效率而優雅地處理資料是個問題。有效率代表程式碼不能有多餘的動作，包含多餘的記憶體耗用、轉置與否。優雅代表 API 底下設計的函式之間的轉換跟呼叫也需要保持簡潔跟可讀性，如函數式程式設計般簡潔，如物件導向般可讀性，不能有重複的程式碼（Don’t repeat yourself, DRY）。像是在 API 下層還要繼續設計 API 一般，直到最底層演算法都要保持這樣的原則，你不會有機會做骯髒的手腳。</p>
-<p>來來回回在 PR 上的討論，一則都會有十行以上的文字。想必工程師最討厭的就是需要不斷地跟別人溝通想法，會不斷有想法拋出去，也不斷地被否決，理由通常都是這麼做不夠簡潔、不夠有可讀性、不夠有效率。</p>
-<p>不過我想我們的目標是一致的，希望貢獻開源專案，無非是將好的東西貢獻到專案上。種種的批評跟新想法都是促進彼此的成長，有時候是我的方法不夠有效率，有時候是審查者的想法無法通過自動測試，這時候他會為他的想法道歉。我也曾經誤解了他的英文，讓他需要再重新解釋一遍。</p>
-<p>很多時候會遇到一些挫折，像是我覺得他這樣做超級蠢，或是我辛辛苦苦改完一個版本上傳，但是對方卻隔了一個禮拜沒有來看。我想除了技術以外，如何跟別人溝通就在這裡展現出重要性。我講講我自己的心法：</p>
-<ol>
-<li><p>開源專案是大家一起討論出來的結果，沒有辦法說是誰的 idea，除非你真的貢獻超級多或是是專案的擁有者。</p>
-</li>
-<li><p>溝通的時候先溝通目的，將目的說明清楚，別讓別人摸不著頭緒或是不斷猜測浪費時間。</p>
-</li>
-<li><p>溝通時請儘量客觀而表達明確，有必要的話，直接寫一個小的例子。</p>
-</li>
-<li><p>不斷來回的議題通常會產生一些負面情緒，請耐著性子跟對方解釋清楚。在做的好的地方不吝給個稱讚或是表情符號。</p>
-</li>
-<li><p>你認為是對的事情就該明確講出來，將事情說明清楚就好，不需要過於強烈的用字。</p>
-</li>
-</ol>
-<p>到目前為止，PR 都還沒 merge，卻已經歷時了兩個月，累積了 93 次的對話，產生了 15 次的 commit。增加了 339 行程式碼，刪除了 112 程式碼，diff 100%，意味著所有程式碼都被我修改過了。不過我想這不會是最後一次，不過會是一次蠻特別的經驗。</p>
+                                    <p>剛好看到一些跟編譯器相關的議題，所以來紀錄一下。</p>
+<p>在一些語言中會有行內函式（inline function）的設計，使用的話一般會讓程式的效能變好。</p>
+<p>最知名應該是 C 跟 C++ 的 <code>inline</code>。</p>
+<p>Inline function 會在編譯時期直接將函式內容展開到程式碼中，不過展開與否是由編譯器決定的，<code>inline</code> 的標記只是告訴編譯器這個函式可以成為 inline function。</p>
+<p><a href="https://en.wikipedia.org/wiki/Inline_expansion" target="_blank" rel="noopener">Inline expansion</a> 就是編譯時期會由編譯器執行的一個動作，看起來與 macro expansion 相似，但不同的是 macro expansion 是在前處理（preprocessing）時期做的，會直接展開在原始碼裡頭，而 inline expansion 則是在編譯時期做的，會在呼叫位點（call site）直接展開。</p>
+<p>展開後編譯器便可以進行最佳化，執行時，就不需要做函式呼叫，也不會在 function stack 上多配置空間。一般使用在短小的函式上會有好處，在巨大的函式上使用不一定會有好處。然而過多的 inline function 反而可能造成過多的指令快取的消耗，造成反效果。</p>
+<p>在 Julia 中，編譯器會自動偵測哪些函式可以被展開，會自動做 inline expansion。一般短小的函式會自動被編譯器判定要 inline，不過也可以由程式設計師自己指定哪些巨大函式可以 inline，可以參考<a href="https://docs.julialang.org/en/v1.2/base/base/#Base.@inline" target="_blank" rel="noopener">文件]</a>。</p>
+<p>除了 <code>@inline</code> 以外，還有 <code>@noinline</code>。為了避免過多的 inline 反而傷害效能，也可以標記一些短小的函式不要 inline。</p>
+<p>範例：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">@inline function bigfunc(x)</span><br><span class="line">    ...</span><br><span class="line">end</span><br></pre></td></tr></table></figure>
+<p>相關技術：<a href="https://en.wikipedia.org/wiki/Inline_caching" target="_blank" rel="noopener">Inline caching</a></p>
 
                                         
 
@@ -294,8 +287,7 @@
         <ul class="post-actions post-action-nav">
             <li class="post-action">
                 
-                    
-                    <a class="post-action-btn btn btn--default tooltip--top" href="/2019/09/06/inline-functions-in-julia/" data-tooltip="Julia 中的行內函式（inline functions）" aria-label="上一篇: Julia 中的行內函式（inline functions）">
+                    <a class="post-action-btn btn btn--disabled">
                 
                     <i class="fa fa-angle-left" aria-hidden="true"></i>
                     <span class="hide-xs hide-sm text-small icon-ml">上一篇</span>
@@ -304,7 +296,7 @@
             <li class="post-action">
                 
                     
-                    <a class="post-action-btn btn btn--default tooltip--top" href="/2019/05/06/operate-value-in-julia-parametric-type/" data-tooltip="運算 Julia 參數型別上的值" aria-label="下一篇: 運算 Julia 參數型別上的值">
+                    <a class="post-action-btn btn btn--default tooltip--top" href="/2019/07/08/opensource-contribution-experience/" data-tooltip="一次開源專案貢獻經驗" aria-label="下一篇: 一次開源專案貢獻經驗">
                 
                     <span class="hide-xs hide-sm text-small icon-mr">下一篇</span>
                     <i class="fa fa-angle-right" aria-hidden="true"></i>
@@ -322,7 +314,7 @@
             
             
             <li class="post-action hide-xs">
-                <a class="post-action-btn btn btn--default" target="new" href="https://www.facebook.com/sharer/sharer.php?u=https://yuehhua.github.io/2019/07/08/opensource-contribution-experience/" title="分享到 Facebook">
+                <a class="post-action-btn btn btn--default" target="new" href="https://www.facebook.com/sharer/sharer.php?u=https://yuehhua.github.io/2019/09/06/inline-functions-in-julia/" title="分享到 Facebook">
                     <i class="fa fa-facebook-official" aria-hidden="true"></i>
                 </a>
             </li>
@@ -380,8 +372,7 @@
         <ul class="post-actions post-action-nav">
             <li class="post-action">
                 
-                    
-                    <a class="post-action-btn btn btn--default tooltip--top" href="/2019/09/06/inline-functions-in-julia/" data-tooltip="Julia 中的行內函式（inline functions）" aria-label="上一篇: Julia 中的行內函式（inline functions）">
+                    <a class="post-action-btn btn btn--disabled">
                 
                     <i class="fa fa-angle-left" aria-hidden="true"></i>
                     <span class="hide-xs hide-sm text-small icon-ml">上一篇</span>
@@ -390,7 +381,7 @@
             <li class="post-action">
                 
                     
-                    <a class="post-action-btn btn btn--default tooltip--top" href="/2019/05/06/operate-value-in-julia-parametric-type/" data-tooltip="運算 Julia 參數型別上的值" aria-label="下一篇: 運算 Julia 參數型別上的值">
+                    <a class="post-action-btn btn btn--default tooltip--top" href="/2019/07/08/opensource-contribution-experience/" data-tooltip="一次開源專案貢獻經驗" aria-label="下一篇: 一次開源專案貢獻經驗">
                 
                     <span class="hide-xs hide-sm text-small icon-mr">下一篇</span>
                     <i class="fa fa-angle-right" aria-hidden="true"></i>
@@ -408,7 +399,7 @@
             
             
             <li class="post-action hide-xs">
-                <a class="post-action-btn btn btn--default" target="new" href="https://www.facebook.com/sharer/sharer.php?u=https://yuehhua.github.io/2019/07/08/opensource-contribution-experience/" title="分享到 Facebook">
+                <a class="post-action-btn btn btn--default" target="new" href="https://www.facebook.com/sharer/sharer.php?u=https://yuehhua.github.io/2019/09/06/inline-functions-in-julia/" title="分享到 Facebook">
                     <i class="fa fa-facebook-official" aria-hidden="true"></i>
                 </a>
             </li>
@@ -441,7 +432,7 @@
             
             
             <li class="share-option">
-                <a class="share-option-btn" target="new" href="https://www.facebook.com/sharer/sharer.php?u=https://yuehhua.github.io/2019/07/08/opensource-contribution-experience/">
+                <a class="share-option-btn" target="new" href="https://www.facebook.com/sharer/sharer.php?u=https://yuehhua.github.io/2019/09/06/inline-functions-in-julia/">
                     <i class="fa fa-facebook-official" aria-hidden="true"></i><span>分享到 Facebook</span>
                 </a>
             </li>
@@ -493,9 +484,9 @@
 
 <script>
     var disqus_config = function () {
-        this.page.url = 'https://yuehhua.github.io/2019/07/08/opensource-contribution-experience/';
+        this.page.url = 'https://yuehhua.github.io/2019/09/06/inline-functions-in-julia/';
                  
-            this.page.identifier = '2019/07/08/opensource-contribution-experience/';
+            this.page.identifier = '2019/09/06/inline-functions-in-julia/';
                  
              };
     (function () {
