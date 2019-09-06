@@ -6,7 +6,7 @@
     <!-- hexo-inject:begin --><!-- hexo-inject:end --><meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="generator" content="Dream Maker">
-    <title>Julia 中的行內函式（inline functions） - Dream Maker</title>
+    <title>Julia 的 inbounds - Dream Maker</title>
     <meta name="author" content="Yueh-Hua Tu">
     
         <meta name="keywords" content="machine learning,deep learning,topology,">
@@ -15,19 +15,19 @@
     
         <link rel="alternate" type="application/atom+xml" title="RSS" href="/atom.xml">
     
-    <script type="application/ld+json">{"@context":"http://schema.org","@type":"BlogPosting","author":{"@type":"Person","name":"Yueh-Hua Tu","sameAs":["https://github.com/yuehhua/","https://www.facebook.com/a504082002","https://www.linkedin.com/in/%E5%B2%B3%E8%8F%AF-%E6%9D%9C-6a3995a0/","mailto:a504082002@gmail.com"],"image":"https://www.gravatar.com/avatar/a565749fba4782b717234da670b273fd"},"articleBody":"剛好看到一些跟編譯器相關的議題，所以來紀錄一下。\n在一些語言中會有行內函式（inline function）的設計，使用的話一般會讓程式的效能變好。\n最知名應該是 C 跟 C++ 的 inline。\nInline function 會在編譯時期直接將函式內容展開到程式碼中，不過展開與否是由編譯器決定的，inline 的標記只是告訴編譯器這個函式可以成為 inline function。\nInline expansion 就是編譯時期會由編譯器執行的一個動作，看起來與 macro expansion 相似，但不同的是 macro expansion 是在前處理（preprocessing）時期做的，會直接展開在原始碼裡頭，而 inline expansion 則是在編譯時期做的，會在呼叫位點（call site）直接展開。\n展開後編譯器便可以進行最佳化，執行時，就不需要做函式呼叫，也不會在 function stack 上多配置空間。一般使用在短小的函式上會有好處，在巨大的函式上使用不一定會有好處。然而過多的 inline function 反而可能造成過多的指令快取的消耗，造成反效果。\n在 Julia 中，編譯器會自動偵測哪些函式可以被展開，會自動做 inline expansion。一般短小的函式會自動被編譯器判定要 inline，不過也可以由程式設計師自己指定哪些巨大函式可以 inline，可以參考文件]。\n除了 @inline 以外，還有 @noinline。為了避免過多的 inline 反而傷害效能，也可以標記一些短小的函式不要 inline。\n範例：\n123@inline function bigfunc(x)    ...end\n相關技術：Inline caching\n","dateCreated":"2019-09-06T10:34:58+08:00","dateModified":"2019-09-06T11:16:32+08:00","datePublished":"2019-09-06T10:34:58+08:00","description":"","headline":"Julia 中的行內函式（inline functions）","image":[],"mainEntityOfPage":{"@type":"WebPage","@id":"https://yuehhua.github.io/2019/09/06/inline-functions-in-julia/"},"publisher":{"@type":"Organization","name":"Yueh-Hua Tu","sameAs":["https://github.com/yuehhua/","https://www.facebook.com/a504082002","https://www.linkedin.com/in/%E5%B2%B3%E8%8F%AF-%E6%9D%9C-6a3995a0/","mailto:a504082002@gmail.com"],"image":"https://www.gravatar.com/avatar/a565749fba4782b717234da670b273fd","logo":{"@type":"ImageObject","url":"https://www.gravatar.com/avatar/a565749fba4782b717234da670b273fd"}},"url":"https://yuehhua.github.io/2019/09/06/inline-functions-in-julia/","keywords":"optimization"}</script>
-    <meta name="description" content="剛好看到一些跟編譯器相關的議題，所以來紀錄一下。 在一些語言中會有行內函式（inline function）的設計，使用的話一般會讓程式的效能變好。 最知名應該是 C 跟 C++ 的 inline。 Inline function 會在編譯時期直接將函式內容展開到程式碼中，不過展開與否是由編譯器決定的，inline 的標記只是告訴編譯器這個函式可以成為 inline function。 Inlin">
+    <script type="application/ld+json">{"@context":"http://schema.org","@type":"BlogPosting","author":{"@type":"Person","name":"Yueh-Hua Tu","sameAs":["https://github.com/yuehhua/","https://www.facebook.com/a504082002","https://www.linkedin.com/in/%E5%B2%B3%E8%8F%AF-%E6%9D%9C-6a3995a0/","mailto:a504082002@gmail.com"],"image":"https://www.gravatar.com/avatar/a565749fba4782b717234da670b273fd"},"articleBody":"有在做套件開發的開發者們應該不陌生 @inbounds 這個 macro，在很多現代程式語言中也有。\n在存取陣列時，為了安全性與正確性的考量，避免存取到陣列範圍以外的記憶體位置，很多語言都設置了邊界檢查（bounds check）。\n邊界檢查會檢查所存取的索引值是否在陣列的範圍內，但是這樣的檢查會有些微的效能損耗，尤其在迴圈內的情況更有可能被累積而放大，關於 Julia 的 邊界檢查可以參考官方文件 Bounds checking。\n如果可以確定所存取的索引值一定在範圍內，我們就可以把邊界檢查給移除，以加速陣列的存取。如以下範例：\n1234A = rand(3, 4)@inbounds for i = 1:size(A, 1)    println(A[i, :])end\n或是\n1234A = rand(3, 4)for i = 1:size(A, 1)    @inbounds println(A[i, :])end\n@inbounds 會將程式碼區塊中的邊界檢查給移除，可以參考 @inbounds 的官方文件。使用時必須注意存取的索引值，否則小則存取的值錯誤，大則可能導致程式崩潰。\n先養成好的索引習慣，再考慮將效能提升，加入 @inbounds。相關的資訊也紀錄在官方的效能建議中。\n","dateCreated":"2019-09-06T11:17:13+08:00","dateModified":"2019-09-06T11:17:13+08:00","datePublished":"2019-09-06T11:17:13+08:00","description":"","headline":"Julia 的 inbounds","image":[],"mainEntityOfPage":{"@type":"WebPage","@id":"https://yuehhua.github.io/2019/09/06/inbounds-in-julia/"},"publisher":{"@type":"Organization","name":"Yueh-Hua Tu","sameAs":["https://github.com/yuehhua/","https://www.facebook.com/a504082002","https://www.linkedin.com/in/%E5%B2%B3%E8%8F%AF-%E6%9D%9C-6a3995a0/","mailto:a504082002@gmail.com"],"image":"https://www.gravatar.com/avatar/a565749fba4782b717234da670b273fd","logo":{"@type":"ImageObject","url":"https://www.gravatar.com/avatar/a565749fba4782b717234da670b273fd"}},"url":"https://yuehhua.github.io/2019/09/06/inbounds-in-julia/","keywords":"optimization"}</script>
+    <meta name="description" content="有在做套件開發的開發者們應該不陌生 @inbounds 這個 macro，在很多現代程式語言中也有。 在存取陣列時，為了安全性與正確性的考量，避免存取到陣列範圍以外的記憶體位置，很多語言都設置了邊界檢查（bounds check）。 邊界檢查會檢查所存取的索引值是否在陣列的範圍內，但是這樣的檢查會有些微的效能損耗，尤其在迴圈內的情況更有可能被累積而放大，關於 Julia 的 邊界檢查可以參考官方文">
 <meta name="keywords" content="optimization">
 <meta property="og:type" content="blog">
-<meta property="og:title" content="Julia 中的行內函式（inline functions）">
-<meta property="og:url" content="https://yuehhua.github.io/2019/09/06/inline-functions-in-julia/index.html">
+<meta property="og:title" content="Julia 的 inbounds">
+<meta property="og:url" content="https://yuehhua.github.io/2019/09/06/inbounds-in-julia/index.html">
 <meta property="og:site_name" content="Dream Maker">
-<meta property="og:description" content="剛好看到一些跟編譯器相關的議題，所以來紀錄一下。 在一些語言中會有行內函式（inline function）的設計，使用的話一般會讓程式的效能變好。 最知名應該是 C 跟 C++ 的 inline。 Inline function 會在編譯時期直接將函式內容展開到程式碼中，不過展開與否是由編譯器決定的，inline 的標記只是告訴編譯器這個函式可以成為 inline function。 Inlin">
+<meta property="og:description" content="有在做套件開發的開發者們應該不陌生 @inbounds 這個 macro，在很多現代程式語言中也有。 在存取陣列時，為了安全性與正確性的考量，避免存取到陣列範圍以外的記憶體位置，很多語言都設置了邊界檢查（bounds check）。 邊界檢查會檢查所存取的索引值是否在陣列的範圍內，但是這樣的檢查會有些微的效能損耗，尤其在迴圈內的情況更有可能被累積而放大，關於 Julia 的 邊界檢查可以參考官方文">
 <meta property="og:locale" content="zh-tw">
-<meta property="og:updated_time" content="2019-09-06T03:16:32.981Z">
+<meta property="og:updated_time" content="2019-09-06T03:17:13.549Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="Julia 中的行內函式（inline functions）">
-<meta name="twitter:description" content="剛好看到一些跟編譯器相關的議題，所以來紀錄一下。 在一些語言中會有行內函式（inline function）的設計，使用的話一般會讓程式的效能變好。 最知名應該是 C 跟 C++ 的 inline。 Inline function 會在編譯時期直接將函式內容展開到程式碼中，不過展開與否是由編譯器決定的，inline 的標記只是告訴編譯器這個函式可以成為 inline function。 Inlin">
+<meta name="twitter:title" content="Julia 的 inbounds">
+<meta name="twitter:description" content="有在做套件開發的開發者們應該不陌生 @inbounds 這個 macro，在很多現代程式語言中也有。 在存取陣列時，為了安全性與正確性的考量，避免存取到陣列範圍以外的記憶體位置，很多語言都設置了邊界檢查（bounds check）。 邊界檢查會檢查所存取的索引值是否在陣列的範圍內，但是這樣的檢查會有些微的效能損耗，尤其在迴圈內的情況更有可能被累積而放大，關於 Julia 的 邊界檢查可以參考官方文">
     
     
         
@@ -238,12 +238,12 @@
                     <div class="post-header main-content-wrap text-left">
     
         <h1 class="post-title">
-            Julia 中的行內函式（inline functions）
+            Julia 的 inbounds
         </h1>
     
     
         <div class="post-meta">
-    <time datetime="2019-09-06T10:34:58+08:00">
+    <time datetime="2019-09-06T11:17:13+08:00">
 	
 		    9月 06, 2019
     	
@@ -263,17 +263,15 @@
                         
                             <div class="post-content markdown">
                                 <div class="main-content-wrap">
-                                    <p>剛好看到一些跟編譯器相關的議題，所以來紀錄一下。</p>
-<p>在一些語言中會有行內函式（inline function）的設計，使用的話一般會讓程式的效能變好。</p>
-<p>最知名應該是 C 跟 C++ 的 <code>inline</code>。</p>
-<p>Inline function 會在編譯時期直接將函式內容展開到程式碼中，不過展開與否是由編譯器決定的，<code>inline</code> 的標記只是告訴編譯器這個函式可以成為 inline function。</p>
-<p><a href="https://en.wikipedia.org/wiki/Inline_expansion" target="_blank" rel="noopener">Inline expansion</a> 就是編譯時期會由編譯器執行的一個動作，看起來與 macro expansion 相似，但不同的是 macro expansion 是在前處理（preprocessing）時期做的，會直接展開在原始碼裡頭，而 inline expansion 則是在編譯時期做的，會在呼叫位點（call site）直接展開。</p>
-<p>展開後編譯器便可以進行最佳化，執行時，就不需要做函式呼叫，也不會在 function stack 上多配置空間。一般使用在短小的函式上會有好處，在巨大的函式上使用不一定會有好處。然而過多的 inline function 反而可能造成過多的指令快取的消耗，造成反效果。</p>
-<p>在 Julia 中，編譯器會自動偵測哪些函式可以被展開，會自動做 inline expansion。一般短小的函式會自動被編譯器判定要 inline，不過也可以由程式設計師自己指定哪些巨大函式可以 inline，可以參考<a href="https://docs.julialang.org/en/v1.2/base/base/#Base.@inline" target="_blank" rel="noopener">文件]</a>。</p>
-<p>除了 <code>@inline</code> 以外，還有 <code>@noinline</code>。為了避免過多的 inline 反而傷害效能，也可以標記一些短小的函式不要 inline。</p>
-<p>範例：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">@inline function bigfunc(x)</span><br><span class="line">    ...</span><br><span class="line">end</span><br></pre></td></tr></table></figure>
-<p>相關技術：<a href="https://en.wikipedia.org/wiki/Inline_caching" target="_blank" rel="noopener">Inline caching</a></p>
+                                    <p>有在做套件開發的開發者們應該不陌生 <code>@inbounds</code> 這個 macro，在很多現代程式語言中也有。</p>
+<p>在存取陣列時，為了安全性與正確性的考量，避免存取到陣列範圍以外的記憶體位置，很多語言都設置了邊界檢查（bounds check）。</p>
+<p>邊界檢查會檢查所存取的索引值是否在陣列的範圍內，但是這樣的檢查會有些微的效能損耗，尤其在迴圈內的情況更有可能被累積而放大，關於 Julia 的 邊界檢查可以參考官方文件 <a href="https://docs.julialang.org/en/v1/devdocs/boundscheck/index.html" target="_blank" rel="noopener">Bounds checking</a>。</p>
+<p>如果可以確定所存取的索引值一定在範圍內，我們就可以把邊界檢查給移除，以加速陣列的存取。如以下範例：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">A = rand(3, 4)</span><br><span class="line">@inbounds for i = 1:size(A, 1)</span><br><span class="line">    println(A[i, :])</span><br><span class="line">end</span><br></pre></td></tr></table></figure>
+<p>或是</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">A = rand(3, 4)</span><br><span class="line">for i = 1:size(A, 1)</span><br><span class="line">    @inbounds println(A[i, :])</span><br><span class="line">end</span><br></pre></td></tr></table></figure>
+<p><code>@inbounds</code> 會將程式碼區塊中的邊界檢查給移除，可以參考 <code>@inbounds</code> 的<a href="https://docs.julialang.org/en/latest/base/base/#Base.@inbounds" target="_blank" rel="noopener">官方文件</a>。使用時必須注意存取的索引值，否則小則存取的值錯誤，大則可能導致程式崩潰。</p>
+<p>先養成好的索引習慣，再考慮將效能提升，加入 <code>@inbounds</code>。相關的資訊也紀錄在官方的<a href="https://docs.julialang.org/en/latest/manual/performance-tips/#man-performance-annotations-1" target="_blank" rel="noopener">效能建議</a>中。</p>
 
                                         
 
@@ -297,8 +295,7 @@
         <ul class="post-actions post-action-nav">
             <li class="post-action">
                 
-                    
-                    <a class="post-action-btn btn btn--default tooltip--top" href="/2019/09/06/inbounds-in-julia/" data-tooltip="Julia 的 inbounds" aria-label="上一篇: Julia 的 inbounds">
+                    <a class="post-action-btn btn btn--disabled">
                 
                     <i class="fa fa-angle-left" aria-hidden="true"></i>
                     <span class="hide-xs hide-sm text-small icon-ml">上一篇</span>
@@ -307,7 +304,7 @@
             <li class="post-action">
                 
                     
-                    <a class="post-action-btn btn btn--default tooltip--top" href="/2019/07/08/opensource-contribution-experience/" data-tooltip="一次開源專案貢獻經驗" aria-label="下一篇: 一次開源專案貢獻經驗">
+                    <a class="post-action-btn btn btn--default tooltip--top" href="/2019/09/06/inline-functions-in-julia/" data-tooltip="Julia 中的行內函式（inline functions）" aria-label="下一篇: Julia 中的行內函式（inline functions）">
                 
                     <span class="hide-xs hide-sm text-small icon-mr">下一篇</span>
                     <i class="fa fa-angle-right" aria-hidden="true"></i>
@@ -325,7 +322,7 @@
             
             
             <li class="post-action hide-xs">
-                <a class="post-action-btn btn btn--default" target="new" href="https://www.facebook.com/sharer/sharer.php?u=https://yuehhua.github.io/2019/09/06/inline-functions-in-julia/" title="分享到 Facebook">
+                <a class="post-action-btn btn btn--default" target="new" href="https://www.facebook.com/sharer/sharer.php?u=https://yuehhua.github.io/2019/09/06/inbounds-in-julia/" title="分享到 Facebook">
                     <i class="fa fa-facebook-official" aria-hidden="true"></i>
                 </a>
             </li>
@@ -383,8 +380,7 @@
         <ul class="post-actions post-action-nav">
             <li class="post-action">
                 
-                    
-                    <a class="post-action-btn btn btn--default tooltip--top" href="/2019/09/06/inbounds-in-julia/" data-tooltip="Julia 的 inbounds" aria-label="上一篇: Julia 的 inbounds">
+                    <a class="post-action-btn btn btn--disabled">
                 
                     <i class="fa fa-angle-left" aria-hidden="true"></i>
                     <span class="hide-xs hide-sm text-small icon-ml">上一篇</span>
@@ -393,7 +389,7 @@
             <li class="post-action">
                 
                     
-                    <a class="post-action-btn btn btn--default tooltip--top" href="/2019/07/08/opensource-contribution-experience/" data-tooltip="一次開源專案貢獻經驗" aria-label="下一篇: 一次開源專案貢獻經驗">
+                    <a class="post-action-btn btn btn--default tooltip--top" href="/2019/09/06/inline-functions-in-julia/" data-tooltip="Julia 中的行內函式（inline functions）" aria-label="下一篇: Julia 中的行內函式（inline functions）">
                 
                     <span class="hide-xs hide-sm text-small icon-mr">下一篇</span>
                     <i class="fa fa-angle-right" aria-hidden="true"></i>
@@ -411,7 +407,7 @@
             
             
             <li class="post-action hide-xs">
-                <a class="post-action-btn btn btn--default" target="new" href="https://www.facebook.com/sharer/sharer.php?u=https://yuehhua.github.io/2019/09/06/inline-functions-in-julia/" title="分享到 Facebook">
+                <a class="post-action-btn btn btn--default" target="new" href="https://www.facebook.com/sharer/sharer.php?u=https://yuehhua.github.io/2019/09/06/inbounds-in-julia/" title="分享到 Facebook">
                     <i class="fa fa-facebook-official" aria-hidden="true"></i>
                 </a>
             </li>
@@ -444,7 +440,7 @@
             
             
             <li class="share-option">
-                <a class="share-option-btn" target="new" href="https://www.facebook.com/sharer/sharer.php?u=https://yuehhua.github.io/2019/09/06/inline-functions-in-julia/">
+                <a class="share-option-btn" target="new" href="https://www.facebook.com/sharer/sharer.php?u=https://yuehhua.github.io/2019/09/06/inbounds-in-julia/">
                     <i class="fa fa-facebook-official" aria-hidden="true"></i><span>分享到 Facebook</span>
                 </a>
             </li>
@@ -496,9 +492,9 @@
 
 <script>
     var disqus_config = function () {
-        this.page.url = 'https://yuehhua.github.io/2019/09/06/inline-functions-in-julia/';
+        this.page.url = 'https://yuehhua.github.io/2019/09/06/inbounds-in-julia/';
                  
-            this.page.identifier = '2019/09/06/inline-functions-in-julia/';
+            this.page.identifier = '2019/09/06/inbounds-in-julia/';
                  
              };
     (function () {

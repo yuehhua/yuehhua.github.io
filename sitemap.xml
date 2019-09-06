@@ -2,9 +2,16 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   
   <url>
+    <loc>https://yuehhua.github.io/2019/09/06/inbounds-in-julia/</loc>
+    
+    <lastmod>2019-09-06T03:17:13.549Z</lastmod>
+    
+  </url>
+  
+  <url>
     <loc>https://yuehhua.github.io/2019/09/06/inline-functions-in-julia/</loc>
     
-    <lastmod>2019-09-06T02:46:11.868Z</lastmod>
+    <lastmod>2019-09-06T03:16:32.981Z</lastmod>
     
   </url>
   
