@@ -6,7 +6,7 @@
     <!-- hexo-inject:begin --><!-- hexo-inject:end --><meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="generator" content="Dream Maker">
-    <title>標籤: optimization - Dream Maker</title>
+    <title>魔術數字 - Dream Maker</title>
     <meta name="author" content="Yueh-Hua Tu">
     
         <meta name="keywords" content="machine learning,deep learning,topology,">
@@ -15,15 +15,19 @@
     
         <link rel="alternate" type="application/atom+xml" title="RSS" href="/atom.xml">
     
-    <script type="application/ld+json">{}</script>
-    <meta name="keywords" content="machine learning,deep learning,topology">
+    <script type="application/ld+json">{"@context":"http://schema.org","@type":"BlogPosting","author":{"@type":"Person","name":"Yueh-Hua Tu","sameAs":["https://github.com/yuehhua/","https://www.facebook.com/a504082002","https://www.linkedin.com/in/%E5%B2%B3%E8%8F%AF-%E6%9D%9C-6a3995a0/","mailto:a504082002@gmail.com"],"image":"https://www.gravatar.com/avatar/a565749fba4782b717234da670b273fd"},"articleBody":"很多人在寫程式的時候會有些壞習慣，如：\n1234567X = rand(3, 4)for i = 1:3    for j = 1:4        X[i, j]        ...    endend\n可能多數人看以上這段程式碼並沒有什麼特別的感覺，但是如果要維護的時候就會發現你突然不太理解這段程式碼。\n有人知道這邊的 3 是什麼意思嗎？嗯…或許可以從上下文猜出來是陣列的列數的意思。\n一旦要更改陣列的大小的時候勢必就要更改這些數字，甚至這些數字散落在程式碼的各個角落就會更加頭痛。\n這些數字稱為魔術數字（magic numbers），因為沒有人知道他的意義是什麼！\n解法一：使用常數如果這些數字很常被使用到，而且不會在程式中被變更，請使用常數，像：\n123456789const ROWS = 3const COLUMNS = 4X = rand(ROWS, COLUMNS)for i = 1:ROW    for j = 1:COLUMNS        X[i, j]        ...    endend\n如此，以後要更改陣列大小只需要更改常數即可，也讓程式碼的可讀性上升。\n如果你的程式會更改到這些數字，那麼就用變數。\n123456789rows = 3columns = 4X = rand(rows, columns)for i = 1:rows    for j = 1:columns        X[i, j]        ...    endend\n解法二：動態如果陣列的大小不是事先知道的，或是需要動態取得，那麼可以用 size：\n123456for i = 1:size(X, 1)    for j = 1:size(X, 2)        X[i, j]        ...    endend\n如此可以用在未知大小的陣列上。\n","dateCreated":"2019-09-06T14:35:26+08:00","dateModified":"2019-09-06T14:35:26+08:00","datePublished":"2019-09-06T14:35:26+08:00","description":"","headline":"魔術數字","image":[],"mainEntityOfPage":{"@type":"WebPage","@id":"https://yuehhua.github.io/2019/09/06/magic-numbers/"},"publisher":{"@type":"Organization","name":"Yueh-Hua Tu","sameAs":["https://github.com/yuehhua/","https://www.facebook.com/a504082002","https://www.linkedin.com/in/%E5%B2%B3%E8%8F%AF-%E6%9D%9C-6a3995a0/","mailto:a504082002@gmail.com"],"image":"https://www.gravatar.com/avatar/a565749fba4782b717234da670b273fd","logo":{"@type":"ImageObject","url":"https://www.gravatar.com/avatar/a565749fba4782b717234da670b273fd"}},"url":"https://yuehhua.github.io/2019/09/06/magic-numbers/","keywords":"optimization"}</script>
+    <meta name="description" content="很多人在寫程式的時候會有些壞習慣，如： 1234567X = rand(3, 4)for i = 1:3    for j = 1:4        X[i, j]        ...    endend 可能多數人看以上這段程式碼並沒有什麼特別的感覺，但是如果要維護的時候就會發現你突然不太理解這段程式碼。 有人知道這邊的 3 是什麼意思嗎？嗯…或許可以從上下文猜出來是陣列的列數的意思。 一旦要">
+<meta name="keywords" content="optimization">
 <meta property="og:type" content="blog">
-<meta property="og:title" content="Dream Maker">
-<meta property="og:url" content="https://yuehhua.github.io/tags/optimization/index.html">
+<meta property="og:title" content="魔術數字">
+<meta property="og:url" content="https://yuehhua.github.io/2019/09/06/magic-numbers/index.html">
 <meta property="og:site_name" content="Dream Maker">
+<meta property="og:description" content="很多人在寫程式的時候會有些壞習慣，如： 1234567X = rand(3, 4)for i = 1:3    for j = 1:4        X[i, j]        ...    endend 可能多數人看以上這段程式碼並沒有什麼特別的感覺，但是如果要維護的時候就會發現你突然不太理解這段程式碼。 有人知道這邊的 3 是什麼意思嗎？嗯…或許可以從上下文猜出來是陣列的列數的意思。 一旦要">
 <meta property="og:locale" content="zh-tw">
+<meta property="og:updated_time" content="2019-09-06T06:35:26.760Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="Dream Maker">
+<meta name="twitter:title" content="魔術數字">
+<meta name="twitter:description" content="很多人在寫程式的時候會有些壞習慣，如： 1234567X = rand(3, 4)for i = 1:3    for j = 1:4        X[i, j]        ...    endend 可能多數人看以上這段程式碼並沒有什麼特別的感覺，但是如果要維護的時候就會發現你突然不太理解這段程式碼。 有人知道這邊的 3 是什麼意思嗎？嗯…或許可以從上下文猜出來是陣列的列數的意思。 一旦要">
     
     
         
@@ -58,7 +62,7 @@
 
     
 
-<header id="header" data-behavior="2">
+<header id="header" data-behavior="5">
     <i id="btn-open-sidebar" class="fa fa-lg fa-bars"></i>
     <div class="header-title">
         <a class="header-title-link" href="/ ">Dream Maker</a>
@@ -76,7 +80,7 @@
             <!-- Define author's picture -->
 
 
-<nav id="sidebar" data-behavior="2">
+<nav id="sidebar" data-behavior="5">
     <div class="sidebar-container">
         
         
@@ -223,26 +227,22 @@
 </nav>
 
             
-            <div id="main" data-behavior="2"
+            <div id="main" data-behavior="5"
                  class="
                         hasCoverMetaIn
                         ">
                 
-    <section class="postShorten-group main-content-wrap">
+    <article class="post">
+        
+                
+                    <div class="post-header main-content-wrap text-left">
+    
+        <h1 class="post-title">
+            魔術數字
+        </h1>
     
     
-    <article class="postShorten postShorten--thumbnailimg-bottom">
-        <div class="postShorten-wrap">
-            
-            <div class="postShorten-header">
-                <h1 class="postShorten-title">
-                    
-                        <a class="link-unstyled" href="/2019/09/06/magic-numbers/">
-                            魔術數字
-                        </a>
-                    
-                </h1>
-                <div class="postShorten-meta">
+        <div class="post-meta">
     <time datetime="2019-09-06T14:35:26+08:00">
 	
 		    9月 06, 2019
@@ -257,10 +257,13 @@
     
 </div>
 
-            </div>
-            
-                <div class="postShorten-content">
-                    <p>很多人在寫程式的時候會有些壞習慣，如：</p>
+    
+</div>
+
+                        
+                            <div class="post-content markdown">
+                                <div class="main-content-wrap">
+                                    <p>很多人在寫程式的時候會有些壞習慣，如：</p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">X = rand(3, 4)</span><br><span class="line">for i = 1:3</span><br><span class="line">    for j = 1:4</span><br><span class="line">        X[i, j]</span><br><span class="line">        ...</span><br><span class="line">    end</span><br><span class="line">end</span><br></pre></td></tr></table></figure>
 <p>可能多數人看以上這段程式碼並沒有什麼特別的感覺，但是如果要維護的時候就會發現你突然不太理解這段程式碼。</p>
 <p>有人知道這邊的 <code>3</code> 是什麼意思嗎？嗯…或許可以從上下文猜出來是陣列的列數的意思。</p>
@@ -275,149 +278,98 @@
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">for i = 1:size(X, 1)</span><br><span class="line">    for j = 1:size(X, 2)</span><br><span class="line">        X[i, j]</span><br><span class="line">        ...</span><br><span class="line">    end</span><br><span class="line">end</span><br></pre></td></tr></table></figure>
 <p>如此可以用在未知大小的陣列上。</p>
 
-                    
-                        
+                                        
 
+                                </div>
+                            </div>
+                            <div id="post-footer" class="post-footer main-content-wrap">
+                                
+                                    <div class="post-footer-tags">
+                                        <span class="text-color-light text-small">
+                                            標籤
+                                        </span>
+                                        <br/>
+                                        
+    <a class="tag tag--primary tag--small t-link" href="/tags/optimization/">optimization</a>
+
+                                    </div>
+                                    
+                                        
+                                            <div class="post-actions-wrap">
+    <nav>
+        <ul class="post-actions post-action-nav">
+            <li class="post-action">
+                
+                    <a class="post-action-btn btn btn--disabled">
+                
+                    <i class="fa fa-angle-left" aria-hidden="true"></i>
+                    <span class="hide-xs hide-sm text-small icon-ml">上一篇</span>
+                </a>
+            </li>
+            <li class="post-action">
+                
                     
-                    
-                        <p>
-                            <a href="/2019/09/06/magic-numbers/#post-footer" class="postShorten-excerpt_link link">
-                                留言與分享
-                            </a>
-                        </p>
-                    
-                </div>
-            
-        </div>
+                    <a class="post-action-btn btn btn--default tooltip--top" href="/2019/09/06/inbounds-in-julia/" data-tooltip="Julia 的 inbounds" aria-label="下一篇: Julia 的 inbounds">
+                
+                    <span class="hide-xs hide-sm text-small icon-mr">下一篇</span>
+                    <i class="fa fa-angle-right" aria-hidden="true"></i>
+                </a>
+            </li>
+        </ul>
+    </nav>
+    <ul class="post-actions post-action-share">
+        <li class="post-action hide-lg hide-md hide-sm">
+            <a class="post-action-btn btn btn--default btn-open-shareoptions" href="#btn-open-shareoptions" aria-label="Share this post">
+                <i class="fa fa-share-alt" aria-hidden="true"></i>
+            </a>
+        </li>
         
-    </article>
-    
-    
-    <article class="postShorten postShorten--thumbnailimg-bottom">
-        <div class="postShorten-wrap">
             
-            <div class="postShorten-header">
-                <h1 class="postShorten-title">
-                    
-                        <a class="link-unstyled" href="/2019/09/06/inbounds-in-julia/">
-                            Julia 的 inbounds
-                        </a>
-                    
-                </h1>
-                <div class="postShorten-meta">
-    <time datetime="2019-09-06T11:17:13+08:00">
-	
-		    9月 06, 2019
-    	
-    </time>
-    
-        <span>分類 </span>
-        
-    <a class="category-link" href="/categories/My-Style/">My Style</a>, <a class="category-link" href="/categories/My-Style/Computer-Science/">Computer Science</a>, <a class="category-link" href="/categories/My-Style/Computer-Science/Julialang/">Julialang</a>
-
-
-    
-</div>
-
-            </div>
             
-                <div class="postShorten-content">
-                    <p>有在做套件開發的開發者們應該不陌生 <code>@inbounds</code> 這個 macro，在很多現代程式語言中也有。</p>
-<p>在存取陣列時，為了安全性與正確性的考量，避免存取到陣列範圍以外的記憶體位置，很多語言都設置了邊界檢查（bounds check）。</p>
-<p>邊界檢查會檢查所存取的索引值是否在陣列的範圍內，但是這樣的檢查會有些微的效能損耗，尤其在迴圈內的情況更有可能被累積而放大，關於 Julia 的 邊界檢查可以參考官方文件 <a href="https://docs.julialang.org/en/v1/devdocs/boundscheck/index.html" target="_blank" rel="noopener">Bounds checking</a>。</p>
-<p>如果可以確定所存取的索引值一定在範圍內，我們就可以把邊界檢查給移除，以加速陣列的存取。如以下範例：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">A = rand(3, 4)</span><br><span class="line">@inbounds for i = 1:size(A, 1)</span><br><span class="line">    println(A[i, :])</span><br><span class="line">end</span><br></pre></td></tr></table></figure>
-<p>或是</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">A = rand(3, 4)</span><br><span class="line">for i = 1:size(A, 1)</span><br><span class="line">    @inbounds println(A[i, :])</span><br><span class="line">end</span><br></pre></td></tr></table></figure>
-<p><code>@inbounds</code> 會將程式碼區塊中的邊界檢查給移除，可以參考 <code>@inbounds</code> 的<a href="https://docs.julialang.org/en/latest/base/base/#Base.@inbounds" target="_blank" rel="noopener">官方文件</a>。使用時必須注意存取的索引值，否則小則存取的值錯誤，大則可能導致程式崩潰。</p>
-<p>先養成好的索引習慣，再考慮將效能提升，加入 <code>@inbounds</code>。相關的資訊也紀錄在官方的<a href="https://docs.julialang.org/en/latest/manual/performance-tips/#man-performance-annotations-1" target="_blank" rel="noopener">效能建議</a>中。</p>
-
-                    
-                        
-
-                    
-                    
-                        <p>
-                            <a href="/2019/09/06/inbounds-in-julia/#post-footer" class="postShorten-excerpt_link link">
-                                留言與分享
-                            </a>
-                        </p>
-                    
-                </div>
-            
-        </div>
-        
-    </article>
-    
-    
-    <article class="postShorten postShorten--thumbnailimg-bottom">
-        <div class="postShorten-wrap">
-            
-            <div class="postShorten-header">
-                <h1 class="postShorten-title">
-                    
-                        <a class="link-unstyled" href="/2019/09/06/inline-functions-in-julia/">
-                            Julia 中的行內函式（inline functions）
-                        </a>
-                    
-                </h1>
-                <div class="postShorten-meta">
-    <time datetime="2019-09-06T10:34:58+08:00">
-	
-		    9月 06, 2019
-    	
-    </time>
-    
-        <span>分類 </span>
-        
-    <a class="category-link" href="/categories/My-Style/">My Style</a>, <a class="category-link" href="/categories/My-Style/Computer-Science/">Computer Science</a>, <a class="category-link" href="/categories/My-Style/Computer-Science/Julialang/">Julialang</a>
-
-
-    
-</div>
-
-            </div>
-            
-                <div class="postShorten-content">
-                    <p>剛好看到一些跟編譯器相關的議題，所以來紀錄一下。</p>
-<p>在一些語言中會有行內函式（inline function）的設計，使用的話一般會讓程式的效能變好。</p>
-<p>最知名應該是 C 跟 C++ 的 <code>inline</code>。</p>
-<p>Inline function 會在編譯時期直接將函式內容展開到程式碼中，不過展開與否是由編譯器決定的，<code>inline</code> 的標記只是告訴編譯器這個函式可以成為 inline function。</p>
-<p><a href="https://en.wikipedia.org/wiki/Inline_expansion" target="_blank" rel="noopener">Inline expansion</a> 就是編譯時期會由編譯器執行的一個動作，看起來與 macro expansion 相似，但不同的是 macro expansion 是在前處理（preprocessing）時期做的，會直接展開在原始碼裡頭，而 inline expansion 則是在編譯時期做的，會在呼叫位點（call site）直接展開。</p>
-<p>展開後編譯器便可以進行最佳化，執行時，就不需要做函式呼叫，也不會在 function stack 上多配置空間。一般使用在短小的函式上會有好處，在巨大的函式上使用不一定會有好處。然而過多的 inline function 反而可能造成過多的指令快取的消耗，造成反效果。</p>
-<p>在 Julia 中，編譯器會自動偵測哪些函式可以被展開，會自動做 inline expansion。一般短小的函式會自動被編譯器判定要 inline，不過也可以由程式設計師自己指定哪些巨大函式可以 inline，可以參考<a href="https://docs.julialang.org/en/v1.2/base/base/#Base.@inline" target="_blank" rel="noopener">文件]</a>。</p>
-<p>除了 <code>@inline</code> 以外，還有 <code>@noinline</code>。為了避免過多的 inline 反而傷害效能，也可以標記一些短小的函式不要 inline。</p>
-<p>範例：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">@inline function bigfunc(x)</span><br><span class="line">    ...</span><br><span class="line">end</span><br></pre></td></tr></table></figure>
-<p>相關技術：<a href="https://en.wikipedia.org/wiki/Inline_caching" target="_blank" rel="noopener">Inline caching</a></p>
-
-                    
-                        
-
-                    
-                    
-                        <p>
-                            <a href="/2019/09/06/inline-functions-in-julia/#post-footer" class="postShorten-excerpt_link link">
-                                留言與分享
-                            </a>
-                        </p>
-                    
-                </div>
-            
-        </div>
-        
-    </article>
-    
-    <div class="pagination-bar">
-    <ul class="pagination">
+            <li class="post-action hide-xs">
+                <a class="post-action-btn btn btn--default" target="new" href="https://www.facebook.com/sharer/sharer.php?u=https://yuehhua.github.io/2019/09/06/magic-numbers/" title="分享到 Facebook">
+                    <i class="fa fa-facebook-official" aria-hidden="true"></i>
+                </a>
+            </li>
         
         
-        <li class="pagination-number">第 1 頁 共 1 頁</li>
+            
+                <li class="post-action">
+                    <a class="post-action-btn btn btn--default" href="#disqus_thread">
+                        <i class="fa fa-comment-o"></i>
+                    </a>
+                </li>
+            
+        
+        <li class="post-action">
+            
+                <a class="post-action-btn btn btn--default" href="#" aria-label="Back to top">
+            
+                <i class="fa fa-list" aria-hidden="true"></i>
+            </a>
+        </li>
     </ul>
 </div>
 
-</section>
 
+                                                
+                                                    
+                                                        
+                                                            <div id="disqus_thread">
+    <noscript>Please enable JavaScript to view the <a href="//disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+</div>
+                                                                
+                                                                            
+                            </div>
+                            
+                                <script src='https://unpkg.com/mermaid@7.1.2/dist/mermaid.min.js'></script>
+                                <script>
+                                    if (window.mermaid) {
+                                        mermaid.initialize({ theme: 'forest' });
+                                    }
+                                </script>
+                                
+    </article>
 
                 <footer id="footer" class="main-content-wrap">
     <span class="copyrights">
@@ -426,6 +378,81 @@
 </footer>
 
             </div>
+            
+                <div id="bottom-bar" class="post-bottom-bar" data-behavior="5">
+                    <div class="post-actions-wrap">
+    <nav>
+        <ul class="post-actions post-action-nav">
+            <li class="post-action">
+                
+                    <a class="post-action-btn btn btn--disabled">
+                
+                    <i class="fa fa-angle-left" aria-hidden="true"></i>
+                    <span class="hide-xs hide-sm text-small icon-ml">上一篇</span>
+                </a>
+            </li>
+            <li class="post-action">
+                
+                    
+                    <a class="post-action-btn btn btn--default tooltip--top" href="/2019/09/06/inbounds-in-julia/" data-tooltip="Julia 的 inbounds" aria-label="下一篇: Julia 的 inbounds">
+                
+                    <span class="hide-xs hide-sm text-small icon-mr">下一篇</span>
+                    <i class="fa fa-angle-right" aria-hidden="true"></i>
+                </a>
+            </li>
+        </ul>
+    </nav>
+    <ul class="post-actions post-action-share">
+        <li class="post-action hide-lg hide-md hide-sm">
+            <a class="post-action-btn btn btn--default btn-open-shareoptions" href="#btn-open-shareoptions" aria-label="Share this post">
+                <i class="fa fa-share-alt" aria-hidden="true"></i>
+            </a>
+        </li>
+        
+            
+            
+            <li class="post-action hide-xs">
+                <a class="post-action-btn btn btn--default" target="new" href="https://www.facebook.com/sharer/sharer.php?u=https://yuehhua.github.io/2019/09/06/magic-numbers/" title="分享到 Facebook">
+                    <i class="fa fa-facebook-official" aria-hidden="true"></i>
+                </a>
+            </li>
+        
+        
+            
+                <li class="post-action">
+                    <a class="post-action-btn btn btn--default" href="#disqus_thread">
+                        <i class="fa fa-comment-o"></i>
+                    </a>
+                </li>
+            
+        
+        <li class="post-action">
+            
+                <a class="post-action-btn btn btn--default" href="#" aria-label="Back to top">
+            
+                <i class="fa fa-list" aria-hidden="true"></i>
+            </a>
+        </li>
+    </ul>
+</div>
+
+
+                </div>
+                <div id="share-options-bar" class="share-options-bar" data-behavior="5">
+    <i id="btn-close-shareoptions" class="fa fa-close"></i>
+    <ul class="share-options">
+        
+            
+            
+            <li class="share-option">
+                <a class="share-option-btn" target="new" href="https://www.facebook.com/sharer/sharer.php?u=https://yuehhua.github.io/2019/09/06/magic-numbers/">
+                    <i class="fa fa-facebook-official" aria-hidden="true"></i><span>分享到 Facebook</span>
+                </a>
+            </li>
+        
+    </ul>
+</div>
+
             
         </div>
         
@@ -466,6 +493,25 @@
         <!--SCRIPTS-->
 <script src="/assets/js/script-xzfezjobyekpxrjktw5tz6muvzqfsbmo5n6atk3p5om9ulfptldi3p7cyqd8.min.js"></script>
 <!--SCRIPTS END-->
+
+
+<script>
+    var disqus_config = function () {
+        this.page.url = 'https://yuehhua.github.io/2019/09/06/magic-numbers/';
+                 
+            this.page.identifier = '2019/09/06/magic-numbers/';
+                 
+             };
+    (function () {
+        var d = document, s = d.createElement('script');
+        var disqus_shortname = 'dream-maker';
+        s.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+
+        s.setAttribute('data-timestamp', +new Date());
+        (d.head || d.body).appendChild(s);
+    })();
+</script>
+
 
 
     <script type="text/x-mathjax-config">
