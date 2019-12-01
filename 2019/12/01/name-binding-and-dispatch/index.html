@@ -6,7 +6,7 @@
     <!-- hexo-inject:begin --><!-- hexo-inject:end --><meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="generator" content="Dream Maker">
-    <title>魔術數字 - Dream Maker</title>
+    <title>Name binding 與 dispatch - Dream Maker</title>
     <meta name="author" content="Yueh-Hua Tu">
     
         <meta name="keywords" content="machine learning,deep learning,topology,">
@@ -15,19 +15,19 @@
     
         <link rel="alternate" type="application/atom+xml" title="RSS" href="/atom.xml">
     
-    <script type="application/ld+json">{"@context":"http://schema.org","@type":"BlogPosting","author":{"@type":"Person","name":"Yueh-Hua Tu","sameAs":["https://github.com/yuehhua/","https://www.facebook.com/a504082002","https://www.linkedin.com/in/%E5%B2%B3%E8%8F%AF-%E6%9D%9C-6a3995a0/","mailto:a504082002@gmail.com"],"image":"https://www.gravatar.com/avatar/a565749fba4782b717234da670b273fd"},"articleBody":"很多人在寫程式的時候會有些壞習慣，如：\n1234567X = rand(3, 4)for i = 1:3    for j = 1:4        X[i, j]        ...    endend\n可能多數人看以上這段程式碼並沒有什麼特別的感覺，但是如果要維護的時候就會發現你突然不太理解這段程式碼。\n有人知道這邊的 3 是什麼意思嗎？嗯…或許可以從上下文猜出來是陣列的列數的意思。\n一旦要更改陣列的大小的時候勢必就要更改這些數字，甚至這些數字散落在程式碼的各個角落就會更加頭痛。\n這些數字稱為魔術數字（magic numbers），因為沒有人知道他的意義是什麼！\n解法一：使用常數如果這些數字很常被使用到，而且不會在程式中被變更，請使用常數，像：\n123456789const ROWS = 3const COLUMNS = 4X = rand(ROWS, COLUMNS)for i = 1:ROW    for j = 1:COLUMNS        X[i, j]        ...    endend\n如此，以後要更改陣列大小只需要更改常數即可，也讓程式碼的可讀性上升。\n如果你的程式會更改到這些數字，那麼就用變數。\n123456789rows = 3columns = 4X = rand(rows, columns)for i = 1:rows    for j = 1:columns        X[i, j]        ...    endend\n解法二：動態如果陣列的大小不是事先知道的，或是需要動態取得，那麼可以用 size：\n123456for i = 1:size(X, 1)    for j = 1:size(X, 2)        X[i, j]        ...    endend\n如此可以用在未知大小的陣列上。\n","dateCreated":"2019-09-06T14:35:26+08:00","dateModified":"2019-09-06T14:35:26+08:00","datePublished":"2019-09-06T14:35:26+08:00","description":"","headline":"魔術數字","image":[],"mainEntityOfPage":{"@type":"WebPage","@id":"https://yuehhua.github.io/2019/09/06/magic-numbers/"},"publisher":{"@type":"Organization","name":"Yueh-Hua Tu","sameAs":["https://github.com/yuehhua/","https://www.facebook.com/a504082002","https://www.linkedin.com/in/%E5%B2%B3%E8%8F%AF-%E6%9D%9C-6a3995a0/","mailto:a504082002@gmail.com"],"image":"https://www.gravatar.com/avatar/a565749fba4782b717234da670b273fd","logo":{"@type":"ImageObject","url":"https://www.gravatar.com/avatar/a565749fba4782b717234da670b273fd"}},"url":"https://yuehhua.github.io/2019/09/06/magic-numbers/","keywords":"optimization"}</script>
-    <meta name="description" content="很多人在寫程式的時候會有些壞習慣，如： 1234567X = rand(3, 4)for i = 1:3    for j = 1:4        X[i, j]        ...    endend 可能多數人看以上這段程式碼並沒有什麼特別的感覺，但是如果要維護的時候就會發現你突然不太理解這段程式碼。 有人知道這邊的 3 是什麼意思嗎？嗯…或許可以從上下文猜出來是陣列的列數的意思。 一旦要">
-<meta name="keywords" content="optimization">
+    <script type="application/ld+json">{"@context":"http://schema.org","@type":"BlogPosting","author":{"@type":"Person","name":"Yueh-Hua Tu","sameAs":["https://github.com/yuehhua/","https://www.facebook.com/a504082002","https://www.linkedin.com/in/%E5%B2%B3%E8%8F%AF-%E6%9D%9C-6a3995a0/","mailto:a504082002@gmail.com"],"image":"https://www.gravatar.com/avatar/a565749fba4782b717234da670b273fd"},"articleBody":"Name binding 是一個將資料或是程式碼綁定（binding）到識別符（identifiers）的一個過程。一個識別符綁定到一個物件代表這個識別符會參考（reference）某個物件。\nName binding 在程式語言中式相當重要而複雜的一個議題，而它牽涉到作用域（scope）的問題，物件存在於程式碼的位置（語意）及物件的生命周期（時間）。\n\n一般而言，當物件被去除綁定，那物件將會被垃圾回收（garbage collection）機制給處理掉。\nName binding 依據時間分為：\n\nStatic binding (or early binding)：在編譯時期（compile time）進行綁定\nDynamic binding (or late binding)：在執行時期（runtime）進行綁定\n\nStatic binding 的一個經典例子是 C 的函式呼叫，它在編譯時期就將函式內容綁定到識別符上，而無法在執行時期變更。\nDynamic binding 的一個相對應的例子則是 C++ 的虛擬方法呼叫，由於多型的機制，物件的型別無法在編譯時期得知，所以綁定會在執行時期處理。\n在執行時期，如果識別符變更參考到其他的物件，我們稱為重新綁定（rebinding）。如果是變更識別符指向的物件本身，那麼我們稱為突變（mutation）。\n在這邊提到多型的機制，就不得不去提 dispatch 的機制。一般在物件導向語言中以 dynamic dispatch 為主，表示在多型機制下，方法的選定是由第一個參數的型別來決定。\nDispatch 是個選擇的問題，而 binding 是個綁定的問題。選擇一定要發生在綁定後。\nDynamic dispatch 可以是 static binding 也可以是 dynamic binding，但是 dynamic binding 就只能在執行時間做 dispatch 了。\nDynamic dispatch 一般指 single dispatch，也就是由第一個參數的型別來決定要呼叫哪一個方法。相對也有 multiple dispatch，就會利用所有的參數型的排列組合來決定要呼叫哪一個方法。\n","dateCreated":"2019-12-01T10:49:40+08:00","dateModified":"2019-12-01T10:49:40+08:00","datePublished":"2019-12-01T10:49:40+08:00","description":"Name binding 是一個將資料或是程式碼綁定（binding）到識別符（identifiers）的一個過程。一個識別符綁定到一個物件代表這個識別符會參考（reference）某個物件。\nName binding 在程式語言中式相當重要而複雜的一個議題，而它牽涉到作用域（scope）的問題，物件存在於程式碼的位置（語意）及物件的生命周期（時間）。","headline":"Name binding 與 dispatch","image":[],"mainEntityOfPage":{"@type":"WebPage","@id":"https://yuehhua.github.io/2019/12/01/name-binding-and-dispatch/"},"publisher":{"@type":"Organization","name":"Yueh-Hua Tu","sameAs":["https://github.com/yuehhua/","https://www.facebook.com/a504082002","https://www.linkedin.com/in/%E5%B2%B3%E8%8F%AF-%E6%9D%9C-6a3995a0/","mailto:a504082002@gmail.com"],"image":"https://www.gravatar.com/avatar/a565749fba4782b717234da670b273fd","logo":{"@type":"ImageObject","url":"https://www.gravatar.com/avatar/a565749fba4782b717234da670b273fd"}},"url":"https://yuehhua.github.io/2019/12/01/name-binding-and-dispatch/"}</script>
+    <meta name="description" content="Name binding 是一個將資料或是程式碼綁定（binding）到識別符（identifiers）的一個過程。一個識別符綁定到一個物件代表這個識別符會參考（reference）某個物件。 Name binding 在程式語言中式相當重要而複雜的一個議題，而它牽涉到作用域（scope）的問題，物件存在於程式碼的位置（語意）及物件的生命周期（時間）。">
+<meta name="keywords" content="machine learning,deep learning,topology">
 <meta property="og:type" content="blog">
-<meta property="og:title" content="魔術數字">
-<meta property="og:url" content="https://yuehhua.github.io/2019/09/06/magic-numbers/index.html">
+<meta property="og:title" content="Name binding 與 dispatch">
+<meta property="og:url" content="https://yuehhua.github.io/2019/12/01/name-binding-and-dispatch/index.html">
 <meta property="og:site_name" content="Dream Maker">
-<meta property="og:description" content="很多人在寫程式的時候會有些壞習慣，如： 1234567X = rand(3, 4)for i = 1:3    for j = 1:4        X[i, j]        ...    endend 可能多數人看以上這段程式碼並沒有什麼特別的感覺，但是如果要維護的時候就會發現你突然不太理解這段程式碼。 有人知道這邊的 3 是什麼意思嗎？嗯…或許可以從上下文猜出來是陣列的列數的意思。 一旦要">
+<meta property="og:description" content="Name binding 是一個將資料或是程式碼綁定（binding）到識別符（identifiers）的一個過程。一個識別符綁定到一個物件代表這個識別符會參考（reference）某個物件。 Name binding 在程式語言中式相當重要而複雜的一個議題，而它牽涉到作用域（scope）的問題，物件存在於程式碼的位置（語意）及物件的生命周期（時間）。">
 <meta property="og:locale" content="zh-tw">
-<meta property="og:updated_time" content="2019-09-06T06:35:26.760Z">
+<meta property="og:updated_time" content="2019-12-01T02:49:40.195Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="魔術數字">
-<meta name="twitter:description" content="很多人在寫程式的時候會有些壞習慣，如： 1234567X = rand(3, 4)for i = 1:3    for j = 1:4        X[i, j]        ...    endend 可能多數人看以上這段程式碼並沒有什麼特別的感覺，但是如果要維護的時候就會發現你突然不太理解這段程式碼。 有人知道這邊的 3 是什麼意思嗎？嗯…或許可以從上下文猜出來是陣列的列數的意思。 一旦要">
+<meta name="twitter:title" content="Name binding 與 dispatch">
+<meta name="twitter:description" content="Name binding 是一個將資料或是程式碼綁定（binding）到識別符（identifiers）的一個過程。一個識別符綁定到一個物件代表這個識別符會參考（reference）某個物件。 Name binding 在程式語言中式相當重要而複雜的一個議題，而它牽涉到作用域（scope）的問題，物件存在於程式碼的位置（語意）及物件的生命周期（時間）。">
     
     
         
@@ -238,20 +238,20 @@
                     <div class="post-header main-content-wrap text-left">
     
         <h1 class="post-title">
-            魔術數字
+            Name binding 與 dispatch
         </h1>
     
     
         <div class="post-meta">
-    <time datetime="2019-09-06T14:35:26+08:00">
+    <time datetime="2019-12-01T10:49:40+08:00">
 	
-		    9月 06, 2019
+		    12月 01, 2019
     	
     </time>
     
         <span>分類 </span>
         
-    <a class="category-link" href="/categories/My-Style/">My Style</a>, <a class="category-link" href="/categories/My-Style/Computer-Science/">Computer Science</a>, <a class="category-link" href="/categories/My-Style/Computer-Science/Julialang/">Julialang</a>
+    <a class="category-link" href="/categories/My-Style/">My Style</a>, <a class="category-link" href="/categories/My-Style/Computer-Science/">Computer Science</a>, <a class="category-link" href="/categories/My-Style/Computer-Science/Compiler/">Compiler</a>
 
 
     
@@ -263,20 +263,22 @@
                         
                             <div class="post-content markdown">
                                 <div class="main-content-wrap">
-                                    <p>很多人在寫程式的時候會有些壞習慣，如：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">X = rand(3, 4)</span><br><span class="line">for i = 1:3</span><br><span class="line">    for j = 1:4</span><br><span class="line">        X[i, j]</span><br><span class="line">        ...</span><br><span class="line">    end</span><br><span class="line">end</span><br></pre></td></tr></table></figure>
-<p>可能多數人看以上這段程式碼並沒有什麼特別的感覺，但是如果要維護的時候就會發現你突然不太理解這段程式碼。</p>
-<p>有人知道這邊的 <code>3</code> 是什麼意思嗎？嗯…或許可以從上下文猜出來是陣列的列數的意思。</p>
-<p>一旦要更改陣列的大小的時候勢必就要更改這些數字，甚至這些數字散落在程式碼的各個角落就會更加頭痛。</p>
-<p>這些數字稱為魔術數字（magic numbers），因為沒有人知道他的意義是什麼！</p>
-<h2 id="解法一：使用常數"><a href="#解法一：使用常數" class="headerlink" title="解法一：使用常數"></a>解法一：使用常數</h2><p>如果這些數字很常被使用到，而且不會在程式中被變更，請使用常數，像：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">const ROWS = 3</span><br><span class="line">const COLUMNS = 4</span><br><span class="line">X = rand(ROWS, COLUMNS)</span><br><span class="line">for i = 1:ROW</span><br><span class="line">    for j = 1:COLUMNS</span><br><span class="line">        X[i, j]</span><br><span class="line">        ...</span><br><span class="line">    end</span><br><span class="line">end</span><br></pre></td></tr></table></figure>
-<p>如此，以後要更改陣列大小只需要更改常數即可，也讓程式碼的可讀性上升。</p>
-<p>如果你的程式會更改到這些數字，那麼就用變數。</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">rows = 3</span><br><span class="line">columns = 4</span><br><span class="line">X = rand(rows, columns)</span><br><span class="line">for i = 1:rows</span><br><span class="line">    for j = 1:columns</span><br><span class="line">        X[i, j]</span><br><span class="line">        ...</span><br><span class="line">    end</span><br><span class="line">end</span><br></pre></td></tr></table></figure>
-<h2 id="解法二：動態"><a href="#解法二：動態" class="headerlink" title="解法二：動態"></a>解法二：動態</h2><p>如果陣列的大小不是事先知道的，或是需要動態取得，那麼可以用 <code>size</code>：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">for i = 1:size(X, 1)</span><br><span class="line">    for j = 1:size(X, 2)</span><br><span class="line">        X[i, j]</span><br><span class="line">        ...</span><br><span class="line">    end</span><br><span class="line">end</span><br></pre></td></tr></table></figure>
-<p>如此可以用在未知大小的陣列上。</p>
+                                    <p>Name binding 是一個將資料或是程式碼綁定（binding）到識別符（identifiers）的一個過程。一個識別符綁定到一個物件代表這個識別符會參考（reference）某個物件。</p>
+<p>Name binding 在程式語言中式相當重要而複雜的一個議題，而它牽涉到作用域（scope）的問題，物件存在於程式碼的位置（語意）及物件的生命周期（時間）。</p>
+<a id="more"></a>
+<p>一般而言，當物件被去除綁定，那物件將會被垃圾回收（garbage collection）機制給處理掉。</p>
+<p>Name binding 依據時間分為：</p>
+<ul>
+<li>Static binding (or early binding)：在編譯時期（compile time）進行綁定</li>
+<li>Dynamic binding (or late binding)：在執行時期（runtime）進行綁定</li>
+</ul>
+<p>Static binding 的一個經典例子是 C 的函式呼叫，它在編譯時期就將函式內容綁定到識別符上，而無法在執行時期變更。</p>
+<p>Dynamic binding 的一個相對應的例子則是 C++ 的虛擬方法呼叫，由於多型的機制，物件的型別無法在編譯時期得知，所以綁定會在執行時期處理。</p>
+<p>在執行時期，如果識別符變更參考到其他的物件，我們稱為重新綁定（rebinding）。如果是變更識別符指向的物件本身，那麼我們稱為突變（mutation）。</p>
+<p>在這邊提到多型的機制，就不得不去提 dispatch 的機制。一般在物件導向語言中以 dynamic dispatch 為主，表示在多型機制下，方法的選定是由第一個參數的型別來決定。</p>
+<p>Dispatch 是個選擇的問題，而 binding 是個綁定的問題。選擇一定要發生在綁定後。</p>
+<p>Dynamic dispatch 可以是 static binding 也可以是 dynamic binding，但是 dynamic binding 就只能在執行時間做 dispatch 了。</p>
+<p>Dynamic dispatch 一般指 single dispatch，也就是由第一個參數的型別來決定要呼叫哪一個方法。相對也有 multiple dispatch，就會利用所有的參數型的排列組合來決定要呼叫哪一個方法。</p>
 
                                         
 
@@ -284,24 +286,13 @@
                             </div>
                             <div id="post-footer" class="post-footer main-content-wrap">
                                 
-                                    <div class="post-footer-tags">
-                                        <span class="text-color-light text-small">
-                                            標籤
-                                        </span>
-                                        <br/>
-                                        
-    <a class="tag tag--primary tag--small t-link" href="/tags/optimization/">optimization</a>
-
-                                    </div>
-                                    
                                         
                                             <div class="post-actions-wrap">
     <nav>
         <ul class="post-actions post-action-nav">
             <li class="post-action">
                 
-                    
-                    <a class="post-action-btn btn btn--default tooltip--top" href="/2019/12/01/name-binding-and-dispatch/" data-tooltip="Name binding 與 dispatch" aria-label="上一篇: Name binding 與 dispatch">
+                    <a class="post-action-btn btn btn--disabled">
                 
                     <i class="fa fa-angle-left" aria-hidden="true"></i>
                     <span class="hide-xs hide-sm text-small icon-ml">上一篇</span>
@@ -310,7 +301,7 @@
             <li class="post-action">
                 
                     
-                    <a class="post-action-btn btn btn--default tooltip--top" href="/2019/09/06/inbounds-in-julia/" data-tooltip="Julia 的 inbounds" aria-label="下一篇: Julia 的 inbounds">
+                    <a class="post-action-btn btn btn--default tooltip--top" href="/2019/09/06/magic-numbers/" data-tooltip="魔術數字" aria-label="下一篇: 魔術數字">
                 
                     <span class="hide-xs hide-sm text-small icon-mr">下一篇</span>
                     <i class="fa fa-angle-right" aria-hidden="true"></i>
@@ -328,7 +319,7 @@
             
             
             <li class="post-action hide-xs">
-                <a class="post-action-btn btn btn--default" target="new" href="https://www.facebook.com/sharer/sharer.php?u=https://yuehhua.github.io/2019/09/06/magic-numbers/" title="分享到 Facebook">
+                <a class="post-action-btn btn btn--default" target="new" href="https://www.facebook.com/sharer/sharer.php?u=https://yuehhua.github.io/2019/12/01/name-binding-and-dispatch/" title="分享到 Facebook">
                     <i class="fa fa-facebook-official" aria-hidden="true"></i>
                 </a>
             </li>
@@ -386,8 +377,7 @@
         <ul class="post-actions post-action-nav">
             <li class="post-action">
                 
-                    
-                    <a class="post-action-btn btn btn--default tooltip--top" href="/2019/12/01/name-binding-and-dispatch/" data-tooltip="Name binding 與 dispatch" aria-label="上一篇: Name binding 與 dispatch">
+                    <a class="post-action-btn btn btn--disabled">
                 
                     <i class="fa fa-angle-left" aria-hidden="true"></i>
                     <span class="hide-xs hide-sm text-small icon-ml">上一篇</span>
@@ -396,7 +386,7 @@
             <li class="post-action">
                 
                     
-                    <a class="post-action-btn btn btn--default tooltip--top" href="/2019/09/06/inbounds-in-julia/" data-tooltip="Julia 的 inbounds" aria-label="下一篇: Julia 的 inbounds">
+                    <a class="post-action-btn btn btn--default tooltip--top" href="/2019/09/06/magic-numbers/" data-tooltip="魔術數字" aria-label="下一篇: 魔術數字">
                 
                     <span class="hide-xs hide-sm text-small icon-mr">下一篇</span>
                     <i class="fa fa-angle-right" aria-hidden="true"></i>
@@ -414,7 +404,7 @@
             
             
             <li class="post-action hide-xs">
-                <a class="post-action-btn btn btn--default" target="new" href="https://www.facebook.com/sharer/sharer.php?u=https://yuehhua.github.io/2019/09/06/magic-numbers/" title="分享到 Facebook">
+                <a class="post-action-btn btn btn--default" target="new" href="https://www.facebook.com/sharer/sharer.php?u=https://yuehhua.github.io/2019/12/01/name-binding-and-dispatch/" title="分享到 Facebook">
                     <i class="fa fa-facebook-official" aria-hidden="true"></i>
                 </a>
             </li>
@@ -447,7 +437,7 @@
             
             
             <li class="share-option">
-                <a class="share-option-btn" target="new" href="https://www.facebook.com/sharer/sharer.php?u=https://yuehhua.github.io/2019/09/06/magic-numbers/">
+                <a class="share-option-btn" target="new" href="https://www.facebook.com/sharer/sharer.php?u=https://yuehhua.github.io/2019/12/01/name-binding-and-dispatch/">
                     <i class="fa fa-facebook-official" aria-hidden="true"></i><span>分享到 Facebook</span>
                 </a>
             </li>
@@ -499,9 +489,9 @@
 
 <script>
     var disqus_config = function () {
-        this.page.url = 'https://yuehhua.github.io/2019/09/06/magic-numbers/';
+        this.page.url = 'https://yuehhua.github.io/2019/12/01/name-binding-and-dispatch/';
                  
-            this.page.identifier = '2019/09/06/magic-numbers/';
+            this.page.identifier = '2019/12/01/name-binding-and-dispatch/';
                  
              };
     (function () {

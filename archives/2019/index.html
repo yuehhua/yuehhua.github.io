@@ -231,6 +231,50 @@
     <section class="postShorten-group main-content-wrap">
     
     
+    <article class="postShorten postShorten--thumbnailimg-right">
+        <div class="postShorten-wrap">
+            
+            <div class="postShorten-header">
+                <h1 class="postShorten-title">
+                    
+                        <a class="link-unstyled" href="/2019/12/01/name-binding-and-dispatch/">
+                            Name binding 與 dispatch
+                        </a>
+                    
+                </h1>
+                <div class="postShorten-meta">
+    <time datetime="2019-12-01T10:49:40+08:00">
+	
+		    12月 01, 2019
+    	
+    </time>
+    
+        <span>分類 </span>
+        
+    <a class="category-link" href="/categories/My-Style/">My Style</a>, <a class="category-link" href="/categories/My-Style/Computer-Science/">Computer Science</a>, <a class="category-link" href="/categories/My-Style/Computer-Science/Compiler/">Compiler</a>
+
+
+    
+</div>
+
+            </div>
+            
+                <div class="postShorten-excerpt">
+                    <p>Name binding 是一個將資料或是程式碼綁定（binding）到識別符（identifiers）的一個過程。一個識別符綁定到一個物件代表這個識別符會參考（reference）某個物件。</p>
+<p>Name binding 在程式語言中式相當重要而複雜的一個議題，而它牽涉到作用域（scope）的問題，物件存在於程式碼的位置（語意）及物件的生命周期（時間）。</p>
+                    
+                        <a href="/2019/12/01/name-binding-and-dispatch/" class="postShorten-excerpt_link link">
+                            繼續閱讀
+                        </a>
+                        
+                    
+                </div>
+            
+        </div>
+        
+    </article>
+    
+    
     <article class="postShorten postShorten--thumbnailimg-bottom">
         <div class="postShorten-wrap">
             
@@ -796,85 +840,6 @@
         
     </article>
     
-    
-    <article class="postShorten postShorten--thumbnailimg-bottom">
-        <div class="postShorten-wrap">
-            
-            <div class="postShorten-header">
-                <h1 class="postShorten-title">
-                    
-                        <a class="link-unstyled" href="/2019/02/22/performance-analysis-of-value-in-parametric-type/">
-                            在參數化型別中使用值的效能分析
-                        </a>
-                    
-                </h1>
-                <div class="postShorten-meta">
-    <time datetime="2019-02-22T12:24:37+08:00">
-	
-		    2月 22, 2019
-    	
-    </time>
-    
-        <span>分類 </span>
-        
-    <a class="category-link" href="/categories/My-Style/">My Style</a>, <a class="category-link" href="/categories/My-Style/Computer-Science/">Computer Science</a>, <a class="category-link" href="/categories/My-Style/Computer-Science/Julialang/">Julialang</a>
-
-
-    
-</div>
-
-            </div>
-            
-                <div class="postShorten-content">
-                    <p>我在使用的時候有注意到<em>在參數化型別中使用值</em>的方式與<em>傳統封裝</em>的方式有效能上的差異。</p>
-<p>所以我就做了一些測試。</p>
-<p>在參數化型別中使用值：</p>
-<figure class="highlight julia"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">struct</span> A&#123;T&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">end</span></span><br></pre></td></tr></table></figure>
-<p>傳統型別封裝：</p>
-<figure class="highlight julia"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">struct</span> B</span><br><span class="line">    x::<span class="built_in">Int64</span></span><br><span class="line"><span class="keyword">end</span></span><br></pre></td></tr></table></figure>
-<p><em>全文出現的程式碼為實際測試程式碼</em></p>
-<p>因為 Julia 有提供好用的 <code>@code_llvm</code> 及 <code>@code_native</code> 來觀察一行程式碼實際被轉換成 LLVM 或是組合語言的時候會產生多少行的程式碼，藉此我們可以用低階程式碼來評估是否有效率。程式碼的行數愈少是越有效率的。</p>
-<h2 id="建立"><a href="#建立" class="headerlink" title="建立"></a>建立</h2><p>我們來測試一個物件被建立需要多少行的程式碼。</p>
-<h3 id="A-LLVM"><a href="#A-LLVM" class="headerlink" title="A - LLVM"></a>A - LLVM</h3><figure class="highlight julia"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@code_llvm</span> A&#123;<span class="number">5</span>&#125;()</span><br></pre></td></tr></table></figure>
-<figure class="highlight llvm"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">;  @ REPL[1]:3 within `Type'</span></span><br><span class="line"><span class="comment">define nonnull %jl_value_t addrspace(10)* @japi1_Type_12238(%jl_value_t addrspace(10)*, %jl_value_t addrspace(10)**, i32) #0 &#123;</span></span><br><span class="line"><span class="comment">top:</span></span><br><span class="line"><span class="comment">  %3 = alloca %jl_value_t addrspace(10)**, align 8</span></span><br><span class="line"><span class="comment">  store volatile %jl_value_t addrspace(10)** %1, %jl_value_t addrspace(10)*** %3, align 8</span></span><br><span class="line"><span class="comment">  ret %jl_value_t addrspace(10)* addrspacecast (%jl_value_t* inttoptr (i64 140407726014496 to %jl_value_t*) to %jl_value_t addrspace(10)*)</span></span><br><span class="line"><span class="comment">&#125;</span></span><br></pre></td></tr></table></figure>
-<h3 id="B-LLVM"><a href="#B-LLVM" class="headerlink" title="B - LLVM"></a>B - LLVM</h3><figure class="highlight julia"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@code_llvm</span> B(<span class="number">5</span>)</span><br></pre></td></tr></table></figure>
-<figure class="highlight llvm"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">;  @ REPL[1]:2 within `Type'</span></span><br><span class="line"><span class="comment">define &#123; i64 &#125; @julia_Type_12221(%jl_value_t addrspace(10)*, i64) &#123;</span></span><br><span class="line"><span class="comment">top:</span></span><br><span class="line"><span class="comment">  %.fca.0.insert = insertvalue &#123; i64 &#125; undef, i64 %1, 0</span></span><br><span class="line"><span class="comment">  ret &#123; i64 &#125; %.fca.0.insert</span></span><br><span class="line"><span class="comment">&#125;</span></span><br></pre></td></tr></table></figure>
-<h3 id="A-Assembly"><a href="#A-Assembly" class="headerlink" title="A - Assembly"></a>A - Assembly</h3><figure class="highlight julia"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@code_native</span> A&#123;<span class="number">5</span>&#125;()</span><br></pre></td></tr></table></figure>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">; ┌ @ REPL[1]:3 within `Type&apos;</span><br><span class="line">	movq	%rsi, -8(%rsp)</span><br><span class="line">	movabsq	$140407726014496, %rax  # imm = 0x7FB338A20020</span><br><span class="line">	retq</span><br><span class="line">; └</span><br></pre></td></tr></table></figure>
-<h3 id="B-Assembly"><a href="#B-Assembly" class="headerlink" title="B - Assembly"></a>B - Assembly</h3><figure class="highlight julia"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@code_native</span> B(<span class="number">5</span>)</span><br></pre></td></tr></table></figure>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">; ┌ @ REPL[1]:2 within `Type&apos;</span><br><span class="line">	movq	%rsi, %rax</span><br><span class="line">	retq</span><br><span class="line">	nopw	%cs:(%rax,%rax)</span><br><span class="line">; └</span><br></pre></td></tr></table></figure>
-<h2 id="取值"><a href="#取值" class="headerlink" title="取值"></a>取值</h2><p>接著測試從物件當中取值出來的效能。</p>
-<p>定義取值的方法：</p>
-<figure class="highlight julia"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">get_value(::A&#123;T&#125;) <span class="keyword">where</span> &#123;T&#125; = T</span><br><span class="line">get_value(b::B) = b.x</span><br></pre></td></tr></table></figure>
-<p>事先建立好物件：</p>
-<figure class="highlight julia"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">a = A&#123;<span class="number">5</span>&#125;()</span><br><span class="line">b = B(<span class="number">5</span>)</span><br></pre></td></tr></table></figure>
-<h3 id="A-LLVM-1"><a href="#A-LLVM-1" class="headerlink" title="A - LLVM"></a>A - LLVM</h3><figure class="highlight julia"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@code_llvm</span> get_value(a)</span><br></pre></td></tr></table></figure>
-<figure class="highlight llvm"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">;  @ REPL[8]:1 within `get_value'</span></span><br><span class="line"><span class="comment">define i64 @julia_get_value_12274() &#123;</span></span><br><span class="line"><span class="comment">top:</span></span><br><span class="line"><span class="comment">  ret i64 5</span></span><br><span class="line"><span class="comment">&#125;</span></span><br></pre></td></tr></table></figure>
-<h3 id="B-LLVM-1"><a href="#B-LLVM-1" class="headerlink" title="B - LLVM"></a>B - LLVM</h3><figure class="highlight julia"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@code_llvm</span> get_value(b)</span><br></pre></td></tr></table></figure>
-<figure class="highlight llvm"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">;  @ REPL[5]:1 within `get_value'</span></span><br><span class="line"><span class="comment">define i64 @julia_get_value_12630(&#123; i64 &#125; addrspace(11)* nocapture nonnull readonly dereferenceable(8)) &#123;</span></span><br><span class="line"><span class="comment">top:</span></span><br><span class="line"><span class="comment">; ┌ @ sysimg.jl:18 within `getproperty'</span></span><br><span class="line"><span class="comment">   %1 = getelementptr inbounds &#123; i64 &#125;, &#123; i64 &#125; addrspace(11)* %0, i64 0, i32 0</span></span><br><span class="line"><span class="comment">; └</span></span><br><span class="line"><span class="comment">  %2 = load i64, i64 addrspace(11)* %1, align 8</span></span><br><span class="line"><span class="comment">  ret i64 %2</span></span><br><span class="line"><span class="comment">&#125;</span></span><br></pre></td></tr></table></figure>
-<h3 id="A-Assembly-1"><a href="#A-Assembly-1" class="headerlink" title="A - Assembly"></a>A - Assembly</h3><figure class="highlight julia"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@code_native</span> get_value(a)</span><br></pre></td></tr></table></figure>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">; ┌ @ REPL[8]:1 within `get_value&apos;</span><br><span class="line">	movl	$5, %eax</span><br><span class="line">	retq</span><br><span class="line">	nopw	%cs:(%rax,%rax)</span><br><span class="line">; └</span><br></pre></td></tr></table></figure>
-<h3 id="B-Assembly-1"><a href="#B-Assembly-1" class="headerlink" title="B - Assembly"></a>B - Assembly</h3><figure class="highlight julia"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@code_native</span> get_value(b)</span><br></pre></td></tr></table></figure>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">; ┌ @ REPL[5]:1 within `get_value&apos;</span><br><span class="line">	movq	(%rdi), %rax</span><br><span class="line">	retq</span><br><span class="line">	nopw	%cs:(%rax,%rax)</span><br><span class="line">; └</span><br></pre></td></tr></table></figure>
-<p>給大家參考。</p>
-
-                    
-                        
-
-                    
-                    
-                        <p>
-                            <a href="/2019/02/22/performance-analysis-of-value-in-parametric-type/#post-footer" class="postShorten-excerpt_link link">
-                                留言與分享
-                            </a>
-                        </p>
-                    
-                </div>
-            
-        </div>
-        
-    </article>
-    
     <div class="pagination-bar">
     <ul class="pagination">
         
@@ -886,7 +851,7 @@
             </a>
           </li>
         
-        <li class="pagination-number">第 1 頁 共 2 頁</li>
+        <li class="pagination-number">第 1 頁 共 3 頁</li>
     </ul>
 </div>
 
