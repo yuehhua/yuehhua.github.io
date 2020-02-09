@@ -231,6 +231,50 @@
     <section class="postShorten-group main-content-wrap">
     
     
+    <article class="postShorten postShorten--thumbnailimg-right">
+        <div class="postShorten-wrap">
+            
+            <div class="postShorten-header">
+                <h1 class="postShorten-title">
+                    
+                        <a class="link-unstyled" href="/2020/02/09/relationship-between-variance-and-pairwise-distance/">
+                            Relationship between variance and pairwise distance
+                        </a>
+                    
+                </h1>
+                <div class="postShorten-meta">
+    <time datetime="2020-02-09T22:28:52+08:00">
+	
+		    2月 09, 2020
+    	
+    </time>
+    
+        <span>分類 </span>
+        
+    <a class="category-link" href="/categories/Statistics/">Statistics</a>
+
+
+    
+</div>
+
+            </div>
+            
+                <div class="postShorten-excerpt">
+                    <p>Random variable $X$, we have the variance</p>
+<p>$$<br>\begin{align*}<br>Var[X] &amp;= \mathbb{E}[(X - \mu)^2] \\<br>&amp;= \frac{1}{n} \sum_{i=1}^n (x_i - \mu)^2<br>\end{align*}<br>$$</p>
+                    
+                        <a href="/2020/02/09/relationship-between-variance-and-pairwise-distance/" class="postShorten-excerpt_link link">
+                            繼續閱讀
+                        </a>
+                        
+                    
+                </div>
+            
+        </div>
+        
+    </article>
+    
+    
     <article class="postShorten postShorten--thumbnailimg-bottom">
         <div class="postShorten-wrap">
             
@@ -731,127 +775,6 @@
         
     </article>
     
-    
-    <article class="postShorten postShorten--thumbnailimg-bottom">
-        <div class="postShorten-wrap">
-            
-            <div class="postShorten-header">
-                <h1 class="postShorten-title">
-                    
-                        <a class="link-unstyled" href="/2019/02/24/neural-ode/">
-                            神經微分方程（Neural Ordinary Differential Equations）
-                        </a>
-                    
-                </h1>
-                <div class="postShorten-meta">
-    <time datetime="2019-02-24T15:47:10+08:00">
-	
-		    2月 24, 2019
-    	
-    </time>
-    
-        <span>分類 </span>
-        
-    <a class="category-link" href="/categories/Machine-Learning/">Machine Learning</a>
-
-
-    
-</div>
-
-            </div>
-            
-                <div class="postShorten-content">
-                    <p>這篇被選為 NeurIPS 2018 最佳論文，他將連續的概念帶入了神經網路架構中，並且善用以往解微分方程的方法來做逼近，可以做到跟原方法（倒傳遞）一樣好的程度，而參數使用複雜度卻是常數，更短的訓練時間。</p>
-<h2 id="核心觀念"><a href="#核心觀念" class="headerlink" title="核心觀念"></a>核心觀念</h2><p>概念上來說，就是將神經網路<strong>離散的層</strong>觀念打破，將他貫通成為<strong>連續的層</strong>的網路架構。</p>
-<p>連續和離散的差別來自於倒傳遞的過程：</p>
-<p>$$<br>\mathbb{y}_{t+1} = \mathbb{y}_t - \eta \nabla \mathcal{L}<br>$$</p>
-<p>其中 $\nabla \mathcal{L}$ 就是梯度的部份，是向量的，然而我們把他簡化成純量來看的話，他不過就是</p>
-<p>$$<br>\frac{d \mathcal{L}}{dt}<br>$$</p>
-<p>廣義上來說，一個函數的微分，如果是離散的版本就會是</p>
-<p>$$<br>\frac{dy}{dt} = \frac{y(t + \Delta) - y(t)}{\Delta}<br>$$</p>
-<p>如此一來，所形成的方程式就會是差分方程，然而連續的版本就是</p>
-<p>$$<br>\frac{dy}{dt} = \lim_{\Delta \rightarrow 0} \frac{y(t + \Delta) - y(t)}{\Delta}<br>$$</p>
-<p>這個所形成的會是微分方程。</p>
-<h2 id="從離散到連續"><a href="#從離散到連續" class="headerlink" title="從離散到連續"></a>從離散到連續</h2><p>我們可以從離散的版本</p>
-<p>$$<br>\frac{dy}{dt} = \frac{y(t + \Delta) - y(t)}{\Delta}<br>$$</p>
-<p>把他轉成以下的樣貌</p>
-<p>$$<br>y(t + \Delta) = y(t) + \Delta \frac{dy}{dt}<br>$$</p>
-<p>要將他貫通的話，我們就得由從神經網路的基礎開始，如果是一般的前回饋網路（feed-forward network）當中的隱藏層是像下列這個樣子：</p>
-<p>$$<br>h_{t+1} = f(h_t, \theta)<br>$$</p>
-<p>我們可以發現像是 ResNet 這類的網路有 skip connection 的設置，所以跟一般的前回饋網路不同</p>
-<p>$$<br>h_{t+1} = h_t + f(h_t, \theta)<br>$$</p>
-<p>而 RNN 等等有序列概念的模型也有類似的結構，就是會是前一層的結果加上通過 $f$ 運算後的結果，成為下一層的結果。</p>
-<p>這樣的形式跟我們前面提到的形式不謀而合</p>
-<p>$$<br>y(t + \Delta) = y(t) + \Delta \frac{dy}{dt}<br>$$</p>
-<p>只要我們把 $\Delta = 1$ 代入，就成了</p>
-<p>$$<br>y(t+1) = y(t) + \frac{dy}{dt}<br>$$</p>
-<p>以下給大家比對一下</p>
-<p>$$<br>h_{t+1} = h_t + f(h_t, \theta) \\<br>y(t+1) = y(t) + \frac{dy}{dt}<br>$$</p>
-<p>也就是，我們可以讓</p>
-<p>$$<br>\frac{dy}{dt} = f(h_t, \theta)<br>$$</p>
-<p>神奇的事情就發生了！神經網路 $f$ 就可以被我們拿來計算微分 $\frac{dy}{dt}$！</p>
-<p>比較精確的說法是，把神經網路的層 $f$ 拿來逼近微分項，或是說梯度。這樣我們後面就可以用數值方法來逼近解。</p>
-<p>$$<br>y(t + \Delta) = y(t) + \Delta \frac{dy}{dt} \\<br>\downarrow \\<br>y(t + \Delta) = y(t) + \Delta f(t, h(t), \theta_t)<br>$$</p>
-<p>要拉成連續的還有一個重要的手段，就是將不同的層 $t$ 從離散的變成連續的，所以作者將 $t$ 做了參數化，將他變成 $f$ 的參數之一，如此一來，就可以在任意的層中放入資料做運算。</p>
-<p>最重要的概念導出了這樣的式子</p>
-<p>$$<br>h(t) \rightarrow \frac{dy(t)}{dt} = f(h(t), t, \theta) \rightarrow y(t)<br>$$</p>
-<h2 id="神經網路作為一個系統的微分形式"><a href="#神經網路作為一個系統的微分形式" class="headerlink" title="神經網路作為一個系統的微分形式"></a>神經網路作為一個系統的微分形式</h2><p>在傳統科學或是工程領域，我們會以微分式來表達以及建構一個系統。</p>
-<p>$$<br>\nu = \frac{dx}{dt} = t + 1<br>$$</p>
-<p>其實在這邊是一樣的道理，整體來說，我們是換成用神經網路去描述一個微分式，其實本質上就是這樣。</p>
-<p>原本的層的概念就是用數學函數來建立的，而層與層之間傳遞著計算的結果。</p>
-<p>$$<br>\mathbb{h_1} = \sigma(W_1 \mathbb{x} + \mathbb{b_1}) \\<br>\mathbb{y} = \sigma(W_2 \mathbb{h_1} + \mathbb{b_2})<br>$$</p>
-<p>然而變成連續之後，我們等於是用神經網路中的層去建立跟描繪微分形式。</p>
-<p>$$<br>\frac{d h(t)}{dt} = \sigma(W(t) \mathbb{x}(t) + \mathbb{b(t)}) \\<br>\frac{d y(t)}{dt} = \sigma(W(t) \mathbb{h}(t) + \mathbb{b(t)})<br>$$</p>
-<p>是不是跟如出一轍呢？</p>
-<p>$$<br>\frac{dy(t)}{dt} = f(h(t), t, \theta)<br>$$</p>
-<h2 id="向前傳遞解微分式"><a href="#向前傳遞解微分式" class="headerlink" title="向前傳遞解微分式"></a>向前傳遞解微分式</h2><p>我們可以來計算看看隱藏層是長什麼樣子的。在隱藏層的微分式中，也是利用隱藏層去計算出來的。</p>
-<p>$$<br>\frac{dh(t)}{dt} = f(h(t), t, \theta)<br>$$</p>
-<p>基本上，我們只要對上式做積分就可以了。</p>
-<p>$$<br>h(t) = \int f(h(t), t, \theta) dt<br>$$</p>
-<p>這是一個怎樣的概念呢？我們可以來看看下圖。</p>
-<p><img src="/images/hidden-state1.svg" alt=""></p>
-<p>我們做積分這件事其實是用 $h(t_0)$ 來推斷 $h(t_1)$ 的，這跟神經網路的向前傳遞是一樣的行為。</p>
-<p>$$<br>h(t_1) = F(h(t), t, \theta) \bigg|_{t=t_0}<br>$$</p>
-<p>這樣的積分動作，我們可以用 $t_0$ 時間點的資訊來解 $h(t_1)$。</p>
-<p>這樣的解法在程式上就會交由 ODE Solver 去處理。</p>
-<p>$$<br>h(t_1) = ODESolve(h(t_0), t_0, t_1, \theta, f)<br>$$</p>
-<h2 id="反向傳遞解函數"><a href="#反向傳遞解函數" class="headerlink" title="反向傳遞解函數"></a>反向傳遞解函數</h2><p>$$<br>\mathcal{L}(t_0, t, \theta) = \mathcal{L}(ODESolve(\cdot))<br>$$</p>
-<p>$$<br>\frac{\partial \mathcal{L}}{\partial h(t)} = -a(t)<br>$$</p>
-<p>adjoint state</p>
-<p>$$<br>a(t) = \int -a(t)^T \frac{\partial f}{\partial h} dt = - \frac{\partial \mathcal{L}}{\partial h(t)}<br>$$</p>
-<p>$$<br>a(t) = \int_{t_1}^{t_0} -a(t)^T \frac{\partial f(h(t), t, \theta)}{\partial h(t)} dt<br>$$</p>
-<p><img src="/images/adjoint-state.svg" alt=""></p>
-<h2 id="擴充狀態（augmented-state）"><a href="#擴充狀態（augmented-state）" class="headerlink" title="擴充狀態（augmented state）"></a>擴充狀態（augmented state）</h2><p>$\frac{d \theta}{dt} = 0$</p>
-<p>$\frac{dt}{dt} = 1$</p>
-<p>let $\begin{bmatrix}<br>h \\<br>\theta \\<br>t<br>\end{bmatrix}$ be a augmented state</p>
-<p>augmented state function:</p>
-<p>$$<br>f_{aug}(\begin{bmatrix}<br>h \\<br>\theta \\<br>t<br>\end{bmatrix}) =<br>\begin{bmatrix}<br>f(h(t), t, \theta) \\<br>0 \\<br>1<br>\end{bmatrix}<br>$$</p>
-<p>augmented state dynamics:</p>
-<p>$$<br>\frac{d}{dt}<br>\begin{bmatrix}<br>h \\<br>\theta \\<br>t<br>\end{bmatrix}<br>=<br>f_{aug}(<br>\begin{bmatrix}<br>h \\<br>\theta \\<br>t<br>\end{bmatrix})<br>$$</p>
-<p>augmented adjoint state:</p>
-<p>$$<br>\begin{bmatrix}<br>a \\<br>a_{\theta} \\<br>a_t<br>\end{bmatrix}<br>$$</p>
-<p>$a = \frac{\partial \mathcal{L}}{\partial h}$</p>
-<p>$a_{\theta} = \frac{\partial \mathcal{L}}{\partial \theta}$</p>
-<p>$a_t = \frac{\partial \mathcal{L}}{\partial t}$</p>
-<p>$$<br>\frac{d a_{aug}}{dt} = -<br>\begin{bmatrix}<br>a \frac{\partial f}{\partial h} \\<br>a \frac{\partial f}{\partial \theta} \\<br>a \frac{\partial f}{\partial t}<br>\end{bmatrix}<br>$$</p>
-
-                    
-                        
-
-                    
-                    
-                        <p>
-                            <a href="/2019/02/24/neural-ode/#post-footer" class="postShorten-excerpt_link link">
-                                留言與分享
-                            </a>
-                        </p>
-                    
-                </div>
-            
-        </div>
-        
-    </article>
-    
     <div class="pagination-bar">
     <ul class="pagination">
         
@@ -873,7 +796,7 @@
 
                 <footer id="footer" class="main-content-wrap">
     <span class="copyrights">
-        Copyrights &copy; 2019 Yueh-Hua Tu. All Rights Reserved.
+        Copyrights &copy; 2020 Yueh-Hua Tu. All Rights Reserved.
     </span>
 </footer>
 
