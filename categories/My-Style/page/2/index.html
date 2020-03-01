@@ -231,6 +231,76 @@
     <section class="postShorten-group main-content-wrap">
     
     
+    <article class="postShorten postShorten--thumbnailimg-bottom">
+        <div class="postShorten-wrap">
+            
+            <div class="postShorten-header">
+                <h1 class="postShorten-title">
+                    
+                        <a class="link-unstyled" href="/2019/02/22/define-values-in-parametric-type/">
+                            在參數化型別中定義值
+                        </a>
+                    
+                </h1>
+                <div class="postShorten-meta">
+    <time datetime="2019-02-22T01:22:42+08:00">
+	
+		    2月 22, 2019
+    	
+    </time>
+    
+        <span>分類 </span>
+        
+    <a class="category-link" href="/categories/My-Style/">My Style</a>, <a class="category-link" href="/categories/My-Style/Computer-Science/">Computer Science</a>, <a class="category-link" href="/categories/My-Style/Computer-Science/Julialang/">Julialang</a>
+
+
+    
+</div>
+
+            </div>
+            
+                <div class="postShorten-content">
+                    <p>應該不少人看到這個標題會摸不著頭緒到底要做什麼，但是看完 Julia 中常見的程式碼你就會了解了。</p>
+<figure class="highlight julia"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">Array</span>&#123;<span class="built_in">Any</span>, <span class="number">2</span>&#125;</span><br></pre></td></tr></table></figure>
+<p>有沒有曾經納悶過那個數字 2 到底是怎麼進到參數的位置上的呢？</p>
+<p>參數的位置不是只能放型別（type）嗎？</p>
+<p>這同時也是我困惑已久的問題，就搜尋了一下，果不其然被我找到了方法：</p>
+<figure class="highlight julia"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">struct</span> A&#123;T&#125;</span><br><span class="line"><span class="keyword">end</span></span><br></pre></td></tr></table></figure>
+<figure class="highlight julia"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">A&#123;<span class="number">5</span>&#125;()</span><br></pre></td></tr></table></figure>
+<p>原來這麼簡單就可以完成了！語法上並沒有限定一定要是<em>型別</em>，要放型別以外的東西似乎是可以的。</p>
+<p>我目前測試了可以的有：Int64、Float64、Complex、Char、Bool、Symbol，所以估計數字應該都是可以的。</p>
+<p>不行的有：String、Array，估計物件或是陣列都是不行的。</p>
+<h2 id="定義範圍"><a href="#定義範圍" class="headerlink" title="定義範圍"></a>定義範圍</h2><p>不過使用上並沒有任何限制會有點危險，所以還是定義一下範圍會比較好，像是：</p>
+<figure class="highlight julia"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">struct</span> A&#123;<span class="literal">I</span>&#125;</span><br><span class="line">    <span class="keyword">function</span> A&#123;<span class="literal">I</span>&#125;() <span class="keyword">where</span> &#123;<span class="literal">I</span>&#125;</span><br><span class="line">        <span class="keyword">isa</span>(<span class="literal">I</span>,<span class="built_in">Integer</span>) || error(<span class="string">"bad parameter"</span>)</span><br><span class="line">        new()</span><br><span class="line">    <span class="keyword">end</span></span><br><span class="line"><span class="keyword">end</span></span><br></pre></td></tr></table></figure>
+<p>這樣就可以限制參數要是整數的範圍。</p>
+<h2 id="從參數取值"><a href="#從參數取值" class="headerlink" title="從參數取值"></a>從參數取值</h2><p>那我們能不能從型別的參數當中取值呢？</p>
+<p>可以。</p>
+<figure class="highlight julia"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">get_value(::A&#123;<span class="literal">I</span>&#125;) <span class="keyword">where</span> A&#123;<span class="literal">I</span>&#125; = <span class="literal">I</span></span><br></pre></td></tr></table></figure>
+<p>如此一來，我們就可以從型別中拿到值了。</p>
+<h2 id="好處？"><a href="#好處？" class="headerlink" title="好處？"></a>好處？</h2><p>這麼做有什麼好處？</p>
+<p>當你把值的資訊放到型別當中，型別就多了一些資訊可以提供編譯器處理，這對於要自己設計型別階層可是非常好用的。</p>
+<p>例如像是你可以將陣列的長度資訊儲存到型別上，這樣編譯器就可以處理陣列的長度資訊了。</p>
+<p>這樣的程式風格會跟 dependent type language 有些相似了。</p>
+<p>大家可以玩玩看。</p>
+
+                    
+                        
+
+                    
+                    
+                        <p>
+                            <a href="/2019/02/22/define-values-in-parametric-type/#post-footer" class="postShorten-excerpt_link link">
+                                留言與分享
+                            </a>
+                        </p>
+                    
+                </div>
+            
+        </div>
+        
+    </article>
+    
+    
     <article class="postShorten postShorten--thumbnailimg-right">
         <div class="postShorten-wrap">
             
@@ -753,7 +823,7 @@
                     <p>很多人念了生物，甚至是分子生物學<br>但是都不知道DNA，RNA跟protien之間到底是什麼關係<br>這篇就是用簡單的比喻來說明他們的關係</p>
 <hr>
 <p>先來引用一下維基百科的圖</p>
-<p><img src="https://upload.wikimedia.org/wikipedia/commons/6/68/Central_Dogma_of_Molecular_Biochemistry_with_Enzymes.jpg" alt=""></p>
+<p><img src="https://upload.wikimedia.org/wikipedia/commons/6/68/Central_Dogma_of_Molecular_Biochemistry_with_Enzymes.jpg" alt></p>
 <p>常常我們說DNA是生命的藍圖，DNA其實是”這種分子”的名字<br>不如我們把細胞想成是一台車子，DNA就是這台車子的設計總藍圖<br>他很大很大一張，裏面寫滿了各式各樣車子零件的設計圖還有要怎麼組裝起來<br>RNA就是從設計總藍圖 (DNA)上複製下來的某個零件的藍圖<br>protien就是根據零件的藍圖 (RNA)製作出來的零件本身</p>
 <p>那我們開始囉~~<br>DNA要轉錄 (transcription)成RNA，也就是把零件的藍圖從總藍圖裡抄寫出來<br>RNA polymerase佔了很重要的角色，因為他就是那個抄寫員<br>他會一字不漏的把DNA上的訊息都抄寫成RNA<br>接著呢在他開始抄寫的時候，會在零件藍圖的開頭加個註記 (capping)<br>在他超寫完畢的時候呢，會在零件藍圖的結尾加個註記 (polyA tail)<br>加上這些註記之後，就可以避免這張藍圖被回收人員 (RNase)當成垃圾清掉<br>大家以為到這邊這張零件藍圖就算完整了嗎<br>其實不是，這張藍圖還需要做客製化修改 (splicing)，修改的過程有點複雜<br>但是簡單的講，就是依據細胞目前的需求跟狀態，把RNA稍稍修改成他的設計<br>如此一來，零件藍圖 (messenger RNA)就算是完成了</p>
 <p>那從零件藍圖 (messenger RNA)做成零件 (protien)呢<br>這位工匠就是ribosome (核醣體)大大拉~~~<br>這位工匠會依據RNA上的設計打造 (translation)一個新的零件<br>他把amino acid (胺基酸)抓來串起來成為peptide (胜肽鍊)<br>peptide只是零件的雛型而已，需要加以修飾才會變成真正的零件<br>這些零件的雛型會被送到細胞核外進行修飾 (post-translational modification)、折疊 (folding)</p>
@@ -821,71 +891,6 @@
                     
                         <p>
                             <a href="/2015/07/08/persuasion-and-empathy/#post-footer" class="postShorten-excerpt_link link">
-                                留言與分享
-                            </a>
-                        </p>
-                    
-                </div>
-            
-        </div>
-        
-    </article>
-    
-    
-    <article class="postShorten postShorten--thumbnailimg-bottom">
-        <div class="postShorten-wrap">
-            
-            <div class="postShorten-header">
-                <h1 class="postShorten-title">
-                    
-                        <a class="link-unstyled" href="/2015/04/10/should-i-use-class-abstract-class-or-interface/">
-                            我該用類別, 抽象類別還是介面?
-                        </a>
-                    
-                </h1>
-                <div class="postShorten-meta">
-    <time datetime="2015-04-10T00:46:00+08:00">
-	
-		    4月 10, 2015
-    	
-    </time>
-    
-        <span>分類 </span>
-        
-    <a class="category-link" href="/categories/My-Style/">My Style</a>, <a class="category-link" href="/categories/My-Style/Computer-Science/">Computer Science</a>
-
-
-    
-</div>
-
-            </div>
-            
-                <div class="postShorten-content">
-                    <p>很多初學java的人都會有這樣的疑問：</p>
-<blockquote>
-<p>我該用類別, 抽象類別還是介面?</p>
-</blockquote>
-<p>尤其在學 java 之前沒有碰過物件導向概念的人。<br>在多種選擇的情況下，我該用哪一個比較好呢？</p>
-<p>我們可以分幾個觀點來看這個問題</p>
-<h3 id="概念解釋觀點"><a href="#概念解釋觀點" class="headerlink" title="概念解釋觀點"></a><strong>概念解釋觀點</strong></h3><p>在物件導向的語言裏面，物件跟類別是被抽象化的概念。<br>也得力於這樣的抽象化，我們可以把某些東西<strong>廣義化</strong>應用到不同的層面。<br>這樣的抽象化有賴於封裝、繼承、多型的落實。<br>封裝可以將<strong>概念相同的程式碼放在一起</strong>，這些程式碼做同一件事，所以他們代表同一個概念。<br>同時也比較好維護。<br>繼承可以<strong>提高 reusabiity 的機會</strong>，同時也展現了<strong>概念上的相似性</strong>。<br>多型就是一種<em>同中求異</em>的概念。<br>位於同一個繼承體系之下，可以有不同的行為。</p>
-<p>承續我先前寫過的文章<br>繼承是<strong>is-a</strong>的概念，而實作介面是<strong>has-a</strong>的概念。<br>這些概念是不相違背的，所以我們可以簡單的把類別、抽象類別、介面分開。<br>類別跟抽象類別應該位於繼承體系之下，因為抽象類別也有<strong>is-a</strong>關係。<br>但是相對於（具體）類別，抽象類別是不允許被實體化（instantiate）的。</p>
-<p>為什麼？<br>舉個例，Cat 跟 Dog 都繼承於 Animal，因為 Cat is an Animal and Dog is an Animal.<br>這時我們會把 Animal 寫成抽象類別，因為 Animal 被實體化之後不具任何意義。<br>他只是我們在繼承體系上或是概念上的類別，他並不是一個具體的物件，不具屬性跟行為。<br>所以 Animal 不應該被寫成（具體）類別。</p>
-<p>那不能被實體化的類別我還需要去定義他的屬性跟方法嗎？<br>當然要！<br>回到我們的例子，通常只要是 Animal 就會 <code>eat()</code>、<code>move()</code>，或是我想給 Animal <code>id</code> 或是 <code>name</code>。<br>這時我們不會把這些東西寫在 Cat 或是 Dog 裏面。<br>我們會把他通通寫到 Animal 裏面，如此一來下面的子類別就可以簡單的具有這些屬性跟方法了。</p>
-<p>這時我們來講講介面，就如同我前面提到的。<br>介面的實作是<strong>has-a</strong>的關係。<br>所以他提供了在一個繼承體系之外的<strong>功能性</strong>。<br>他可以讓繼承於 Animal 的 Bird 擁有 <code>fly()</code> 的行為。<br>他可以讓繼承於 Animal 的 Turtle 擁有 <code>swim()</code> 的行為。<br>這些都是無法從 Animal 繼承過來的東西。</p>
-<p>那無法繼承過來的話，自己寫就好阿，大驚小怪！<br>錯！<br>這時我們就會看到<br>會 <code>fly()</code>（飛）的 Bird（鳥）。<br>會 <code>transport()</code>（運輸）的 Airplane（飛機）。<br>會 <code>swing()</code>（拍翅膀）的 Swan（天鵝）。<br>但是他們想表達的都是<strong>在天上飛</strong>的概念。<br>所以介面可以達到統一格式的效果。<br>大家都實作同樣的方法來表達同樣的行為。<br>或許行為的實際內容不一樣，但是在概念上是相同的。</p>
-<h3 id="軟體工程觀點"><a href="#軟體工程觀點" class="headerlink" title="軟體工程觀點"></a><strong>軟體工程觀點</strong></h3><p>在前一個觀點當中提到抽象化。<br>抽象化使得同樣的一段程式碼可以提高他使用的頻率。<br>也達到<strong>reusability (重複利用性)</strong>的效果。</p>
-<p>我們有了繼承體系來<strong>提高 reusability</strong>。<br>在程式碼上，子類別不用重寫同樣的程式碼，只要從父類別繼承來就好。<br>相對於同樣的程式碼散落在各個子類別，當要維護的時候就要一個一個修改。<br>這樣父類別就控制了子類別的行為。<br>如果父類別的方法被修改的話，也會影響到子類別。</p>
-<p>如果你不希望父類別的改變影響到子類別的話，這時請確認兩者是否真的要使用繼承關係。<br>如果是繼承關係但又不希望受影響，那就用多型吧！</p>
-<p>我們使用介面來提高系統的<strong>flexibility (靈活性)</strong>。<br>當你需要有相同概念的方法時只要實作同樣的介面就可以達到。<br>同時規定同樣的介面便於管理維護。<br>只要實作同樣的介面就可以簡單地擴充模組。<br>這是一個靈活的系統該有的特徵。</p>
-<h3 id="相對於多重繼承-ex-C"><a href="#相對於多重繼承-ex-C" class="headerlink" title="相對於多重繼承 (ex. C++)"></a><strong>相對於多重繼承 (ex. C++)</strong></h3><p>相對於C++的多重繼承，java 只允許單一繼承。<br>在多重繼承當中，可以讓一個類別<strong>擁有很多身份</strong>。<br>一個類別可以<strong>是</strong>很多種東西。<br>這樣的概念其實可以讓人容易了解這個類別在做些什麼。<br>像是Computer is a Machine and Computer is a Calculator.<br>這樣我們可以理解電腦是一種會計算的機器。<br>但是相對應的他也帶來一些不必要的副作用。<br>繼承於多樣的父類別，也同時繼承到了父類別的屬性跟方法，但是並不是所有的屬性跟方法都是有用的，甚至有些屬性或方法根本用不到。<br>當你沒有要使用到的時候卻又繼承了太多的東西，這就造成了另一種的設計不良的狀況。<br>這會讓別人誤解子類別有擁有父類別的某些方法，但卻不知道那是不應該出現的。<br>造成誤用問題就更大了。<br>這樣的問題小至程式錯誤，大至系統崩潰，這就成了系統的弱點之一了。</p>
-
-                    
-                        
-
-                    
-                    
-                        <p>
-                            <a href="/2015/04/10/should-i-use-class-abstract-class-or-interface/#post-footer" class="postShorten-excerpt_link link">
                                 留言與分享
                             </a>
                         </p>
@@ -985,7 +990,6 @@
             all[i].SourceElement().parentNode.className += ' has-jax';
     });
 </script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script><!-- hexo-inject:begin --><!-- hexo-inject:end -->
-
+<script src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script><!-- hexo-inject:begin --><!-- hexo-inject:end -->
 </body>
 </html>

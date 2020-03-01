@@ -308,7 +308,7 @@
 <p>基本上，我們只要對上式做積分就可以了。</p>
 <p>$$<br>h(t) = \int f(h(t), t, \theta) dt<br>$$</p>
 <p>這是一個怎樣的概念呢？我們可以來看看下圖。</p>
-<p><img src="/images/hidden-state1.svg" alt=""></p>
+<p><img src="/images/hidden-state1.svg" alt></p>
 <p>我們做積分這件事其實是用 $h(t_0)$ 來推斷 $h(t_1)$ 的，這跟神經網路的向前傳遞是一樣的行為。</p>
 <p>$$<br>h(t_1) = F(h(t), t, \theta) \bigg|_{t=t_0}<br>$$</p>
 <p>這樣的積分動作，我們可以用 $t_0$ 時間點的資訊來解 $h(t_1)$。</p>
@@ -319,7 +319,7 @@
 <p>adjoint state</p>
 <p>$$<br>a(t) = \int -a(t)^T \frac{\partial f}{\partial h} dt = - \frac{\partial \mathcal{L}}{\partial h(t)}<br>$$</p>
 <p>$$<br>a(t) = \int_{t_1}^{t_0} -a(t)^T \frac{\partial f(h(t), t, \theta)}{\partial h(t)} dt<br>$$</p>
-<p><img src="/images/adjoint-state.svg" alt=""></p>
+<p><img src="/images/adjoint-state.svg" alt></p>
 <h2 id="擴充狀態（augmented-state）"><a href="#擴充狀態（augmented-state）" class="headerlink" title="擴充狀態（augmented state）"></a>擴充狀態（augmented state）</h2><p>$\frac{d \theta}{dt} = 0$</p>
 <p>$\frac{dt}{dt} = 1$</p>
 <p>let $\begin{bmatrix}<br>h \\<br>\theta \\<br>t<br>\end{bmatrix}$ be a augmented state</p>
@@ -463,7 +463,7 @@
                     <p>在 autoencoder 的模型裏面，會希望以一個 unsupervised 方法來做到特徵萃取的目的。</p>
 <p>你也可以說他是一種降維的方法或是有損壓縮的方法。</p>
 <p>基本上就是透過一個線性轉換將原來的特徵，映射到比較低維度的特徵空間上。</p>
-<p><img src="/images/autoencoder1.svg" alt=""></p>
+<p><img src="/images/autoencoder1.svg" alt></p>
                     
                         <a href="/2018/11/14/31-variational-autoencoder/" class="postShorten-excerpt_link link">
                             繼續閱讀
@@ -701,7 +701,7 @@
                 <div class="postShorten-excerpt">
                     <p>前面有提到 seq2seq model，我們就從這邊開始。</p>
 <p>Seq2seq model 他採用了 encoder-decoder 架構，這時候就要來點 paper 的圖啦！</p>
-<p><img src="/images/seq2seq.svg" alt=""></p>
+<p><img src="/images/seq2seq.svg" alt></p>
                     
                         <a href="/2018/10/26/26-sequence-to-sequence-model/" class="postShorten-excerpt_link link">
                             繼續閱讀
@@ -819,9 +819,9 @@
 <p>首先，在這邊的狀態會以一個向量做表示，大家應該也知道 RNN 的 input 是一個向量，當中的狀態也是一個向量，最後的 output 也是一個向量。而這些向量當中的的值都是連續的 $\mathbb{R}^n$（假設向量大小為 n），不像上面的模型都是離散的 $k$（假設有 k 個狀態），所以在空間上的大小可以說是擴大非常多。</p>
 <p>接下來我們來看看時間的狀態轉換：</p>
 <p><br></p>
-<p><img src="/images/rnn_time.svg" alt=""></p>
+<p><img src="/images/rnn_time.svg" alt></p>
 <p><br></p>
-<p><img src="/images/rnn_expand_time.svg" alt=""></p>
+<p><img src="/images/rnn_expand_time.svg" alt></p>
 <p><br></p>
 <p>在 RNN 中一樣含有內在狀態，但不同的是 RNN 可以在每個時間點上給輸入向量（$\mathbf{x^{(t)}}$），所以可以根據前一個時間點的內在狀態（$\mathbf{h^{(t)}}$）跟輸入向量去計算輸出，或是外在狀態（$\mathbf{y^{(t)}}$）。</p>
 <p>所以大家會在一些論文上看到模型的狀態關係式長下面這個樣子：</p>
@@ -931,7 +931,6 @@
             all[i].SourceElement().parentNode.className += ' has-jax';
     });
 </script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script><!-- hexo-inject:begin --><!-- hexo-inject:end -->
-
+<script src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script><!-- hexo-inject:begin --><!-- hexo-inject:end -->
 </body>
 </html>

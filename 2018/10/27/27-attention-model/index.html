@@ -277,9 +277,9 @@
 <li><a href="https://arxiv.org/abs/1509.06664" target="_blank" rel="noopener">Reasoning about Entailment with Neural Attention</a></li>
 </ol>
 <p>Attention model 在很多模型當中都是做為 encoder-decoder 之間的橋樑，原本的 encoder 跟 decoder 之間是只有一個 vector 來傳遞所有的訊息，但是多了 attention mechanism 就不一樣了。</p>
-<p><img src="/images/seq2seq2.svg" alt=""></p>
+<p><img src="/images/seq2seq2.svg" alt></p>
 <p>Attention mechanism 主要可以動態的去抓到 encoder 中傳遞的訊息，並且將這些訊息與 decoder 輸出的前一個訊息互相比對之後，透過線性組合之後輸出。這樣的輸出有什麼效果呢？他可以動態地去找到兩邊最相符的資訊，並且將他重要的部份以權重的方式凸顯出來，所以這部份是做線性組合。</p>
-<p><img src="/images/attention.svg" alt=""></p>
+<p><img src="/images/attention.svg" alt></p>
 <p>我看到一個廣義的描述方法，他是這樣說的，我們可以把 attention model 想成是一個函數，這個函數會吃兩種東西，一種是 query，另一種是 key-value 的資料結構，讓 query 去比對所有的 key 找到吻合的，會透過一個 compatibility function 去計算吻合的程度，並且作為權重，最後將權重與相對應的 value 做內積。在這邊 query、key、value 三者都是向量。</p>
 <p>在這邊 query 會是 decoder 的 $z_0$，而 key 就是 encoder 的 $h^1, h^2, …$。每一個 key 都會去跟 query 個別通過 compatibility function 算一次吻合程度 $\alpha_0^1, \alpha_0^2, …$。這些 $\alpha_0^1, \alpha_0^2, …$ 就是權重，會去跟 value $h^1, h^2, …$ 做線性組合。在這邊為了簡單所以讓 value 跟 key 是一樣的，其實可以是不同的東西。計算出來的結果 $c^1$ 就是 context vector，會作為 decoder 的輸入，與 $z_0$ 一起計算出 $z_1$。</p>
 <p>這樣就算是完成一輪 attention mechanism 了。下一次再繼續用 $z_1$ 當成 query 進行比對。</p>
@@ -528,7 +528,6 @@
             all[i].SourceElement().parentNode.className += ' has-jax';
     });
 </script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script><!-- hexo-inject:begin --><!-- hexo-inject:end -->
-
+<script src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script><!-- hexo-inject:begin --><!-- hexo-inject:end -->
 </body>
 </html>

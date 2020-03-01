@@ -455,7 +455,7 @@
                 <div class="postShorten-excerpt">
                     <p>前面有提到 seq2seq model，我們就從這邊開始。</p>
 <p>Seq2seq model 他採用了 encoder-decoder 架構，這時候就要來點 paper 的圖啦！</p>
-<p><img src="/images/seq2seq.svg" alt=""></p>
+<p><img src="/images/seq2seq.svg" alt></p>
                     
                         <a href="/2018/10/26/26-sequence-to-sequence-model/" class="postShorten-excerpt_link link">
                             繼續閱讀
@@ -573,9 +573,9 @@
 <p>首先，在這邊的狀態會以一個向量做表示，大家應該也知道 RNN 的 input 是一個向量，當中的狀態也是一個向量，最後的 output 也是一個向量。而這些向量當中的的值都是連續的 $\mathbb{R}^n$（假設向量大小為 n），不像上面的模型都是離散的 $k$（假設有 k 個狀態），所以在空間上的大小可以說是擴大非常多。</p>
 <p>接下來我們來看看時間的狀態轉換：</p>
 <p><br></p>
-<p><img src="/images/rnn_time.svg" alt=""></p>
+<p><img src="/images/rnn_time.svg" alt></p>
 <p><br></p>
-<p><img src="/images/rnn_expand_time.svg" alt=""></p>
+<p><img src="/images/rnn_expand_time.svg" alt></p>
 <p><br></p>
 <p>在 RNN 中一樣含有內在狀態，但不同的是 RNN 可以在每個時間點上給輸入向量（$\mathbf{x^{(t)}}$），所以可以根據前一個時間點的內在狀態（$\mathbf{h^{(t)}}$）跟輸入向量去計算輸出，或是外在狀態（$\mathbf{y^{(t)}}$）。</p>
 <p>所以大家會在一些論文上看到模型的狀態關係式長下面這個樣子：</p>
@@ -826,7 +826,6 @@
             all[i].SourceElement().parentNode.className += ' has-jax';
     });
 </script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script><!-- hexo-inject:begin --><!-- hexo-inject:end -->
-
+<script src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script><!-- hexo-inject:begin --><!-- hexo-inject:end -->
 </body>
 </html>

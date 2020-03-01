@@ -271,9 +271,9 @@
 <p>感知器模型他是一個二元分類的分類器，他解的是分類問題。相對我們前面的線性迴歸解的是迴歸問題，兩者在問題的定義上有根本性的不一樣，那他們兩個有什麼關聯性呢？</p>
 <a id="more"></a>
 <h2 id="分類"><a href="#分類" class="headerlink" title="分類"></a>分類</h2><p>現在想像一下，如果你手上有一些資料，這些資料都有兩個維度 $(x_1,x_2)$，可以他們畫在二維的平面上，這些資料有的被標記成方塊，有的被標記成圓圈。我現在希望有一種方法可以將不同標記的資料點分開，我們可以怎麼做？</p>
-<p><img src="/images/perceptron1.svg" alt=""></p>
+<p><img src="/images/perceptron1.svg" alt></p>
 <p>在資料點上，大多相似的資料點會有接近的座標，所以資料點本身就會因為相似性而聚在一起。最直覺的方法就是畫一條直線將他們分開。</p>
-<p><img src="/images/perceptron2.svg" alt=""></p>
+<p><img src="/images/perceptron2.svg" alt></p>
 <p>我們可以在二維平面上畫一條線來把這些點分開的話，那麼要怎麼以數學的方式呈現呢？</p>
 <p>$$<br>x_2 = w x_1 + b<br>$$</p>
 <p>這是我們的二維平面上的線，我們把他移項一下。</p>
@@ -292,7 +292,7 @@
 <p>看到了嗎？中間是不是我們的線性迴歸裡的線性模型了呢？</p>
 <p>準確來說，是跟線性迴歸沒什麼關係啦！但是同為線性模型可以應用在迴歸問題或是分類問題，有兩種些許不同的形式，是不是很妙呢？</p>
 <h2 id="常數項"><a href="#常數項" class="headerlink" title="常數項"></a>常數項</h2><p>前面說過，常數項在分類器上有些許不一樣的的解釋。</p>
-<p><img src="/images/perceptron3.svg" alt=""></p>
+<p><img src="/images/perceptron3.svg" alt></p>
 <p>基本上，對一條線來說，常數項仍舊是讓線可以有位移的機會，不過反過來想，如果沒有常數項的話，即便有 $\mathbf{w}^T\mathbf{x}$ 可以計算出結果，但是可能仍不足以分隔資料，所以需要加上（或是減掉）一個閾值或是臨界值。</p>
 
                                         
@@ -537,7 +537,6 @@
             all[i].SourceElement().parentNode.className += ' has-jax';
     });
 </script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script><!-- hexo-inject:begin --><!-- hexo-inject:end -->
-
+<script src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script><!-- hexo-inject:begin --><!-- hexo-inject:end -->
 </body>
 </html>

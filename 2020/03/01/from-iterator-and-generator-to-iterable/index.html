@@ -1,0 +1,534 @@
+
+<!DOCTYPE html>
+<html lang="zh-tw,en,default">
+    
+<head>
+    <!-- hexo-inject:begin --><!-- hexo-inject:end --><meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="generator" content="Dream Maker">
+    <title>從 iterator 及 generator 到 iterable - Dream Maker</title>
+    <meta name="author" content="Yueh-Hua Tu">
+    
+        <meta name="keywords" content="machine learning,deep learning,topology,">
+    
+    
+    
+        <link rel="alternate" type="application/atom+xml" title="RSS" href="/atom.xml">
+    
+    <script type="application/ld+json">{"@context":"http://schema.org","@type":"BlogPosting","author":{"@type":"Person","name":"Yueh-Hua Tu","sameAs":["https://github.com/yuehhua/","https://www.facebook.com/a504082002","https://www.linkedin.com/in/%E5%B2%B3%E8%8F%AF-%E6%9D%9C-6a3995a0/","mailto:a504082002@gmail.com"],"image":"https://www.gravatar.com/avatar/a565749fba4782b717234da670b273fd"},"articleBody":"今天來跟大家介紹 iterator、generator 及 iterable 這三個東西。基本上，大家應該都有用過 for 迴圈，然而很多東西可以放在迴圈的 in 後方，這樣就可以將裡頭的元素一個一個取出來。但是這是怎做到的呢？\n很基本的作法是去實作一個設計模式（design pattern）中的 iterator，假設我們要迭代一個陣列裡的元素，iterator 有別於陣列本身，是另外一個物件。Iterator 可以提供你一個介面，例如 next()，讓你可以取得陣列裡的下一個元素。\n像這樣的方式很常見也很簡單可以實作，在 Julia 裡就像這樣：\n1234567891011121314mutable struct ArrayIterator    array::Array    index::Int64    ArrayIterator(array::Array) = new(array, 1)endhas_next(iter::ArrayIterator) = (iter.index &lt; length(iter.array))function next(iter::ArrayIterator)    x = iter.array[iter.index]    iter.index += 1    return xend\n123456789101112131415julia&gt; v = collect(1:2:30);julia&gt; iter = ArrayIterator(v);julia&gt; has_next(iter)truejulia&gt; next(iter)1julia&gt; next(iter)3julia&gt; has_next(iter)true\n各位可以看到 iterator 一般都會實作 has_next() 及 next() 函式，是用來確認是否有下一個元素存在及取得下一個元素。Iterator 中會包含陣列本身，也就是想要迭代的集合本身，還有一個 index 會指向目前的元素，並在取得元素之後移往下一個。\nIterator 是一個物件，它需要一個已經存在的集合來作為它迭代的集合。這代表這個集合必須事先存在，如果這個集合很大，那就會佔去不少記憶體空間。有沒有什麼方法可以不需要集合就可以迭代的呢？Generator 是一個方式。\nGenerator，顧名思義，它會在你取得下一個元素的時候產生出來，並不會事先計算，所以集合也不會存在。Julia 的 generator 很好撰寫，如下：\n1x = (i^2 for i in 1:10)\n這就是一個會產生 1 到 10 數字的 generator。Generator 也可以被放到 for 迴圈裡被迭代，但唯一不同的是，它並不佔記憶體空間，只需要即時的計算即可。\nJulia 目前提供的方式稱為 Iterable，只要有實作 iterate() 這個 API 的就稱為 Iterable。像以下例子：\n12345678910111213141516struct Character    start::Char    length::Int    Character() = new('A', 62)endfunction Base.iterate(char::Character, (el, i)=(char.start, 0))    if i &lt; char.length        return (el, (el+1, i+1))    else        return nothing    endendBase.length(char::Character) = char.lengthBase.eltype(::Character) = Char\niterate() 的輸入是「狀態」，輸出是下一個狀態，而狀態包含兩個物件：要迭代的元素以及順序。因此，會看起來像是這個樣子：\n1(el1, (el2, i+1)) = iterate(iter, (el1, i))\n特別要說明的是，在輸出的狀態中，需要帶有目前元素的資訊 (el1, (el2, i+1))。如果要結束迴圈，那就回傳 nothing。我們就可以來世試看這個可以迭代輸出 ASCII 碼的 Iterable。\n123456789101112131415161718192021julia&gt; c = Character()Character('A', 62)julia&gt; iterate(c)('B', 1)julia&gt; iterate(c, ('B', 1))('C', 2)julia&gt; for x in c           println(x)       endABCDEFGH...\n這樣可以有 generator 的好處，而且本身也是一個 iterator。它不需要是一個物件，只要有實作 iterate() 這個 API 的物件就可以使用，所以我們還可以拿來這樣用。\n12345struct IterableNumber    start::IntendBase.iterate(iter::IterableNumber, (el, i)=(iter.start, 0)) = i &lt; Inf ? (el, (el+1, i+1)) : nothing\n這是一個可以自定義起點的可迭代數字，數字可以持續到無限大。你得手動把它停下來！\n12345678910111213julia&gt; iter = IterableNumber(0)IterableNumber(0)julia&gt; for i in iter           println(i)       end012345...\n或是你想做個 sliding window：\n12345678910111213141516struct SlidingWindow    vec::Vector    n::Int    start::SubArray    SlidingWindow(vec::Vector, n) = new(vec, n, view(vec, 1:n))endfunction Base.iterate(iter::SlidingWindow, (el, i)=(iter.start, 1))    e = i + iter.n - 1    if e &lt;= length(iter.vec)        return (el, (view(iter.vec, i:e), i+1))    else        return nothing    endend\n這邊用 view(iter.vec, i:e) 做取值的方式，比起用 iter.vec[i:e] 取值來的快很多。iter.vec[i:e] 這種方式會造出一個新的陣列，而 view 不會。\n12345678910111213141516171819julia&gt; v = collect(1:50);julia&gt; sw = SlidingWindow(v, 5)SlidingWindow([1, 2, 3, 4, 5, 6, 7, 8, 9, 10  …  41, 42, 43, 44, 45, 46, 47, 48, 49, 50], 5, [1, 2, 3, 4, 5])julia&gt; for x in sw           println(x)       end[1, 2, 3, 4, 5][1, 2, 3, 4, 5][2, 3, 4, 5, 6][3, 4, 5, 6, 7][4, 5, 6, 7, 8][5, 6, 7, 8, 9][6, 7, 8, 9, 10][7, 8, 9, 10, 11][8, 9, 10, 11, 12][9, 10, 11, 12, 13]...\n這邊介紹了三種迭代的方法，而 iterable 則是目前由 Julia 官方支援的主流方式。除了可以迭代數字以外還可以有其他用途，甚至可以迭代直到無限大的數字。Sliding window 這樣的東西在計算上或是深度學習上是很實用的結構！是不是覺得 Julia 越來越像 functional language 了XD\n","dateCreated":"2020-03-01T14:31:49+08:00","dateModified":"2020-03-01T14:31:49+08:00","datePublished":"2020-03-01T14:31:49+08:00","description":"","headline":"從 iterator 及 generator 到 iterable","image":[],"mainEntityOfPage":{"@type":"WebPage","@id":"https://yuehhua.github.io/2020/03/01/from-iterator-and-generator-to-iterable/"},"publisher":{"@type":"Organization","name":"Yueh-Hua Tu","sameAs":["https://github.com/yuehhua/","https://www.facebook.com/a504082002","https://www.linkedin.com/in/%E5%B2%B3%E8%8F%AF-%E6%9D%9C-6a3995a0/","mailto:a504082002@gmail.com"],"image":"https://www.gravatar.com/avatar/a565749fba4782b717234da670b273fd","logo":{"@type":"ImageObject","url":"https://www.gravatar.com/avatar/a565749fba4782b717234da670b273fd"}},"url":"https://yuehhua.github.io/2020/03/01/from-iterator-and-generator-to-iterable/"}</script>
+    <meta name="description" content="今天來跟大家介紹 iterator、generator 及 iterable 這三個東西。基本上，大家應該都有用過 for 迴圈，然而很多東西可以放在迴圈的 in 後方，這樣就可以將裡頭的元素一個一個取出來。但是這是怎做到的呢？ 很基本的作法是去實作一個設計模式（design pattern）中的 iterator，假設我們要迭代一個陣列裡的元素，iterator 有別於陣列本身，是另外一個物件。">
+<meta name="keywords" content="machine learning,deep learning,topology">
+<meta property="og:type" content="blog">
+<meta property="og:title" content="從 iterator 及 generator 到 iterable">
+<meta property="og:url" content="https://yuehhua.github.io/2020/03/01/from-iterator-and-generator-to-iterable/index.html">
+<meta property="og:site_name" content="Dream Maker">
+<meta property="og:description" content="今天來跟大家介紹 iterator、generator 及 iterable 這三個東西。基本上，大家應該都有用過 for 迴圈，然而很多東西可以放在迴圈的 in 後方，這樣就可以將裡頭的元素一個一個取出來。但是這是怎做到的呢？ 很基本的作法是去實作一個設計模式（design pattern）中的 iterator，假設我們要迭代一個陣列裡的元素，iterator 有別於陣列本身，是另外一個物件。">
+<meta property="og:locale" content="zh-tw">
+<meta property="og:updated_time" content="2020-03-01T06:31:49.100Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="從 iterator 及 generator 到 iterable">
+<meta name="twitter:description" content="今天來跟大家介紹 iterator、generator 及 iterable 這三個東西。基本上，大家應該都有用過 for 迴圈，然而很多東西可以放在迴圈的 in 後方，這樣就可以將裡頭的元素一個一個取出來。但是這是怎做到的呢？ 很基本的作法是去實作一個設計模式（design pattern）中的 iterator，假設我們要迭代一個陣列裡的元素，iterator 有別於陣列本身，是另外一個物件。">
+    
+    
+        
+    
+    
+    
+    
+    
+    <!--STYLES-->
+    <link rel="stylesheet" href="/assets/css/style-3frockyt2j28isvdztjchy5nhkz8tjki9ermufc1ckptmvjdftux94m2ahub.min.css">
+    <!--STYLES END-->
+    
+    <script type="text/javascript">
+        (function (i, s, o, g, r, a, m) {
+        i['GoogleAnalyticsObject'] = r; i[r] = i[r] || function () {
+            (i[r].q = i[r].q || []).push(arguments)
+        }, i[r].l = 1 * new Date(); a = s.createElement(o),
+            m = s.getElementsByTagName(o)[0]; a.async = 1; a.src = g; m.parentNode.insertBefore(a, m)
+        })(window, document, 'script', '//www.google-analytics.com/analytics.js', 'ga');
+
+        ga('create', 'UA-119690895-1', 'auto');
+        ga('send', 'pageview');
+    </script><!-- hexo-inject:begin --><!-- hexo-inject:end -->
+    
+    
+</head>
+
+    <body>
+        <!-- hexo-inject:begin --><!-- hexo-inject:end --><div id="blog">
+            <!-- Define author's picture -->
+
+
+    
+
+<header id="header" data-behavior="5">
+    <i id="btn-open-sidebar" class="fa fa-lg fa-bars"></i>
+    <div class="header-title">
+        <a class="header-title-link" href="/ ">Dream Maker</a>
+    </div>
+    
+        
+            <a  class="header-right-picture "
+                href="#about">
+        
+        
+        </a>
+    
+</header>
+
+            <!-- Define author's picture -->
+
+
+<nav id="sidebar" data-behavior="5">
+    <div class="sidebar-container">
+        
+        
+            <ul class="sidebar-buttons">
+            
+                <li class="sidebar-button">
+                    
+                        <a  class="sidebar-button-link "
+                             href="/ "
+                            
+                            title="首頁"
+                        >
+                    
+                        <i class="sidebar-button-icon fa fa-home" aria-hidden="true"></i>
+                        <span class="sidebar-button-desc">首頁</span>
+                    </a>
+            </li>
+            
+                <li class="sidebar-button">
+                    
+                        <a  class="sidebar-button-link "
+                             href="/all-categories"
+                            
+                            title="分類"
+                        >
+                    
+                        <i class="sidebar-button-icon fa fa-bookmark" aria-hidden="true"></i>
+                        <span class="sidebar-button-desc">分類</span>
+                    </a>
+            </li>
+            
+                <li class="sidebar-button">
+                    
+                        <a  class="sidebar-button-link "
+                             href="/all-tags"
+                            
+                            title="標籤"
+                        >
+                    
+                        <i class="sidebar-button-icon fa fa-tags" aria-hidden="true"></i>
+                        <span class="sidebar-button-desc">標籤</span>
+                    </a>
+            </li>
+            
+                <li class="sidebar-button">
+                    
+                        <a  class="sidebar-button-link "
+                             href="/all-archives"
+                            
+                            title="所有文章"
+                        >
+                    
+                        <i class="sidebar-button-icon fa fa-archive" aria-hidden="true"></i>
+                        <span class="sidebar-button-desc">所有文章</span>
+                    </a>
+            </li>
+            
+                <li class="sidebar-button">
+                    
+                        <a  class="sidebar-button-link open-algolia-search"
+                             href="#search"
+                            
+                            title="搜尋"
+                        >
+                    
+                        <i class="sidebar-button-icon fa fa-search" aria-hidden="true"></i>
+                        <span class="sidebar-button-desc">搜尋</span>
+                    </a>
+            </li>
+            
+                <li class="sidebar-button">
+                    
+                        <a  class="sidebar-button-link "
+                             href="#about"
+                            
+                            title="關於"
+                        >
+                    
+                        <i class="sidebar-button-icon fa fa-question" aria-hidden="true"></i>
+                        <span class="sidebar-button-desc">關於</span>
+                    </a>
+            </li>
+            
+        </ul>
+        
+            <ul class="sidebar-buttons">
+            
+                <li class="sidebar-button">
+                    
+                        <a  class="sidebar-button-link " href="https://github.com/yuehhua/" target="_blank" rel="noopener" title="GitHub">
+                    
+                        <i class="sidebar-button-icon fab fa-github" aria-hidden="true"></i>
+                        <span class="sidebar-button-desc">GitHub</span>
+                    </a>
+            </li>
+            
+                <li class="sidebar-button">
+                    
+                        <a  class="sidebar-button-link " href="https://www.facebook.com/a504082002" target="_blank" rel="noopener" title="Facebook">
+                    
+                        <i class="sidebar-button-icon fab fa-facebook" aria-hidden="true"></i>
+                        <span class="sidebar-button-desc">Facebook</span>
+                    </a>
+            </li>
+            
+                <li class="sidebar-button">
+                    
+                        <a  class="sidebar-button-link " href="https://www.linkedin.com/in/%E5%B2%B3%E8%8F%AF-%E6%9D%9C-6a3995a0/" target="_blank" rel="noopener" title="LinkedIn">
+                    
+                        <i class="sidebar-button-icon fab fa-linkedin" aria-hidden="true"></i>
+                        <span class="sidebar-button-desc">LinkedIn</span>
+                    </a>
+            </li>
+            
+                <li class="sidebar-button">
+                    
+                        <a  class="sidebar-button-link " href="mailto:a504082002@gmail.com" target="_blank" rel="noopener" title="Email">
+                    
+                        <i class="sidebar-button-icon fab fa-envelope" aria-hidden="true"></i>
+                        <span class="sidebar-button-desc">Email</span>
+                    </a>
+            </li>
+            
+        </ul>
+        
+            <ul class="sidebar-buttons">
+            
+                <li class="sidebar-button">
+                    
+                        <a  class="sidebar-button-link "
+                             href="/atom.xml"
+                            
+                            title="Atom"
+                        >
+                    
+                        <i class="sidebar-button-icon fa fa-rss" aria-hidden="true"></i>
+                        <span class="sidebar-button-desc">Atom</span>
+                    </a>
+            </li>
+            
+        </ul>
+        
+    </div>
+</nav>
+
+            
+            <div id="main" data-behavior="5"
+                 class="
+                        hasCoverMetaIn
+                        ">
+                
+    <article class="post">
+        
+                
+                    <div class="post-header main-content-wrap text-left">
+    
+        <h1 class="post-title">
+            從 iterator 及 generator 到 iterable
+        </h1>
+    
+    
+        <div class="post-meta">
+    <time datetime="2020-03-01T14:31:49+08:00">
+	
+		    3月 01, 2020
+    	
+    </time>
+    
+        <span>分類 </span>
+        
+    <a class="category-link" href="/categories/My-Style/">My Style</a>, <a class="category-link" href="/categories/My-Style/Computer-Science/">Computer Science</a>, <a class="category-link" href="/categories/My-Style/Computer-Science/Julialang/">Julialang</a>
+
+
+    
+</div>
+
+    
+</div>
+
+                        
+                            <div class="post-content markdown">
+                                <div class="main-content-wrap">
+                                    <p>今天來跟大家介紹 iterator、generator 及 iterable 這三個東西。基本上，大家應該都有用過 for 迴圈，然而很多東西可以放在迴圈的 <code>in</code> 後方，這樣就可以將裡頭的元素一個一個取出來。但是這是怎做到的呢？</p>
+<p>很基本的作法是去實作一個設計模式（design pattern）中的 iterator，假設我們要迭代一個陣列裡的元素，iterator 有別於陣列本身，是另外一個物件。Iterator 可以提供你一個介面，例如 <code>next()</code>，讓你可以取得陣列裡的下一個元素。</p>
+<p>像這樣的方式很常見也很簡單可以實作，在 Julia 裡就像這樣：</p>
+<figure class="highlight julia"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">mutable struct</span> ArrayIterator</span><br><span class="line">    array::<span class="built_in">Array</span></span><br><span class="line">    index::<span class="built_in">Int64</span></span><br><span class="line"></span><br><span class="line">    ArrayIterator(array::<span class="built_in">Array</span>) = new(array, <span class="number">1</span>)</span><br><span class="line"><span class="keyword">end</span></span><br><span class="line"></span><br><span class="line">has_next(iter::ArrayIterator) = (iter.index &lt; length(iter.array))</span><br><span class="line"></span><br><span class="line"><span class="keyword">function</span> next(iter::ArrayIterator)</span><br><span class="line">    x = iter.array[iter.index]</span><br><span class="line">    iter.index += <span class="number">1</span></span><br><span class="line">    <span class="keyword">return</span> x</span><br><span class="line"><span class="keyword">end</span></span><br></pre></td></tr></table></figure>
+<figure class="highlight julia"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line">julia&gt; v = collect(<span class="number">1</span>:<span class="number">2</span>:<span class="number">30</span>);</span><br><span class="line"></span><br><span class="line">julia&gt; iter = ArrayIterator(v);</span><br><span class="line"></span><br><span class="line">julia&gt; has_next(iter)</span><br><span class="line"><span class="literal">true</span></span><br><span class="line"></span><br><span class="line">julia&gt; next(iter)</span><br><span class="line"><span class="number">1</span></span><br><span class="line"></span><br><span class="line">julia&gt; next(iter)</span><br><span class="line"><span class="number">3</span></span><br><span class="line"></span><br><span class="line">julia&gt; has_next(iter)</span><br><span class="line"><span class="literal">true</span></span><br></pre></td></tr></table></figure>
+<p>各位可以看到 iterator 一般都會實作 <code>has_next()</code> 及 <code>next()</code> 函式，是用來確認是否有下一個元素存在及取得下一個元素。Iterator 中會包含陣列本身，也就是想要迭代的集合本身，還有一個 <code>index</code> 會指向目前的元素，並在取得元素之後移往下一個。</p>
+<p>Iterator 是一個物件，它需要一個已經存在的集合來作為它迭代的集合。這代表這個集合必須事先存在，如果這個集合很大，那就會佔去不少記憶體空間。有沒有什麼方法可以不需要集合就可以迭代的呢？Generator 是一個方式。</p>
+<p>Generator，顧名思義，它會在你取得下一個元素的時候產生出來，並不會事先計算，所以集合也不會存在。Julia 的 generator 很好撰寫，如下：</p>
+<figure class="highlight julia"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">x = (i^<span class="number">2</span> <span class="keyword">for</span> i <span class="keyword">in</span> <span class="number">1</span>:<span class="number">10</span>)</span><br></pre></td></tr></table></figure>
+<p>這就是一個會產生 1 到 10 數字的 generator。Generator 也可以被放到 for 迴圈裡被迭代，但唯一不同的是，它並不佔記憶體空間，只需要即時的計算即可。</p>
+<p>Julia 目前提供的方式稱為 Iterable，只要有實作 <code>iterate()</code> 這個 API 的就稱為 Iterable。像以下例子：</p>
+<figure class="highlight julia"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">struct</span> Character</span><br><span class="line">    start::<span class="built_in">Char</span></span><br><span class="line">    length::<span class="built_in">Int</span></span><br><span class="line">    Character() = new(<span class="string">'A'</span>, <span class="number">62</span>)</span><br><span class="line"><span class="keyword">end</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">function</span> Base.iterate(char::Character, (el, i)=(char.start, <span class="number">0</span>))</span><br><span class="line">    <span class="keyword">if</span> i &lt; char.length</span><br><span class="line">        <span class="keyword">return</span> (el, (el+<span class="number">1</span>, i+<span class="number">1</span>))</span><br><span class="line">    <span class="keyword">else</span></span><br><span class="line">        <span class="keyword">return</span> <span class="literal">nothing</span></span><br><span class="line">    <span class="keyword">end</span></span><br><span class="line"><span class="keyword">end</span></span><br><span class="line"></span><br><span class="line">Base.length(char::Character) = char.length</span><br><span class="line">Base.eltype(::Character) = <span class="built_in">Char</span></span><br></pre></td></tr></table></figure>
+<p><code>iterate()</code> 的輸入是「狀態」，輸出是下一個狀態，而狀態包含兩個物件：要迭代的元素以及順序。因此，會看起來像是這個樣子：</p>
+<figure class="highlight julia"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">(el1, (el2, i+<span class="number">1</span>)) = iterate(iter, (el1, i))</span><br></pre></td></tr></table></figure>
+<p>特別要說明的是，在輸出的狀態中，需要帶有目前元素的資訊 <code>(el1, (el2, i+1))</code>。如果要結束迴圈，那就回傳 <code>nothing</code>。我們就可以來世試看這個可以迭代輸出 ASCII 碼的 Iterable。</p>
+<figure class="highlight julia"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line">julia&gt; c = Character()</span><br><span class="line">Character(<span class="string">'A'</span>, <span class="number">62</span>)</span><br><span class="line"></span><br><span class="line">julia&gt; iterate(c)</span><br><span class="line">(<span class="string">'B'</span>, <span class="number">1</span>)</span><br><span class="line"></span><br><span class="line">julia&gt; iterate(c, (<span class="string">'B'</span>, <span class="number">1</span>))</span><br><span class="line">(<span class="string">'C'</span>, <span class="number">2</span>)</span><br><span class="line"></span><br><span class="line">julia&gt; <span class="keyword">for</span> x <span class="keyword">in</span> c</span><br><span class="line">           println(x)</span><br><span class="line">       <span class="keyword">end</span></span><br><span class="line">A</span><br><span class="line">B</span><br><span class="line">C</span><br><span class="line">D</span><br><span class="line">E</span><br><span class="line">F</span><br><span class="line">G</span><br><span class="line">H</span><br><span class="line">...</span><br></pre></td></tr></table></figure>
+<p>這樣可以有 generator 的好處，而且本身也是一個 iterator。它不需要是一個物件，只要有實作 <code>iterate()</code> 這個 API 的物件就可以使用，所以我們還可以拿來這樣用。</p>
+<figure class="highlight julia"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">struct</span> IterableNumber</span><br><span class="line">    start::<span class="built_in">Int</span></span><br><span class="line"><span class="keyword">end</span></span><br><span class="line"></span><br><span class="line">Base.iterate(iter::IterableNumber, (el, i)=(iter.start, <span class="number">0</span>)) = i &lt; <span class="literal">Inf</span> ? (el, (el+<span class="number">1</span>, i+<span class="number">1</span>)) : <span class="literal">nothing</span></span><br></pre></td></tr></table></figure>
+<p>這是一個可以自定義起點的可迭代數字，數字可以持續到無限大。你得手動把它停下來！</p>
+<figure class="highlight julia"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">julia&gt; iter = IterableNumber(<span class="number">0</span>)</span><br><span class="line">IterableNumber(<span class="number">0</span>)</span><br><span class="line"></span><br><span class="line">julia&gt; <span class="keyword">for</span> i <span class="keyword">in</span> iter</span><br><span class="line">           println(i)</span><br><span class="line">       <span class="keyword">end</span></span><br><span class="line"><span class="number">0</span></span><br><span class="line"><span class="number">1</span></span><br><span class="line"><span class="number">2</span></span><br><span class="line"><span class="number">3</span></span><br><span class="line"><span class="number">4</span></span><br><span class="line"><span class="number">5</span></span><br><span class="line">...</span><br></pre></td></tr></table></figure>
+<p>或是你想做個 sliding window：</p>
+<figure class="highlight julia"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">struct</span> SlidingWindow</span><br><span class="line">    vec::<span class="built_in">Vector</span></span><br><span class="line">    n::<span class="built_in">Int</span></span><br><span class="line">    start::<span class="built_in">SubArray</span></span><br><span class="line"></span><br><span class="line">    SlidingWindow(vec::<span class="built_in">Vector</span>, n) = new(vec, n, view(vec, <span class="number">1</span>:n))</span><br><span class="line"><span class="keyword">end</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">function</span> Base.iterate(iter::SlidingWindow, (el, i)=(iter.start, <span class="number">1</span>))</span><br><span class="line">    <span class="literal">e</span> = i + iter.n - <span class="number">1</span></span><br><span class="line">    <span class="keyword">if</span> <span class="literal">e</span> &lt;= length(iter.vec)</span><br><span class="line">        <span class="keyword">return</span> (el, (view(iter.vec, i:<span class="literal">e</span>), i+<span class="number">1</span>))</span><br><span class="line">    <span class="keyword">else</span></span><br><span class="line">        <span class="keyword">return</span> <span class="literal">nothing</span></span><br><span class="line">    <span class="keyword">end</span></span><br><span class="line"><span class="keyword">end</span></span><br></pre></td></tr></table></figure>
+<p>這邊用 <code>view(iter.vec, i:e)</code> 做取值的方式，比起用 <code>iter.vec[i:e]</code> 取值來的快很多。<code>iter.vec[i:e]</code> 這種方式會造出一個新的陣列，而 view 不會。</p>
+<figure class="highlight julia"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line">julia&gt; v = collect(<span class="number">1</span>:<span class="number">50</span>);</span><br><span class="line"></span><br><span class="line">julia&gt; sw = SlidingWindow(v, <span class="number">5</span>)</span><br><span class="line">SlidingWindow([<span class="number">1</span>, <span class="number">2</span>, <span class="number">3</span>, <span class="number">4</span>, <span class="number">5</span>, <span class="number">6</span>, <span class="number">7</span>, <span class="number">8</span>, <span class="number">9</span>, <span class="number">10</span>  …  <span class="number">41</span>, <span class="number">42</span>, <span class="number">43</span>, <span class="number">44</span>, <span class="number">45</span>, <span class="number">46</span>, <span class="number">47</span>, <span class="number">48</span>, <span class="number">49</span>, <span class="number">50</span>], <span class="number">5</span>, [<span class="number">1</span>, <span class="number">2</span>, <span class="number">3</span>, <span class="number">4</span>, <span class="number">5</span>])</span><br><span class="line"></span><br><span class="line">julia&gt; <span class="keyword">for</span> x <span class="keyword">in</span> sw</span><br><span class="line">           println(x)</span><br><span class="line">       <span class="keyword">end</span></span><br><span class="line">[<span class="number">1</span>, <span class="number">2</span>, <span class="number">3</span>, <span class="number">4</span>, <span class="number">5</span>]</span><br><span class="line">[<span class="number">1</span>, <span class="number">2</span>, <span class="number">3</span>, <span class="number">4</span>, <span class="number">5</span>]</span><br><span class="line">[<span class="number">2</span>, <span class="number">3</span>, <span class="number">4</span>, <span class="number">5</span>, <span class="number">6</span>]</span><br><span class="line">[<span class="number">3</span>, <span class="number">4</span>, <span class="number">5</span>, <span class="number">6</span>, <span class="number">7</span>]</span><br><span class="line">[<span class="number">4</span>, <span class="number">5</span>, <span class="number">6</span>, <span class="number">7</span>, <span class="number">8</span>]</span><br><span class="line">[<span class="number">5</span>, <span class="number">6</span>, <span class="number">7</span>, <span class="number">8</span>, <span class="number">9</span>]</span><br><span class="line">[<span class="number">6</span>, <span class="number">7</span>, <span class="number">8</span>, <span class="number">9</span>, <span class="number">10</span>]</span><br><span class="line">[<span class="number">7</span>, <span class="number">8</span>, <span class="number">9</span>, <span class="number">10</span>, <span class="number">11</span>]</span><br><span class="line">[<span class="number">8</span>, <span class="number">9</span>, <span class="number">10</span>, <span class="number">11</span>, <span class="number">12</span>]</span><br><span class="line">[<span class="number">9</span>, <span class="number">10</span>, <span class="number">11</span>, <span class="number">12</span>, <span class="number">13</span>]</span><br><span class="line">...</span><br></pre></td></tr></table></figure>
+<p>這邊介紹了三種迭代的方法，而 iterable 則是目前由 Julia 官方支援的主流方式。除了可以迭代數字以外還可以有其他用途，甚至可以迭代直到無限大的數字。Sliding window 這樣的東西在計算上或是深度學習上是很實用的結構！是不是覺得 Julia 越來越像 functional language 了XD</p>
+
+                                        
+
+                                </div>
+                            </div>
+                            <div id="post-footer" class="post-footer main-content-wrap">
+                                
+                                        
+                                            <div class="post-actions-wrap">
+    <nav>
+        <ul class="post-actions post-action-nav">
+            <li class="post-action">
+                
+                    <a class="post-action-btn btn btn--disabled">
+                
+                    <i class="fa fa-angle-left" aria-hidden="true"></i>
+                    <span class="hide-xs hide-sm text-small icon-ml">上一篇</span>
+                </a>
+            </li>
+            <li class="post-action">
+                
+                    
+                    <a class="post-action-btn btn btn--default tooltip--top" href="/2020/02/10/one-way-anova-and-sum-of-squares/" data-tooltip="One-way ANOVA and sum of squares" aria-label="下一篇: One-way ANOVA and sum of squares">
+                
+                    <span class="hide-xs hide-sm text-small icon-mr">下一篇</span>
+                    <i class="fa fa-angle-right" aria-hidden="true"></i>
+                </a>
+            </li>
+        </ul>
+    </nav>
+    <ul class="post-actions post-action-share">
+        <li class="post-action hide-lg hide-md hide-sm">
+            <a class="post-action-btn btn btn--default btn-open-shareoptions" href="#btn-open-shareoptions" aria-label="Share this post">
+                <i class="fa fa-share-alt" aria-hidden="true"></i>
+            </a>
+        </li>
+        
+            
+            
+            <li class="post-action hide-xs">
+                <a class="post-action-btn btn btn--default" target="new" href="https://www.facebook.com/sharer/sharer.php?u=https://yuehhua.github.io/2020/03/01/from-iterator-and-generator-to-iterable/" title="分享到 Facebook">
+                    <i class="fa fa-facebook-official" aria-hidden="true"></i>
+                </a>
+            </li>
+        
+        
+            
+                <li class="post-action">
+                    <a class="post-action-btn btn btn--default" href="#disqus_thread">
+                        <i class="fa fa-comment-o"></i>
+                    </a>
+                </li>
+            
+        
+        <li class="post-action">
+            
+                <a class="post-action-btn btn btn--default" href="#" aria-label="Back to top">
+            
+                <i class="fa fa-list" aria-hidden="true"></i>
+            </a>
+        </li>
+    </ul>
+</div>
+
+
+                                                
+                                                    
+                                                        
+                                                            <div id="disqus_thread">
+    <noscript>Please enable JavaScript to view the <a href="//disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+</div>
+                                                                
+                                                                            
+                            </div>
+                            
+                                <script src='https://unpkg.com/mermaid@7.1.2/dist/mermaid.min.js'></script>
+                                <script>
+                                    if (window.mermaid) {
+                                        mermaid.initialize({ theme: 'forest' });
+                                    }
+                                </script>
+                                
+    </article>
+
+                <footer id="footer" class="main-content-wrap">
+    <span class="copyrights">
+        Copyrights &copy; 2020 Yueh-Hua Tu. All Rights Reserved.
+    </span>
+</footer>
+
+            </div>
+            
+                <div id="bottom-bar" class="post-bottom-bar" data-behavior="5">
+                    <div class="post-actions-wrap">
+    <nav>
+        <ul class="post-actions post-action-nav">
+            <li class="post-action">
+                
+                    <a class="post-action-btn btn btn--disabled">
+                
+                    <i class="fa fa-angle-left" aria-hidden="true"></i>
+                    <span class="hide-xs hide-sm text-small icon-ml">上一篇</span>
+                </a>
+            </li>
+            <li class="post-action">
+                
+                    
+                    <a class="post-action-btn btn btn--default tooltip--top" href="/2020/02/10/one-way-anova-and-sum-of-squares/" data-tooltip="One-way ANOVA and sum of squares" aria-label="下一篇: One-way ANOVA and sum of squares">
+                
+                    <span class="hide-xs hide-sm text-small icon-mr">下一篇</span>
+                    <i class="fa fa-angle-right" aria-hidden="true"></i>
+                </a>
+            </li>
+        </ul>
+    </nav>
+    <ul class="post-actions post-action-share">
+        <li class="post-action hide-lg hide-md hide-sm">
+            <a class="post-action-btn btn btn--default btn-open-shareoptions" href="#btn-open-shareoptions" aria-label="Share this post">
+                <i class="fa fa-share-alt" aria-hidden="true"></i>
+            </a>
+        </li>
+        
+            
+            
+            <li class="post-action hide-xs">
+                <a class="post-action-btn btn btn--default" target="new" href="https://www.facebook.com/sharer/sharer.php?u=https://yuehhua.github.io/2020/03/01/from-iterator-and-generator-to-iterable/" title="分享到 Facebook">
+                    <i class="fa fa-facebook-official" aria-hidden="true"></i>
+                </a>
+            </li>
+        
+        
+            
+                <li class="post-action">
+                    <a class="post-action-btn btn btn--default" href="#disqus_thread">
+                        <i class="fa fa-comment-o"></i>
+                    </a>
+                </li>
+            
+        
+        <li class="post-action">
+            
+                <a class="post-action-btn btn btn--default" href="#" aria-label="Back to top">
+            
+                <i class="fa fa-list" aria-hidden="true"></i>
+            </a>
+        </li>
+    </ul>
+</div>
+
+
+                </div>
+                <div id="share-options-bar" class="share-options-bar" data-behavior="5">
+    <i id="btn-close-shareoptions" class="fa fa-close"></i>
+    <ul class="share-options">
+        
+            
+            
+            <li class="share-option">
+                <a class="share-option-btn" target="new" href="https://www.facebook.com/sharer/sharer.php?u=https://yuehhua.github.io/2020/03/01/from-iterator-and-generator-to-iterable/">
+                    <i class="fa fa-facebook-official" aria-hidden="true"></i><span>分享到 Facebook</span>
+                </a>
+            </li>
+        
+    </ul>
+</div>
+
+            
+        </div>
+        
+
+
+<div id="about">
+    <div id="about-card">
+        <div id="about-btn-close">
+            <i class="fa fa-remove"></i>
+        </div>
+        
+            <h4 id="about-card-name">Yueh-Hua Tu</h4>
+        
+            <div id="about-card-bio"><p>目標是計算生物學家！</br>Systems Biology, Computational Biology, Machine Learning</br>Julia Taiwan 發起人</p>
+</div>
+        
+        
+            <div id="about-card-job">
+                <i class="fa fa-briefcase"></i>
+                <br/>
+                <p>研發替代役研究助理</p>
+
+            </div>
+        
+        
+            <div id="about-card-location">
+                <i class="fa fa-map-marker"></i>
+                <br/>
+                Taiwan
+            </div>
+        
+    </div>
+</div>
+
+        
+        
+<div id="cover" style="background-image:url('/assets/images/cover.jpg');"></div>
+        <!--SCRIPTS-->
+<script src="/assets/js/script-xzfezjobyekpxrjktw5tz6muvzqfsbmo5n6atk3p5om9ulfptldi3p7cyqd8.min.js"></script>
+<!--SCRIPTS END-->
+
+
+<script>
+    var disqus_config = function () {
+        this.page.url = 'https://yuehhua.github.io/2020/03/01/from-iterator-and-generator-to-iterable/';
+                 
+            this.page.identifier = '2020/03/01/from-iterator-and-generator-to-iterable/';
+                 
+             };
+    (function () {
+        var d = document, s = d.createElement('script');
+        var disqus_shortname = 'dream-maker';
+        s.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+
+        s.setAttribute('data-timestamp', +new Date());
+        (d.head || d.body).appendChild(s);
+    })();
+</script>
+
+
+
+    <script type="text/x-mathjax-config">
+    MathJax.Hub.Config({
+        tex2jax: {
+            inlineMath: [ ["$","$"], ["\\(","\\)"] ],
+            skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code'],
+            processEscapes: true
+        }
+    });
+    MathJax.Hub.Queue(function() {
+        var all = MathJax.Hub.getAllJax();
+        for (var i = 0; i < all.length; ++i)
+            all[i].SourceElement().parentNode.className += ' has-jax';
+    });
+</script>
+<script src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script><!-- hexo-inject:begin --><!-- hexo-inject:end -->
+</body>
+</html>

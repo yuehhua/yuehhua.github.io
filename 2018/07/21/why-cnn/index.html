@@ -305,21 +305,21 @@
 <p>$\tau$ 是一個時間區間，而積分其實是在對這個時間區間做切片然後加總，他其實跟我們在做訊號處理上的 window 的概念是一樣的，所以他其實是在某個 window 中做內積的意思。我們先來看看有 window 的內積長什麼樣子。</p>
 <p>$$<br>(a * b)[n] = \sum_{m=1}^{k} a[m] b[n + m]<br>$$</p>
 <p>在下圖我們可以假想左邊的向量是 $b$，右邊的是 $a$，而向量 $a$ 是有被 window 給限定範圍的（m = 1…k），所以在下面這張圖就是當 n = 1、m = 1…4 的時候的情境。箭頭則是向量元素相乘的對象，每次內積完，n 就會往下移動一個元素。</p>
-<p><img src="/images/ccor1d.svg" alt=""></p>
+<p><img src="/images/ccor1d.svg" alt></p>
 <p>計算完之後就變成一個新的向量，這就是 window 版本的內積的運作原理了！他其實有一個正式的名字，稱為 cross-correlation。</p>
 <p>我們來看看把 convolution 離散化來看看是長什麼樣子。剛剛我們看到的 convolution 是連續的版本，是函數的版本，那我們實際上的運算是以向量去操作的，那麼離散版本的 convolution 是：</p>
 <p>$$<br>(a * b)[n] = \sum_{m=-\infty}^{\infty} a[m] b[n - m]<br>$$</p>
 <p>這邊的 window 就是 $m$ 這個參數，其實我們可以給他一個區間，不要是負無限大到正無限大。</p>
 <p>$$<br>(a * b)[n] = \sum_{m=1}^{k} a[m] b[n - m]<br>$$</p>
 <p>所以這邊的 window 大小調成是 $k$ 了！</p>
-<p><img src="/images/conv1d.svg" alt=""></p>
+<p><img src="/images/conv1d.svg" alt></p>
 <p>你會發現，convolution 會跟 cross-correlation 很像，差別在於順序，也就是 convolution 內積的順序是相反的，所以他在數學式上的表達是用相減的，這邊的情境是 n = 6、m = 1…4。</p>
 <p>我們來總結一下 convolution 這個運算，他其實是 local 版本的內積運算，而且他的內積方向是反序的。</p>
 <h2 id="Convolution-layer"><a href="#Convolution-layer" class="headerlink" title="Convolution layer"></a>Convolution layer</h2><p>這邊我們回到我們的 convolution layer，如果把以上的一維向量拓展到二維的矩陣資料會長什麼樣子呢？</p>
 <p>我們先來看二維的 cross-correlation 長什麼樣子。</p>
-<p><img src="/images/ccor2d.svg" alt=""></p>
+<p><img src="/images/ccor2d.svg" alt></p>
 <p>然後是反序的 convolution。</p>
-<p><img src="/images/conv2d.svg" alt=""></p>
+<p><img src="/images/conv2d.svg" alt></p>
 <p>這樣有沒有搞懂一點 convolution 的運算了呢？</p>
 <p>接著，想像在右手邊比較小的方框就是你的 filter （或是 kernel），然後他會沿著兩個軸去移動，去掃描看看有沒有跟 filter 的 pattern 很像的，當他偵測到很像的 pattern 的時候，輸出的 feature map 的值就會很高，所以這樣就可以做到上面講的第二點，也就是位移的不變性。不過說起來也不是真的有什麼位移不變性啦！他只是沿著軸去做掃描可以減少訓練的參數，這樣 filter 還是有在位移阿！只是對於要偵測的 pattern 看起來好像有”位移不變性”一樣。到這邊我們第一點跟第二點都解決了，剩下第三點。</p>
 <h2 id="Subsampling"><a href="#Subsampling" class="headerlink" title="Subsampling"></a>Subsampling</h2><p>跟第三點相關的就是 subsampling，也就是如果讓圖片變小，不只可以降低要辨識的區塊大小，還可以降低需要訓練的參數量。那要怎麼讓圖片變小？</p>
@@ -576,7 +576,6 @@
             all[i].SourceElement().parentNode.className += ' has-jax';
     });
 </script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script><!-- hexo-inject:begin --><!-- hexo-inject:end -->
-
+<script src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script><!-- hexo-inject:begin --><!-- hexo-inject:end -->
 </body>
 </html>

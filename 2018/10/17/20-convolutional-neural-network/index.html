@@ -269,9 +269,9 @@
                                     <h2 id="Convolution-layer"><a href="#Convolution-layer" class="headerlink" title="Convolution layer"></a>Convolution layer</h2><p>這邊我們回到我們的 convolution layer，如果把以上的一維向量拓展到二維的矩陣資料會長什麼樣子呢？</p>
 <p>我們先來看二維的 cross-correlation 長什麼樣子。</p>
 <a id="more"></a>
-<p><img src="/images/ccor2d.svg" alt=""></p>
+<p><img src="/images/ccor2d.svg" alt></p>
 <p>然後是反序的 convolution。</p>
-<p><img src="/images/conv2d.svg" alt=""></p>
+<p><img src="/images/conv2d.svg" alt></p>
 <p>這樣有沒有搞懂一點 convolution 的運算了呢？</p>
 <p>接著，想像在右手邊比較小的方框就是你的 filter （或是 kernel），然後他會沿著兩個軸去移動，去掃描看看有沒有跟 filter 的 pattern 很像的，當他偵測到很像的 pattern 的時候，輸出的 feature map 的值就會很高，所以這樣就可以做到上面講的第二點，也就是位移的不變性。不過說起來也不是真的有什麼位移不變性啦！他只是沿著軸去做掃描可以減少訓練的參數，這樣 filter 還是有在位移阿！只是對於要偵測的 pattern 看起來好像有”位移不變性”一樣。到這邊我們第一點跟第二點都解決了，剩下第三點。</p>
 <h2 id="Subsampling"><a href="#Subsampling" class="headerlink" title="Subsampling"></a>Subsampling</h2><p>跟第三點相關的就是 subsampling，也就是如果讓圖片變小，不只可以降低要辨識的區塊大小，還可以降低需要訓練的參數量。那要怎麼讓圖片變小？</p>
@@ -528,7 +528,6 @@
             all[i].SourceElement().parentNode.className += ' has-jax';
     });
 </script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script><!-- hexo-inject:begin --><!-- hexo-inject:end -->
-
+<script src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script><!-- hexo-inject:begin --><!-- hexo-inject:end -->
 </body>
 </html>

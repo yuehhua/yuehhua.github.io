@@ -276,7 +276,7 @@
 <a id="more"></a>
 <h2 id="Markov-chain"><a href="#Markov-chain" class="headerlink" title="Markov chain"></a>Markov chain</h2><p>馬可夫模型是這樣的，他假設一個變數有不同種的狀態，例如下圖：</p>
 <p><br></p>
-<p><img src="/images/markov_model.svg" alt=""></p>
+<p><img src="/images/markov_model.svg" alt></p>
 <p><br></p>
 <p>在這邊有4個狀態，一個圓圈代表一個狀態，狀態跟狀態之間會隨著時間改變，每個狀態會有一定機率變成其他狀態，或是維持原本的狀態不變。</p>
 <p>我們可以把目前的狀態用一個向量來表達：</p>
@@ -297,7 +297,7 @@
 <p>$$<br>y_1^{(t)} = a_{11}y_1^{(t-1)} + a_{12}y_2^{(t-1)} + a_{13}y_3^{(t-1)} + a_{14}y_4^{(t-1)}<br>$$</p>
 <p>從時間軸上來看，我們可以把狀態的轉變畫出來像是這樣：</p>
 <p><br></p>
-<p><img src="/images/markov_model_expand_time.svg" alt=""></p>
+<p><img src="/images/markov_model_expand_time.svg" alt></p>
 <p><br></p>
 <p>每次的轉變我們都可以看成一個函數 $f$，他其實等同於上面提到的矩陣：</p>
 <p>$$<br>\mathbf{y^{(t)}} = f(\mathbf{y^{(t-1)}}) = \mathbf{y^{(t-1)}} A<br>$$</p>
@@ -308,7 +308,7 @@
 <p>下句跟上句的不同在於，上句的描述是肯定的，他只描述了狀態的改變，但是下句多加描述了 <strong>這件事會發生的機率</strong>，所以應該要把 $\mathbf{y^{(t)}} \mid \mathbf{y^{(t-1)}}$ 理解成 <strong>這一件事</strong>，那麼 $f$ 的輸出就是機率了。</p>
 <p>我們可以把上圖 <em>收起來</em>，所以看起來會像這樣：</p>
 <p><br></p>
-<p><img src="/images/markov_model_time.svg" alt=""></p>
+<p><img src="/images/markov_model_time.svg" alt></p>
 <p><br></p>
 <p>花了點時間把一些符號跟數學概念講完了，來談談他的假設，一般來說，馬可夫模型最大的假設在於：</p>
 <p>$$<br>P(\mathbf{y^{(t)}} \mid \mathbf{y^{(1)}}, \mathbf{y^{(2)}}, \dots, \mathbf{y^{(t-1)}}) = P(\mathbf{y^{(t)}} \mid \mathbf{y^{(t-1)}})<br>$$</p>
@@ -326,7 +326,7 @@
 <p><br></p>
 <h2 id="Hidden-Markov-model"><a href="#Hidden-Markov-model" class="headerlink" title="Hidden Markov model"></a>Hidden Markov model</h2><p>接下來是進階版的隱馬可夫模型（hidden Markov model），他的假設是這樣的，在一個系統中存在一些我們看不到的狀態，是系統的內在狀態，隨著系統的內在狀態不同，他所表現出來的外在狀態也不同，而外在狀態是我們可以觀測到的。</p>
 <p><br></p>
-<p><img src="/images/hmm.svg" alt=""></p>
+<p><img src="/images/hmm.svg" alt></p>
 <p><br></p>
 <p>大家可以看到這個圖跟剛剛的很相似，帶是又多了一些東西。較大的圈圈是內在狀態，小的圈圈是外在狀態。隨著時間改變，內在狀態會隨著變動，內在狀態的變動我們可以用一個矩陣來表示：</p>
 <p>$$<br>A = [a_{ij}] =<br>\begin{bmatrix}<br>a_{11}&amp; a_{12}&amp; a_{13}&amp; a_{14} \\<br>a_{21}&amp; a_{22}&amp; a_{23}&amp; a_{24} \\<br>a_{31}&amp; a_{32}&amp; a_{33}&amp; a_{34} \\<br>a_{41}&amp; a_{42}&amp; a_{43}&amp; a_{44} \\<br>\end{bmatrix}<br>$$</p>
@@ -339,9 +339,9 @@
 <p>$\mathbf{y^{(t)}}$ 代表在第 t 單位時間根據內在狀態噴出的外在狀態。</p>
 <p>如果在時間軸上表達的話是這個樣子：</p>
 <p><br></p>
-<p><img src="/images/hmm_expand_time.svg" alt=""></p>
+<p><img src="/images/hmm_expand_time.svg" alt></p>
 <p><br></p>
-<p><img src="/images/hmm_time.svg" alt=""></p>
+<p><img src="/images/hmm_time.svg" alt></p>
 <p><br></p>
 <p>由於在這邊又多了一個內在狀態，所以在模型的表達力上遠遠超越馬可夫模型。舉個例子好了，假設小明很好奇在不同天氣的時候外面的人吃冰淇淋的狀況是如何，但是小明又很懶得出門看天氣，這時候他就假設天氣（晴天、陰天、雨天）是內在狀態（看不到），然後他觀察路上的人吃冰淇淋（外在狀態，吃、不吃）的多寡，這時候這麼模型就可以派上用場，他藉由持續觀察路人有沒有吃冰淇淋，可以推論外面天氣的變化狀況。</p>
 <p>這時候我們也來總結一下，這個模型的假設：</p>
@@ -594,7 +594,6 @@
             all[i].SourceElement().parentNode.className += ' has-jax';
     });
 </script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script><!-- hexo-inject:begin --><!-- hexo-inject:end -->
-
+<script src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script><!-- hexo-inject:begin --><!-- hexo-inject:end -->
 </body>
 </html>

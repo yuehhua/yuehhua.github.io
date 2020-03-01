@@ -288,33 +288,33 @@
 <a id="more"></a>
 <p>$$<br>A = U \Sigma V^T<br>$$</p>
 <p>這 3 個矩陣分別是有意義的，$U$、$\Sigma$、$V$ 的幾何意義分別是旋轉、伸縮、旋轉的意思。大家可以參考以下的圖：</p>
-<p><img src="https://ccjou.files.wordpress.com/2009/09/svd32.jpg?w=400&amp;h=300" alt=""></p>
+<p><img src="https://ccjou.files.wordpress.com/2009/09/svd32.jpg?w=400&amp;h=300" alt></p>
 <blockquote>
 <p>圖來自以上提到的文章</p>
 </blockquote>
 <p>所以我們可以知道矩陣能做的事情大概就是旋轉伸縮這些事情了。</p>
 <p>在模型上，我們還會加上一個 bias 來達到平移的效果。</p>
 <p>我們可以來造一些點：</p>
-<p><img src="/images/activation1.png" alt=""></p>
+<p><img src="/images/activation1.png" alt></p>
 <p>我們可以 random 造一個矩陣：</p>
 <p>$$<br>A =<br>\begin{bmatrix}<br>0.35166263&amp; 0.1124966 \\<br>0.25249535&amp; 0.65481947 \\<br>\end{bmatrix}<br>$$</p>
 <p>所以我們可以對每個點做運算 $Ax$：</p>
-<p><img src="/images/activation2.png" alt=""></p>
+<p><img src="/images/activation2.png" alt></p>
 <h2 id="去吧！Activation-function！"><a href="#去吧！Activation-function！" class="headerlink" title="去吧！Activation function！"></a>去吧！Activation function！</h2><p>接下來我們先來試試看在 CNN 用最多的 ReLU，我們把上面的點通過 ReLU 之後會發生什麼事呢？</p>
-<p><img src="/images/activation3.png" alt=""></p>
+<p><img src="/images/activation3.png" alt></p>
 <p>大家會發現只留下第一象限的點是沒有動到的，剩下的象限的點都被擠到 x 軸跟 y 軸上了。</p>
 <p>所以在高維度的世界中，點都會保留第一象限不變，其他象限被擠壓到軸上。</p>
 <p>那如果是用 sigmoid 的效果呢？</p>
-<p><img src="/images/activation4.png" alt=""></p>
+<p><img src="/images/activation4.png" alt></p>
 <p>他將所有的點都壓到 (0, 1) 之間，所以整個形狀就縮小很多。</p>
 <p>我們放大來看看他整體形狀有沒有什麼變化。</p>
-<p><img src="/images/activation5.png" alt=""></p>
+<p><img src="/images/activation5.png" alt></p>
 <p>整體形狀有些微被扭曲了，不知道大家有沒有發現呢？</p>
 <p>所以在引進 activation function 之後，模型擁有了 <strong>扭曲</strong> 的能力！</p>
 <p>那麼 activation function 到底實際上做了什麼事呢？</p>
 <h2 id="雕塑的工匠"><a href="#雕塑的工匠" class="headerlink" title="雕塑的工匠"></a>雕塑的工匠</h2><p>以 ReLU 來說，他就像一個工匠正在雕塑一個作品。</p>
 <p>ReLU 就是工匠手上那把彫刻刀，他會把第一象限以外的部份削掉。看起來就會像朱銘大師的作品這樣：</p>
-<p><img src="/images/ncku-statue.jpg" alt=""></p>
+<p><img src="/images/ncku-statue.jpg" alt></p>
 <blockquote>
 <p>圖來自 <a href="http://digitalarchives.artcenter.ncku.edu.tw/walkncku_cht/" target="_blank" rel="noopener">漫遊‧藝術網＠成大校園</a></p>
 </blockquote>
@@ -582,7 +582,6 @@
             all[i].SourceElement().parentNode.className += ' has-jax';
     });
 </script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script><!-- hexo-inject:begin --><!-- hexo-inject:end -->
-
+<script src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script><!-- hexo-inject:begin --><!-- hexo-inject:end -->
 </body>
 </html>

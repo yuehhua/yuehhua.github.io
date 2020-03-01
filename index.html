@@ -230,6 +230,79 @@
                 <section class="postShorten-group main-content-wrap">
     
     
+    <article class="postShorten postShorten--thumbnailimg-bottom">
+        <div class="postShorten-wrap">
+            
+            <div class="postShorten-header">
+                <h1 class="postShorten-title">
+                    
+                        <a class="link-unstyled" href="/2020/03/01/from-iterator-and-generator-to-iterable/">
+                            從 iterator 及 generator 到 iterable
+                        </a>
+                    
+                </h1>
+                <div class="postShorten-meta">
+    <time datetime="2020-03-01T14:31:49+08:00">
+	
+		    3月 01, 2020
+    	
+    </time>
+    
+        <span>分類 </span>
+        
+    <a class="category-link" href="/categories/My-Style/">My Style</a>, <a class="category-link" href="/categories/My-Style/Computer-Science/">Computer Science</a>, <a class="category-link" href="/categories/My-Style/Computer-Science/Julialang/">Julialang</a>
+
+
+    
+</div>
+
+            </div>
+            
+                <div class="postShorten-content">
+                    <p>今天來跟大家介紹 iterator、generator 及 iterable 這三個東西。基本上，大家應該都有用過 for 迴圈，然而很多東西可以放在迴圈的 <code>in</code> 後方，這樣就可以將裡頭的元素一個一個取出來。但是這是怎做到的呢？</p>
+<p>很基本的作法是去實作一個設計模式（design pattern）中的 iterator，假設我們要迭代一個陣列裡的元素，iterator 有別於陣列本身，是另外一個物件。Iterator 可以提供你一個介面，例如 <code>next()</code>，讓你可以取得陣列裡的下一個元素。</p>
+<p>像這樣的方式很常見也很簡單可以實作，在 Julia 裡就像這樣：</p>
+<figure class="highlight julia"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">mutable struct</span> ArrayIterator</span><br><span class="line">    array::<span class="built_in">Array</span></span><br><span class="line">    index::<span class="built_in">Int64</span></span><br><span class="line"></span><br><span class="line">    ArrayIterator(array::<span class="built_in">Array</span>) = new(array, <span class="number">1</span>)</span><br><span class="line"><span class="keyword">end</span></span><br><span class="line"></span><br><span class="line">has_next(iter::ArrayIterator) = (iter.index &lt; length(iter.array))</span><br><span class="line"></span><br><span class="line"><span class="keyword">function</span> next(iter::ArrayIterator)</span><br><span class="line">    x = iter.array[iter.index]</span><br><span class="line">    iter.index += <span class="number">1</span></span><br><span class="line">    <span class="keyword">return</span> x</span><br><span class="line"><span class="keyword">end</span></span><br></pre></td></tr></table></figure>
+<figure class="highlight julia"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line">julia&gt; v = collect(<span class="number">1</span>:<span class="number">2</span>:<span class="number">30</span>);</span><br><span class="line"></span><br><span class="line">julia&gt; iter = ArrayIterator(v);</span><br><span class="line"></span><br><span class="line">julia&gt; has_next(iter)</span><br><span class="line"><span class="literal">true</span></span><br><span class="line"></span><br><span class="line">julia&gt; next(iter)</span><br><span class="line"><span class="number">1</span></span><br><span class="line"></span><br><span class="line">julia&gt; next(iter)</span><br><span class="line"><span class="number">3</span></span><br><span class="line"></span><br><span class="line">julia&gt; has_next(iter)</span><br><span class="line"><span class="literal">true</span></span><br></pre></td></tr></table></figure>
+<p>各位可以看到 iterator 一般都會實作 <code>has_next()</code> 及 <code>next()</code> 函式，是用來確認是否有下一個元素存在及取得下一個元素。Iterator 中會包含陣列本身，也就是想要迭代的集合本身，還有一個 <code>index</code> 會指向目前的元素，並在取得元素之後移往下一個。</p>
+<p>Iterator 是一個物件，它需要一個已經存在的集合來作為它迭代的集合。這代表這個集合必須事先存在，如果這個集合很大，那就會佔去不少記憶體空間。有沒有什麼方法可以不需要集合就可以迭代的呢？Generator 是一個方式。</p>
+<p>Generator，顧名思義，它會在你取得下一個元素的時候產生出來，並不會事先計算，所以集合也不會存在。Julia 的 generator 很好撰寫，如下：</p>
+<figure class="highlight julia"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">x = (i^<span class="number">2</span> <span class="keyword">for</span> i <span class="keyword">in</span> <span class="number">1</span>:<span class="number">10</span>)</span><br></pre></td></tr></table></figure>
+<p>這就是一個會產生 1 到 10 數字的 generator。Generator 也可以被放到 for 迴圈裡被迭代，但唯一不同的是，它並不佔記憶體空間，只需要即時的計算即可。</p>
+<p>Julia 目前提供的方式稱為 Iterable，只要有實作 <code>iterate()</code> 這個 API 的就稱為 Iterable。像以下例子：</p>
+<figure class="highlight julia"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">struct</span> Character</span><br><span class="line">    start::<span class="built_in">Char</span></span><br><span class="line">    length::<span class="built_in">Int</span></span><br><span class="line">    Character() = new(<span class="string">'A'</span>, <span class="number">62</span>)</span><br><span class="line"><span class="keyword">end</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">function</span> Base.iterate(char::Character, (el, i)=(char.start, <span class="number">0</span>))</span><br><span class="line">    <span class="keyword">if</span> i &lt; char.length</span><br><span class="line">        <span class="keyword">return</span> (el, (el+<span class="number">1</span>, i+<span class="number">1</span>))</span><br><span class="line">    <span class="keyword">else</span></span><br><span class="line">        <span class="keyword">return</span> <span class="literal">nothing</span></span><br><span class="line">    <span class="keyword">end</span></span><br><span class="line"><span class="keyword">end</span></span><br><span class="line"></span><br><span class="line">Base.length(char::Character) = char.length</span><br><span class="line">Base.eltype(::Character) = <span class="built_in">Char</span></span><br></pre></td></tr></table></figure>
+<p><code>iterate()</code> 的輸入是「狀態」，輸出是下一個狀態，而狀態包含兩個物件：要迭代的元素以及順序。因此，會看起來像是這個樣子：</p>
+<figure class="highlight julia"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">(el1, (el2, i+<span class="number">1</span>)) = iterate(iter, (el1, i))</span><br></pre></td></tr></table></figure>
+<p>特別要說明的是，在輸出的狀態中，需要帶有目前元素的資訊 <code>(el1, (el2, i+1))</code>。如果要結束迴圈，那就回傳 <code>nothing</code>。我們就可以來世試看這個可以迭代輸出 ASCII 碼的 Iterable。</p>
+<figure class="highlight julia"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line">julia&gt; c = Character()</span><br><span class="line">Character(<span class="string">'A'</span>, <span class="number">62</span>)</span><br><span class="line"></span><br><span class="line">julia&gt; iterate(c)</span><br><span class="line">(<span class="string">'B'</span>, <span class="number">1</span>)</span><br><span class="line"></span><br><span class="line">julia&gt; iterate(c, (<span class="string">'B'</span>, <span class="number">1</span>))</span><br><span class="line">(<span class="string">'C'</span>, <span class="number">2</span>)</span><br><span class="line"></span><br><span class="line">julia&gt; <span class="keyword">for</span> x <span class="keyword">in</span> c</span><br><span class="line">           println(x)</span><br><span class="line">       <span class="keyword">end</span></span><br><span class="line">A</span><br><span class="line">B</span><br><span class="line">C</span><br><span class="line">D</span><br><span class="line">E</span><br><span class="line">F</span><br><span class="line">G</span><br><span class="line">H</span><br><span class="line">...</span><br></pre></td></tr></table></figure>
+<p>這樣可以有 generator 的好處，而且本身也是一個 iterator。它不需要是一個物件，只要有實作 <code>iterate()</code> 這個 API 的物件就可以使用，所以我們還可以拿來這樣用。</p>
+<figure class="highlight julia"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">struct</span> IterableNumber</span><br><span class="line">    start::<span class="built_in">Int</span></span><br><span class="line"><span class="keyword">end</span></span><br><span class="line"></span><br><span class="line">Base.iterate(iter::IterableNumber, (el, i)=(iter.start, <span class="number">0</span>)) = i &lt; <span class="literal">Inf</span> ? (el, (el+<span class="number">1</span>, i+<span class="number">1</span>)) : <span class="literal">nothing</span></span><br></pre></td></tr></table></figure>
+<p>這是一個可以自定義起點的可迭代數字，數字可以持續到無限大。你得手動把它停下來！</p>
+<figure class="highlight julia"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">julia&gt; iter = IterableNumber(<span class="number">0</span>)</span><br><span class="line">IterableNumber(<span class="number">0</span>)</span><br><span class="line"></span><br><span class="line">julia&gt; <span class="keyword">for</span> i <span class="keyword">in</span> iter</span><br><span class="line">           println(i)</span><br><span class="line">       <span class="keyword">end</span></span><br><span class="line"><span class="number">0</span></span><br><span class="line"><span class="number">1</span></span><br><span class="line"><span class="number">2</span></span><br><span class="line"><span class="number">3</span></span><br><span class="line"><span class="number">4</span></span><br><span class="line"><span class="number">5</span></span><br><span class="line">...</span><br></pre></td></tr></table></figure>
+<p>或是你想做個 sliding window：</p>
+<figure class="highlight julia"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">struct</span> SlidingWindow</span><br><span class="line">    vec::<span class="built_in">Vector</span></span><br><span class="line">    n::<span class="built_in">Int</span></span><br><span class="line">    start::<span class="built_in">SubArray</span></span><br><span class="line"></span><br><span class="line">    SlidingWindow(vec::<span class="built_in">Vector</span>, n) = new(vec, n, view(vec, <span class="number">1</span>:n))</span><br><span class="line"><span class="keyword">end</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">function</span> Base.iterate(iter::SlidingWindow, (el, i)=(iter.start, <span class="number">1</span>))</span><br><span class="line">    <span class="literal">e</span> = i + iter.n - <span class="number">1</span></span><br><span class="line">    <span class="keyword">if</span> <span class="literal">e</span> &lt;= length(iter.vec)</span><br><span class="line">        <span class="keyword">return</span> (el, (view(iter.vec, i:<span class="literal">e</span>), i+<span class="number">1</span>))</span><br><span class="line">    <span class="keyword">else</span></span><br><span class="line">        <span class="keyword">return</span> <span class="literal">nothing</span></span><br><span class="line">    <span class="keyword">end</span></span><br><span class="line"><span class="keyword">end</span></span><br></pre></td></tr></table></figure>
+<p>這邊用 <code>view(iter.vec, i:e)</code> 做取值的方式，比起用 <code>iter.vec[i:e]</code> 取值來的快很多。<code>iter.vec[i:e]</code> 這種方式會造出一個新的陣列，而 view 不會。</p>
+<figure class="highlight julia"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line">julia&gt; v = collect(<span class="number">1</span>:<span class="number">50</span>);</span><br><span class="line"></span><br><span class="line">julia&gt; sw = SlidingWindow(v, <span class="number">5</span>)</span><br><span class="line">SlidingWindow([<span class="number">1</span>, <span class="number">2</span>, <span class="number">3</span>, <span class="number">4</span>, <span class="number">5</span>, <span class="number">6</span>, <span class="number">7</span>, <span class="number">8</span>, <span class="number">9</span>, <span class="number">10</span>  …  <span class="number">41</span>, <span class="number">42</span>, <span class="number">43</span>, <span class="number">44</span>, <span class="number">45</span>, <span class="number">46</span>, <span class="number">47</span>, <span class="number">48</span>, <span class="number">49</span>, <span class="number">50</span>], <span class="number">5</span>, [<span class="number">1</span>, <span class="number">2</span>, <span class="number">3</span>, <span class="number">4</span>, <span class="number">5</span>])</span><br><span class="line"></span><br><span class="line">julia&gt; <span class="keyword">for</span> x <span class="keyword">in</span> sw</span><br><span class="line">           println(x)</span><br><span class="line">       <span class="keyword">end</span></span><br><span class="line">[<span class="number">1</span>, <span class="number">2</span>, <span class="number">3</span>, <span class="number">4</span>, <span class="number">5</span>]</span><br><span class="line">[<span class="number">1</span>, <span class="number">2</span>, <span class="number">3</span>, <span class="number">4</span>, <span class="number">5</span>]</span><br><span class="line">[<span class="number">2</span>, <span class="number">3</span>, <span class="number">4</span>, <span class="number">5</span>, <span class="number">6</span>]</span><br><span class="line">[<span class="number">3</span>, <span class="number">4</span>, <span class="number">5</span>, <span class="number">6</span>, <span class="number">7</span>]</span><br><span class="line">[<span class="number">4</span>, <span class="number">5</span>, <span class="number">6</span>, <span class="number">7</span>, <span class="number">8</span>]</span><br><span class="line">[<span class="number">5</span>, <span class="number">6</span>, <span class="number">7</span>, <span class="number">8</span>, <span class="number">9</span>]</span><br><span class="line">[<span class="number">6</span>, <span class="number">7</span>, <span class="number">8</span>, <span class="number">9</span>, <span class="number">10</span>]</span><br><span class="line">[<span class="number">7</span>, <span class="number">8</span>, <span class="number">9</span>, <span class="number">10</span>, <span class="number">11</span>]</span><br><span class="line">[<span class="number">8</span>, <span class="number">9</span>, <span class="number">10</span>, <span class="number">11</span>, <span class="number">12</span>]</span><br><span class="line">[<span class="number">9</span>, <span class="number">10</span>, <span class="number">11</span>, <span class="number">12</span>, <span class="number">13</span>]</span><br><span class="line">...</span><br></pre></td></tr></table></figure>
+<p>這邊介紹了三種迭代的方法，而 iterable 則是目前由 Julia 官方支援的主流方式。除了可以迭代數字以外還可以有其他用途，甚至可以迭代直到無限大的數字。Sliding window 這樣的東西在計算上或是深度學習上是很實用的結構！是不是覺得 Julia 越來越像 functional language 了XD</p>
+
+                    
+                        
+
+                    
+                    
+                        <p>
+                            <a href="/2020/03/01/from-iterator-and-generator-to-iterable/#post-footer" class="postShorten-excerpt_link link">
+                                留言與分享
+                            </a>
+                        </p>
+                    
+                </div>
+            
+        </div>
+        
+    </article>
+    
+    
     <article class="postShorten postShorten--thumbnailimg-right">
         <div class="postShorten-wrap">
             
@@ -730,49 +803,6 @@
         
     </article>
     
-    
-    <article class="postShorten postShorten--thumbnailimg-right">
-        <div class="postShorten-wrap">
-            
-            <div class="postShorten-header">
-                <h1 class="postShorten-title">
-                    
-                        <a class="link-unstyled" href="/2019/03/11/changhua-with-ning/">
-                            彰化行
-                        </a>
-                    
-                </h1>
-                <div class="postShorten-meta">
-    <time datetime="2019-03-11T01:19:06+08:00">
-	
-		    3月 11, 2019
-    	
-    </time>
-    
-        <span>分類 </span>
-        
-    <a class="category-link" href="/categories/My-Style/">My Style</a>, <a class="category-link" href="/categories/My-Style/Friends/">Friends</a>
-
-
-    
-</div>
-
-            </div>
-            
-                <div class="postShorten-excerpt">
-                    Private post
-                    
-                        <a href="/2019/03/11/changhua-with-ning/" class="postShorten-excerpt_link link">
-                            繼續閱讀
-                        </a>
-                        
-                    
-                </div>
-            
-        </div>
-        
-    </article>
-    
     <div class="pagination-bar">
     <ul class="pagination">
         
@@ -854,7 +884,6 @@
             all[i].SourceElement().parentNode.className += ' has-jax';
     });
 </script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script><!-- hexo-inject:begin --><!-- hexo-inject:end -->
-
+<script src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script><!-- hexo-inject:begin --><!-- hexo-inject:end -->
 </body>
 </html>

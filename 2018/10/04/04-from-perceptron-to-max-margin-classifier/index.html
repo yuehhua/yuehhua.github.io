@@ -281,23 +281,23 @@
 <li>只要能分，大家都是好的分類器（黑貓白貓，能抓老鼠的就是好貓？）</li>
 </ol>
 <h2 id="線性可分"><a href="#線性可分" class="headerlink" title="線性可分"></a>線性可分</h2><p>我們一項一項來講，什麼是線性可分（linear-separable）？</p>
-<p><img src="/images/perceptron4.svg" alt=""></p>
+<p><img src="/images/perceptron4.svg" alt></p>
 <p>像這樣是線性可分的，可以用一條直線把不同的點分開。</p>
-<p><img src="/images/linear-separable1.svg" alt=""></p>
+<p><img src="/images/linear-separable1.svg" alt></p>
 <p>像這樣根本找不到一條線可以將點分開的，不是線性可分。</p>
-<p><img src="/images/linear-separable2.svg" alt=""></p>
+<p><img src="/images/linear-separable2.svg" alt></p>
 <p>差一點點也不行！很尷尬，差一點就可以變成線性可分的了！但是他就不是！</p>
 <p>所以整體說起來，感知器在使用上限制頗大。</p>
 <h2 id="好的分類器？"><a href="#好的分類器？" class="headerlink" title="好的分類器？"></a>好的分類器？</h2><p>接下來，什麼叫作一個好的分類器？</p>
-<p><img src="/images/perceptron4.svg" alt=""></p>
-<p><img src="/images/perceptron5.svg" alt=""></p>
-<p><img src="/images/perceptron6.svg" alt=""></p>
+<p><img src="/images/perceptron4.svg" alt></p>
+<p><img src="/images/perceptron5.svg" alt></p>
+<p><img src="/images/perceptron6.svg" alt></p>
 <p>以上三張圖，大家有沒有認為哪一張分的最好？</p>
 <p>每個人可能有不同的答案，但是有沒有覺得第一張是比較好的分類器？</p>
 <p>為什麼？</p>
 <p>資料點都多多少少會有一些誤差，而資料我們都假設他比較相似的會在一起，所以當新的資料點出現的時候，我們通常預期他會在舊的資料點附近。所以說，如果線可以離資料點遠一點比較好，這樣的話就不會不小心分錯。</p>
 <p>其實你心裡想的是這個樣子的：</p>
-<p><img src="/images/max-margin_classifier.svg" alt=""></p>
+<p><img src="/images/max-margin_classifier.svg" alt></p>
 <p>我們可以定一個東西叫作 margin，他就是線到最近的資料點的距離，然後希望 margin 可以越大越好。</p>
 <h2 id="Maximum-margin-classifier"><a href="#Maximum-margin-classifier" class="headerlink" title="Maximum-margin classifier"></a>Maximum-margin classifier</h2><p>所以我們希望的是一個讓 margin 最大化的分類器，也就是 Maximum-margin classifier。</p>
 <p>那麼他要怎麼以數學表達呢？</p>
@@ -573,7 +573,6 @@
             all[i].SourceElement().parentNode.className += ' has-jax';
     });
 </script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script><!-- hexo-inject:begin --><!-- hexo-inject:end -->
-
+<script src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script><!-- hexo-inject:begin --><!-- hexo-inject:end -->
 </body>
 </html>

@@ -271,7 +271,7 @@
                                     <p>我們終於來到拓樸學的大門口了！</p>
 <p>（謎：前面走那麼多圈是在幹什麼的！</p>
 <p>拓樸其實是幾何學的拓展，他往更基礎的方向去，當我們在探討幾何學的時候，其實我們研究的是空間關係。</p>
-<p><img src="https://upload.wikimedia.org/wikipedia/commons/8/85/Stereographic_projection_in_3D.png" alt=""></p>
+<p><img src="https://upload.wikimedia.org/wikipedia/commons/8/85/Stereographic_projection_in_3D.png" alt></p>
 <a id="more"></a>
 <p>空間關係裏面，我們研究大小、位置、角度、維度，再到比較高階的概念：面積或體積。</p>
 <p>這邊需要一些線性代數的基礎進來，我們知道高階的概念是建立在較基礎的概念上，像是在有面積跟體積之前，要先定義長度，而長度則是由線性代數的範數（norm）給出，而角度的概念也是要先定義範數。</p>
@@ -291,9 +291,9 @@
 <hr>
 <p>我們會先討論 <strong>鄰近</strong>，或是 <strong>鄰居</strong> 的概念。</p>
 <p>近代分析學的基礎是極限，微分跟積分都是根基於這個概念之上，而對於極限的探討跟嚴謹程度造就了拓樸學這個領域。在極限的概念之中，我們談的是逼近，在 $\epsilon - \delta$ 的證明當中，不難發覺他其實給了一個不定的範圍，可大可小，那逼近的程度就可以計算得出來了，而 <strong>鄰近</strong> 的概念正是可以在這邊發揮作用的。</p>
-<p><img src="/images/topology1.svg" alt=""></p>
+<p><img src="/images/topology1.svg" alt></p>
 <p>一條直線，我們可以把他想成一條軟繩子，繩子上的任何一點，無論繩子怎麼扭曲，點鄰近的區域是不變的。不過這時候如果我們把繩子的兩頭相接起來那就不一樣了。</p>
-<p><img src="/images/topology2.svg" alt=""></p>
+<p><img src="/images/topology2.svg" alt></p>
 <p>我們可以看上面這個圖，當繩子繞成一個圓的時候，相接的黑點的鄰近區域是黑點的左右兩塊。黑點剛好對應到線段的兩個端點，兩個端點的鄰近區域是上圖中紅色所顯示的。你可以看到繩子因為被接起來，所以改變了他的鄰近區域，而這個改變我們可以用一個函數來把他對映起來：</p>
 <p>$$<br>f(x) = x \enspace mod \enspace 12<br>$$</p>
 <p>你可以想像有類似時鐘的 12 個數字擺在圓的線上，而線段上也有 1~12 的數字，在時鐘上的 12 鄰近有 11 跟 1，但是在線段上的 12 的鄰近只有 11，上述的函數則是可以把線段對映到圓上。</p>
@@ -308,7 +308,7 @@
 <li>若 $X$ 的子集包含了 $x$ 的鄰近區域，那麼他也是 $x$ 的鄰近區域</li>
 <li>$x$ 的鄰近區域的內部也是 $x$ 的鄰近區域</li>
 </ol>
-<p><img src="/images/topology3.svg" alt=""></p>
+<p><img src="/images/topology3.svg" alt></p>
 <p>這些特性含蠻直觀的。$x$ 要在它自己的鄰近區域中，不滿足的話會導致很多運算都沒有封閉性。鄰近區域的交集仍是 $x$ 的鄰近區域也是很直觀的特性。最後兩條其實是有點相對的概念，第 3 條描述到一個比 $x$ 的鄰近區域大的，他也要是 $x$ 的鄰近區域，而第 4 條則是比 $x$ 的鄰近區域更小的，也要是 $x$ 的鄰近區域。</p>
 <p>不過這樣的定義很複雜，不好用，所以後續引出了 <strong>拓樸（topology）</strong> 的定義，來代表鄰近區域：</p>
 <blockquote>
@@ -605,7 +605,6 @@
             all[i].SourceElement().parentNode.className += ' has-jax';
     });
 </script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script><!-- hexo-inject:begin --><!-- hexo-inject:end -->
-
+<script src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script><!-- hexo-inject:begin --><!-- hexo-inject:end -->
 </body>
 </html>

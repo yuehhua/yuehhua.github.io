@@ -285,7 +285,7 @@
 <p>一般來說，我們在計算這個模型的時候，這個模型背後是有他的統計面向的假設的。</p>
 <h3 id="誤差"><a href="#誤差" class="headerlink" title="誤差"></a>誤差</h3><p>線性迴歸對誤差是有假設的，也就是假設誤差會呈現常態分佈（Gaussian distribution），這樣的假設與這個模型所使用的 mean square error 是有關係的，不過今天不會深入這些關係。</p>
 <p>我們要進入這件事之前，我們先來看看常態分佈長什麼樣子。</p>
-<p><img src="/images/Empirical_Rule.png" alt=""></p>
+<p><img src="/images/Empirical_Rule.png" alt></p>
 <blockquote>
 <p>Wikipedia</p>
 </blockquote>
@@ -299,14 +299,14 @@
 <p>$$<br>P(x; 0, 1) = \frac{1}{\sqrt{2 \pi}} e^{- \frac{x^2}{2}}<br>$$</p>
 <p>大家注意一下，在常態分佈的公式中他的主要組成為一個 e 的指數，並且在指數項上有 $x^2$ 項。這些我們以後會用到。</p>
 <h3 id="平均就是最有可能出現的"><a href="#平均就是最有可能出現的" class="headerlink" title="平均就是最有可能出現的"></a>平均就是最有可能出現的</h3><p>那回到線性迴歸，線性回歸是怎麼做出預測的呢？</p>
-<p><img src="/images/stats-linear_reg1.svg" alt=""></p>
+<p><img src="/images/stats-linear_reg1.svg" alt></p>
 <p>當假設了誤差的分佈是常態分佈之後呢？那麼就可以拿最常出現的那個值作為整個分佈的代表，數學上證明那個值剛好是平均值。</p>
 <p>可以參考上圖，資料在 X 軸上分佈，當我們切了某個點 $x_i$ 來看，那麼 Y 軸上就會有不同資料點的誤差存在。縱使真實資料是有誤差的，我們知道這些誤差會遵從常態分佈，所以這些誤差的平均就可以作為一種預測值。</p>
 <p>從上面我們提到的迴歸效應，我們知道用這些誤差的平均值作為預測是相對合理的。</p>
 <p>數學上是這樣運作的，當我們今天有新的資料點要預測，那麼我們代入 $y = \mathbf{w}^T\mathbf{x} + b$ 公式中，算出來的其實是 Y 軸的平均值 $\hat{y_i}$。</p>
 <p>這就是線性迴歸的假設了。</p>
 <h3 id="誤差的”寬度”是一樣的"><a href="#誤差的”寬度”是一樣的" class="headerlink" title="誤差的”寬度”是一樣的"></a>誤差的”寬度”是一樣的</h3><p>在線性迴歸的假設上還有另一點，就是我們在每個不同 x 的切面上，誤差的寬度（標準差）都是一樣的。</p>
-<p><img src="/images/stats-linear_reg2.svg" alt=""></p>
+<p><img src="/images/stats-linear_reg2.svg" alt></p>
 <p>如圖所示，我不確定是為了讓模型簡單好計算還是什麼原因。</p>
 <p>今天的介紹就到這邊啦！</p>
 
@@ -552,7 +552,6 @@
             all[i].SourceElement().parentNode.className += ' has-jax';
     });
 </script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script><!-- hexo-inject:begin --><!-- hexo-inject:end -->
-
+<script src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script><!-- hexo-inject:begin --><!-- hexo-inject:end -->
 </body>
 </html>
