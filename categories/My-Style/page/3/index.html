@@ -530,7 +530,7 @@
 <h2 id="物件導向程式設計"><a href="#物件導向程式設計" class="headerlink" title="物件導向程式設計"></a>物件導向程式設計</h2><h3 id="1-封裝（encapsulation）"><a href="#1-封裝（encapsulation）" class="headerlink" title="1. 封裝（encapsulation）"></a>1. 封裝（encapsulation）</h3><p>在物件導向的概念中第一個講的一定是封裝。<br>當我今天要寫一隻龜兔賽跑的模擬程式。<br>在以往的結構化程式中大概會把 <code>race()</code>、<code>run()</code> 等等動作寫成一個函式。<br>至於跑了幾秒、速度各是多少等等就會把這些參數寫到 <code>main()</code> 當中。<br>物件導向提供了不一樣的方法來描述這個問題。<br>物件導向最主要提供的是<strong>相近於人類的思考方式</strong>。<br>然而在軟體工程觀點，物件導向最大的優點是<strong>程式碼的重複利用（code reusability）</strong>。<br>我們可以把烏龜當成一個物件，對這個物件描述他的屬性（attribute）跟方法（method）。<br>屬性可以是烏龜跑步的速度、烏龜的名字或是烏龜的成績等等。<br>只要是關於烏龜的特性都可以藉由定義成屬性加以使用。<br>方法則是描述烏龜的行為，他可以是 <code>run()</code>、<code>rush()</code>、<code>isWin()</code> 等等。<br><code>run()</code> 可以讓烏龜開始賽跑，<code>rush()</code> 可以讓烏龜進行衝刺，用 <code>isWin()</code> 來看烏龜是否贏得比賽等等。<br>等到我們把屬性及方法都定義好之後就要進行封裝。<br>到這裡我要來介紹一個原則，要依據這個原則進行封裝。</p>
 <h3 id="2-最小權限原則（Principle-of-least-privilege）"><a href="#2-最小權限原則（Principle-of-least-privilege）" class="headerlink" title="2. 最小權限原則（Principle of least privilege）"></a>2. 最小權限原則（Principle of least privilege）</h3><p>當我們把物件的屬性跟方法定義好之後，物件是需要與程式互動的。<br>所以程式以可能會需要用到物件的屬性或是方法，但是直接存取物件的屬性是危險的。<br>因為我們不知道什麼時候物件的屬性會遭到外界竄改而發生錯誤。<br>所以在這裡引用最小權限原則的原文：</p>
 <blockquote>
-<p>Every program and every privileged user of the system should operate using the least amount of privilege necessary to complete the job.  – Jerome Saltzer</p>
+<p>Every program and every privileged user of the system should operate using the least amount of privilege necessary to complete the job.  — Jerome Saltzer</p>
 </blockquote>
 <p>「在每個程式跟系統的使用者應該使用最小的必要權限去完成工作」<br>換言之，物件要開放讓其他人存取的東西應該是<strong>最少且必要的</strong>，如此才能保障物件內部的運作可以順利，免於受到外界程式修改屬性的影響。<br>所以通常會把物件的屬性設成私有（private），將方法設成公開（public）。<br>當然這只是通常的作法，物件應該視不同情況需求有所變動。<br>那如果某天我想要存取物件的屬性怎麼辦？<br>我們會設一個 setter 跟一個 getter 的方法，利用 setter 去對某屬性加以設定，利用 getter 去得到屬性的值。<br>與原本直接存取屬性不同是，我們可以在 setter 中加入限制，以防輸入錯誤的值。<br>像剛剛的烏龜的速度 <code>speed</code>，可以藉由 <code>setSpeed()</code> 去限制烏龜的速度在什麼範圍。<br>要是烏龜的速度被設成跟飛機一樣快那不是糟了。<br>同樣可以寫一個 <code>getSpeed()</code> 去得到烏龜的速度。<br>如此一來，其他程式在使用烏龜這個物件的時候就不必考慮到內部的運作。</p>
 <h3 id="3-類別（class）"><a href="#3-類別（class）" class="headerlink" title="3. 類別（class）"></a>3. 類別（class）</h3><p>當我們把烏龜寫好，他會被 java 存成一個類別。<br>外界程式會經由宣告這個類別，將烏龜變成一個實例（instance），我們可以叫他小龜。<br>我們可以藉由這種方式將很多的烏龜實例加以宣告，造出很多的烏龜，有紅的、有藍的（誤）。<br>所以類別只是描述烏龜這個物件的一個藍圖，真正將他宣告出來才能加以使用。</p>
@@ -540,11 +540,11 @@
 <h2 id="物件導向設計原則"><a href="#物件導向設計原則" class="headerlink" title="物件導向設計原則"></a>物件導向設計原則</h2><h3 id="7-單一職責原則（single-responsibility-principle）"><a href="#7-單一職責原則（single-responsibility-principle）" class="headerlink" title="7. 單一職責原則（single responsibility principle）"></a>7. 單一職責原則（single responsibility principle）</h3><p>接下來講講物件導向設計（OOD）中著名的 SOLID 原則。<br>第一個 S 就是單一職責原則。<br>這個原則很簡單，他是說<strong>一個類別只要有一種職責（功能）就好</strong>。<br>有時候工程師會追求一個類別的強大加了許多附加的功能。<br>這會使得這個類別難以維護，也失去類別的意義。<br>所以這個原則強調一個類別只要顧好他自己的職責所在，有簡單而呼應職責的方法即可。<br>相對也避免單一職責分散在各個類別中。<br>最極端的例子就是，集各種功能為一身的上帝類別（God class）。</p>
 <h3 id="8-開放封閉原則（open-closed-principle）"><a href="#8-開放封閉原則（open-closed-principle）" class="headerlink" title="8. 開放封閉原則（open/closed principle）"></a>8. 開放封閉原則（open/closed principle）</h3><p>第二個 O 指的是開放封閉原則，直接引用原文：</p>
 <blockquote>
-<p>Software entities (classes, modules, functions, etc.) should be open for extension, but closed for modification.  <em>– Bertrand Meyer</em></p>
+<p>Software entities (classes, modules, functions, etc.) should be open for extension, but closed for modification.  <em>— Bertrand Meyer</em></p>
 </blockquote>
 <p>在軟體的類別、模組、函式中應該<strong>對擴充開放，而對修改關閉</strong>。<br>每當我們要將既有的軟體中加入新的功能，我們應該是將新的元素加入而不是修改既有的程式碼讓他擁有新的功能。<br>修改會讓程式碼變得越來越龐雜，加入並延伸是讓軟體具有更多的小部份各自運作。<br>軟體具有這樣的特性的同時，也遵守單一職責原則會讓軟體更好。</p>
 <h3 id="9-芮氏替換原則（Liskov-substitution-principle）"><a href="#9-芮氏替換原則（Liskov-substitution-principle）" class="headerlink" title="9. 芮氏替換原則（Liskov substitution principle）"></a>9. 芮氏替換原則（Liskov substitution principle）</h3><blockquote>
-<p>Let $q(x)$ be a property provable about objects $x$ of type $T$. Then $q(y)$ should be provable for objects $y$ of type $S$ where $S$ is a subtype of $T$.  – Barbara Liskov and Jeannette Wing</p>
+<p>Let $q(x)$ be a property provable about objects $x$ of type $T$. Then $q(y)$ should be provable for objects $y$ of type $S$ where $S$ is a subtype of $T$.  — Barbara Liskov and Jeannette Wing</p>
 </blockquote>
 <p>一開始就把抽象的原文拉進來，這是個關於抽象化的部份。<br>在敘述一個繼承關係的時候，子類別是一種父類別，所以<strong>子類別可以替換父類別被使用</strong>。<br>將原文解釋一下: 假設 $S$ 是 $T$ 的 subtype，$x$ 是 $T$ 中的物件，$q(x)$ 是成立的，那對 $y$ 是 $S$ 的物件，$q(y)$ 也是成立的。<br>這是用來避免一些狀況，當有一個鳥的類別被老鷹類別及鴕鳥類別繼承。<br>通常鳥都會飛，所以我們在鳥類別中加入 <code>fly()</code>，但是鴕鳥卻不會飛。<br>這種狀況阻礙了多型的操作，鴕鳥無法飛，也無法 override 父類別的 <code>fly()</code>。<br>比較好的作法是做一個”會飛的”介面，並讓會飛的鳥去實現，將鳥類別中的 <code>fly()</code> 移除。</p>
 <h3 id="10-介面隔離原則（interface-segregation-principle）"><a href="#10-介面隔離原則（interface-segregation-principle）" class="headerlink" title="10. 介面隔離原則（interface segregation principle）"></a>10. 介面隔離原則（interface segregation principle）</h3><p>在物件導向設計當中，介面（interfaces）提供了一個抽象化層，可以在提供<strong>概念上的解釋</strong>，同時<strong>避免依賴性</strong>的屏障。<br>物件的功能會隨需求越多，類別會越來越龐大，繼承的層數也會增多。<br>當底層的類別還要在被子類別繼承時，子類別會依賴於父類別的方法。<br>或許子類別並不會用到父類別的某些方法，這些方法會變成子類別的累贅。<br>這時應該定義新的介面，讓需要的類別去實現介面，這樣就不會有多餘的方法被繼承。<br>當然，介面所定義的方法也要盡可能的少，才能被廣泛的使用。</p>
@@ -718,7 +718,7 @@
         
             <h4 id="about-card-name">Yueh-Hua Tu</h4>
         
-            <div id="about-card-bio"><p>目標是計算生物學家！</br>Systems Biology, Computational Biology, Machine Learning</br>Julia Taiwan 發起人</p>
+            <div id="about-card-bio"><p>目標是計算生物學家！&lt;/br&gt;Systems Biology, Computational Biology, Machine Learning&lt;/br&gt;Julia Taiwan 發起人</p>
 </div>
         
         
@@ -761,6 +761,6 @@
             all[i].SourceElement().parentNode.className += ' has-jax';
     });
 </script>
-<script src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script><!-- hexo-inject:begin --><!-- hexo-inject:end -->
+<script src="https://cdn.jsdelivr.net/npm/mathjax@3.0.1/es5/node-main.min.js"></script><!-- hexo-inject:begin --><!-- hexo-inject:end -->
 </body>
 </html>

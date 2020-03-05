@@ -15,7 +15,7 @@
     
         <link rel="alternate" type="application/atom+xml" title="RSS" href="/atom.xml">
     
-    <script type="application/ld+json">{"@context":"http://schema.org","@type":"BlogPosting","author":{"@type":"Person","name":"Yueh-Hua Tu","sameAs":["https://github.com/yuehhua/","https://www.facebook.com/a504082002","https://www.linkedin.com/in/%E5%B2%B3%E8%8F%AF-%E6%9D%9C-6a3995a0/","mailto:a504082002@gmail.com"],"image":"https://www.gravatar.com/avatar/a565749fba4782b717234da670b273fd"},"articleBody":"不久前跟好朋友聊天聊到 random walk 的問題，一個醉漢會在一維的空間上隨機往前或往後走一步。\n這樣的話，他最後會走到哪裡去呢？\n\n基本上如果有看過隨機過程的話，會知道當 $n \\rightarrow \\infty$ 的時候會收斂到原點。\n平均位移如果我們考慮走了 $N$ 步之後的位移 $S$\n$$S = \\sum_{i=1}^{N} x_i$$\n那麼平均位移說起來就是\n$$\\mathbb{E}[S] = \\mathbb{E}[\\sum_{i=1}^{N} x_i] = \\sum_{i=1}^{N} \\mathbb{E}[x_i]$$\n當中的 $\\mathbb{E}[x_i]$，由於每次要不是往前走一步或是往後退一步，而且兩者發生的機率一樣，所以每步的位移平均是 0，所以整體平均位移也是 0。\n$$\\mathbb{E}[S] = 0$$\n如果你真的用電腦跑模擬，去紀錄多次走 5000 步（或是更多）最終的位移會是多少。\n如此一來，你會得到一個以 0 為平均的常態分佈曲線。\n有沒有更有意義的資訊？我們除了可以看平均以外還可以看什麼？\n我們或許可以看位移平方後的平均\n$$\\mathbb{E}[S^2] = \\mathbb{E}[(\\sum_{i=1}^{N} x_i)^2] \\\\= \\mathbb{E}[(x_1 + x_2 + \\dots + x_N)^2] \\\\= \\mathbb{E}[(x_1^2 + x_2^2 + \\dots + x_N^2) + 2(x_1x_2 + x_1x_3 + \\dots + x_{N-1}x_N)] \\\\= \\mathbb{E}[x_1^2] + \\mathbb{E}[x_2^2] + \\dots + \\mathbb{E}[x_N^2] + 2(\\mathbb{E}[x_1x_2] + \\mathbb{E}[x_1x_3] + \\dots + \\mathbb{E}[x_{N-1}x_N)]) \\\\$$\n如同前面的假設，如果我們將位移給平方了，那我們會得到每一項都是 1。至於相乘項的部份，可以自己動手試試看計算比較小的組合，不過理論上會是 0。\n$$= 1 + 1 + \\dots + 1 + 2(0 + 0 + \\dots + 0) \\\\= N$$\n我們得到了位移平方後的平均是 $N$！\n方均根大家可能在高中物理中聽到方均根（root-mean-square）這個計算方式，我們也可以求得方均根位移。\n只要再開個根號就可以了，$\\sqrt{\\mathbb{E}[S^2]} = \\sqrt{N}$。\n這東西是不是看起來跟統計上的標準差很像呢？\n$$\\sigma = \\sqrt{Var[X]} = \\sqrt{\\frac{1}{N} \\sum_{i=1}^{N} (x - \\mu)^2}$$\n大概差別只會在於裏面有沒有把 $\\mu$ 給減掉而已，不過也可以藉由將 $\\mu$ 設定成 0 來達到同樣的效果。\n意思也就是說，當醉漢走了 $N$ 步之後，會呈現一個常態分佈，而平均值是 0，標準差則是 $\\sqrt{N}$。\n也就是當醉漢走愈多步，終究會回歸原點，但是也會有機率距離原點一段距離，而這段距離會隨著步數的增加而變長。\n在隨機過程中，這是個很經典的問題。\n既然談到了方均根，就不難聯想到高中物理中講到的方均根速度。\n氣體動力論在氣體動力論當中，我們可以去計算一個空間中的氣體分子運動速度，以方均根的形式表示\n$$v_{rms} = \\sqrt{\\frac{3kT}{m}}$$\n而這個氣體速度會呈現一個分佈情形，稱為馬克士威-波茲曼速率分佈。\n馬克士威-波茲曼速率分佈我們可以從維基百科上找到以下的速度分佈。\n\nMaxwell–Boltzmann velocity distribution\n\n$$f(\\nu_x, \\nu_y, \\nu_z) = (\\frac{m}{2 \\pi kT})^{3/2} exp \\big[ - \\frac{m(\\nu_x^2 + \\nu_y^2 + \\nu_z^2)}{2kT} \\big]$$\n他描述了一個氣體分子在三維空間上有 $\\nu_x, \\nu_y, \\nu_z$ 三種不同的速度分量，可以利用這些分量來計算出整體的速度分佈情形。\n不覺得上式跟常態分佈有點相似嗎？\n來呼叫一下常態分佈。\n$$f(x; \\mu, \\sigma) = \\frac{1}{\\sqrt{2 \\pi} \\sigma} exp \\big[ - \\frac{(x - \\mu)^2}{2 \\sigma^2} \\big]$$\n那我們來動動手，做點簡單的驗證吧！\n$$f(\\nu_x, \\nu_y, \\nu_z) = (\\frac{m}{2 \\pi kT})^{3/2} exp \\big[ - \\frac{m(\\nu_x^2 + \\nu_y^2 + \\nu_z^2)}{2kT} \\big] \\\\= (\\frac{1}{\\sqrt{2 \\pi} \\sqrt{\\frac{kT}{m}} })^3 exp \\big[ - \\frac{(\\nu_x^2 + \\nu_y^2 + \\nu_z^2)}{2 (\\sqrt{\\frac{kT}{m}})^2 } \\big]$$\n我們做點簡單的整理，然後將標準差抓出來。\nlet $\\sigma = \\sqrt{\\frac{kT}{m}}$\n代入之後就會成為\n$$= (\\frac{1}{\\sqrt{2 \\pi} \\sigma })^3 exp \\big[ - \\frac{(\\nu_x^2 + \\nu_y^2 + \\nu_z^2)}{2 \\sigma^2 } \\big]$$\n是不是變得更像了呢？那麼指數項中的速度平方和怎麼處理？\n當然是把指數拆開囉！\n$$= \\big ( \\frac{1}{\\sqrt{2 \\pi} \\sigma } exp [ - \\frac{\\nu_x^2}{2 \\sigma^2 } ] \\big)\\big ( \\frac{1}{\\sqrt{2 \\pi} \\sigma } exp [ - \\frac{\\nu_y^2}{2 \\sigma^2 } ] \\big)\\big ( \\frac{1}{\\sqrt{2 \\pi} \\sigma } exp [ - \\frac{\\nu_z^2}{2 \\sigma^2 } ] \\big)$$\n我們會發現馬克士威-波茲曼速率分佈其實是三個常態分佈的乘積，或是多元常態分佈（Multivariate normal distribution）！\n$$= f_x \\cdot f_y \\cdot f_z$$\n三個常態分佈各是對映三維空間中的三個速度分量，也就是不同速度分量之間是各自獨立，不互相影響的。\n跟真正的常態分佈的差異仍舊是有沒有將平均值減掉。\n$$\\nu_x = v_x - \\mu_x$$\n$\\nu_x$：相對速度\n$v_x$：絕對速度\n或許我們可以這樣解釋，在這整個空間中，整個氣體是靜止不動的，所以他的整體平均速度是 0，而氣體的微觀速度 $\\nu_x$ 就是他真正的速度。如果整體氣體是有一個速度在移動的，那麼你可以透過相對速度及平均速度來推得氣體的絕對速度。\n","dateCreated":"2018-12-20T00:19:39+08:00","dateModified":"2019-01-01T21:24:51+08:00","datePublished":"2018-12-20T00:19:39+08:00","description":"不久前跟好朋友聊天聊到 random walk 的問題，一個醉漢會在一維的空間上隨機往前或往後走一步。\n這樣的話，他最後會走到哪裡去呢？","headline":"方均根、標準差、馬克士威-波茲曼分佈","image":[],"mainEntityOfPage":{"@type":"WebPage","@id":"https://yuehhua.github.io/2018/12/20/rms-and-variance/"},"publisher":{"@type":"Organization","name":"Yueh-Hua Tu","sameAs":["https://github.com/yuehhua/","https://www.facebook.com/a504082002","https://www.linkedin.com/in/%E5%B2%B3%E8%8F%AF-%E6%9D%9C-6a3995a0/","mailto:a504082002@gmail.com"],"image":"https://www.gravatar.com/avatar/a565749fba4782b717234da670b273fd","logo":{"@type":"ImageObject","url":"https://www.gravatar.com/avatar/a565749fba4782b717234da670b273fd"}},"url":"https://yuehhua.github.io/2018/12/20/rms-and-variance/"}</script>
+    <script type="application/ld+json">{"@context":"http://schema.org","@type":"BlogPosting","author":{"@type":"Person","name":"Yueh-Hua Tu","sameAs":["https://github.com/yuehhua/","https://www.facebook.com/a504082002","https://www.linkedin.com/in/%E5%B2%B3%E8%8F%AF-%E6%9D%9C-6a3995a0/","mailto:a504082002@gmail.com"],"image":"https://www.gravatar.com/avatar/a565749fba4782b717234da670b273fd"},"articleBody":"不久前跟好朋友聊天聊到 random walk 的問題，一個醉漢會在一維的空間上隨機往前或往後走一步。\n這樣的話，他最後會走到哪裡去呢？\n\n基本上如果有看過隨機過程的話，會知道當 $n \\rightarrow \\infty$ 的時候會收斂到原點。\n平均位移如果我們考慮走了 $N$ 步之後的位移 $S$\n\nS = \\sum_{i=1}^{N} x_i那麼平均位移說起來就是\n\n\\mathbb{E}[S] = \\mathbb{E}[\\sum_{i=1}^{N} x_i] = \\sum_{i=1}^{N} \\mathbb{E}[x_i]當中的 $\\mathbb{E}[x_i]$，由於每次要不是往前走一步或是往後退一步，而且兩者發生的機率一樣，所以每步的位移平均是 0，所以整體平均位移也是 0。\n\n\\mathbb{E}[S] = 0如果你真的用電腦跑模擬，去紀錄多次走 5000 步（或是更多）最終的位移會是多少。\n如此一來，你會得到一個以 0 為平均的常態分佈曲線。\n有沒有更有意義的資訊？我們除了可以看平均以外還可以看什麼？\n我們或許可以看位移平方後的平均\n\n\\mathbb{E}[S^2] = \\mathbb{E}[(\\sum_{i=1}^{N} x_i)^2] \\\\\\\\\n= \\mathbb{E}[(x_1 + x_2 + \\dots + x_N)^2] \\\\\\\\\n= \\mathbb{E}[(x_1^2 + x_2^2 + \\dots + x_N^2) + 2(x_1x_2 + x_1x_3 + \\dots + x_{N-1}x_N)] \\\\\\\\\n= \\mathbb{E}[x_1^2] + \\mathbb{E}[x_2^2] + \\dots + \\mathbb{E}[x_N^2] + 2(\\mathbb{E}[x_1x_2] + \\mathbb{E}[x_1x_3] + \\dots + \\mathbb{E}[x_{N-1}x_N)]) \\\\\\\\如同前面的假設，如果我們將位移給平方了，那我們會得到每一項都是 1。至於相乘項的部份，可以自己動手試試看計算比較小的組合，不過理論上會是 0。\n\n= 1 + 1 + \\dots + 1 + 2(0 + 0 + \\dots + 0) \\\\\\\\\n= N我們得到了位移平方後的平均是 $N$！\n方均根大家可能在高中物理中聽到方均根（root-mean-square）這個計算方式，我們也可以求得方均根位移。\n只要再開個根號就可以了，$\\sqrt{\\mathbb{E}[S^2]} = \\sqrt{N}$。\n這東西是不是看起來跟統計上的標準差很像呢？\n\n\\sigma = \\sqrt{Var[X]} = \\sqrt{\\frac{1}{N} \\sum_{i=1}^{N} (x - \\mu)^2}大概差別只會在於裏面有沒有把 $\\mu$ 給減掉而已，不過也可以藉由將 $\\mu$ 設定成 0 來達到同樣的效果。\n意思也就是說，當醉漢走了 $N$ 步之後，會呈現一個常態分佈，而平均值是 0，標準差則是 $\\sqrt{N}$。\n也就是當醉漢走愈多步，終究會回歸原點，但是也會有機率距離原點一段距離，而這段距離會隨著步數的增加而變長。\n在隨機過程中，這是個很經典的問題。\n既然談到了方均根，就不難聯想到高中物理中講到的方均根速度。\n氣體動力論在氣體動力論當中，我們可以去計算一個空間中的氣體分子運動速度，以方均根的形式表示\n\nv_{rms} = \\sqrt{\\frac{3kT}{m}}而這個氣體速度會呈現一個分佈情形，稱為馬克士威-波茲曼速率分佈。\n馬克士威-波茲曼速率分佈我們可以從維基百科上找到以下的速度分佈。\n\nMaxwell–Boltzmann velocity distribution\n\n\nf(\\nu_x, \\nu_y, \\nu_z) = (\\frac{m}{2 \\pi kT})^{3/2} exp \\big[ - \\frac{m(\\nu_x^2 + \\nu_y^2 + \\nu_z^2)}{2kT} \\big]他描述了一個氣體分子在三維空間上有 $\\nu_x, \\nu_y, \\nu_z$ 三種不同的速度分量，可以利用這些分量來計算出整體的速度分佈情形。\n不覺得上式跟常態分佈有點相似嗎？\n來呼叫一下常態分佈。\n\nf(x; \\mu, \\sigma) = \\frac{1}{\\sqrt{2 \\pi} \\sigma} exp \\big[ - \\frac{(x - \\mu)^2}{2 \\sigma^2} \\big]那我們來動動手，做點簡單的驗證吧！\n\nf(\\nu_x, \\nu_y, \\nu_z) = (\\frac{m}{2 \\pi kT})^{3/2} exp \\big[ - \\frac{m(\\nu_x^2 + \\nu_y^2 + \\nu_z^2)}{2kT} \\big] \\\\\\\\\n= (\\frac{1}{\\sqrt{2 \\pi} \\sqrt{\\frac{kT}{m}} })^3 exp \\big[ - \\frac{(\\nu_x^2 + \\nu_y^2 + \\nu_z^2)}{2 (\\sqrt{\\frac{kT}{m}})^2 } \\big]我們做點簡單的整理，然後將標準差抓出來。\nlet $\\sigma = \\sqrt{\\frac{kT}{m}}$\n代入之後就會成為\n\n= (\\frac{1}{\\sqrt{2 \\pi} \\sigma })^3 exp \\big[ - \\frac{(\\nu_x^2 + \\nu_y^2 + \\nu_z^2)}{2 \\sigma^2 } \\big]是不是變得更像了呢？那麼指數項中的速度平方和怎麼處理？\n當然是把指數拆開囉！\n\n= \\big ( \\frac{1}{\\sqrt{2 \\pi} \\sigma } exp [ - \\frac{\\nu_x^2}{2 \\sigma^2 } ] \\big)\n\\big ( \\frac{1}{\\sqrt{2 \\pi} \\sigma } exp [ - \\frac{\\nu_y^2}{2 \\sigma^2 } ] \\big)\n\\big ( \\frac{1}{\\sqrt{2 \\pi} \\sigma } exp [ - \\frac{\\nu_z^2}{2 \\sigma^2 } ] \\big)我們會發現馬克士威-波茲曼速率分佈其實是三個常態分佈的乘積，或是多元常態分佈（Multivariate normal distribution）！\n\n= f_x \\cdot f_y \\cdot f_z三個常態分佈各是對映三維空間中的三個速度分量，也就是不同速度分量之間是各自獨立，不互相影響的。\n跟真正的常態分佈的差異仍舊是有沒有將平均值減掉。\n\n\\nu_x = v_x - \\mu_x$\\nu_x$：相對速度\n$v_x$：絕對速度\n或許我們可以這樣解釋，在這整個空間中，整個氣體是靜止不動的，所以他的整體平均速度是 0，而氣體的微觀速度 $\\nu_x$ 就是他真正的速度。如果整體氣體是有一個速度在移動的，那麼你可以透過相對速度及平均速度來推得氣體的絕對速度。\n","dateCreated":"2018-12-20T00:19:39+08:00","dateModified":"2019-01-01T21:24:51+08:00","datePublished":"2018-12-20T00:19:39+08:00","description":"不久前跟好朋友聊天聊到 random walk 的問題，一個醉漢會在一維的空間上隨機往前或往後走一步。\n這樣的話，他最後會走到哪裡去呢？","headline":"方均根、標準差、馬克士威-波茲曼分佈","image":[],"mainEntityOfPage":{"@type":"WebPage","@id":"https://yuehhua.github.io/2018/12/20/rms-and-variance/"},"publisher":{"@type":"Organization","name":"Yueh-Hua Tu","sameAs":["https://github.com/yuehhua/","https://www.facebook.com/a504082002","https://www.linkedin.com/in/%E5%B2%B3%E8%8F%AF-%E6%9D%9C-6a3995a0/","mailto:a504082002@gmail.com"],"image":"https://www.gravatar.com/avatar/a565749fba4782b717234da670b273fd","logo":{"@type":"ImageObject","url":"https://www.gravatar.com/avatar/a565749fba4782b717234da670b273fd"}},"url":"https://yuehhua.github.io/2018/12/20/rms-and-variance/"}</script>
     <meta name="description" content="不久前跟好朋友聊天聊到 random walk 的問題，一個醉漢會在一維的空間上隨機往前或往後走一步。 這樣的話，他最後會走到哪裡去呢？">
 <meta name="keywords" content="machine learning,deep learning,topology">
 <meta property="og:type" content="blog">
@@ -268,55 +268,62 @@
 <a id="more"></a>
 <p>基本上如果有看過隨機過程的話，會知道當 $n \rightarrow \infty$ 的時候會收斂到原點。</p>
 <h2 id="平均位移"><a href="#平均位移" class="headerlink" title="平均位移"></a>平均位移</h2><p>如果我們考慮走了 $N$ 步之後的位移 $S$</p>
-<p>$$<br>S = \sum_{i=1}^{N} x_i<br>$$</p>
-<p>那麼平均位移說起來就是</p>
-<p>$$<br>\mathbb{E}[S] = \mathbb{E}[\sum_{i=1}^{N} x_i] = \sum_{i=1}^{N} \mathbb{E}[x_i]<br>$$</p>
-<p>當中的 $\mathbb{E}[x_i]$，由於每次要不是往前走一步或是往後退一步，而且兩者發生的機率一樣，所以每步的位移平均是 0，所以整體平均位移也是 0。</p>
-<p>$$<br>\mathbb{E}[S] = 0<br>$$</p>
-<p>如果你真的用電腦跑模擬，去紀錄多次走 5000 步（或是更多）最終的位移會是多少。</p>
+<script type="math/tex; mode=display">
+S = \sum_{i=1}^{N} x_i</script><p>那麼平均位移說起來就是</p>
+<script type="math/tex; mode=display">
+\mathbb{E}[S] = \mathbb{E}[\sum_{i=1}^{N} x_i] = \sum_{i=1}^{N} \mathbb{E}[x_i]</script><p>當中的 $\mathbb{E}[x_i]$，由於每次要不是往前走一步或是往後退一步，而且兩者發生的機率一樣，所以每步的位移平均是 0，所以整體平均位移也是 0。</p>
+<script type="math/tex; mode=display">
+\mathbb{E}[S] = 0</script><p>如果你真的用電腦跑模擬，去紀錄多次走 5000 步（或是更多）最終的位移會是多少。</p>
 <p>如此一來，你會得到一個以 0 為平均的常態分佈曲線。</p>
 <h2 id="有沒有更有意義的資訊？"><a href="#有沒有更有意義的資訊？" class="headerlink" title="有沒有更有意義的資訊？"></a>有沒有更有意義的資訊？</h2><p>我們除了可以看平均以外還可以看什麼？</p>
 <p>我們或許可以看位移平方後的平均</p>
-<p>$$<br>\mathbb{E}[S^2] = \mathbb{E}[(\sum_{i=1}^{N} x_i)^2] \\<br>= \mathbb{E}[(x_1 + x_2 + \dots + x_N)^2] \\<br>= \mathbb{E}[(x_1^2 + x_2^2 + \dots + x_N^2) + 2(x_1x_2 + x_1x_3 + \dots + x_{N-1}x_N)] \\<br>= \mathbb{E}[x_1^2] + \mathbb{E}[x_2^2] + \dots + \mathbb{E}[x_N^2] + 2(\mathbb{E}[x_1x_2] + \mathbb{E}[x_1x_3] + \dots + \mathbb{E}[x_{N-1}x_N)]) \\<br>$$</p>
-<p>如同前面的假設，如果我們將位移給平方了，那我們會得到每一項都是 1。至於相乘項的部份，可以自己動手試試看計算比較小的組合，不過理論上會是 0。</p>
-<p>$$<br>= 1 + 1 + \dots + 1 + 2(0 + 0 + \dots + 0) \\<br>= N<br>$$</p>
-<p>我們得到了位移平方後的平均是 $N$！</p>
+<script type="math/tex; mode=display">
+\mathbb{E}[S^2] = \mathbb{E}[(\sum_{i=1}^{N} x_i)^2] \\\\
+= \mathbb{E}[(x_1 + x_2 + \dots + x_N)^2] \\\\
+= \mathbb{E}[(x_1^2 + x_2^2 + \dots + x_N^2) + 2(x_1x_2 + x_1x_3 + \dots + x_{N-1}x_N)] \\\\
+= \mathbb{E}[x_1^2] + \mathbb{E}[x_2^2] + \dots + \mathbb{E}[x_N^2] + 2(\mathbb{E}[x_1x_2] + \mathbb{E}[x_1x_3] + \dots + \mathbb{E}[x_{N-1}x_N)]) \\\\</script><p>如同前面的假設，如果我們將位移給平方了，那我們會得到每一項都是 1。至於相乘項的部份，可以自己動手試試看計算比較小的組合，不過理論上會是 0。</p>
+<script type="math/tex; mode=display">
+= 1 + 1 + \dots + 1 + 2(0 + 0 + \dots + 0) \\\\
+= N</script><p>我們得到了位移平方後的平均是 $N$！</p>
 <h2 id="方均根"><a href="#方均根" class="headerlink" title="方均根"></a>方均根</h2><p>大家可能在高中物理中聽到方均根（root-mean-square）這個計算方式，我們也可以求得方均根位移。</p>
 <p>只要再開個根號就可以了，$\sqrt{\mathbb{E}[S^2]} = \sqrt{N}$。</p>
 <p>這東西是不是看起來跟統計上的標準差很像呢？</p>
-<p>$$<br>\sigma = \sqrt{Var[X]} = \sqrt{\frac{1}{N} \sum_{i=1}^{N} (x - \mu)^2}<br>$$</p>
-<p>大概差別只會在於裏面有沒有把 $\mu$ 給減掉而已，不過也可以藉由將 $\mu$ 設定成 0 來達到同樣的效果。</p>
+<script type="math/tex; mode=display">
+\sigma = \sqrt{Var[X]} = \sqrt{\frac{1}{N} \sum_{i=1}^{N} (x - \mu)^2}</script><p>大概差別只會在於裏面有沒有把 $\mu$ 給減掉而已，不過也可以藉由將 $\mu$ 設定成 0 來達到同樣的效果。</p>
 <p>意思也就是說，當醉漢走了 $N$ 步之後，會呈現一個常態分佈，而平均值是 0，標準差則是 $\sqrt{N}$。</p>
 <p>也就是當醉漢走愈多步，終究會回歸原點，但是也會有機率距離原點一段距離，而這段距離會隨著步數的增加而變長。</p>
 <p>在隨機過程中，這是個很經典的問題。</p>
 <p>既然談到了方均根，就不難聯想到高中物理中講到的方均根速度。</p>
 <h2 id="氣體動力論"><a href="#氣體動力論" class="headerlink" title="氣體動力論"></a>氣體動力論</h2><p>在氣體動力論當中，我們可以去計算一個空間中的氣體分子運動速度，以方均根的形式表示</p>
-<p>$$<br>v_{rms} = \sqrt{\frac{3kT}{m}}<br>$$</p>
-<p>而這個氣體速度會呈現一個分佈情形，稱為馬克士威-波茲曼速率分佈。</p>
+<script type="math/tex; mode=display">
+v_{rms} = \sqrt{\frac{3kT}{m}}</script><p>而這個氣體速度會呈現一個分佈情形，稱為馬克士威-波茲曼速率分佈。</p>
 <h2 id="馬克士威-波茲曼速率分佈"><a href="#馬克士威-波茲曼速率分佈" class="headerlink" title="馬克士威-波茲曼速率分佈"></a>馬克士威-波茲曼速率分佈</h2><p>我們可以從維基百科上找到以下的速度分佈。</p>
 <blockquote>
 <p>Maxwell–Boltzmann velocity distribution</p>
 </blockquote>
-<p>$$<br>f(\nu_x, \nu_y, \nu_z) = (\frac{m}{2 \pi kT})^{3/2} exp \big[ - \frac{m(\nu_x^2 + \nu_y^2 + \nu_z^2)}{2kT} \big]<br>$$</p>
-<p>他描述了一個氣體分子在三維空間上有 $\nu_x, \nu_y, \nu_z$ 三種不同的速度分量，可以利用這些分量來計算出整體的速度分佈情形。</p>
+<script type="math/tex; mode=display">
+f(\nu_x, \nu_y, \nu_z) = (\frac{m}{2 \pi kT})^{3/2} exp \big[ - \frac{m(\nu_x^2 + \nu_y^2 + \nu_z^2)}{2kT} \big]</script><p>他描述了一個氣體分子在三維空間上有 $\nu_x, \nu_y, \nu_z$ 三種不同的速度分量，可以利用這些分量來計算出整體的速度分佈情形。</p>
 <p>不覺得上式跟常態分佈有點相似嗎？</p>
 <p>來呼叫一下常態分佈。</p>
-<p>$$<br>f(x; \mu, \sigma) = \frac{1}{\sqrt{2 \pi} \sigma} exp \big[ - \frac{(x - \mu)^2}{2 \sigma^2} \big]<br>$$</p>
-<p>那我們來動動手，做點簡單的驗證吧！</p>
-<p>$$<br>f(\nu_x, \nu_y, \nu_z) = (\frac{m}{2 \pi kT})^{3/2} exp \big[ - \frac{m(\nu_x^2 + \nu_y^2 + \nu_z^2)}{2kT} \big] \\<br>= (\frac{1}{\sqrt{2 \pi} \sqrt{\frac{kT}{m}} })^3 exp \big[ - \frac{(\nu_x^2 + \nu_y^2 + \nu_z^2)}{2 (\sqrt{\frac{kT}{m}})^2 } \big]<br>$$</p>
-<p>我們做點簡單的整理，然後將標準差抓出來。</p>
+<script type="math/tex; mode=display">
+f(x; \mu, \sigma) = \frac{1}{\sqrt{2 \pi} \sigma} exp \big[ - \frac{(x - \mu)^2}{2 \sigma^2} \big]</script><p>那我們來動動手，做點簡單的驗證吧！</p>
+<script type="math/tex; mode=display">
+f(\nu_x, \nu_y, \nu_z) = (\frac{m}{2 \pi kT})^{3/2} exp \big[ - \frac{m(\nu_x^2 + \nu_y^2 + \nu_z^2)}{2kT} \big] \\\\
+= (\frac{1}{\sqrt{2 \pi} \sqrt{\frac{kT}{m}} })^3 exp \big[ - \frac{(\nu_x^2 + \nu_y^2 + \nu_z^2)}{2 (\sqrt{\frac{kT}{m}})^2 } \big]</script><p>我們做點簡單的整理，然後將標準差抓出來。</p>
 <p>let $\sigma = \sqrt{\frac{kT}{m}}$</p>
 <p>代入之後就會成為</p>
-<p>$$<br>= (\frac{1}{\sqrt{2 \pi} \sigma })^3 exp \big[ - \frac{(\nu_x^2 + \nu_y^2 + \nu_z^2)}{2 \sigma^2 } \big]<br>$$</p>
-<p>是不是變得更像了呢？那麼指數項中的速度平方和怎麼處理？</p>
+<script type="math/tex; mode=display">
+= (\frac{1}{\sqrt{2 \pi} \sigma })^3 exp \big[ - \frac{(\nu_x^2 + \nu_y^2 + \nu_z^2)}{2 \sigma^2 } \big]</script><p>是不是變得更像了呢？那麼指數項中的速度平方和怎麼處理？</p>
 <p>當然是把指數拆開囉！</p>
-<p>$$<br>= \big ( \frac{1}{\sqrt{2 \pi} \sigma } exp [ - \frac{\nu_x^2}{2 \sigma^2 } ] \big)<br>\big ( \frac{1}{\sqrt{2 \pi} \sigma } exp [ - \frac{\nu_y^2}{2 \sigma^2 } ] \big)<br>\big ( \frac{1}{\sqrt{2 \pi} \sigma } exp [ - \frac{\nu_z^2}{2 \sigma^2 } ] \big)<br>$$</p>
-<p>我們會發現馬克士威-波茲曼速率分佈其實是三個常態分佈的乘積，或是多元常態分佈（Multivariate normal distribution）！</p>
-<p>$$<br>= f_x \cdot f_y \cdot f_z<br>$$</p>
-<p>三個常態分佈各是對映三維空間中的三個速度分量，也就是不同速度分量之間是各自獨立，不互相影響的。</p>
+<script type="math/tex; mode=display">
+= \big ( \frac{1}{\sqrt{2 \pi} \sigma } exp [ - \frac{\nu_x^2}{2 \sigma^2 } ] \big)
+\big ( \frac{1}{\sqrt{2 \pi} \sigma } exp [ - \frac{\nu_y^2}{2 \sigma^2 } ] \big)
+\big ( \frac{1}{\sqrt{2 \pi} \sigma } exp [ - \frac{\nu_z^2}{2 \sigma^2 } ] \big)</script><p>我們會發現馬克士威-波茲曼速率分佈其實是三個常態分佈的乘積，或是多元常態分佈（Multivariate normal distribution）！</p>
+<script type="math/tex; mode=display">
+= f_x \cdot f_y \cdot f_z</script><p>三個常態分佈各是對映三維空間中的三個速度分量，也就是不同速度分量之間是各自獨立，不互相影響的。</p>
 <p>跟真正的常態分佈的差異仍舊是有沒有將平均值減掉。</p>
-<p>$$<br>\nu_x = v_x - \mu_x<br>$$</p>
-<p>$\nu_x$：相對速度</p>
+<script type="math/tex; mode=display">
+\nu_x = v_x - \mu_x</script><p>$\nu_x$：相對速度</p>
 <p>$v_x$：絕對速度</p>
 <p>或許我們可以這樣解釋，在這整個空間中，整個氣體是靜止不動的，所以他的整體平均速度是 0，而氣體的微觀速度 $\nu_x$ 就是他真正的速度。如果整體氣體是有一個速度在移動的，那麼你可以透過相對速度及平均速度來推得氣體的絕對速度。</p>
 
@@ -500,7 +507,7 @@
         
             <h4 id="about-card-name">Yueh-Hua Tu</h4>
         
-            <div id="about-card-bio"><p>目標是計算生物學家！</br>Systems Biology, Computational Biology, Machine Learning</br>Julia Taiwan 發起人</p>
+            <div id="about-card-bio"><p>目標是計算生物學家！&lt;/br&gt;Systems Biology, Computational Biology, Machine Learning&lt;/br&gt;Julia Taiwan 發起人</p>
 </div>
         
         
@@ -562,6 +569,6 @@
             all[i].SourceElement().parentNode.className += ' has-jax';
     });
 </script>
-<script src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script><!-- hexo-inject:begin --><!-- hexo-inject:end -->
+<script src="https://cdn.jsdelivr.net/npm/mathjax@3.0.1/es5/node-main.min.js"></script><!-- hexo-inject:begin --><!-- hexo-inject:end -->
 </body>
 </html>

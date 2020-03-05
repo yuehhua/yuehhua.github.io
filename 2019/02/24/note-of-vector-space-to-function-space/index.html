@@ -15,7 +15,7 @@
     
         <link rel="alternate" type="application/atom+xml" title="RSS" href="/atom.xml">
     
-    <script type="application/ld+json">{"@context":"http://schema.org","@type":"BlogPosting","author":{"@type":"Person","name":"Yueh-Hua Tu","sameAs":["https://github.com/yuehhua/","https://www.facebook.com/a504082002","https://www.linkedin.com/in/%E5%B2%B3%E8%8F%AF-%E6%9D%9C-6a3995a0/","mailto:a504082002@gmail.com"],"image":"https://www.gravatar.com/avatar/a565749fba4782b717234da670b273fd"},"articleBody":"參考從幾何向量空間到函數空間| 線代啟示錄。\n\n由 $\\mathbb{R}^n$ 拓展到 $\\mathbb{R}^{\\infty}$ 所需俱備的條件是什麼？\n\n由於一個向量 $\\mathbb{v} \\in \\mathbb{R}^{\\infty}$，在無限維度下我們需要考慮一個問題，就是 norm。\n如果這個空間有定義 norm 的話，我們就要考慮他有沒有收斂，也就是 $||\\mathbb{v}||^2$ 要存在。\n所以條件就是\n$$||\\mathbb{v}||^2 = \\sum_{i=1}^{\\infty} v_i^2$$\n要收斂。\n\n從 $\\mathbb{R}^{\\infty}$ 無限維度的向量空間再拓展到 $C^{\\omega}$ 函數空間，所需要俱備的條件是什麼？\n\n一個無限維度的向量是一個離散的版本，由剛剛的式子可以看的出來\n$$||\\mathbb{v}||^2 = \\sum_{i=1}^{\\infty} v_i^2$$\n而一個（解析）函數則是連續的\n$$||f||^2 = \\int f^2(x) dx$$\n除了以上的 norm 要收斂外，從離散到連續應該有些假設或是條件才是。\n\n函數的基底\n\nFourier series\n$$f(x) = a_0 + a_1 \\cos x + b_1 \\sin x + a_2 \\cos 2x + b_2 \\sin 2x + \\cdots$$\n所以基底就是\n$$&lt;\\beta&gt; = &lt;1, \\cos x, \\sin x, \\cos 2x, \\sin 2x, \\cdots&gt;$$\n\n非週期性函數基底\n\nLegendre polynomial\n\nLeast square problem\n\n$$(A^TA)\\hat{y} = A^Tb$$\n","dateCreated":"2019-02-24T12:54:02+08:00","dateModified":"2019-02-24T12:54:02+08:00","datePublished":"2019-02-24T12:54:02+08:00","description":"","headline":"筆記 - 從向量空間到函數空間","image":[],"mainEntityOfPage":{"@type":"WebPage","@id":"https://yuehhua.github.io/2019/02/24/note-of-vector-space-to-function-space/"},"publisher":{"@type":"Organization","name":"Yueh-Hua Tu","sameAs":["https://github.com/yuehhua/","https://www.facebook.com/a504082002","https://www.linkedin.com/in/%E5%B2%B3%E8%8F%AF-%E6%9D%9C-6a3995a0/","mailto:a504082002@gmail.com"],"image":"https://www.gravatar.com/avatar/a565749fba4782b717234da670b273fd","logo":{"@type":"ImageObject","url":"https://www.gravatar.com/avatar/a565749fba4782b717234da670b273fd"}},"url":"https://yuehhua.github.io/2019/02/24/note-of-vector-space-to-function-space/"}</script>
+    <script type="application/ld+json">{"@context":"http://schema.org","@type":"BlogPosting","author":{"@type":"Person","name":"Yueh-Hua Tu","sameAs":["https://github.com/yuehhua/","https://www.facebook.com/a504082002","https://www.linkedin.com/in/%E5%B2%B3%E8%8F%AF-%E6%9D%9C-6a3995a0/","mailto:a504082002@gmail.com"],"image":"https://www.gravatar.com/avatar/a565749fba4782b717234da670b273fd"},"articleBody":"參考從幾何向量空間到函數空間| 線代啟示錄。\n\n由 $\\mathbb{R}^n$ 拓展到 $\\mathbb{R}^{\\infty}$ 所需俱備的條件是什麼？\n\n由於一個向量 $\\mathbb{v} \\in \\mathbb{R}^{\\infty}$，在無限維度下我們需要考慮一個問題，就是 norm。\n如果這個空間有定義 norm 的話，我們就要考慮他有沒有收斂，也就是 $||\\mathbb{v}||^2$ 要存在。\n所以條件就是\n\n||\\mathbb{v}||^2 = \\sum_{i=1}^{\\infty} v_i^2要收斂。\n\n從 $\\mathbb{R}^{\\infty}$ 無限維度的向量空間再拓展到 $C^{\\omega}$ 函數空間，所需要俱備的條件是什麼？\n\n一個無限維度的向量是一個離散的版本，由剛剛的式子可以看的出來\n\n||\\mathbb{v}||^2 = \\sum_{i=1}^{\\infty} v_i^2而一個（解析）函數則是連續的\n\n||f||^2 = \\int f^2(x) dx除了以上的 norm 要收斂外，從離散到連續應該有些假設或是條件才是。\n\n函數的基底\n\nFourier series\n\nf(x) = a_0 + a_1 \\cos x + b_1 \\sin x + a_2 \\cos 2x + b_2 \\sin 2x + \\cdots所以基底就是\n\n = \n非週期性函數基底\n\nLegendre polynomial\n\nLeast square problem\n\n\n(A^TA)\\hat{y} = A^Tb","dateCreated":"2019-02-24T12:54:02+08:00","dateModified":"2019-02-24T12:54:02+08:00","datePublished":"2019-02-24T12:54:02+08:00","description":"","headline":"筆記 - 從向量空間到函數空間","image":[],"mainEntityOfPage":{"@type":"WebPage","@id":"https://yuehhua.github.io/2019/02/24/note-of-vector-space-to-function-space/"},"publisher":{"@type":"Organization","name":"Yueh-Hua Tu","sameAs":["https://github.com/yuehhua/","https://www.facebook.com/a504082002","https://www.linkedin.com/in/%E5%B2%B3%E8%8F%AF-%E6%9D%9C-6a3995a0/","mailto:a504082002@gmail.com"],"image":"https://www.gravatar.com/avatar/a565749fba4782b717234da670b273fd","logo":{"@type":"ImageObject","url":"https://www.gravatar.com/avatar/a565749fba4782b717234da670b273fd"}},"url":"https://yuehhua.github.io/2019/02/24/note-of-vector-space-to-function-space/"}</script>
     <meta name="description" content="參考從幾何向量空間到函數空間| 線代啟示錄。  由 $\mathbb{R}^n$ 拓展到 $\mathbb{R}^{\infty}$ 所需俱備的條件是什麼？  由於一個向量 $\mathbb{v} \in \mathbb{R}^{\infty}$，在無限維度下我們需要考慮一個問題，就是 norm。 如果這個空間有定義 norm 的話，我們就要考慮他有沒有收斂，也就是 $||\mathbb{v}||">
 <meta name="keywords" content="machine learning,deep learning,topology">
 <meta property="og:type" content="blog">
@@ -270,32 +270,32 @@
 <p>由於一個向量 $\mathbb{v} \in \mathbb{R}^{\infty}$，在無限維度下我們需要考慮一個問題，就是 norm。</p>
 <p>如果這個空間有定義 norm 的話，我們就要考慮他有沒有收斂，也就是 $||\mathbb{v}||^2$ 要存在。</p>
 <p>所以條件就是</p>
-<p>$$<br>||\mathbb{v}||^2 = \sum_{i=1}^{\infty} v_i^2<br>$$</p>
-<p>要收斂。</p>
-<ol start="2">
+<script type="math/tex; mode=display">
+||\mathbb{v}||^2 = \sum_{i=1}^{\infty} v_i^2</script><p>要收斂。</p>
+<ol>
 <li>從 $\mathbb{R}^{\infty}$ 無限維度的向量空間再拓展到 $C^{\omega}$ 函數空間，所需要俱備的條件是什麼？</li>
 </ol>
 <p>一個無限維度的向量是一個離散的版本，由剛剛的式子可以看的出來</p>
-<p>$$<br>||\mathbb{v}||^2 = \sum_{i=1}^{\infty} v_i^2<br>$$</p>
-<p>而一個（解析）函數則是連續的</p>
-<p>$$<br>||f||^2 = \int f^2(x) dx<br>$$</p>
-<p>除了以上的 norm 要收斂外，從離散到連續應該有些假設或是條件才是。</p>
-<ol start="3">
+<script type="math/tex; mode=display">
+||\mathbb{v}||^2 = \sum_{i=1}^{\infty} v_i^2</script><p>而一個（解析）函數則是連續的</p>
+<script type="math/tex; mode=display">
+||f||^2 = \int f^2(x) dx</script><p>除了以上的 norm 要收斂外，從離散到連續應該有些假設或是條件才是。</p>
+<ol>
 <li>函數的基底</li>
 </ol>
 <p>Fourier series</p>
-<p>$$<br>f(x) = a_0 + a_1 \cos x + b_1 \sin x + a_2 \cos 2x + b_2 \sin 2x + \cdots<br>$$</p>
-<p>所以基底就是</p>
-<p>$$<br>&lt;\beta&gt; = &lt;1, \cos x, \sin x, \cos 2x, \sin 2x, \cdots&gt;<br>$$</p>
-<ol start="4">
+<script type="math/tex; mode=display">
+f(x) = a_0 + a_1 \cos x + b_1 \sin x + a_2 \cos 2x + b_2 \sin 2x + \cdots</script><p>所以基底就是</p>
+<script type="math/tex; mode=display">
+<\beta> = <1, \cos x, \sin x, \cos 2x, \sin 2x, \cdots></script><ol>
 <li>非週期性函數基底</li>
 </ol>
 <p>Legendre polynomial</p>
-<ol start="5">
+<ol>
 <li>Least square problem</li>
 </ol>
-<p>$$<br>(A^TA)\hat{y} = A^Tb<br>$$</p>
-
+<script type="math/tex; mode=display">
+(A^TA)\hat{y} = A^Tb</script>
                                         
 
                                 </div>
@@ -476,7 +476,7 @@
         
             <h4 id="about-card-name">Yueh-Hua Tu</h4>
         
-            <div id="about-card-bio"><p>目標是計算生物學家！</br>Systems Biology, Computational Biology, Machine Learning</br>Julia Taiwan 發起人</p>
+            <div id="about-card-bio"><p>目標是計算生物學家！&lt;/br&gt;Systems Biology, Computational Biology, Machine Learning&lt;/br&gt;Julia Taiwan 發起人</p>
 </div>
         
         
@@ -538,6 +538,6 @@
             all[i].SourceElement().parentNode.className += ' has-jax';
     });
 </script>
-<script src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script><!-- hexo-inject:begin --><!-- hexo-inject:end -->
+<script src="https://cdn.jsdelivr.net/npm/mathjax@3.0.1/es5/node-main.min.js"></script><!-- hexo-inject:begin --><!-- hexo-inject:end -->
 </body>
 </html>

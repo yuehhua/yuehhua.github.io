@@ -15,7 +15,7 @@
     
         <link rel="alternate" type="application/atom+xml" title="RSS" href="/atom.xml">
     
-    <script type="application/ld+json">{"@context":"http://schema.org","@type":"BlogPosting","author":{"@type":"Person","name":"Yueh-Hua Tu","sameAs":["https://github.com/yuehhua/","https://www.facebook.com/a504082002","https://www.linkedin.com/in/%E5%B2%B3%E8%8F%AF-%E6%9D%9C-6a3995a0/","mailto:a504082002@gmail.com"],"image":"https://www.gravatar.com/avatar/a565749fba4782b717234da670b273fd"},"articleBody":"\n今天又是個長長的故事。\n上次我們講完在空間上，我們可以知道資料的區域性，並且利用 convolution 來萃取特徵。\n這次我們來講時間，其實不一定要是”時間”序列資料，只要是有先後順序的資料就可以。\n在時間序列分析及統計的領域中，我們有基礎的馬可夫模型（Markov chain）。\n\nMarkov chain馬可夫模型是這樣的，他假設一個變數有不同種的狀態，例如下圖：\n\n\n\n在這邊有4個狀態，一個圓圈代表一個狀態，狀態跟狀態之間會隨著時間改變，每個狀態會有一定機率變成其他狀態，或是維持原本的狀態不變。\n我們可以把目前的狀態用一個向量來表達：\n$$\\mathbf{y} =\\begin{bmatrix}y_1&amp;y_2&amp;y_3&amp;y_4 \\\\\\end{bmatrix}$$\n\n注意：我們這邊使用的向量為列向量（row vector），一般在其他數學領域使用的則是行向量（column vector），兩者是可以藉由轉置來互換的，並不影響運算結果\n\n我們這邊用 $\\mathbf{y}$ 代表他是可以被觀察到的。狀態變化我們可以用一個矩陣來表達：\n$$A = [a_{ij}] =\\begin{bmatrix}a_{11}&amp; a_{12}&amp; a_{13}&amp; a_{14} \\\\a_{21}&amp; a_{22}&amp; a_{23}&amp; a_{24} \\\\a_{31}&amp; a_{32}&amp; a_{33}&amp; a_{34} \\\\a_{41}&amp; a_{42}&amp; a_{43}&amp; a_{44} \\\\\\end{bmatrix}$$\n其中 $a_{ij}$ 代表的是由狀態 $i$ 變成狀態 $j$ 的機率，這邊要注意的是，每一個列（row）的機率總和要是 1。\n\n補充：由於我們的向量都是 row vector$A$ 為一 right stochastic matrix，運算形式為 $\\mathbf{y} A$由狀態 $i$ 變成其他狀態之機率和為 1（$A \\mathbf{1} = \\mathbf{1}$）感謝陳杰翰先生幫忙指正\n\n所以不同時間點的狀態變化關係可以寫成以下式子：\n$$\\mathbf{y^{(t)}} = \\mathbf{y^{(t-1)}} A$$\n$\\mathbf{y^{(t)}}$ 的意思是第 t 次（或是時間為 t）的狀態，$\\mathbf{y^{(t-1)}}$ 狀態會經過一次轉換或是運算轉變成 $\\mathbf{y^{(t)}}$。\n如果你把其中的第一項的運算拆開來看就會長這樣，可以自行檢驗狀態的變化：\n$$y_1^{(t)} = a_{11}y_1^{(t-1)} + a_{12}y_2^{(t-1)} + a_{13}y_3^{(t-1)} + a_{14}y_4^{(t-1)}$$\n從時間軸上來看，我們可以把狀態的轉變畫出來像是這樣：\n\n\n\n每次的轉變我們都可以看成一個函數 $f$，他其實等同於上面提到的矩陣：\n$$\\mathbf{y^{(t)}} = f(\\mathbf{y^{(t-1)}}) = \\mathbf{y^{(t-1)}} A$$\n所以他的意思是，$\\mathbf{y^{(t-1)}}$ 會經由 $f$ 變成 $\\mathbf{y^{(t)}}$，所以這是單純的狀態變化。\n上面的矩陣當中其實內容是機率，我們也可以把他轉成機率的寫法，但是解釋會變得不太一樣：\n$$p = f(\\mathbf{y^{(t)}} \\mid \\mathbf{y^{(t-1)}}) = P(\\mathbf{y^{(t)}} \\mid \\mathbf{y^{(t-1)}})$$\n這邊的解釋是，$\\mathbf{y^{(t-1)}}$ 會經由 $f$ 變成 $\\mathbf{y^{(t)}}$ 的機率。\n下句跟上句的不同在於，上句的描述是肯定的，他只描述了狀態的改變，但是下句多加描述了 這件事會發生的機率，所以應該要把 $\\mathbf{y^{(t)}} \\mid \\mathbf{y^{(t-1)}}$ 理解成 這一件事，那麼 $f$ 的輸出就是機率了。\n我們可以把上圖 收起來，所以看起來會像這樣：\n\n\n\n花了點時間把一些符號跟數學概念講完了，來談談他的假設，一般來說，馬可夫模型最大的假設在於：\n$$P(\\mathbf{y^{(t)}} \\mid \\mathbf{y^{(1)}}, \\mathbf{y^{(2)}}, \\dots, \\mathbf{y^{(t-1)}}) = P(\\mathbf{y^{(t)}} \\mid \\mathbf{y^{(t-1)}})$$\n也就是要預測第 t 單位時間的狀態，我們經歷了第 1~(t - 1) 單位時間，但是他只需要用前一個時間單位的狀態就可以預測下一個狀態，前面很多狀態都是不必要的，這我們稱為一階馬可夫模型（first-order Markov chain）。\n當然可以推廣到 m 階馬可夫模型（m th-order Markov chain），那代表需要前 m 個狀態來預測下一個狀態，順帶一提，有零階馬可夫模型，那就跟我們一般的機率分佈模型（$P(\\mathbf{y^{(t)}}）$）一樣。\n沒有特別提的話，通常大家談的馬可夫模型都是一階馬可夫模型。一般來說，他有個非常重要的特性，就是 無記憶性，也就是他不會去記住他所經歷的狀態，他只需要用現在的狀態就可以預測下一個狀態。\n不過我要特別提一下這個模型的一些其他假設：\n\n狀態是離散的。在馬可夫模型的狀態空間中是離散的，也就是你可以用一個正整數來數出有幾種狀態存在。\n時間是離散的。我們剛剛有看到他計算的是第 t 單位時間，下一次就是乘上一個矩陣之後成為第 t+1 單位時間。\n狀態是可被觀察的。\n以一個隨機變數作為一個狀態。\n\n接下來我們來談談另一個模型。\n\nHidden Markov model接下來是進階版的隱馬可夫模型（hidden Markov model），他的假設是這樣的，在一個系統中存在一些我們看不到的狀態，是系統的內在狀態，隨著系統的內在狀態不同，他所表現出來的外在狀態也不同，而外在狀態是我們可以觀測到的。\n\n\n\n大家可以看到這個圖跟剛剛的很相似，帶是又多了一些東西。較大的圈圈是內在狀態，小的圈圈是外在狀態。隨著時間改變，內在狀態會隨著變動，內在狀態的變動我們可以用一個矩陣來表示：\n$$A = [a_{ij}] =\\begin{bmatrix}a_{11}&amp; a_{12}&amp; a_{13}&amp; a_{14} \\\\a_{21}&amp; a_{22}&amp; a_{23}&amp; a_{24} \\\\a_{31}&amp; a_{32}&amp; a_{33}&amp; a_{34} \\\\a_{41}&amp; a_{42}&amp; a_{43}&amp; a_{44} \\\\\\end{bmatrix}$$\n裏面裝的一樣是機率。接下來，不同的內在狀態有不同的機率會噴出（emit）外在狀態，這也會用另一個矩陣表示：\n$$B = [b_{ij}] =\\begin{bmatrix}b_{11}&amp; b_{12}&amp; b_{13}&amp; b_{14} \\\\b_{21}&amp; b_{22}&amp; b_{23}&amp; b_{24} \\\\b_{31}&amp; b_{32}&amp; b_{33}&amp; b_{34} \\\\\\end{bmatrix}$$\n寫成狀態轉移的關係式的話會變成：\n$$\\mathbf{h^{(t)}} = \\mathbf{h^{(t-1)}} A$$\n$\\mathbf{h^{(t)}}$ 代表在第 t 單位時間的內在狀態。\n$$\\mathbf{y^{(t)}} = \\mathbf{h^{(t)}} B$$\n$\\mathbf{y^{(t)}}$ 代表在第 t 單位時間根據內在狀態噴出的外在狀態。\n如果在時間軸上表達的話是這個樣子：\n\n\n\n\n\n由於在這邊又多了一個內在狀態，所以在模型的表達力上遠遠超越馬可夫模型。舉個例子好了，假設小明很好奇在不同天氣的時候外面的人吃冰淇淋的狀況是如何，但是小明又很懶得出門看天氣，這時候他就假設天氣（晴天、陰天、雨天）是內在狀態（看不到），然後他觀察路上的人吃冰淇淋（外在狀態，吃、不吃）的多寡，這時候這麼模型就可以派上用場，他藉由持續觀察路人有沒有吃冰淇淋，可以推論外面天氣的變化狀況。\n這時候我們也來總結一下，這個模型的假設：\n\n內在狀態跟外在狀態都是離散的。\n時間是離散的。\n內在狀態是不能被觀察的，外在狀態是可被觀察的。\n以一個隨機變數作為一個狀態。\n\n\nRecurrent neural network那大家所熟知的 RNN 是怎麼回事呢？我們把假設改了一下：\n\n狀態都是 連續 的。\n時間是離散的。\n內在狀態是不能被觀察的，外在狀態是可被觀察的。\n以一個 隨機向量 作為一個狀態。\n允許在每個時間點給輸入\n引入非線性\n\n首先，在這邊的狀態會以一個向量做表示，大家應該也知道 RNN 的 input 是一個向量，當中的狀態也是一個向量，最後的 output 也是一個向量。而這些向量當中的的值都是連續的 $\\mathbb{R}^n$（假設向量大小為 n），不像上面的模型都是離散的 $k$（假設有 k 個狀態），所以在空間上的大小可以說是擴大非常多。\n接下來我們來看看時間的狀態轉換：\n\n\n\n\n\n在 RNN 中一樣含有內在狀態，但不同的是 RNN 可以在每個時間點上給輸入向量（$\\mathbf{x^{(t)}}$），所以可以根據前一個時間點的內在狀態（$\\mathbf{h^{(t)}}$）跟輸入向量去計算輸出，或是外在狀態（$\\mathbf{y^{(t)}}$）。\n所以大家會在一些論文上看到模型的狀態關係式長下面這個樣子：\n$$\\mathbf{h^{(t)}} = f(\\mathbf{x^{(t)}}, \\mathbf{h^{(t-1)}}) = \\mathbf{x^{(t)}} W_x + \\mathbf{h^{(t-1)}} W_h + \\mathbf{b}$$\n$$\\mathbf{y^{(t)}} = g(\\mathbf{h^{(t)}}) = sigm(\\mathbf{h^{(t)}} W_y)$$\n這邊特別引入了非線性的轉換（$sigm$）來讓模型更強大。\n隨著從一開始的馬可夫模型到這邊應該對這幾個模型有點感覺，其實 RNN 可以說是很大的突破，在假設上放了很多元素讓模型變得更強大。\nLong short-term memory人們為了改進 RNN這個模型的記憶性，希望他可以記住更遠以前的東西，所以設計了 LSTM 來替換他的 hidden layer 的運作模式，後期更有 GRU，還有人說只需要 forget gate 就有很強大的效能的 MGU。這些都是對於記憶性做的改進，個人覺得這些在工程上的貢獻比較大，真正學術上的突破其實還好。\n今天的整理就先到這邊啦！\n","dateCreated":"2018-07-21T22:21:30+08:00","dateModified":"2018-08-28T23:29:17+08:00","datePublished":"2018-07-21T22:21:30+08:00","description":"\n今天又是個長長的故事。\n上次我們講完在空間上，我們可以知道資料的區域性，並且利用 convolution 來萃取特徵。\n這次我們來講時間，其實不一定要是”時間”序列資料，只要是有先後順序的資料就可以。\n在時間序列分析及統計的領域中，我們有基礎的馬可夫模型（Markov chain）。","headline":"RNN 的意義","image":[],"mainEntityOfPage":{"@type":"WebPage","@id":"https://yuehhua.github.io/2018/07/21/why-rnn/"},"publisher":{"@type":"Organization","name":"Yueh-Hua Tu","sameAs":["https://github.com/yuehhua/","https://www.facebook.com/a504082002","https://www.linkedin.com/in/%E5%B2%B3%E8%8F%AF-%E6%9D%9C-6a3995a0/","mailto:a504082002@gmail.com"],"image":"https://www.gravatar.com/avatar/a565749fba4782b717234da670b273fd","logo":{"@type":"ImageObject","url":"https://www.gravatar.com/avatar/a565749fba4782b717234da670b273fd"}},"url":"https://yuehhua.github.io/2018/07/21/why-rnn/"}</script>
+    <script type="application/ld+json">{"@context":"http://schema.org","@type":"BlogPosting","author":{"@type":"Person","name":"Yueh-Hua Tu","sameAs":["https://github.com/yuehhua/","https://www.facebook.com/a504082002","https://www.linkedin.com/in/%E5%B2%B3%E8%8F%AF-%E6%9D%9C-6a3995a0/","mailto:a504082002@gmail.com"],"image":"https://www.gravatar.com/avatar/a565749fba4782b717234da670b273fd"},"articleBody":"\n今天又是個長長的故事。\n上次我們講完在空間上，我們可以知道資料的區域性，並且利用 convolution 來萃取特徵。\n這次我們來講時間，其實不一定要是”時間”序列資料，只要是有先後順序的資料就可以。\n在時間序列分析及統計的領域中，我們有基礎的馬可夫模型（Markov chain）。\n\nMarkov chain馬可夫模型是這樣的，他假設一個變數有不同種的狀態，例如下圖：\n&lt;/br&gt;\n\n&lt;/br&gt;\n在這邊有4個狀態，一個圓圈代表一個狀態，狀態跟狀態之間會隨著時間改變，每個狀態會有一定機率變成其他狀態，或是維持原本的狀態不變。\n我們可以把目前的狀態用一個向量來表達：\n\n\\mathbf{y} = \n\\begin{bmatrix}\ny_1&y_2&y_3&y_4 \\\\\\\\\n\\end{bmatrix}\n注意：我們這邊使用的向量為列向量（row vector），一般在其他數學領域使用的則是行向量（column vector），兩者是可以藉由轉置來互換的，並不影響運算結果\n\n我們這邊用 $\\mathbf{y}$ 代表他是可以被觀察到的。狀態變化我們可以用一個矩陣來表達：\n\nA = [a_{ij}] = \n\\begin{bmatrix}\na_{11}& a_{12}& a_{13}& a_{14} \\\\\\\\\na_{21}& a_{22}& a_{23}& a_{24} \\\\\\\\\na_{31}& a_{32}& a_{33}& a_{34} \\\\\\\\\na_{41}& a_{42}& a_{43}& a_{44} \\\\\\\\\n\\end{bmatrix}其中 $a_{ij}$ 代表的是由狀態 $i$ 變成狀態 $j$ 的機率，這邊要注意的是，每一個列（row）的機率總和要是 1。\n\n補充：由於我們的向量都是 row vector$A$ 為一 right stochastic matrix，運算形式為 $\\mathbf{y} A$由狀態 $i$ 變成其他狀態之機率和為 1（$A \\mathbf{1} = \\mathbf{1}$）感謝陳杰翰先生幫忙指正\n\n所以不同時間點的狀態變化關係可以寫成以下式子：\n\n\\mathbf{y^{(t)}} = \\mathbf{y^{(t-1)}} A$\\mathbf{y^{(t)}}$ 的意思是第 t 次（或是時間為 t）的狀態，$\\mathbf{y^{(t-1)}}$ 狀態會經過一次轉換或是運算轉變成 $\\mathbf{y^{(t)}}$。\n如果你把其中的第一項的運算拆開來看就會長這樣，可以自行檢驗狀態的變化：\n\ny_1^{(t)} = a_{11}y_1^{(t-1)} + a_{12}y_2^{(t-1)} + a_{13}y_3^{(t-1)} + a_{14}y_4^{(t-1)}從時間軸上來看，我們可以把狀態的轉變畫出來像是這樣：\n&lt;/br&gt;\n\n&lt;/br&gt;\n每次的轉變我們都可以看成一個函數 $f$，他其實等同於上面提到的矩陣：\n\n\\mathbf{y^{(t)}} = f(\\mathbf{y^{(t-1)}}) = \\mathbf{y^{(t-1)}} A所以他的意思是，$\\mathbf{y^{(t-1)}}$ 會經由 $f$ 變成 $\\mathbf{y^{(t)}}$，所以這是單純的狀態變化。\n上面的矩陣當中其實內容是機率，我們也可以把他轉成機率的寫法，但是解釋會變得不太一樣：\n\np = f(\\mathbf{y^{(t)}} \\mid \\mathbf{y^{(t-1)}}) = P(\\mathbf{y^{(t)}} \\mid \\mathbf{y^{(t-1)}})這邊的解釋是，$\\mathbf{y^{(t-1)}}$ 會經由 $f$ 變成 $\\mathbf{y^{(t)}}$ 的機率。\n下句跟上句的不同在於，上句的描述是肯定的，他只描述了狀態的改變，但是下句多加描述了 這件事會發生的機率，所以應該要把 $\\mathbf{y^{(t)}} \\mid \\mathbf{y^{(t-1)}}$ 理解成 這一件事，那麼 $f$ 的輸出就是機率了。\n我們可以把上圖 收起來，所以看起來會像這樣：\n&lt;/br&gt;\n\n&lt;/br&gt;\n花了點時間把一些符號跟數學概念講完了，來談談他的假設，一般來說，馬可夫模型最大的假設在於：\n\nP(\\mathbf{y^{(t)}} \\mid \\mathbf{y^{(1)}}, \\mathbf{y^{(2)}}, \\dots, \\mathbf{y^{(t-1)}}) = P(\\mathbf{y^{(t)}} \\mid \\mathbf{y^{(t-1)}})也就是要預測第 t 單位時間的狀態，我們經歷了第 1~(t - 1) 單位時間，但是他只需要用前一個時間單位的狀態就可以預測下一個狀態，前面很多狀態都是不必要的，這我們稱為一階馬可夫模型（first-order Markov chain）。\n當然可以推廣到 m 階馬可夫模型（m th-order Markov chain），那代表需要前 m 個狀態來預測下一個狀態，順帶一提，有零階馬可夫模型，那就跟我們一般的機率分佈模型（$P(\\mathbf{y^{(t)}}）$）一樣。\n沒有特別提的話，通常大家談的馬可夫模型都是一階馬可夫模型。一般來說，他有個非常重要的特性，就是 無記憶性，也就是他不會去記住他所經歷的狀態，他只需要用現在的狀態就可以預測下一個狀態。\n不過我要特別提一下這個模型的一些其他假設：\n\n狀態是離散的。在馬可夫模型的狀態空間中是離散的，也就是你可以用一個正整數來數出有幾種狀態存在。\n時間是離散的。我們剛剛有看到他計算的是第 t 單位時間，下一次就是乘上一個矩陣之後成為第 t+1 單位時間。\n狀態是可被觀察的。\n以一個隨機變數作為一個狀態。\n\n接下來我們來談談另一個模型。\n&lt;/br&gt;\nHidden Markov model接下來是進階版的隱馬可夫模型（hidden Markov model），他的假設是這樣的，在一個系統中存在一些我們看不到的狀態，是系統的內在狀態，隨著系統的內在狀態不同，他所表現出來的外在狀態也不同，而外在狀態是我們可以觀測到的。\n&lt;/br&gt;\n\n&lt;/br&gt;\n大家可以看到這個圖跟剛剛的很相似，帶是又多了一些東西。較大的圈圈是內在狀態，小的圈圈是外在狀態。隨著時間改變，內在狀態會隨著變動，內在狀態的變動我們可以用一個矩陣來表示：\n\nA = [a_{ij}] = \n\\begin{bmatrix}\na_{11}& a_{12}& a_{13}& a_{14} \\\\\\\\\na_{21}& a_{22}& a_{23}& a_{24} \\\\\\\\\na_{31}& a_{32}& a_{33}& a_{34} \\\\\\\\\na_{41}& a_{42}& a_{43}& a_{44} \\\\\\\\\n\\end{bmatrix}裏面裝的一樣是機率。接下來，不同的內在狀態有不同的機率會噴出（emit）外在狀態，這也會用另一個矩陣表示：\n\nB = [b_{ij}] = \n\\begin{bmatrix}\nb_{11}& b_{12}& b_{13}& b_{14} \\\\\\\\\nb_{21}& b_{22}& b_{23}& b_{24} \\\\\\\\\nb_{31}& b_{32}& b_{33}& b_{34} \\\\\\\\\n\\end{bmatrix}寫成狀態轉移的關係式的話會變成：\n\n\\mathbf{h^{(t)}} = \\mathbf{h^{(t-1)}} A$\\mathbf{h^{(t)}}$ 代表在第 t 單位時間的內在狀態。\n\n\\mathbf{y^{(t)}} = \\mathbf{h^{(t)}} B$\\mathbf{y^{(t)}}$ 代表在第 t 單位時間根據內在狀態噴出的外在狀態。\n如果在時間軸上表達的話是這個樣子：\n&lt;/br&gt;\n\n&lt;/br&gt;\n\n&lt;/br&gt;\n由於在這邊又多了一個內在狀態，所以在模型的表達力上遠遠超越馬可夫模型。舉個例子好了，假設小明很好奇在不同天氣的時候外面的人吃冰淇淋的狀況是如何，但是小明又很懶得出門看天氣，這時候他就假設天氣（晴天、陰天、雨天）是內在狀態（看不到），然後他觀察路上的人吃冰淇淋（外在狀態，吃、不吃）的多寡，這時候這麼模型就可以派上用場，他藉由持續觀察路人有沒有吃冰淇淋，可以推論外面天氣的變化狀況。\n這時候我們也來總結一下，這個模型的假設：\n\n內在狀態跟外在狀態都是離散的。\n時間是離散的。\n內在狀態是不能被觀察的，外在狀態是可被觀察的。\n以一個隨機變數作為一個狀態。\n\n&lt;/br&gt;\nRecurrent neural network那大家所熟知的 RNN 是怎麼回事呢？我們把假設改了一下：\n\n狀態都是 連續 的。\n時間是離散的。\n內在狀態是不能被觀察的，外在狀態是可被觀察的。\n以一個 隨機向量 作為一個狀態。\n允許在每個時間點給輸入\n引入非線性\n\n首先，在這邊的狀態會以一個向量做表示，大家應該也知道 RNN 的 input 是一個向量，當中的狀態也是一個向量，最後的 output 也是一個向量。而這些向量當中的的值都是連續的 $\\mathbb{R}^n$（假設向量大小為 n），不像上面的模型都是離散的 $k$（假設有 k 個狀態），所以在空間上的大小可以說是擴大非常多。\n接下來我們來看看時間的狀態轉換：\n&lt;/br&gt;\n\n&lt;/br&gt;\n\n&lt;/br&gt;\n在 RNN 中一樣含有內在狀態，但不同的是 RNN 可以在每個時間點上給輸入向量（$\\mathbf{x^{(t)}}$），所以可以根據前一個時間點的內在狀態（$\\mathbf{h^{(t)}}$）跟輸入向量去計算輸出，或是外在狀態（$\\mathbf{y^{(t)}}$）。\n所以大家會在一些論文上看到模型的狀態關係式長下面這個樣子：\n\n\\mathbf{h^{(t)}} = f(\\mathbf{x^{(t)}}, \\mathbf{h^{(t-1)}}) = \\mathbf{x^{(t)}} W_x + \\mathbf{h^{(t-1)}} W_h + \\mathbf{b}\n\\mathbf{y^{(t)}} = g(\\mathbf{h^{(t)}}) = sigm(\\mathbf{h^{(t)}} W_y)這邊特別引入了非線性的轉換（$sigm$）來讓模型更強大。\n隨著從一開始的馬可夫模型到這邊應該對這幾個模型有點感覺，其實 RNN 可以說是很大的突破，在假設上放了很多元素讓模型變得更強大。\nLong short-term memory人們為了改進 RNN這個模型的記憶性，希望他可以記住更遠以前的東西，所以設計了 LSTM 來替換他的 hidden layer 的運作模式，後期更有 GRU，還有人說只需要 forget gate 就有很強大的效能的 MGU。這些都是對於記憶性做的改進，個人覺得這些在工程上的貢獻比較大，真正學術上的突破其實還好。\n今天的整理就先到這邊啦！\n","dateCreated":"2018-07-21T22:21:30+08:00","dateModified":"2018-08-28T23:29:17+08:00","datePublished":"2018-07-21T22:21:30+08:00","description":"\n今天又是個長長的故事。\n上次我們講完在空間上，我們可以知道資料的區域性，並且利用 convolution 來萃取特徵。\n這次我們來講時間，其實不一定要是”時間”序列資料，只要是有先後順序的資料就可以。\n在時間序列分析及統計的領域中，我們有基礎的馬可夫模型（Markov chain）。","headline":"RNN 的意義","image":[],"mainEntityOfPage":{"@type":"WebPage","@id":"https://yuehhua.github.io/2018/07/21/why-rnn/"},"publisher":{"@type":"Organization","name":"Yueh-Hua Tu","sameAs":["https://github.com/yuehhua/","https://www.facebook.com/a504082002","https://www.linkedin.com/in/%E5%B2%B3%E8%8F%AF-%E6%9D%9C-6a3995a0/","mailto:a504082002@gmail.com"],"image":"https://www.gravatar.com/avatar/a565749fba4782b717234da670b273fd","logo":{"@type":"ImageObject","url":"https://www.gravatar.com/avatar/a565749fba4782b717234da670b273fd"}},"url":"https://yuehhua.github.io/2018/07/21/why-rnn/"}</script>
     <meta name="description" content="今天又是個長長的故事。 上次我們講完在空間上，我們可以知道資料的區域性，並且利用 convolution 來萃取特徵。 這次我們來講時間，其實不一定要是”時間”序列資料，只要是有先後順序的資料就可以。 在時間序列分析及統計的領域中，我們有基礎的馬可夫模型（Markov chain）。">
 <meta name="keywords" content="machine learning,deep learning,topology">
 <meta property="og:type" content="blog">
@@ -279,44 +279,53 @@
 <p>在時間序列分析及統計的領域中，我們有基礎的馬可夫模型（Markov chain）。</p>
 <a id="more"></a>
 <h2 id="Markov-chain"><a href="#Markov-chain" class="headerlink" title="Markov chain"></a>Markov chain</h2><p>馬可夫模型是這樣的，他假設一個變數有不同種的狀態，例如下圖：</p>
-<p><br></p>
+<p>&lt;/br&gt;</p>
 <p><img src="/images/markov_model.svg" alt></p>
-<p><br></p>
+<p>&lt;/br&gt;</p>
 <p>在這邊有4個狀態，一個圓圈代表一個狀態，狀態跟狀態之間會隨著時間改變，每個狀態會有一定機率變成其他狀態，或是維持原本的狀態不變。</p>
 <p>我們可以把目前的狀態用一個向量來表達：</p>
-<p>$$<br>\mathbf{y} =<br>\begin{bmatrix}<br>y_1&amp;y_2&amp;y_3&amp;y_4 \\<br>\end{bmatrix}<br>$$</p>
-<blockquote>
+<script type="math/tex; mode=display">
+\mathbf{y} = 
+\begin{bmatrix}
+y_1&y_2&y_3&y_4 \\\\
+\end{bmatrix}</script><blockquote>
 <p>注意：我們這邊使用的向量為列向量（row vector），一般在其他數學領域使用的則是行向量（column vector），兩者是可以藉由轉置來互換的，並不影響運算結果</p>
 </blockquote>
 <p>我們這邊用 $\mathbf{y}$ 代表他是可以被觀察到的。狀態變化我們可以用一個矩陣來表達：</p>
-<p>$$<br>A = [a_{ij}] =<br>\begin{bmatrix}<br>a_{11}&amp; a_{12}&amp; a_{13}&amp; a_{14} \\<br>a_{21}&amp; a_{22}&amp; a_{23}&amp; a_{24} \\<br>a_{31}&amp; a_{32}&amp; a_{33}&amp; a_{34} \\<br>a_{41}&amp; a_{42}&amp; a_{43}&amp; a_{44} \\<br>\end{bmatrix}<br>$$</p>
-<p>其中 $a_{ij}$ 代表的是由狀態 $i$ 變成狀態 $j$ 的機率，這邊要注意的是，每一個列（row）的機率總和要是 1。</p>
+<script type="math/tex; mode=display">
+A = [a_{ij}] = 
+\begin{bmatrix}
+a_{11}& a_{12}& a_{13}& a_{14} \\\\
+a_{21}& a_{22}& a_{23}& a_{24} \\\\
+a_{31}& a_{32}& a_{33}& a_{34} \\\\
+a_{41}& a_{42}& a_{43}& a_{44} \\\\
+\end{bmatrix}</script><p>其中 $a_{ij}$ 代表的是由狀態 $i$ 變成狀態 $j$ 的機率，這邊要注意的是，每一個列（row）的機率總和要是 1。</p>
 <blockquote>
 <p>補充：<br>由於我們的向量都是 row vector<br>$A$ 為一 right stochastic matrix，運算形式為 $\mathbf{y} A$<br>由狀態 $i$ 變成其他狀態之機率和為 1（$A \mathbf{1} = \mathbf{1}$）<br>感謝陳杰翰先生幫忙指正</p>
 </blockquote>
 <p>所以不同時間點的狀態變化關係可以寫成以下式子：</p>
-<p>$$<br>\mathbf{y^{(t)}} = \mathbf{y^{(t-1)}} A<br>$$</p>
-<p>$\mathbf{y^{(t)}}$ 的意思是第 t 次（或是時間為 t）的狀態，$\mathbf{y^{(t-1)}}$ 狀態會經過一次轉換或是運算轉變成 $\mathbf{y^{(t)}}$。</p>
+<script type="math/tex; mode=display">
+\mathbf{y^{(t)}} = \mathbf{y^{(t-1)}} A</script><p>$\mathbf{y^{(t)}}$ 的意思是第 t 次（或是時間為 t）的狀態，$\mathbf{y^{(t-1)}}$ 狀態會經過一次轉換或是運算轉變成 $\mathbf{y^{(t)}}$。</p>
 <p>如果你把其中的第一項的運算拆開來看就會長這樣，可以自行檢驗狀態的變化：</p>
-<p>$$<br>y_1^{(t)} = a_{11}y_1^{(t-1)} + a_{12}y_2^{(t-1)} + a_{13}y_3^{(t-1)} + a_{14}y_4^{(t-1)}<br>$$</p>
-<p>從時間軸上來看，我們可以把狀態的轉變畫出來像是這樣：</p>
-<p><br></p>
+<script type="math/tex; mode=display">
+y_1^{(t)} = a_{11}y_1^{(t-1)} + a_{12}y_2^{(t-1)} + a_{13}y_3^{(t-1)} + a_{14}y_4^{(t-1)}</script><p>從時間軸上來看，我們可以把狀態的轉變畫出來像是這樣：</p>
+<p>&lt;/br&gt;</p>
 <p><img src="/images/markov_model_expand_time.svg" alt></p>
-<p><br></p>
+<p>&lt;/br&gt;</p>
 <p>每次的轉變我們都可以看成一個函數 $f$，他其實等同於上面提到的矩陣：</p>
-<p>$$<br>\mathbf{y^{(t)}} = f(\mathbf{y^{(t-1)}}) = \mathbf{y^{(t-1)}} A<br>$$</p>
-<p>所以他的意思是，$\mathbf{y^{(t-1)}}$ 會經由 $f$ 變成 $\mathbf{y^{(t)}}$，所以這是單純的狀態變化。</p>
+<script type="math/tex; mode=display">
+\mathbf{y^{(t)}} = f(\mathbf{y^{(t-1)}}) = \mathbf{y^{(t-1)}} A</script><p>所以他的意思是，$\mathbf{y^{(t-1)}}$ 會經由 $f$ 變成 $\mathbf{y^{(t)}}$，所以這是單純的狀態變化。</p>
 <p>上面的矩陣當中其實內容是機率，我們也可以把他轉成機率的寫法，但是解釋會變得不太一樣：</p>
-<p>$$<br>p = f(\mathbf{y^{(t)}} \mid \mathbf{y^{(t-1)}}) = P(\mathbf{y^{(t)}} \mid \mathbf{y^{(t-1)}})<br>$$</p>
-<p>這邊的解釋是，$\mathbf{y^{(t-1)}}$ 會經由 $f$ 變成 $\mathbf{y^{(t)}}$ <strong>的機率</strong>。</p>
+<script type="math/tex; mode=display">
+p = f(\mathbf{y^{(t)}} \mid \mathbf{y^{(t-1)}}) = P(\mathbf{y^{(t)}} \mid \mathbf{y^{(t-1)}})</script><p>這邊的解釋是，$\mathbf{y^{(t-1)}}$ 會經由 $f$ 變成 $\mathbf{y^{(t)}}$ <strong>的機率</strong>。</p>
 <p>下句跟上句的不同在於，上句的描述是肯定的，他只描述了狀態的改變，但是下句多加描述了 <strong>這件事會發生的機率</strong>，所以應該要把 $\mathbf{y^{(t)}} \mid \mathbf{y^{(t-1)}}$ 理解成 <strong>這一件事</strong>，那麼 $f$ 的輸出就是機率了。</p>
 <p>我們可以把上圖 <em>收起來</em>，所以看起來會像這樣：</p>
-<p><br></p>
+<p>&lt;/br&gt;</p>
 <p><img src="/images/markov_model_time.svg" alt></p>
-<p><br></p>
+<p>&lt;/br&gt;</p>
 <p>花了點時間把一些符號跟數學概念講完了，來談談他的假設，一般來說，馬可夫模型最大的假設在於：</p>
-<p>$$<br>P(\mathbf{y^{(t)}} \mid \mathbf{y^{(1)}}, \mathbf{y^{(2)}}, \dots, \mathbf{y^{(t-1)}}) = P(\mathbf{y^{(t)}} \mid \mathbf{y^{(t-1)}})<br>$$</p>
-<p>也就是要預測第 t 單位時間的狀態，我們經歷了第 1~(t - 1) 單位時間，但是他只需要用前一個時間單位的狀態就可以預測下一個狀態，前面很多狀態都是不必要的，這我們稱為一階馬可夫模型（first-order Markov chain）。</p>
+<script type="math/tex; mode=display">
+P(\mathbf{y^{(t)}} \mid \mathbf{y^{(1)}}, \mathbf{y^{(2)}}, \dots, \mathbf{y^{(t-1)}}) = P(\mathbf{y^{(t)}} \mid \mathbf{y^{(t-1)}})</script><p>也就是要預測第 t 單位時間的狀態，我們經歷了第 1~(t - 1) 單位時間，但是他只需要用前一個時間單位的狀態就可以預測下一個狀態，前面很多狀態都是不必要的，這我們稱為一階馬可夫模型（first-order Markov chain）。</p>
 <p>當然可以推廣到 m 階馬可夫模型（m th-order Markov chain），那代表需要前 m 個狀態來預測下一個狀態，順帶一提，有零階馬可夫模型，那就跟我們一般的機率分佈模型（$P(\mathbf{y^{(t)}}）$）一樣。</p>
 <p>沒有特別提的話，通常大家談的馬可夫模型都是一階馬可夫模型。一般來說，他有個非常重要的特性，就是 <strong>無記憶性</strong>，也就是他不會去記住他所經歷的狀態，他只需要用現在的狀態就可以預測下一個狀態。</p>
 <p>不過我要特別提一下這個模型的一些其他假設：</p>
@@ -327,26 +336,37 @@
 <li>以一個隨機變數作為一個狀態。</li>
 </ul>
 <p>接下來我們來談談另一個模型。</p>
-<p><br></p>
+<p>&lt;/br&gt;</p>
 <h2 id="Hidden-Markov-model"><a href="#Hidden-Markov-model" class="headerlink" title="Hidden Markov model"></a>Hidden Markov model</h2><p>接下來是進階版的隱馬可夫模型（hidden Markov model），他的假設是這樣的，在一個系統中存在一些我們看不到的狀態，是系統的內在狀態，隨著系統的內在狀態不同，他所表現出來的外在狀態也不同，而外在狀態是我們可以觀測到的。</p>
-<p><br></p>
+<p>&lt;/br&gt;</p>
 <p><img src="/images/hmm.svg" alt></p>
-<p><br></p>
+<p>&lt;/br&gt;</p>
 <p>大家可以看到這個圖跟剛剛的很相似，帶是又多了一些東西。較大的圈圈是內在狀態，小的圈圈是外在狀態。隨著時間改變，內在狀態會隨著變動，內在狀態的變動我們可以用一個矩陣來表示：</p>
-<p>$$<br>A = [a_{ij}] =<br>\begin{bmatrix}<br>a_{11}&amp; a_{12}&amp; a_{13}&amp; a_{14} \\<br>a_{21}&amp; a_{22}&amp; a_{23}&amp; a_{24} \\<br>a_{31}&amp; a_{32}&amp; a_{33}&amp; a_{34} \\<br>a_{41}&amp; a_{42}&amp; a_{43}&amp; a_{44} \\<br>\end{bmatrix}<br>$$</p>
-<p>裏面裝的一樣是機率。接下來，不同的內在狀態有不同的機率會噴出（emit）外在狀態，這也會用另一個矩陣表示：</p>
-<p>$$<br>B = [b_{ij}] =<br>\begin{bmatrix}<br>b_{11}&amp; b_{12}&amp; b_{13}&amp; b_{14} \\<br>b_{21}&amp; b_{22}&amp; b_{23}&amp; b_{24} \\<br>b_{31}&amp; b_{32}&amp; b_{33}&amp; b_{34} \\<br>\end{bmatrix}<br>$$</p>
-<p>寫成狀態轉移的關係式的話會變成：</p>
-<p>$$<br>\mathbf{h^{(t)}} = \mathbf{h^{(t-1)}} A<br>$$</p>
-<p>$\mathbf{h^{(t)}}$ 代表在第 t 單位時間的內在狀態。</p>
-<p>$$<br>\mathbf{y^{(t)}} = \mathbf{h^{(t)}} B<br>$$</p>
-<p>$\mathbf{y^{(t)}}$ 代表在第 t 單位時間根據內在狀態噴出的外在狀態。</p>
+<script type="math/tex; mode=display">
+A = [a_{ij}] = 
+\begin{bmatrix}
+a_{11}& a_{12}& a_{13}& a_{14} \\\\
+a_{21}& a_{22}& a_{23}& a_{24} \\\\
+a_{31}& a_{32}& a_{33}& a_{34} \\\\
+a_{41}& a_{42}& a_{43}& a_{44} \\\\
+\end{bmatrix}</script><p>裏面裝的一樣是機率。接下來，不同的內在狀態有不同的機率會噴出（emit）外在狀態，這也會用另一個矩陣表示：</p>
+<script type="math/tex; mode=display">
+B = [b_{ij}] = 
+\begin{bmatrix}
+b_{11}& b_{12}& b_{13}& b_{14} \\\\
+b_{21}& b_{22}& b_{23}& b_{24} \\\\
+b_{31}& b_{32}& b_{33}& b_{34} \\\\
+\end{bmatrix}</script><p>寫成狀態轉移的關係式的話會變成：</p>
+<script type="math/tex; mode=display">
+\mathbf{h^{(t)}} = \mathbf{h^{(t-1)}} A</script><p>$\mathbf{h^{(t)}}$ 代表在第 t 單位時間的內在狀態。</p>
+<script type="math/tex; mode=display">
+\mathbf{y^{(t)}} = \mathbf{h^{(t)}} B</script><p>$\mathbf{y^{(t)}}$ 代表在第 t 單位時間根據內在狀態噴出的外在狀態。</p>
 <p>如果在時間軸上表達的話是這個樣子：</p>
-<p><br></p>
+<p>&lt;/br&gt;</p>
 <p><img src="/images/hmm_expand_time.svg" alt></p>
-<p><br></p>
+<p>&lt;/br&gt;</p>
 <p><img src="/images/hmm_time.svg" alt></p>
-<p><br></p>
+<p>&lt;/br&gt;</p>
 <p>由於在這邊又多了一個內在狀態，所以在模型的表達力上遠遠超越馬可夫模型。舉個例子好了，假設小明很好奇在不同天氣的時候外面的人吃冰淇淋的狀況是如何，但是小明又很懶得出門看天氣，這時候他就假設天氣（晴天、陰天、雨天）是內在狀態（看不到），然後他觀察路上的人吃冰淇淋（外在狀態，吃、不吃）的多寡，這時候這麼模型就可以派上用場，他藉由持續觀察路人有沒有吃冰淇淋，可以推論外面天氣的變化狀況。</p>
 <p>這時候我們也來總結一下，這個模型的假設：</p>
 <ul>
@@ -355,7 +375,7 @@
 <li>內在狀態是不能被觀察的，外在狀態是可被觀察的。</li>
 <li>以一個隨機變數作為一個狀態。</li>
 </ul>
-<p><br></p>
+<p>&lt;/br&gt;</p>
 <h2 id="Recurrent-neural-network"><a href="#Recurrent-neural-network" class="headerlink" title="Recurrent neural network"></a>Recurrent neural network</h2><p>那大家所熟知的 RNN 是怎麼回事呢？我們把假設改了一下：</p>
 <ul>
 <li>狀態都是 <strong>連續</strong> 的。</li>
@@ -367,16 +387,16 @@
 </ul>
 <p>首先，在這邊的狀態會以一個向量做表示，大家應該也知道 RNN 的 input 是一個向量，當中的狀態也是一個向量，最後的 output 也是一個向量。而這些向量當中的的值都是連續的 $\mathbb{R}^n$（假設向量大小為 n），不像上面的模型都是離散的 $k$（假設有 k 個狀態），所以在空間上的大小可以說是擴大非常多。</p>
 <p>接下來我們來看看時間的狀態轉換：</p>
-<p><br></p>
+<p>&lt;/br&gt;</p>
 <p><img src="/images/rnn_time.svg" alt></p>
-<p><br></p>
+<p>&lt;/br&gt;</p>
 <p><img src="/images/rnn_expand_time.svg" alt></p>
-<p><br></p>
+<p>&lt;/br&gt;</p>
 <p>在 RNN 中一樣含有內在狀態，但不同的是 RNN 可以在每個時間點上給輸入向量（$\mathbf{x^{(t)}}$），所以可以根據前一個時間點的內在狀態（$\mathbf{h^{(t)}}$）跟輸入向量去計算輸出，或是外在狀態（$\mathbf{y^{(t)}}$）。</p>
 <p>所以大家會在一些論文上看到模型的狀態關係式長下面這個樣子：</p>
-<p>$$<br>\mathbf{h^{(t)}} = f(\mathbf{x^{(t)}}, \mathbf{h^{(t-1)}}) = \mathbf{x^{(t)}} W_x + \mathbf{h^{(t-1)}} W_h + \mathbf{b}<br>$$</p>
-<p>$$<br>\mathbf{y^{(t)}} = g(\mathbf{h^{(t)}}) = sigm(\mathbf{h^{(t)}} W_y)<br>$$</p>
-<p>這邊特別引入了非線性的轉換（$sigm$）來讓模型更強大。</p>
+<script type="math/tex; mode=display">
+\mathbf{h^{(t)}} = f(\mathbf{x^{(t)}}, \mathbf{h^{(t-1)}}) = \mathbf{x^{(t)}} W_x + \mathbf{h^{(t-1)}} W_h + \mathbf{b}</script><script type="math/tex; mode=display">
+\mathbf{y^{(t)}} = g(\mathbf{h^{(t)}}) = sigm(\mathbf{h^{(t)}} W_y)</script><p>這邊特別引入了非線性的轉換（$sigm$）來讓模型更強大。</p>
 <p>隨著從一開始的馬可夫模型到這邊應該對這幾個模型有點感覺，其實 RNN 可以說是很大的突破，在假設上放了很多元素讓模型變得更強大。</p>
 <h2 id="Long-short-term-memory"><a href="#Long-short-term-memory" class="headerlink" title="Long short-term memory"></a>Long short-term memory</h2><p>人們為了改進 RNN這個模型的記憶性，希望他可以記住更遠以前的東西，所以設計了 LSTM 來替換他的 hidden layer 的運作模式，後期更有 GRU，還有人說只需要 forget gate 就有很強大的效能的 MGU。這些都是對於記憶性做的改進，個人覺得這些在工程上的貢獻比較大，真正學術上的突破其實還好。</p>
 <p>今天的整理就先到這邊啦！</p>
@@ -561,7 +581,7 @@
         
             <h4 id="about-card-name">Yueh-Hua Tu</h4>
         
-            <div id="about-card-bio"><p>目標是計算生物學家！</br>Systems Biology, Computational Biology, Machine Learning</br>Julia Taiwan 發起人</p>
+            <div id="about-card-bio"><p>目標是計算生物學家！&lt;/br&gt;Systems Biology, Computational Biology, Machine Learning&lt;/br&gt;Julia Taiwan 發起人</p>
 </div>
         
         
@@ -623,6 +643,6 @@
             all[i].SourceElement().parentNode.className += ' has-jax';
     });
 </script>
-<script src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script><!-- hexo-inject:begin --><!-- hexo-inject:end -->
+<script src="https://cdn.jsdelivr.net/npm/mathjax@3.0.1/es5/node-main.min.js"></script><!-- hexo-inject:begin --><!-- hexo-inject:end -->
 </body>
 </html>

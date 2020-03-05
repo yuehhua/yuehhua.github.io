@@ -15,7 +15,7 @@
     
         <link rel="alternate" type="application/atom+xml" title="RSS" href="/atom.xml">
     
-    <script type="application/ld+json">{"@context":"http://schema.org","@type":"BlogPosting","author":{"@type":"Person","name":"Yueh-Hua Tu","sameAs":["https://github.com/yuehhua/","https://www.facebook.com/a504082002","https://www.linkedin.com/in/%E5%B2%B3%E8%8F%AF-%E6%9D%9C-6a3995a0/","mailto:a504082002@gmail.com"],"image":"https://www.gravatar.com/avatar/a565749fba4782b717234da670b273fd"},"articleBody":"感知器（perceptron）是在 1957 年就被發明出來的的模型，對電腦的發展或是人工智慧來說都是非常早期的。\n感知器模型他是一個二元分類的分類器，他解的是分類問題。相對我們前面的線性迴歸解的是迴歸問題，兩者在問題的定義上有根本性的不一樣，那他們兩個有什麼關聯性呢？\n\n分類現在想像一下，如果你手上有一些資料，這些資料都有兩個維度 $(x_1,x_2)$，可以他們畫在二維的平面上，這些資料有的被標記成方塊，有的被標記成圓圈。我現在希望有一種方法可以將不同標記的資料點分開，我們可以怎麼做？\n\n在資料點上，大多相似的資料點會有接近的座標，所以資料點本身就會因為相似性而聚在一起。最直覺的方法就是畫一條直線將他們分開。\n\n我們可以在二維平面上畫一條線來把這些點分開的話，那麼要怎麼以數學的方式呈現呢？\n$$x_2 = w x_1 + b$$\n這是我們的二維平面上的線，我們把他移項一下。\n$$x_2 - w x_1 - b = 0$$\n當你試著把資料點代入方程式的時候，你會發現不同的點算出來結果會分成兩種：\n\n$x_2 - w x_1 - b &gt; 0$\n$x_2 - w x_1 - b &lt; 0$\n\n如果你的線畫的夠好的話，應該是不會有點剛好位於線上而讓 $x_2 - w x_1 - b = 0$ 發生的。所以我們是不是能夠透過將點代入公式中，計算出他的結果為正或是為負來決定他應該是方塊或是圓圈。新的資料點就可以透過這樣的運算來做預測。\n如果要模型給出一個比較容易理解的預測值的話，我們可以在模型之後再加上一個 $sign$ 來取數值的正負號。\n$$sign(x_2 - w x_1 - b) = 0$$\n$$sign(x) = \\begin{cases} -1, &amp;\\text{if } x \\lt 0\\ 0, &amp;\\text{if } x = 0\\ 1, &amp;\\text{if } x \\gt 0\\end{cases}$$\n當整件事情拓展到了高維度空間的時候就變成這樣了：\n$$sign(\\mathbf{w}^T\\mathbf{x} + b)$$\n看到了嗎？中間是不是我們的線性迴歸裡的線性模型了呢？\n準確來說，是跟線性迴歸沒什麼關係啦！但是同為線性模型可以應用在迴歸問題或是分類問題，有兩種些許不同的形式，是不是很妙呢？\n常數項前面說過，常數項在分類器上有些許不一樣的的解釋。\n\n基本上，對一條線來說，常數項仍舊是讓線可以有位移的機會，不過反過來想，如果沒有常數項的話，即便有 $\\mathbf{w}^T\\mathbf{x}$ 可以計算出結果，但是可能仍不足以分隔資料，所以需要加上（或是減掉）一個閾值或是臨界值。\n","dateCreated":"2018-10-03T23:13:30+08:00","dateModified":"2018-10-03T23:24:32+08:00","datePublished":"2018-10-03T23:13:30+08:00","description":"感知器（perceptron）是在 1957 年就被發明出來的的模型，對電腦的發展或是人工智慧來說都是非常早期的。\n感知器模型他是一個二元分類的分類器，他解的是分類問題。相對我們前面的線性迴歸解的是迴歸問題，兩者在問題的定義上有根本性的不一樣，那他們兩個有什麼關聯性呢？","headline":"03 從線性迴歸到感知器","image":[],"mainEntityOfPage":{"@type":"WebPage","@id":"https://yuehhua.github.io/2018/10/03/03-from-linear-regression-to-perceptron/"},"publisher":{"@type":"Organization","name":"Yueh-Hua Tu","sameAs":["https://github.com/yuehhua/","https://www.facebook.com/a504082002","https://www.linkedin.com/in/%E5%B2%B3%E8%8F%AF-%E6%9D%9C-6a3995a0/","mailto:a504082002@gmail.com"],"image":"https://www.gravatar.com/avatar/a565749fba4782b717234da670b273fd","logo":{"@type":"ImageObject","url":"https://www.gravatar.com/avatar/a565749fba4782b717234da670b273fd"}},"url":"https://yuehhua.github.io/2018/10/03/03-from-linear-regression-to-perceptron/"}</script>
+    <script type="application/ld+json">{"@context":"http://schema.org","@type":"BlogPosting","author":{"@type":"Person","name":"Yueh-Hua Tu","sameAs":["https://github.com/yuehhua/","https://www.facebook.com/a504082002","https://www.linkedin.com/in/%E5%B2%B3%E8%8F%AF-%E6%9D%9C-6a3995a0/","mailto:a504082002@gmail.com"],"image":"https://www.gravatar.com/avatar/a565749fba4782b717234da670b273fd"},"articleBody":"感知器（perceptron）是在 1957 年就被發明出來的的模型，對電腦的發展或是人工智慧來說都是非常早期的。\n感知器模型他是一個二元分類的分類器，他解的是分類問題。相對我們前面的線性迴歸解的是迴歸問題，兩者在問題的定義上有根本性的不一樣，那他們兩個有什麼關聯性呢？\n\n分類現在想像一下，如果你手上有一些資料，這些資料都有兩個維度 $(x_1,x_2)$，可以他們畫在二維的平面上，這些資料有的被標記成方塊，有的被標記成圓圈。我現在希望有一種方法可以將不同標記的資料點分開，我們可以怎麼做？\n\n在資料點上，大多相似的資料點會有接近的座標，所以資料點本身就會因為相似性而聚在一起。最直覺的方法就是畫一條直線將他們分開。\n\n我們可以在二維平面上畫一條線來把這些點分開的話，那麼要怎麼以數學的方式呈現呢？\n\nx_2 = w x_1 + b這是我們的二維平面上的線，我們把他移項一下。\n\nx_2 - w x_1 - b = 0當你試著把資料點代入方程式的時候，你會發現不同的點算出來結果會分成兩種：\n\n$x_2 - w x_1 - b &gt; 0$\n$x_2 - w x_1 - b &lt; 0$\n\n如果你的線畫的夠好的話，應該是不會有點剛好位於線上而讓 $x_2 - w x_1 - b = 0$ 發生的。所以我們是不是能夠透過將點代入公式中，計算出他的結果為正或是為負來決定他應該是方塊或是圓圈。新的資料點就可以透過這樣的運算來做預測。\n如果要模型給出一個比較容易理解的預測值的話，我們可以在模型之後再加上一個 $sign$ 來取數值的正負號。\n\nsign(x_2 - w x_1 - b) = 0\nsign(x) = \\begin{cases}\n -1, &\\text{if } x \\lt 0\\\\\n 0, &\\text{if } x = 0\\\\\n 1, &\\text{if } x \\gt 0\n\\end{cases}當整件事情拓展到了高維度空間的時候就變成這樣了：\n\nsign(\\mathbf{w}^T\\mathbf{x} + b)看到了嗎？中間是不是我們的線性迴歸裡的線性模型了呢？\n準確來說，是跟線性迴歸沒什麼關係啦！但是同為線性模型可以應用在迴歸問題或是分類問題，有兩種些許不同的形式，是不是很妙呢？\n常數項前面說過，常數項在分類器上有些許不一樣的的解釋。\n\n基本上，對一條線來說，常數項仍舊是讓線可以有位移的機會，不過反過來想，如果沒有常數項的話，即便有 $\\mathbf{w}^T\\mathbf{x}$ 可以計算出結果，但是可能仍不足以分隔資料，所以需要加上（或是減掉）一個閾值或是臨界值。\n","dateCreated":"2018-10-03T23:13:30+08:00","dateModified":"2018-10-03T23:24:32+08:00","datePublished":"2018-10-03T23:13:30+08:00","description":"感知器（perceptron）是在 1957 年就被發明出來的的模型，對電腦的發展或是人工智慧來說都是非常早期的。\n感知器模型他是一個二元分類的分類器，他解的是分類問題。相對我們前面的線性迴歸解的是迴歸問題，兩者在問題的定義上有根本性的不一樣，那他們兩個有什麼關聯性呢？","headline":"03 從線性迴歸到感知器","image":[],"mainEntityOfPage":{"@type":"WebPage","@id":"https://yuehhua.github.io/2018/10/03/03-from-linear-regression-to-perceptron/"},"publisher":{"@type":"Organization","name":"Yueh-Hua Tu","sameAs":["https://github.com/yuehhua/","https://www.facebook.com/a504082002","https://www.linkedin.com/in/%E5%B2%B3%E8%8F%AF-%E6%9D%9C-6a3995a0/","mailto:a504082002@gmail.com"],"image":"https://www.gravatar.com/avatar/a565749fba4782b717234da670b273fd","logo":{"@type":"ImageObject","url":"https://www.gravatar.com/avatar/a565749fba4782b717234da670b273fd"}},"url":"https://yuehhua.github.io/2018/10/03/03-from-linear-regression-to-perceptron/"}</script>
     <meta name="description" content="感知器（perceptron）是在 1957 年就被發明出來的的模型，對電腦的發展或是人工智慧來說都是非常早期的。 感知器模型他是一個二元分類的分類器，他解的是分類問題。相對我們前面的線性迴歸解的是迴歸問題，兩者在問題的定義上有根本性的不一樣，那他們兩個有什麼關聯性呢？">
 <meta name="keywords" content="machine learning,deep learning,topology">
 <meta property="og:type" content="blog">
@@ -275,21 +275,25 @@
 <p>在資料點上，大多相似的資料點會有接近的座標，所以資料點本身就會因為相似性而聚在一起。最直覺的方法就是畫一條直線將他們分開。</p>
 <p><img src="/images/perceptron2.svg" alt></p>
 <p>我們可以在二維平面上畫一條線來把這些點分開的話，那麼要怎麼以數學的方式呈現呢？</p>
-<p>$$<br>x_2 = w x_1 + b<br>$$</p>
-<p>這是我們的二維平面上的線，我們把他移項一下。</p>
-<p>$$<br>x_2 - w x_1 - b = 0<br>$$</p>
-<p>當你試著把資料點代入方程式的時候，你會發現不同的點算出來結果會分成兩種：</p>
+<script type="math/tex; mode=display">
+x_2 = w x_1 + b</script><p>這是我們的二維平面上的線，我們把他移項一下。</p>
+<script type="math/tex; mode=display">
+x_2 - w x_1 - b = 0</script><p>當你試著把資料點代入方程式的時候，你會發現不同的點算出來結果會分成兩種：</p>
 <ol>
 <li>$x_2 - w x_1 - b &gt; 0$</li>
 <li>$x_2 - w x_1 - b &lt; 0$</li>
 </ol>
 <p>如果你的線畫的夠好的話，應該是不會有點剛好位於線上而讓 $x_2 - w x_1 - b = 0$ 發生的。所以我們是不是能夠透過將點代入公式中，計算出他的結果為正或是為負來決定他應該是方塊或是圓圈。新的資料點就可以透過這樣的運算來做預測。</p>
 <p>如果要模型給出一個比較容易理解的預測值的話，我們可以在模型之後再加上一個 $sign$ 來取數值的正負號。</p>
-<p>$$<br>sign(x_2 - w x_1 - b) = 0<br>$$</p>
-<p>$$<br>sign(x) = \begin{cases}<br> -1, &amp;\text{if } x \lt 0\<br> 0, &amp;\text{if } x = 0\<br> 1, &amp;\text{if } x \gt 0<br>\end{cases}<br>$$</p>
-<p>當整件事情拓展到了高維度空間的時候就變成這樣了：</p>
-<p>$$<br>sign(\mathbf{w}^T\mathbf{x} + b)<br>$$</p>
-<p>看到了嗎？中間是不是我們的線性迴歸裡的線性模型了呢？</p>
+<script type="math/tex; mode=display">
+sign(x_2 - w x_1 - b) = 0</script><script type="math/tex; mode=display">
+sign(x) = \begin{cases}
+ -1, &\text{if } x \lt 0\\
+ 0, &\text{if } x = 0\\
+ 1, &\text{if } x \gt 0
+\end{cases}</script><p>當整件事情拓展到了高維度空間的時候就變成這樣了：</p>
+<script type="math/tex; mode=display">
+sign(\mathbf{w}^T\mathbf{x} + b)</script><p>看到了嗎？中間是不是我們的線性迴歸裡的線性模型了呢？</p>
 <p>準確來說，是跟線性迴歸沒什麼關係啦！但是同為線性模型可以應用在迴歸問題或是分類問題，有兩種些許不同的形式，是不是很妙呢？</p>
 <h2 id="常數項"><a href="#常數項" class="headerlink" title="常數項"></a>常數項</h2><p>前面說過，常數項在分類器上有些許不一樣的的解釋。</p>
 <p><img src="/images/perceptron3.svg" alt></p>
@@ -475,7 +479,7 @@
         
             <h4 id="about-card-name">Yueh-Hua Tu</h4>
         
-            <div id="about-card-bio"><p>目標是計算生物學家！</br>Systems Biology, Computational Biology, Machine Learning</br>Julia Taiwan 發起人</p>
+            <div id="about-card-bio"><p>目標是計算生物學家！&lt;/br&gt;Systems Biology, Computational Biology, Machine Learning&lt;/br&gt;Julia Taiwan 發起人</p>
 </div>
         
         
@@ -537,6 +541,6 @@
             all[i].SourceElement().parentNode.className += ' has-jax';
     });
 </script>
-<script src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script><!-- hexo-inject:begin --><!-- hexo-inject:end -->
+<script src="https://cdn.jsdelivr.net/npm/mathjax@3.0.1/es5/node-main.min.js"></script><!-- hexo-inject:begin --><!-- hexo-inject:end -->
 </body>
 </html>

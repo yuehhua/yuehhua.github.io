@@ -15,7 +15,7 @@
     
         <link rel="alternate" type="application/atom+xml" title="RSS" href="/atom.xml">
     
-    <script type="application/ld+json">{"@context":"http://schema.org","@type":"BlogPosting","author":{"@type":"Person","name":"Yueh-Hua Tu","sameAs":["https://github.com/yuehhua/","https://www.facebook.com/a504082002","https://www.linkedin.com/in/%E5%B2%B3%E8%8F%AF-%E6%9D%9C-6a3995a0/","mailto:a504082002@gmail.com"],"image":"https://www.gravatar.com/avatar/a565749fba4782b717234da670b273fd"},"articleBody":"上次我們講完了線性迴歸跟羅吉斯迴歸的差異。\n可是並不是每一種資料都是連續型的或是類別型的。\n這次要來介紹 Poisson 迴歸，當你要預測的是計數型資料（count data）就可以用他。\n\nPoisson distribution在講 Poisson 迴歸之前要先來講講 Poisson 分佈，他的公式大概是長的像這樣：\n$$P(Y=y; \\lambda) = \\frac{e^{- \\lambda} \\lambda^y}{y!}$$\n圖形的話看起來是這樣。\n\n\n圖片來自維基百科\n\n要怎麼看懂這個分佈呢？\n我們先想像一個情境好了，假設我們經營一家便利商店，在一天之中來光臨這家商店的人數不同時段不一樣。即使是同一個時段，你也很難準確預測會有多少人進到店裡來。這時候我們就會用機率的描述方式，在這邊 k 指的是當我們觀察每段時間區間內進入店裡的客人數量，那麼 $\\lambda$ 就是平均來說，每個時間區間的來客人數。你可以看到在 $\\lambda = 1$ 的分佈上，來客人數是 0 或是 1 的機率其實很高，但是大於 1 的情形並不是沒有，只是機率比較低罷了。\n因此，我們可以用這樣的分佈來估算計數型的資料\nPoisson 迴歸計數型的資料難道不能用一般的線性迴歸嗎？\n其實這兩者有非常大的差別：\n\n計數型的資料不會有負值\n計數型的資料不會有小數點\n\n基於以上兩點資料性質上的差異，我們必須把不同資料分別看待。\n但是也不是完全不能用線性迴歸，只是需要動點手腳，就是對資料取 log。\n如果你對上面的 Poisson 分佈取 log 的話會發生什麼事呢？\n$$ln(P(Y=y; \\lambda)) = - \\lambda + y ln(\\lambda) - \\sum_{y}^{j=1} j$$\n看到了吧！$\\lambda$ 跳出來了！而平均數 $\\lambda$ 是連續型的數值，可以作為線性迴歸要預測的對象的。\n\n注意：以上並非正式的證明，請勿用於正式推導\n\n其實我們的 Poisson 迴歸是長成這樣的：\n$$ln(\\mathbb{E}[y]) = ln(\\mathbb{E}[P(Y=y; \\lambda)]) = \\mathbf{w}^T\\mathbf{x} + b$$\n是不是跟我們前面提到的羅吉斯迴歸有 87% 像呢？\n而且我們在上面有提到 $\\lambda$ 是平均數，所以呢…\n$$ln(\\mathbb{E}[y]) = ln(\\lambda) = \\mathbf{w}^T\\mathbf{x} + b$$\nPoisson 迴歸在預測的根本是 $ln(\\lambda)$ 嘛！\n","dateCreated":"2018-10-10T22:56:34+08:00","dateModified":"2018-10-15T15:04:28+08:00","datePublished":"2018-10-10T22:56:34+08:00","description":"上次我們講完了線性迴歸跟羅吉斯迴歸的差異。\n可是並不是每一種資料都是連續型的或是類別型的。\n這次要來介紹 Poisson 迴歸，當你要預測的是計數型資料（count data）就可以用他。","headline":"10 從線性迴歸到 Poisson 迴歸","image":[],"mainEntityOfPage":{"@type":"WebPage","@id":"https://yuehhua.github.io/2018/10/10/10-from-linear-regression-to-poisson-regression/"},"publisher":{"@type":"Organization","name":"Yueh-Hua Tu","sameAs":["https://github.com/yuehhua/","https://www.facebook.com/a504082002","https://www.linkedin.com/in/%E5%B2%B3%E8%8F%AF-%E6%9D%9C-6a3995a0/","mailto:a504082002@gmail.com"],"image":"https://www.gravatar.com/avatar/a565749fba4782b717234da670b273fd","logo":{"@type":"ImageObject","url":"https://www.gravatar.com/avatar/a565749fba4782b717234da670b273fd"}},"url":"https://yuehhua.github.io/2018/10/10/10-from-linear-regression-to-poisson-regression/"}</script>
+    <script type="application/ld+json">{"@context":"http://schema.org","@type":"BlogPosting","author":{"@type":"Person","name":"Yueh-Hua Tu","sameAs":["https://github.com/yuehhua/","https://www.facebook.com/a504082002","https://www.linkedin.com/in/%E5%B2%B3%E8%8F%AF-%E6%9D%9C-6a3995a0/","mailto:a504082002@gmail.com"],"image":"https://www.gravatar.com/avatar/a565749fba4782b717234da670b273fd"},"articleBody":"上次我們講完了線性迴歸跟羅吉斯迴歸的差異。\n可是並不是每一種資料都是連續型的或是類別型的。\n這次要來介紹 Poisson 迴歸，當你要預測的是計數型資料（count data）就可以用他。\n\nPoisson distribution在講 Poisson 迴歸之前要先來講講 Poisson 分佈，他的公式大概是長的像這樣：\n\nP(Y=y; \\lambda) = \\frac{e^{- \\lambda} \\lambda^y}{y!}圖形的話看起來是這樣。\n\n\n圖片來自維基百科\n\n要怎麼看懂這個分佈呢？\n我們先想像一個情境好了，假設我們經營一家便利商店，在一天之中來光臨這家商店的人數不同時段不一樣。即使是同一個時段，你也很難準確預測會有多少人進到店裡來。這時候我們就會用機率的描述方式，在這邊 k 指的是當我們觀察每段時間區間內進入店裡的客人數量，那麼 $\\lambda$ 就是平均來說，每個時間區間的來客人數。你可以看到在 $\\lambda = 1$ 的分佈上，來客人數是 0 或是 1 的機率其實很高，但是大於 1 的情形並不是沒有，只是機率比較低罷了。\n因此，我們可以用這樣的分佈來估算計數型的資料\nPoisson 迴歸計數型的資料難道不能用一般的線性迴歸嗎？\n其實這兩者有非常大的差別：\n\n計數型的資料不會有負值\n計數型的資料不會有小數點\n\n基於以上兩點資料性質上的差異，我們必須把不同資料分別看待。\n但是也不是完全不能用線性迴歸，只是需要動點手腳，就是對資料取 log。\n如果你對上面的 Poisson 分佈取 log 的話會發生什麼事呢？\n\nln(P(Y=y; \\lambda)) = - \\lambda + y ln(\\lambda) - \\sum_{y}^{j=1} j看到了吧！$\\lambda$ 跳出來了！而平均數 $\\lambda$ 是連續型的數值，可以作為線性迴歸要預測的對象的。\n\n注意：以上並非正式的證明，請勿用於正式推導\n\n其實我們的 Poisson 迴歸是長成這樣的：\n\nln(\\mathbb{E}[y]) = ln(\\mathbb{E}[P(Y=y; \\lambda)]) = \\mathbf{w}^T\\mathbf{x} + b是不是跟我們前面提到的羅吉斯迴歸有 87% 像呢？\n而且我們在上面有提到 $\\lambda$ 是平均數，所以呢…\n\nln(\\mathbb{E}[y]) = ln(\\lambda) = \\mathbf{w}^T\\mathbf{x} + bPoisson 迴歸在預測的根本是 $ln(\\lambda)$ 嘛！\n","dateCreated":"2018-10-10T22:56:34+08:00","dateModified":"2018-10-15T15:04:28+08:00","datePublished":"2018-10-10T22:56:34+08:00","description":"上次我們講完了線性迴歸跟羅吉斯迴歸的差異。\n可是並不是每一種資料都是連續型的或是類別型的。\n這次要來介紹 Poisson 迴歸，當你要預測的是計數型資料（count data）就可以用他。","headline":"10 從線性迴歸到 Poisson 迴歸","image":[],"mainEntityOfPage":{"@type":"WebPage","@id":"https://yuehhua.github.io/2018/10/10/10-from-linear-regression-to-poisson-regression/"},"publisher":{"@type":"Organization","name":"Yueh-Hua Tu","sameAs":["https://github.com/yuehhua/","https://www.facebook.com/a504082002","https://www.linkedin.com/in/%E5%B2%B3%E8%8F%AF-%E6%9D%9C-6a3995a0/","mailto:a504082002@gmail.com"],"image":"https://www.gravatar.com/avatar/a565749fba4782b717234da670b273fd","logo":{"@type":"ImageObject","url":"https://www.gravatar.com/avatar/a565749fba4782b717234da670b273fd"}},"url":"https://yuehhua.github.io/2018/10/10/10-from-linear-regression-to-poisson-regression/"}</script>
     <meta name="description" content="上次我們講完了線性迴歸跟羅吉斯迴歸的差異。 可是並不是每一種資料都是連續型的或是類別型的。 這次要來介紹 Poisson 迴歸，當你要預測的是計數型資料（count data）就可以用他。">
 <meta name="keywords" content="machine learning,deep learning,topology">
 <meta property="og:type" content="blog">
@@ -270,8 +270,8 @@
 <p>這次要來介紹 Poisson 迴歸，當你要預測的是計數型資料（count data）就可以用他。</p>
 <a id="more"></a>
 <h2 id="Poisson-distribution"><a href="#Poisson-distribution" class="headerlink" title="Poisson distribution"></a>Poisson distribution</h2><p>在講 Poisson 迴歸之前要先來講講 Poisson 分佈，他的公式大概是長的像這樣：</p>
-<p>$$<br>P(Y=y; \lambda) = \frac{e^{- \lambda} \lambda^y}{y!}<br>$$</p>
-<p>圖形的話看起來是這樣。</p>
+<script type="math/tex; mode=display">
+P(Y=y; \lambda) = \frac{e^{- \lambda} \lambda^y}{y!}</script><p>圖形的話看起來是這樣。</p>
 <p><img src="/images/Poisson_distribution.svg" alt></p>
 <blockquote>
 <p>圖片來自維基百科</p>
@@ -288,17 +288,17 @@
 <p>基於以上兩點資料性質上的差異，我們必須把不同資料分別看待。</p>
 <p>但是也不是完全不能用線性迴歸，只是需要動點手腳，就是對資料取 log。</p>
 <p>如果你對上面的 Poisson 分佈取 log 的話會發生什麼事呢？</p>
-<p>$$<br>ln(P(Y=y; \lambda)) = - \lambda + y ln(\lambda) - \sum_{y}^{j=1} j<br>$$</p>
-<p>看到了吧！$\lambda$ 跳出來了！而平均數 $\lambda$ 是連續型的數值，可以作為線性迴歸要預測的對象的。</p>
+<script type="math/tex; mode=display">
+ln(P(Y=y; \lambda)) = - \lambda + y ln(\lambda) - \sum_{y}^{j=1} j</script><p>看到了吧！$\lambda$ 跳出來了！而平均數 $\lambda$ 是連續型的數值，可以作為線性迴歸要預測的對象的。</p>
 <blockquote>
 <p>注意：以上並非正式的證明，請勿用於正式推導</p>
 </blockquote>
 <p>其實我們的 Poisson 迴歸是長成這樣的：</p>
-<p>$$<br>ln(\mathbb{E}[y]) = ln(\mathbb{E}[P(Y=y; \lambda)]) = \mathbf{w}^T\mathbf{x} + b<br>$$</p>
-<p>是不是跟我們前面提到的羅吉斯迴歸有 87% 像呢？</p>
+<script type="math/tex; mode=display">
+ln(\mathbb{E}[y]) = ln(\mathbb{E}[P(Y=y; \lambda)]) = \mathbf{w}^T\mathbf{x} + b</script><p>是不是跟我們前面提到的羅吉斯迴歸有 87% 像呢？</p>
 <p>而且我們在上面有提到 $\lambda$ 是平均數，所以呢…</p>
-<p>$$<br>ln(\mathbb{E}[y]) = ln(\lambda) = \mathbf{w}^T\mathbf{x} + b<br>$$</p>
-<p>Poisson 迴歸在預測的根本是 $ln(\lambda)$ 嘛！</p>
+<script type="math/tex; mode=display">
+ln(\mathbb{E}[y]) = ln(\lambda) = \mathbf{w}^T\mathbf{x} + b</script><p>Poisson 迴歸在預測的根本是 $ln(\lambda)$ 嘛！</p>
 
                                         
 
@@ -480,7 +480,7 @@
         
             <h4 id="about-card-name">Yueh-Hua Tu</h4>
         
-            <div id="about-card-bio"><p>目標是計算生物學家！</br>Systems Biology, Computational Biology, Machine Learning</br>Julia Taiwan 發起人</p>
+            <div id="about-card-bio"><p>目標是計算生物學家！&lt;/br&gt;Systems Biology, Computational Biology, Machine Learning&lt;/br&gt;Julia Taiwan 發起人</p>
 </div>
         
         
@@ -542,6 +542,6 @@
             all[i].SourceElement().parentNode.className += ' has-jax';
     });
 </script>
-<script src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script><!-- hexo-inject:begin --><!-- hexo-inject:end -->
+<script src="https://cdn.jsdelivr.net/npm/mathjax@3.0.1/es5/node-main.min.js"></script><!-- hexo-inject:begin --><!-- hexo-inject:end -->
 </body>
 </html>

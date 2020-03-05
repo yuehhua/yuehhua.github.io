@@ -15,7 +15,7 @@
     
         <link rel="alternate" type="application/atom+xml" title="RSS" href="/atom.xml">
     
-    <script type="application/ld+json">{"@context":"http://schema.org","@type":"BlogPosting","author":{"@type":"Person","name":"Yueh-Hua Tu","sameAs":["https://github.com/yuehhua/","https://www.facebook.com/a504082002","https://www.linkedin.com/in/%E5%B2%B3%E8%8F%AF-%E6%9D%9C-6a3995a0/","mailto:a504082002@gmail.com"],"image":"https://www.gravatar.com/avatar/a565749fba4782b717234da670b273fd"},"articleBody":"我們從前面的模型演化可以了解一個機器學習模型可以怎麼樣衍生出其他的變體來解決問題。\n現在我們要切換到另外一條跑道上，我們一樣是從線性迴歸模型出發，我們或許可以換成其他的不同的分佈。\n\n常態分佈其實我們在前面的文章中有提到我們的線性迴歸模型假設了誤差是會呈現一個常態分佈。\n對於誤差的假設這件事情其實很大程度影響了我們模型的長相，也會影響這個模型所適用的資料。\n像是線性迴歸模型適用的是連續型變數的資料，更進一步來說，他是要求他的應變量（y）要是連續型的，看起來是這樣的。\n$$\\mathbb{E}[y] = \\mathbb{E}[Normal(Y=y; \\mu, \\sigma)] = \\mu = \\mathbf{w}^T\\mathbf{x} + b$$\n$Normal(Y=y; \\mu, \\sigma)$：代表常態分佈，以 $\\mu$ 為平均數，$\\sigma$ 為標準差，輸入是應變量（y），輸出是機率。\n事實上，當你把你的一些 feature 輸入這個模型後，預測出來的是應變量的期望值或是平均數（$\\mathbb{E}[y]$）。\n如果我們要預測的應變量是二元的類別資料，那也就是把問題轉換成分類問題，我們就需要用不同的分佈。\n白努力分佈與二項式分佈當我們的資料是分成兩類：0, 1，那麼他會對應到白努力分佈（Bernoulli distribution）。\n當你蒐集了一群二元分類的資料，那麼就會對應到二項式分佈（Binomial distribution）。\n如果你要預測的是一筆二元分類的資料，你應該要假設你的應變量（y）是白努力分佈。\n$$\\mathbb{E}[y] = \\mathbb{E}[Ber(Y=y; p)] = \\mu = \\mathbf{w}^T\\mathbf{x} + b$$\n$Ber(Y=y; p)$：代表白努力分佈，以 p 為成功機率，輸入是應變量（y），輸出是機率。\n羅吉斯迴歸羅吉斯迴歸的模型是以下這個樣子：\n$$y = \\sigma(\\mathbf{w}^T\\mathbf{x} + b)$$\n其中的 $\\sigma$ 是 sigmoid function，由這個函數輸出的就是成功機率了：\n$$p = \\sigma(s) = \\frac{1}{1 + e^{-s}}$$\n那這跟我們前面提的分佈看起來都不太一樣阿！我們來反推一下，其實我們前面提到的分佈應該是跟 sigmoid function 的反函數有關係：\n$$\\sigma^{-1}(y) = \\mathbf{w}^T\\mathbf{x} + b$$\n我們從白努力分佈開始，當 $y \\in {0, 1}$ 時：\n$$Ber(Y=y; p) = p^y (1-p)^{(1-y)}$$\n也就是，當 y 是 0 的時候，只會剩下後面那一項，當 y 是 1 的時候，只會剩下前面那一項。\n那們我們要預測的其實是一個事件發生的機率 p，可是我們由 $\\mathbf{w}^T\\mathbf{x} + b$ 計算出來的是連續的數值。那要怎麼將這兩者接起來呢？\n在統計學裡有一個叫作 logit function 的東西，中文翻譯叫作邏輯函數，但是跟邏輯沒什麼關係就是了。\n$$y = log \\frac{x}{1 - x}$$\n如果將裡頭的 x 想成成功機率的話，分子就是成功的機率，分母就是失敗的機率，就非常像一個東西叫作勝算（odds），所以他又叫作 log odds。\n用勝算的話就是一個連續的數值，同時也可以表達成功機率的含意，我們就從這邊開始吧！一路朝著 sigmoid function 邁進。\n$$s = ln \\frac{p}{1 - p}$$\n$$-s = ln \\frac{1 - p}{p}$$\n$$e^{-s} = \\frac{1 - p}{p}$$\n$$p + e^{-s}p = 1$$\n$$(1 + e^{-s})p = 1$$\n$$p = \\frac{1}{1 + e^{-s}}$$\n看到了嗎？他是 sigmoid function！\n也就是說，如果用線性迴歸預測的是 log odds，那就會跟羅吉斯迴歸一樣！\n$$ln \\frac{p}{1 - p} = \\sigma^{-1}(y) = \\mathbf{w}^T\\mathbf{x} + b$$\n你如果把 sigmoid function 還原回來的話：\n$$y = \\frac{1}{1 + e^{- \\mathbf{w}^T\\mathbf{x} - b}} = \\sigma(\\mathbf{w}^T\\mathbf{x} + b)$$\n就是羅吉斯迴歸的樣子了！\n","dateCreated":"2018-10-09T22:59:32+08:00","dateModified":"2018-10-15T15:04:15+08:00","datePublished":"2018-10-09T22:59:32+08:00","description":"我們從前面的模型演化可以了解一個機器學習模型可以怎麼樣衍生出其他的變體來解決問題。\n現在我們要切換到另外一條跑道上，我們一樣是從線性迴歸模型出發，我們或許可以換成其他的不同的分佈。","headline":"09 從線性迴歸到羅吉斯迴歸","image":[],"mainEntityOfPage":{"@type":"WebPage","@id":"https://yuehhua.github.io/2018/10/09/09-from-linear-regression-to-logistic-regression/"},"publisher":{"@type":"Organization","name":"Yueh-Hua Tu","sameAs":["https://github.com/yuehhua/","https://www.facebook.com/a504082002","https://www.linkedin.com/in/%E5%B2%B3%E8%8F%AF-%E6%9D%9C-6a3995a0/","mailto:a504082002@gmail.com"],"image":"https://www.gravatar.com/avatar/a565749fba4782b717234da670b273fd","logo":{"@type":"ImageObject","url":"https://www.gravatar.com/avatar/a565749fba4782b717234da670b273fd"}},"url":"https://yuehhua.github.io/2018/10/09/09-from-linear-regression-to-logistic-regression/"}</script>
+    <script type="application/ld+json">{"@context":"http://schema.org","@type":"BlogPosting","author":{"@type":"Person","name":"Yueh-Hua Tu","sameAs":["https://github.com/yuehhua/","https://www.facebook.com/a504082002","https://www.linkedin.com/in/%E5%B2%B3%E8%8F%AF-%E6%9D%9C-6a3995a0/","mailto:a504082002@gmail.com"],"image":"https://www.gravatar.com/avatar/a565749fba4782b717234da670b273fd"},"articleBody":"我們從前面的模型演化可以了解一個機器學習模型可以怎麼樣衍生出其他的變體來解決問題。\n現在我們要切換到另外一條跑道上，我們一樣是從線性迴歸模型出發，我們或許可以換成其他的不同的分佈。\n\n常態分佈其實我們在前面的文章中有提到我們的線性迴歸模型假設了誤差是會呈現一個常態分佈。\n對於誤差的假設這件事情其實很大程度影響了我們模型的長相，也會影響這個模型所適用的資料。\n像是線性迴歸模型適用的是連續型變數的資料，更進一步來說，他是要求他的應變量（y）要是連續型的，看起來是這樣的。\n\n\\mathbb{E}[y] = \\mathbb{E}[Normal(Y=y; \\mu, \\sigma)] = \\mu = \\mathbf{w}^T\\mathbf{x} + b$Normal(Y=y; \\mu, \\sigma)$：代表常態分佈，以 $\\mu$ 為平均數，$\\sigma$ 為標準差，輸入是應變量（y），輸出是機率。\n事實上，當你把你的一些 feature 輸入這個模型後，預測出來的是應變量的期望值或是平均數（$\\mathbb{E}[y]$）。\n如果我們要預測的應變量是二元的類別資料，那也就是把問題轉換成分類問題，我們就需要用不同的分佈。\n白努力分佈與二項式分佈當我們的資料是分成兩類：0, 1，那麼他會對應到白努力分佈（Bernoulli distribution）。\n當你蒐集了一群二元分類的資料，那麼就會對應到二項式分佈（Binomial distribution）。\n如果你要預測的是一筆二元分類的資料，你應該要假設你的應變量（y）是白努力分佈。\n\n\\mathbb{E}[y] = \\mathbb{E}[Ber(Y=y; p)] = \\mu = \\mathbf{w}^T\\mathbf{x} + b$Ber(Y=y; p)$：代表白努力分佈，以 p 為成功機率，輸入是應變量（y），輸出是機率。\n羅吉斯迴歸羅吉斯迴歸的模型是以下這個樣子：\n\ny = \\sigma(\\mathbf{w}^T\\mathbf{x} + b)其中的 $\\sigma$ 是 sigmoid function，由這個函數輸出的就是成功機率了：\n\np = \\sigma(s) = \\frac{1}{1 + e^{-s}}那這跟我們前面提的分佈看起來都不太一樣阿！我們來反推一下，其實我們前面提到的分佈應該是跟 sigmoid function 的反函數有關係：\n\n\\sigma^{-1}(y) = \\mathbf{w}^T\\mathbf{x} + b我們從白努力分佈開始，當 $y \\in {0, 1}$ 時：\n\nBer(Y=y; p) = p^y (1-p)^{(1-y)}也就是，當 y 是 0 的時候，只會剩下後面那一項，當 y 是 1 的時候，只會剩下前面那一項。\n那們我們要預測的其實是一個事件發生的機率 p，可是我們由 $\\mathbf{w}^T\\mathbf{x} + b$ 計算出來的是連續的數值。那要怎麼將這兩者接起來呢？\n在統計學裡有一個叫作 logit function 的東西，中文翻譯叫作邏輯函數，但是跟邏輯沒什麼關係就是了。\n\ny = log \\frac{x}{1 - x}如果將裡頭的 x 想成成功機率的話，分子就是成功的機率，分母就是失敗的機率，就非常像一個東西叫作勝算（odds），所以他又叫作 log odds。\n用勝算的話就是一個連續的數值，同時也可以表達成功機率的含意，我們就從這邊開始吧！一路朝著 sigmoid function 邁進。\n\ns = ln \\frac{p}{1 - p}\n-s = ln \\frac{1 - p}{p}\ne^{-s} = \\frac{1 - p}{p}\np + e^{-s}p = 1\n(1 + e^{-s})p = 1\np = \\frac{1}{1 + e^{-s}}看到了嗎？他是 sigmoid function！\n也就是說，如果用線性迴歸預測的是 log odds，那就會跟羅吉斯迴歸一樣！\n\nln \\frac{p}{1 - p} = \\sigma^{-1}(y) = \\mathbf{w}^T\\mathbf{x} + b你如果把 sigmoid function 還原回來的話：\n\ny = \\frac{1}{1 + e^{- \\mathbf{w}^T\\mathbf{x} - b}} = \\sigma(\\mathbf{w}^T\\mathbf{x} + b)就是羅吉斯迴歸的樣子了！\n","dateCreated":"2018-10-09T22:59:32+08:00","dateModified":"2018-10-15T15:04:15+08:00","datePublished":"2018-10-09T22:59:32+08:00","description":"我們從前面的模型演化可以了解一個機器學習模型可以怎麼樣衍生出其他的變體來解決問題。\n現在我們要切換到另外一條跑道上，我們一樣是從線性迴歸模型出發，我們或許可以換成其他的不同的分佈。","headline":"09 從線性迴歸到羅吉斯迴歸","image":[],"mainEntityOfPage":{"@type":"WebPage","@id":"https://yuehhua.github.io/2018/10/09/09-from-linear-regression-to-logistic-regression/"},"publisher":{"@type":"Organization","name":"Yueh-Hua Tu","sameAs":["https://github.com/yuehhua/","https://www.facebook.com/a504082002","https://www.linkedin.com/in/%E5%B2%B3%E8%8F%AF-%E6%9D%9C-6a3995a0/","mailto:a504082002@gmail.com"],"image":"https://www.gravatar.com/avatar/a565749fba4782b717234da670b273fd","logo":{"@type":"ImageObject","url":"https://www.gravatar.com/avatar/a565749fba4782b717234da670b273fd"}},"url":"https://yuehhua.github.io/2018/10/09/09-from-linear-regression-to-logistic-regression/"}</script>
     <meta name="description" content="我們從前面的模型演化可以了解一個機器學習模型可以怎麼樣衍生出其他的變體來解決問題。 現在我們要切換到另外一條跑道上，我們一樣是從線性迴歸模型出發，我們或許可以換成其他的不同的分佈。">
 <meta name="keywords" content="machine learning,deep learning,topology">
 <meta property="og:type" content="blog">
@@ -269,41 +269,41 @@
 <h2 id="常態分佈"><a href="#常態分佈" class="headerlink" title="常態分佈"></a>常態分佈</h2><p>其實我們在前面的文章中有提到我們的線性迴歸模型假設了誤差是會呈現一個常態分佈。</p>
 <p>對於誤差的假設這件事情其實很大程度影響了我們模型的長相，也會影響這個模型所適用的資料。</p>
 <p>像是線性迴歸模型適用的是連續型變數的資料，更進一步來說，他是要求他的應變量（y）要是連續型的，看起來是這樣的。</p>
-<p>$$<br>\mathbb{E}[y] = \mathbb{E}[Normal(Y=y; \mu, \sigma)] = \mu = \mathbf{w}^T\mathbf{x} + b<br>$$</p>
-<p>$Normal(Y=y; \mu, \sigma)$：代表常態分佈，以 $\mu$ 為平均數，$\sigma$ 為標準差，輸入是應變量（y），輸出是機率。</p>
+<script type="math/tex; mode=display">
+\mathbb{E}[y] = \mathbb{E}[Normal(Y=y; \mu, \sigma)] = \mu = \mathbf{w}^T\mathbf{x} + b</script><p>$Normal(Y=y; \mu, \sigma)$：代表常態分佈，以 $\mu$ 為平均數，$\sigma$ 為標準差，輸入是應變量（y），輸出是機率。</p>
 <p>事實上，當你把你的一些 feature 輸入這個模型後，預測出來的是應變量的期望值或是平均數（$\mathbb{E}[y]$）。</p>
 <p>如果我們要預測的應變量是二元的類別資料，那也就是把問題轉換成分類問題，我們就需要用不同的分佈。</p>
 <h2 id="白努力分佈與二項式分佈"><a href="#白努力分佈與二項式分佈" class="headerlink" title="白努力分佈與二項式分佈"></a>白努力分佈與二項式分佈</h2><p>當我們的資料是分成兩類：0, 1，那麼他會對應到白努力分佈（Bernoulli distribution）。</p>
 <p>當你蒐集了一群二元分類的資料，那麼就會對應到二項式分佈（Binomial distribution）。</p>
 <p>如果你要預測的是一筆二元分類的資料，你應該要假設你的應變量（y）是白努力分佈。</p>
-<p>$$<br>\mathbb{E}[y] = \mathbb{E}[Ber(Y=y; p)] = \mu = \mathbf{w}^T\mathbf{x} + b<br>$$</p>
-<p>$Ber(Y=y; p)$：代表白努力分佈，以 p 為成功機率，輸入是應變量（y），輸出是機率。</p>
+<script type="math/tex; mode=display">
+\mathbb{E}[y] = \mathbb{E}[Ber(Y=y; p)] = \mu = \mathbf{w}^T\mathbf{x} + b</script><p>$Ber(Y=y; p)$：代表白努力分佈，以 p 為成功機率，輸入是應變量（y），輸出是機率。</p>
 <h2 id="羅吉斯迴歸"><a href="#羅吉斯迴歸" class="headerlink" title="羅吉斯迴歸"></a>羅吉斯迴歸</h2><p>羅吉斯迴歸的模型是以下這個樣子：</p>
-<p>$$<br>y = \sigma(\mathbf{w}^T\mathbf{x} + b)<br>$$</p>
-<p>其中的 $\sigma$ 是 sigmoid function，由這個函數輸出的就是成功機率了：</p>
-<p>$$<br>p = \sigma(s) = \frac{1}{1 + e^{-s}}<br>$$</p>
-<p>那這跟我們前面提的分佈看起來都不太一樣阿！我們來反推一下，其實我們前面提到的分佈應該是跟 sigmoid function 的反函數有關係：</p>
-<p>$$<br>\sigma^{-1}(y) = \mathbf{w}^T\mathbf{x} + b<br>$$</p>
-<p>我們從白努力分佈開始，當 $y \in {0, 1}$ 時：</p>
-<p>$$<br>Ber(Y=y; p) = p^y (1-p)^{(1-y)}<br>$$</p>
-<p>也就是，當 y 是 0 的時候，只會剩下後面那一項，當 y 是 1 的時候，只會剩下前面那一項。</p>
+<script type="math/tex; mode=display">
+y = \sigma(\mathbf{w}^T\mathbf{x} + b)</script><p>其中的 $\sigma$ 是 sigmoid function，由這個函數輸出的就是成功機率了：</p>
+<script type="math/tex; mode=display">
+p = \sigma(s) = \frac{1}{1 + e^{-s}}</script><p>那這跟我們前面提的分佈看起來都不太一樣阿！我們來反推一下，其實我們前面提到的分佈應該是跟 sigmoid function 的反函數有關係：</p>
+<script type="math/tex; mode=display">
+\sigma^{-1}(y) = \mathbf{w}^T\mathbf{x} + b</script><p>我們從白努力分佈開始，當 $y \in {0, 1}$ 時：</p>
+<script type="math/tex; mode=display">
+Ber(Y=y; p) = p^y (1-p)^{(1-y)}</script><p>也就是，當 y 是 0 的時候，只會剩下後面那一項，當 y 是 1 的時候，只會剩下前面那一項。</p>
 <p>那們我們要預測的其實是一個事件發生的機率 p，可是我們由 $\mathbf{w}^T\mathbf{x} + b$ 計算出來的是連續的數值。那要怎麼將這兩者接起來呢？</p>
 <p>在統計學裡有一個叫作 logit function 的東西，中文翻譯叫作邏輯函數，但是跟邏輯沒什麼關係就是了。</p>
-<p>$$<br>y = log \frac{x}{1 - x}<br>$$</p>
-<p>如果將裡頭的 x 想成成功機率的話，分子就是成功的機率，分母就是失敗的機率，就非常像一個東西叫作勝算（odds），所以他又叫作 log odds。</p>
+<script type="math/tex; mode=display">
+y = log \frac{x}{1 - x}</script><p>如果將裡頭的 x 想成成功機率的話，分子就是成功的機率，分母就是失敗的機率，就非常像一個東西叫作勝算（odds），所以他又叫作 log odds。</p>
 <p>用勝算的話就是一個連續的數值，同時也可以表達成功機率的含意，我們就從這邊開始吧！一路朝著 sigmoid function 邁進。</p>
-<p>$$<br>s = ln \frac{p}{1 - p}<br>$$</p>
-<p>$$<br>-s = ln \frac{1 - p}{p}<br>$$</p>
-<p>$$<br>e^{-s} = \frac{1 - p}{p}<br>$$</p>
-<p>$$<br>p + e^{-s}p = 1<br>$$</p>
-<p>$$<br>(1 + e^{-s})p = 1<br>$$</p>
-<p>$$<br>p = \frac{1}{1 + e^{-s}}<br>$$</p>
-<p>看到了嗎？他是 sigmoid function！</p>
+<script type="math/tex; mode=display">
+s = ln \frac{p}{1 - p}</script><script type="math/tex; mode=display">
+-s = ln \frac{1 - p}{p}</script><script type="math/tex; mode=display">
+e^{-s} = \frac{1 - p}{p}</script><script type="math/tex; mode=display">
+p + e^{-s}p = 1</script><script type="math/tex; mode=display">
+(1 + e^{-s})p = 1</script><script type="math/tex; mode=display">
+p = \frac{1}{1 + e^{-s}}</script><p>看到了嗎？他是 sigmoid function！</p>
 <p>也就是說，如果用線性迴歸預測的是 log odds，那就會跟羅吉斯迴歸一樣！</p>
-<p>$$<br>ln \frac{p}{1 - p} = \sigma^{-1}(y) = \mathbf{w}^T\mathbf{x} + b<br>$$</p>
-<p>你如果把 sigmoid function 還原回來的話：</p>
-<p>$$<br>y = \frac{1}{1 + e^{- \mathbf{w}^T\mathbf{x} - b}} = \sigma(\mathbf{w}^T\mathbf{x} + b)<br>$$</p>
-<p>就是羅吉斯迴歸的樣子了！</p>
+<script type="math/tex; mode=display">
+ln \frac{p}{1 - p} = \sigma^{-1}(y) = \mathbf{w}^T\mathbf{x} + b</script><p>你如果把 sigmoid function 還原回來的話：</p>
+<script type="math/tex; mode=display">
+y = \frac{1}{1 + e^{- \mathbf{w}^T\mathbf{x} - b}} = \sigma(\mathbf{w}^T\mathbf{x} + b)</script><p>就是羅吉斯迴歸的樣子了！</p>
 
                                         
 
@@ -485,7 +485,7 @@
         
             <h4 id="about-card-name">Yueh-Hua Tu</h4>
         
-            <div id="about-card-bio"><p>目標是計算生物學家！</br>Systems Biology, Computational Biology, Machine Learning</br>Julia Taiwan 發起人</p>
+            <div id="about-card-bio"><p>目標是計算生物學家！&lt;/br&gt;Systems Biology, Computational Biology, Machine Learning&lt;/br&gt;Julia Taiwan 發起人</p>
 </div>
         
         
@@ -547,6 +547,6 @@
             all[i].SourceElement().parentNode.className += ' has-jax';
     });
 </script>
-<script src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script><!-- hexo-inject:begin --><!-- hexo-inject:end -->
+<script src="https://cdn.jsdelivr.net/npm/mathjax@3.0.1/es5/node-main.min.js"></script><!-- hexo-inject:begin --><!-- hexo-inject:end -->
 </body>
 </html>

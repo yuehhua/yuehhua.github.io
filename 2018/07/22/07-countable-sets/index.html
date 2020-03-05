@@ -15,7 +15,7 @@
     
         <link rel="alternate" type="application/atom+xml" title="RSS" href="/atom.xml">
     
-    <script type="application/ld+json">{"@context":"http://schema.org","@type":"BlogPosting","author":{"@type":"Person","name":"Yueh-Hua Tu","sameAs":["https://github.com/yuehhua/","https://www.facebook.com/a504082002","https://www.linkedin.com/in/%E5%B2%B3%E8%8F%AF-%E6%9D%9C-6a3995a0/","mailto:a504082002@gmail.com"],"image":"https://www.gravatar.com/avatar/a565749fba4782b717234da670b273fd"},"articleBody":"前面有提到正整數可以用來作為有限集的原型，我們會把所有正整數的集合稱為 可數無限集（countably infinite sets）。\n\n\n Def.\n\nA set A is infinite if not finite.\n\n Def.\n\nA set A is countably infinite if$$\\exists f: A \\rightarrow \\mathbb{N}, f \\enspace is \\enspace bijective.$$\nex.像是整數本身就是 countably infinite，$f: \\mathbb{Z} \\rightarrow \\mathbb{N}$\n$$f(n) = \\begin{cases}2n &amp; n\\gt 0 \\-2n+1 &amp; n \\le 0\\end{cases}$$\nex.$\\mathbb{N} \\times \\mathbb{N}$ 也是 countably infinite，那要如何證明呢？\n我們需要證明 $f: \\mathbb{N} \\times \\mathbb{N} \\rightarrow \\mathbb{N}$，由於 $\\mathbb{N} \\times \\mathbb{N}$ 是在座標系的第1象限上的格子點，我們先把他向下圖一樣定一個順序，下圖的順序也包含 0，但是在我們的例子中不包含 0，但概念是一樣的。\n\n我們希望像這樣把 $\\mathbb{N}$ 一個一個擺到 $\\mathbb{N} \\times \\mathbb{N}$，這樣我們就可以確認兩者的對應關係了，那要怎麼做呢？\n我們先定個函數 $g(x, y) = (x + y - 1 , y)$，這會把每串黑色箭頭都擺直。\n接著可以用另一個函數 $h(x , y) = \\frac{1}{2}(x - 1)x + y$ 幫我們對映到數字。\n對映關係會看起來像這樣：\n$(1, 1) \\rightarrow (1, 1) \\rightarrow 1$\n$(2, 1) \\rightarrow (2, 1) \\rightarrow 2$\n$(1, 2) \\rightarrow (2, 2) \\rightarrow 3$\n$(3, 1) \\rightarrow (3, 1) \\rightarrow 4$\n$(2, 2) \\rightarrow (3, 2) \\rightarrow 5$\n如此對映起來之後，再證明這兩個函數的組合是雙射的，就可以證明 $\\mathbb{N} \\times \\mathbb{N}$ 是 countably infinite。\n所以我們就可以給可數下個定義：\n\n Def.\n\nA set A is countable if it is finite or countably infinite.\nA set A is uncountable if it is not countable.\n那如果我們每次都要證明一個集合是不是可數的就會比較麻煩，以下有些等價的敘述：\n\n Theroem\n\nA is a nonempty set.\n\nA is countable\n$\\exists f: \\mathbb{N} \\rightarrow A$, f is surjective\n$\\exists g: A \\rightarrow \\mathbb{N}$, g is injective\n\n我們有其他定理：\n\n Theroem\n\n$$C \\subseteq \\mathbb{N}, C \\enspace is \\enspace infinite, then \\enspace C \\enspace is \\enspace countably \\enspace infinite.$$\n跟其他結論：\n\n Corollary\n\nA subset of a countable set is countable.\n\n Corollary\n\n$\\mathbb{N} \\times \\mathbb{N}$ is countably infinite.\n\n Theroem\n\nA countable union of countable sets is countable.\n看到這邊大家不知道有沒有跟我一樣的疑問，為什麼會有 countable union 這樣的敘述呢？\n如果有個集合 $A_n$ 是可數的，$f_n$ is surjective，$f_n: \\mathbb{N} \\rightarrow A_n$，我們可以選另一個函數 $g$ is surjective，$g: \\mathbb{N} \\rightarrow J$，使得\n$$h: \\mathbb{N} \\times \\mathbb{N} \\rightarrow \\bigcup_{n \\in J} A_n$$\n所以我們把 countable union 看成在 $n \\in J$ 的 $J$，$h$ 可以看成 $f_n$ 跟 $g$ 的合成函數 $h(k, m) = f_{g(k)}(m)$，如此一來，我們已經知道 surjective 函數的合成還是 surjective，而 $\\mathbb{N} \\times \\mathbb{N}$ 也是 countable，這樣我們就可以證明 $\\bigcup_{n \\in J} A_n$ 是 countable。\n\n Theroem\n\nA finite product of countable sets is countable.\n也就是說，$A_1 \\times A_2 \\times … \\times A_n$ 是 countable。\n\n Theroem\n\n$$X = \\{ 0, 1 \\}, then \\enspace X^\\omega \\enspace is \\enspace uncountable.$$\n這邊描述了一個特例，以下是比較廣義的敘述：\n\n Theroem\n\n$A$ is a set,\n$$\\nexists \\enspace injective \\enspace f: \\mathcal{P}(A) \\rightarrow A$$\n$$\\nexists \\enspace surjective \\enspace g: A \\rightarrow \\mathcal{P}(A)$$\n這代表著一個集合的冪集是 uncountable set，無論集合裏面長什麼樣子。\n","dateCreated":"2018-07-22T00:29:45+08:00","dateModified":"2018-07-26T13:28:35+08:00","datePublished":"2018-07-22T00:29:45+08:00","description":"前面有提到正整數可以用來作為有限集的原型，我們會把所有正整數的集合稱為 可數無限集（countably infinite sets）。","headline":"Countable sets","image":[],"mainEntityOfPage":{"@type":"WebPage","@id":"https://yuehhua.github.io/2018/07/22/07-countable-sets/"},"publisher":{"@type":"Organization","name":"Yueh-Hua Tu","sameAs":["https://github.com/yuehhua/","https://www.facebook.com/a504082002","https://www.linkedin.com/in/%E5%B2%B3%E8%8F%AF-%E6%9D%9C-6a3995a0/","mailto:a504082002@gmail.com"],"image":"https://www.gravatar.com/avatar/a565749fba4782b717234da670b273fd","logo":{"@type":"ImageObject","url":"https://www.gravatar.com/avatar/a565749fba4782b717234da670b273fd"}},"url":"https://yuehhua.github.io/2018/07/22/07-countable-sets/"}</script>
+    <script type="application/ld+json">{"@context":"http://schema.org","@type":"BlogPosting","author":{"@type":"Person","name":"Yueh-Hua Tu","sameAs":["https://github.com/yuehhua/","https://www.facebook.com/a504082002","https://www.linkedin.com/in/%E5%B2%B3%E8%8F%AF-%E6%9D%9C-6a3995a0/","mailto:a504082002@gmail.com"],"image":"https://www.gravatar.com/avatar/a565749fba4782b717234da670b273fd"},"articleBody":"前面有提到正整數可以用來作為有限集的原型，我們會把所有正整數的集合稱為 可數無限集（countably infinite sets）。\n\n\n Def.\n\nA set A is infinite if not finite.\n\n Def.\n\nA set A is countably infinite if\n\n\\exists f: A \\rightarrow \\mathbb{N}, f \\enspace is \\enspace bijective.ex.像是整數本身就是 countably infinite，$f: \\mathbb{Z} \\rightarrow \\mathbb{N}$\n\nf(n) = \\begin{cases} \n2n & n\\gt 0 \\\\\n-2n+1 & n \\le 0\n\\end{cases}ex.$\\mathbb{N} \\times \\mathbb{N}$ 也是 countably infinite，那要如何證明呢？\n我們需要證明 $f: \\mathbb{N} \\times \\mathbb{N} \\rightarrow \\mathbb{N}$，由於 $\\mathbb{N} \\times \\mathbb{N}$ 是在座標系的第1象限上的格子點，我們先把他向下圖一樣定一個順序，下圖的順序也包含 0，但是在我們的例子中不包含 0，但概念是一樣的。\n\n我們希望像這樣把 $\\mathbb{N}$ 一個一個擺到 $\\mathbb{N} \\times \\mathbb{N}$，這樣我們就可以確認兩者的對應關係了，那要怎麼做呢？\n我們先定個函數 $g(x, y) = (x + y - 1 , y)$，這會把每串黑色箭頭都擺直。\n接著可以用另一個函數 $h(x , y) = \\frac{1}{2}(x - 1)x + y$ 幫我們對映到數字。\n對映關係會看起來像這樣：\n$(1, 1) \\rightarrow (1, 1) \\rightarrow 1$\n$(2, 1) \\rightarrow (2, 1) \\rightarrow 2$\n$(1, 2) \\rightarrow (2, 2) \\rightarrow 3$\n$(3, 1) \\rightarrow (3, 1) \\rightarrow 4$\n$(2, 2) \\rightarrow (3, 2) \\rightarrow 5$\n如此對映起來之後，再證明這兩個函數的組合是雙射的，就可以證明 $\\mathbb{N} \\times \\mathbb{N}$ 是 countably infinite。\n所以我們就可以給可數下個定義：\n\n Def.\n\nA set A is countable if it is finite or countably infinite.\nA set A is uncountable if it is not countable.\n那如果我們每次都要證明一個集合是不是可數的就會比較麻煩，以下有些等價的敘述：\n\n Theroem\n\nA is a nonempty set.\n\nA is countable\n$\\exists f: \\mathbb{N} \\rightarrow A$, f is surjective\n$\\exists g: A \\rightarrow \\mathbb{N}$, g is injective\n\n我們有其他定理：\n\n Theroem\n\n\nC \\subseteq \\mathbb{N}, C \\enspace is \\enspace infinite, then \\enspace C \\enspace is \\enspace countably \\enspace infinite.跟其他結論：\n\n Corollary\n\nA subset of a countable set is countable.\n\n Corollary\n\n$\\mathbb{N} \\times \\mathbb{N}$ is countably infinite.\n\n Theroem\n\nA countable union of countable sets is countable.\n看到這邊大家不知道有沒有跟我一樣的疑問，為什麼會有 countable union 這樣的敘述呢？\n如果有個集合 $A_n$ 是可數的，$f_n$ is surjective，$f_n: \\mathbb{N} \\rightarrow A_n$，我們可以選另一個函數 $g$ is surjective，$g: \\mathbb{N} \\rightarrow J$，使得\n\nh: \\mathbb{N} \\times \\mathbb{N} \\rightarrow \\bigcup_{n \\in J} A_n所以我們把 countable union 看成在 $n \\in J$ 的 $J$，$h$ 可以看成 $fn$ 跟 $g$ 的合成函數 $h(k, m) = f{g(k)}(m)$，如此一來，我們已經知道 surjective 函數的合成還是 surjective，而 $\\mathbb{N} \\times \\mathbb{N}$ 也是 countable，這樣我們就可以證明 $\\bigcup_{n \\in J} A_n$ 是 countable。\n\n Theroem\n\nA finite product of countable sets is countable.\n也就是說，$A_1 \\times A_2 \\times … \\times A_n$ 是 countable。\n\n Theroem\n\n\nX = \\\\{ 0, 1 \\\\}, then \\enspace X^\\omega \\enspace is \\enspace uncountable.這邊描述了一個特例，以下是比較廣義的敘述：\n\n Theroem\n\n$A$ is a set,\n\n\\nexists \\enspace injective \\enspace f: \\mathcal{P}(A) \\rightarrow A\n\\nexists \\enspace surjective \\enspace g: A \\rightarrow \\mathcal{P}(A)這代表著一個集合的冪集是 uncountable set，無論集合裏面長什麼樣子。\n","dateCreated":"2018-07-22T00:29:45+08:00","dateModified":"2018-07-26T13:28:35+08:00","datePublished":"2018-07-22T00:29:45+08:00","description":"前面有提到正整數可以用來作為有限集的原型，我們會把所有正整數的集合稱為 可數無限集（countably infinite sets）。","headline":"Countable sets","image":[],"mainEntityOfPage":{"@type":"WebPage","@id":"https://yuehhua.github.io/2018/07/22/07-countable-sets/"},"publisher":{"@type":"Organization","name":"Yueh-Hua Tu","sameAs":["https://github.com/yuehhua/","https://www.facebook.com/a504082002","https://www.linkedin.com/in/%E5%B2%B3%E8%8F%AF-%E6%9D%9C-6a3995a0/","mailto:a504082002@gmail.com"],"image":"https://www.gravatar.com/avatar/a565749fba4782b717234da670b273fd","logo":{"@type":"ImageObject","url":"https://www.gravatar.com/avatar/a565749fba4782b717234da670b273fd"}},"url":"https://yuehhua.github.io/2018/07/22/07-countable-sets/"}</script>
     <meta name="description" content="前面有提到正整數可以用來作為有限集的原型，我們會把所有正整數的集合稱為 可數無限集（countably infinite sets）。">
 <meta name="keywords" content="machine learning,deep learning,topology">
 <meta property="og:type" content="blog">
@@ -274,10 +274,14 @@
 <blockquote>
 <p> <strong><em>Def.</em></strong></p>
 </blockquote>
-<p>A set A is <strong><em>countably infinite</em></strong> if<br>$$<br>\exists f: A \rightarrow \mathbb{N}, f \enspace is \enspace bijective.<br>$$</p>
-<h4 id="ex"><a href="#ex" class="headerlink" title="ex."></a><em>ex.</em></h4><p>像是整數本身就是 countably infinite，$f: \mathbb{Z} \rightarrow \mathbb{N}$</p>
-<p>$$<br>f(n) = \begin{cases}<br>2n &amp; n\gt 0 \<br>-2n+1 &amp; n \le 0<br>\end{cases}<br>$$</p>
-<h4 id="ex-1"><a href="#ex-1" class="headerlink" title="ex."></a><em>ex.</em></h4><p>$\mathbb{N} \times \mathbb{N}$ 也是 countably infinite，那要如何證明呢？</p>
+<p>A set A is <strong><em>countably infinite</em></strong> if</p>
+<script type="math/tex; mode=display">
+\exists f: A \rightarrow \mathbb{N}, f \enspace is \enspace bijective.</script><h4 id="ex"><a href="#ex" class="headerlink" title="ex."></a><em>ex.</em></h4><p>像是整數本身就是 countably infinite，$f: \mathbb{Z} \rightarrow \mathbb{N}$</p>
+<script type="math/tex; mode=display">
+f(n) = \begin{cases} 
+2n & n\gt 0 \\
+-2n+1 & n \le 0
+\end{cases}</script><h4 id="ex-1"><a href="#ex-1" class="headerlink" title="ex."></a><em>ex.</em></h4><p>$\mathbb{N} \times \mathbb{N}$ 也是 countably infinite，那要如何證明呢？</p>
 <p>我們需要證明 $f: \mathbb{N} \times \mathbb{N} \rightarrow \mathbb{N}$，由於 $\mathbb{N} \times \mathbb{N}$ 是在座標系的第1象限上的格子點，我們先把他向下圖一樣定一個順序，下圖的順序也包含 0，但是在我們的例子中不包含 0，但概念是一樣的。</p>
 <p><img src="https://upload.wikimedia.org/wikipedia/commons/6/6f/Pairing_natural.svg" alt></p>
 <p>我們希望像這樣把 $\mathbb{N}$ 一個一個擺到 $\mathbb{N} \times \mathbb{N}$，這樣我們就可以確認兩者的對應關係了，那要怎麼做呢？</p>
@@ -310,8 +314,8 @@
 <blockquote>
 <p> <strong><em>Theroem</em></strong></p>
 </blockquote>
-<p>$$<br>C \subseteq \mathbb{N}, C \enspace is \enspace infinite, then \enspace C \enspace is \enspace countably \enspace infinite.<br>$$</p>
-<p>跟其他結論：</p>
+<script type="math/tex; mode=display">
+C \subseteq \mathbb{N}, C \enspace is \enspace infinite, then \enspace C \enspace is \enspace countably \enspace infinite.</script><p>跟其他結論：</p>
 <blockquote>
 <p> <strong><em>Corollary</em></strong></p>
 </blockquote>
@@ -326,8 +330,8 @@
 <p>A countable union of countable sets is countable.</p>
 <p>看到這邊大家不知道有沒有跟我一樣的疑問，為什麼會有 <em>countable union</em> 這樣的敘述呢？</p>
 <p>如果有個集合 $A_n$ 是可數的，$f_n$ is surjective，$f_n: \mathbb{N} \rightarrow A_n$，我們可以選另一個函數 $g$ is surjective，$g: \mathbb{N} \rightarrow J$，使得</p>
-<p>$$<br>h: \mathbb{N} \times \mathbb{N} \rightarrow \bigcup_{n \in J} A_n<br>$$</p>
-<p>所以我們把 <em>countable union</em> 看成在 $n \in J$ 的 $J$，$h$ 可以看成 $f_n$ 跟 $g$ 的合成函數 $h(k, m) = f_{g(k)}(m)$，如此一來，我們已經知道 surjective 函數的合成還是 surjective，而 $\mathbb{N} \times \mathbb{N}$ 也是 countable，這樣我們就可以證明 $\bigcup_{n \in J} A_n$ 是 countable。</p>
+<script type="math/tex; mode=display">
+h: \mathbb{N} \times \mathbb{N} \rightarrow \bigcup_{n \in J} A_n</script><p>所以我們把 <em>countable union</em> 看成在 $n \in J$ 的 $J$，$h$ 可以看成 $f<em>n$ 跟 $g$ 的合成函數 $h(k, m) = f</em>{g(k)}(m)$，如此一來，我們已經知道 surjective 函數的合成還是 surjective，而 $\mathbb{N} \times \mathbb{N}$ 也是 countable，這樣我們就可以證明 $\bigcup_{n \in J} A_n$ 是 countable。</p>
 <blockquote>
 <p> <strong><em>Theroem</em></strong></p>
 </blockquote>
@@ -336,15 +340,15 @@
 <blockquote>
 <p> <strong><em>Theroem</em></strong></p>
 </blockquote>
-<p>$$<br>X = \{ 0, 1 \}, then \enspace X^\omega \enspace is \enspace uncountable.<br>$$</p>
-<p>這邊描述了一個特例，以下是比較廣義的敘述：</p>
+<script type="math/tex; mode=display">
+X = \\{ 0, 1 \\}, then \enspace X^\omega \enspace is \enspace uncountable.</script><p>這邊描述了一個特例，以下是比較廣義的敘述：</p>
 <blockquote>
 <p> <strong><em>Theroem</em></strong></p>
 </blockquote>
 <p>$A$ is a set,</p>
-<p>$$<br>\nexists \enspace injective \enspace f: \mathcal{P}(A) \rightarrow A<br>$$</p>
-<p>$$<br>\nexists \enspace surjective \enspace g: A \rightarrow \mathcal{P}(A)<br>$$</p>
-<p>這代表著一個集合的冪集是 <em>uncountable set</em>，無論集合裏面長什麼樣子。</p>
+<script type="math/tex; mode=display">
+\nexists \enspace injective \enspace f: \mathcal{P}(A) \rightarrow A</script><script type="math/tex; mode=display">
+\nexists \enspace surjective \enspace g: A \rightarrow \mathcal{P}(A)</script><p>這代表著一個集合的冪集是 <em>uncountable set</em>，無論集合裏面長什麼樣子。</p>
 
                                         
 
@@ -526,7 +530,7 @@
         
             <h4 id="about-card-name">Yueh-Hua Tu</h4>
         
-            <div id="about-card-bio"><p>目標是計算生物學家！</br>Systems Biology, Computational Biology, Machine Learning</br>Julia Taiwan 發起人</p>
+            <div id="about-card-bio"><p>目標是計算生物學家！&lt;/br&gt;Systems Biology, Computational Biology, Machine Learning&lt;/br&gt;Julia Taiwan 發起人</p>
 </div>
         
         
@@ -588,6 +592,6 @@
             all[i].SourceElement().parentNode.className += ' has-jax';
     });
 </script>
-<script src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script><!-- hexo-inject:begin --><!-- hexo-inject:end -->
+<script src="https://cdn.jsdelivr.net/npm/mathjax@3.0.1/es5/node-main.min.js"></script><!-- hexo-inject:begin --><!-- hexo-inject:end -->
 </body>
 </html>
