@@ -3,7 +3,7 @@
 <html lang="zh-tw,en,default">
     
 <head>
-    <!-- hexo-inject:begin --><!-- hexo-inject:end --><meta charset="UTF-8">
+    <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="generator" content="Dream Maker">
     <title>21 Activation functions and ReLU - Dream Maker</title>
@@ -17,14 +17,13 @@
     
     <script type="application/ld+json">{"@context":"http://schema.org","@type":"BlogPosting","author":{"@type":"Person","name":"Yueh-Hua Tu","sameAs":["https://github.com/yuehhua/","https://www.facebook.com/a504082002","https://www.linkedin.com/in/%E5%B2%B3%E8%8F%AF-%E6%9D%9C-6a3995a0/","mailto:a504082002@gmail.com"],"image":"https://www.gravatar.com/avatar/a565749fba4782b717234da670b273fd"},"articleBody":"今天我們來談談 activation function 吧！\n先談談線性轉換談 activation function 之前先要談談線性轉換。\n有上到比較後面的線性代數的同學，應該有爬過 SVD 這座高山。\n推薦可以看周老師的線代啟示錄 奇異值分解 (SVD)\n我們可以知道一個矩陣可以被看成線性轉換，而矩陣這個線性轉換可以被分解成 3 個矩陣：\n\n\nA = U \\Sigma V^T這 3 個矩陣分別是有意義的，$U$、$\\Sigma$、$V$ 的意義分別是旋轉、伸縮、旋轉的意思。大家可以參考以下的圖：\n\n\n圖來自以上提到的文章\n\n所以我們可以知道矩陣能做的事情大概就是旋轉伸縮這些事情了。\n在模型上，我們還會加上一個 bias 來達到平移的效果。\n我們可以來造一些點：\n\n我們可以 random 造一個矩陣：\n\nA = \n\\begin{bmatrix}\n0.35166263& 0.1124966 \\\\\\\\\n0.25249535& 0.65481947 \\\\\\\\\n\\end{bmatrix}所以我們可以對每個點做運算 $Ax$：\n\n去吧！Activation function！接下來我們先來試試看在 CNN 用最多的 ReLU，我們把上面的點通過 ReLU 之後會發生什麼事呢？\n\n大家會發現只留下第一象限的點是沒有動到的，剩下的象限的點都被擠到 x 軸跟 y 軸上了。\n所以在高維度的世界中，點都會保留第一象限不變，其他象限被擠壓到軸上。\n那如果是用 sigmoid 的效果呢？\n\n他將所有的點都壓到 (0, 1) 之間，所以整個形狀就縮小很多。\n我們放大來看看他整體形狀有沒有什麼變化。\n\n整體形狀有些微被扭曲了，不知道大家有沒有發現呢？\n所以在引進 activation function 之後，模型擁有了 扭曲 的能力！\n那麼 activation function 到底實際上做了什麼事呢？\n雕塑的工匠以 ReLU 來說，他就像一個工匠正在雕塑一個作品。\nReLU 就是工匠手上那把彫刻刀，他會把第一象限以外的部份削掉。看起來就會像朱銘大師的作品這樣：\n\n\n圖來自 漫遊‧藝術網＠成大校園\n\n原諒我私心用成大的雕塑品當範例。XD\nReLU 會將不重要的部份削掉，剩下重要的特徵接續後面的特徵萃取。\n消失的梯度以 sigmoid 來說，他將點壓到 (0, 1) 之間看似很難以理解。\n其實這個 activation function 在影像辨識當中比較不是主流的方法，可能不是那麼適用，不過在 NLP 領域算是還蠻常用的方法。\n那如果放在 CNN 的話，就會發生梯度消失的問題。\n在比較早期的時候，大家在影像處理上都遇到梯度消失的問題。如果直觀上看來，如果每過一次 convolution layer 就會被壓縮到 (0, 1) 一次，那麼後面再接 subsampling 的處理，又會縮小一次，並且失去某些訊息，想當然爾特徵就在不斷縮小的過程中慢慢不見了。這樣的效果讓早期的模型無法變得更深。\n讓 convolution layer 去篩選哪些 feature 該留下來，讓 subsampling layer 去做縮小的動作，各自負責各自的功能，這樣看來是比較好的作法。\n這是一個比較直觀的解釋方式，歡迎大家提出不同的看法。\n模型怎麼知道要從哪裡下刀？我想蠻多人應該會有跟我一樣的問題。\n我知道如果用 ReLU 可以把不要的部份削掉，那麼我怎麼知道要削哪裡？\n答案是 backpropagation (gradient descent method) 會告訴你！\n藉由 forward 將訊息傳遞到 output layer，backward 所回饋的 gradient 正提供一個訊息，這個訊息會告訴模型要怎麼調整線性轉換的矩陣，來讓 ReLU 可以切在對的位置。\nReLU 與 softplussoftplus 是一個跟 ReLU 非常像的 activation function。\n\nsoftplus(x) = log(1 + e^x)兩者的差別：\n\n你可以把 softplus 看成 ReLU 的可微分版本，或是將 ReLU 看成 softplus 的簡化版本。\n他在負的區域看起來跟 sigmoid function 很像，另一邊正的區域就會非常接近 identity function。\n在行為上也很符合神經的特性，就是有正向的訊號就會是正向的輸出，如果是負向的訊號就不輸出。\n很有趣的特性吧！\n為什麼 activation function 一定要長這樣？其實沒有規定 activation function 一定要長怎樣。\n但是拿多項式函數或是其他函數會讓整個模型非常難以理解，而且當中的參數還不少。\n所以依照 Occam’s razor 的原則，我們先拿簡單的函數來用會比較好。\n結論不同的模型跟問題其實適用不同的 activation function。\n像影像辨識中，CNN 的設計是要先做 feature extraction，再進行分類。\n所以在 feature extraction 的階段就需要找適用的 activation function。\n那像在 NLP 領域，他們關心的是機率分佈，而 sigmoid 就很合機率分佈的調調。\n這邊原諒我草率帶過 NLP 的部份，今天的主軸都擺在 CNN 上。XD\n今天就到這邊告一個段落囉。\n","dateCreated":"2018-10-19T22:34:55+08:00","dateModified":"2018-10-19T22:34:55+08:00","datePublished":"2018-10-19T22:34:55+08:00","description":"今天我們來談談 activation function 吧！\n先談談線性轉換談 activation function 之前先要談談線性轉換。\n有上到比較後面的線性代數的同學，應該有爬過 SVD 這座高山。\n推薦可以看周老師的線代啟示錄 奇異值分解 (SVD)\n我們可以知道一個矩陣可以被看成線性轉換，而矩陣這個線性轉換可以被分解成 3 個矩陣：","headline":"21 Activation functions and ReLU","image":[],"mainEntityOfPage":{"@type":"WebPage","@id":"https://yuehhua.github.io/2018/10/19/21-activation-functions-and-ReLU/"},"publisher":{"@type":"Organization","name":"Yueh-Hua Tu","sameAs":["https://github.com/yuehhua/","https://www.facebook.com/a504082002","https://www.linkedin.com/in/%E5%B2%B3%E8%8F%AF-%E6%9D%9C-6a3995a0/","mailto:a504082002@gmail.com"],"image":"https://www.gravatar.com/avatar/a565749fba4782b717234da670b273fd","logo":{"@type":"ImageObject","url":"https://www.gravatar.com/avatar/a565749fba4782b717234da670b273fd"}},"url":"https://yuehhua.github.io/2018/10/19/21-activation-functions-and-ReLU/"}</script>
     <meta name="description" content="今天我們來談談 activation function 吧！ 先談談線性轉換談 activation function 之前先要談談線性轉換。 有上到比較後面的線性代數的同學，應該有爬過 SVD 這座高山。 推薦可以看周老師的線代啟示錄 奇異值分解 (SVD) 我們可以知道一個矩陣可以被看成線性轉換，而矩陣這個線性轉換可以被分解成 3 個矩陣：">
-<meta name="keywords" content="machine learning,deep learning,topology">
 <meta property="og:type" content="blog">
 <meta property="og:title" content="21 Activation functions and ReLU">
 <meta property="og:url" content="https://yuehhua.github.io/2018/10/19/21-activation-functions-and-ReLU/index.html">
 <meta property="og:site_name" content="Dream Maker">
 <meta property="og:description" content="今天我們來談談 activation function 吧！ 先談談線性轉換談 activation function 之前先要談談線性轉換。 有上到比較後面的線性代數的同學，應該有爬過 SVD 這座高山。 推薦可以看周老師的線代啟示錄 奇異值分解 (SVD) 我們可以知道一個矩陣可以被看成線性轉換，而矩陣這個線性轉換可以被分解成 3 個矩陣：">
-<meta property="og:locale" content="zh-tw">
-<meta property="og:image" content="https://ccjou.files.wordpress.com/2009/09/svd32.jpg?w=400&h=300">
+<meta property="og:locale" content="zh_TW">
+<meta property="og:image" content="https://ccjou.files.wordpress.com/2009/09/svd32.jpg?w=400&amp;h=300">
 <meta property="og:image" content="https://yuehhua.github.io/images/activation1.png">
 <meta property="og:image" content="https://yuehhua.github.io/images/activation2.png">
 <meta property="og:image" content="https://yuehhua.github.io/images/activation3.png">
@@ -32,11 +31,14 @@
 <meta property="og:image" content="https://yuehhua.github.io/images/activation5.png">
 <meta property="og:image" content="http://digitalarchives.artcenter.ncku.edu.tw/walkncku_cht/image/a51d2-dsc_7226.jpg">
 <meta property="og:image" content="https://yuehhua.github.io/images/Rectifier_and_softplus_functions.svg">
-<meta property="og:updated_time" content="2018-10-19T14:34:55.385Z">
+<meta property="article:published_time" content="2018-10-19T14:34:55.000Z">
+<meta property="article:modified_time" content="2018-10-19T14:34:55.385Z">
+<meta property="article:author" content="Yueh-Hua Tu">
+<meta property="article:tag" content="machine learning">
+<meta property="article:tag" content="deep learning">
+<meta property="article:tag" content="topology">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="21 Activation functions and ReLU">
-<meta name="twitter:description" content="今天我們來談談 activation function 吧！ 先談談線性轉換談 activation function 之前先要談談線性轉換。 有上到比較後面的線性代數的同學，應該有爬過 SVD 這座高山。 推薦可以看周老師的線代啟示錄 奇異值分解 (SVD) 我們可以知道一個矩陣可以被看成線性轉換，而矩陣這個線性轉換可以被分解成 3 個矩陣：">
-<meta name="twitter:image" content="https://ccjou.files.wordpress.com/2009/09/svd32.jpg?w=400&h=300">
+<meta name="twitter:image" content="https://ccjou.files.wordpress.com/2009/09/svd32.jpg?w=400&amp;h=300">
     
     
         
@@ -46,7 +48,9 @@
     
     
     <!--STYLES-->
-    <link rel="stylesheet" href="/assets/css/style-3frockyt2j28isvdztjchy5nhkz8tjki9ermufc1ckptmvjdftux94m2ahub.min.css">
+    
+<link rel="stylesheet" href="/assets/css/style-3frockyt2j28isvdztjchy5nhkz8tjki9ermufc1ckptmvjdftux94m2ahub.min.css">
+
     <!--STYLES END-->
     
     <script type="text/javascript">
@@ -59,13 +63,13 @@
 
         ga('create', 'UA-119690895-1', 'auto');
         ga('send', 'pageview');
-    </script><!-- hexo-inject:begin --><!-- hexo-inject:end -->
+    </script>
     
     
 </head>
 
     <body>
-        <!-- hexo-inject:begin --><!-- hexo-inject:end --><div id="blog">
+        <div id="blog">
             <!-- Define author's picture -->
 
 
@@ -74,7 +78,7 @@
 <header id="header" data-behavior="5">
     <i id="btn-open-sidebar" class="fa fa-lg fa-bars"></i>
     <div class="header-title">
-        <a class="header-title-link" href="/ ">Dream Maker</a>
+        <a class="header-title-link" href="/%20">Dream Maker</a>
     </div>
     
         
@@ -98,7 +102,7 @@
                 <li class="sidebar-button">
                     
                         <a  class="sidebar-button-link "
-                             href="/ "
+                             href="/%20"
                             
                             title="首頁"
                         >
@@ -260,7 +264,7 @@
     
         <span>分類 </span>
         
-    <a class="category-link" href="/categories/Machine-Learning/">Machine Learning</a>, <a class="category-link" href="/categories/Machine-Learning/機器學習模型圖書館：從傳統模型到深度學習/">機器學習模型圖書館：從傳統模型到深度學習</a>
+    <a class="category-link" href="/categories/Machine-Learning/">Machine Learning</a>, <a class="category-link" href="/categories/Machine-Learning/%E6%A9%9F%E5%99%A8%E5%AD%B8%E7%BF%92%E6%A8%A1%E5%9E%8B%E5%9C%96%E6%9B%B8%E9%A4%A8%EF%BC%9A%E5%BE%9E%E5%82%B3%E7%B5%B1%E6%A8%A1%E5%9E%8B%E5%88%B0%E6%B7%B1%E5%BA%A6%E5%AD%B8%E7%BF%92/">機器學習模型圖書館：從傳統模型到深度學習</a>
 
 
     
@@ -280,14 +284,14 @@
 <a id="more"></a>
 <script type="math/tex; mode=display">
 A = U \Sigma V^T</script><p>這 3 個矩陣分別是有意義的，$U$、$\Sigma$、$V$ 的意義分別是旋轉、伸縮、旋轉的意思。大家可以參考以下的圖：</p>
-<p><img src="https://ccjou.files.wordpress.com/2009/09/svd32.jpg?w=400&amp;h=300" alt></p>
+<p><img src="https://ccjou.files.wordpress.com/2009/09/svd32.jpg?w=400&amp;h=300" alt=""></p>
 <blockquote>
 <p>圖來自以上提到的文章</p>
 </blockquote>
 <p>所以我們可以知道矩陣能做的事情大概就是旋轉伸縮這些事情了。</p>
 <p>在模型上，我們還會加上一個 bias 來達到平移的效果。</p>
 <p>我們可以來造一些點：</p>
-<p><img src="/images/activation1.png" alt></p>
+<p><img src="/images/activation1.png" alt=""></p>
 <p>我們可以 random 造一個矩陣：</p>
 <script type="math/tex; mode=display">
 A = 
@@ -295,22 +299,22 @@ A =
 0.35166263& 0.1124966 \\\\
 0.25249535& 0.65481947 \\\\
 \end{bmatrix}</script><p>所以我們可以對每個點做運算 $Ax$：</p>
-<p><img src="/images/activation2.png" alt></p>
+<p><img src="/images/activation2.png" alt=""></p>
 <h2 id="去吧！Activation-function！"><a href="#去吧！Activation-function！" class="headerlink" title="去吧！Activation function！"></a>去吧！Activation function！</h2><p>接下來我們先來試試看在 CNN 用最多的 ReLU，我們把上面的點通過 ReLU 之後會發生什麼事呢？</p>
-<p><img src="/images/activation3.png" alt></p>
+<p><img src="/images/activation3.png" alt=""></p>
 <p>大家會發現只留下第一象限的點是沒有動到的，剩下的象限的點都被擠到 x 軸跟 y 軸上了。</p>
 <p>所以在高維度的世界中，點都會保留第一象限不變，其他象限被擠壓到軸上。</p>
 <p>那如果是用 sigmoid 的效果呢？</p>
-<p><img src="/images/activation4.png" alt></p>
+<p><img src="/images/activation4.png" alt=""></p>
 <p>他將所有的點都壓到 (0, 1) 之間，所以整個形狀就縮小很多。</p>
 <p>我們放大來看看他整體形狀有沒有什麼變化。</p>
-<p><img src="/images/activation5.png" alt></p>
+<p><img src="/images/activation5.png" alt=""></p>
 <p>整體形狀有些微被扭曲了，不知道大家有沒有發現呢？</p>
 <p>所以在引進 activation function 之後，模型擁有了 <strong>扭曲</strong> 的能力！</p>
 <p>那麼 activation function 到底實際上做了什麼事呢？</p>
 <h2 id="雕塑的工匠"><a href="#雕塑的工匠" class="headerlink" title="雕塑的工匠"></a>雕塑的工匠</h2><p>以 ReLU 來說，他就像一個工匠正在雕塑一個作品。</p>
 <p>ReLU 就是工匠手上那把彫刻刀，他會把第一象限以外的部份削掉。看起來就會像朱銘大師的作品這樣：</p>
-<p><img src="http://digitalarchives.artcenter.ncku.edu.tw/walkncku_cht/image/a51d2-dsc_7226.jpg" alt></p>
+<p><img src="http://digitalarchives.artcenter.ncku.edu.tw/walkncku_cht/image/a51d2-dsc_7226.jpg" alt=""></p>
 <blockquote>
 <p>圖來自 <a href="http://digitalarchives.artcenter.ncku.edu.tw/walkncku_cht/" target="_blank" rel="noopener">漫遊‧藝術網＠成大校園</a></p>
 </blockquote>
@@ -329,7 +333,7 @@ A =
 <h2 id="ReLU-與-softplus"><a href="#ReLU-與-softplus" class="headerlink" title="ReLU 與 softplus"></a>ReLU 與 softplus</h2><p>softplus 是一個跟 ReLU 非常像的 activation function。</p>
 <script type="math/tex; mode=display">
 softplus(x) = log(1 + e^x)</script><p>兩者的差別：</p>
-<p><img src="/images/Rectifier_and_softplus_functions.svg" alt></p>
+<p><img src="/images/Rectifier_and_softplus_functions.svg" alt=""></p>
 <p>你可以把 softplus 看成 ReLU 的可微分版本，或是將 ReLU 看成 softplus 的簡化版本。</p>
 <p>他在負的區域看起來跟 sigmoid function 很像，另一邊正的區域就會非常接近 identity function。</p>
 <p>在行為上也很符合神經的特性，就是有正向的訊號就會是正向的輸出，如果是負向的訊號就不輸出。</p>
@@ -413,7 +417,7 @@ softplus(x) = log(1 + e^x)</script><p>兩者的差別：</p>
                                                     
                                                         
                                                             <div id="disqus_thread">
-    <noscript>Please enable JavaScript to view the <a href="//disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+    <noscript>Please enable JavaScript to view the <a href="//disqus.com/?ref_noscript" target="_blank" rel="noopener">comments powered by Disqus.</a></noscript>
 </div>
                                                                 
                                                                             
@@ -549,7 +553,9 @@ softplus(x) = log(1 + e^x)</script><p>兩者的差別：</p>
         
 <div id="cover" style="background-image:url('/assets/images/cover.jpg');"></div>
         <!--SCRIPTS-->
+
 <script src="/assets/js/script-xzfezjobyekpxrjktw5tz6muvzqfsbmo5n6atk3p5om9ulfptldi3p7cyqd8.min.js"></script>
+
 <!--SCRIPTS END-->
 
 
@@ -587,7 +593,5 @@ softplus(x) = log(1 + e^x)</script><p>兩者的差別：</p>
     });
 </script>
 <script src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
-<!-- <script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script> -->
-<!-- <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3.0.0/es5/tex-mml-chtml.js"></script> --><!-- hexo-inject:begin --><!-- hexo-inject:end -->
 </body>
 </html>

@@ -3,7 +3,7 @@
 <html lang="zh-tw,en,default">
     
 <head>
-    <!-- hexo-inject:begin --><!-- hexo-inject:end --><meta charset="UTF-8">
+    <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="generator" content="Dream Maker">
     <title>17 Autoencoder - Dream Maker</title>
@@ -17,17 +17,19 @@
     
     <script type="application/ld+json">{"@context":"http://schema.org","@type":"BlogPosting","author":{"@type":"Person","name":"Yueh-Hua Tu","sameAs":["https://github.com/yuehhua/","https://www.facebook.com/a504082002","https://www.linkedin.com/in/%E5%B2%B3%E8%8F%AF-%E6%9D%9C-6a3995a0/","mailto:a504082002@gmail.com"],"image":"https://www.gravatar.com/avatar/a565749fba4782b717234da670b273fd"},"articleBody":"既然前一篇提到學習特徵是一件重要的事，那麼我們就來講講 autoencoder 吧！\nAutoencoder 就是一個 unsupervised 方法，試圖學習出可以用的特徵。雖然不少人可能會說他是一個壓縮的方法或是一個降維的方法，其實他都是。\n\nAutoencoder 就是希望給一個 input ，經過轉換之後會成為一個新的、維度比較低的向量，並且可以再由這個向量透過轉換還原成原本的 input。既然低維的向量可以還原成 input 的樣子，那代表他含有足夠的資訊可以還原，所以你可以把他看成是一種壓縮或是降維。我想強調的是，autoencoder 可以將一個 input 的樣子轉換成一個新的表示方式，我們就可以用新的視角來看待他。\n模型Autoencoder 算是一個非常簡單的模型，他就是將資料向量經過一個轉換過後成為新的向量，在讓新的向量經過轉換過後還原成原本的向量。\n抽象上來說比較像是：\n\nX \\rightarrow Z \\rightarrow XAutoencoder 可以被拆解成兩個部份：一個是 encoder $X \\rightarrow Z$，另一個是 decoder $Z \\rightarrow X$ 的部份。\n在這個架構上 encoder-decoder 是相接在一起做訓練的。\n最簡單的 autoencoder 在 encoder 跟 decoder 上各自都只有一層，當然你可以不只一層，取決於你自己的狀況。\n他是一個非常簡單的架構，所以有非常多的變體，像是 denoising autoencoder、sparse autoencoder、variational autoencoder…等等。\n每個都有自己獨特的用法，所以這是一個非常基礎的模型。\n","dateCreated":"2018-10-17T22:36:06+08:00","dateModified":"2018-10-19T23:26:36+08:00","datePublished":"2018-10-17T22:36:06+08:00","description":"既然前一篇提到學習特徵是一件重要的事，那麼我們就來講講 autoencoder 吧！\nAutoencoder 就是一個 unsupervised 方法，試圖學習出可以用的特徵。雖然不少人可能會說他是一個壓縮的方法或是一個降維的方法，其實他都是。","headline":"17 Autoencoder","image":[],"mainEntityOfPage":{"@type":"WebPage","@id":"https://yuehhua.github.io/2018/10/17/17-autoencoder/"},"publisher":{"@type":"Organization","name":"Yueh-Hua Tu","sameAs":["https://github.com/yuehhua/","https://www.facebook.com/a504082002","https://www.linkedin.com/in/%E5%B2%B3%E8%8F%AF-%E6%9D%9C-6a3995a0/","mailto:a504082002@gmail.com"],"image":"https://www.gravatar.com/avatar/a565749fba4782b717234da670b273fd","logo":{"@type":"ImageObject","url":"https://www.gravatar.com/avatar/a565749fba4782b717234da670b273fd"}},"url":"https://yuehhua.github.io/2018/10/17/17-autoencoder/"}</script>
     <meta name="description" content="既然前一篇提到學習特徵是一件重要的事，那麼我們就來講講 autoencoder 吧！ Autoencoder 就是一個 unsupervised 方法，試圖學習出可以用的特徵。雖然不少人可能會說他是一個壓縮的方法或是一個降維的方法，其實他都是。">
-<meta name="keywords" content="machine learning,deep learning,topology">
 <meta property="og:type" content="blog">
 <meta property="og:title" content="17 Autoencoder">
 <meta property="og:url" content="https://yuehhua.github.io/2018/10/17/17-autoencoder/index.html">
 <meta property="og:site_name" content="Dream Maker">
 <meta property="og:description" content="既然前一篇提到學習特徵是一件重要的事，那麼我們就來講講 autoencoder 吧！ Autoencoder 就是一個 unsupervised 方法，試圖學習出可以用的特徵。雖然不少人可能會說他是一個壓縮的方法或是一個降維的方法，其實他都是。">
-<meta property="og:locale" content="zh-tw">
-<meta property="og:updated_time" content="2018-10-19T15:26:36.709Z">
+<meta property="og:locale" content="zh_TW">
+<meta property="article:published_time" content="2018-10-17T14:36:06.000Z">
+<meta property="article:modified_time" content="2018-10-19T15:26:36.709Z">
+<meta property="article:author" content="Yueh-Hua Tu">
+<meta property="article:tag" content="machine learning">
+<meta property="article:tag" content="deep learning">
+<meta property="article:tag" content="topology">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="17 Autoencoder">
-<meta name="twitter:description" content="既然前一篇提到學習特徵是一件重要的事，那麼我們就來講講 autoencoder 吧！ Autoencoder 就是一個 unsupervised 方法，試圖學習出可以用的特徵。雖然不少人可能會說他是一個壓縮的方法或是一個降維的方法，其實他都是。">
     
     
         
@@ -37,7 +39,9 @@
     
     
     <!--STYLES-->
-    <link rel="stylesheet" href="/assets/css/style-3frockyt2j28isvdztjchy5nhkz8tjki9ermufc1ckptmvjdftux94m2ahub.min.css">
+    
+<link rel="stylesheet" href="/assets/css/style-3frockyt2j28isvdztjchy5nhkz8tjki9ermufc1ckptmvjdftux94m2ahub.min.css">
+
     <!--STYLES END-->
     
     <script type="text/javascript">
@@ -50,13 +54,13 @@
 
         ga('create', 'UA-119690895-1', 'auto');
         ga('send', 'pageview');
-    </script><!-- hexo-inject:begin --><!-- hexo-inject:end -->
+    </script>
     
     
 </head>
 
     <body>
-        <!-- hexo-inject:begin --><!-- hexo-inject:end --><div id="blog">
+        <div id="blog">
             <!-- Define author's picture -->
 
 
@@ -65,7 +69,7 @@
 <header id="header" data-behavior="5">
     <i id="btn-open-sidebar" class="fa fa-lg fa-bars"></i>
     <div class="header-title">
-        <a class="header-title-link" href="/ ">Dream Maker</a>
+        <a class="header-title-link" href="/%20">Dream Maker</a>
     </div>
     
         
@@ -89,7 +93,7 @@
                 <li class="sidebar-button">
                     
                         <a  class="sidebar-button-link "
-                             href="/ "
+                             href="/%20"
                             
                             title="首頁"
                         >
@@ -251,7 +255,7 @@
     
         <span>分類 </span>
         
-    <a class="category-link" href="/categories/Machine-Learning/">Machine Learning</a>, <a class="category-link" href="/categories/Machine-Learning/機器學習模型圖書館：從傳統模型到深度學習/">機器學習模型圖書館：從傳統模型到深度學習</a>
+    <a class="category-link" href="/categories/Machine-Learning/">Machine Learning</a>, <a class="category-link" href="/categories/Machine-Learning/%E6%A9%9F%E5%99%A8%E5%AD%B8%E7%BF%92%E6%A8%A1%E5%9E%8B%E5%9C%96%E6%9B%B8%E9%A4%A8%EF%BC%9A%E5%BE%9E%E5%82%B3%E7%B5%B1%E6%A8%A1%E5%9E%8B%E5%88%B0%E6%B7%B1%E5%BA%A6%E5%AD%B8%E7%BF%92/">機器學習模型圖書館：從傳統模型到深度學習</a>
 
 
     
@@ -345,7 +349,7 @@ X \rightarrow Z \rightarrow X</script><p>Autoencoder 可以被拆解成兩個部
                                                     
                                                         
                                                             <div id="disqus_thread">
-    <noscript>Please enable JavaScript to view the <a href="//disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+    <noscript>Please enable JavaScript to view the <a href="//disqus.com/?ref_noscript" target="_blank" rel="noopener">comments powered by Disqus.</a></noscript>
 </div>
                                                                 
                                                                             
@@ -481,7 +485,9 @@ X \rightarrow Z \rightarrow X</script><p>Autoencoder 可以被拆解成兩個部
         
 <div id="cover" style="background-image:url('/assets/images/cover.jpg');"></div>
         <!--SCRIPTS-->
+
 <script src="/assets/js/script-xzfezjobyekpxrjktw5tz6muvzqfsbmo5n6atk3p5om9ulfptldi3p7cyqd8.min.js"></script>
+
 <!--SCRIPTS END-->
 
 
@@ -519,7 +525,5 @@ X \rightarrow Z \rightarrow X</script><p>Autoencoder 可以被拆解成兩個部
     });
 </script>
 <script src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
-<!-- <script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script> -->
-<!-- <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3.0.0/es5/tex-mml-chtml.js"></script> --><!-- hexo-inject:begin --><!-- hexo-inject:end -->
 </body>
 </html>

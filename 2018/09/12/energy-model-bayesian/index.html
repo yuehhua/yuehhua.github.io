@@ -3,7 +3,7 @@
 <html lang="zh-tw,en,default">
     
 <head>
-    <!-- hexo-inject:begin --><!-- hexo-inject:end --><meta charset="UTF-8">
+    <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="generator" content="Dream Maker">
     <title>Energy-based model 以及 Bayesian model 的關聯 - Dream Maker</title>
@@ -17,17 +17,19 @@
     
     <script type="application/ld+json">{"@context":"http://schema.org","@type":"BlogPosting","author":{"@type":"Person","name":"Yueh-Hua Tu","sameAs":["https://github.com/yuehhua/","https://www.facebook.com/a504082002","https://www.linkedin.com/in/%E5%B2%B3%E8%8F%AF-%E6%9D%9C-6a3995a0/","mailto:a504082002@gmail.com"],"image":"https://www.gravatar.com/avatar/a565749fba4782b717234da670b273fd"},"articleBody":"在機器學習領域，我們常常會聽到 Energy-based model。\n基本上，他是借了物理的能量觀點來的，在數學上，與物理的公式如出一徹。\n我們先來看看他是長成什麼樣子。\n\n在物理統計力學中，如果一個系統的狀態的機率分佈，是由狀態的能量決定，並且狀態能量及系統溫度與狀態之間可以寫成一個函數關係，我們稱為 Boltzmann distribution。\n\n\\large p_i = \\frac{1}{Z} e^{- \\epsilon_i / kT}一個系統中，狀態 $i$ 的出現機率 $p_i$ 是狀態能量 $\\epsilon_i$ 以及系統溫度 $T$ 的函數，其中 $k$ 為波茲曼常數，$Z$ 為機率分佈的分母，稱為 partition function。\n在機器學習中，借了同樣的概念變成了以下式子：\n\n\\large P(X = x) = \\frac{1}{Z} e^{f(x)}主要是將次方項 $- \\epsilon_i / kT$ 替換成了更廣義的函數 $f(x)$ 形式，而這個函數會跟系統的狀態 $x$ 相關。\n其中 $Z$ 就變成了以下的樣子：\n\nZ = \\sum_{x \\in X} e^{f(x)}如果代入以上的函數中就會是：\n\n\\large P(X = x) = \\frac{e^{f(x)}}{\\sum_{x \\in X} e^{f(x)}}當我們把這樣的模型廣義化之後就稱為 Energy-based model。\n這樣的模型在統計或是機器學習中有非常有趣的連結，$f(x)$ 所代表的應該是一個能量的函數。\n\nf(x) = -E(x)然而這樣的函數我們可以將他等同於機器學習中常用的 loss function。\n\nf(x) = -E(x) = - \\text{loss function}這樣的等號是基於在熱力學第二定律的描述，熱力學第二定律描述一個封閉系統（closed system），封閉系統不允許系統與環境有任何的物質交換，在環境及熵不變的情況下，而系統的內能會降低，當內能降到最低的時候，系統會達成動態平衡。這稱為最小能量原則（principle of minimum energy），是熱力學第二定律另一個面向的描述。\n\n相對的是，在一個孤立系統（isolated system），孤立系統不允許系統與環境有任何的物質與能量交換，在環境不變的情況下，熵會持續增加。\n\n依據最小能量原則，能量最小跟我們希望的 loss function 最低有同樣的目標，所以我們可以將他們同等起來。不過要強調的是，這裡並沒有意義上的同等，只是在最佳化的方向上是同等的。\nBayesian model在 Bayesian model 的方法中就更有趣了。當我們想要最小化 loss function 的時候，他其實在最大化 likelihood function。換句話說，降低 loss 是在降低資料與模型之間的誤差，讓模型更貼近資料，提升 likelihood 則是另一個面向的描述，likelihood 是在測量模型與資料的相似度，最大化 likelihood 也是讓模型愈貼近資料，所以我們可以將他變成這個樣子：\n\nf(x) = -E(x) = \\text{likelihood function}這樣的解釋是什麼呢？\n也就是，在統計學裡常用的 Maximum likelihood estimation （MLE）方法會跟最小能量原則有一致的目標。\n我們從貝氏定理出發。我們先把貝氏定理的分母省略掉。\n\n\\large P(\\theta \\mid x) = \\frac{P(x \\mid \\theta)P(\\theta)}{P(x)} = \\frac{1}{Z} P(x \\mid \\theta)P(\\theta)接者，貝氏定理的分子部份其實代表的各自是 likelihood 以及 prior。\n\n\\propto P(x \\mid \\theta)P(\\theta)\n\\text{    (likelihood)(prior)}我們可以將 Energy-based model 代入，容我省略分母。\n\n\\propto e^{-E(x)} \\times P(\\theta)旁邊的 prior 我們可以忽略他，但是我們可以代入 normal distribution，會有有趣的結果。\n\n\\large = e^{-E(x)} \\times \\frac{1}{\\sqrt{2 \\pi \\sigma^2}} e^{-\\frac{\\theta^2}{2 \\sigma^2}}接著我們把等號的兩側都取 ln。\n\n-ln P(\\theta \\mid x) \\propto E(x) + \\frac{\\theta^2}{2 \\sigma^2} - ln(\\frac{1}{\\sqrt{2 \\pi \\sigma^2}}) + ln(Z)有沒有看到有趣的部份了？能量的部份顯露出來，當能量最小時，$P(\\theta \\mid x)$ 就會是最大，而 $P(\\theta \\mid x)$ 則是 posterior，最小能量原則會對應到貝氏方法的 Maximum a posteriori（MAP）。如果 MAP，將 prior 移除的話，就等同於 MLE 了！\n所以我們可以看到在統計力學與統計學跟機器學習之間非常緊密的關係，而且他們都可以借用物理的熱力學第二定律來加以解釋，如此一來，可以賦予機器學習模型一個物理意義。\nRegularization還有嗎？當然還有阿！\n我們可以進一步將式子整理一下，我們將 $\\theta^2$ 分離出來，將 ln 中的分母倒過來：\n\n= E(x) + \\frac{1}{2 \\sigma^2} \\theta^2 + ln(\\sqrt{2 \\pi \\sigma^2}) + ln(Z)有沒有注意到 $\\theta^2$ 非常像什麼？\n是的，他就是一個模型參數的 $\\mathcal{l}_2$-norm，也就是，他是一個 regularization term。\n我們再進一步將他凸顯出來。\n\n\\text{let } \\lambda = \\frac{1}{2 \\sigma^2}\n= E(x) + \\lambda \\theta^2 + ln(\\frac{\\sqrt{\\pi}}{\\lambda}) + ln(Z)你會發現式子的前半部份像極了一般的 loss function，含有 error function 跟 regularization term。$\\lambda$ 部份就是你在調整模型的時候，regularization 的強度。\n整體來說，我們在前面的 prior 代入了 normal distribution，最後導出來得到 $\\mathcal{l}_2$ regularization。這說明了，如果我們在模型中加入 $\\mathcal{l}_2$ regularization，等於是對模型的參數做了假設，也就是假設模型參數會服從 normal distribution。這樣的結果與貝氏的方法與解釋一致。\n最後總結一下，energy-based model 借用了物理的概念，與最佳化的機制有一致的方向，應該有人證明這點，只是我還沒去找。我們也看到 energy-based model 放到貝氏統計中是很自然的。在貝氏統計中的 prior 會對應到 regularization 的機制。這邊說明了物理、統計跟機器學習模型之間的關係。\n","dateCreated":"2018-09-12T14:22:48+08:00","dateModified":"2018-09-13T10:33:00+08:00","datePublished":"2018-09-12T14:22:48+08:00","description":"在機器學習領域，我們常常會聽到 Energy-based model。\n基本上，他是借了物理的能量觀點來的，在數學上，與物理的公式如出一徹。\n我們先來看看他是長成什麼樣子。","headline":"Energy-based model 以及 Bayesian model 的關聯","image":[],"mainEntityOfPage":{"@type":"WebPage","@id":"https://yuehhua.github.io/2018/09/12/energy-model-bayesian/"},"publisher":{"@type":"Organization","name":"Yueh-Hua Tu","sameAs":["https://github.com/yuehhua/","https://www.facebook.com/a504082002","https://www.linkedin.com/in/%E5%B2%B3%E8%8F%AF-%E6%9D%9C-6a3995a0/","mailto:a504082002@gmail.com"],"image":"https://www.gravatar.com/avatar/a565749fba4782b717234da670b273fd","logo":{"@type":"ImageObject","url":"https://www.gravatar.com/avatar/a565749fba4782b717234da670b273fd"}},"url":"https://yuehhua.github.io/2018/09/12/energy-model-bayesian/"}</script>
     <meta name="description" content="在機器學習領域，我們常常會聽到 Energy-based model。 基本上，他是借了物理的能量觀點來的，在數學上，與物理的公式如出一徹。 我們先來看看他是長成什麼樣子。">
-<meta name="keywords" content="machine learning,deep learning,topology">
 <meta property="og:type" content="blog">
 <meta property="og:title" content="Energy-based model 以及 Bayesian model 的關聯">
 <meta property="og:url" content="https://yuehhua.github.io/2018/09/12/energy-model-bayesian/index.html">
 <meta property="og:site_name" content="Dream Maker">
 <meta property="og:description" content="在機器學習領域，我們常常會聽到 Energy-based model。 基本上，他是借了物理的能量觀點來的，在數學上，與物理的公式如出一徹。 我們先來看看他是長成什麼樣子。">
-<meta property="og:locale" content="zh-tw">
-<meta property="og:updated_time" content="2018-09-13T02:33:00.799Z">
+<meta property="og:locale" content="zh_TW">
+<meta property="article:published_time" content="2018-09-12T06:22:48.000Z">
+<meta property="article:modified_time" content="2018-09-13T02:33:00.799Z">
+<meta property="article:author" content="Yueh-Hua Tu">
+<meta property="article:tag" content="machine learning">
+<meta property="article:tag" content="deep learning">
+<meta property="article:tag" content="topology">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="Energy-based model 以及 Bayesian model 的關聯">
-<meta name="twitter:description" content="在機器學習領域，我們常常會聽到 Energy-based model。 基本上，他是借了物理的能量觀點來的，在數學上，與物理的公式如出一徹。 我們先來看看他是長成什麼樣子。">
     
     
         
@@ -37,7 +39,9 @@
     
     
     <!--STYLES-->
-    <link rel="stylesheet" href="/assets/css/style-3frockyt2j28isvdztjchy5nhkz8tjki9ermufc1ckptmvjdftux94m2ahub.min.css">
+    
+<link rel="stylesheet" href="/assets/css/style-3frockyt2j28isvdztjchy5nhkz8tjki9ermufc1ckptmvjdftux94m2ahub.min.css">
+
     <!--STYLES END-->
     
     <script type="text/javascript">
@@ -50,13 +54,13 @@
 
         ga('create', 'UA-119690895-1', 'auto');
         ga('send', 'pageview');
-    </script><!-- hexo-inject:begin --><!-- hexo-inject:end -->
+    </script>
     
     
 </head>
 
     <body>
-        <!-- hexo-inject:begin --><!-- hexo-inject:end --><div id="blog">
+        <div id="blog">
             <!-- Define author's picture -->
 
 
@@ -65,7 +69,7 @@
 <header id="header" data-behavior="5">
     <i id="btn-open-sidebar" class="fa fa-lg fa-bars"></i>
     <div class="header-title">
-        <a class="header-title-link" href="/ ">Dream Maker</a>
+        <a class="header-title-link" href="/%20">Dream Maker</a>
     </div>
     
         
@@ -89,7 +93,7 @@
                 <li class="sidebar-button">
                     
                         <a  class="sidebar-button-link "
-                             href="/ "
+                             href="/%20"
                             
                             title="首頁"
                         >
@@ -385,7 +389,7 @@ f(x) = -E(x) = \text{likelihood function}</script><p>這樣的解釋是什麼呢
                                                     
                                                         
                                                             <div id="disqus_thread">
-    <noscript>Please enable JavaScript to view the <a href="//disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+    <noscript>Please enable JavaScript to view the <a href="//disqus.com/?ref_noscript" target="_blank" rel="noopener">comments powered by Disqus.</a></noscript>
 </div>
                                                                 
                                                                             
@@ -521,7 +525,9 @@ f(x) = -E(x) = \text{likelihood function}</script><p>這樣的解釋是什麼呢
         
 <div id="cover" style="background-image:url('/assets/images/cover.jpg');"></div>
         <!--SCRIPTS-->
+
 <script src="/assets/js/script-xzfezjobyekpxrjktw5tz6muvzqfsbmo5n6atk3p5om9ulfptldi3p7cyqd8.min.js"></script>
+
 <!--SCRIPTS END-->
 
 
@@ -559,7 +565,5 @@ f(x) = -E(x) = \text{likelihood function}</script><p>這樣的解釋是什麼呢
     });
 </script>
 <script src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
-<!-- <script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script> -->
-<!-- <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3.0.0/es5/tex-mml-chtml.js"></script> --><!-- hexo-inject:begin --><!-- hexo-inject:end -->
 </body>
 </html>

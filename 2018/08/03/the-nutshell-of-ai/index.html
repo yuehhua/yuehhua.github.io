@@ -3,7 +3,7 @@
 <html lang="zh-tw,en,default">
     
 <head>
-    <!-- hexo-inject:begin --><!-- hexo-inject:end --><meta charset="UTF-8">
+    <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="generator" content="Dream Maker">
     <title>AI 的核心 - Dream Maker</title>
@@ -17,17 +17,19 @@
     
     <script type="application/ld+json">{"@context":"http://schema.org","@type":"BlogPosting","author":{"@type":"Person","name":"Yueh-Hua Tu","sameAs":["https://github.com/yuehhua/","https://www.facebook.com/a504082002","https://www.linkedin.com/in/%E5%B2%B3%E8%8F%AF-%E6%9D%9C-6a3995a0/","mailto:a504082002@gmail.com"],"image":"https://www.gravatar.com/avatar/a565749fba4782b717234da670b273fd"},"articleBody":"\nAI 是什麼？很多人探討 AI 會追隨前人的探討，去探討什麼是智慧？或是什麼樣的是強人工智慧？\n當然我也做過一樣的事情，只是今天我想從比較 技術層面、比較 務實 的角度切入這一大類技術。\n從比較技術層面跟務實的角度切入，就表示我想討論的是現今人工智慧的實作層面，也就是 AI 是怎麼被做出來的？（how），並非討論 AI 是什麼？(what)\nAI 是什麼？ 這議題會牽涉到什麼是智慧？而智慧這種事情連人類自身都說不清楚，有的人從哲學層面討論智慧，動物有動物的智慧，人類有人類的智慧，憑什麼說人類的『智慧』才稱為智慧？有的人從生物角度切入， 從大腦的結構與神經元的連結，到神經元的觸發，這一系列的科學探索，或許我們未來可以回答智慧是什麼？但目前仍舊是一個大謎團。\n我今天要談的都不是這些，我要談的是深度學習的核心，不！是機器學習的核心…… 嗯……等等，所以那是什麼？\n\n星星的故事故事的開始是從這裡開始的，自從牛頓引進了數學作為科學的基礎以來，人類一直非常依賴數學工具來解決各種事情。\n第谷大概可以說是第一位資料科學家了，第谷是 16 世紀丹麥的天文學家，還是一個占星學家，他用肉眼觀察了天上星星的位置，並且每天將這些資料紀錄下來。他的學生克卜勒是一位洞察力極強的人，他在他老師蒐集的數據當中找出了規則，並推出了著名的行星三大運動定律。\n當時就已經知道行星的運動軌跡是橢圓（克卜勒第一定律），並且可以計算行星的運動周期（克卜勒第三定律）。後來牛頓在克卜勒三個定律的基礎之上，才確立了萬有引力定律，當時牛頓只知道萬有引力應該會跟兩個物體的質量成正比，但是跟距離的關係始終是個謎。萬有引力跟距離平方成反比這件事情，牛頓自己也猶豫了很久，但是透過克卜勒第三定律可以驗證，萬有引力跟距離平方成反比才是對的。\n我們在這裡看到史上第一個引進了數學的推導，以及從資料的觀察當中，我們可以得知大自然的規律。在這之前，數學都是屬於一個哲學層次的討論，並不會有人拿他來應用。我們從數學式去理解自然的規律，因為我們相信自然是有規律的，資料是可以呈現規律的，數學是可以將規律 公式化（formulate） 的。\n除了科學以外，生活中我們應用的是理性的邏輯來理解以及處理事物，我們用了數字以及加減乘除在買東西上面。你需要用數字來跟攤販討價還價，需要用邏輯來將一件事情拆解、重組或是加以推演。\n各位可以邊看邊思考這些脈絡背後的共同點。\n規劃問題我們從最簡單的問題開始，在工廠生產一定會遇到典型的生產問題，一個工廠可以生產 A、B 兩種產品，這兩種產品分別需要的成本是 5 元跟 10 元，兩種產品的售價則分別是 9 元跟 15 元，但是每天的生產成本最多不可以超過 1000 元，在有限制條件下，要生產多少的 A、B 兩種產品才能讓整體利潤最大化？這種問題稱為線性規劃問題，我們可以把他用數學式表達出來：\n假設 A、B 兩種產品的生產數量分別是 x_1 跟 x_2，\nmax $(9x_1 + 15 x_2) - (5x_1 + 10x_2)$subject to $5x_1 + 10x_2 \\le 1000$\n我們可以進一步簡化：\nmax $4x_1 + 5 x_2$subject to $5x_1 + 10x_2 \\le 1000$\n線性規劃問題他需要最大化的是一個線性函數， 最大化的目標我們稱之為目標函數，他還有一個限制條件，同時這個限制條件也是一個線性方程式，我們稱之為限制式。\n線性規劃問題他要解的是一個最佳化問題，主要的特徵在於它的目標函數以及限制式是線性的。線性規劃問題的主要應用範圍在商管領域。但是除了線性規劃這麼特定的問題以外，我們還有整數規劃問題、二次規劃問題以及非線性規劃問題，這些問題的差別是在目標函數的樣貌上面的不同。\n這類的問題全部都圍繞在最佳化上頭，他底層的理論是最佳化理論或是 convex optimization。這些規劃問題跟最佳化理論在第二次世界大戰中高速發展著，由於戰爭的緣故促使這些方法被發展出來，也包含當時發展對偶理論的天才數學家馮·諾伊曼（John von Neumann）。\n我們一直都認為一個智慧的個體他需要會 規劃，但是規劃本身可以被化為一個數學問題，所以解出這個數學問題本身是不是具有智慧的？抑或是，人類利用了他的智慧將一個應用問題轉化成一個可解的數學問題？\n搜尋問題我們常常想要在一堆東西當中找到我們要的東西，有的時候像是在圖書館找書，我確定我要找的書在圖書館中，他非常的確切而且範圍也有限，但有的時候他像是在大海中撈針，我確定針就在海裡，但是海實在是太大了。\n有的時候我們上次在網路上找我們想要的資源，網路本身是個複雜的系統，有上億甚至更多的網路節點，這些網路節點互相連結，我們要如何找到一條最有效的路徑到我們想去的地方？\n這些問題都可以被化成一個搜尋問題，有的搜尋問題我們只需要簡單的排序就可以處理，有的搜尋問題牽涉到比較複雜的圖論結構，更有些問題他的搜尋空間是無限維度的。\n我們必須思考一下會解這些問題是不是一個智慧的行為？解這些問題解的快是否意味著比較聰明？\n建模建模一直是在科學領域當中非常重要的一件事情，透過模型的建立，模型可以給我們的是對未來的預測，以及因果關係的建立。我們可以透過模型去得知以及解釋為什麼會這樣？為什麼會那樣？\n在物理領域，我們常常用微分方程作為建模的工具，物理學家會去找出自然界中有可能影響的因子，並且把它放到微分方程中成為一個系統。我們可以去觀測這個系統的輸入以及輸出，去推論整個系統的運作。\n但是我們怎麼知道系統內部是怎麼運作的？如果不知道系統是怎麼運作的，我們是無法將一個因子放到微分方程的數學描述中的。如果一個物理系統的狀態是可以被觀察的，我們當然可以很輕易的理解輸入以及輸出之間的關係。但是常常系統的狀態並不是可以被觀察的，像是大氣當中的氣體分子，我們或許知道他的巨觀狀態，但是我們無法得知每個氣體分子在每一個時刻的速度及位置。更別說在微觀的量子世界當中，由於測不準原理，你無法同時知道一個粒子他的確切速度以及位置。\n不過數學提供了我們一個框架，一個邏輯而理性的框架，在純粹邏輯與理性的抽象世界中，我們可以去推論出這個系統的輸入及輸出關係應該是什麼。即便我們不需要一一去觀察每一個系統的輸入及輸出或是觀察系統的狀態，我們仍舊可以透過數學的框架去預測這個系統的行為，或許我們有一天可以從亞馬遜熱帶雨林的一隻蝴蝶翅膀拍動的資料去預測一個超大型颶風的來臨，我們不需要等到真的可以觀測到颶風的那天。\n廣義來說，微分方程模型也可以視為一種機器學習的方法。你可以在機器學習的書當中看到動態系統模型或是 state space model，那些其實是微分方程模型的變體。\n機率機率論其實來自數學，更精確的說是測度論。\n我們的生活中常常以機率作為事情的描述，機器學習當然也不例外，同時也是統計的基礎。\n當我們面對 不確定性 的時候我們就會用機率作為描述的語言，機率本身就是一個很好的模型。\n在這個假設之下衍生出了非常多有用的方法及模型，像是蒙地卡羅馬可夫法。機率同時也在布朗運動中扮演了重要的角色，無論在技術、科學，甚至是生活當中，數學都扮演著核心的角色。\n機器學習框架我曾經點出機器學習的框架，主要由三個層面組成：\n\nmodel\nerror function or loss function\noptimization\n\n我們從最底層的最佳化開始講，線性規劃就是一個最簡單的最佳化問題，但是發展出來的演算法只能解這麼一個特定的問題。有沒有更廣義的解法，可以解眾多的最佳化問題？梯度下降法是一個。但是他有個缺點，他會卡在 local minimum，那有沒有可以得到 global minimum 的演算法？最早的應該是模擬退火法，接著有名的是基因演算法，然後是蟻群演算法以及蜂群演算法。另一個在系統模擬的領域很紅的 Markov chain Monte Carlo 法，早期的應該是 Metropolis-Hastings method，近期則是有 No-U-Turn method。\n這些方法都有個共同的特質，他們都有個目標函數需要最大化或是一個損失函數（loss function）需要最小化。這些都是最佳化理論可以解或是處理的對象。\n而 error function 或是損失函數的定義，說明了你要解的問題或是問題的目標。error 是個很好的思考點，真實世界中存在著與理論值不完全相同的測量值，我們把這兩者個差距稱為誤差，我們把這樣的現象稱為不確定性，這時候機率論就進來了！一個自然現象有他的 error pattern，我們可以藉由蒐集資料得知整體的誤差會呈現什麼樣的機率分佈。統計，是希望能從分佈當中得到一點什麼有用的資訊。\n我們希望從這一切的資料中找尋 規律與模式，model 是一種數學語言，他是我們能夠理解的 規律。我們從乍看之下非常混亂的資料當中，尋找我們想找的規律。規律，是生於混亂的。model 是建立在 error 之上的。當你無法理解 error 是什麼，你就無法在上面建立 model。當今的 model 百百種，深度學習不過是最紅的一類而已。\n機器學習的框架，是漂亮的的把這三者集大成，利用最佳化去推動模型的更新，利用 loss function 去塑造跟定義問題，利用 model 將人類腦中想的規則更具體的描述出來。整個脈絡奠基於數學之上。\n核心\n數學充斥著我們的生活。\n\n今天，數學是 AI 的技術核心。 是的，數學披上了 AI 的外表，以全新的姿態展現在人們的面前，人們再一次地為數學的深奧俯首稱臣，但人們不知道的是數學的假設完全來自於人類的理性，甚至我可以很肯定的說 數學就是人類的理性本身。\n其實人類本身就蘊含著數學，其實人類是可以完全理解數學的，只是非常多人在理解數學以前，就先用了非理性的恐懼阻擋了自己的去路。\n三位一體在 AI 的領域中，最重要的不是去訓練模型，而是 把數學運算、資料特性以及解釋三者串連起來。我們想要知道什麼樣的資料特性需要用特定的數學運算處理，我們也想知道使用這樣的數學運算的理由是什麼，這些理由會影響到模型的建構以及後續的解釋，他們三者就像基督教中的三位一體密不可分，但是又個別扮演著角色。\n數學運算 代表的是在神經網路模型中的 layer-layer 之間的轉換，他可以是內積可以是捲積，還可以是 recurrent。\n資料特性 決定了你應該用怎麼樣的數學運算來處理跟萃取資訊，這很大程度取決於你對於資料以及問題的了解程度。\n解釋 是指可以從模型當中去解釋結果所代表的意義，雖然目前可以做到的有限，但是你還是可以從數學運算中去看出一些端倪。\n我在先前的幾篇文章中試圖要做到這件事情，我希望可以連結數學運算、資料特性以及解釋，我想這才是在做 AI 的科學的研究。\n","dateCreated":"2018-08-03T00:17:30+08:00","dateModified":"2018-08-04T00:42:50+08:00","datePublished":"2018-08-03T00:17:30+08:00","description":"\nAI 是什麼？很多人探討 AI 會追隨前人的探討，去探討什麼是智慧？或是什麼樣的是強人工智慧？\n當然我也做過一樣的事情，只是今天我想從比較 技術層面、比較 務實 的角度切入這一大類技術。\n從比較技術層面跟務實的角度切入，就表示我想討論的是現今人工智慧的實作層面，也就是 AI 是怎麼被做出來的？（how），並非討論 AI 是什麼？(what)\nAI 是什麼？ 這議題會牽涉到什麼是智慧？而智慧這種事情連人類自身都說不清楚，有的人從哲學層面討論智慧，動物有動物的智慧，人類有人類的智慧，憑什麼說人類的『智慧』才稱為智慧？有的人從生物角度切入， 從大腦的結構與神經元的連結，到神經元的觸發，這一系列的科學探索，或許我們未來可以回答智慧是什麼？但目前仍舊是一個大謎團。\n我今天要談的都不是這些，我要談的是深度學習的核心，不！是機器學習的核心…… 嗯……等等，所以那是什麼？","headline":"AI 的核心","image":[],"mainEntityOfPage":{"@type":"WebPage","@id":"https://yuehhua.github.io/2018/08/03/the-nutshell-of-ai/"},"publisher":{"@type":"Organization","name":"Yueh-Hua Tu","sameAs":["https://github.com/yuehhua/","https://www.facebook.com/a504082002","https://www.linkedin.com/in/%E5%B2%B3%E8%8F%AF-%E6%9D%9C-6a3995a0/","mailto:a504082002@gmail.com"],"image":"https://www.gravatar.com/avatar/a565749fba4782b717234da670b273fd","logo":{"@type":"ImageObject","url":"https://www.gravatar.com/avatar/a565749fba4782b717234da670b273fd"}},"url":"https://yuehhua.github.io/2018/08/03/the-nutshell-of-ai/"}</script>
     <meta name="description" content="AI 是什麼？很多人探討 AI 會追隨前人的探討，去探討什麼是智慧？或是什麼樣的是強人工智慧？ 當然我也做過一樣的事情，只是今天我想從比較 技術層面、比較 務實 的角度切入這一大類技術。 從比較技術層面跟務實的角度切入，就表示我想討論的是現今人工智慧的實作層面，也就是 AI 是怎麼被做出來的？（how），並非討論 AI 是什麼？(what) AI 是什麼？ 這議題會牽涉到什麼是智慧？而智慧這種事">
-<meta name="keywords" content="machine learning,deep learning,topology">
 <meta property="og:type" content="blog">
 <meta property="og:title" content="AI 的核心">
 <meta property="og:url" content="https://yuehhua.github.io/2018/08/03/the-nutshell-of-ai/index.html">
 <meta property="og:site_name" content="Dream Maker">
 <meta property="og:description" content="AI 是什麼？很多人探討 AI 會追隨前人的探討，去探討什麼是智慧？或是什麼樣的是強人工智慧？ 當然我也做過一樣的事情，只是今天我想從比較 技術層面、比較 務實 的角度切入這一大類技術。 從比較技術層面跟務實的角度切入，就表示我想討論的是現今人工智慧的實作層面，也就是 AI 是怎麼被做出來的？（how），並非討論 AI 是什麼？(what) AI 是什麼？ 這議題會牽涉到什麼是智慧？而智慧這種事">
-<meta property="og:locale" content="zh-tw">
-<meta property="og:updated_time" content="2018-08-03T16:42:50.399Z">
+<meta property="og:locale" content="zh_TW">
+<meta property="article:published_time" content="2018-08-02T16:17:30.000Z">
+<meta property="article:modified_time" content="2018-08-03T16:42:50.399Z">
+<meta property="article:author" content="Yueh-Hua Tu">
+<meta property="article:tag" content="machine learning">
+<meta property="article:tag" content="deep learning">
+<meta property="article:tag" content="topology">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="AI 的核心">
-<meta name="twitter:description" content="AI 是什麼？很多人探討 AI 會追隨前人的探討，去探討什麼是智慧？或是什麼樣的是強人工智慧？ 當然我也做過一樣的事情，只是今天我想從比較 技術層面、比較 務實 的角度切入這一大類技術。 從比較技術層面跟務實的角度切入，就表示我想討論的是現今人工智慧的實作層面，也就是 AI 是怎麼被做出來的？（how），並非討論 AI 是什麼？(what) AI 是什麼？ 這議題會牽涉到什麼是智慧？而智慧這種事">
     
     
         
@@ -37,7 +39,9 @@
     
     
     <!--STYLES-->
-    <link rel="stylesheet" href="/assets/css/style-3frockyt2j28isvdztjchy5nhkz8tjki9ermufc1ckptmvjdftux94m2ahub.min.css">
+    
+<link rel="stylesheet" href="/assets/css/style-3frockyt2j28isvdztjchy5nhkz8tjki9ermufc1ckptmvjdftux94m2ahub.min.css">
+
     <!--STYLES END-->
     
     <script type="text/javascript">
@@ -50,13 +54,13 @@
 
         ga('create', 'UA-119690895-1', 'auto');
         ga('send', 'pageview');
-    </script><!-- hexo-inject:begin --><!-- hexo-inject:end -->
+    </script>
     
     
 </head>
 
     <body>
-        <!-- hexo-inject:begin --><!-- hexo-inject:end --><div id="blog">
+        <div id="blog">
             <!-- Define author's picture -->
 
 
@@ -65,7 +69,7 @@
 <header id="header" data-behavior="5">
     <i id="btn-open-sidebar" class="fa fa-lg fa-bars"></i>
     <div class="header-title">
-        <a class="header-title-link" href="/ ">Dream Maker</a>
+        <a class="header-title-link" href="/%20">Dream Maker</a>
     </div>
     
         
@@ -89,7 +93,7 @@
                 <li class="sidebar-button">
                     
                         <a  class="sidebar-button-link "
-                             href="/ "
+                             href="/%20"
                             
                             title="首頁"
                         >
@@ -389,7 +393,7 @@
                                                     
                                                         
                                                             <div id="disqus_thread">
-    <noscript>Please enable JavaScript to view the <a href="//disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+    <noscript>Please enable JavaScript to view the <a href="//disqus.com/?ref_noscript" target="_blank" rel="noopener">comments powered by Disqus.</a></noscript>
 </div>
                                                                 
                                                                             
@@ -525,7 +529,9 @@
         
 <div id="cover" style="background-image:url('/assets/images/cover.jpg');"></div>
         <!--SCRIPTS-->
+
 <script src="/assets/js/script-xzfezjobyekpxrjktw5tz6muvzqfsbmo5n6atk3p5om9ulfptldi3p7cyqd8.min.js"></script>
+
 <!--SCRIPTS END-->
 
 
@@ -563,7 +569,5 @@
     });
 </script>
 <script src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
-<!-- <script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script> -->
-<!-- <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3.0.0/es5/tex-mml-chtml.js"></script> --><!-- hexo-inject:begin --><!-- hexo-inject:end -->
 </body>
 </html>

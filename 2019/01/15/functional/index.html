@@ -3,7 +3,7 @@
 <html lang="zh-tw,en,default">
     
 <head>
-    <!-- hexo-inject:begin --><!-- hexo-inject:end --><meta charset="UTF-8">
+    <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="generator" content="Dream Maker">
     <title>Functional - Dream Maker</title>
@@ -17,17 +17,19 @@
     
     <script type="application/ld+json">{"@context":"http://schema.org","@type":"BlogPosting","author":{"@type":"Person","name":"Yueh-Hua Tu","sameAs":["https://github.com/yuehhua/","https://www.facebook.com/a504082002","https://www.linkedin.com/in/%E5%B2%B3%E8%8F%AF-%E6%9D%9C-6a3995a0/","mailto:a504082002@gmail.com"],"image":"https://www.gravatar.com/avatar/a565749fba4782b717234da670b273fd"},"articleBody":"一般我們數學上稱 $f: \\mathbb{R} \\rightarrow \\mathbb{R}$ 為函數 function。\n然而，如果一個函數可以接受另一個函數作為他的輸入變數，而輸出是一個純量，$F: S \\rightarrow \\mathbb{R}$ 泛函 functional，其中 $S$ 是一個向量空間，函數是一種廣義的向量。\n在最佳化理論或是機器學習當中最常遇到的就是損失函數 $\\mathcal{L}$，他其實是一個泛函。\n\n\\mathcal{L}[f] = \\frac{1}{N} \\sum_{i=1}^{N} (y_i - f(x_i))^2當我們有不同的資料，需要計算這些資料的 mean square error 的時候就會寫成像上面這個樣子。\n\n\\mathcal{L}[f] = \\lim_{n \\rightarrow \\infty} \\int_b^a |f(x) - \\sum_{i=1}^N a_i f_i(x)|^2 dx如果我們處理的不是資料，而是一段連續的空間，那我們就可以用以上這個連續的版本。\n\nex.\n\nconsider $X, Y \\in V$\n\n$g: X \\rightarrow \\mathbb{R}$ is functional\n$g: X \\rightarrow \\mathbb{R}^n$ is functional\n$g: X \\rightarrow Y$ is operator\n\n","dateCreated":"2019-01-15T20:34:54+08:00","dateModified":"2019-09-06T11:22:22+08:00","datePublished":"2019-01-15T20:34:54+08:00","description":"","headline":"Functional","image":[],"mainEntityOfPage":{"@type":"WebPage","@id":"https://yuehhua.github.io/2019/01/15/functional/"},"publisher":{"@type":"Organization","name":"Yueh-Hua Tu","sameAs":["https://github.com/yuehhua/","https://www.facebook.com/a504082002","https://www.linkedin.com/in/%E5%B2%B3%E8%8F%AF-%E6%9D%9C-6a3995a0/","mailto:a504082002@gmail.com"],"image":"https://www.gravatar.com/avatar/a565749fba4782b717234da670b273fd","logo":{"@type":"ImageObject","url":"https://www.gravatar.com/avatar/a565749fba4782b717234da670b273fd"}},"url":"https://yuehhua.github.io/2019/01/15/functional/"}</script>
     <meta name="description" content="一般我們數學上稱 $f: \mathbb{R} \rightarrow \mathbb{R}$ 為函數 function。 然而，如果一個函數可以接受另一個函數作為他的輸入變數，而輸出是一個純量，$F: S \rightarrow \mathbb{R}$ 泛函 functional，其中 $S$ 是一個向量空間，函數是一種廣義的向量。 在最佳化理論或是機器學習當中最常遇到的就是損失函數 $\mat">
-<meta name="keywords" content="machine learning,deep learning,topology">
 <meta property="og:type" content="blog">
 <meta property="og:title" content="Functional">
 <meta property="og:url" content="https://yuehhua.github.io/2019/01/15/functional/index.html">
 <meta property="og:site_name" content="Dream Maker">
 <meta property="og:description" content="一般我們數學上稱 $f: \mathbb{R} \rightarrow \mathbb{R}$ 為函數 function。 然而，如果一個函數可以接受另一個函數作為他的輸入變數，而輸出是一個純量，$F: S \rightarrow \mathbb{R}$ 泛函 functional，其中 $S$ 是一個向量空間，函數是一種廣義的向量。 在最佳化理論或是機器學習當中最常遇到的就是損失函數 $\mat">
-<meta property="og:locale" content="zh-tw">
-<meta property="og:updated_time" content="2019-09-06T03:22:22.301Z">
+<meta property="og:locale" content="zh_TW">
+<meta property="article:published_time" content="2019-01-15T12:34:54.000Z">
+<meta property="article:modified_time" content="2019-09-06T03:22:22.301Z">
+<meta property="article:author" content="Yueh-Hua Tu">
+<meta property="article:tag" content="machine learning">
+<meta property="article:tag" content="deep learning">
+<meta property="article:tag" content="topology">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="Functional">
-<meta name="twitter:description" content="一般我們數學上稱 $f: \mathbb{R} \rightarrow \mathbb{R}$ 為函數 function。 然而，如果一個函數可以接受另一個函數作為他的輸入變數，而輸出是一個純量，$F: S \rightarrow \mathbb{R}$ 泛函 functional，其中 $S$ 是一個向量空間，函數是一種廣義的向量。 在最佳化理論或是機器學習當中最常遇到的就是損失函數 $\mat">
     
     
         
@@ -37,7 +39,9 @@
     
     
     <!--STYLES-->
-    <link rel="stylesheet" href="/assets/css/style-3frockyt2j28isvdztjchy5nhkz8tjki9ermufc1ckptmvjdftux94m2ahub.min.css">
+    
+<link rel="stylesheet" href="/assets/css/style-3frockyt2j28isvdztjchy5nhkz8tjki9ermufc1ckptmvjdftux94m2ahub.min.css">
+
     <!--STYLES END-->
     
     <script type="text/javascript">
@@ -50,13 +54,13 @@
 
         ga('create', 'UA-119690895-1', 'auto');
         ga('send', 'pageview');
-    </script><!-- hexo-inject:begin --><!-- hexo-inject:end -->
+    </script>
     
     
 </head>
 
     <body>
-        <!-- hexo-inject:begin --><!-- hexo-inject:end --><div id="blog">
+        <div id="blog">
             <!-- Define author's picture -->
 
 
@@ -65,7 +69,7 @@
 <header id="header" data-behavior="5">
     <i id="btn-open-sidebar" class="fa fa-lg fa-bars"></i>
     <div class="header-title">
-        <a class="header-title-link" href="/ ">Dream Maker</a>
+        <a class="header-title-link" href="/%20">Dream Maker</a>
     </div>
     
         
@@ -89,7 +93,7 @@
                 <li class="sidebar-button">
                     
                         <a  class="sidebar-button-link "
-                             href="/ "
+                             href="/%20"
                             
                             title="首頁"
                         >
@@ -349,7 +353,7 @@
                                                     
                                                         
                                                             <div id="disqus_thread">
-    <noscript>Please enable JavaScript to view the <a href="//disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+    <noscript>Please enable JavaScript to view the <a href="//disqus.com/?ref_noscript" target="_blank" rel="noopener">comments powered by Disqus.</a></noscript>
 </div>
                                                                 
                                                                             
@@ -485,7 +489,9 @@
         
 <div id="cover" style="background-image:url('/assets/images/cover.jpg');"></div>
         <!--SCRIPTS-->
+
 <script src="/assets/js/script-xzfezjobyekpxrjktw5tz6muvzqfsbmo5n6atk3p5om9ulfptldi3p7cyqd8.min.js"></script>
+
 <!--SCRIPTS END-->
 
 
@@ -523,7 +529,5 @@
     });
 </script>
 <script src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
-<!-- <script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script> -->
-<!-- <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3.0.0/es5/tex-mml-chtml.js"></script> --><!-- hexo-inject:begin --><!-- hexo-inject:end -->
 </body>
 </html>

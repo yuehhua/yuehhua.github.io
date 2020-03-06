@@ -3,7 +3,7 @@
 <html lang="zh-tw,en,default">
     
 <head>
-    <!-- hexo-inject:begin --><!-- hexo-inject:end --><meta charset="UTF-8">
+    <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="generator" content="Dream Maker">
     <title>Julia 的 inbounds - Dream Maker</title>
@@ -15,19 +15,19 @@
     
         <link rel="alternate" type="application/atom+xml" title="RSS" href="/atom.xml">
     
-    <script type="application/ld+json">{"@context":"http://schema.org","@type":"BlogPosting","author":{"@type":"Person","name":"Yueh-Hua Tu","sameAs":["https://github.com/yuehhua/","https://www.facebook.com/a504082002","https://www.linkedin.com/in/%E5%B2%B3%E8%8F%AF-%E6%9D%9C-6a3995a0/","mailto:a504082002@gmail.com"],"image":"https://www.gravatar.com/avatar/a565749fba4782b717234da670b273fd"},"articleBody":"有在做套件開發的開發者們應該不陌生 @inbounds 這個 macro，在很多現代程式語言中也有。\n在存取陣列時，為了安全性與正確性的考量，避免存取到陣列範圍以外的記憶體位置，很多語言都設置了邊界檢查（bounds check）。\n邊界檢查會檢查所存取的索引值是否在陣列的範圍內，但是這樣的檢查會有些微的效能損耗，尤其在迴圈內的情況更有可能被累積而放大，關於 Julia 的 邊界檢查可以參考官方文件 Bounds checking。\n如果可以確定所存取的索引值一定在範圍內，我們就可以把邊界檢查給移除，以加速陣列的存取。如以下範例：\n1234A = rand(3, 4)@inbounds for i = 1:size(A, 1)    println(A[i, :])end\n或是\n1234A = rand(3, 4)for i = 1:size(A, 1)    @inbounds println(A[i, :])end\n@inbounds 會將程式碼區塊中的邊界檢查給移除，可以參考 @inbounds 的官方文件。使用時必須注意存取的索引值，否則小則存取的值錯誤，大則可能導致程式崩潰。\n先養成好的索引習慣，再考慮將效能提升，加入 @inbounds。相關的資訊也紀錄在官方的效能建議中。\n","dateCreated":"2019-09-06T11:17:13+08:00","dateModified":"2019-09-06T11:17:13+08:00","datePublished":"2019-09-06T11:17:13+08:00","description":"","headline":"Julia 的 inbounds","image":[],"mainEntityOfPage":{"@type":"WebPage","@id":"https://yuehhua.github.io/2019/09/06/inbounds-in-julia/"},"publisher":{"@type":"Organization","name":"Yueh-Hua Tu","sameAs":["https://github.com/yuehhua/","https://www.facebook.com/a504082002","https://www.linkedin.com/in/%E5%B2%B3%E8%8F%AF-%E6%9D%9C-6a3995a0/","mailto:a504082002@gmail.com"],"image":"https://www.gravatar.com/avatar/a565749fba4782b717234da670b273fd","logo":{"@type":"ImageObject","url":"https://www.gravatar.com/avatar/a565749fba4782b717234da670b273fd"}},"url":"https://yuehhua.github.io/2019/09/06/inbounds-in-julia/","keywords":"optimization"}</script>
+    <script type="application/ld+json">{"@context":"http://schema.org","@type":"BlogPosting","author":{"@type":"Person","name":"Yueh-Hua Tu","sameAs":["https://github.com/yuehhua/","https://www.facebook.com/a504082002","https://www.linkedin.com/in/%E5%B2%B3%E8%8F%AF-%E6%9D%9C-6a3995a0/","mailto:a504082002@gmail.com"],"image":"https://www.gravatar.com/avatar/a565749fba4782b717234da670b273fd"},"articleBody":"有在做套件開發的開發者們應該不陌生 @inbounds 這個 macro，在很多現代程式語言中也有。\n在存取陣列時，為了安全性與正確性的考量，避免存取到陣列範圍以外的記憶體位置，很多語言都設置了邊界檢查（bounds check）。\n邊界檢查會檢查所存取的索引值是否在陣列的範圍內，但是這樣的檢查會有些微的效能損耗，尤其在迴圈內的情況更有可能被累積而放大，關於 Julia 的 邊界檢查可以參考官方文件 Bounds checking。\n如果可以確定所存取的索引值一定在範圍內，我們就可以把邊界檢查給移除，以加速陣列的存取。如以下範例：\n1234A &#x3D; rand(3, 4)@inbounds for i &#x3D; 1:size(A, 1)    println(A[i, :])end\n或是\n1234A &#x3D; rand(3, 4)for i &#x3D; 1:size(A, 1)    @inbounds println(A[i, :])end\n@inbounds 會將程式碼區塊中的邊界檢查給移除，可以參考 @inbounds 的官方文件。使用時必須注意存取的索引值，否則小則存取的值錯誤，大則可能導致程式崩潰。\n先養成好的索引習慣，再考慮將效能提升，加入 @inbounds。相關的資訊也紀錄在官方的效能建議中。\n","dateCreated":"2019-09-06T11:17:13+08:00","dateModified":"2019-09-06T11:17:13+08:00","datePublished":"2019-09-06T11:17:13+08:00","description":"","headline":"Julia 的 inbounds","image":[],"mainEntityOfPage":{"@type":"WebPage","@id":"https://yuehhua.github.io/2019/09/06/inbounds-in-julia/"},"publisher":{"@type":"Organization","name":"Yueh-Hua Tu","sameAs":["https://github.com/yuehhua/","https://www.facebook.com/a504082002","https://www.linkedin.com/in/%E5%B2%B3%E8%8F%AF-%E6%9D%9C-6a3995a0/","mailto:a504082002@gmail.com"],"image":"https://www.gravatar.com/avatar/a565749fba4782b717234da670b273fd","logo":{"@type":"ImageObject","url":"https://www.gravatar.com/avatar/a565749fba4782b717234da670b273fd"}},"url":"https://yuehhua.github.io/2019/09/06/inbounds-in-julia/","keywords":"optimization"}</script>
     <meta name="description" content="有在做套件開發的開發者們應該不陌生 @inbounds 這個 macro，在很多現代程式語言中也有。 在存取陣列時，為了安全性與正確性的考量，避免存取到陣列範圍以外的記憶體位置，很多語言都設置了邊界檢查（bounds check）。 邊界檢查會檢查所存取的索引值是否在陣列的範圍內，但是這樣的檢查會有些微的效能損耗，尤其在迴圈內的情況更有可能被累積而放大，關於 Julia 的 邊界檢查可以參考官方文">
-<meta name="keywords" content="optimization">
 <meta property="og:type" content="blog">
 <meta property="og:title" content="Julia 的 inbounds">
 <meta property="og:url" content="https://yuehhua.github.io/2019/09/06/inbounds-in-julia/index.html">
 <meta property="og:site_name" content="Dream Maker">
 <meta property="og:description" content="有在做套件開發的開發者們應該不陌生 @inbounds 這個 macro，在很多現代程式語言中也有。 在存取陣列時，為了安全性與正確性的考量，避免存取到陣列範圍以外的記憶體位置，很多語言都設置了邊界檢查（bounds check）。 邊界檢查會檢查所存取的索引值是否在陣列的範圍內，但是這樣的檢查會有些微的效能損耗，尤其在迴圈內的情況更有可能被累積而放大，關於 Julia 的 邊界檢查可以參考官方文">
-<meta property="og:locale" content="zh-tw">
-<meta property="og:updated_time" content="2019-09-06T03:17:13.549Z">
+<meta property="og:locale" content="zh_TW">
+<meta property="article:published_time" content="2019-09-06T03:17:13.000Z">
+<meta property="article:modified_time" content="2019-09-06T03:17:13.549Z">
+<meta property="article:author" content="Yueh-Hua Tu">
+<meta property="article:tag" content="optimization">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="Julia 的 inbounds">
-<meta name="twitter:description" content="有在做套件開發的開發者們應該不陌生 @inbounds 這個 macro，在很多現代程式語言中也有。 在存取陣列時，為了安全性與正確性的考量，避免存取到陣列範圍以外的記憶體位置，很多語言都設置了邊界檢查（bounds check）。 邊界檢查會檢查所存取的索引值是否在陣列的範圍內，但是這樣的檢查會有些微的效能損耗，尤其在迴圈內的情況更有可能被累積而放大，關於 Julia 的 邊界檢查可以參考官方文">
     
     
         
@@ -37,7 +37,9 @@
     
     
     <!--STYLES-->
-    <link rel="stylesheet" href="/assets/css/style-3frockyt2j28isvdztjchy5nhkz8tjki9ermufc1ckptmvjdftux94m2ahub.min.css">
+    
+<link rel="stylesheet" href="/assets/css/style-3frockyt2j28isvdztjchy5nhkz8tjki9ermufc1ckptmvjdftux94m2ahub.min.css">
+
     <!--STYLES END-->
     
     <script type="text/javascript">
@@ -50,13 +52,13 @@
 
         ga('create', 'UA-119690895-1', 'auto');
         ga('send', 'pageview');
-    </script><!-- hexo-inject:begin --><!-- hexo-inject:end -->
+    </script>
     
     
 </head>
 
     <body>
-        <!-- hexo-inject:begin --><!-- hexo-inject:end --><div id="blog">
+        <div id="blog">
             <!-- Define author's picture -->
 
 
@@ -65,7 +67,7 @@
 <header id="header" data-behavior="5">
     <i id="btn-open-sidebar" class="fa fa-lg fa-bars"></i>
     <div class="header-title">
-        <a class="header-title-link" href="/ ">Dream Maker</a>
+        <a class="header-title-link" href="/%20">Dream Maker</a>
     </div>
     
         
@@ -89,7 +91,7 @@
                 <li class="sidebar-button">
                     
                         <a  class="sidebar-button-link "
-                             href="/ "
+                             href="/%20"
                             
                             title="首頁"
                         >
@@ -267,9 +269,9 @@
 <p>在存取陣列時，為了安全性與正確性的考量，避免存取到陣列範圍以外的記憶體位置，很多語言都設置了邊界檢查（bounds check）。</p>
 <p>邊界檢查會檢查所存取的索引值是否在陣列的範圍內，但是這樣的檢查會有些微的效能損耗，尤其在迴圈內的情況更有可能被累積而放大，關於 Julia 的 邊界檢查可以參考官方文件 <a href="https://docs.julialang.org/en/v1/devdocs/boundscheck/index.html" target="_blank" rel="noopener">Bounds checking</a>。</p>
 <p>如果可以確定所存取的索引值一定在範圍內，我們就可以把邊界檢查給移除，以加速陣列的存取。如以下範例：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">A = rand(3, 4)</span><br><span class="line">@inbounds for i = 1:size(A, 1)</span><br><span class="line">    println(A[i, :])</span><br><span class="line">end</span><br></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">A &#x3D; rand(3, 4)</span><br><span class="line">@inbounds for i &#x3D; 1:size(A, 1)</span><br><span class="line">    println(A[i, :])</span><br><span class="line">end</span><br></pre></td></tr></table></figure>
 <p>或是</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">A = rand(3, 4)</span><br><span class="line">for i = 1:size(A, 1)</span><br><span class="line">    @inbounds println(A[i, :])</span><br><span class="line">end</span><br></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">A &#x3D; rand(3, 4)</span><br><span class="line">for i &#x3D; 1:size(A, 1)</span><br><span class="line">    @inbounds println(A[i, :])</span><br><span class="line">end</span><br></pre></td></tr></table></figure>
 <p><code>@inbounds</code> 會將程式碼區塊中的邊界檢查給移除，可以參考 <code>@inbounds</code> 的<a href="https://docs.julialang.org/en/latest/base/base/#Base.@inbounds" target="_blank" rel="noopener">官方文件</a>。使用時必須注意存取的索引值，否則小則存取的值錯誤，大則可能導致程式崩潰。</p>
 <p>先養成好的索引習慣，再考慮將效能提升，加入 <code>@inbounds</code>。相關的資訊也紀錄在官方的<a href="https://docs.julialang.org/en/latest/manual/performance-tips/#man-performance-annotations-1" target="_blank" rel="noopener">效能建議</a>中。</p>
 
@@ -285,7 +287,7 @@
                                         </span>
                                         <br/>
                                         
-    <a class="tag tag--primary tag--small t-link" href="/tags/optimization/">optimization</a>
+    <a class="tag tag--primary tag--small t-link" href="/tags/optimization/" rel="tag">optimization</a>
 
                                     </div>
                                     
@@ -352,7 +354,7 @@
                                                     
                                                         
                                                             <div id="disqus_thread">
-    <noscript>Please enable JavaScript to view the <a href="//disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+    <noscript>Please enable JavaScript to view the <a href="//disqus.com/?ref_noscript" target="_blank" rel="noopener">comments powered by Disqus.</a></noscript>
 </div>
                                                                 
                                                                             
@@ -488,7 +490,9 @@
         
 <div id="cover" style="background-image:url('/assets/images/cover.jpg');"></div>
         <!--SCRIPTS-->
+
 <script src="/assets/js/script-xzfezjobyekpxrjktw5tz6muvzqfsbmo5n6atk3p5om9ulfptldi3p7cyqd8.min.js"></script>
+
 <!--SCRIPTS END-->
 
 
@@ -526,7 +530,5 @@
     });
 </script>
 <script src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
-<!-- <script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script> -->
-<!-- <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3.0.0/es5/tex-mml-chtml.js"></script> --><!-- hexo-inject:begin --><!-- hexo-inject:end -->
 </body>
 </html>

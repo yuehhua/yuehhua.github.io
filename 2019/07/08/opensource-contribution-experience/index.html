@@ -3,7 +3,7 @@
 <html lang="zh-tw,en,default">
     
 <head>
-    <!-- hexo-inject:begin --><!-- hexo-inject:end --><meta charset="UTF-8">
+    <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="generator" content="Dream Maker">
     <title>一次開源專案貢獻經驗 - Dream Maker</title>
@@ -17,17 +17,19 @@
     
     <script type="application/ld+json">{"@context":"http://schema.org","@type":"BlogPosting","author":{"@type":"Person","name":"Yueh-Hua Tu","sameAs":["https://github.com/yuehhua/","https://www.facebook.com/a504082002","https://www.linkedin.com/in/%E5%B2%B3%E8%8F%AF-%E6%9D%9C-6a3995a0/","mailto:a504082002@gmail.com"],"image":"https://www.gravatar.com/avatar/a565749fba4782b717234da670b273fd"},"articleBody":"來分享一下最近貢獻開源專案的小心得，雖然我自己貢獻開源專案的次數跟時間不是很多，不過一個 PR 可以產生不少文字跟討論算是值得紀錄一下的。\n我自己在 Julia 的一個統計相關的專案上發了一個 PR，希望補齊在標準化上的一些功能，並且可以支援一維的陣列標準化。\n\n起初，我只想用最簡單、直接的方式可以相容於原本的 API，並且達到我想要的功能。\n後來專案的審查者希望我將較為底層的功能一起做調整，在不是很情願的情形下，我提出了我認為比較好的修改方案。畢竟動下去等於是整個架構要重新改掉了。\n幾次的來回討論以及確認目標後，我確實需要把這部份的功能全部打掉重做。\n其中包含審查者注意到 Julia 是個 column-major 的語言，原本的 row-major 的計算方式要改掉，以讓效能最大化。要如何處理 API 的更動，無非是加入 deprecation warning，然後還得考慮預設值的問題，在這邊審查者一直無法決定預設值該是什麼。\n再來是，由 API 將資料收進來之後，該如何有效率而優雅地處理資料是個問題。有效率代表程式碼不能有多餘的動作，包含多餘的記憶體耗用、轉置與否。優雅代表 API 底下設計的函式之間的轉換跟呼叫也需要保持簡潔跟可讀性，如函數式程式設計般簡潔，如物件導向般可讀性，不能有重複的程式碼（Don’t repeat yourself, DRY）。像是在 API 下層還要繼續設計 API 一般，直到最底層演算法都要保持這樣的原則，你不會有機會做骯髒的手腳。\n來來回回在 PR 上的討論，一則都會有十行以上的文字。想必工程師最討厭的就是需要不斷地跟別人溝通想法，會不斷有想法拋出去，也不斷地被否決，理由通常都是這麼做不夠簡潔、不夠有可讀性、不夠有效率。\n不過我想我們的目標是一致的，希望貢獻開源專案，無非是將好的東西貢獻到專案上。種種的批評跟新想法都是促進彼此的成長，有時候是我的方法不夠有效率，有時候是審查者的想法無法通過自動測試，這時候他會為他的想法道歉。我也曾經誤解了他的英文，讓他需要再重新解釋一遍。\n很多時候會遇到一些挫折，像是我覺得他這樣做超級蠢，或是我辛辛苦苦改完一個版本上傳，但是對方卻隔了一個禮拜沒有來看。我想除了技術以外，如何跟別人溝通就在這裡展現出重要性。我講講我自己的心法：\n\n開源專案是大家一起討論出來的結果，沒有辦法說是誰的 idea，除非你真的貢獻超級多或是是專案的擁有者。\n\n溝通的時候先溝通目的，將目的說明清楚，別讓別人摸不著頭緒或是不斷猜測浪費時間。\n\n溝通時請儘量客觀而表達明確，有必要的話，直接寫一個小的例子。\n\n不斷來回的議題通常會產生一些負面情緒，請耐著性子跟對方解釋清楚。在做的好的地方不吝給個稱讚或是表情符號。\n\n你認為是對的事情就該明確講出來，將事情說明清楚就好，不需要過於強烈的用字。\n\n\n到目前為止，PR 都還沒 merge，卻已經歷時了兩個月，累積了 93 次的對話，產生了 15 次的 commit。增加了 339 行程式碼，刪除了 112 程式碼，diff 100%，意味著所有程式碼都被我修改過了。不過我想這不會是最後一次，不過會是一次蠻特別的經驗。\n","dateCreated":"2019-07-08T22:08:04+08:00","dateModified":"2019-09-06T11:19:49+08:00","datePublished":"2019-07-08T22:08:04+08:00","description":"來分享一下最近貢獻開源專案的小心得，雖然我自己貢獻開源專案的次數跟時間不是很多，不過一個 PR 可以產生不少文字跟討論算是值得紀錄一下的。\n我自己在 Julia 的一個統計相關的專案上發了一個 PR，希望補齊在標準化上的一些功能，並且可以支援一維的陣列標準化。","headline":"一次開源專案貢獻經驗","image":[],"mainEntityOfPage":{"@type":"WebPage","@id":"https://yuehhua.github.io/2019/07/08/opensource-contribution-experience/"},"publisher":{"@type":"Organization","name":"Yueh-Hua Tu","sameAs":["https://github.com/yuehhua/","https://www.facebook.com/a504082002","https://www.linkedin.com/in/%E5%B2%B3%E8%8F%AF-%E6%9D%9C-6a3995a0/","mailto:a504082002@gmail.com"],"image":"https://www.gravatar.com/avatar/a565749fba4782b717234da670b273fd","logo":{"@type":"ImageObject","url":"https://www.gravatar.com/avatar/a565749fba4782b717234da670b273fd"}},"url":"https://yuehhua.github.io/2019/07/08/opensource-contribution-experience/"}</script>
     <meta name="description" content="來分享一下最近貢獻開源專案的小心得，雖然我自己貢獻開源專案的次數跟時間不是很多，不過一個 PR 可以產生不少文字跟討論算是值得紀錄一下的。 我自己在 Julia 的一個統計相關的專案上發了一個 PR，希望補齊在標準化上的一些功能，並且可以支援一維的陣列標準化。">
-<meta name="keywords" content="machine learning,deep learning,topology">
 <meta property="og:type" content="blog">
 <meta property="og:title" content="一次開源專案貢獻經驗">
 <meta property="og:url" content="https://yuehhua.github.io/2019/07/08/opensource-contribution-experience/index.html">
 <meta property="og:site_name" content="Dream Maker">
 <meta property="og:description" content="來分享一下最近貢獻開源專案的小心得，雖然我自己貢獻開源專案的次數跟時間不是很多，不過一個 PR 可以產生不少文字跟討論算是值得紀錄一下的。 我自己在 Julia 的一個統計相關的專案上發了一個 PR，希望補齊在標準化上的一些功能，並且可以支援一維的陣列標準化。">
-<meta property="og:locale" content="zh-tw">
-<meta property="og:updated_time" content="2019-09-06T03:19:49.032Z">
+<meta property="og:locale" content="zh_TW">
+<meta property="article:published_time" content="2019-07-08T14:08:04.000Z">
+<meta property="article:modified_time" content="2019-09-06T03:19:49.032Z">
+<meta property="article:author" content="Yueh-Hua Tu">
+<meta property="article:tag" content="machine learning">
+<meta property="article:tag" content="deep learning">
+<meta property="article:tag" content="topology">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="一次開源專案貢獻經驗">
-<meta name="twitter:description" content="來分享一下最近貢獻開源專案的小心得，雖然我自己貢獻開源專案的次數跟時間不是很多，不過一個 PR 可以產生不少文字跟討論算是值得紀錄一下的。 我自己在 Julia 的一個統計相關的專案上發了一個 PR，希望補齊在標準化上的一些功能，並且可以支援一維的陣列標準化。">
     
     
         
@@ -37,7 +39,9 @@
     
     
     <!--STYLES-->
-    <link rel="stylesheet" href="/assets/css/style-3frockyt2j28isvdztjchy5nhkz8tjki9ermufc1ckptmvjdftux94m2ahub.min.css">
+    
+<link rel="stylesheet" href="/assets/css/style-3frockyt2j28isvdztjchy5nhkz8tjki9ermufc1ckptmvjdftux94m2ahub.min.css">
+
     <!--STYLES END-->
     
     <script type="text/javascript">
@@ -50,13 +54,13 @@
 
         ga('create', 'UA-119690895-1', 'auto');
         ga('send', 'pageview');
-    </script><!-- hexo-inject:begin --><!-- hexo-inject:end -->
+    </script>
     
     
 </head>
 
     <body>
-        <!-- hexo-inject:begin --><!-- hexo-inject:end --><div id="blog">
+        <div id="blog">
             <!-- Define author's picture -->
 
 
@@ -65,7 +69,7 @@
 <header id="header" data-behavior="5">
     <i id="btn-open-sidebar" class="fa fa-lg fa-bars"></i>
     <div class="header-title">
-        <a class="header-title-link" href="/ ">Dream Maker</a>
+        <a class="header-title-link" href="/%20">Dream Maker</a>
     </div>
     
         
@@ -89,7 +93,7 @@
                 <li class="sidebar-button">
                     
                         <a  class="sidebar-button-link "
-                             href="/ "
+                             href="/%20"
                             
                             title="首頁"
                         >
@@ -357,7 +361,7 @@
                                                     
                                                         
                                                             <div id="disqus_thread">
-    <noscript>Please enable JavaScript to view the <a href="//disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+    <noscript>Please enable JavaScript to view the <a href="//disqus.com/?ref_noscript" target="_blank" rel="noopener">comments powered by Disqus.</a></noscript>
 </div>
                                                                 
                                                                             
@@ -493,7 +497,9 @@
         
 <div id="cover" style="background-image:url('/assets/images/cover.jpg');"></div>
         <!--SCRIPTS-->
+
 <script src="/assets/js/script-xzfezjobyekpxrjktw5tz6muvzqfsbmo5n6atk3p5om9ulfptldi3p7cyqd8.min.js"></script>
+
 <!--SCRIPTS END-->
 
 
@@ -531,7 +537,5 @@
     });
 </script>
 <script src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
-<!-- <script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script> -->
-<!-- <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3.0.0/es5/tex-mml-chtml.js"></script> --><!-- hexo-inject:begin --><!-- hexo-inject:end -->
 </body>
 </html>

@@ -3,7 +3,7 @@
 <html lang="zh-tw,en,default">
     
 <head>
-    <!-- hexo-inject:begin --><!-- hexo-inject:end --><meta charset="UTF-8">
+    <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="generator" content="Dream Maker">
     <title>我們為什麼需要 Deep Learning？ - Dream Maker</title>
@@ -17,21 +17,23 @@
     
     <script type="application/ld+json">{"@context":"http://schema.org","@type":"BlogPosting","author":{"@type":"Person","name":"Yueh-Hua Tu","sameAs":["https://github.com/yuehhua/","https://www.facebook.com/a504082002","https://www.linkedin.com/in/%E5%B2%B3%E8%8F%AF-%E6%9D%9C-6a3995a0/","mailto:a504082002@gmail.com"],"image":"https://www.gravatar.com/avatar/a565749fba4782b717234da670b273fd"},"articleBody":"目前我們 machine learning 的技術已經發展了非常久的時間，我們有非常多的模型可以幫我們做預測，包含像是 regression、classification、clustering、semi-supervised learning、reinforcement learning。這些都可以幫助我們去做出預測，或是從資料當中去挖掘知識跟資訊。這些模型需要數學與統計作為基礎。\n當你使用這些模型之後你會發現，你輸入的資料會大大的影響整個 performance，像是你給的 feature 不夠好，模型的表現就變得很糟糕，或是模型要預測的資訊根本不在這些 data 當中，那麼模型根本就預測不出來，所以玩過 machine learning 的人就會知道 feature engineering 的重要性。\n\n以往 feature engineering 是需要人自己手動處理的，如今我們也希望由 machine learning 的模型中自動學出來。大家可以看到我們的技術進展：從以往的手寫程式進展到經典的 machine learning 技術，這是一個巨大的飛躍。\n\n\nFrom Deep Learning by Ian Goodfellow and Yoshua Bengio and Aaron Courville\n\n\n&lt;/br&gt;&lt;/br&gt;\n他幫我們解決了什麼問題呢？以往的手寫程式需要工程師非常的聰明，他需要知道在 input 與 output 之間的所有規則，然後把這些規則化成可以執行的程式，這些實作的過程需要花非常大量的人力跟腦力。\n&lt;/br&gt;\n\n&lt;/br&gt;\n然而，我們進展到 machine learning 的技術，我們試圖去收集一些資料，這些資料符合我們預期的 input 與 output 之間的關係。\n&lt;/br&gt;\n\n&lt;/br&gt;\n他可以幫我們將中間的 過程 連接起來，我們不需要去 手刻 或是 事先知道 這些過程，更何況自然界很多過程都是 人類沒辦法理解的 或是 還不知道的。\n&lt;/br&gt;\n\n&lt;/br&gt;\n這些過程在數學家的眼中就稱為 函數，對於機器學習專家來說，input 與 output 之間有無限多種函數的可能。哪一種可能才是最符合我們資料的長相的？我們希望挑出最有可能的那一種，就把那就把那一種當成是模型，並且輸出，這樣我們就能讓機器自動去學出 input 與 output 的對應關係，這是一個飛躍性的進展。\n&lt;/br&gt;\nFeature engineering接著我們意識到：我們還是需要手動去處理 feature。經典的 machine learning 模型只幫我們處理了 將 feature 對應到 output 的關係，我們還是得藉由 feature extraction 的技術來轉換，而我們很難知道什麼樣的feature extraction 才真正能夠把資料中我們想要的資訊萃取出來，這部分就進到 representation Learning 的範疇。\n&lt;/br&gt;\nAutomatic feature extraction在 feature extraction 的過程中，常常我們面對的是高維度的向量，由於我們很難去理解高維度的向量之間的轉換，導致我們在轉換的時候會遇上困難，我們根本不知道需要轉換成什麼樣維度的向量，我們也不知道中間需要什麼樣的轉換函數。在數學領域當中，有相關的領域稱為微分幾何，所以常常我們會討論在數學上的 manifold，representation learning 就是希望連同 feature extraction 以及 modeling 可以一併處理，也就是藉由 modeling 的過程會到回饋（從 gradient descent 等等方法），去引導 feature extraction 的過程，進而去學到 feature-feature 之間轉換的 模式。\n&lt;/br&gt;\nDeep learningDeep learning 就是一種 representation Learning。他希望 data 在高維度的轉換當中，可以去萃取出足夠而抽象的資訊，去進行預測。而 deep learning 只是將 feature-feature 之間的轉換模式以 layer-layer 之間的轉換實現，而高維的 feature vector 以 layer 的形式呈現。所以越深的網路代表著經過多次的函數處理跟萃取，所萃取的資訊的抽象程度越高，抽象程度越高，就越接近人類所想像的。\n","dateCreated":"2018-07-21T22:04:31+08:00","dateModified":"2018-10-15T15:03:18+08:00","datePublished":"2018-07-21T22:04:31+08:00","description":"目前我們 machine learning 的技術已經發展了非常久的時間，我們有非常多的模型可以幫我們做預測，包含像是 regression、classification、clustering、semi-supervised learning、reinforcement learning。這些都可以幫助我們去做出預測，或是從資料當中去挖掘知識跟資訊。這些模型需要數學與統計作為基礎。\n當你使用這些模型之後你會發現，你輸入的資料會大大的影響整個 performance，像是你給的 feature 不夠好，模型的表現就變得很糟糕，或是模型要預測的資訊根本不在這些 data 當中，那麼模型根本就預測不出來，所以玩過 machine learning 的人就會知道 feature engineering 的重要性。","headline":"我們為什麼需要 Deep Learning？","image":[],"mainEntityOfPage":{"@type":"WebPage","@id":"https://yuehhua.github.io/2018/07/21/why-deep-learning/"},"publisher":{"@type":"Organization","name":"Yueh-Hua Tu","sameAs":["https://github.com/yuehhua/","https://www.facebook.com/a504082002","https://www.linkedin.com/in/%E5%B2%B3%E8%8F%AF-%E6%9D%9C-6a3995a0/","mailto:a504082002@gmail.com"],"image":"https://www.gravatar.com/avatar/a565749fba4782b717234da670b273fd","logo":{"@type":"ImageObject","url":"https://www.gravatar.com/avatar/a565749fba4782b717234da670b273fd"}},"url":"https://yuehhua.github.io/2018/07/21/why-deep-learning/"}</script>
     <meta name="description" content="目前我們 machine learning 的技術已經發展了非常久的時間，我們有非常多的模型可以幫我們做預測，包含像是 regression、classification、clustering、semi-supervised learning、reinforcement learning。這些都可以幫助我們去做出預測，或是從資料當中去挖掘知識跟資訊。這些模型需要數學與統計作為基礎。 當你使用這些模">
-<meta name="keywords" content="machine learning,deep learning,topology">
 <meta property="og:type" content="blog">
 <meta property="og:title" content="我們為什麼需要 Deep Learning？">
 <meta property="og:url" content="https://yuehhua.github.io/2018/07/21/why-deep-learning/index.html">
 <meta property="og:site_name" content="Dream Maker">
 <meta property="og:description" content="目前我們 machine learning 的技術已經發展了非常久的時間，我們有非常多的模型可以幫我們做預測，包含像是 regression、classification、clustering、semi-supervised learning、reinforcement learning。這些都可以幫助我們去做出預測，或是從資料當中去挖掘知識跟資訊。這些模型需要數學與統計作為基礎。 當你使用這些模">
-<meta property="og:locale" content="zh-tw">
+<meta property="og:locale" content="zh_TW">
 <meta property="og:image" content="https://yuehhua.github.io/images/diagram-deep-learning.png">
 <meta property="og:image" content="https://yuehhua.github.io/images/before_ml.svg">
 <meta property="og:image" content="https://yuehhua.github.io/images/after_ml.svg">
 <meta property="og:image" content="https://yuehhua.github.io/images/mnist.svg">
-<meta property="og:updated_time" content="2018-10-15T07:03:18.340Z">
+<meta property="article:published_time" content="2018-07-21T14:04:31.000Z">
+<meta property="article:modified_time" content="2018-10-15T07:03:18.340Z">
+<meta property="article:author" content="Yueh-Hua Tu">
+<meta property="article:tag" content="machine learning">
+<meta property="article:tag" content="deep learning">
+<meta property="article:tag" content="topology">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="我們為什麼需要 Deep Learning？">
-<meta name="twitter:description" content="目前我們 machine learning 的技術已經發展了非常久的時間，我們有非常多的模型可以幫我們做預測，包含像是 regression、classification、clustering、semi-supervised learning、reinforcement learning。這些都可以幫助我們去做出預測，或是從資料當中去挖掘知識跟資訊。這些模型需要數學與統計作為基礎。 當你使用這些模">
 <meta name="twitter:image" content="https://yuehhua.github.io/images/diagram-deep-learning.png">
     
     
@@ -42,7 +44,9 @@
     
     
     <!--STYLES-->
-    <link rel="stylesheet" href="/assets/css/style-3frockyt2j28isvdztjchy5nhkz8tjki9ermufc1ckptmvjdftux94m2ahub.min.css">
+    
+<link rel="stylesheet" href="/assets/css/style-3frockyt2j28isvdztjchy5nhkz8tjki9ermufc1ckptmvjdftux94m2ahub.min.css">
+
     <!--STYLES END-->
     
     <script type="text/javascript">
@@ -55,13 +59,13 @@
 
         ga('create', 'UA-119690895-1', 'auto');
         ga('send', 'pageview');
-    </script><!-- hexo-inject:begin --><!-- hexo-inject:end -->
+    </script>
     
     
 </head>
 
     <body>
-        <!-- hexo-inject:begin --><!-- hexo-inject:end --><div id="blog">
+        <div id="blog">
             <!-- Define author's picture -->
 
 
@@ -70,7 +74,7 @@
 <header id="header" data-behavior="5">
     <i id="btn-open-sidebar" class="fa fa-lg fa-bars"></i>
     <div class="header-title">
-        <a class="header-title-link" href="/ ">Dream Maker</a>
+        <a class="header-title-link" href="/%20">Dream Maker</a>
     </div>
     
         
@@ -94,7 +98,7 @@
                 <li class="sidebar-button">
                     
                         <a  class="sidebar-button-link "
-                             href="/ "
+                             href="/%20"
                             
                             title="首頁"
                         >
@@ -272,7 +276,7 @@
 <p>當你使用這些模型之後你會發現，你輸入的資料會大大的影響整個 performance，像是你給的 feature 不夠好，模型的表現就變得很糟糕，或是模型要預測的資訊根本不在這些 data 當中，那麼模型根本就預測不出來，所以玩過 machine learning 的人就會知道 feature engineering 的重要性。</p>
 <a id="more"></a>
 <p>以往 feature engineering 是需要人自己手動處理的，如今我們也希望由 machine learning 的模型中自動學出來。大家可以看到我們的技術進展：從以往的手寫程式進展到經典的 machine learning 技術，這是一個巨大的飛躍。</p>
-<p><img src="/images/diagram-deep-learning.png" alt></p>
+<p><img src="/images/diagram-deep-learning.png" alt=""></p>
 <blockquote>
 <p>From <a href="https://www.amazon.com/Deep-Learning-Adaptive-Computation-Machine/dp/0262035618/ref=sr_1_1?ie=UTF8&amp;qid=1472485235&amp;sr=8-1&amp;keywords=deep+learning+book" target="_blank" rel="noopener"><em>Deep Learning</em></a> by Ian Goodfellow and Yoshua Bengio and Aaron Courville</p>
 </blockquote>
@@ -280,15 +284,15 @@
 <p>&lt;/br&gt;&lt;/br&gt;</p>
 <h2 id="他幫我們解決了什麼問題呢？"><a href="#他幫我們解決了什麼問題呢？" class="headerlink" title="他幫我們解決了什麼問題呢？"></a>他幫我們解決了什麼問題呢？</h2><p>以往的手寫程式需要工程師非常的聰明，他需要知道在 input 與 output 之間的所有規則，然後把這些規則化成可以執行的程式，這些實作的過程需要花非常大量的人力跟腦力。</p>
 <p>&lt;/br&gt;</p>
-<p><img src="/images/before_ml.svg" alt></p>
+<p><img src="/images/before_ml.svg" alt=""></p>
 <p>&lt;/br&gt;</p>
 <p>然而，我們進展到 machine learning 的技術，我們試圖去收集一些資料，這些資料符合我們預期的 input 與 output 之間的關係。</p>
 <p>&lt;/br&gt;</p>
-<p><img src="/images/after_ml.svg" alt></p>
+<p><img src="/images/after_ml.svg" alt=""></p>
 <p>&lt;/br&gt;</p>
 <p>他可以幫我們將中間的 <strong>過程</strong> 連接起來，我們不需要去 <em>手刻</em> 或是 <em>事先知道</em> 這些過程，更何況自然界很多過程都是 <strong><em>人類沒辦法理解的</em></strong> 或是 <strong><em>還不知道的</em></strong>。</p>
 <p>&lt;/br&gt;</p>
-<p><img src="/images/mnist.svg" alt></p>
+<p><img src="/images/mnist.svg" alt=""></p>
 <p>&lt;/br&gt;</p>
 <p>這些過程在數學家的眼中就稱為 <strong>函數</strong>，對於機器學習專家來說，input 與 output 之間有無限多種函數的可能。哪一種可能才是最符合我們資料的長相的？我們希望挑出最有可能的那一種，就把那就把那一種當成是模型，並且輸出，這樣我們就能讓機器自動去學出 input 與 output 的對應關係，這是一個飛躍性的進展。</p>
 <p>&lt;/br&gt;</p>
@@ -367,7 +371,7 @@
                                                     
                                                         
                                                             <div id="disqus_thread">
-    <noscript>Please enable JavaScript to view the <a href="//disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+    <noscript>Please enable JavaScript to view the <a href="//disqus.com/?ref_noscript" target="_blank" rel="noopener">comments powered by Disqus.</a></noscript>
 </div>
                                                                 
                                                                             
@@ -503,7 +507,9 @@
         
 <div id="cover" style="background-image:url('/assets/images/cover.jpg');"></div>
         <!--SCRIPTS-->
+
 <script src="/assets/js/script-xzfezjobyekpxrjktw5tz6muvzqfsbmo5n6atk3p5om9ulfptldi3p7cyqd8.min.js"></script>
+
 <!--SCRIPTS END-->
 
 
@@ -541,7 +547,5 @@
     });
 </script>
 <script src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
-<!-- <script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script> -->
-<!-- <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3.0.0/es5/tex-mml-chtml.js"></script> --><!-- hexo-inject:begin --><!-- hexo-inject:end -->
 </body>
 </html>

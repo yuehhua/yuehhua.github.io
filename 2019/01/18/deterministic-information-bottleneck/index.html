@@ -3,7 +3,7 @@
 <html lang="zh-tw,en,default">
     
 <head>
-    <!-- hexo-inject:begin --><!-- hexo-inject:end --><meta charset="UTF-8">
+    <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="generator" content="Dream Maker">
     <title>The Deterministic Information Bottleneck - Dream Maker</title>
@@ -15,19 +15,21 @@
     
         <link rel="alternate" type="application/atom+xml" title="RSS" href="/atom.xml">
     
-    <script type="application/ld+json">{"@context":"http://schema.org","@type":"BlogPosting","author":{"@type":"Person","name":"Yueh-Hua Tu","sameAs":["https://github.com/yuehhua/","https://www.facebook.com/a504082002","https://www.linkedin.com/in/%E5%B2%B3%E8%8F%AF-%E6%9D%9C-6a3995a0/","mailto:a504082002@gmail.com"],"image":"https://www.gravatar.com/avatar/a565749fba4782b717234da670b273fd"},"articleBody":"在 Information Bottleneck 之後出現了不少驚豔的呼喊，也出現了指出這個方法的缺點及詮釋錯誤。\n在這之後有人專注在確定性這件事上。\n\n\n\ngraph LR\n    X -->|\"p(x, y)\"|Y\n    X -->|\"q(t|x)\"|T\n    T --- Y\n    X((X))\n    Y((Y))\n    T((T))\n\n$T$:\n\nsoft sufficient statistics (for statistics)\nlossy compression (for signal)\nmaximally informative clustering (for machine learning)\n\nIB\nmin\\ \\mathcal{L} [q(t|x)] = I(T; X) - \\beta I(T; Y), \\beta > 0$I(T; X)$: compression$I(T; Y)$: relevance\nMarkov constraint: $T \\leftarrow X \\leftrightarrow Y$\n\nq(t|x) = \\frac{q(t)}{Z(x, \\beta)} exp(- \\beta D_{KL} [p(y|x) || q(y|t)])) \\\\\\\\\nq(t) = \\sum_x p(x)q(t|x) \\\\\\\\\nq(y|t) = \\frac{1}{q(t)} \\sum_x p(y|x)q(t|x)p(x)$I(T; X)$ from channel coding, rate distortion theory\nDIB\nmin\\ \\mathcal{L} [q(t|x)] = H(T) - \\beta I(T; Y)$H(T)$: penalize coding itself$I(T; Y)$: lead to deterministic $\\mathcal{L}_{IB}$\n\n\\mathcal{L} _{IB} - \\mathcal{L} _{DIB} = I(T; X) - H(T) = -H(T|X)$\\mathcal{L}_{IB}$: implicit encourage of stochastic\nGeneralized IB\n\\mathcal{L}_{\\alpha} = H(T) - \\alpha H(T|X) - \\beta I(Y; T)$\\alpha = 1 \\Rightarrow \\mathcal{L} {IB}$: stochastic $\\rightarrow$ soft clustering$\\alpha = 0 \\Rightarrow \\mathcal{L} {DIB}$: deterministic $\\rightarrow$ hard clustering\n","dateCreated":"2019-01-18T11:39:06+08:00","dateModified":"2019-01-20T00:10:31+08:00","datePublished":"2019-01-18T11:39:06+08:00","description":"在 Information Bottleneck 之後出現了不少驚豔的呼喊，也出現了指出這個方法的缺點及詮釋錯誤。\n在這之後有人專注在確定性這件事上。","headline":"The Deterministic Information Bottleneck","image":[],"mainEntityOfPage":{"@type":"WebPage","@id":"https://yuehhua.github.io/2019/01/18/deterministic-information-bottleneck/"},"publisher":{"@type":"Organization","name":"Yueh-Hua Tu","sameAs":["https://github.com/yuehhua/","https://www.facebook.com/a504082002","https://www.linkedin.com/in/%E5%B2%B3%E8%8F%AF-%E6%9D%9C-6a3995a0/","mailto:a504082002@gmail.com"],"image":"https://www.gravatar.com/avatar/a565749fba4782b717234da670b273fd","logo":{"@type":"ImageObject","url":"https://www.gravatar.com/avatar/a565749fba4782b717234da670b273fd"}},"url":"https://yuehhua.github.io/2019/01/18/deterministic-information-bottleneck/"}</script>
+    <script type="application/ld+json">{"@context":"http://schema.org","@type":"BlogPosting","author":{"@type":"Person","name":"Yueh-Hua Tu","sameAs":["https://github.com/yuehhua/","https://www.facebook.com/a504082002","https://www.linkedin.com/in/%E5%B2%B3%E8%8F%AF-%E6%9D%9C-6a3995a0/","mailto:a504082002@gmail.com"],"image":"https://www.gravatar.com/avatar/a565749fba4782b717234da670b273fd"},"articleBody":"在 Information Bottleneck 之後出現了不少驚豔的呼喊，也出現了指出這個方法的缺點及詮釋錯誤。\n在這之後有人專注在確定性這件事上。\n\n\n\n1234567graph LR    X --&gt;|&quot;p(x, y)&quot;|Y    X --&gt;|&quot;q(t|x)&quot;|T    T --- Y    X((X))    Y((Y))    T((T))\n$T$:\n\nsoft sufficient statistics (for statistics)\nlossy compression (for signal)\nmaximally informative clustering (for machine learning)\n\nIB\nmin\\ \\mathcal{L} [q(t|x)] = I(T; X) - \\beta I(T; Y), \\beta > 0$I(T; X)$: compression$I(T; Y)$: relevance\nMarkov constraint: $T \\leftarrow X \\leftrightarrow Y$\n\nq(t|x) = \\frac{q(t)}{Z(x, \\beta)} exp(- \\beta D_{KL} [p(y|x) || q(y|t)])) \\\\\\\\\nq(t) = \\sum_x p(x)q(t|x) \\\\\\\\\nq(y|t) = \\frac{1}{q(t)} \\sum_x p(y|x)q(t|x)p(x)$I(T; X)$ from channel coding, rate distortion theory\nDIB\nmin\\ \\mathcal{L} [q(t|x)] = H(T) - \\beta I(T; Y)$H(T)$: penalize coding itself$I(T; Y)$: lead to deterministic $\\mathcal{L}_{IB}$\n\n\\mathcal{L} _{IB} - \\mathcal{L} _{DIB} = I(T; X) - H(T) = -H(T|X)$\\mathcal{L}_{IB}$: implicit encourage of stochastic\nGeneralized IB\n\\mathcal{L}_{\\alpha} = H(T) - \\alpha H(T|X) - \\beta I(Y; T)$\\alpha = 1 \\Rightarrow \\mathcal{L} {IB}$: stochastic $\\rightarrow$ soft clustering$\\alpha = 0 \\Rightarrow \\mathcal{L} {DIB}$: deterministic $\\rightarrow$ hard clustering\n","dateCreated":"2019-01-18T11:39:06+08:00","dateModified":"2019-01-20T00:10:31+08:00","datePublished":"2019-01-18T11:39:06+08:00","description":"在 Information Bottleneck 之後出現了不少驚豔的呼喊，也出現了指出這個方法的缺點及詮釋錯誤。\n在這之後有人專注在確定性這件事上。","headline":"The Deterministic Information Bottleneck","image":[],"mainEntityOfPage":{"@type":"WebPage","@id":"https://yuehhua.github.io/2019/01/18/deterministic-information-bottleneck/"},"publisher":{"@type":"Organization","name":"Yueh-Hua Tu","sameAs":["https://github.com/yuehhua/","https://www.facebook.com/a504082002","https://www.linkedin.com/in/%E5%B2%B3%E8%8F%AF-%E6%9D%9C-6a3995a0/","mailto:a504082002@gmail.com"],"image":"https://www.gravatar.com/avatar/a565749fba4782b717234da670b273fd","logo":{"@type":"ImageObject","url":"https://www.gravatar.com/avatar/a565749fba4782b717234da670b273fd"}},"url":"https://yuehhua.github.io/2019/01/18/deterministic-information-bottleneck/"}</script>
     <meta name="description" content="在 Information Bottleneck 之後出現了不少驚豔的呼喊，也出現了指出這個方法的缺點及詮釋錯誤。 在這之後有人專注在確定性這件事上。">
-<meta name="keywords" content="machine learning,deep learning,topology">
 <meta property="og:type" content="blog">
 <meta property="og:title" content="The Deterministic Information Bottleneck">
 <meta property="og:url" content="https://yuehhua.github.io/2019/01/18/deterministic-information-bottleneck/index.html">
 <meta property="og:site_name" content="Dream Maker">
 <meta property="og:description" content="在 Information Bottleneck 之後出現了不少驚豔的呼喊，也出現了指出這個方法的缺點及詮釋錯誤。 在這之後有人專注在確定性這件事上。">
-<meta property="og:locale" content="zh-tw">
-<meta property="og:updated_time" content="2019-01-19T16:10:31.676Z">
+<meta property="og:locale" content="zh_TW">
+<meta property="article:published_time" content="2019-01-18T03:39:06.000Z">
+<meta property="article:modified_time" content="2019-01-19T16:10:31.676Z">
+<meta property="article:author" content="Yueh-Hua Tu">
+<meta property="article:tag" content="machine learning">
+<meta property="article:tag" content="deep learning">
+<meta property="article:tag" content="topology">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="The Deterministic Information Bottleneck">
-<meta name="twitter:description" content="在 Information Bottleneck 之後出現了不少驚豔的呼喊，也出現了指出這個方法的缺點及詮釋錯誤。 在這之後有人專注在確定性這件事上。">
     
     
         
@@ -37,7 +39,9 @@
     
     
     <!--STYLES-->
-    <link rel="stylesheet" href="/assets/css/style-3frockyt2j28isvdztjchy5nhkz8tjki9ermufc1ckptmvjdftux94m2ahub.min.css">
+    
+<link rel="stylesheet" href="/assets/css/style-3frockyt2j28isvdztjchy5nhkz8tjki9ermufc1ckptmvjdftux94m2ahub.min.css">
+
     <!--STYLES END-->
     
     <script type="text/javascript">
@@ -50,13 +54,13 @@
 
         ga('create', 'UA-119690895-1', 'auto');
         ga('send', 'pageview');
-    </script><!-- hexo-inject:begin --><!-- hexo-inject:end -->
+    </script>
     
     
 </head>
 
     <body>
-        <!-- hexo-inject:begin --><!-- hexo-inject:end --><div id="blog">
+        <div id="blog">
             <!-- Define author's picture -->
 
 
@@ -65,7 +69,7 @@
 <header id="header" data-behavior="5">
     <i id="btn-open-sidebar" class="fa fa-lg fa-bars"></i>
     <div class="header-title">
-        <a class="header-title-link" href="/ ">Dream Maker</a>
+        <a class="header-title-link" href="/%20">Dream Maker</a>
     </div>
     
         
@@ -89,7 +93,7 @@
                 <li class="sidebar-button">
                     
                         <a  class="sidebar-button-link "
-                             href="/ "
+                             href="/%20"
                             
                             title="首頁"
                         >
@@ -268,14 +272,7 @@
 <a id="more"></a>
 <iframe width="560" height="315" src="https://www.youtube.com/embed/-D5b_zCJxrs" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
 
-<pre class="mermaid">graph LR
-    X -->|"p(x, y)"|Y
-    X -->|"q(t|x)"|T
-    T --- Y
-    X((X))
-    Y((Y))
-    T((T))</pre>
-
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">graph LR</span><br><span class="line">    X --&gt;|&quot;p(x, y)&quot;|Y</span><br><span class="line">    X --&gt;|&quot;q(t|x)&quot;|T</span><br><span class="line">    T --- Y</span><br><span class="line">    X((X))</span><br><span class="line">    Y((Y))</span><br><span class="line">    T((T))</span><br></pre></td></tr></table></figure>
 <p>$T$:</p>
 <ul>
 <li>soft sufficient statistics (for statistics)</li>
@@ -365,7 +362,7 @@ min\ \mathcal{L} [q(t|x)] = H(T) - \beta I(T; Y)</script><p>$H(T)$: penalize cod
                                                     
                                                         
                                                             <div id="disqus_thread">
-    <noscript>Please enable JavaScript to view the <a href="//disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+    <noscript>Please enable JavaScript to view the <a href="//disqus.com/?ref_noscript" target="_blank" rel="noopener">comments powered by Disqus.</a></noscript>
 </div>
                                                                 
                                                                             
@@ -501,7 +498,9 @@ min\ \mathcal{L} [q(t|x)] = H(T) - \beta I(T; Y)</script><p>$H(T)$: penalize cod
         
 <div id="cover" style="background-image:url('/assets/images/cover.jpg');"></div>
         <!--SCRIPTS-->
+
 <script src="/assets/js/script-xzfezjobyekpxrjktw5tz6muvzqfsbmo5n6atk3p5om9ulfptldi3p7cyqd8.min.js"></script>
+
 <!--SCRIPTS END-->
 
 
@@ -539,7 +538,5 @@ min\ \mathcal{L} [q(t|x)] = H(T) - \beta I(T; Y)</script><p>$H(T)$: penalize cod
     });
 </script>
 <script src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
-<!-- <script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script> -->
-<!-- <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3.0.0/es5/tex-mml-chtml.js"></script> --><!-- hexo-inject:begin --><!-- hexo-inject:end -->
 </body>
 </html>

@@ -3,7 +3,7 @@
 <html lang="zh-tw,en,default">
     
 <head>
-    <!-- hexo-inject:begin --><!-- hexo-inject:end --><meta charset="UTF-8">
+    <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="generator" content="Dream Maker">
     <title>11 廣義線性模型 - Dream Maker</title>
@@ -17,17 +17,19 @@
     
     <script type="application/ld+json">{"@context":"http://schema.org","@type":"BlogPosting","author":{"@type":"Person","name":"Yueh-Hua Tu","sameAs":["https://github.com/yuehhua/","https://www.facebook.com/a504082002","https://www.linkedin.com/in/%E5%B2%B3%E8%8F%AF-%E6%9D%9C-6a3995a0/","mailto:a504082002@gmail.com"],"image":"https://www.gravatar.com/avatar/a565749fba4782b717234da670b273fd"},"articleBody":"我們前面探討了不同的資料型態可以對應不同的迴歸模型。\n不覺得每個迴歸模型都有那麼點相似的地方嗎？\n\n線性迴歸：\n\n\\mathbb{E}[y] = \\mu = \\mathbf{w}^T\\mathbf{x} + b羅吉斯迴歸：\n\nln(\\frac{\\mathbb{E}[y]}{1 - \\mathbb{E}[y]}) = ln(\\frac{p}{1 - p}) = \\mathbf{w}^T\\mathbf{x} + bPoisson 迴歸：\n\nln(\\mathbb{E}[y]) = ln(\\lambda) = \\mathbf{w}^T\\mathbf{x} + b在右手邊的部份都是一樣的，是一樣的線性組合加上一個常數。\n差別在於預測出來的數值是怎麼連結到目標變量的平均值上 $\\mathbb{E}[y]$。\n是的，我們在預測的都是目標變量的平均值。\n鏈結函數（link function）要連結目標變量的平均值 $\\mathbb{E}[y]$ 跟線性組合加上一個常數…..，姑且叫他 $\\eta$ 好了。\n\n\\mathbb{E}[y] \\leftrightarrow \\eta統計學家發展出使用鏈結函數來連結這兩者，所以不同的資料型態會對應不同的鏈結函數。\n線性迴歸使用 identity function $y = x$：\n\n\\mathbb{E}[y] = \\eta羅吉斯迴歸使用 logit function $y = ln(\\frac{x}{1 - x})$：\n\nln(\\frac{\\mathbb{E}[y]}{1 - \\mathbb{E}[y]}) = \\etaPoisson 迴歸使用 log function $y = ln(x)$：\n\nln(\\mathbb{E}[y]) = \\eta廣義線性模型（generalized linear model）這麼一來我們就可以把三個模型搓一搓做成 撒尿牛丸 廣義線性模型啦！\n\ny \\overset{f}{\\longleftrightarrow} \\mathbb{E}[y] \\leftrightarrow \\eta = \\mathbf{w}^T\\mathbf{x} + b對應不同的目標變量，我們就有了萬用的模型，就像物理的大一統理論一樣。\n廣義線性模型其實包含了三個部份：\n\n鏈結函數\n線性預測子\n指數族\n\n線性預測子（linear predictor）統計學家特別給了一個線性預測子這樣的名字。\n\n\\eta = \\mathbf{w}^T\\mathbf{x} + b這代表要從預測變量 $\\mathbf{x}$ 去預測我們的目標變量，其中 $\\mathbf{x}$ 的變數之間都是 互相獨立 的。\n互相獨立的變數之間，要以 線性組合 來預測我們的目標變量。\n指數族（exponential family）可是每一種資料的機率分佈都可以接上廣義線性模型嗎？答案是否定的。\n\ny \\overset{f}{\\longleftrightarrow} \\mathbb{E}[y]統計學家研究了一下這個模型，發現只有符合指數族的條件才能夠用。\n指數族長成這樣：\n\nf(\\mathbf{y} \\mid \\boldsymbol{\\theta}) = \\frac{1}{Z(\\boldsymbol{\\theta})} h(\\mathbf{y}) exp(\\boldsymbol{\\theta}^T \\phi(\\mathbf{y}))$\\boldsymbol{\\theta}$ 是機率分佈的期望值，或是稱為 natural parameter。\n$\\phi(\\mathbf{y})$ 是 sufficient statisitcs，這邊有非常多有趣的東西，不過也有點理論。\n$Z(\\boldsymbol{\\theta})$ 稱為 partition function，是機率分佈的分母，常常會在不同的領域見到他，像是物理。\n$h(\\mathbf{y})$ 就是個縮放因子，沒什麼重要性，常常是 1。\n我知道大家可能會有很多疑問，但是礙於篇幅，我就不再繼續介紹下去了，這邊下去又是統計所一門課了。\n","dateCreated":"2018-10-11T13:16:28+08:00","dateModified":"2018-10-15T15:04:40+08:00","datePublished":"2018-10-11T13:16:28+08:00","description":"我們前面探討了不同的資料型態可以對應不同的迴歸模型。\n不覺得每個迴歸模型都有那麼點相似的地方嗎？","headline":"11 廣義線性模型","image":[],"mainEntityOfPage":{"@type":"WebPage","@id":"https://yuehhua.github.io/2018/10/11/11-generalized-linear-model/"},"publisher":{"@type":"Organization","name":"Yueh-Hua Tu","sameAs":["https://github.com/yuehhua/","https://www.facebook.com/a504082002","https://www.linkedin.com/in/%E5%B2%B3%E8%8F%AF-%E6%9D%9C-6a3995a0/","mailto:a504082002@gmail.com"],"image":"https://www.gravatar.com/avatar/a565749fba4782b717234da670b273fd","logo":{"@type":"ImageObject","url":"https://www.gravatar.com/avatar/a565749fba4782b717234da670b273fd"}},"url":"https://yuehhua.github.io/2018/10/11/11-generalized-linear-model/"}</script>
     <meta name="description" content="我們前面探討了不同的資料型態可以對應不同的迴歸模型。 不覺得每個迴歸模型都有那麼點相似的地方嗎？">
-<meta name="keywords" content="machine learning,deep learning,topology">
 <meta property="og:type" content="blog">
 <meta property="og:title" content="11 廣義線性模型">
 <meta property="og:url" content="https://yuehhua.github.io/2018/10/11/11-generalized-linear-model/index.html">
 <meta property="og:site_name" content="Dream Maker">
 <meta property="og:description" content="我們前面探討了不同的資料型態可以對應不同的迴歸模型。 不覺得每個迴歸模型都有那麼點相似的地方嗎？">
-<meta property="og:locale" content="zh-tw">
-<meta property="og:updated_time" content="2018-10-15T07:04:40.296Z">
+<meta property="og:locale" content="zh_TW">
+<meta property="article:published_time" content="2018-10-11T05:16:28.000Z">
+<meta property="article:modified_time" content="2018-10-15T07:04:40.296Z">
+<meta property="article:author" content="Yueh-Hua Tu">
+<meta property="article:tag" content="machine learning">
+<meta property="article:tag" content="deep learning">
+<meta property="article:tag" content="topology">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="11 廣義線性模型">
-<meta name="twitter:description" content="我們前面探討了不同的資料型態可以對應不同的迴歸模型。 不覺得每個迴歸模型都有那麼點相似的地方嗎？">
     
     
         
@@ -37,7 +39,9 @@
     
     
     <!--STYLES-->
-    <link rel="stylesheet" href="/assets/css/style-3frockyt2j28isvdztjchy5nhkz8tjki9ermufc1ckptmvjdftux94m2ahub.min.css">
+    
+<link rel="stylesheet" href="/assets/css/style-3frockyt2j28isvdztjchy5nhkz8tjki9ermufc1ckptmvjdftux94m2ahub.min.css">
+
     <!--STYLES END-->
     
     <script type="text/javascript">
@@ -50,13 +54,13 @@
 
         ga('create', 'UA-119690895-1', 'auto');
         ga('send', 'pageview');
-    </script><!-- hexo-inject:begin --><!-- hexo-inject:end -->
+    </script>
     
     
 </head>
 
     <body>
-        <!-- hexo-inject:begin --><!-- hexo-inject:end --><div id="blog">
+        <div id="blog">
             <!-- Define author's picture -->
 
 
@@ -65,7 +69,7 @@
 <header id="header" data-behavior="5">
     <i id="btn-open-sidebar" class="fa fa-lg fa-bars"></i>
     <div class="header-title">
-        <a class="header-title-link" href="/ ">Dream Maker</a>
+        <a class="header-title-link" href="/%20">Dream Maker</a>
     </div>
     
         
@@ -89,7 +93,7 @@
                 <li class="sidebar-button">
                     
                         <a  class="sidebar-button-link "
-                             href="/ "
+                             href="/%20"
                             
                             title="首頁"
                         >
@@ -251,7 +255,7 @@
     
         <span>分類 </span>
         
-    <a class="category-link" href="/categories/Machine-Learning/">Machine Learning</a>, <a class="category-link" href="/categories/Machine-Learning/機器學習模型圖書館：從傳統模型到深度學習/">機器學習模型圖書館：從傳統模型到深度學習</a>
+    <a class="category-link" href="/categories/Machine-Learning/">Machine Learning</a>, <a class="category-link" href="/categories/Machine-Learning/%E6%A9%9F%E5%99%A8%E5%AD%B8%E7%BF%92%E6%A8%A1%E5%9E%8B%E5%9C%96%E6%9B%B8%E9%A4%A8%EF%BC%9A%E5%BE%9E%E5%82%B3%E7%B5%B1%E6%A8%A1%E5%9E%8B%E5%88%B0%E6%B7%B1%E5%BA%A6%E5%AD%B8%E7%BF%92/">機器學習模型圖書館：從傳統模型到深度學習</a>
 
 
     
@@ -377,7 +381,7 @@ f(\mathbf{y} \mid \boldsymbol{\theta}) = \frac{1}{Z(\boldsymbol{\theta})} h(\mat
                                                     
                                                         
                                                             <div id="disqus_thread">
-    <noscript>Please enable JavaScript to view the <a href="//disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+    <noscript>Please enable JavaScript to view the <a href="//disqus.com/?ref_noscript" target="_blank" rel="noopener">comments powered by Disqus.</a></noscript>
 </div>
                                                                 
                                                                             
@@ -513,7 +517,9 @@ f(\mathbf{y} \mid \boldsymbol{\theta}) = \frac{1}{Z(\boldsymbol{\theta})} h(\mat
         
 <div id="cover" style="background-image:url('/assets/images/cover.jpg');"></div>
         <!--SCRIPTS-->
+
 <script src="/assets/js/script-xzfezjobyekpxrjktw5tz6muvzqfsbmo5n6atk3p5om9ulfptldi3p7cyqd8.min.js"></script>
+
 <!--SCRIPTS END-->
 
 
@@ -551,7 +557,5 @@ f(\mathbf{y} \mid \boldsymbol{\theta}) = \frac{1}{Z(\boldsymbol{\theta})} h(\mat
     });
 </script>
 <script src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
-<!-- <script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script> -->
-<!-- <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3.0.0/es5/tex-mml-chtml.js"></script> --><!-- hexo-inject:begin --><!-- hexo-inject:end -->
 </body>
 </html>

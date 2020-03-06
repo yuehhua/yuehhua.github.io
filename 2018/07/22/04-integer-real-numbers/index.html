@@ -3,7 +3,7 @@
 <html lang="zh-tw,en,default">
     
 <head>
-    <!-- hexo-inject:begin --><!-- hexo-inject:end --><meta charset="UTF-8">
+    <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="generator" content="Dream Maker">
     <title>The Integers and the Real Numbers - Dream Maker</title>
@@ -17,17 +17,19 @@
     
     <script type="application/ld+json">{"@context":"http://schema.org","@type":"BlogPosting","author":{"@type":"Person","name":"Yueh-Hua Tu","sameAs":["https://github.com/yuehhua/","https://www.facebook.com/a504082002","https://www.linkedin.com/in/%E5%B2%B3%E8%8F%AF-%E6%9D%9C-6a3995a0/","mailto:a504082002@gmail.com"],"image":"https://www.gravatar.com/avatar/a565749fba4782b717234da670b273fd"},"articleBody":"以上我們談了一些 邏輯的基礎，接下來我們會談一些 數學的基礎，也就是整數與實數系統。其實我們已經用了很多，非正式地，接下來我們會正式地討論他們。\n要 建構 實數系統的一個方法就是利用公理跟集合論來建構。\n\n首先我們需要從集合論出發，定義在 set $A$ 上的 二元運算子（binary operator）：\n\n Def.\n\n\nf: A \\times A \\rightarrow A我們在描述一個二元運算子的時候並不會如同以往的函數一樣， $f(a, a’)$，而是會把運算子寫在中間， $afa’$。一般來說，我們會用符號來表示，而不是字母，像是加號 $+$、乘號 $\\cdot$。\n假設我們假設存在一個 set $\\mathbb{R}$，代表實數，有兩個運算子分別是加法運算子 $+$、乘法運算子 $\\cdot$，以及一個次序關係 $\\lt$ 定義於 $\\mathbb{R}$ 上，會有以下特性：\n代數特性（Algebraic Properties）\n\n$(x + y) + z = x + (y + z), \\forall x, y, z \\in \\mathbb{R}$\n\n$(x \\cdot y) \\cdot z = x \\cdot (y \\cdot z), \\forall x, y, z \\in \\mathbb{R}$\n\n$x + y = y + x, \\forall x, y, z \\in \\mathbb{R}$\n\n$x \\cdot y = y \\cdot x, \\forall x, y, z \\in \\mathbb{R}$\n\n$\\exists! 0 \\in \\mathbb{R}, \\forall x \\in \\mathbb{R}, s.t. \\enspace x + 0 = x$\n\n$\\exists! 1 \\in \\mathbb{R}, \\forall x \\in \\mathbb{R}, s.t. \\enspace x \\cdot 1 = x$\n\n$for \\enspace each \\enspace x, \\exists! y, s.t. \\enspace x + y = 0$\n\n$for \\enspace each \\enspace x, \\exists! y, s.t. \\enspace x \\cdot y = 1$\n\n$x \\cdot (y + z) = (x \\cdot y) + (x \\cdot z), \\forall x, y, z \\in \\mathbb{R}$\n\n混合代數與次序特性（A Mixed Algebraic and Order Property）\n\n$If \\enspace x \\gt y, then \\enspace x + z \\gt y + z$\n\n$If \\enspace x \\gt y, z \\gt 0, then \\enspace x \\cdot z \\gt y \\cdot z$\n次序特性（Order Properties）\n\n次序關係 $\\lt$ 有最小上界性\n$If \\enspace x \\lt y, then \\enspace \\exists z \\enspace s.t. \\enspace x \\lt z, z \\lt y$\n\n由 1~5 點我們可以導出一些代數性質，像是負數、減法運算、倒數跟商的概念。我們可以定義正數（$x \\gt 0$）跟負數（$x \\lt 0$）。在代數領域，擁有 1~5 點特性的代數結構，我們會稱為域（field）。如果有包含第六點就稱為有序域（ordered field）。在拓樸領域我們通常會討論的是第7、8點，他只牽涉到次序關係，同時擁有這兩點的集合稱為線性連續統（linear continuum）。\n說到這邊我們還沒提到整數呢！我們就用前6點來定義整數（integer）。\n\n Def.\n\n$A \\subseteq \\mathbb{R} \\enspace is \\enspace inductive:$\n\n$1 \\in A$\n$\\forall x \\in A \\enspace s.t. \\enspace x + 1 \\in A$\n\n\n Def.\n\n$\\mathcal{A} \\enspace is \\enspace a \\enspace collection \\enspace of \\enspace all \\enspace inductive \\enspace subsets \\enspace of \\enspace \\mathbb{R}$$positive \\enspace integers \\enspace is \\enspace a \\enspace set \\enspace \\mathbb{N} = \\bigcap_{A \\in \\mathcal{A}} A$\n這樣的定義是很巧妙的，他其實只有明確的定義了1是在這個集合裡，後面都以 $x+ 1$ 的形式去推演，這稱為可歸納。而正整數是眾多可歸納集合的交集，可見正整數是最小的子集。\n正整數有些特性：\n\n正整數是可歸納的（inductive）\n（Principle of inductive）如果 set $A$ 是可歸納的，而且含正整數的集合，那麼 $A = \\mathbb{N}$\n\n與實數不同的是，他不會有第八點特性，也就是，$for \\enspace each \\enspace n \\in \\mathbb{N}, \\nexists a \\in \\mathbb{N} \\enspace s.t. \\enspace n \\lt a \\lt n + 1$。\n\n如果有個正整數 $n$，我們用 $S_{n}$ 來代表所有小於 $n$ 的正整數的集合，我們稱他為 section：\n\nS_{n + 1} = \\\\{1, \\dots , n\\\\}接下來我們會描述 證明 兩個可能不是很熟悉但很有用的特性，你可以看成是另一個版本的數學歸納法：\n\n Theorem: Well-ordering property\n\n\nS \\subseteq \\mathbb{N}, S \\neq \\emptyset, S \\enspace has \\enspace smallest \\enspace element.他描述了 $\\mathbb{N}$ 的非空子集，一定有最小元素。\n\n Theorem: Strong induction principle\n\n\nA \\enspace is \\enspace a \\enspace set \\enspace of \\enspace positive \\enspace integers,\nfor \\enspace each \\enspace n, S_n \\subseteq A \\enspace s.t. \\enspace n \\in A, then \\enspace A = \\mathbb{N}這邊描述了，對每個 $n$ 來說，由 $S_n \\subseteq A$ 可以推出 $n \\in A$ 的話，那麼 $A$ 就是 $\\mathbb{N}$。\n以上我們用了有序域中的第 1~6 點公理，那第 7 點呢？\n你用會用到第 7 點（最小上界公理）來證明，正整數集合 $\\mathbb{N}$ 在實數的集合 $\\mathbb{R}$ 中是沒有上界的。\n\nTheorom: Archimedean ordering property\n\n\nthe \\enspace  set \\enspace  \\mathbb{N} \\enspace  has \\enspace  no \\enspace  upper \\enspace  bound \\enspace  in \\enspace  \\mathbb{R}.","dateCreated":"2018-07-22T00:25:40+08:00","dateModified":"2018-07-26T13:29:10+08:00","datePublished":"2018-07-22T00:25:40+08:00","description":"以上我們談了一些 邏輯的基礎，接下來我們會談一些 數學的基礎，也就是整數與實數系統。其實我們已經用了很多，非正式地，接下來我們會正式地討論他們。\n要 建構 實數系統的一個方法就是利用公理跟集合論來建構。","headline":"The Integers and the Real Numbers","image":[],"mainEntityOfPage":{"@type":"WebPage","@id":"https://yuehhua.github.io/2018/07/22/04-integer-real-numbers/"},"publisher":{"@type":"Organization","name":"Yueh-Hua Tu","sameAs":["https://github.com/yuehhua/","https://www.facebook.com/a504082002","https://www.linkedin.com/in/%E5%B2%B3%E8%8F%AF-%E6%9D%9C-6a3995a0/","mailto:a504082002@gmail.com"],"image":"https://www.gravatar.com/avatar/a565749fba4782b717234da670b273fd","logo":{"@type":"ImageObject","url":"https://www.gravatar.com/avatar/a565749fba4782b717234da670b273fd"}},"url":"https://yuehhua.github.io/2018/07/22/04-integer-real-numbers/"}</script>
     <meta name="description" content="以上我們談了一些 邏輯的基礎，接下來我們會談一些 數學的基礎，也就是整數與實數系統。其實我們已經用了很多，非正式地，接下來我們會正式地討論他們。 要 建構 實數系統的一個方法就是利用公理跟集合論來建構。">
-<meta name="keywords" content="machine learning,deep learning,topology">
 <meta property="og:type" content="blog">
 <meta property="og:title" content="The Integers and the Real Numbers">
 <meta property="og:url" content="https://yuehhua.github.io/2018/07/22/04-integer-real-numbers/index.html">
 <meta property="og:site_name" content="Dream Maker">
 <meta property="og:description" content="以上我們談了一些 邏輯的基礎，接下來我們會談一些 數學的基礎，也就是整數與實數系統。其實我們已經用了很多，非正式地，接下來我們會正式地討論他們。 要 建構 實數系統的一個方法就是利用公理跟集合論來建構。">
-<meta property="og:locale" content="zh-tw">
-<meta property="og:updated_time" content="2018-07-26T05:29:10.262Z">
+<meta property="og:locale" content="zh_TW">
+<meta property="article:published_time" content="2018-07-21T16:25:40.000Z">
+<meta property="article:modified_time" content="2018-07-26T05:29:10.262Z">
+<meta property="article:author" content="Yueh-Hua Tu">
+<meta property="article:tag" content="machine learning">
+<meta property="article:tag" content="deep learning">
+<meta property="article:tag" content="topology">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="The Integers and the Real Numbers">
-<meta name="twitter:description" content="以上我們談了一些 邏輯的基礎，接下來我們會談一些 數學的基礎，也就是整數與實數系統。其實我們已經用了很多，非正式地，接下來我們會正式地討論他們。 要 建構 實數系統的一個方法就是利用公理跟集合論來建構。">
     
     
         
@@ -37,7 +39,9 @@
     
     
     <!--STYLES-->
-    <link rel="stylesheet" href="/assets/css/style-3frockyt2j28isvdztjchy5nhkz8tjki9ermufc1ckptmvjdftux94m2ahub.min.css">
+    
+<link rel="stylesheet" href="/assets/css/style-3frockyt2j28isvdztjchy5nhkz8tjki9ermufc1ckptmvjdftux94m2ahub.min.css">
+
     <!--STYLES END-->
     
     <script type="text/javascript">
@@ -50,13 +54,13 @@
 
         ga('create', 'UA-119690895-1', 'auto');
         ga('send', 'pageview');
-    </script><!-- hexo-inject:begin --><!-- hexo-inject:end -->
+    </script>
     
     
 </head>
 
     <body>
-        <!-- hexo-inject:begin --><!-- hexo-inject:end --><div id="blog">
+        <div id="blog">
             <!-- Define author's picture -->
 
 
@@ -65,7 +69,7 @@
 <header id="header" data-behavior="5">
     <i id="btn-open-sidebar" class="fa fa-lg fa-bars"></i>
     <div class="header-title">
-        <a class="header-title-link" href="/ ">Dream Maker</a>
+        <a class="header-title-link" href="/%20">Dream Maker</a>
     </div>
     
         
@@ -89,7 +93,7 @@
                 <li class="sidebar-button">
                     
                         <a  class="sidebar-button-link "
-                             href="/ "
+                             href="/%20"
                             
                             title="首頁"
                         >
@@ -415,7 +419,7 @@ the \enspace  set \enspace  \mathbb{N} \enspace  has \enspace  no \enspace  uppe
                                                     
                                                         
                                                             <div id="disqus_thread">
-    <noscript>Please enable JavaScript to view the <a href="//disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+    <noscript>Please enable JavaScript to view the <a href="//disqus.com/?ref_noscript" target="_blank" rel="noopener">comments powered by Disqus.</a></noscript>
 </div>
                                                                 
                                                                             
@@ -551,7 +555,9 @@ the \enspace  set \enspace  \mathbb{N} \enspace  has \enspace  no \enspace  uppe
         
 <div id="cover" style="background-image:url('/assets/images/cover.jpg');"></div>
         <!--SCRIPTS-->
+
 <script src="/assets/js/script-xzfezjobyekpxrjktw5tz6muvzqfsbmo5n6atk3p5om9ulfptldi3p7cyqd8.min.js"></script>
+
 <!--SCRIPTS END-->
 
 
@@ -589,7 +595,5 @@ the \enspace  set \enspace  \mathbb{N} \enspace  has \enspace  no \enspace  uppe
     });
 </script>
 <script src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
-<!-- <script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script> -->
-<!-- <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3.0.0/es5/tex-mml-chtml.js"></script> --><!-- hexo-inject:begin --><!-- hexo-inject:end -->
 </body>
 </html>

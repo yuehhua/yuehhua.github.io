@@ -3,7 +3,7 @@
 <html lang="zh-tw,en,default">
     
 <head>
-    <!-- hexo-inject:begin --><!-- hexo-inject:end --><meta charset="UTF-8">
+    <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="generator" content="Dream Maker">
     <title>07 標準 SVM - Dream Maker</title>
@@ -17,17 +17,19 @@
     
     <script type="application/ld+json">{"@context":"http://schema.org","@type":"BlogPosting","author":{"@type":"Person","name":"Yueh-Hua Tu","sameAs":["https://github.com/yuehhua/","https://www.facebook.com/a504082002","https://www.linkedin.com/in/%E5%B2%B3%E8%8F%AF-%E6%9D%9C-6a3995a0/","mailto:a504082002@gmail.com"],"image":"https://www.gravatar.com/avatar/a565749fba4782b717234da670b273fd"},"articleBody":"雖然標題是說”標準” SVM，不過模型這種東西從來就沒有什麼標準，有的不過是變體。\n所以這篇是要跟大家總結一下我們一般在用的 SVM 模型的預設值是長什麼樣子。\n\n我們前面從 maximum-margin classifier 出發，尋找最大 margin 的分類器。\n接著，為了解決非線性跟計算效能問題，引進了 kernel trick。\n最後，為了避免 overfitting，我們放寬了 margin 成為 soft-margin。\n這些都是標準 SVM 的預設配備。\n當然還有為了解決計算效能問題，使用了 Lagrange multiplier，由於背後的數學太過煩雜就不介紹了。\n簡單來說，Lagrange multiplier 的使用，讓原本的問題（primal problem）可以有另外的對偶問題（dual problem）。\n我們只要解了對偶問題，我們就可以解掉原本的問題，雖然有時候會碰到一些限制。\n原本問題的陳述是這樣的：\n\n\\begin{align}\n\\mathop{\\arg\\min}_{\\mathbf{w}, b, \\boldsymbol{\\xi}} &\\ \\ \\ \\ \n    \\frac{1}{2} \\mathbf{w}^T\\mathbf{w} + C \\sum _{n=1}^N \\xi_n \\\\\\\\\n\\text{subject to} &\\ \\ \\ \\ \n    \\forall i, y_i (\\mathbf{w}^T\\mathbf{x_i} + b) \\ge 1 - \\xi_n \\\\\\\\\n\\text{ } &\\ \\ \\ \\ \n    \\forall n, \\xi_n \\ge 0\n\\end{align}轉變成對偶問題然後簡化後的陳述是這樣的：\n\n\\begin{align}\n\\mathop{\\arg\\min}_{\\boldsymbol{\\alpha}} &\\ \\ \\ \\ \n    \\frac{1}{2} \\sum _{n=1}^{N} \\sum _{m=1}^{N} \\alpha_n \\alpha_m y_n y_m \\mathbf{z_n}^T\\mathbf{z_m} - \\sum _{n=1}^N \\alpha_n \\\\\\\\\n\\text{subject to} &\\ \\ \\ \\ \n    \\sum_{n=1}^{N} \\alpha_n y_n = 0, 0 \\le \\alpha_n \\le C \\\\\\\\\n\\text{ } &\\ \\ \\ \\ \n    \\mathbf{w} = \\sum_{n=1}^{N} \\alpha_n y_n \\mathbf{z_n}\n\\end{align}不要問我怎麼來的，你一問我就要開始另一篇數學了，你會怕。\n解完上面的問題，我們可以得到一些資訊，我們可以從 $\\alpha_n$ 的數值範圍來得知一個資料點他是不是 support vector。\n只要他的值在 $0 &lt; \\alpha_n &lt; C$ 這個範圍，他就是 support vector。\n我們最後在形成整個 SVM 模型的時候其實只需要這些 support vector 就可以了。\n\nSVM(\\mathbf{x}) = sign(\\sum_{SV} \\alpha_n y_n K(\\mathbf{x_n}, \\mathbf{x}) + b)","dateCreated":"2018-10-07T17:20:54+08:00","dateModified":"2018-10-15T15:05:16+08:00","datePublished":"2018-10-07T17:20:54+08:00","description":"雖然標題是說”標準” SVM，不過模型這種東西從來就沒有什麼標準，有的不過是變體。\n所以這篇是要跟大家總結一下我們一般在用的 SVM 模型的預設值是長什麼樣子。","headline":"07 標準 SVM","image":[],"mainEntityOfPage":{"@type":"WebPage","@id":"https://yuehhua.github.io/2018/10/07/07-standard-svm/"},"publisher":{"@type":"Organization","name":"Yueh-Hua Tu","sameAs":["https://github.com/yuehhua/","https://www.facebook.com/a504082002","https://www.linkedin.com/in/%E5%B2%B3%E8%8F%AF-%E6%9D%9C-6a3995a0/","mailto:a504082002@gmail.com"],"image":"https://www.gravatar.com/avatar/a565749fba4782b717234da670b273fd","logo":{"@type":"ImageObject","url":"https://www.gravatar.com/avatar/a565749fba4782b717234da670b273fd"}},"url":"https://yuehhua.github.io/2018/10/07/07-standard-svm/"}</script>
     <meta name="description" content="雖然標題是說”標準” SVM，不過模型這種東西從來就沒有什麼標準，有的不過是變體。 所以這篇是要跟大家總結一下我們一般在用的 SVM 模型的預設值是長什麼樣子。">
-<meta name="keywords" content="machine learning,deep learning,topology">
 <meta property="og:type" content="blog">
 <meta property="og:title" content="07 標準 SVM">
 <meta property="og:url" content="https://yuehhua.github.io/2018/10/07/07-standard-svm/index.html">
 <meta property="og:site_name" content="Dream Maker">
 <meta property="og:description" content="雖然標題是說”標準” SVM，不過模型這種東西從來就沒有什麼標準，有的不過是變體。 所以這篇是要跟大家總結一下我們一般在用的 SVM 模型的預設值是長什麼樣子。">
-<meta property="og:locale" content="zh-tw">
-<meta property="og:updated_time" content="2018-10-15T07:05:16.837Z">
+<meta property="og:locale" content="zh_TW">
+<meta property="article:published_time" content="2018-10-07T09:20:54.000Z">
+<meta property="article:modified_time" content="2018-10-15T07:05:16.837Z">
+<meta property="article:author" content="Yueh-Hua Tu">
+<meta property="article:tag" content="machine learning">
+<meta property="article:tag" content="deep learning">
+<meta property="article:tag" content="topology">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="07 標準 SVM">
-<meta name="twitter:description" content="雖然標題是說”標準” SVM，不過模型這種東西從來就沒有什麼標準，有的不過是變體。 所以這篇是要跟大家總結一下我們一般在用的 SVM 模型的預設值是長什麼樣子。">
     
     
         
@@ -37,7 +39,9 @@
     
     
     <!--STYLES-->
-    <link rel="stylesheet" href="/assets/css/style-3frockyt2j28isvdztjchy5nhkz8tjki9ermufc1ckptmvjdftux94m2ahub.min.css">
+    
+<link rel="stylesheet" href="/assets/css/style-3frockyt2j28isvdztjchy5nhkz8tjki9ermufc1ckptmvjdftux94m2ahub.min.css">
+
     <!--STYLES END-->
     
     <script type="text/javascript">
@@ -50,13 +54,13 @@
 
         ga('create', 'UA-119690895-1', 'auto');
         ga('send', 'pageview');
-    </script><!-- hexo-inject:begin --><!-- hexo-inject:end -->
+    </script>
     
     
 </head>
 
     <body>
-        <!-- hexo-inject:begin --><!-- hexo-inject:end --><div id="blog">
+        <div id="blog">
             <!-- Define author's picture -->
 
 
@@ -65,7 +69,7 @@
 <header id="header" data-behavior="5">
     <i id="btn-open-sidebar" class="fa fa-lg fa-bars"></i>
     <div class="header-title">
-        <a class="header-title-link" href="/ ">Dream Maker</a>
+        <a class="header-title-link" href="/%20">Dream Maker</a>
     </div>
     
         
@@ -89,7 +93,7 @@
                 <li class="sidebar-button">
                     
                         <a  class="sidebar-button-link "
-                             href="/ "
+                             href="/%20"
                             
                             title="首頁"
                         >
@@ -251,7 +255,7 @@
     
         <span>分類 </span>
         
-    <a class="category-link" href="/categories/Machine-Learning/">Machine Learning</a>, <a class="category-link" href="/categories/Machine-Learning/機器學習模型圖書館：從傳統模型到深度學習/">機器學習模型圖書館：從傳統模型到深度學習</a>
+    <a class="category-link" href="/categories/Machine-Learning/">Machine Learning</a>, <a class="category-link" href="/categories/Machine-Learning/%E6%A9%9F%E5%99%A8%E5%AD%B8%E7%BF%92%E6%A8%A1%E5%9E%8B%E5%9C%96%E6%9B%B8%E9%A4%A8%EF%BC%9A%E5%BE%9E%E5%82%B3%E7%B5%B1%E6%A8%A1%E5%9E%8B%E5%88%B0%E6%B7%B1%E5%BA%A6%E5%AD%B8%E7%BF%92/">機器學習模型圖書館：從傳統模型到深度學習</a>
 
 
     
@@ -366,7 +370,7 @@ SVM(\mathbf{x}) = sign(\sum_{SV} \alpha_n y_n K(\mathbf{x_n}, \mathbf{x}) + b)</
                                                     
                                                         
                                                             <div id="disqus_thread">
-    <noscript>Please enable JavaScript to view the <a href="//disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+    <noscript>Please enable JavaScript to view the <a href="//disqus.com/?ref_noscript" target="_blank" rel="noopener">comments powered by Disqus.</a></noscript>
 </div>
                                                                 
                                                                             
@@ -502,7 +506,9 @@ SVM(\mathbf{x}) = sign(\sum_{SV} \alpha_n y_n K(\mathbf{x_n}, \mathbf{x}) + b)</
         
 <div id="cover" style="background-image:url('/assets/images/cover.jpg');"></div>
         <!--SCRIPTS-->
+
 <script src="/assets/js/script-xzfezjobyekpxrjktw5tz6muvzqfsbmo5n6atk3p5om9ulfptldi3p7cyqd8.min.js"></script>
+
 <!--SCRIPTS END-->
 
 
@@ -540,7 +546,5 @@ SVM(\mathbf{x}) = sign(\sum_{SV} \alpha_n y_n K(\mathbf{x_n}, \mathbf{x}) + b)</
     });
 </script>
 <script src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
-<!-- <script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script> -->
-<!-- <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3.0.0/es5/tex-mml-chtml.js"></script> --><!-- hexo-inject:begin --><!-- hexo-inject:end -->
 </body>
 </html>

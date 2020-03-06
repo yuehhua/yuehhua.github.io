@@ -3,7 +3,7 @@
 <html lang="zh-tw,en,default">
     
 <head>
-    <!-- hexo-inject:begin --><!-- hexo-inject:end --><meta charset="UTF-8">
+    <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="generator" content="Dream Maker">
     <title>Dream Maker</title>
@@ -16,14 +16,16 @@
         <link rel="alternate" type="application/atom+xml" title="RSS" href="/atom.xml">
     
     <script type="application/ld+json">{"@context":"http://schema.org","@type":"Website","@id":"https://yuehhua.github.io","author":{"@type":"Person","name":"Yueh-Hua Tu","sameAs":["https://github.com/yuehhua/","https://www.facebook.com/a504082002","https://www.linkedin.com/in/%E5%B2%B3%E8%8F%AF-%E6%9D%9C-6a3995a0/","mailto:a504082002@gmail.com"],"image":"https://www.gravatar.com/avatar/a565749fba4782b717234da670b273fd"},"name":"Dream Maker","description":null,"url":"https://yuehhua.github.io","keywords":"machine learning, deep learning, topology"}</script>
-    <meta name="keywords" content="machine learning,deep learning,topology">
-<meta property="og:type" content="blog">
+    <meta property="og:type" content="blog">
 <meta property="og:title" content="Dream Maker">
 <meta property="og:url" content="https://yuehhua.github.io/index.html">
 <meta property="og:site_name" content="Dream Maker">
-<meta property="og:locale" content="zh-tw">
+<meta property="og:locale" content="zh_TW">
+<meta property="article:author" content="Yueh-Hua Tu">
+<meta property="article:tag" content="machine learning">
+<meta property="article:tag" content="deep learning">
+<meta property="article:tag" content="topology">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="Dream Maker">
     
     
         
@@ -33,7 +35,9 @@
     
     
     <!--STYLES-->
-    <link rel="stylesheet" href="/assets/css/style-3frockyt2j28isvdztjchy5nhkz8tjki9ermufc1ckptmvjdftux94m2ahub.min.css">
+    
+<link rel="stylesheet" href="/assets/css/style-3frockyt2j28isvdztjchy5nhkz8tjki9ermufc1ckptmvjdftux94m2ahub.min.css">
+
     <!--STYLES END-->
     
     <script type="text/javascript">
@@ -46,13 +50,13 @@
 
         ga('create', 'UA-119690895-1', 'auto');
         ga('send', 'pageview');
-    </script><!-- hexo-inject:begin --><!-- hexo-inject:end -->
+    </script>
     
     
 </head>
 
     <body>
-        <!-- hexo-inject:begin --><!-- hexo-inject:end --><div id="blog">
+        <div id="blog">
             <!-- Define author's picture -->
 
 
@@ -61,7 +65,7 @@
 <header id="header" data-behavior="2">
     <i id="btn-open-sidebar" class="fa fa-lg fa-bars"></i>
     <div class="header-title">
-        <a class="header-title-link" href="/ ">Dream Maker</a>
+        <a class="header-title-link" href="/%20">Dream Maker</a>
     </div>
     
         
@@ -85,7 +89,7 @@
                 <li class="sidebar-button">
                     
                         <a  class="sidebar-button-link "
-                             href="/ "
+                             href="/%20"
                             
                             title="首頁"
                         >
@@ -347,10 +351,10 @@
                 <div class="postShorten-excerpt">
                     <p>Random variable $X$, we have the variance</p>
 <script type="math/tex; mode=display">
-\begin{align\*}
+\begin{align}
 Var[X] &= \mathbb{E}[(X - \mu)^2] \\\\
 &= \frac{1}{n} \sum_{i=1}^n (x_i - \mu)^2
-\end{align\*}</script>
+\end{align}</script>
                     
                         <a href="/2020/02/09/relationship-between-variance-and-pairwise-distance/" class="postShorten-excerpt_link link">
                             繼續閱讀
@@ -530,18 +534,18 @@ Var[X] &= \mathbb{E}[(X - \mu)^2] \\\\
             
                 <div class="postShorten-content">
                     <p>很多人在寫程式的時候會有些壞習慣，如：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">X = rand(3, 4)</span><br><span class="line">for i = 1:3</span><br><span class="line">    for j = 1:4</span><br><span class="line">        X[i, j]</span><br><span class="line">        ...</span><br><span class="line">    end</span><br><span class="line">end</span><br></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">X &#x3D; rand(3, 4)</span><br><span class="line">for i &#x3D; 1:3</span><br><span class="line">    for j &#x3D; 1:4</span><br><span class="line">        X[i, j]</span><br><span class="line">        ...</span><br><span class="line">    end</span><br><span class="line">end</span><br></pre></td></tr></table></figure>
 <p>可能多數人看以上這段程式碼並沒有什麼特別的感覺，但是如果要維護的時候就會發現你突然不太理解這段程式碼。</p>
 <p>有人知道這邊的 <code>3</code> 是什麼意思嗎？嗯…或許可以從上下文猜出來是陣列的列數的意思。</p>
 <p>一旦要更改陣列的大小的時候勢必就要更改這些數字，甚至這些數字散落在程式碼的各個角落就會更加頭痛。</p>
 <p>這些數字稱為魔術數字（magic numbers），因為沒有人知道他的意義是什麼！</p>
 <h2 id="解法一：使用常數"><a href="#解法一：使用常數" class="headerlink" title="解法一：使用常數"></a>解法一：使用常數</h2><p>如果這些數字很常被使用到，而且不會在程式中被變更，請使用常數，像：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">const ROWS = 3</span><br><span class="line">const COLUMNS = 4</span><br><span class="line">X = rand(ROWS, COLUMNS)</span><br><span class="line">for i = 1:ROW</span><br><span class="line">    for j = 1:COLUMNS</span><br><span class="line">        X[i, j]</span><br><span class="line">        ...</span><br><span class="line">    end</span><br><span class="line">end</span><br></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">const ROWS &#x3D; 3</span><br><span class="line">const COLUMNS &#x3D; 4</span><br><span class="line">X &#x3D; rand(ROWS, COLUMNS)</span><br><span class="line">for i &#x3D; 1:ROW</span><br><span class="line">    for j &#x3D; 1:COLUMNS</span><br><span class="line">        X[i, j]</span><br><span class="line">        ...</span><br><span class="line">    end</span><br><span class="line">end</span><br></pre></td></tr></table></figure>
 <p>如此，以後要更改陣列大小只需要更改常數即可，也讓程式碼的可讀性上升。</p>
 <p>如果你的程式會更改到這些數字，那麼就用變數。</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">rows = 3</span><br><span class="line">columns = 4</span><br><span class="line">X = rand(rows, columns)</span><br><span class="line">for i = 1:rows</span><br><span class="line">    for j = 1:columns</span><br><span class="line">        X[i, j]</span><br><span class="line">        ...</span><br><span class="line">    end</span><br><span class="line">end</span><br></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">rows &#x3D; 3</span><br><span class="line">columns &#x3D; 4</span><br><span class="line">X &#x3D; rand(rows, columns)</span><br><span class="line">for i &#x3D; 1:rows</span><br><span class="line">    for j &#x3D; 1:columns</span><br><span class="line">        X[i, j]</span><br><span class="line">        ...</span><br><span class="line">    end</span><br><span class="line">end</span><br></pre></td></tr></table></figure>
 <h2 id="解法二：動態"><a href="#解法二：動態" class="headerlink" title="解法二：動態"></a>解法二：動態</h2><p>如果陣列的大小不是事先知道的，或是需要動態取得，那麼可以用 <code>size</code>：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">for i = 1:size(X, 1)</span><br><span class="line">    for j = 1:size(X, 2)</span><br><span class="line">        X[i, j]</span><br><span class="line">        ...</span><br><span class="line">    end</span><br><span class="line">end</span><br></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">for i &#x3D; 1:size(X, 1)</span><br><span class="line">    for j &#x3D; 1:size(X, 2)</span><br><span class="line">        X[i, j]</span><br><span class="line">        ...</span><br><span class="line">    end</span><br><span class="line">end</span><br></pre></td></tr></table></figure>
 <p>如此可以用在未知大小的陣列上。</p>
 
                     
@@ -595,9 +599,9 @@ Var[X] &= \mathbb{E}[(X - \mu)^2] \\\\
 <p>在存取陣列時，為了安全性與正確性的考量，避免存取到陣列範圍以外的記憶體位置，很多語言都設置了邊界檢查（bounds check）。</p>
 <p>邊界檢查會檢查所存取的索引值是否在陣列的範圍內，但是這樣的檢查會有些微的效能損耗，尤其在迴圈內的情況更有可能被累積而放大，關於 Julia 的 邊界檢查可以參考官方文件 <a href="https://docs.julialang.org/en/v1/devdocs/boundscheck/index.html" target="_blank" rel="noopener">Bounds checking</a>。</p>
 <p>如果可以確定所存取的索引值一定在範圍內，我們就可以把邊界檢查給移除，以加速陣列的存取。如以下範例：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">A = rand(3, 4)</span><br><span class="line">@inbounds for i = 1:size(A, 1)</span><br><span class="line">    println(A[i, :])</span><br><span class="line">end</span><br></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">A &#x3D; rand(3, 4)</span><br><span class="line">@inbounds for i &#x3D; 1:size(A, 1)</span><br><span class="line">    println(A[i, :])</span><br><span class="line">end</span><br></pre></td></tr></table></figure>
 <p>或是</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">A = rand(3, 4)</span><br><span class="line">for i = 1:size(A, 1)</span><br><span class="line">    @inbounds println(A[i, :])</span><br><span class="line">end</span><br></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">A &#x3D; rand(3, 4)</span><br><span class="line">for i &#x3D; 1:size(A, 1)</span><br><span class="line">    @inbounds println(A[i, :])</span><br><span class="line">end</span><br></pre></td></tr></table></figure>
 <p><code>@inbounds</code> 會將程式碼區塊中的邊界檢查給移除，可以參考 <code>@inbounds</code> 的<a href="https://docs.julialang.org/en/latest/base/base/#Base.@inbounds" target="_blank" rel="noopener">官方文件</a>。使用時必須注意存取的索引值，否則小則存取的值錯誤，大則可能導致程式崩潰。</p>
 <p>先養成好的索引習慣，再考慮將效能提升，加入 <code>@inbounds</code>。相關的資訊也紀錄在官方的<a href="https://docs.julialang.org/en/latest/manual/performance-tips/#man-performance-annotations-1" target="_blank" rel="noopener">效能建議</a>中。</p>
 
@@ -840,7 +844,9 @@ Var[X] &= \mathbb{E}[(X - \mu)^2] \\\\
         
 <div id="cover" style="background-image:url('/assets/images/cover.jpg');"></div>
         <!--SCRIPTS-->
+
 <script src="/assets/js/script-xzfezjobyekpxrjktw5tz6muvzqfsbmo5n6atk3p5om9ulfptldi3p7cyqd8.min.js"></script>
+
 <!--SCRIPTS END-->
 
 
@@ -859,7 +865,5 @@ Var[X] &= \mathbb{E}[(X - \mu)^2] \\\\
     });
 </script>
 <script src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
-<!-- <script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script> -->
-<!-- <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3.0.0/es5/tex-mml-chtml.js"></script> --><!-- hexo-inject:begin --><!-- hexo-inject:end -->
 </body>
 </html>

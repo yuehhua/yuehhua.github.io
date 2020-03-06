@@ -3,7 +3,7 @@
 <html lang="zh-tw,en,default">
     
 <head>
-    <!-- hexo-inject:begin --><!-- hexo-inject:end --><meta charset="UTF-8">
+    <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="generator" content="Dream Maker">
     <title>神經微分方程（Neural Ordinary Differential Equations） - Dream Maker</title>
@@ -16,20 +16,22 @@
         <link rel="alternate" type="application/atom+xml" title="RSS" href="/atom.xml">
     
     <script type="application/ld+json">{"@context":"http://schema.org","@type":"BlogPosting","author":{"@type":"Person","name":"Yueh-Hua Tu","sameAs":["https://github.com/yuehhua/","https://www.facebook.com/a504082002","https://www.linkedin.com/in/%E5%B2%B3%E8%8F%AF-%E6%9D%9C-6a3995a0/","mailto:a504082002@gmail.com"],"image":"https://www.gravatar.com/avatar/a565749fba4782b717234da670b273fd"},"articleBody":"這篇被選為 NeurIPS 2018 最佳論文，他將連續的概念帶入了神經網路架構中，並且善用以往解微分方程的方法來做逼近，可以做到跟原方法（倒傳遞）一樣好的程度，而參數使用複雜度卻是常數，更短的訓練時間。\n核心觀念概念上來說，就是將神經網路離散的層觀念打破，將他貫通成為連續的層的網路架構。\n連續和離散的差別來自於倒傳遞的過程：\n\n\\mathbb{y}_{t+1} = \\mathbb{y}_t - \\eta \\nabla \\mathcal{L}其中 $\\nabla \\mathcal{L}$ 就是梯度的部份，是向量的，然而我們把他簡化成純量來看的話，他不過就是\n\n\\frac{d \\mathcal{L}}{dt}廣義上來說，一個函數的微分，如果是離散的版本就會是\n\n\\frac{dy}{dt} = \\frac{y(t + \\Delta) - y(t)}{\\Delta}如此一來，所形成的方程式就會是差分方程，然而連續的版本就是\n\n\\frac{dy}{dt} = \\lim_{\\Delta \\rightarrow 0} \\frac{y(t + \\Delta) - y(t)}{\\Delta}這個所形成的會是微分方程。\n從離散到連續我們可以從離散的版本\n\n\\frac{dy}{dt} = \\frac{y(t + \\Delta) - y(t)}{\\Delta}把他轉成以下的樣貌\n\ny(t + \\Delta) = y(t) + \\Delta \\frac{dy}{dt}要將他貫通的話，我們就得由從神經網路的基礎開始，如果是一般的前回饋網路（feed-forward network）當中的隱藏層是像下列這個樣子：\n\nh_{t+1} = f(h_t, \\theta)我們可以發現像是 ResNet 這類的網路有 skip connection 的設置，所以跟一般的前回饋網路不同\n\nh_{t+1} = h_t + f(h_t, \\theta)而 RNN 等等有序列概念的模型也有類似的結構，就是會是前一層的結果加上通過 $f$ 運算後的結果，成為下一層的結果。\n這樣的形式跟我們前面提到的形式不謀而合\n\ny(t + \\Delta) = y(t) + \\Delta \\frac{dy}{dt}只要我們把 $\\Delta = 1$ 代入，就成了\n\ny(t+1) = y(t) + \\frac{dy}{dt}以下給大家比對一下\n\nh_{t+1} = h_t + f(h_t, \\theta) \\\\\\\\\ny(t+1) = y(t) + \\frac{dy}{dt}也就是，我們可以讓\n\n\\frac{dy}{dt} = f(h_t, \\theta)神奇的事情就發生了！神經網路 $f$ 就可以被我們拿來計算微分 $\\frac{dy}{dt}$！\n比較精確的說法是，把神經網路的層 $f$ 拿來逼近微分項，或是說梯度。這樣我們後面就可以用數值方法來逼近解。\n\ny(t + \\Delta) = y(t) + \\Delta \\frac{dy}{dt} \\\\\\\\\n\\downarrow \\\\\\\\\ny(t + \\Delta) = y(t) + \\Delta f(t, h(t), \\theta_t)要拉成連續的還有一個重要的手段，就是將不同的層 $t$ 從離散的變成連續的，所以作者將 $t$ 做了參數化，將他變成 $f$ 的參數之一，如此一來，就可以在任意的層中放入資料做運算。\n最重要的概念導出了這樣的式子\n\nh(t) \\rightarrow \\frac{dy(t)}{dt} = f(h(t), t, \\theta) \\rightarrow y(t)神經網路作為一個系統的微分形式在傳統科學或是工程領域，我們會以微分式來表達以及建構一個系統。\n\n\\nu = \\frac{dx}{dt} = t + 1其實在這邊是一樣的道理，整體來說，我們是換成用神經網路去描述一個微分式，其實本質上就是這樣。\n原本的層的概念就是用數學函數來建立的，而層與層之間傳遞著計算的結果。\n\n\\mathbb{h_1} = \\sigma(W_1 \\mathbb{x} + \\mathbb{b_1}) \\\\\\\\\n\\mathbb{y} = \\sigma(W_2 \\mathbb{h_1} + \\mathbb{b_2})然而變成連續之後，我們等於是用神經網路中的層去建立跟描繪微分形式。\n\n\\frac{d h(t)}{dt} = \\sigma(W(t) \\mathbb{x}(t) + \\mathbb{b(t)}) \\\\\\\\\n\\frac{d y(t)}{dt} = \\sigma(W(t) \\mathbb{h}(t) + \\mathbb{b(t)})是不是跟如出一轍呢？\n\n\\frac{dy(t)}{dt} = f(h(t), t, \\theta)向前傳遞解微分式我們可以來計算看看隱藏層是長什麼樣子的。在隱藏層的微分式中，也是利用隱藏層去計算出來的。\n\n\\frac{dh(t)}{dt} = f(h(t), t, \\theta)基本上，我們只要對上式做積分就可以了。\n\nh(t) = \\int f(h(t), t, \\theta) dt這是一個怎樣的概念呢？我們可以來看看下圖。\n\n我們做積分這件事其實是用 $h(t_0)$ 來推斷 $h(t_1)$ 的，這跟神經網路的向前傳遞是一樣的行為。\n\nh(t_1) = F(h(t), t, \\theta) \\bigg|_{t=t_0}這樣的積分動作，我們可以用 $t_0$ 時間點的資訊來解 $h(t_1)$。\n這樣的解法在程式上就會交由 ODE Solver 去處理。\n\nh(t_1) = ODESolve(h(t_0), t_0, t_1, \\theta, f)反向傳遞解函數\n\\mathcal{L}(t_0, t, \\theta) = \\mathcal{L}(ODESolve(\\cdot))\n\\frac{\\partial \\mathcal{L}}{\\partial h(t)} = -a(t)adjoint state\n\na(t) = \\int -a(t)^T \\frac{\\partial f}{\\partial h} dt = - \\frac{\\partial \\mathcal{L}}{\\partial h(t)}\na(t) = \\int_{t_1}^{t_0} -a(t)^T \\frac{\\partial f(h(t), t, \\theta)}{\\partial h(t)} dt\n擴充狀態（augmented state）$\\frac{d \\theta}{dt} = 0$\n$\\frac{dt}{dt} = 1$\nlet $\\begin{bmatrix}h \\\\\\theta \\\\t\\end{bmatrix}$ be a augmented state\naugmented state function:\n\nf_{aug}(\\begin{bmatrix}\nh \\\\\\\\\n\\theta \\\\\\\\\nt\n\\end{bmatrix}) =\n\\begin{bmatrix}\nf(h(t), t, \\theta) \\\\\\\\\n0 \\\\\\\\\n1\n\\end{bmatrix}augmented state dynamics:\n\n\\frac{d}{dt}\n\\begin{bmatrix}\nh \\\\\\\\\n\\theta \\\\\\\\\nt\n\\end{bmatrix}\n=\nf_{aug}(\n\\begin{bmatrix}\nh \\\\\\\\\n\\theta \\\\\\\\\nt\n\\end{bmatrix})augmented adjoint state:\n\n\\begin{bmatrix}\na \\\\\\\\\na_{\\theta} \\\\\\\\\na_t\n\\end{bmatrix}$a = \\frac{\\partial \\mathcal{L}}{\\partial h}$\n$a_{\\theta} = \\frac{\\partial \\mathcal{L}}{\\partial \\theta}$\n$a_t = \\frac{\\partial \\mathcal{L}}{\\partial t}$\n\n\\frac{d a_{aug}}{dt} = -\n\\begin{bmatrix}\na \\frac{\\partial f}{\\partial h} \\\\\\\\\na \\frac{\\partial f}{\\partial \\theta} \\\\\\\\\na \\frac{\\partial f}{\\partial t}\n\\end{bmatrix}","dateCreated":"2019-02-24T15:47:10+08:00","dateModified":"2019-02-26T00:18:15+08:00","datePublished":"2019-02-24T15:47:10+08:00","description":"","headline":"神經微分方程（Neural Ordinary Differential Equations）","image":[],"mainEntityOfPage":{"@type":"WebPage","@id":"https://yuehhua.github.io/2019/02/24/neural-ode/"},"publisher":{"@type":"Organization","name":"Yueh-Hua Tu","sameAs":["https://github.com/yuehhua/","https://www.facebook.com/a504082002","https://www.linkedin.com/in/%E5%B2%B3%E8%8F%AF-%E6%9D%9C-6a3995a0/","mailto:a504082002@gmail.com"],"image":"https://www.gravatar.com/avatar/a565749fba4782b717234da670b273fd","logo":{"@type":"ImageObject","url":"https://www.gravatar.com/avatar/a565749fba4782b717234da670b273fd"}},"url":"https://yuehhua.github.io/2019/02/24/neural-ode/"}</script>
-    <meta name="description" content="這篇被選為 NeurIPS 2018 最佳論文，他將連續的概念帶入了神經網路架構中，並且善用以往解微分方程的方法來做逼近，可以做到跟原方法（倒傳遞）一樣好的程度，而參數使用複雜度卻是常數，更短的訓練時間。 核心觀念概念上來說，就是將神經網路離散的層觀念打破，將他貫通成為連續的層的網路架構。 連續和離散的差別來自於倒傳遞的過程：  \mathbb{y}_{t+1} = \mathbb{y}_t -">
-<meta name="keywords" content="machine learning,deep learning,topology">
+    <meta name="description" content="這篇被選為 NeurIPS 2018 最佳論文，他將連續的概念帶入了神經網路架構中，並且善用以往解微分方程的方法來做逼近，可以做到跟原方法（倒傳遞）一樣好的程度，而參數使用複雜度卻是常數，更短的訓練時間。 核心觀念概念上來說，就是將神經網路離散的層觀念打破，將他貫通成為連續的層的網路架構。 連續和離散的差別來自於倒傳遞的過程：  \mathbb{y}_{t+1} &#x3D; \mathbb{y}_t -">
 <meta property="og:type" content="blog">
 <meta property="og:title" content="神經微分方程（Neural Ordinary Differential Equations）">
 <meta property="og:url" content="https://yuehhua.github.io/2019/02/24/neural-ode/index.html">
 <meta property="og:site_name" content="Dream Maker">
-<meta property="og:description" content="這篇被選為 NeurIPS 2018 最佳論文，他將連續的概念帶入了神經網路架構中，並且善用以往解微分方程的方法來做逼近，可以做到跟原方法（倒傳遞）一樣好的程度，而參數使用複雜度卻是常數，更短的訓練時間。 核心觀念概念上來說，就是將神經網路離散的層觀念打破，將他貫通成為連續的層的網路架構。 連續和離散的差別來自於倒傳遞的過程：  \mathbb{y}_{t+1} = \mathbb{y}_t -">
-<meta property="og:locale" content="zh-tw">
+<meta property="og:description" content="這篇被選為 NeurIPS 2018 最佳論文，他將連續的概念帶入了神經網路架構中，並且善用以往解微分方程的方法來做逼近，可以做到跟原方法（倒傳遞）一樣好的程度，而參數使用複雜度卻是常數，更短的訓練時間。 核心觀念概念上來說，就是將神經網路離散的層觀念打破，將他貫通成為連續的層的網路架構。 連續和離散的差別來自於倒傳遞的過程：  \mathbb{y}_{t+1} &#x3D; \mathbb{y}_t -">
+<meta property="og:locale" content="zh_TW">
 <meta property="og:image" content="https://yuehhua.github.io/images/hidden-state1.svg">
 <meta property="og:image" content="https://yuehhua.github.io/images/adjoint-state.svg">
-<meta property="og:updated_time" content="2019-02-25T16:18:15.950Z">
+<meta property="article:published_time" content="2019-02-24T07:47:10.000Z">
+<meta property="article:modified_time" content="2019-02-25T16:18:15.950Z">
+<meta property="article:author" content="Yueh-Hua Tu">
+<meta property="article:tag" content="machine learning">
+<meta property="article:tag" content="deep learning">
+<meta property="article:tag" content="topology">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="神經微分方程（Neural Ordinary Differential Equations）">
-<meta name="twitter:description" content="這篇被選為 NeurIPS 2018 最佳論文，他將連續的概念帶入了神經網路架構中，並且善用以往解微分方程的方法來做逼近，可以做到跟原方法（倒傳遞）一樣好的程度，而參數使用複雜度卻是常數，更短的訓練時間。 核心觀念概念上來說，就是將神經網路離散的層觀念打破，將他貫通成為連續的層的網路架構。 連續和離散的差別來自於倒傳遞的過程：  \mathbb{y}_{t+1} = \mathbb{y}_t -">
 <meta name="twitter:image" content="https://yuehhua.github.io/images/hidden-state1.svg">
     
     
@@ -40,7 +42,9 @@
     
     
     <!--STYLES-->
-    <link rel="stylesheet" href="/assets/css/style-3frockyt2j28isvdztjchy5nhkz8tjki9ermufc1ckptmvjdftux94m2ahub.min.css">
+    
+<link rel="stylesheet" href="/assets/css/style-3frockyt2j28isvdztjchy5nhkz8tjki9ermufc1ckptmvjdftux94m2ahub.min.css">
+
     <!--STYLES END-->
     
     <script type="text/javascript">
@@ -53,13 +57,13 @@
 
         ga('create', 'UA-119690895-1', 'auto');
         ga('send', 'pageview');
-    </script><!-- hexo-inject:begin --><!-- hexo-inject:end -->
+    </script>
     
     
 </head>
 
     <body>
-        <!-- hexo-inject:begin --><!-- hexo-inject:end --><div id="blog">
+        <div id="blog">
             <!-- Define author's picture -->
 
 
@@ -68,7 +72,7 @@
 <header id="header" data-behavior="5">
     <i id="btn-open-sidebar" class="fa fa-lg fa-bars"></i>
     <div class="header-title">
-        <a class="header-title-link" href="/ ">Dream Maker</a>
+        <a class="header-title-link" href="/%20">Dream Maker</a>
     </div>
     
         
@@ -92,7 +96,7 @@
                 <li class="sidebar-button">
                     
                         <a  class="sidebar-button-link "
-                             href="/ "
+                             href="/%20"
                             
                             title="首頁"
                         >
@@ -319,7 +323,7 @@ h(t) \rightarrow \frac{dy(t)}{dt} = f(h(t), t, \theta) \rightarrow y(t)</script>
 \frac{dh(t)}{dt} = f(h(t), t, \theta)</script><p>基本上，我們只要對上式做積分就可以了。</p>
 <script type="math/tex; mode=display">
 h(t) = \int f(h(t), t, \theta) dt</script><p>這是一個怎樣的概念呢？我們可以來看看下圖。</p>
-<p><img src="/images/hidden-state1.svg" alt></p>
+<p><img src="/images/hidden-state1.svg" alt=""></p>
 <p>我們做積分這件事其實是用 $h(t_0)$ 來推斷 $h(t_1)$ 的，這跟神經網路的向前傳遞是一樣的行為。</p>
 <script type="math/tex; mode=display">
 h(t_1) = F(h(t), t, \theta) \bigg|_{t=t_0}</script><p>這樣的積分動作，我們可以用 $t_0$ 時間點的資訊來解 $h(t_1)$。</p>
@@ -330,7 +334,7 @@ h(t_1) = ODESolve(h(t_0), t_0, t_1, \theta, f)</script><h2 id="反向傳遞解�
 \frac{\partial \mathcal{L}}{\partial h(t)} = -a(t)</script><p>adjoint state</p>
 <script type="math/tex; mode=display">
 a(t) = \int -a(t)^T \frac{\partial f}{\partial h} dt = - \frac{\partial \mathcal{L}}{\partial h(t)}</script><script type="math/tex; mode=display">
-a(t) = \int_{t_1}^{t_0} -a(t)^T \frac{\partial f(h(t), t, \theta)}{\partial h(t)} dt</script><p><img src="/images/adjoint-state.svg" alt></p>
+a(t) = \int_{t_1}^{t_0} -a(t)^T \frac{\partial f(h(t), t, \theta)}{\partial h(t)} dt</script><p><img src="/images/adjoint-state.svg" alt=""></p>
 <h2 id="擴充狀態（augmented-state）"><a href="#擴充狀態（augmented-state）" class="headerlink" title="擴充狀態（augmented state）"></a>擴充狀態（augmented state）</h2><p>$\frac{d \theta}{dt} = 0$</p>
 <p>$\frac{dt}{dt} = 1$</p>
 <p>let $\begin{bmatrix}<br>h \\<br>\theta \\<br>t<br>\end{bmatrix}$ be a augmented state</p>
@@ -444,7 +448,7 @@ a \frac{\partial f}{\partial t}
                                                     
                                                         
                                                             <div id="disqus_thread">
-    <noscript>Please enable JavaScript to view the <a href="//disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+    <noscript>Please enable JavaScript to view the <a href="//disqus.com/?ref_noscript" target="_blank" rel="noopener">comments powered by Disqus.</a></noscript>
 </div>
                                                                 
                                                                             
@@ -580,7 +584,9 @@ a \frac{\partial f}{\partial t}
         
 <div id="cover" style="background-image:url('/assets/images/cover.jpg');"></div>
         <!--SCRIPTS-->
+
 <script src="/assets/js/script-xzfezjobyekpxrjktw5tz6muvzqfsbmo5n6atk3p5om9ulfptldi3p7cyqd8.min.js"></script>
+
 <!--SCRIPTS END-->
 
 
@@ -618,7 +624,5 @@ a \frac{\partial f}{\partial t}
     });
 </script>
 <script src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
-<!-- <script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script> -->
-<!-- <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3.0.0/es5/tex-mml-chtml.js"></script> --><!-- hexo-inject:begin --><!-- hexo-inject:end -->
 </body>
 </html>

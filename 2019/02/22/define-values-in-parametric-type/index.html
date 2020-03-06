@@ -3,7 +3,7 @@
 <html lang="zh-tw,en,default">
     
 <head>
-    <!-- hexo-inject:begin --><!-- hexo-inject:end --><meta charset="UTF-8">
+    <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="generator" content="Dream Maker">
     <title>在參數化型別中定義值 - Dream Maker</title>
@@ -17,17 +17,19 @@
     
     <script type="application/ld+json">{"@context":"http://schema.org","@type":"BlogPosting","author":{"@type":"Person","name":"Yueh-Hua Tu","sameAs":["https://github.com/yuehhua/","https://www.facebook.com/a504082002","https://www.linkedin.com/in/%E5%B2%B3%E8%8F%AF-%E6%9D%9C-6a3995a0/","mailto:a504082002@gmail.com"],"image":"https://www.gravatar.com/avatar/a565749fba4782b717234da670b273fd"},"articleBody":"應該不少人看到這個標題會摸不著頭緒到底要做什麼，但是看完 Julia 中常見的程式碼你就會了解了。\n1Array&#123;Any, 2&#125;\n有沒有曾經納悶過那個數字 2 到底是怎麼進到參數的位置上的呢？\n參數的位置不是只能放型別（type）嗎？\n這同時也是我困惑已久的問題，就搜尋了一下，果不其然被我找到了方法：\n12struct A&#123;T&#125;end\n1A&#123;5&#125;()\n原來這麼簡單就可以完成了！語法上並沒有限定一定要是型別，要放型別以外的東西似乎是可以的。\n我目前測試了可以的有：Int64、Float64、Complex、Char、Bool、Symbol，所以估計數字應該都是可以的。\n不行的有：String、Array，估計物件或是陣列都是不行的。\n定義範圍不過使用上並沒有任何限制會有點危險，所以還是定義一下範圍會比較好，像是：\n123456struct A&#123;I&#125;    function A&#123;I&#125;() where &#123;I&#125;        isa(I,Integer) || error(\"bad parameter\")        new()    endend\n這樣就可以限制參數要是整數的範圍。\n從參數取值那我們能不能從型別的參數當中取值呢？\n可以。\n1get_value(::A&#123;I&#125;) where A&#123;I&#125; = I\n如此一來，我們就可以從型別中拿到值了。\n好處？這麼做有什麼好處？\n當你把值的資訊放到型別當中，型別就多了一些資訊可以提供編譯器處理，這對於要自己設計型別階層可是非常好用的。\n例如像是你可以將陣列的長度資訊儲存到型別上，這樣編譯器就可以處理陣列的長度資訊了。\n這樣的程式風格會跟 dependent type language 有些相似了。\n大家可以玩玩看。\n","dateCreated":"2019-02-22T01:22:42+08:00","dateModified":"2019-09-06T11:21:46+08:00","datePublished":"2019-02-22T01:22:42+08:00","description":"","headline":"在參數化型別中定義值","image":[],"mainEntityOfPage":{"@type":"WebPage","@id":"https://yuehhua.github.io/2019/02/22/define-values-in-parametric-type/"},"publisher":{"@type":"Organization","name":"Yueh-Hua Tu","sameAs":["https://github.com/yuehhua/","https://www.facebook.com/a504082002","https://www.linkedin.com/in/%E5%B2%B3%E8%8F%AF-%E6%9D%9C-6a3995a0/","mailto:a504082002@gmail.com"],"image":"https://www.gravatar.com/avatar/a565749fba4782b717234da670b273fd","logo":{"@type":"ImageObject","url":"https://www.gravatar.com/avatar/a565749fba4782b717234da670b273fd"}},"url":"https://yuehhua.github.io/2019/02/22/define-values-in-parametric-type/"}</script>
     <meta name="description" content="應該不少人看到這個標題會摸不著頭緒到底要做什麼，但是看完 Julia 中常見的程式碼你就會了解了。 1Array&amp;#123;Any, 2&amp;#125; 有沒有曾經納悶過那個數字 2 到底是怎麼進到參數的位置上的呢？ 參數的位置不是只能放型別（type）嗎？ 這同時也是我困惑已久的問題，就搜尋了一下，果不其然被我找到了方法： 12struct A&amp;#123;T&amp;#125;end 1A&amp;#123;5&amp;#">
-<meta name="keywords" content="machine learning,deep learning,topology">
 <meta property="og:type" content="blog">
 <meta property="og:title" content="在參數化型別中定義值">
 <meta property="og:url" content="https://yuehhua.github.io/2019/02/22/define-values-in-parametric-type/index.html">
 <meta property="og:site_name" content="Dream Maker">
 <meta property="og:description" content="應該不少人看到這個標題會摸不著頭緒到底要做什麼，但是看完 Julia 中常見的程式碼你就會了解了。 1Array&amp;#123;Any, 2&amp;#125; 有沒有曾經納悶過那個數字 2 到底是怎麼進到參數的位置上的呢？ 參數的位置不是只能放型別（type）嗎？ 這同時也是我困惑已久的問題，就搜尋了一下，果不其然被我找到了方法： 12struct A&amp;#123;T&amp;#125;end 1A&amp;#123;5&amp;#">
-<meta property="og:locale" content="zh-tw">
-<meta property="og:updated_time" content="2019-09-06T03:21:46.486Z">
+<meta property="og:locale" content="zh_TW">
+<meta property="article:published_time" content="2019-02-21T17:22:42.000Z">
+<meta property="article:modified_time" content="2019-09-06T03:21:46.486Z">
+<meta property="article:author" content="Yueh-Hua Tu">
+<meta property="article:tag" content="machine learning">
+<meta property="article:tag" content="deep learning">
+<meta property="article:tag" content="topology">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="在參數化型別中定義值">
-<meta name="twitter:description" content="應該不少人看到這個標題會摸不著頭緒到底要做什麼，但是看完 Julia 中常見的程式碼你就會了解了。 1Array&amp;#123;Any, 2&amp;#125; 有沒有曾經納悶過那個數字 2 到底是怎麼進到參數的位置上的呢？ 參數的位置不是只能放型別（type）嗎？ 這同時也是我困惑已久的問題，就搜尋了一下，果不其然被我找到了方法： 12struct A&amp;#123;T&amp;#125;end 1A&amp;#123;5&amp;#">
     
     
         
@@ -37,7 +39,9 @@
     
     
     <!--STYLES-->
-    <link rel="stylesheet" href="/assets/css/style-3frockyt2j28isvdztjchy5nhkz8tjki9ermufc1ckptmvjdftux94m2ahub.min.css">
+    
+<link rel="stylesheet" href="/assets/css/style-3frockyt2j28isvdztjchy5nhkz8tjki9ermufc1ckptmvjdftux94m2ahub.min.css">
+
     <!--STYLES END-->
     
     <script type="text/javascript">
@@ -50,13 +54,13 @@
 
         ga('create', 'UA-119690895-1', 'auto');
         ga('send', 'pageview');
-    </script><!-- hexo-inject:begin --><!-- hexo-inject:end -->
+    </script>
     
     
 </head>
 
     <body>
-        <!-- hexo-inject:begin --><!-- hexo-inject:end --><div id="blog">
+        <div id="blog">
             <!-- Define author's picture -->
 
 
@@ -65,7 +69,7 @@
 <header id="header" data-behavior="5">
     <i id="btn-open-sidebar" class="fa fa-lg fa-bars"></i>
     <div class="header-title">
-        <a class="header-title-link" href="/ ">Dream Maker</a>
+        <a class="header-title-link" href="/%20">Dream Maker</a>
     </div>
     
         
@@ -89,7 +93,7 @@
                 <li class="sidebar-button">
                     
                         <a  class="sidebar-button-link "
-                             href="/ "
+                             href="/%20"
                             
                             title="首頁"
                         >
@@ -355,7 +359,7 @@
                                                     
                                                         
                                                             <div id="disqus_thread">
-    <noscript>Please enable JavaScript to view the <a href="//disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+    <noscript>Please enable JavaScript to view the <a href="//disqus.com/?ref_noscript" target="_blank" rel="noopener">comments powered by Disqus.</a></noscript>
 </div>
                                                                 
                                                                             
@@ -491,7 +495,9 @@
         
 <div id="cover" style="background-image:url('/assets/images/cover.jpg');"></div>
         <!--SCRIPTS-->
+
 <script src="/assets/js/script-xzfezjobyekpxrjktw5tz6muvzqfsbmo5n6atk3p5om9ulfptldi3p7cyqd8.min.js"></script>
+
 <!--SCRIPTS END-->
 
 
@@ -529,7 +535,5 @@
     });
 </script>
 <script src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
-<!-- <script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script> -->
-<!-- <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3.0.0/es5/tex-mml-chtml.js"></script> --><!-- hexo-inject:begin --><!-- hexo-inject:end -->
 </body>
 </html>

@@ -3,7 +3,7 @@
 <html lang="zh-tw,en,default">
     
 <head>
-    <!-- hexo-inject:begin --><!-- hexo-inject:end --><meta charset="UTF-8">
+    <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="generator" content="Dream Maker">
     <title>19 Convolution 運算 - Dream Maker</title>
@@ -17,19 +17,21 @@
     
     <script type="application/ld+json">{"@context":"http://schema.org","@type":"BlogPosting","author":{"@type":"Person","name":"Yueh-Hua Tu","sameAs":["https://github.com/yuehhua/","https://www.facebook.com/a504082002","https://www.linkedin.com/in/%E5%B2%B3%E8%8F%AF-%E6%9D%9C-6a3995a0/","mailto:a504082002@gmail.com"],"image":"https://www.gravatar.com/avatar/a565749fba4782b717234da670b273fd"},"articleBody":"熱身運動都做好了，接下來我們就一路往影像處理上的重要技術 CNN 前進啦！\nConvolutional neural network，顧名思義，他是一種神經網路架構，裡頭包含著 convolution 的運算。\n那為什麼 convolution 這麼重要，重要到要放在名稱上呢？\n\n我先推荐大家去看台大李宏毅老師的介紹，看完再繼續往下看文章。\n\n\n\n影像處理中的祕密我們希望從資料當中找到某種規律，這種規律我們叫作模式（pattern），模式是會重複出現的特徵，像是你可以辨識出蘋果，因為一顆蘋果有他特定的特徵，像是顏色、形狀、大小等等，當這些組合起來，並且他們都會一起出現而且重複出現，我們就可以稱他為模式。\n在影片當中有提到在影像處理上有幾個特點：\n\n一些模式比整張圖小\n同樣的模式可能出現在圖片的不同地方\n縮放圖片不影響圖片中物件的辨識\n\n第 1 點講的是，要去辨識一個模式並不需要整張圖，也就是，local 的資訊比 global 的資訊重要。在影片中有舉例，一隻鳥的特徵有鳥喙、羽毛、翅膀等等特徵，你並不會去在意他背景的圖片長什麼樣子。鳥喙這樣的特徵他是 區域性的，你不需要整張圖片的資訊去判斷這張圖是不是鳥喙，所以在設計模型的原則上需要去擷取區域性的資訊。\n第 2 點講的是，同樣的模式可能會出現在不同圖片的不同地方，這邊其實隱含了一個概念，就是 位移不變性（translation invariance）。由於同樣模式可以在不同地方上被找到，所以我們只需要一個 node 去偵測他就好了 ，這樣的話可以節省非常多的 node（或是 weight），這稱為 shared weight。\n第 3 點，如果圖片縮放不影響圖片辨識，那麼。這時候我們可以做 subsampling，除了可以減少資料處理的量，也不會影響圖片的辨識結果。\n\n在我們講 CNN 之前先來幫大家惡補一下 convolution 這個運算。\nConvolution在 CNN 中會用到的重要運算就是 convolution，而在 CNN 中有所謂的 convolution layer，也就是這一層的運算就是做 convolution 而不是直接內積。\n我們說到 convolution layer，他真正的作用是用來做什麼的呢？他其實是用來 擷取 local 的資訊 的。\n承接前面第一點提到的，在圖片當中，pattern 是 local 的資訊而不是 global 的，而 pattern 是我們想抓的資訊，所以我們要的資訊只有 local 的而已。\n那麼 convolution 要如何擷取 local 的資訊呢？\nConvolution 運算我們先來看 convolution 的原始定義，這邊假設兩個函數 $f$、$g$，則兩個函數的 convolution 為：\n\n(f * g)(t) = \\int_{-\\infty}^{\\infty} f(\\tau)g(t - \\tau) d\\tau以上我們看到他是一個積分式，當中引入了另一個變數 $\\tau$，他代表的是一個時間區間，那接下來是兩個函數的相乘，然後將他們對變數 $\\tau$ 積分。我們來想想看，先不管變數 $\\tau$，相乘後積分的運算跟什麼樣的運算很像？\n是的！內積！我們來看看函數的內積長什麼樣子。\n\n\\lt f, g \\gt = \\int_{-\\infty}^{\\infty} f(t) g(t) dt什麼？你跟我說這不是你認識的內積？不不不，你認識的內積其實是這個內積的離散版本。\n\n\\lt f, g \\gt = \\sum_{i=1}^{n} f_i g_i\n = \\sum_{i=1}^{n} a_i b_i = \\mathbf{a}^T\\mathbf{b}這樣是不是比較清楚一點了？我們來比較一下，因為積分是在 連續空間的加總，相對應的加總就是在 離散空間 的版本，那麼在連續空間上需要一個 $d\\tau$ 來把連續空間切成一片一片的，但是在離散空間上，他很自然的就是 $1$ 了。這樣是不是又發覺他們根本是一樣的呢？\n那你知道函數其實是一種向量嗎？不知道的同學表示沒有讀過或是沒有認真讀線性代數。\n那這樣大家應該接受了函數的內積以及向量的內積其實是一樣的。接下來我們來討論一下那個神奇的 $\\tau$。\n$\\tau$ 是一個時間區間，而積分其實是在對這個時間區間做切片然後加總，他其實跟我們在做訊號處理上的 window 的概念是一樣的，所以他其實是在某個 window 中做內積的意思。我們先來看看有 window 的內積長什麼樣子。\n\n(a * b)[n] = \\sum_{m=1}^{k} a[m] b[n + m]在下圖我們可以假想左邊的向量是 $b$，右邊的是 $a$，而向量 $a$ 是有被 window 給限定範圍的（m = 1…k），所以在下面這張圖就是當 n = 1、m = 1…4 的時候的情境。箭頭則是向量元素相乘的對象，每次內積完，n 就會往下移動一個元素。\n\n計算完之後就變成一個新的向量，這就是 window 版本的內積的運作原理了！他其實有一個正式的名字，稱為 cross-correlation。\n我們來看看把 convolution 離散化來看看是長什麼樣子。剛剛我們看到的 convolution 是連續的版本，是函數的版本，那我們實際上的運算是以向量去操作的，那麼離散版本的 convolution 是：\n\n(a * b)[n] = \\sum_{m=-\\infty}^{\\infty} a[m] b[n - m]這邊的 window 就是 $m$ 這個參數，其實我們可以給他一個區間，不要是負無限大到正無限大。\n\n(a * b)[n] = \\sum_{m=1}^{k} a[m] b[n - m]所以這邊的 window 大小調成是 $k$ 了！\n\n你會發現，convolution 會跟 cross-correlation 很像，差別在於順序，也就是 convolution 內積的順序是相反的，所以他在數學式上的表達是用相減的，這邊的情境是 n = 6、m = 1…4。\n我們來總結一下 convolution 這個運算，他其實是 local 版本的內積運算，而且他的內積方向是反序的。\n補充一點，convolution 其實也是一種線性的運算喔！是不是跟前面談到的線性模型 $\\sigma(W^T\\mathbf{x} + \\mathbf{b})$ 有點異曲同工的感覺呢？\n","dateCreated":"2018-10-17T22:58:29+08:00","dateModified":"2018-10-18T21:45:31+08:00","datePublished":"2018-10-17T22:58:29+08:00","description":"熱身運動都做好了，接下來我們就一路往影像處理上的重要技術 CNN 前進啦！\nConvolutional neural network，顧名思義，他是一種神經網路架構，裡頭包含著 convolution 的運算。\n那為什麼 convolution 這麼重要，重要到要放在名稱上呢？","headline":"19 Convolution 運算","image":[],"mainEntityOfPage":{"@type":"WebPage","@id":"https://yuehhua.github.io/2018/10/17/19-convolution-operation/"},"publisher":{"@type":"Organization","name":"Yueh-Hua Tu","sameAs":["https://github.com/yuehhua/","https://www.facebook.com/a504082002","https://www.linkedin.com/in/%E5%B2%B3%E8%8F%AF-%E6%9D%9C-6a3995a0/","mailto:a504082002@gmail.com"],"image":"https://www.gravatar.com/avatar/a565749fba4782b717234da670b273fd","logo":{"@type":"ImageObject","url":"https://www.gravatar.com/avatar/a565749fba4782b717234da670b273fd"}},"url":"https://yuehhua.github.io/2018/10/17/19-convolution-operation/"}</script>
     <meta name="description" content="熱身運動都做好了，接下來我們就一路往影像處理上的重要技術 CNN 前進啦！ Convolutional neural network，顧名思義，他是一種神經網路架構，裡頭包含著 convolution 的運算。 那為什麼 convolution 這麼重要，重要到要放在名稱上呢？">
-<meta name="keywords" content="machine learning,deep learning,topology">
 <meta property="og:type" content="blog">
 <meta property="og:title" content="19 Convolution 運算">
 <meta property="og:url" content="https://yuehhua.github.io/2018/10/17/19-convolution-operation/index.html">
 <meta property="og:site_name" content="Dream Maker">
 <meta property="og:description" content="熱身運動都做好了，接下來我們就一路往影像處理上的重要技術 CNN 前進啦！ Convolutional neural network，顧名思義，他是一種神經網路架構，裡頭包含著 convolution 的運算。 那為什麼 convolution 這麼重要，重要到要放在名稱上呢？">
-<meta property="og:locale" content="zh-tw">
+<meta property="og:locale" content="zh_TW">
 <meta property="og:image" content="https://yuehhua.github.io/images/ccor1d.svg">
 <meta property="og:image" content="https://yuehhua.github.io/images/conv1d.svg">
-<meta property="og:updated_time" content="2018-10-18T13:45:31.881Z">
+<meta property="article:published_time" content="2018-10-17T14:58:29.000Z">
+<meta property="article:modified_time" content="2018-10-18T13:45:31.881Z">
+<meta property="article:author" content="Yueh-Hua Tu">
+<meta property="article:tag" content="machine learning">
+<meta property="article:tag" content="deep learning">
+<meta property="article:tag" content="topology">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="19 Convolution 運算">
-<meta name="twitter:description" content="熱身運動都做好了，接下來我們就一路往影像處理上的重要技術 CNN 前進啦！ Convolutional neural network，顧名思義，他是一種神經網路架構，裡頭包含著 convolution 的運算。 那為什麼 convolution 這麼重要，重要到要放在名稱上呢？">
 <meta name="twitter:image" content="https://yuehhua.github.io/images/ccor1d.svg">
     
     
@@ -40,7 +42,9 @@
     
     
     <!--STYLES-->
-    <link rel="stylesheet" href="/assets/css/style-3frockyt2j28isvdztjchy5nhkz8tjki9ermufc1ckptmvjdftux94m2ahub.min.css">
+    
+<link rel="stylesheet" href="/assets/css/style-3frockyt2j28isvdztjchy5nhkz8tjki9ermufc1ckptmvjdftux94m2ahub.min.css">
+
     <!--STYLES END-->
     
     <script type="text/javascript">
@@ -53,13 +57,13 @@
 
         ga('create', 'UA-119690895-1', 'auto');
         ga('send', 'pageview');
-    </script><!-- hexo-inject:begin --><!-- hexo-inject:end -->
+    </script>
     
     
 </head>
 
     <body>
-        <!-- hexo-inject:begin --><!-- hexo-inject:end --><div id="blog">
+        <div id="blog">
             <!-- Define author's picture -->
 
 
@@ -68,7 +72,7 @@
 <header id="header" data-behavior="5">
     <i id="btn-open-sidebar" class="fa fa-lg fa-bars"></i>
     <div class="header-title">
-        <a class="header-title-link" href="/ ">Dream Maker</a>
+        <a class="header-title-link" href="/%20">Dream Maker</a>
     </div>
     
         
@@ -92,7 +96,7 @@
                 <li class="sidebar-button">
                     
                         <a  class="sidebar-button-link "
-                             href="/ "
+                             href="/%20"
                             
                             title="首頁"
                         >
@@ -254,7 +258,7 @@
     
         <span>分類 </span>
         
-    <a class="category-link" href="/categories/Machine-Learning/">Machine Learning</a>, <a class="category-link" href="/categories/Machine-Learning/機器學習模型圖書館：從傳統模型到深度學習/">機器學習模型圖書館：從傳統模型到深度學習</a>
+    <a class="category-link" href="/categories/Machine-Learning/">Machine Learning</a>, <a class="category-link" href="/categories/Machine-Learning/%E6%A9%9F%E5%99%A8%E5%AD%B8%E7%BF%92%E6%A8%A1%E5%9E%8B%E5%9C%96%E6%9B%B8%E9%A4%A8%EF%BC%9A%E5%BE%9E%E5%82%B3%E7%B5%B1%E6%A8%A1%E5%9E%8B%E5%88%B0%E6%B7%B1%E5%BA%A6%E5%AD%B8%E7%BF%92/">機器學習模型圖書館：從傳統模型到深度學習</a>
 
 
     
@@ -304,14 +308,14 @@
 <p>$\tau$ 是一個時間區間，而積分其實是在對這個時間區間做切片然後加總，他其實跟我們在做訊號處理上的 window 的概念是一樣的，所以他其實是在某個 window 中做內積的意思。我們先來看看有 window 的內積長什麼樣子。</p>
 <script type="math/tex; mode=display">
 (a * b)[n] = \sum_{m=1}^{k} a[m] b[n + m]</script><p>在下圖我們可以假想左邊的向量是 $b$，右邊的是 $a$，而向量 $a$ 是有被 window 給限定範圍的（m = 1…k），所以在下面這張圖就是當 n = 1、m = 1…4 的時候的情境。箭頭則是向量元素相乘的對象，每次內積完，n 就會往下移動一個元素。</p>
-<p><img src="/images/ccor1d.svg" alt></p>
+<p><img src="/images/ccor1d.svg" alt=""></p>
 <p>計算完之後就變成一個新的向量，這就是 window 版本的內積的運作原理了！他其實有一個正式的名字，稱為 cross-correlation。</p>
 <p>我們來看看把 convolution 離散化來看看是長什麼樣子。剛剛我們看到的 convolution 是連續的版本，是函數的版本，那我們實際上的運算是以向量去操作的，那麼離散版本的 convolution 是：</p>
 <script type="math/tex; mode=display">
 (a * b)[n] = \sum_{m=-\infty}^{\infty} a[m] b[n - m]</script><p>這邊的 window 就是 $m$ 這個參數，其實我們可以給他一個區間，不要是負無限大到正無限大。</p>
 <script type="math/tex; mode=display">
 (a * b)[n] = \sum_{m=1}^{k} a[m] b[n - m]</script><p>所以這邊的 window 大小調成是 $k$ 了！</p>
-<p><img src="/images/conv1d.svg" alt></p>
+<p><img src="/images/conv1d.svg" alt=""></p>
 <p>你會發現，convolution 會跟 cross-correlation 很像，差別在於順序，也就是 convolution 內積的順序是相反的，所以他在數學式上的表達是用相減的，這邊的情境是 n = 6、m = 1…4。</p>
 <p>我們來總結一下 convolution 這個運算，他其實是 local 版本的內積運算，而且他的內積方向是反序的。</p>
 <p>補充一點，convolution 其實也是一種線性的運算喔！是不是跟前面談到的線性模型 $\sigma(W^T\mathbf{x} + \mathbf{b})$ 有點異曲同工的感覺呢？</p>
@@ -385,7 +389,7 @@
                                                     
                                                         
                                                             <div id="disqus_thread">
-    <noscript>Please enable JavaScript to view the <a href="//disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+    <noscript>Please enable JavaScript to view the <a href="//disqus.com/?ref_noscript" target="_blank" rel="noopener">comments powered by Disqus.</a></noscript>
 </div>
                                                                 
                                                                             
@@ -521,7 +525,9 @@
         
 <div id="cover" style="background-image:url('/assets/images/cover.jpg');"></div>
         <!--SCRIPTS-->
+
 <script src="/assets/js/script-xzfezjobyekpxrjktw5tz6muvzqfsbmo5n6atk3p5om9ulfptldi3p7cyqd8.min.js"></script>
+
 <!--SCRIPTS END-->
 
 
@@ -559,7 +565,5 @@
     });
 </script>
 <script src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
-<!-- <script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script> -->
-<!-- <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3.0.0/es5/tex-mml-chtml.js"></script> --><!-- hexo-inject:begin --><!-- hexo-inject:end -->
 </body>
 </html>

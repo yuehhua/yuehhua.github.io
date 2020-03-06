@@ -3,7 +3,7 @@
 <html lang="zh-tw,en,default">
     
 <head>
-    <!-- hexo-inject:begin --><!-- hexo-inject:end --><meta charset="UTF-8">
+    <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="generator" content="Dream Maker">
     <title>分類: Machine Learning - Dream Maker</title>
@@ -16,14 +16,16 @@
         <link rel="alternate" type="application/atom+xml" title="RSS" href="/atom.xml">
     
     <script type="application/ld+json">{}</script>
-    <meta name="keywords" content="machine learning,deep learning,topology">
-<meta property="og:type" content="blog">
+    <meta property="og:type" content="blog">
 <meta property="og:title" content="Dream Maker">
 <meta property="og:url" content="https://yuehhua.github.io/categories/Machine-Learning/index.html">
 <meta property="og:site_name" content="Dream Maker">
-<meta property="og:locale" content="zh-tw">
+<meta property="og:locale" content="zh_TW">
+<meta property="article:author" content="Yueh-Hua Tu">
+<meta property="article:tag" content="machine learning">
+<meta property="article:tag" content="deep learning">
+<meta property="article:tag" content="topology">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="Dream Maker">
     
     
         
@@ -33,7 +35,9 @@
     
     
     <!--STYLES-->
-    <link rel="stylesheet" href="/assets/css/style-3frockyt2j28isvdztjchy5nhkz8tjki9ermufc1ckptmvjdftux94m2ahub.min.css">
+    
+<link rel="stylesheet" href="/assets/css/style-3frockyt2j28isvdztjchy5nhkz8tjki9ermufc1ckptmvjdftux94m2ahub.min.css">
+
     <!--STYLES END-->
     
     <script type="text/javascript">
@@ -46,13 +50,13 @@
 
         ga('create', 'UA-119690895-1', 'auto');
         ga('send', 'pageview');
-    </script><!-- hexo-inject:begin --><!-- hexo-inject:end -->
+    </script>
     
     
 </head>
 
     <body>
-        <!-- hexo-inject:begin --><!-- hexo-inject:end --><div id="blog">
+        <div id="blog">
             <!-- Define author's picture -->
 
 
@@ -61,7 +65,7 @@
 <header id="header" data-behavior="2">
     <i id="btn-open-sidebar" class="fa fa-lg fa-bars"></i>
     <div class="header-title">
-        <a class="header-title-link" href="/ ">Dream Maker</a>
+        <a class="header-title-link" href="/%20">Dream Maker</a>
     </div>
     
         
@@ -85,7 +89,7 @@
                 <li class="sidebar-button">
                     
                         <a  class="sidebar-button-link "
-                             href="/ "
+                             href="/%20"
                             
                             title="首頁"
                         >
@@ -313,7 +317,7 @@ h(t) \rightarrow \frac{dy(t)}{dt} = f(h(t), t, \theta) \rightarrow y(t)</script>
 \frac{dh(t)}{dt} = f(h(t), t, \theta)</script><p>基本上，我們只要對上式做積分就可以了。</p>
 <script type="math/tex; mode=display">
 h(t) = \int f(h(t), t, \theta) dt</script><p>這是一個怎樣的概念呢？我們可以來看看下圖。</p>
-<p><img src="/images/hidden-state1.svg" alt></p>
+<p><img src="/images/hidden-state1.svg" alt=""></p>
 <p>我們做積分這件事其實是用 $h(t_0)$ 來推斷 $h(t_1)$ 的，這跟神經網路的向前傳遞是一樣的行為。</p>
 <script type="math/tex; mode=display">
 h(t_1) = F(h(t), t, \theta) \bigg|_{t=t_0}</script><p>這樣的積分動作，我們可以用 $t_0$ 時間點的資訊來解 $h(t_1)$。</p>
@@ -324,7 +328,7 @@ h(t_1) = ODESolve(h(t_0), t_0, t_1, \theta, f)</script><h2 id="反向傳遞解�
 \frac{\partial \mathcal{L}}{\partial h(t)} = -a(t)</script><p>adjoint state</p>
 <script type="math/tex; mode=display">
 a(t) = \int -a(t)^T \frac{\partial f}{\partial h} dt = - \frac{\partial \mathcal{L}}{\partial h(t)}</script><script type="math/tex; mode=display">
-a(t) = \int_{t_1}^{t_0} -a(t)^T \frac{\partial f(h(t), t, \theta)}{\partial h(t)} dt</script><p><img src="/images/adjoint-state.svg" alt></p>
+a(t) = \int_{t_1}^{t_0} -a(t)^T \frac{\partial f(h(t), t, \theta)}{\partial h(t)} dt</script><p><img src="/images/adjoint-state.svg" alt=""></p>
 <h2 id="擴充狀態（augmented-state）"><a href="#擴充狀態（augmented-state）" class="headerlink" title="擴充狀態（augmented state）"></a>擴充狀態（augmented state）</h2><p>$\frac{d \theta}{dt} = 0$</p>
 <p>$\frac{dt}{dt} = 1$</p>
 <p>let $\begin{bmatrix}<br>h \\<br>\theta \\<br>t<br>\end{bmatrix}$ be a augmented state</p>
@@ -488,7 +492,7 @@ a \frac{\partial f}{\partial t}
     
         <span>分類 </span>
         
-    <a class="category-link" href="/categories/Machine-Learning/">Machine Learning</a>, <a class="category-link" href="/categories/Machine-Learning/機器學習模型圖書館：從傳統模型到深度學習/">機器學習模型圖書館：從傳統模型到深度學習</a>
+    <a class="category-link" href="/categories/Machine-Learning/">Machine Learning</a>, <a class="category-link" href="/categories/Machine-Learning/%E6%A9%9F%E5%99%A8%E5%AD%B8%E7%BF%92%E6%A8%A1%E5%9E%8B%E5%9C%96%E6%9B%B8%E9%A4%A8%EF%BC%9A%E5%BE%9E%E5%82%B3%E7%B5%B1%E6%A8%A1%E5%9E%8B%E5%88%B0%E6%B7%B1%E5%BA%A6%E5%AD%B8%E7%BF%92/">機器學習模型圖書館：從傳統模型到深度學習</a>
 
 
     
@@ -500,7 +504,7 @@ a \frac{\partial f}{\partial t}
                     <p>在 autoencoder 的模型裏面，會希望以一個 unsupervised 方法來做到特徵萃取的目的。</p>
 <p>你也可以說他是一種降維的方法或是有損壓縮的方法。</p>
 <p>基本上就是透過一個線性轉換將原來的特徵，映射到比較低維度的特徵空間上。</p>
-<p><img src="/images/autoencoder1.svg" alt></p>
+<p><img src="/images/autoencoder1.svg" alt=""></p>
                     
                         <a href="/2018/11/14/31-variational-autoencoder/" class="postShorten-excerpt_link link">
                             繼續閱讀
@@ -534,7 +538,7 @@ a \frac{\partial f}{\partial t}
     
         <span>分類 </span>
         
-    <a class="category-link" href="/categories/Machine-Learning/">Machine Learning</a>, <a class="category-link" href="/categories/Machine-Learning/機器學習模型圖書館：從傳統模型到深度學習/">機器學習模型圖書館：從傳統模型到深度學習</a>
+    <a class="category-link" href="/categories/Machine-Learning/">Machine Learning</a>, <a class="category-link" href="/categories/Machine-Learning/%E6%A9%9F%E5%99%A8%E5%AD%B8%E7%BF%92%E6%A8%A1%E5%9E%8B%E5%9C%96%E6%9B%B8%E9%A4%A8%EF%BC%9A%E5%BE%9E%E5%82%B3%E7%B5%B1%E6%A8%A1%E5%9E%8B%E5%88%B0%E6%B7%B1%E5%BA%A6%E5%AD%B8%E7%BF%92/">機器學習模型圖書館：從傳統模型到深度學習</a>
 
 
     
@@ -591,7 +595,7 @@ a \frac{\partial f}{\partial t}
     
         <span>分類 </span>
         
-    <a class="category-link" href="/categories/Machine-Learning/">Machine Learning</a>, <a class="category-link" href="/categories/Machine-Learning/機器學習模型圖書館：從傳統模型到深度學習/">機器學習模型圖書館：從傳統模型到深度學習</a>
+    <a class="category-link" href="/categories/Machine-Learning/">Machine Learning</a>, <a class="category-link" href="/categories/Machine-Learning/%E6%A9%9F%E5%99%A8%E5%AD%B8%E7%BF%92%E6%A8%A1%E5%9E%8B%E5%9C%96%E6%9B%B8%E9%A4%A8%EF%BC%9A%E5%BE%9E%E5%82%B3%E7%B5%B1%E6%A8%A1%E5%9E%8B%E5%88%B0%E6%B7%B1%E5%BA%A6%E5%AD%B8%E7%BF%92/">機器學習模型圖書館：從傳統模型到深度學習</a>
 
 
     
@@ -636,7 +640,7 @@ a \frac{\partial f}{\partial t}
     
         <span>分類 </span>
         
-    <a class="category-link" href="/categories/Machine-Learning/">Machine Learning</a>, <a class="category-link" href="/categories/Machine-Learning/機器學習模型圖書館：從傳統模型到深度學習/">機器學習模型圖書館：從傳統模型到深度學習</a>
+    <a class="category-link" href="/categories/Machine-Learning/">Machine Learning</a>, <a class="category-link" href="/categories/Machine-Learning/%E6%A9%9F%E5%99%A8%E5%AD%B8%E7%BF%92%E6%A8%A1%E5%9E%8B%E5%9C%96%E6%9B%B8%E9%A4%A8%EF%BC%9A%E5%BE%9E%E5%82%B3%E7%B5%B1%E6%A8%A1%E5%9E%8B%E5%88%B0%E6%B7%B1%E5%BA%A6%E5%AD%B8%E7%BF%92/">機器學習模型圖書館：從傳統模型到深度學習</a>
 
 
     
@@ -682,7 +686,7 @@ a \frac{\partial f}{\partial t}
     
         <span>分類 </span>
         
-    <a class="category-link" href="/categories/Machine-Learning/">Machine Learning</a>, <a class="category-link" href="/categories/Machine-Learning/機器學習模型圖書館：從傳統模型到深度學習/">機器學習模型圖書館：從傳統模型到深度學習</a>
+    <a class="category-link" href="/categories/Machine-Learning/">Machine Learning</a>, <a class="category-link" href="/categories/Machine-Learning/%E6%A9%9F%E5%99%A8%E5%AD%B8%E7%BF%92%E6%A8%A1%E5%9E%8B%E5%9C%96%E6%9B%B8%E9%A4%A8%EF%BC%9A%E5%BE%9E%E5%82%B3%E7%B5%B1%E6%A8%A1%E5%9E%8B%E5%88%B0%E6%B7%B1%E5%BA%A6%E5%AD%B8%E7%BF%92/">機器學習模型圖書館：從傳統模型到深度學習</a>
 
 
     
@@ -727,7 +731,7 @@ a \frac{\partial f}{\partial t}
     
         <span>分類 </span>
         
-    <a class="category-link" href="/categories/Machine-Learning/">Machine Learning</a>, <a class="category-link" href="/categories/Machine-Learning/機器學習模型圖書館：從傳統模型到深度學習/">機器學習模型圖書館：從傳統模型到深度學習</a>
+    <a class="category-link" href="/categories/Machine-Learning/">Machine Learning</a>, <a class="category-link" href="/categories/Machine-Learning/%E6%A9%9F%E5%99%A8%E5%AD%B8%E7%BF%92%E6%A8%A1%E5%9E%8B%E5%9C%96%E6%9B%B8%E9%A4%A8%EF%BC%9A%E5%BE%9E%E5%82%B3%E7%B5%B1%E6%A8%A1%E5%9E%8B%E5%88%B0%E6%B7%B1%E5%BA%A6%E5%AD%B8%E7%BF%92/">機器學習模型圖書館：從傳統模型到深度學習</a>
 
 
     
@@ -738,7 +742,7 @@ a \frac{\partial f}{\partial t}
                 <div class="postShorten-excerpt">
                     <p>前面有提到 seq2seq model，我們就從這邊開始。</p>
 <p>Seq2seq model 他採用了 encoder-decoder 架構，這時候就要來點 paper 的圖啦！</p>
-<p><img src="/images/seq2seq.svg" alt></p>
+<p><img src="/images/seq2seq.svg" alt=""></p>
                     
                         <a href="/2018/10/26/26-sequence-to-sequence-model/" class="postShorten-excerpt_link link">
                             繼續閱讀
@@ -772,7 +776,7 @@ a \frac{\partial f}{\partial t}
     
         <span>分類 </span>
         
-    <a class="category-link" href="/categories/Machine-Learning/">Machine Learning</a>, <a class="category-link" href="/categories/Machine-Learning/機器學習模型圖書館：從傳統模型到深度學習/">機器學習模型圖書館：從傳統模型到深度學習</a>
+    <a class="category-link" href="/categories/Machine-Learning/">Machine Learning</a>, <a class="category-link" href="/categories/Machine-Learning/%E6%A9%9F%E5%99%A8%E5%AD%B8%E7%BF%92%E6%A8%A1%E5%9E%8B%E5%9C%96%E6%9B%B8%E9%A4%A8%EF%BC%9A%E5%BE%9E%E5%82%B3%E7%B5%B1%E6%A8%A1%E5%9E%8B%E5%88%B0%E6%B7%B1%E5%BA%A6%E5%AD%B8%E7%BF%92/">機器學習模型圖書館：從傳統模型到深度學習</a>
 
 
     
@@ -834,7 +838,7 @@ a \frac{\partial f}{\partial t}
     
         <span>分類 </span>
         
-    <a class="category-link" href="/categories/Machine-Learning/">Machine Learning</a>, <a class="category-link" href="/categories/Machine-Learning/機器學習模型圖書館：從傳統模型到深度學習/">機器學習模型圖書館：從傳統模型到深度學習</a>
+    <a class="category-link" href="/categories/Machine-Learning/">Machine Learning</a>, <a class="category-link" href="/categories/Machine-Learning/%E6%A9%9F%E5%99%A8%E5%AD%B8%E7%BF%92%E6%A8%A1%E5%9E%8B%E5%9C%96%E6%9B%B8%E9%A4%A8%EF%BC%9A%E5%BE%9E%E5%82%B3%E7%B5%B1%E6%A8%A1%E5%9E%8B%E5%88%B0%E6%B7%B1%E5%BA%A6%E5%AD%B8%E7%BF%92/">機器學習模型圖書館：從傳統模型到深度學習</a>
 
 
     
@@ -856,9 +860,9 @@ a \frac{\partial f}{\partial t}
 <p>首先，在這邊的狀態會以一個向量做表示，大家應該也知道 RNN 的 input 是一個向量，當中的狀態也是一個向量，最後的 output 也是一個向量。而這些向量當中的的值都是連續的 $\mathbb{R}^n$（假設向量大小為 n），不像上面的模型都是離散的 $k$（假設有 k 個狀態），所以在空間上的大小可以說是擴大非常多。</p>
 <p>接下來我們來看看時間的狀態轉換：</p>
 <p>&lt;/br&gt;</p>
-<p><img src="/images/rnn_time.svg" alt></p>
+<p><img src="/images/rnn_time.svg" alt=""></p>
 <p>&lt;/br&gt;</p>
-<p><img src="/images/rnn_expand_time.svg" alt></p>
+<p><img src="/images/rnn_expand_time.svg" alt=""></p>
 <p>&lt;/br&gt;</p>
 <p>在 RNN 中一樣含有內在狀態，但不同的是 RNN 可以在每個時間點上給輸入向量（$\mathbf{x^{(t)}}$），所以可以根據前一個時間點的內在狀態（$\mathbf{h^{(t)}}$）跟輸入向量去計算輸出，或是外在狀態（$\mathbf{y^{(t)}}$）。</p>
 <p>所以大家會在一些論文上看到模型的狀態關係式長下面這個樣子：</p>
@@ -950,7 +954,9 @@ a \frac{\partial f}{\partial t}
         
 <div id="cover" style="background-image:url('/assets/images/cover.jpg');"></div>
         <!--SCRIPTS-->
+
 <script src="/assets/js/script-xzfezjobyekpxrjktw5tz6muvzqfsbmo5n6atk3p5om9ulfptldi3p7cyqd8.min.js"></script>
+
 <!--SCRIPTS END-->
 
 
@@ -969,7 +975,5 @@ a \frac{\partial f}{\partial t}
     });
 </script>
 <script src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
-<!-- <script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script> -->
-<!-- <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3.0.0/es5/tex-mml-chtml.js"></script> --><!-- hexo-inject:begin --><!-- hexo-inject:end -->
 </body>
 </html>

@@ -3,7 +3,7 @@
 <html lang="zh-tw,en,default">
     
 <head>
-    <!-- hexo-inject:begin --><!-- hexo-inject:end --><meta charset="UTF-8">
+    <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="generator" content="Dream Maker">
     <title>12 從線性模型到神經網路 - Dream Maker</title>
@@ -16,18 +16,20 @@
         <link rel="alternate" type="application/atom+xml" title="RSS" href="/atom.xml">
     
     <script type="application/ld+json">{"@context":"http://schema.org","@type":"BlogPosting","author":{"@type":"Person","name":"Yueh-Hua Tu","sameAs":["https://github.com/yuehhua/","https://www.facebook.com/a504082002","https://www.linkedin.com/in/%E5%B2%B3%E8%8F%AF-%E6%9D%9C-6a3995a0/","mailto:a504082002@gmail.com"],"image":"https://www.gravatar.com/avatar/a565749fba4782b717234da670b273fd"},"articleBody":"我們把線性模型們都大統一了。\n\ny \\overset{f}{\\longleftrightarrow} \\mathbb{E}[y] \\leftrightarrow \\eta = \\mathbf{w}^T\\mathbf{x} + b接下來就要進入到令人興奮的神經網路模型了！\n\n首先，我們先來介紹著名的感知器…嗯…前面不是介紹過了？\n喔喔！對喔！他長這個樣子：\n\ny = \\sigma(\\mathbf{w}^T\\mathbf{x} + b)其中 $\\mathbf{w}^T\\mathbf{x} + b$ 是我們熟悉的線性模型，然後 $\\sigma$ 就是所謂的 activation function。\n不覺得這看起來跟上面的很相似嗎？\n我們動點手腳：\n\n\\sigma^{-1}(y) = \\mathbf{w}^T\\mathbf{x} + b是的！發現了嗎？其實 $\\sigma^{-1}$ 就是在廣義線性模型裡的鏈結函數阿！他會是 activation function 的反函數！\n這樣是不是又了結了一樁心事了呢？\n堆疊在神經網路當中，我們會把一個一個神經元並排起來，數學上看起來就是把預測單一個 y 擴張成多個維度：\n\n\\mathbf{y} = \\sigma(W^T\\mathbf{x} + \\mathbf{b})所以在權重 W 的部份也隨之從一個向量擴張成一個矩陣，b 的部份也是，可以自己驗算看看。\n但是預測多維向量並不是讓模型強大的地方，讓模型強大是因為把很多個這樣的模型頭尾接起來。\n\n\\mathbf{x} \\overset{f^{(0)}}{\\longrightarrow} \\mathbf{h}^{(1)} \\overset{f^{(1)}}{\\longrightarrow} \\dots \\overset{f^{(k-1)}}{\\longrightarrow} \\mathbf{h}^{(k)} \\overset{f^{(k)}}{\\longrightarrow} \\mathbf{y}當中的這些函數們 $f^{(k))}$ 就是我們說的層。\n\n\\mathbf{h}^{(k)} = f^{(k))}(\\mathbf{h}^{(k-1)}) = \\sigma(W^T\\mathbf{h}^{(k-1)} + \\mathbf{b})神經網路模型之所以強大的原因是因為將模型頭尾相接，並不是因為他是模擬生物系統，只是靈感是從生物系統上得來的而已。\n搭配上 activation function 的非線性轉換，就可以模擬很多非線性的現象。\n\n\n\n\nmodel\nlink function\nactivation function\n\n\n\n\nlinear regression\nidentity function: $y = x$\nidentity function: $y = x$\n\n\nlogistic regression\nlogit function: $y = \\frac{x}{1-x}$\nsigmoid function: $y = \\frac{1}{1 + e^{-x}}$\n\n\nPoisson regression\nlog function: $y = ln(x)$\nexponential function: $y = exp(x)$\n\n\n\n\n","dateCreated":"2018-10-12T23:46:06+08:00","dateModified":"2018-10-15T15:04:53+08:00","datePublished":"2018-10-12T23:46:06+08:00","description":"我們把線性模型們都大統一了。\n\ny \\overset{f}{\\longleftrightarrow} \\mathbb{E}[y] \\leftrightarrow \\eta = \\mathbf{w}^T\\mathbf{x} + b接下來就要進入到令人興奮的神經網路模型了！","headline":"12 從線性模型到神經網路","image":[],"mainEntityOfPage":{"@type":"WebPage","@id":"https://yuehhua.github.io/2018/10/12/12-from-linear-model-to-neural-network/"},"publisher":{"@type":"Organization","name":"Yueh-Hua Tu","sameAs":["https://github.com/yuehhua/","https://www.facebook.com/a504082002","https://www.linkedin.com/in/%E5%B2%B3%E8%8F%AF-%E6%9D%9C-6a3995a0/","mailto:a504082002@gmail.com"],"image":"https://www.gravatar.com/avatar/a565749fba4782b717234da670b273fd","logo":{"@type":"ImageObject","url":"https://www.gravatar.com/avatar/a565749fba4782b717234da670b273fd"}},"url":"https://yuehhua.github.io/2018/10/12/12-from-linear-model-to-neural-network/"}</script>
-    <meta name="description" content="我們把線性模型們都大統一了。  y \overset{f}{\longleftrightarrow} \mathbb{E}[y] \leftrightarrow \eta = \mathbf{w}^T\mathbf{x} + b接下來就要進入到令人興奮的神經網路模型了！">
-<meta name="keywords" content="machine learning,deep learning,topology">
+    <meta name="description" content="我們把線性模型們都大統一了。  y \overset{f}{\longleftrightarrow} \mathbb{E}[y] \leftrightarrow \eta &#x3D; \mathbf{w}^T\mathbf{x} + b接下來就要進入到令人興奮的神經網路模型了！">
 <meta property="og:type" content="blog">
 <meta property="og:title" content="12 從線性模型到神經網路">
 <meta property="og:url" content="https://yuehhua.github.io/2018/10/12/12-from-linear-model-to-neural-network/index.html">
 <meta property="og:site_name" content="Dream Maker">
-<meta property="og:description" content="我們把線性模型們都大統一了。  y \overset{f}{\longleftrightarrow} \mathbb{E}[y] \leftrightarrow \eta = \mathbf{w}^T\mathbf{x} + b接下來就要進入到令人興奮的神經網路模型了！">
-<meta property="og:locale" content="zh-tw">
-<meta property="og:updated_time" content="2018-10-15T07:04:53.018Z">
+<meta property="og:description" content="我們把線性模型們都大統一了。  y \overset{f}{\longleftrightarrow} \mathbb{E}[y] \leftrightarrow \eta &#x3D; \mathbf{w}^T\mathbf{x} + b接下來就要進入到令人興奮的神經網路模型了！">
+<meta property="og:locale" content="zh_TW">
+<meta property="article:published_time" content="2018-10-12T15:46:06.000Z">
+<meta property="article:modified_time" content="2018-10-15T07:04:53.018Z">
+<meta property="article:author" content="Yueh-Hua Tu">
+<meta property="article:tag" content="machine learning">
+<meta property="article:tag" content="deep learning">
+<meta property="article:tag" content="topology">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="12 從線性模型到神經網路">
-<meta name="twitter:description" content="我們把線性模型們都大統一了。  y \overset{f}{\longleftrightarrow} \mathbb{E}[y] \leftrightarrow \eta = \mathbf{w}^T\mathbf{x} + b接下來就要進入到令人興奮的神經網路模型了！">
     
     
         
@@ -37,7 +39,9 @@
     
     
     <!--STYLES-->
-    <link rel="stylesheet" href="/assets/css/style-3frockyt2j28isvdztjchy5nhkz8tjki9ermufc1ckptmvjdftux94m2ahub.min.css">
+    
+<link rel="stylesheet" href="/assets/css/style-3frockyt2j28isvdztjchy5nhkz8tjki9ermufc1ckptmvjdftux94m2ahub.min.css">
+
     <!--STYLES END-->
     
     <script type="text/javascript">
@@ -50,13 +54,13 @@
 
         ga('create', 'UA-119690895-1', 'auto');
         ga('send', 'pageview');
-    </script><!-- hexo-inject:begin --><!-- hexo-inject:end -->
+    </script>
     
     
 </head>
 
     <body>
-        <!-- hexo-inject:begin --><!-- hexo-inject:end --><div id="blog">
+        <div id="blog">
             <!-- Define author's picture -->
 
 
@@ -65,7 +69,7 @@
 <header id="header" data-behavior="5">
     <i id="btn-open-sidebar" class="fa fa-lg fa-bars"></i>
     <div class="header-title">
-        <a class="header-title-link" href="/ ">Dream Maker</a>
+        <a class="header-title-link" href="/%20">Dream Maker</a>
     </div>
     
         
@@ -89,7 +93,7 @@
                 <li class="sidebar-button">
                     
                         <a  class="sidebar-button-link "
-                             href="/ "
+                             href="/%20"
                             
                             title="首頁"
                         >
@@ -251,7 +255,7 @@
     
         <span>分類 </span>
         
-    <a class="category-link" href="/categories/Machine-Learning/">Machine Learning</a>, <a class="category-link" href="/categories/Machine-Learning/機器學習模型圖書館：從傳統模型到深度學習/">機器學習模型圖書館：從傳統模型到深度學習</a>
+    <a class="category-link" href="/categories/Machine-Learning/">Machine Learning</a>, <a class="category-link" href="/categories/Machine-Learning/%E6%A9%9F%E5%99%A8%E5%AD%B8%E7%BF%92%E6%A8%A1%E5%9E%8B%E5%9C%96%E6%9B%B8%E9%A4%A8%EF%BC%9A%E5%BE%9E%E5%82%B3%E7%B5%B1%E6%A8%A1%E5%9E%8B%E5%88%B0%E6%B7%B1%E5%BA%A6%E5%AD%B8%E7%BF%92/">機器學習模型圖書館：從傳統模型到深度學習</a>
 
 
     
@@ -383,7 +387,7 @@ y = \sigma(\mathbf{w}^T\mathbf{x} + b)</script><p>其中 $\mathbf{w}^T\mathbf{x}
                                                     
                                                         
                                                             <div id="disqus_thread">
-    <noscript>Please enable JavaScript to view the <a href="//disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+    <noscript>Please enable JavaScript to view the <a href="//disqus.com/?ref_noscript" target="_blank" rel="noopener">comments powered by Disqus.</a></noscript>
 </div>
                                                                 
                                                                             
@@ -519,7 +523,9 @@ y = \sigma(\mathbf{w}^T\mathbf{x} + b)</script><p>其中 $\mathbf{w}^T\mathbf{x}
         
 <div id="cover" style="background-image:url('/assets/images/cover.jpg');"></div>
         <!--SCRIPTS-->
+
 <script src="/assets/js/script-xzfezjobyekpxrjktw5tz6muvzqfsbmo5n6atk3p5om9ulfptldi3p7cyqd8.min.js"></script>
+
 <!--SCRIPTS END-->
 
 
@@ -557,7 +563,5 @@ y = \sigma(\mathbf{w}^T\mathbf{x} + b)</script><p>其中 $\mathbf{w}^T\mathbf{x}
     });
 </script>
 <script src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
-<!-- <script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script> -->
-<!-- <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3.0.0/es5/tex-mml-chtml.js"></script> --><!-- hexo-inject:begin --><!-- hexo-inject:end -->
 </body>
 </html>

@@ -3,7 +3,7 @@
 <html lang="zh-tw,en,default">
     
 <head>
-    <!-- hexo-inject:begin --><!-- hexo-inject:end --><meta charset="UTF-8">
+    <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="generator" content="Dream Maker">
     <title>Name binding 與 dispatch - Dream Maker</title>
@@ -17,17 +17,19 @@
     
     <script type="application/ld+json">{"@context":"http://schema.org","@type":"BlogPosting","author":{"@type":"Person","name":"Yueh-Hua Tu","sameAs":["https://github.com/yuehhua/","https://www.facebook.com/a504082002","https://www.linkedin.com/in/%E5%B2%B3%E8%8F%AF-%E6%9D%9C-6a3995a0/","mailto:a504082002@gmail.com"],"image":"https://www.gravatar.com/avatar/a565749fba4782b717234da670b273fd"},"articleBody":"Name binding 是一個將資料或是程式碼綁定（binding）到識別符（identifiers）的一個過程。一個識別符綁定到一個物件代表這個識別符會參考（reference）某個物件。\nName binding 在程式語言中式相當重要而複雜的一個議題，而它牽涉到作用域（scope）的問題，物件存在於程式碼的位置（語意）及物件的生命周期（時間）。\n\n一般而言，當物件被去除綁定，那物件將會被垃圾回收（garbage collection）機制給處理掉。\nName binding 依據時間分為：\n\nStatic binding (or early binding)：在編譯時期（compile time）進行綁定\nDynamic binding (or late binding)：在執行時期（runtime）進行綁定\n\nStatic binding 的一個經典例子是 C 的函式呼叫，它在編譯時期就將函式內容綁定到識別符上，而無法在執行時期變更。\nDynamic binding 的一個相對應的例子則是 C++ 的虛擬方法呼叫，由於多型的機制，物件的型別無法在編譯時期得知，所以綁定會在執行時期處理。\n在執行時期，如果識別符變更參考到其他的物件，我們稱為重新綁定（rebinding）。如果是變更識別符指向的物件本身，那麼我們稱為突變（mutation）。\n在這邊提到多型的機制，就不得不去提 dispatch 的機制。一般在物件導向語言中以 dynamic dispatch 為主，表示在多型機制下，方法的選定是由第一個參數的型別來決定。\nDispatch 是個選擇的問題，而 binding 是個綁定的問題。選擇一定要發生在綁定後。\nDynamic dispatch 可以是 static binding 也可以是 dynamic binding，但是 dynamic binding 就只能在執行時間做 dispatch 了。\nDynamic dispatch 一般指 single dispatch，也就是由第一個參數的型別來決定要呼叫哪一個方法。相對也有 multiple dispatch，就會利用所有的參數型的排列組合來決定要呼叫哪一個方法。\n","dateCreated":"2019-12-01T10:49:40+08:00","dateModified":"2019-12-01T10:49:40+08:00","datePublished":"2019-12-01T10:49:40+08:00","description":"Name binding 是一個將資料或是程式碼綁定（binding）到識別符（identifiers）的一個過程。一個識別符綁定到一個物件代表這個識別符會參考（reference）某個物件。\nName binding 在程式語言中式相當重要而複雜的一個議題，而它牽涉到作用域（scope）的問題，物件存在於程式碼的位置（語意）及物件的生命周期（時間）。","headline":"Name binding 與 dispatch","image":[],"mainEntityOfPage":{"@type":"WebPage","@id":"https://yuehhua.github.io/2019/12/01/name-binding-and-dispatch/"},"publisher":{"@type":"Organization","name":"Yueh-Hua Tu","sameAs":["https://github.com/yuehhua/","https://www.facebook.com/a504082002","https://www.linkedin.com/in/%E5%B2%B3%E8%8F%AF-%E6%9D%9C-6a3995a0/","mailto:a504082002@gmail.com"],"image":"https://www.gravatar.com/avatar/a565749fba4782b717234da670b273fd","logo":{"@type":"ImageObject","url":"https://www.gravatar.com/avatar/a565749fba4782b717234da670b273fd"}},"url":"https://yuehhua.github.io/2019/12/01/name-binding-and-dispatch/"}</script>
     <meta name="description" content="Name binding 是一個將資料或是程式碼綁定（binding）到識別符（identifiers）的一個過程。一個識別符綁定到一個物件代表這個識別符會參考（reference）某個物件。 Name binding 在程式語言中式相當重要而複雜的一個議題，而它牽涉到作用域（scope）的問題，物件存在於程式碼的位置（語意）及物件的生命周期（時間）。">
-<meta name="keywords" content="machine learning,deep learning,topology">
 <meta property="og:type" content="blog">
 <meta property="og:title" content="Name binding 與 dispatch">
 <meta property="og:url" content="https://yuehhua.github.io/2019/12/01/name-binding-and-dispatch/index.html">
 <meta property="og:site_name" content="Dream Maker">
 <meta property="og:description" content="Name binding 是一個將資料或是程式碼綁定（binding）到識別符（identifiers）的一個過程。一個識別符綁定到一個物件代表這個識別符會參考（reference）某個物件。 Name binding 在程式語言中式相當重要而複雜的一個議題，而它牽涉到作用域（scope）的問題，物件存在於程式碼的位置（語意）及物件的生命周期（時間）。">
-<meta property="og:locale" content="zh-tw">
-<meta property="og:updated_time" content="2019-12-01T02:49:40.195Z">
+<meta property="og:locale" content="zh_TW">
+<meta property="article:published_time" content="2019-12-01T02:49:40.000Z">
+<meta property="article:modified_time" content="2019-12-01T02:49:40.195Z">
+<meta property="article:author" content="Yueh-Hua Tu">
+<meta property="article:tag" content="machine learning">
+<meta property="article:tag" content="deep learning">
+<meta property="article:tag" content="topology">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="Name binding 與 dispatch">
-<meta name="twitter:description" content="Name binding 是一個將資料或是程式碼綁定（binding）到識別符（identifiers）的一個過程。一個識別符綁定到一個物件代表這個識別符會參考（reference）某個物件。 Name binding 在程式語言中式相當重要而複雜的一個議題，而它牽涉到作用域（scope）的問題，物件存在於程式碼的位置（語意）及物件的生命周期（時間）。">
     
     
         
@@ -37,7 +39,9 @@
     
     
     <!--STYLES-->
-    <link rel="stylesheet" href="/assets/css/style-3frockyt2j28isvdztjchy5nhkz8tjki9ermufc1ckptmvjdftux94m2ahub.min.css">
+    
+<link rel="stylesheet" href="/assets/css/style-3frockyt2j28isvdztjchy5nhkz8tjki9ermufc1ckptmvjdftux94m2ahub.min.css">
+
     <!--STYLES END-->
     
     <script type="text/javascript">
@@ -50,13 +54,13 @@
 
         ga('create', 'UA-119690895-1', 'auto');
         ga('send', 'pageview');
-    </script><!-- hexo-inject:begin --><!-- hexo-inject:end -->
+    </script>
     
     
 </head>
 
     <body>
-        <!-- hexo-inject:begin --><!-- hexo-inject:end --><div id="blog">
+        <div id="blog">
             <!-- Define author's picture -->
 
 
@@ -65,7 +69,7 @@
 <header id="header" data-behavior="5">
     <i id="btn-open-sidebar" class="fa fa-lg fa-bars"></i>
     <div class="header-title">
-        <a class="header-title-link" href="/ ">Dream Maker</a>
+        <a class="header-title-link" href="/%20">Dream Maker</a>
     </div>
     
         
@@ -89,7 +93,7 @@
                 <li class="sidebar-button">
                     
                         <a  class="sidebar-button-link "
-                             href="/ "
+                             href="/%20"
                             
                             title="首頁"
                         >
@@ -349,7 +353,7 @@
                                                     
                                                         
                                                             <div id="disqus_thread">
-    <noscript>Please enable JavaScript to view the <a href="//disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+    <noscript>Please enable JavaScript to view the <a href="//disqus.com/?ref_noscript" target="_blank" rel="noopener">comments powered by Disqus.</a></noscript>
 </div>
                                                                 
                                                                             
@@ -485,7 +489,9 @@
         
 <div id="cover" style="background-image:url('/assets/images/cover.jpg');"></div>
         <!--SCRIPTS-->
+
 <script src="/assets/js/script-xzfezjobyekpxrjktw5tz6muvzqfsbmo5n6atk3p5om9ulfptldi3p7cyqd8.min.js"></script>
+
 <!--SCRIPTS END-->
 
 
@@ -523,7 +529,5 @@
     });
 </script>
 <script src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
-<!-- <script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script> -->
-<!-- <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3.0.0/es5/tex-mml-chtml.js"></script> --><!-- hexo-inject:begin --><!-- hexo-inject:end -->
 </body>
 </html>

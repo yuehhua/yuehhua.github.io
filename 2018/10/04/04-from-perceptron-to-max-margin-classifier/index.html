@@ -3,7 +3,7 @@
 <html lang="zh-tw,en,default">
     
 <head>
-    <!-- hexo-inject:begin --><!-- hexo-inject:end --><meta charset="UTF-8">
+    <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="generator" content="Dream Maker">
     <title>04 從感知器到 maximum-margin classifier - Dream Maker</title>
@@ -17,13 +17,12 @@
     
     <script type="application/ld+json">{"@context":"http://schema.org","@type":"BlogPosting","author":{"@type":"Person","name":"Yueh-Hua Tu","sameAs":["https://github.com/yuehhua/","https://www.facebook.com/a504082002","https://www.linkedin.com/in/%E5%B2%B3%E8%8F%AF-%E6%9D%9C-6a3995a0/","mailto:a504082002@gmail.com"],"image":"https://www.gravatar.com/avatar/a565749fba4782b717234da670b273fd"},"articleBody":"上次我們完成了感知器的介紹，感知器也有他相對應的學習演算法：perceptron learning algorithm (PLA)。\n不過我們今天沒有要講 PLA，我們來講講感知器的缺點。\n感知器這個模型有很多的缺點，但是因為他是最簡單的模型，我們就放他一馬（？）。\n\n他的缺點有：\n\n只能處理線性可分（linear-separable）的資料\n只要能分，大家都是好的分類器（黑貓白貓，能抓老鼠的就是好貓？）\n\n線性可分我們一項一項來講，什麼是線性可分（linear-separable）？\n\n像這樣是線性可分的，可以用一條直線把不同的點分開。\n\n像這樣根本找不到一條線可以將點分開的，不是線性可分。\n\n差一點點也不行！很尷尬，差一點就可以變成線性可分的了！但是他就不是！\n所以整體說起來，感知器在使用上限制頗大。\n好的分類器？接下來，什麼叫作一個好的分類器？\n\n\n\n以上三張圖，大家有沒有認為哪一張分的最好？\n每個人可能有不同的答案，但是有沒有覺得第一張是比較好的分類器？\n為什麼？\n資料點都多多少少會有一些誤差，而資料我們都假設他比較相似的會在一起，所以當新的資料點出現的時候，我們通常預期他會在舊的資料點附近。所以說，如果線可以離資料點遠一點比較好，這樣的話就不會不小心分錯。\n其實你心裡想的是這個樣子的：\n\n我們可以定一個東西叫作 margin，他就是線到最近的資料點的距離，然後希望 margin 可以越大越好。\nMaximum-margin classifier所以我們希望的是一個讓 margin 最大化的分類器，也就是 Maximum-margin classifier。\n那麼他要怎麼以數學表達呢？\n注意：以下數學高能！！\n\n\\begin{align}\n\\mathop{\\arg\\max}_{\\mathbf{w}, b} &\\ \\ \\ \\ \n    \\text{margin}(\\mathbf{w}, b) \\\\\\\\\n\\text{subject to} &\\ \\ \\ \\ \n    \\text{classify } (\\mathbf{x_n}, y_n) \\text{ correctly} \\\\\\\\\n\\text{ } &\\ \\ \\ \\ \n    \\text{margin}(\\mathbf{w}, b) = \\mathop{\\min}_{i = 1 \\dots n} \\text{distance}(\\mathbf{x_n}, \\mathbf{w}, b)\n\\end{align}總的來說，你希望 margin 越大越好，那就是我們的最佳化目標，但是會帶有一些條件，像是我們需要將點都分對，以及 margin 的定義是線到各個點的距離最短的那個。\n上方式子中的 argmax 指的是改變某些變數（$\\mathbf{w}, b$），讓後方的式子的值最大。subject to 則是限制式，也就是必須要滿足的條件。\n但是這樣的式子無法直接套用數學方法計算，所以我們要進一步將式子公式化。\n進一步公式化注意：以下極度數學高能！！\n談到距離的話，我們要先講講高中數學裡的點到線距離公式：\n\n\\text{distance}(\\mathbf{x_i}, \\mathbf{w}, b) = \\frac{|ax_i + by_i + c|}{\\sqrt{a^2 + b^2}}不記得的話，回去翻翻課本或是 google 一下。可以觀察一下，會發現分子是線的權重向量跟資料點向量的相乘再相加，再加上一個常數項。相乘再相加的動作其實就是兩個向量的 內積運算。分母部份是線的權重向量的 長度。我們可以把這個二維的公式擴充到 n 維，就變成了：\n\n\\text{distance}(\\mathbf{x_i}, \\mathbf{w}, b) = \\frac{|\\mathbf{w}^T\\mathbf{x_i} + b|}{\\left\\lVert \\mathbf{w} \\right\\rVert}是不是看起來漂亮許多？\n接著，如果要把資料點分對，那就表示說，將資料點 $\\mathbf{x_i}$ 代入模型中算出來的值會跟真實答案 $y_i$ 在線的同側，也就是正負號是相同的。利用這點，我們發現如果將資料點代入模型中算出來的值 $(\\mathbf{w}^T\\mathbf{x_i} + b)$ 與真實答案 $y_i$ 相乘的話，必定為正，所以 $y_i (\\mathbf{w}^T\\mathbf{x_i} + b) \\gt 0$。\n整個問題會被進一步變成這樣：\n\n\\begin{align}\n\\mathop{\\arg\\max}_{\\mathbf{w}, b} &\\ \\ \\ \\ \n    \\text{margin}(\\mathbf{w}, b) \\\\\\\\\n\\text{subject to} &\\ \\ \\ \\ \n    \\forall i, y_i (\\mathbf{w}^T\\mathbf{x_i} + b) \\gt 0 \\\\\\\\\n\\text{ } &\\ \\ \\ \\ \n    \\text{margin}(\\mathbf{w}, b) = \\mathop{\\min}_{i = 1 \\dots n} \\frac{|\\mathbf{w}^T\\mathbf{x_i} + b|}{\\left\\lVert \\mathbf{w} \\right\\rVert}\n\\end{align}$|\\mathbf{w}^T\\mathbf{x_i} + b|$ 的絕對值部份不是那麼好處理，我們可以把他替換成 $y_i (\\mathbf{w}^T\\mathbf{x_i} + b)$，反正他一定恆正。\n\n\\begin{align}\n\\mathop{\\arg\\max}_{\\mathbf{w}, b} &\\ \\ \\ \\ \n    \\text{margin}(\\mathbf{w}, b) \\\\\\\\\n\\text{subject to} &\\ \\ \\ \\ \n    \\forall i, y_i (\\mathbf{w}^T\\mathbf{x_i} + b) \\gt 0 \\\\\\\\\n\\text{ } &\\ \\ \\ \\ \n    \\text{margin}(\\mathbf{w}, b) = \\mathop{\\min}_{i = 1 \\dots n} \\frac{y_i (\\mathbf{w}^T\\mathbf{x_i} + b)}{\\left\\lVert \\mathbf{w} \\right\\rVert}\n\\end{align}Scalling trick對於以下的部份，我們可以進一步簡化。\n\n\\text{margin}(\\mathbf{w}, b) = \\mathop{\\min}_{i = 1 \\dots n} \\frac{y_i (\\mathbf{w}^T\\mathbf{x_i} + b)}{\\left\\lVert \\mathbf{w} \\right\\rVert}對於一條直線 $\\mathbf{w}^T\\mathbf{x_i} + b = 0$ 來說，縮放 c 倍基本上是沒有影響的 $c\\mathbf{w}^T\\mathbf{x_i} + cb = 0$。所以我們就乾脆將這個值縮放成剛好是 1，像下面這樣：\n\n\\mathop{\\min}_{i = 1 \\dots n} y_i (\\mathbf{w}^T\\mathbf{x_i} + b) = 1這樣有什麼好處呢？如果你把他代回去我們的最佳化目標的話，margin 的大小是不是變成這樣了呢？\n\n\\text{margin}(\\mathbf{w}, b) = \\frac{1}{\\left\\lVert \\mathbf{w} \\right\\rVert}而且我們也省掉了 $y_i (\\mathbf{w}^T\\mathbf{x_i} + b) \\gt 0$ 這個限制，畢竟最小的資料點計算出來至少有 1。整個問題就變成了這樣：\n\n\\begin{align}\n\\mathop{\\arg\\max} _{\\mathbf{w}, b} &\\ \\ \\ \\ \n    \\frac{1}{\\left\\lVert \\mathbf{w} \\right\\rVert} \\\\\\\\\n\\text{subject to} &\\ \\ \\ \\ \n    \\mathop{\\min} _{i = 1 \\dots n} y_i (\\mathbf{w}^T \\mathbf{x_i} + b) = 1\n\\end{align}min 還是個不好處理的運算，我們與其求某個資料點代入最小值會是 1，我們不如放寬限制，變成所有資料點帶入公式都會 $\\ge 1$。\n\n\\mathop{\\min}_{i = 1 \\dots n} y_i (\\mathbf{w}^T\\mathbf{x_i} + b) = 1\n\\Rightarrow\ny_i (\\mathbf{w}^T\\mathbf{x_i} + b) \\ge 1最後，數學家都會有點潔癖，將問題變成他們喜歡的形式。像是求倒數的最大值，不如我們求最小值。要求 $\\mathbf{w}$ 的長度太麻煩了，我們把長度中的根號拿掉。再加個二分之一上去。\n\n\\begin{align}\n\\mathop{\\arg\\min}_{\\mathbf{w}, b} &\\ \\ \\ \\ \n    \\frac{1}{2} \\mathbf{w}^T\\mathbf{w} \\\\\\\\\n\\text{subject to} &\\ \\ \\ \\ \n    \\forall i, y_i (\\mathbf{w}^T\\mathbf{x_i} + b) \\ge 1\n\\end{align}maximum-margin classifier 的最終形式就完成了！這也是支持向量機（support vector machine）的雛型。\n","dateCreated":"2018-10-04T23:43:46+08:00","dateModified":"2018-10-15T15:05:54+08:00","datePublished":"2018-10-04T23:43:46+08:00","description":"上次我們完成了感知器的介紹，感知器也有他相對應的學習演算法：perceptron learning algorithm (PLA)。\n不過我們今天沒有要講 PLA，我們來講講感知器的缺點。\n感知器這個模型有很多的缺點，但是因為他是最簡單的模型，我們就放他一馬（？）。","headline":"04 從感知器到 maximum-margin classifier","image":[],"mainEntityOfPage":{"@type":"WebPage","@id":"https://yuehhua.github.io/2018/10/04/04-from-perceptron-to-max-margin-classifier/"},"publisher":{"@type":"Organization","name":"Yueh-Hua Tu","sameAs":["https://github.com/yuehhua/","https://www.facebook.com/a504082002","https://www.linkedin.com/in/%E5%B2%B3%E8%8F%AF-%E6%9D%9C-6a3995a0/","mailto:a504082002@gmail.com"],"image":"https://www.gravatar.com/avatar/a565749fba4782b717234da670b273fd","logo":{"@type":"ImageObject","url":"https://www.gravatar.com/avatar/a565749fba4782b717234da670b273fd"}},"url":"https://yuehhua.github.io/2018/10/04/04-from-perceptron-to-max-margin-classifier/"}</script>
     <meta name="description" content="上次我們完成了感知器的介紹，感知器也有他相對應的學習演算法：perceptron learning algorithm (PLA)。 不過我們今天沒有要講 PLA，我們來講講感知器的缺點。 感知器這個模型有很多的缺點，但是因為他是最簡單的模型，我們就放他一馬（？）。">
-<meta name="keywords" content="machine learning,deep learning,topology">
 <meta property="og:type" content="blog">
 <meta property="og:title" content="04 從感知器到 maximum-margin classifier">
 <meta property="og:url" content="https://yuehhua.github.io/2018/10/04/04-from-perceptron-to-max-margin-classifier/index.html">
 <meta property="og:site_name" content="Dream Maker">
 <meta property="og:description" content="上次我們完成了感知器的介紹，感知器也有他相對應的學習演算法：perceptron learning algorithm (PLA)。 不過我們今天沒有要講 PLA，我們來講講感知器的缺點。 感知器這個模型有很多的缺點，但是因為他是最簡單的模型，我們就放他一馬（？）。">
-<meta property="og:locale" content="zh-tw">
+<meta property="og:locale" content="zh_TW">
 <meta property="og:image" content="https://yuehhua.github.io/images/perceptron4.svg">
 <meta property="og:image" content="https://yuehhua.github.io/images/linear-separable1.svg">
 <meta property="og:image" content="https://yuehhua.github.io/images/linear-separable2.svg">
@@ -31,10 +30,13 @@
 <meta property="og:image" content="https://yuehhua.github.io/images/perceptron5.svg">
 <meta property="og:image" content="https://yuehhua.github.io/images/perceptron6.svg">
 <meta property="og:image" content="https://yuehhua.github.io/images/max-margin_classifier.svg">
-<meta property="og:updated_time" content="2018-10-15T07:05:54.545Z">
+<meta property="article:published_time" content="2018-10-04T15:43:46.000Z">
+<meta property="article:modified_time" content="2018-10-15T07:05:54.545Z">
+<meta property="article:author" content="Yueh-Hua Tu">
+<meta property="article:tag" content="machine learning">
+<meta property="article:tag" content="deep learning">
+<meta property="article:tag" content="topology">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="04 從感知器到 maximum-margin classifier">
-<meta name="twitter:description" content="上次我們完成了感知器的介紹，感知器也有他相對應的學習演算法：perceptron learning algorithm (PLA)。 不過我們今天沒有要講 PLA，我們來講講感知器的缺點。 感知器這個模型有很多的缺點，但是因為他是最簡單的模型，我們就放他一馬（？）。">
 <meta name="twitter:image" content="https://yuehhua.github.io/images/perceptron4.svg">
     
     
@@ -45,7 +47,9 @@
     
     
     <!--STYLES-->
-    <link rel="stylesheet" href="/assets/css/style-3frockyt2j28isvdztjchy5nhkz8tjki9ermufc1ckptmvjdftux94m2ahub.min.css">
+    
+<link rel="stylesheet" href="/assets/css/style-3frockyt2j28isvdztjchy5nhkz8tjki9ermufc1ckptmvjdftux94m2ahub.min.css">
+
     <!--STYLES END-->
     
     <script type="text/javascript">
@@ -58,13 +62,13 @@
 
         ga('create', 'UA-119690895-1', 'auto');
         ga('send', 'pageview');
-    </script><!-- hexo-inject:begin --><!-- hexo-inject:end -->
+    </script>
     
     
 </head>
 
     <body>
-        <!-- hexo-inject:begin --><!-- hexo-inject:end --><div id="blog">
+        <div id="blog">
             <!-- Define author's picture -->
 
 
@@ -73,7 +77,7 @@
 <header id="header" data-behavior="5">
     <i id="btn-open-sidebar" class="fa fa-lg fa-bars"></i>
     <div class="header-title">
-        <a class="header-title-link" href="/ ">Dream Maker</a>
+        <a class="header-title-link" href="/%20">Dream Maker</a>
     </div>
     
         
@@ -97,7 +101,7 @@
                 <li class="sidebar-button">
                     
                         <a  class="sidebar-button-link "
-                             href="/ "
+                             href="/%20"
                             
                             title="首頁"
                         >
@@ -259,7 +263,7 @@
     
         <span>分類 </span>
         
-    <a class="category-link" href="/categories/Machine-Learning/">Machine Learning</a>, <a class="category-link" href="/categories/Machine-Learning/機器學習模型圖書館：從傳統模型到深度學習/">機器學習模型圖書館：從傳統模型到深度學習</a>
+    <a class="category-link" href="/categories/Machine-Learning/">Machine Learning</a>, <a class="category-link" href="/categories/Machine-Learning/%E6%A9%9F%E5%99%A8%E5%AD%B8%E7%BF%92%E6%A8%A1%E5%9E%8B%E5%9C%96%E6%9B%B8%E9%A4%A8%EF%BC%9A%E5%BE%9E%E5%82%B3%E7%B5%B1%E6%A8%A1%E5%9E%8B%E5%88%B0%E6%B7%B1%E5%BA%A6%E5%AD%B8%E7%BF%92/">機器學習模型圖書館：從傳統模型到深度學習</a>
 
 
     
@@ -281,23 +285,23 @@
 <li>只要能分，大家都是好的分類器（黑貓白貓，能抓老鼠的就是好貓？）</li>
 </ol>
 <h2 id="線性可分"><a href="#線性可分" class="headerlink" title="線性可分"></a>線性可分</h2><p>我們一項一項來講，什麼是線性可分（linear-separable）？</p>
-<p><img src="/images/perceptron4.svg" alt></p>
+<p><img src="/images/perceptron4.svg" alt=""></p>
 <p>像這樣是線性可分的，可以用一條直線把不同的點分開。</p>
-<p><img src="/images/linear-separable1.svg" alt></p>
+<p><img src="/images/linear-separable1.svg" alt=""></p>
 <p>像這樣根本找不到一條線可以將點分開的，不是線性可分。</p>
-<p><img src="/images/linear-separable2.svg" alt></p>
+<p><img src="/images/linear-separable2.svg" alt=""></p>
 <p>差一點點也不行！很尷尬，差一點就可以變成線性可分的了！但是他就不是！</p>
 <p>所以整體說起來，感知器在使用上限制頗大。</p>
 <h2 id="好的分類器？"><a href="#好的分類器？" class="headerlink" title="好的分類器？"></a>好的分類器？</h2><p>接下來，什麼叫作一個好的分類器？</p>
-<p><img src="/images/perceptron4.svg" alt></p>
-<p><img src="/images/perceptron5.svg" alt></p>
-<p><img src="/images/perceptron6.svg" alt></p>
+<p><img src="/images/perceptron4.svg" alt=""></p>
+<p><img src="/images/perceptron5.svg" alt=""></p>
+<p><img src="/images/perceptron6.svg" alt=""></p>
 <p>以上三張圖，大家有沒有認為哪一張分的最好？</p>
 <p>每個人可能有不同的答案，但是有沒有覺得第一張是比較好的分類器？</p>
 <p>為什麼？</p>
 <p>資料點都多多少少會有一些誤差，而資料我們都假設他比較相似的會在一起，所以當新的資料點出現的時候，我們通常預期他會在舊的資料點附近。所以說，如果線可以離資料點遠一點比較好，這樣的話就不會不小心分錯。</p>
 <p>其實你心裡想的是這個樣子的：</p>
-<p><img src="/images/max-margin_classifier.svg" alt></p>
+<p><img src="/images/max-margin_classifier.svg" alt=""></p>
 <p>我們可以定一個東西叫作 margin，他就是線到最近的資料點的距離，然後希望 margin 可以越大越好。</p>
 <h2 id="Maximum-margin-classifier"><a href="#Maximum-margin-classifier" class="headerlink" title="Maximum-margin classifier"></a>Maximum-margin classifier</h2><p>所以我們希望的是一個讓 margin 最大化的分類器，也就是 Maximum-margin classifier。</p>
 <p>那麼他要怎麼以數學表達呢？</p>
@@ -433,7 +437,7 @@ y_i (\mathbf{w}^T\mathbf{x_i} + b) \ge 1</script><p>最後，數學家都會有�
                                                     
                                                         
                                                             <div id="disqus_thread">
-    <noscript>Please enable JavaScript to view the <a href="//disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+    <noscript>Please enable JavaScript to view the <a href="//disqus.com/?ref_noscript" target="_blank" rel="noopener">comments powered by Disqus.</a></noscript>
 </div>
                                                                 
                                                                             
@@ -569,7 +573,9 @@ y_i (\mathbf{w}^T\mathbf{x_i} + b) \ge 1</script><p>最後，數學家都會有�
         
 <div id="cover" style="background-image:url('/assets/images/cover.jpg');"></div>
         <!--SCRIPTS-->
+
 <script src="/assets/js/script-xzfezjobyekpxrjktw5tz6muvzqfsbmo5n6atk3p5om9ulfptldi3p7cyqd8.min.js"></script>
+
 <!--SCRIPTS END-->
 
 
@@ -607,7 +613,5 @@ y_i (\mathbf{w}^T\mathbf{x_i} + b) \ge 1</script><p>最後，數學家都會有�
     });
 </script>
 <script src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
-<!-- <script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script> -->
-<!-- <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3.0.0/es5/tex-mml-chtml.js"></script> --><!-- hexo-inject:begin --><!-- hexo-inject:end -->
 </body>
 </html>

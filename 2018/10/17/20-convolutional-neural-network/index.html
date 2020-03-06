@@ -3,7 +3,7 @@
 <html lang="zh-tw,en,default">
     
 <head>
-    <!-- hexo-inject:begin --><!-- hexo-inject:end --><meta charset="UTF-8">
+    <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="generator" content="Dream Maker">
     <title>20 Convolutional neural network - Dream Maker</title>
@@ -17,19 +17,21 @@
     
     <script type="application/ld+json">{"@context":"http://schema.org","@type":"BlogPosting","author":{"@type":"Person","name":"Yueh-Hua Tu","sameAs":["https://github.com/yuehhua/","https://www.facebook.com/a504082002","https://www.linkedin.com/in/%E5%B2%B3%E8%8F%AF-%E6%9D%9C-6a3995a0/","mailto:a504082002@gmail.com"],"image":"https://www.gravatar.com/avatar/a565749fba4782b717234da670b273fd"},"articleBody":"Convolution layer這邊我們回到我們的 convolution layer，如果把以上的一維向量拓展到二維的矩陣資料會長什麼樣子呢？\n我們先來看二維的 cross-correlation 長什麼樣子。\n\n\n然後是反序的 convolution。\n\n這樣有沒有搞懂一點 convolution 的運算了呢？\n接著，想像在右手邊比較小的方框就是你的 filter （或是 kernel），然後他會沿著兩個軸去移動，去掃描看看有沒有跟 filter 的 pattern 很像的，當他偵測到很像的 pattern 的時候，輸出的 feature map 的值就會很高，所以這樣就可以做到上面講的第二點，也就是位移的不變性。不過說起來也不是真的有什麼位移不變性啦！他只是沿著軸去做掃描可以減少訓練的參數，這樣 filter 還是有在位移阿！只是對於要偵測的 pattern 看起來好像有”位移不變性”一樣。到這邊我們第一點跟第二點都解決了，剩下第三點。\nSubsampling跟第三點相關的就是 subsampling，也就是如果讓圖片變小，不只可以降低要辨識的區塊大小，還可以降低需要訓練的參數量。那要怎麼讓圖片變小？\nMaxpooling 是目前主流的方法，也就是在一個 window 的範圍內去找最大值，只保留最大值。還有一種是 meanpooling，顧名思義，他取整個 window 的平均值作為保留值。\n所以 subsampling 在一些應用場景是需要的，有些是不需要的，像是有些 pattern 的辨識是不能去除細節的，一旦去除細節就會造成辨識困難，那就代表他沒有辦法用 subsampling。有時候照片縮小到一定程度人類也會無法辨識當中的圖像是什麼，所以也不要用過頭。\nFeature extractor-classifier 架構經過以上介紹後，我們可以把 convolution layer 跟 subsampling 結合起來，成為所謂的 feature extractor。\n經由以上三點特性，這些 layer 的巧妙運用可以是非常棒的 feature extractor。不同種的資料特性需要不同設計的 feature extractor，接下來就是 classifier 上場了。\n典型的 classifier 可以是 SVM，或是要用比較潮的 deep learning 也可以，最單純的就是前一篇提到的 MLP 了。\n這樣前後組合好就是個 CNN 的雛型了！\nMLP 做不好的事情前一篇我們有提到 MLP 因為會從整體特徵去做內積，所以整體的模式會優先被考慮，如果有區域性的特徵並不一定會被凸顯出來。在 MLP 相對上會比較注重整體性而不是區域性，所以使用 MLP 在影像處理上就比 CNN 不是那麼有利。\n關鍵在哪裡？我個人認為關鍵在資料的 區域性，也就是你想做的事情其實是跟資料的區域性有關係，或是你的資料是週期性資料（週期性出現的模式也可以視為是一種區域性模式重複出現），這樣你就可以用 convolution layer！（注意！不是 CNN！）\n像是音樂當中有週期性的模式就可以用，在生物領域，蛋白質會去辨認 DNA 序列，有被辨認到的部份就會有蛋白質黏附上去，生物學家會想知道到底哪些地方有蛋白質黏附，黏附的序列是區域性的，所以也有應用 CNN 技術在這方面上。\n最重要的還是去了解你的資料的特性，然後了解模型當中各元件的性質跟數學特性，這樣才能正確地使用這些技術解決問題，走到這邊需要同時是領域知識的專家，也同時是 DL 的專家才行阿！\n","dateCreated":"2018-10-17T22:58:40+08:00","dateModified":"2018-10-17T22:58:40+08:00","datePublished":"2018-10-17T22:58:40+08:00","description":"Convolution layer這邊我們回到我們的 convolution layer，如果把以上的一維向量拓展到二維的矩陣資料會長什麼樣子呢？\n我們先來看二維的 cross-correlation 長什麼樣子。","headline":"20 Convolutional neural network","image":[],"mainEntityOfPage":{"@type":"WebPage","@id":"https://yuehhua.github.io/2018/10/17/20-convolutional-neural-network/"},"publisher":{"@type":"Organization","name":"Yueh-Hua Tu","sameAs":["https://github.com/yuehhua/","https://www.facebook.com/a504082002","https://www.linkedin.com/in/%E5%B2%B3%E8%8F%AF-%E6%9D%9C-6a3995a0/","mailto:a504082002@gmail.com"],"image":"https://www.gravatar.com/avatar/a565749fba4782b717234da670b273fd","logo":{"@type":"ImageObject","url":"https://www.gravatar.com/avatar/a565749fba4782b717234da670b273fd"}},"url":"https://yuehhua.github.io/2018/10/17/20-convolutional-neural-network/"}</script>
     <meta name="description" content="Convolution layer這邊我們回到我們的 convolution layer，如果把以上的一維向量拓展到二維的矩陣資料會長什麼樣子呢？ 我們先來看二維的 cross-correlation 長什麼樣子。">
-<meta name="keywords" content="machine learning,deep learning,topology">
 <meta property="og:type" content="blog">
 <meta property="og:title" content="20 Convolutional neural network">
 <meta property="og:url" content="https://yuehhua.github.io/2018/10/17/20-convolutional-neural-network/index.html">
 <meta property="og:site_name" content="Dream Maker">
 <meta property="og:description" content="Convolution layer這邊我們回到我們的 convolution layer，如果把以上的一維向量拓展到二維的矩陣資料會長什麼樣子呢？ 我們先來看二維的 cross-correlation 長什麼樣子。">
-<meta property="og:locale" content="zh-tw">
+<meta property="og:locale" content="zh_TW">
 <meta property="og:image" content="https://yuehhua.github.io/images/ccor2d.svg">
 <meta property="og:image" content="https://yuehhua.github.io/images/conv2d.svg">
-<meta property="og:updated_time" content="2018-10-17T14:58:40.101Z">
+<meta property="article:published_time" content="2018-10-17T14:58:40.000Z">
+<meta property="article:modified_time" content="2018-10-17T14:58:40.101Z">
+<meta property="article:author" content="Yueh-Hua Tu">
+<meta property="article:tag" content="machine learning">
+<meta property="article:tag" content="deep learning">
+<meta property="article:tag" content="topology">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="20 Convolutional neural network">
-<meta name="twitter:description" content="Convolution layer這邊我們回到我們的 convolution layer，如果把以上的一維向量拓展到二維的矩陣資料會長什麼樣子呢？ 我們先來看二維的 cross-correlation 長什麼樣子。">
 <meta name="twitter:image" content="https://yuehhua.github.io/images/ccor2d.svg">
     
     
@@ -40,7 +42,9 @@
     
     
     <!--STYLES-->
-    <link rel="stylesheet" href="/assets/css/style-3frockyt2j28isvdztjchy5nhkz8tjki9ermufc1ckptmvjdftux94m2ahub.min.css">
+    
+<link rel="stylesheet" href="/assets/css/style-3frockyt2j28isvdztjchy5nhkz8tjki9ermufc1ckptmvjdftux94m2ahub.min.css">
+
     <!--STYLES END-->
     
     <script type="text/javascript">
@@ -53,13 +57,13 @@
 
         ga('create', 'UA-119690895-1', 'auto');
         ga('send', 'pageview');
-    </script><!-- hexo-inject:begin --><!-- hexo-inject:end -->
+    </script>
     
     
 </head>
 
     <body>
-        <!-- hexo-inject:begin --><!-- hexo-inject:end --><div id="blog">
+        <div id="blog">
             <!-- Define author's picture -->
 
 
@@ -68,7 +72,7 @@
 <header id="header" data-behavior="5">
     <i id="btn-open-sidebar" class="fa fa-lg fa-bars"></i>
     <div class="header-title">
-        <a class="header-title-link" href="/ ">Dream Maker</a>
+        <a class="header-title-link" href="/%20">Dream Maker</a>
     </div>
     
         
@@ -92,7 +96,7 @@
                 <li class="sidebar-button">
                     
                         <a  class="sidebar-button-link "
-                             href="/ "
+                             href="/%20"
                             
                             title="首頁"
                         >
@@ -254,7 +258,7 @@
     
         <span>分類 </span>
         
-    <a class="category-link" href="/categories/Machine-Learning/">Machine Learning</a>, <a class="category-link" href="/categories/Machine-Learning/機器學習模型圖書館：從傳統模型到深度學習/">機器學習模型圖書館：從傳統模型到深度學習</a>
+    <a class="category-link" href="/categories/Machine-Learning/">Machine Learning</a>, <a class="category-link" href="/categories/Machine-Learning/%E6%A9%9F%E5%99%A8%E5%AD%B8%E7%BF%92%E6%A8%A1%E5%9E%8B%E5%9C%96%E6%9B%B8%E9%A4%A8%EF%BC%9A%E5%BE%9E%E5%82%B3%E7%B5%B1%E6%A8%A1%E5%9E%8B%E5%88%B0%E6%B7%B1%E5%BA%A6%E5%AD%B8%E7%BF%92/">機器學習模型圖書館：從傳統模型到深度學習</a>
 
 
     
@@ -269,9 +273,9 @@
                                     <h2 id="Convolution-layer"><a href="#Convolution-layer" class="headerlink" title="Convolution layer"></a>Convolution layer</h2><p>這邊我們回到我們的 convolution layer，如果把以上的一維向量拓展到二維的矩陣資料會長什麼樣子呢？</p>
 <p>我們先來看二維的 cross-correlation 長什麼樣子。</p>
 <a id="more"></a>
-<p><img src="/images/ccor2d.svg" alt></p>
+<p><img src="/images/ccor2d.svg" alt=""></p>
 <p>然後是反序的 convolution。</p>
-<p><img src="/images/conv2d.svg" alt></p>
+<p><img src="/images/conv2d.svg" alt=""></p>
 <p>這樣有沒有搞懂一點 convolution 的運算了呢？</p>
 <p>接著，想像在右手邊比較小的方框就是你的 filter （或是 kernel），然後他會沿著兩個軸去移動，去掃描看看有沒有跟 filter 的 pattern 很像的，當他偵測到很像的 pattern 的時候，輸出的 feature map 的值就會很高，所以這樣就可以做到上面講的第二點，也就是位移的不變性。不過說起來也不是真的有什麼位移不變性啦！他只是沿著軸去做掃描可以減少訓練的參數，這樣 filter 還是有在位移阿！只是對於要偵測的 pattern 看起來好像有”位移不變性”一樣。到這邊我們第一點跟第二點都解決了，剩下第三點。</p>
 <h2 id="Subsampling"><a href="#Subsampling" class="headerlink" title="Subsampling"></a>Subsampling</h2><p>跟第三點相關的就是 subsampling，也就是如果讓圖片變小，不只可以降低要辨識的區塊大小，還可以降低需要訓練的參數量。那要怎麼讓圖片變小？</p>
@@ -355,7 +359,7 @@
                                                     
                                                         
                                                             <div id="disqus_thread">
-    <noscript>Please enable JavaScript to view the <a href="//disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+    <noscript>Please enable JavaScript to view the <a href="//disqus.com/?ref_noscript" target="_blank" rel="noopener">comments powered by Disqus.</a></noscript>
 </div>
                                                                 
                                                                             
@@ -491,7 +495,9 @@
         
 <div id="cover" style="background-image:url('/assets/images/cover.jpg');"></div>
         <!--SCRIPTS-->
+
 <script src="/assets/js/script-xzfezjobyekpxrjktw5tz6muvzqfsbmo5n6atk3p5om9ulfptldi3p7cyqd8.min.js"></script>
+
 <!--SCRIPTS END-->
 
 
@@ -529,7 +535,5 @@
     });
 </script>
 <script src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
-<!-- <script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script> -->
-<!-- <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3.0.0/es5/tex-mml-chtml.js"></script> --><!-- hexo-inject:begin --><!-- hexo-inject:end -->
 </body>
 </html>

@@ -3,7 +3,7 @@
 <html lang="zh-tw,en,default">
     
 <head>
-    <!-- hexo-inject:begin --><!-- hexo-inject:end --><meta charset="UTF-8">
+    <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="generator" content="Dream Maker">
     <title>02 線性迴歸 -- 迴歸問題中的線性模型 - Dream Maker</title>
@@ -17,20 +17,22 @@
     
     <script type="application/ld+json">{"@context":"http://schema.org","@type":"BlogPosting","author":{"@type":"Person","name":"Yueh-Hua Tu","sameAs":["https://github.com/yuehhua/","https://www.facebook.com/a504082002","https://www.linkedin.com/in/%E5%B2%B3%E8%8F%AF-%E6%9D%9C-6a3995a0/","mailto:a504082002@gmail.com"],"image":"https://www.gravatar.com/avatar/a565749fba4782b717234da670b273fd"},"articleBody":"這個模型大概已經被人講過很多次，講到都快要爛掉了XD\n其實我自己在兩年前的鐵人賽中也有講過同一個模型，所以我就不用講太多基礎的部份：\n\n\n[Day 02] 解構linear regression\n[Day 03] linear regression—線性代數解\n[Day 04] Gradient descent\n[Day 05] linear regression辛祕\n\n總的來說，線性模型就是依賴著 $y = w_0 + w_1x_1 + w_2x_2 + \\dots + w_nx_n$ 這樣的一條數學式子。\n為了方便起見我們將他化成向量的形式：y = \\mathbf{w}^T\\mathbf{x} + b\n你會發現線性迴歸會是一個向量的內積的運算再加上一個常數，這個常數被很多人討論很久，很多人可能不是那麼了解他的意義。這個常數代表的就是在空間上的一個位移，在內積的 $\\mathbf{w}$ 這個係數向量上，他們決定了在空間中整個線或是平面的傾斜程度，而常數則是在空間上的位移，也就是要將這個線或是平面擺在哪一個地方。\n但是這個常數如果擺在下一篇要講的感知器（perceptron）當中的話，那就有不同的解釋了，這個留到下回再說。\n那麼，基礎的部份都在前面的文章內容中講完了，剩下的要來說點什麼呢？\n模型的統計面向我們來講點這個模型的統計面向吧！\n一般來說，我們在計算這個模型的時候，這個模型背後是有他的統計面向的假設的。\n誤差線性迴歸對誤差是有假設的，也就是假設誤差會呈現常態分佈（Gaussian distribution），這樣的假設與這個模型所使用的 mean square error 是有關係的，不過今天不會深入這些關係。\n我們要進入這件事之前，我們先來看看常態分佈長什麼樣子。\n\n\nWikipedia\n\n我們借到了維基百科的圖，其中 X 軸是連續的數值，Y 軸是這些數值出現的機率或是頻率。你會看到他是以平均值 $\\mu$ 為中心的一個分佈，整個分佈是單峰的。平均值的出現機率是最高的，機率開始往兩邊遞減。這說明了最常出現的數值會剛好在平均值上，其他離平均值很遠的數值也是有機率出現，但是機率很小。\n整個分佈的寬度是由標準差 $\\sigma$ 的大小決定的，如果標準差愈大，代表這個分佈是愈寬的，愈寬代表資料的離散程度是大的。\n這其實來自於對於自然現象的觀察。高爾頓，達爾文的表弟，觀察了自然現象，發現眾多自然現象都有一種趨勢，像是人的身高跟體重都是連續的數值，而且都沒有上下界，為什麼他們不會平均分佈呢？他會向某一個值集中，那個值差不多是整個分佈的平均值，這樣的趨勢被他稱為「迴歸」。這也是迴歸這個詞的由來，但今日的迴歸的意義不相同。\n題外話，高爾頓提出了不少對今日的科學有影響的主張，像是他主張人類的才能是可以透過遺傳延續的，並提倡了優生學。他發表了一些關於指紋的研究，被認為跟今日以指紋鑑定有相關。在統計學上，他也發表了相關係數的概念，並且沿用至今。\n以下是常態分佈的公式：\n\nP(x; \\mu, \\sigma) = \\frac{1}{\\sqrt{2 \\pi \\sigma^2}} e^{- \\frac{(x - \\mu)^2}{2 \\sigma^2}}整體看起來可能很醜很複雜，我們通常會把平均值歸零，並且讓標準差為 1，他看起來就會簡潔許多。\n\nP(x; 0, 1) = \\frac{1}{\\sqrt{2 \\pi}} e^{- \\frac{x^2}{2}}大家注意一下，在常態分佈的公式中他的主要組成為一個 e 的指數，並且在指數項上有 $x^2$ 項。這些我們以後會用到。\n平均就是最有可能出現的那回到線性迴歸，線性回歸是怎麼做出預測的呢？\n\n當假設了誤差的分佈是常態分佈之後呢？那麼就可以拿最常出現的那個值作為整個分佈的代表，數學上證明那個值剛好是平均值。\n可以參考上圖，資料在 X 軸上分佈，當我們切了某個點 $x_i$ 來看，那麼 Y 軸上就會有不同資料點的誤差存在。縱使真實資料是有誤差的，我們知道這些誤差會遵從常態分佈，所以這些誤差的平均就可以作為一種預測值。\n從上面我們提到的迴歸效應，我們知道用這些誤差的平均值作為預測是相對合理的。\n數學上是這樣運作的，當我們今天有新的資料點要預測，那麼我們代入 $y = \\mathbf{w}^T\\mathbf{x} + b$ 公式中，算出來的其實是 Y 軸的平均值 $\\hat{y_i}$。\n這就是線性迴歸的假設了。\n誤差的”寬度”是一樣的在線性迴歸的假設上還有另一點，就是我們在每個不同 x 的切面上，誤差的寬度（標準差）都是一樣的。\n\n如圖所示，我不確定是為了讓模型簡單好計算還是什麼原因。\n今天的介紹就到這邊啦！\n","dateCreated":"2018-10-03T15:31:54+08:00","dateModified":"2018-10-04T21:19:48+08:00","datePublished":"2018-10-03T15:31:54+08:00","description":"這個模型大概已經被人講過很多次，講到都快要爛掉了XD\n其實我自己在兩年前的鐵人賽中也有講過同一個模型，所以我就不用講太多基礎的部份：","headline":"02 線性迴歸 -- 迴歸問題中的線性模型","image":[],"mainEntityOfPage":{"@type":"WebPage","@id":"https://yuehhua.github.io/2018/10/03/02-linear-regression/"},"publisher":{"@type":"Organization","name":"Yueh-Hua Tu","sameAs":["https://github.com/yuehhua/","https://www.facebook.com/a504082002","https://www.linkedin.com/in/%E5%B2%B3%E8%8F%AF-%E6%9D%9C-6a3995a0/","mailto:a504082002@gmail.com"],"image":"https://www.gravatar.com/avatar/a565749fba4782b717234da670b273fd","logo":{"@type":"ImageObject","url":"https://www.gravatar.com/avatar/a565749fba4782b717234da670b273fd"}},"url":"https://yuehhua.github.io/2018/10/03/02-linear-regression/"}</script>
     <meta name="description" content="這個模型大概已經被人講過很多次，講到都快要爛掉了XD 其實我自己在兩年前的鐵人賽中也有講過同一個模型，所以我就不用講太多基礎的部份：">
-<meta name="keywords" content="machine learning,deep learning,topology">
 <meta property="og:type" content="blog">
 <meta property="og:title" content="02 線性迴歸 -- 迴歸問題中的線性模型">
 <meta property="og:url" content="https://yuehhua.github.io/2018/10/03/02-linear-regression/index.html">
 <meta property="og:site_name" content="Dream Maker">
 <meta property="og:description" content="這個模型大概已經被人講過很多次，講到都快要爛掉了XD 其實我自己在兩年前的鐵人賽中也有講過同一個模型，所以我就不用講太多基礎的部份：">
-<meta property="og:locale" content="zh-tw">
+<meta property="og:locale" content="zh_TW">
 <meta property="og:image" content="https://yuehhua.github.io/images/Empirical_Rule.png">
 <meta property="og:image" content="https://yuehhua.github.io/images/stats-linear_reg1.svg">
 <meta property="og:image" content="https://yuehhua.github.io/images/stats-linear_reg2.svg">
-<meta property="og:updated_time" content="2018-10-04T13:19:48.595Z">
+<meta property="article:published_time" content="2018-10-03T07:31:54.000Z">
+<meta property="article:modified_time" content="2018-10-04T13:19:48.595Z">
+<meta property="article:author" content="Yueh-Hua Tu">
+<meta property="article:tag" content="machine learning">
+<meta property="article:tag" content="deep learning">
+<meta property="article:tag" content="topology">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="02 線性迴歸 -- 迴歸問題中的線性模型">
-<meta name="twitter:description" content="這個模型大概已經被人講過很多次，講到都快要爛掉了XD 其實我自己在兩年前的鐵人賽中也有講過同一個模型，所以我就不用講太多基礎的部份：">
 <meta name="twitter:image" content="https://yuehhua.github.io/images/Empirical_Rule.png">
     
     
@@ -41,7 +43,9 @@
     
     
     <!--STYLES-->
-    <link rel="stylesheet" href="/assets/css/style-3frockyt2j28isvdztjchy5nhkz8tjki9ermufc1ckptmvjdftux94m2ahub.min.css">
+    
+<link rel="stylesheet" href="/assets/css/style-3frockyt2j28isvdztjchy5nhkz8tjki9ermufc1ckptmvjdftux94m2ahub.min.css">
+
     <!--STYLES END-->
     
     <script type="text/javascript">
@@ -54,13 +58,13 @@
 
         ga('create', 'UA-119690895-1', 'auto');
         ga('send', 'pageview');
-    </script><!-- hexo-inject:begin --><!-- hexo-inject:end -->
+    </script>
     
     
 </head>
 
     <body>
-        <!-- hexo-inject:begin --><!-- hexo-inject:end --><div id="blog">
+        <div id="blog">
             <!-- Define author's picture -->
 
 
@@ -69,7 +73,7 @@
 <header id="header" data-behavior="5">
     <i id="btn-open-sidebar" class="fa fa-lg fa-bars"></i>
     <div class="header-title">
-        <a class="header-title-link" href="/ ">Dream Maker</a>
+        <a class="header-title-link" href="/%20">Dream Maker</a>
     </div>
     
         
@@ -93,7 +97,7 @@
                 <li class="sidebar-button">
                     
                         <a  class="sidebar-button-link "
-                             href="/ "
+                             href="/%20"
                             
                             title="首頁"
                         >
@@ -255,7 +259,7 @@
     
         <span>分類 </span>
         
-    <a class="category-link" href="/categories/Machine-Learning/">Machine Learning</a>, <a class="category-link" href="/categories/Machine-Learning/機器學習模型圖書館：從傳統模型到深度學習/">機器學習模型圖書館：從傳統模型到深度學習</a>
+    <a class="category-link" href="/categories/Machine-Learning/">Machine Learning</a>, <a class="category-link" href="/categories/Machine-Learning/%E6%A9%9F%E5%99%A8%E5%AD%B8%E7%BF%92%E6%A8%A1%E5%9E%8B%E5%9C%96%E6%9B%B8%E9%A4%A8%EF%BC%9A%E5%BE%9E%E5%82%B3%E7%B5%B1%E6%A8%A1%E5%9E%8B%E5%88%B0%E6%B7%B1%E5%BA%A6%E5%AD%B8%E7%BF%92/">機器學習模型圖書館：從傳統模型到深度學習</a>
 
 
     
@@ -285,7 +289,7 @@
 <p>一般來說，我們在計算這個模型的時候，這個模型背後是有他的統計面向的假設的。</p>
 <h3 id="誤差"><a href="#誤差" class="headerlink" title="誤差"></a>誤差</h3><p>線性迴歸對誤差是有假設的，也就是假設誤差會呈現常態分佈（Gaussian distribution），這樣的假設與這個模型所使用的 mean square error 是有關係的，不過今天不會深入這些關係。</p>
 <p>我們要進入這件事之前，我們先來看看常態分佈長什麼樣子。</p>
-<p><img src="/images/Empirical_Rule.png" alt></p>
+<p><img src="/images/Empirical_Rule.png" alt=""></p>
 <blockquote>
 <p>Wikipedia</p>
 </blockquote>
@@ -299,14 +303,14 @@ P(x; \mu, \sigma) = \frac{1}{\sqrt{2 \pi \sigma^2}} e^{- \frac{(x - \mu)^2}{2 \s
 <script type="math/tex; mode=display">
 P(x; 0, 1) = \frac{1}{\sqrt{2 \pi}} e^{- \frac{x^2}{2}}</script><p>大家注意一下，在常態分佈的公式中他的主要組成為一個 e 的指數，並且在指數項上有 $x^2$ 項。這些我們以後會用到。</p>
 <h3 id="平均就是最有可能出現的"><a href="#平均就是最有可能出現的" class="headerlink" title="平均就是最有可能出現的"></a>平均就是最有可能出現的</h3><p>那回到線性迴歸，線性回歸是怎麼做出預測的呢？</p>
-<p><img src="/images/stats-linear_reg1.svg" alt></p>
+<p><img src="/images/stats-linear_reg1.svg" alt=""></p>
 <p>當假設了誤差的分佈是常態分佈之後呢？那麼就可以拿最常出現的那個值作為整個分佈的代表，數學上證明那個值剛好是平均值。</p>
 <p>可以參考上圖，資料在 X 軸上分佈，當我們切了某個點 $x_i$ 來看，那麼 Y 軸上就會有不同資料點的誤差存在。縱使真實資料是有誤差的，我們知道這些誤差會遵從常態分佈，所以這些誤差的平均就可以作為一種預測值。</p>
 <p>從上面我們提到的迴歸效應，我們知道用這些誤差的平均值作為預測是相對合理的。</p>
 <p>數學上是這樣運作的，當我們今天有新的資料點要預測，那麼我們代入 $y = \mathbf{w}^T\mathbf{x} + b$ 公式中，算出來的其實是 Y 軸的平均值 $\hat{y_i}$。</p>
 <p>這就是線性迴歸的假設了。</p>
 <h3 id="誤差的”寬度”是一樣的"><a href="#誤差的”寬度”是一樣的" class="headerlink" title="誤差的”寬度”是一樣的"></a>誤差的”寬度”是一樣的</h3><p>在線性迴歸的假設上還有另一點，就是我們在每個不同 x 的切面上，誤差的寬度（標準差）都是一樣的。</p>
-<p><img src="/images/stats-linear_reg2.svg" alt></p>
+<p><img src="/images/stats-linear_reg2.svg" alt=""></p>
 <p>如圖所示，我不確定是為了讓模型簡單好計算還是什麼原因。</p>
 <p>今天的介紹就到這邊啦！</p>
 
@@ -379,7 +383,7 @@ P(x; 0, 1) = \frac{1}{\sqrt{2 \pi}} e^{- \frac{x^2}{2}}</script><p>大家注意�
                                                     
                                                         
                                                             <div id="disqus_thread">
-    <noscript>Please enable JavaScript to view the <a href="//disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+    <noscript>Please enable JavaScript to view the <a href="//disqus.com/?ref_noscript" target="_blank" rel="noopener">comments powered by Disqus.</a></noscript>
 </div>
                                                                 
                                                                             
@@ -515,7 +519,9 @@ P(x; 0, 1) = \frac{1}{\sqrt{2 \pi}} e^{- \frac{x^2}{2}}</script><p>大家注意�
         
 <div id="cover" style="background-image:url('/assets/images/cover.jpg');"></div>
         <!--SCRIPTS-->
+
 <script src="/assets/js/script-xzfezjobyekpxrjktw5tz6muvzqfsbmo5n6atk3p5om9ulfptldi3p7cyqd8.min.js"></script>
+
 <!--SCRIPTS END-->
 
 
@@ -553,7 +559,5 @@ P(x; 0, 1) = \frac{1}{\sqrt{2 \pi}} e^{- \frac{x^2}{2}}</script><p>大家注意�
     });
 </script>
 <script src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
-<!-- <script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script> -->
-<!-- <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3.0.0/es5/tex-mml-chtml.js"></script> --><!-- hexo-inject:begin --><!-- hexo-inject:end -->
 </body>
 </html>
