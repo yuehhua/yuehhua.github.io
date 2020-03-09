@@ -3,7 +3,7 @@
 <html lang="zh-tw,en,default">
     
 <head>
-    <meta charset="UTF-8">
+    <!-- hexo-inject:begin --><!-- hexo-inject:end --><meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="generator" content="Dream Maker">
     <title>分類: Docker - Dream Maker</title>
@@ -50,13 +50,13 @@
 
         ga('create', 'UA-119690895-1', 'auto');
         ga('send', 'pageview');
-    </script>
+    </script><!-- hexo-inject:begin --><!-- hexo-inject:end -->
     
     
 </head>
 
     <body>
-        <div id="blog">
+        <!-- hexo-inject:begin --><!-- hexo-inject:end --><div id="blog">
             <!-- Define author's picture -->
 
 
@@ -266,9 +266,9 @@
                 <div class="postShorten-excerpt">
                     <pre><code>attach    Attach to a running container
 build     Build an image from a Dockerfile
-commit    Create a new image from a container&#39;s changes
+commit    Create a new image from a container's changes
 cp        Copy files/folders from the containers filesystem to the host path
-diff      Inspect changes on a container&#39;s filesystem
+diff      Inspect changes on a container's filesystem
 events    Get real time events from the server
 export    Stream the contents of a container as a tar archive
 history   Show the history of an image
@@ -298,7 +298,9 @@ top       Lookup the running processes of a container
 unpause   Unpause a paused container
 version   Show the docker version information
 wait      Block until a container stops, then print its exit code
-</code></pre><h2 id="Docker-Commands-Diagram"><a href="#Docker-Commands-Diagram" class="headerlink" title="Docker Commands Diagram"></a><strong>Docker Commands Diagram</strong></h2><p><img src="https://raw.githubusercontent.com/philipz/docker_practice/master/_images/cmd_logic.png" alt="Docker Commands Diagram"></p>
+</code></pre>
+<h2 id="Docker-Commands-Diagram"><strong>Docker Commands Diagram</strong></h2>
+<p><img src="https://raw.githubusercontent.com/philipz/docker_practice/master/_images/cmd_logic.png" alt="Docker Commands Diagram"></p>
                     
                         <a href="/2018/07/21/04-reference/" class="postShorten-excerpt_link link">
                             繼續閱讀
@@ -350,6 +352,7 @@ docker pull dockerfile/python
 docker pull pypy  # official repos
 docker pull rocker/rstudio:latest
 </code></pre>
+
                     
                         
 
@@ -486,7 +489,7 @@ docker pull rocker/rstudio:latest
         
             <h4 id="about-card-name">Yueh-Hua Tu</h4>
         
-            <div id="about-card-bio"><p>目標是計算生物學家！&lt;/br&gt;Systems Biology, Computational Biology, Machine Learning&lt;/br&gt;Julia Taiwan 發起人</p>
+            <div id="about-card-bio"><p>目標是計算生物學家！</br>Systems Biology, Computational Biology, Machine Learning</br>Julia Taiwan 發起人</p>
 </div>
         
         
@@ -514,23 +517,8 @@ docker pull rocker/rstudio:latest
 
 <script src="/assets/js/script-xzfezjobyekpxrjktw5tz6muvzqfsbmo5n6atk3p5om9ulfptldi3p7cyqd8.min.js"></script>
 
-<!--SCRIPTS END-->
+<!--SCRIPTS END--><!-- hexo-inject:begin --><!-- hexo-inject:end -->
 
 
-    <script type="text/x-mathjax-config">
-    MathJax.Hub.Config({
-        tex2jax: {
-            inlineMath: [ ["$","$"], ["\\(","\\)"] ],
-            skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code'],
-            processEscapes: true
-        }
-    });
-    MathJax.Hub.Queue(function() {
-        var all = MathJax.Hub.getAllJax();
-        for (var i = 0; i < all.length; ++i)
-            all[i].SourceElement().parentNode.className += ' has-jax';
-    });
-</script>
-<script src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
-</body>
+    </body>
 </html>

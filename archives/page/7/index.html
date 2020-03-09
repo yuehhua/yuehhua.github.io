@@ -3,7 +3,7 @@
 <html lang="zh-tw,en,default">
     
 <head>
-    <meta charset="UTF-8">
+    <!-- hexo-inject:begin --><!-- hexo-inject:end --><meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="generator" content="Dream Maker">
     <title>所有文章 - Dream Maker</title>
@@ -50,13 +50,13 @@
 
         ga('create', 'UA-119690895-1', 'auto');
         ga('send', 'pageview');
-    </script>
+    </script><!-- hexo-inject:begin --><!-- hexo-inject:end -->
     
     
 </head>
 
     <body>
-        <div id="blog">
+        <!-- hexo-inject:begin --><!-- hexo-inject:end --><div id="blog">
             <!-- Define author's picture -->
 
 
@@ -308,11 +308,12 @@
             
                 <div class="postShorten-excerpt">
                     <!-- toc -->
-<h2 id="AI-是什麼？"><a href="#AI-是什麼？" class="headerlink" title="AI 是什麼？"></a>AI 是什麼？</h2><p>很多人探討 AI 會追隨前人的探討，去探討什麼是智慧？或是什麼樣的是強人工智慧？</p>
+<h2 id="AI-是什麼？">AI 是什麼？</h2>
+<p>很多人探討 AI 會追隨前人的探討，去探討什麼是智慧？或是什麼樣的是強人工智慧？</p>
 <p>當然我也做過一樣的事情，只是今天我想從比較 <strong>技術層面</strong>、比較 <strong>務實</strong> 的角度切入這一大類技術。</p>
 <p>從比較技術層面跟務實的角度切入，就表示我想討論的是現今人工智慧的實作層面，也就是 <strong>AI 是怎麼被做出來的？（how）</strong>，並非討論 <strong>AI 是什麼？(what)</strong></p>
 <p><strong>AI 是什麼？</strong> 這議題會牽涉到什麼是智慧？而智慧這種事情連人類自身都說不清楚，有的人從哲學層面討論智慧，動物有動物的智慧，人類有人類的智慧，憑什麼說人類的『智慧』才稱為智慧？有的人從生物角度切入， 從大腦的結構與神經元的連結，到神經元的觸發，這一系列的科學探索，或許我們未來可以回答智慧是什麼？但目前仍舊是一個大謎團。</p>
-<p>我今天要談的都不是這些，我要談的是深度學習的核心，不！是機器學習的核心…… 嗯……等等，所以那是什麼？</p>
+<p>我今天要談的都不是這些，我要談的是深度學習的核心，不！是機器學習的核心… 嗯…等等，所以那是什麼？</p>
                     
                         <a href="/2018/08/03/the-nutshell-of-ai/" class="postShorten-excerpt_link link">
                             繼續閱讀
@@ -356,39 +357,48 @@
             
                 <div class="postShorten-excerpt">
                     <p>今天我們來談談 activation function 吧！</p>
-<h2 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h2><p>在神經網路模型（neural network）及深度學習（deep learning）中，activation function 一直扮演重要的角色。</p>
+<h2 id="前言">前言</h2>
+<p>在神經網路模型（neural network）及深度學習（deep learning）中，activation function 一直扮演重要的角色。</p>
 <p>網路模型中的層的概念基本上是由以下的式子構成：</p>
-<script type="math/tex; mode=display">
-\sigma(Wx + b)</script><p>其中 $Wx$ 的矩陣相乘是大家在線性代數中常見的線性運算（linear operation），$Wx + b$ 嚴格來說是稱為仿射運算（affine operation）。相對應線性空間，仿射運算會構成仿射空間，不過兩者只差一個位移 $b$ 而已，但是大家都把它叫做線性（其實是錯誤的阿阿阿阿阿阿阿阿）。最後就是最外層的 $\sigma$ 了。這就是我們今天要談的 activation function。大家應該知道 activation function 會提供神經網路模型非線性的特性，而在沒有非線性特性前的神經網路長什麼樣子呢？</p>
-<h2 id="仿射？線性？"><a href="#仿射？線性？" class="headerlink" title="仿射？線性？"></a>仿射？線性？</h2><p>其實是可以將仿射看成線性的。假設</p>
-<script type="math/tex; mode=display">
-Wx + b = \begin{bmatrix}
-w_{11}& w_{12}& \cdots& w_{1n} \\\\
-\vdots& \vdots& \ddots& \vdots \\\\
-w_{m1}& w_{m2}& \cdots& w_{mn} \\\\
-\end{bmatrix}
-\begin{bmatrix}
-x_{1} \\\\
-\vdots \\\\
-x_{n} \\\\
-\end{bmatrix} + \begin{bmatrix}
-b_{1} \\\\
-\vdots \\\\
-b_{m} \\\\
-\end{bmatrix}</script><p>然後把 $W$ 跟 $b$ 合併，有點像高中學的增廣矩陣那樣，就變成了：</p>
-<script type="math/tex; mode=display">
-= \begin{bmatrix}
-w_{11}& w_{12}& \cdots& w_{1n}& b_{1} \\\\
-\vdots& \vdots& \ddots& \vdots& \vdots \\\\
-w_{m1}& w_{m2}& \cdots& w_{mn}& b_{m} \\\\
-\end{bmatrix}
-\begin{bmatrix}
-x_{1} \\\\
-\vdots \\\\
-x_{n} \\\\
-1
-\end{bmatrix} = W'x'</script><p>這樣就可以把 $b$ 吸收到 $W$ 裡面，整體就變成線性的了。</p>
-<h2 id="先談談線性轉換"><a href="#先談談線性轉換" class="headerlink" title="先談談線性轉換"></a>先談談線性轉換</h2><p>談 activation function 之前先要談談線性轉換。去除掉 activation function 後的神經網路層只剩下 $Wx + b$ 的部份，而如果講這部份看成線性，我們就可以用線性代數裡的東西來解釋它。</p>
+<p>$$<br>
+\sigma(Wx + b)<br>
+$$</p>
+<p>其中 $Wx$ 的矩陣相乘是大家在線性代數中常見的線性運算（linear operation），$Wx + b$ 嚴格來說是稱為仿射運算（affine operation）。相對應線性空間，仿射運算會構成仿射空間，不過兩者只差一個位移 $b$ 而已，但是大家都把它叫做線性（其實是錯誤的阿阿阿阿阿阿阿阿）。最後就是最外層的 $\sigma$ 了。這就是我們今天要談的 activation function。大家應該知道 activation function 會提供神經網路模型非線性的特性，而在沒有非線性特性前的神經網路長什麼樣子呢？</p>
+<h2 id="仿射？線性？">仿射？線性？</h2>
+<p>其實是可以將仿射看成線性的。假設</p>
+<p>$$<br>
+Wx + b = \begin{bmatrix}<br>
+w_{11}&amp; w_{12}&amp; \cdots&amp; w_{1n} \\<br>
+\vdots&amp; \vdots&amp; \ddots&amp; \vdots \\<br>
+w_{m1}&amp; w_{m2}&amp; \cdots&amp; w_{mn} \\<br>
+\end{bmatrix}<br>
+\begin{bmatrix}<br>
+x_{1} \\<br>
+\vdots \\<br>
+x_{n} \\<br>
+\end{bmatrix} + \begin{bmatrix}<br>
+b_{1} \\<br>
+\vdots \\<br>
+b_{m} \\<br>
+\end{bmatrix}<br>
+$$</p>
+<p>然後把 $W$ 跟 $b$ 合併，有點像高中學的增廣矩陣那樣，就變成了：</p>
+<p>$$<br>
+= \begin{bmatrix}<br>
+w_{11}&amp; w_{12}&amp; \cdots&amp; w_{1n}&amp; b_{1} \\<br>
+\vdots&amp; \vdots&amp; \ddots&amp; \vdots&amp; \vdots \\<br>
+w_{m1}&amp; w_{m2}&amp; \cdots&amp; w_{mn}&amp; b_{m} \\<br>
+\end{bmatrix}<br>
+\begin{bmatrix}<br>
+x_{1} \\<br>
+\vdots \\<br>
+x_{n} \\<br>
+1<br>
+\end{bmatrix} = W’x’<br>
+$$</p>
+<p>這樣就可以把 $b$ 吸收到 $W$ 裡面，整體就變成線性的了。</p>
+<h2 id="先談談線性轉換">先談談線性轉換</h2>
+<p>談 activation function 之前先要談談線性轉換。去除掉 activation function 後的神經網路層只剩下 $Wx + b$ 的部份，而如果講這部份看成線性，我們就可以用線性代數裡的東西來解釋它。</p>
 <p>有上到比較後面的線性代數的同學，應該有爬過 SVD 這座高山。基本上，SVD 是一種矩陣分解的技巧，可以適用各式的矩陣（只要是可分解的）。SVD 可以告訴我們一些關於線性運算的特質。</p>
 <p>推薦可以看周老師的線代啟示錄 <a href="https://ccjou.wordpress.com/2009/09/01/%E5%A5%87%E7%95%B0%E5%80%BC%E5%88%86%E8%A7%A3-svd/" target="_blank" rel="noopener">奇異值分解 (SVD)</a></p>
 <p>我們可以知道一個矩陣可以被看成線性轉換，而矩陣這個線性轉換可以被分解成 3 個矩陣：</p>
@@ -528,7 +538,7 @@ x_{n} \\\\
                 <div class="postShorten-excerpt">
                     <p>我們已經遇到一些無限集（infinite set），接下來會討論他的一些特性，然後會自然地討論到選擇公理（axiom of choice）。</p>
 <blockquote>
-<p> <strong><em>Theorem</em></strong></p>
+<p><em><strong>Theorem</strong></em></p>
 </blockquote>
 <p>$A$ 是一個集合，以下的命題等價：</p>
 <ol>
@@ -624,11 +634,13 @@ x_{n} \\\\
                     <p>接下來我們會來討論幾個常見的概念，像是有限集及無限集、可數集及不可數集。</p>
 <p>有限集（finite set）：</p>
 <blockquote>
-<p> <strong><em>Def.</em></strong></p>
+<p><em><strong>Def.</strong></em></p>
 </blockquote>
-<p>A set A is <strong><em>finite</em></strong> if</p>
-<script type="math/tex; mode=display">
-\exists f: A \rightarrow \\{ 1, ..., n \\}, f \enspace is \enspace bijective.</script><p>這時我們會說 <em>set</em> $A$ 的 cardinality 是 n。</p>
+<p>A set A is <em><strong>finite</strong></em> if</p>
+<p>$$<br>
+\exists f: A \rightarrow \{ 1, …, n \}, f \enspace is \enspace bijective.<br>
+$$</p>
+<p>這時我們會說 <em>set</em> $A$ 的 cardinality 是 n。</p>
                     
                         <a href="/2018/07/22/06-finite-sets/" class="postShorten-excerpt_link link">
                             繼續閱讀
@@ -673,12 +685,17 @@ x_{n} \\\\
                 <div class="postShorten-excerpt">
                     <p>前面我們定義了集合的笛卡爾積，這邊我們來定義一個更廣義的，$\mathcal{A}$ 是一個非空集合（collection of sets）：</p>
 <blockquote>
-<p> <strong><em>Def.</em></strong></p>
+<p><em><strong>Def.</strong></em></p>
 </blockquote>
-<script type="math/tex; mode=display">
-A \enspace indexing \enspace function \enspace is \enspace a \enspace surjective \enspace function \enspace f: J \rightarrow \mathcal{A},</script><script type="math/tex; mode=display">
-J \enspace is \enspace called \enspace index \enspace set.</script><script type="math/tex; mode=display">
-The \enspace collection \enspace with \enspace the \enspace indexing \enspace function \enspace f \enspace is \enspace called \enspace indexed \enspace family \enspace of \enspace sets.</script>
+<p>$$<br>
+A \enspace indexing \enspace function \enspace is \enspace a \enspace surjective \enspace function \enspace f: J \rightarrow \mathcal{A},<br>
+$$</p>
+<p>$$<br>
+J \enspace is \enspace called \enspace index \enspace set.<br>
+$$</p>
+<p>$$<br>
+The \enspace collection \enspace with \enspace the \enspace indexing \enspace function \enspace f \enspace is \enspace called \enspace indexed \enspace family \enspace of \enspace sets.<br>
+$$</p>
                     
                         <a href="/2018/07/22/05-cartesian-products/" class="postShorten-excerpt_link link">
                             繼續閱讀
@@ -722,7 +739,7 @@ The \enspace collection \enspace with \enspace the \enspace indexing \enspace fu
             
                 <div class="postShorten-excerpt">
                     <p>以上我們談了一些 <em>邏輯的基礎</em>，接下來我們會談一些 <em>數學的基礎</em>，也就是整數與實數系統。其實我們已經用了很多，非正式地，接下來我們會正式地討論他們。</p>
-<p>要 <strong><em>建構</em></strong> 實數系統的一個方法就是利用公理跟集合論來建構。</p>
+<p>要 <em><strong>建構</strong></em> 實數系統的一個方法就是利用公理跟集合論來建構。</p>
                     
                         <a href="/2018/07/22/04-integer-real-numbers/" class="postShorten-excerpt_link link">
                             繼續閱讀
@@ -781,7 +798,7 @@ The \enspace collection \enspace with \enspace the \enspace indexing \enspace fu
         
             <h4 id="about-card-name">Yueh-Hua Tu</h4>
         
-            <div id="about-card-bio"><p>目標是計算生物學家！&lt;/br&gt;Systems Biology, Computational Biology, Machine Learning&lt;/br&gt;Julia Taiwan 發起人</p>
+            <div id="about-card-bio"><p>目標是計算生物學家！</br>Systems Biology, Computational Biology, Machine Learning</br>Julia Taiwan 發起人</p>
 </div>
         
         
@@ -809,23 +826,25 @@ The \enspace collection \enspace with \enspace the \enspace indexing \enspace fu
 
 <script src="/assets/js/script-xzfezjobyekpxrjktw5tz6muvzqfsbmo5n6atk3p5om9ulfptldi3p7cyqd8.min.js"></script>
 
-<!--SCRIPTS END-->
-
-
-    <script type="text/x-mathjax-config">
-    MathJax.Hub.Config({
-        tex2jax: {
-            inlineMath: [ ["$","$"], ["\\(","\\)"] ],
-            skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code'],
-            processEscapes: true
-        }
-    });
-    MathJax.Hub.Queue(function() {
-        var all = MathJax.Hub.getAllJax();
-        for (var i = 0; i < all.length; ++i)
-            all[i].SourceElement().parentNode.className += ' has-jax';
-    });
+<!--SCRIPTS END--><!-- hexo-inject:begin --><!-- Begin: Injected MathJax -->
+<script type="text/x-mathjax-config">
+  MathJax.Hub.Config({"tex2jax":{"inlineMath":[["$","$"],["\\(","\\)"]],"skipTags":["script","noscript","style","textarea","pre","code"],"processEscapes":true},"TeX":{"equationNumbers":{"autoNumber":"AMS"}}});
 </script>
-<script src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
-</body>
+
+<script type="text/x-mathjax-config">
+  MathJax.Hub.Queue(function() {
+    var all = MathJax.Hub.getAllJax(), i;
+    for(i=0; i < all.length; i += 1) {
+      all[i].SourceElement().parentNode.className += ' has-jax';
+    }
+  });
+</script>
+
+<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.6/latest.js?config=TeX-AMS-MML_HTMLorMML">
+</script>
+<!-- End: Injected MathJax -->
+<!-- hexo-inject:end -->
+
+
+    </body>
 </html>

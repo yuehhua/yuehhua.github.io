@@ -3,7 +3,7 @@
 <html lang="zh-tw,en,default">
     
 <head>
-    <meta charset="UTF-8">
+    <!-- hexo-inject:begin --><!-- hexo-inject:end --><meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="generator" content="Dream Maker">
     <title>25 Recurrent model 之死 - Dream Maker</title>
@@ -15,7 +15,7 @@
     
         <link rel="alternate" type="application/atom+xml" title="RSS" href="/atom.xml">
     
-    <script type="application/ld+json">{"@context":"http://schema.org","@type":"BlogPosting","author":{"@type":"Person","name":"Yueh-Hua Tu","sameAs":["https://github.com/yuehhua/","https://www.facebook.com/a504082002","https://www.linkedin.com/in/%E5%B2%B3%E8%8F%AF-%E6%9D%9C-6a3995a0/","mailto:a504082002@gmail.com"],"image":"https://www.gravatar.com/avatar/a565749fba4782b717234da670b273fd"},"articleBody":"當大家正在開心的用著 RNN 跟 LSTM 等等模型之時，就有人跳出來了。\n不要再用 RNN 為基礎的模型了！！\n就是這篇 The fall of RNN / LSTM\n為什麼呢？\n基本上裏面提到 vanishing gradient 的問題一直沒有解決以外，還有沒有辦法善用硬體的侷限在。\n像這種循序型的模型，模型天生無法平行化運算，所以 GPU 就無用武之地，只能靠 CPU 慢慢跑。\n那有什麼解決辦法呢？\nSelf-attention modelAttention Is All You Need 這篇文章提出了 Transformer 這個模型，基本上這個模型使用了 self-attention 的機制。\n要講這個之前我們要先聊聊 attention model。在 attention model 之前，sequence-to-sequence model 做出了重大的突破。一個具有彈性，可以任意組合的模型誕生了，管你是要生成句子還是怎麼樣。原本是只有 RNN 一個單元一個單元慢慢去對映 X 到 Y，sequence-to-sequence model 將這樣的對應關係解耦，由一個 encoder 負責將 X 的資訊萃取出來，再經由 decoder 將資訊轉換成 Y 輸出。\n但是 LSTM 還是沒辦法記憶夠長的，後來 attention model 就誕生了。乾脆就將 encoder 所萃取到的資訊紀錄下來，變成一個，然後再丟到 decoder 去將資訊還原成目標語言，就可以完成機器翻譯了。\n但是這種方式還是不脫 recurrent model，那就乾脆做成 self-attention 的機制，也就是這邊的 Transformer，完全摒棄了 recurrent 的限制。\nAutoregressive generative model接著是今年6月的文章 When Recurrent Models Don’t Need to be Recurrent，當你的 recurrent model 不必再 recurrent！\n也就是將 RNN 的問題又重述了一遍，並且提出大家都漸漸以 autoregressive generative model 來解決這樣的問題。\n這篇算這引言，我接下來會開始一一解釋模型。\n","dateCreated":"2018-10-25T23:21:36+08:00","dateModified":"2018-10-25T23:21:36+08:00","datePublished":"2018-10-25T23:21:36+08:00","description":"","headline":"25 Recurrent model 之死","image":[],"mainEntityOfPage":{"@type":"WebPage","@id":"https://yuehhua.github.io/2018/10/25/25-death-of-recurrent-model/"},"publisher":{"@type":"Organization","name":"Yueh-Hua Tu","sameAs":["https://github.com/yuehhua/","https://www.facebook.com/a504082002","https://www.linkedin.com/in/%E5%B2%B3%E8%8F%AF-%E6%9D%9C-6a3995a0/","mailto:a504082002@gmail.com"],"image":"https://www.gravatar.com/avatar/a565749fba4782b717234da670b273fd","logo":{"@type":"ImageObject","url":"https://www.gravatar.com/avatar/a565749fba4782b717234da670b273fd"}},"url":"https://yuehhua.github.io/2018/10/25/25-death-of-recurrent-model/"}</script>
+    <script type="application/ld+json">{"@context":"http://schema.org","@type":"BlogPosting","author":{"@type":"Person","name":"Yueh-Hua Tu","sameAs":["https://github.com/yuehhua/","https://www.facebook.com/a504082002","https://www.linkedin.com/in/%E5%B2%B3%E8%8F%AF-%E6%9D%9C-6a3995a0/","mailto:a504082002@gmail.com"],"image":"https://www.gravatar.com/avatar/a565749fba4782b717234da670b273fd"},"articleBody":"當大家正在開心的用著 RNN 跟 LSTM 等等模型之時，就有人跳出來了。\n不要再用 RNN 為基礎的模型了！！\n就是這篇 The fall of RNN / LSTM\n為什麼呢？\n基本上裏面提到 vanishing gradient 的問題一直沒有解決以外，還有沒有辦法善用硬體的侷限在。\n像這種循序型的模型，模型天生無法平行化運算，所以 GPU 就無用武之地，只能靠 CPU 慢慢跑。\n那有什麼解決辦法呢？\nSelf-attention model\nAttention Is All You Need 這篇文章提出了 Transformer 這個模型，基本上這個模型使用了 self-attention 的機制。\n要講這個之前我們要先聊聊 attention model。在 attention model 之前，sequence-to-sequence model 做出了重大的突破。一個具有彈性，可以任意組合的模型誕生了，管你是要生成句子還是怎麼樣。原本是只有 RNN 一個單元一個單元慢慢去對映 X 到 Y，sequence-to-sequence model 將這樣的對應關係解耦，由一個 encoder 負責將 X 的資訊萃取出來，再經由 decoder 將資訊轉換成 Y 輸出。\n但是 LSTM 還是沒辦法記憶夠長的，後來 attention model 就誕生了。乾脆就將 encoder 所萃取到的資訊紀錄下來，變成一個，然後再丟到 decoder 去將資訊還原成目標語言，就可以完成機器翻譯了。\n但是這種方式還是不脫 recurrent model，那就乾脆做成 self-attention 的機制，也就是這邊的 Transformer，完全摒棄了 recurrent 的限制。\nAutoregressive generative model\n接著是今年6月的文章 When Recurrent Models Don’t Need to be Recurrent，當你的 recurrent model 不必再 recurrent！\n也就是將 RNN 的問題又重述了一遍，並且提出大家都漸漸以 autoregressive generative model 來解決這樣的問題。\n這篇算這引言，我接下來會開始一一解釋模型。\n","dateCreated":"2018-10-25T23:21:36+08:00","dateModified":"2018-10-25T23:21:36+08:00","datePublished":"2018-10-25T23:21:36+08:00","description":"","headline":"25 Recurrent model 之死","image":[],"mainEntityOfPage":{"@type":"WebPage","@id":"https://yuehhua.github.io/2018/10/25/25-death-of-recurrent-model/"},"publisher":{"@type":"Organization","name":"Yueh-Hua Tu","sameAs":["https://github.com/yuehhua/","https://www.facebook.com/a504082002","https://www.linkedin.com/in/%E5%B2%B3%E8%8F%AF-%E6%9D%9C-6a3995a0/","mailto:a504082002@gmail.com"],"image":"https://www.gravatar.com/avatar/a565749fba4782b717234da670b273fd","logo":{"@type":"ImageObject","url":"https://www.gravatar.com/avatar/a565749fba4782b717234da670b273fd"}},"url":"https://yuehhua.github.io/2018/10/25/25-death-of-recurrent-model/"}</script>
     <meta name="description" content="當大家正在開心的用著 RNN 跟 LSTM 等等模型之時，就有人跳出來了。 不要再用 RNN 為基礎的模型了！！ 就是這篇 The fall of RNN &#x2F; LSTM 為什麼呢？ 基本上裏面提到 vanishing gradient 的問題一直沒有解決以外，還有沒有辦法善用硬體的侷限在。 像這種循序型的模型，模型天生無法平行化運算，所以 GPU 就無用武之地，只能靠 CPU 慢慢跑。 那有什麼解">
 <meta property="og:type" content="blog">
 <meta property="og:title" content="25 Recurrent model 之死">
@@ -54,13 +54,13 @@
 
         ga('create', 'UA-119690895-1', 'auto');
         ga('send', 'pageview');
-    </script>
+    </script><!-- hexo-inject:begin --><!-- hexo-inject:end -->
     
     
 </head>
 
     <body>
-        <div id="blog">
+        <!-- hexo-inject:begin --><!-- hexo-inject:end --><div id="blog">
             <!-- Define author's picture -->
 
 
@@ -274,11 +274,13 @@
 <p>基本上裏面提到 vanishing gradient 的問題一直沒有解決以外，還有沒有辦法善用硬體的侷限在。</p>
 <p>像這種循序型的模型，模型天生無法平行化運算，所以 GPU 就無用武之地，只能靠 CPU 慢慢跑。</p>
 <p>那有什麼解決辦法呢？</p>
-<h2 id="Self-attention-model"><a href="#Self-attention-model" class="headerlink" title="Self-attention model"></a>Self-attention model</h2><p><a href="https://arxiv.org/abs/1706.03762" target="_blank" rel="noopener">Attention Is All You Need</a> 這篇文章提出了 Transformer 這個模型，基本上這個模型使用了 self-attention 的機制。</p>
+<h2 id="Self-attention-model">Self-attention model</h2>
+<p><a href="https://arxiv.org/abs/1706.03762" target="_blank" rel="noopener">Attention Is All You Need</a> 這篇文章提出了 Transformer 這個模型，基本上這個模型使用了 self-attention 的機制。</p>
 <p>要講這個之前我們要先聊聊 attention model。在 attention model 之前，sequence-to-sequence model 做出了重大的突破。一個具有彈性，可以任意組合的模型誕生了，管你是要生成句子還是怎麼樣。原本是只有 RNN 一個單元一個單元慢慢去對映 X 到 Y，sequence-to-sequence model 將這樣的對應關係解耦，由一個 encoder 負責將 X 的資訊萃取出來，再經由 decoder 將資訊轉換成 Y 輸出。</p>
 <p>但是 LSTM 還是沒辦法記憶夠長的，後來 attention model 就誕生了。乾脆就將 encoder 所萃取到的資訊紀錄下來，變成一個，然後再丟到 decoder 去將資訊還原成目標語言，就可以完成機器翻譯了。</p>
 <p>但是這種方式還是不脫 recurrent model，那就乾脆做成 self-attention 的機制，也就是這邊的 Transformer，完全摒棄了 recurrent 的限制。</p>
-<h2 id="Autoregressive-generative-model"><a href="#Autoregressive-generative-model" class="headerlink" title="Autoregressive generative model"></a>Autoregressive generative model</h2><p>接著是今年6月的文章 <a href="http://www.offconvex.org/2018/07/27/approximating-recurrent/" target="_blank" rel="noopener">When Recurrent Models Don’t Need to be Recurrent</a>，當你的 recurrent model 不必再 recurrent！</p>
+<h2 id="Autoregressive-generative-model">Autoregressive generative model</h2>
+<p>接著是今年6月的文章 <a href="http://www.offconvex.org/2018/07/27/approximating-recurrent/" target="_blank" rel="noopener">When Recurrent Models Don’t Need to be Recurrent</a>，當你的 recurrent model 不必再 recurrent！</p>
 <p>也就是將 RNN 的問題又重述了一遍，並且提出大家都漸漸以 autoregressive generative model 來解決這樣的問題。</p>
 <p>這篇算這引言，我接下來會開始一一解釋模型。</p>
 
@@ -462,7 +464,7 @@
         
             <h4 id="about-card-name">Yueh-Hua Tu</h4>
         
-            <div id="about-card-bio"><p>目標是計算生物學家！&lt;/br&gt;Systems Biology, Computational Biology, Machine Learning&lt;/br&gt;Julia Taiwan 發起人</p>
+            <div id="about-card-bio"><p>目標是計算生物學家！</br>Systems Biology, Computational Biology, Machine Learning</br>Julia Taiwan 發起人</p>
 </div>
         
         
@@ -508,24 +510,9 @@
         s.setAttribute('data-timestamp', +new Date());
         (d.head || d.body).appendChild(s);
     })();
-</script>
+</script><!-- hexo-inject:begin --><!-- hexo-inject:end -->
 
 
 
-    <script type="text/x-mathjax-config">
-    MathJax.Hub.Config({
-        tex2jax: {
-            inlineMath: [ ["$","$"], ["\\(","\\)"] ],
-            skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code'],
-            processEscapes: true
-        }
-    });
-    MathJax.Hub.Queue(function() {
-        var all = MathJax.Hub.getAllJax();
-        for (var i = 0; i < all.length; ++i)
-            all[i].SourceElement().parentNode.className += ' has-jax';
-    });
-</script>
-<script src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
-</body>
+    </body>
 </html>

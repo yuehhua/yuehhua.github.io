@@ -3,7 +3,7 @@
 <html lang="zh-tw,en,default">
     
 <head>
-    <meta charset="UTF-8">
+    <!-- hexo-inject:begin --><!-- hexo-inject:end --><meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="generator" content="Dream Maker">
     <title>所有文章: 2017/6 - Dream Maker</title>
@@ -50,13 +50,13 @@
 
         ga('create', 'UA-119690895-1', 'auto');
         ga('send', 'pageview');
-    </script>
+    </script><!-- hexo-inject:begin --><!-- hexo-inject:end -->
     
     
 </head>
 
     <body>
-        <div id="blog">
+        <!-- hexo-inject:begin --><!-- hexo-inject:end --><div id="blog">
             <!-- Define author's picture -->
 
 
@@ -264,10 +264,12 @@
             </div>
             
                 <div class="postShorten-content">
-                    <h1 id="Julia-的物件導向"><a href="#Julia-的物件導向" class="headerlink" title="Julia 的物件導向"></a>Julia 的物件導向</h1><p>今天特別要來談談Julia這個語言的物件導向模型。</p>
+                    <h1>Julia 的物件導向</h1>
+<p>今天特別要來談談Julia這個語言的物件導向模型。</p>
 <p>我已經聽到有些人跟我說「Julia才沒有物件導向」或是「我不承認這是物件導向」等等這類的話。</p>
 <p>不過我得要跟大家說，物件導向不是只有大家看到的C++或是Java那個樣子的物件導向模型。</p>
-<h1 id="介紹-Julia-的物件導向模型"><a href="#介紹-Julia-的物件導向模型" class="headerlink" title="介紹 Julia 的物件導向模型"></a>介紹 Julia 的物件導向模型</h1><p>如果你的背景是C++, Java, Python, Ruby等等語言的話，那你應該非常熟悉物件導向的幾個要素：</p>
+<h1>介紹 Julia 的物件導向模型</h1>
+<p>如果你的背景是C++, Java, Python, Ruby等等語言的話，那你應該非常熟悉物件導向的幾個要素：</p>
 <ol>
 <li>封裝</li>
 <li>繼承</li>
@@ -282,7 +284,8 @@
 <p>也就是說，我只要去設計任何函式，這個函式他所用到的參數型別，那這個函式就是<strong>這些參數</strong>的方法。</p>
 <p>Julia會視函式呼叫的參數型別組合，來決定到底要執行哪一種方法。</p>
 <p>看完之後應該會很傻眼，既然沒有封裝，然後又不帶方法，那這樣要怎麼實現物件導向呢？</p>
-<h2 id="Julia-的型別系統"><a href="#Julia-的型別系統" class="headerlink" title="Julia 的型別系統"></a>Julia 的型別系統</h2><p>概念上來說，Julia會藉由兩種型別來建立型別階層（type hierarchy）：抽象型別跟複合型別</p>
+<h2 id="Julia-的型別系統">Julia 的型別系統</h2>
+<p>概念上來說，Julia會藉由兩種型別來建立型別階層（type hierarchy）：抽象型別跟複合型別</p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">abstract type Number end</span><br><span class="line">abstract type Complex &lt;: Number end</span><br><span class="line">abstract type Real &lt;: Number end</span><br><span class="line"></span><br><span class="line">struct Integer &lt;: Real</span><br><span class="line">    x</span><br><span class="line">end</span><br></pre></td></tr></table></figure>
 <p>以上宣告了 3 個抽象型別以及一個複合型別。</p>
 <p>抽象型別只有一行宣告，也就是說明這代表什麼樣的概念，他不具有欄位。</p>
@@ -295,7 +298,8 @@
 <p>這樣的階層完全不俱備傳統物件導向的繼承概念，雖然觀念上也滿足<strong>is-a</strong>的關係，但是他並沒有從父型別上繼承任何東西，也沒有東西可以被繼承。</p>
 <p>你可能會問：那這樣的型別階層有什麼用呢？</p>
 <p>這就要配合多重分派來用拉~~</p>
-<h2 id="Julia-的多重分派"><a href="#Julia-的多重分派" class="headerlink" title="Julia 的多重分派"></a>Julia 的多重分派</h2><p>大家比較熟悉的應該是single dispatch，也就是區別<code>foo.method()</code>與<code>bar.method()</code>的不同。</p>
+<h2 id="Julia-的多重分派">Julia 的多重分派</h2>
+<p>大家比較熟悉的應該是single dispatch，也就是區別<code>foo.method()</code>與<code>bar.method()</code>的不同。</p>
 <p>傳統的物件導向當他呼叫<code>foo.method()</code>與<code>bar.method()</code>這兩者時，同樣都是呼叫<code>method()</code>這個函式，可是到底要呼叫誰的實作呢？</p>
 <p>Single dispatch會告訴你：去找擁有這個函式的人，也就是<code>.</code>前面的那個傢伙。</p>
 <p>但是Julia的設計理念是：函式並不屬於任何人，也就是不會有人<strong>擁有</strong>函式。</p>
@@ -308,7 +312,8 @@
 <p>那以下這個狀況：</p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">function foo(a::Int64, b)</span><br><span class="line">    ....</span><br><span class="line">end</span><br></pre></td></tr></table></figure>
 <p>就只接受<em>第一個參數型別是<code>Int64</code></em>，而輸入<em>兩個參數</em>的情況了。</p>
-<h2 id="OOP-in-Julia"><a href="#OOP-in-Julia" class="headerlink" title="OOP in Julia"></a>OOP in Julia</h2><p>以這樣的type system以及多重分派作為建構物件導向的核心機制。</p>
+<h2 id="OOP-in-Julia">OOP in Julia</h2>
+<p>以這樣的type system以及多重分派作為建構物件導向的核心機制。</p>
 <p>我們不能在以傳統的思維去想物件導向。</p>
 <p>我們需要思考的是物件導向的核心是什麼？</p>
 <p>物件導向的引入主要幫助我們去塑造一個物件概念，並且幫助我們減少重複的程式碼，提高程式碼的再利用（reuse）。</p>
@@ -323,12 +328,15 @@
 <p>但他更強調的是readability！如果設計者考慮到context，那讀程式碼的人就更能進入這個context去思考。</p>
 <p>在函式的使用上更是毋庸置疑的靈活而鬆耦合，所以在程式碼的撰寫上，可以自然的達成<strong>高內聚，低耦合</strong>，更可以提升readability，最後的再利用就端看設計者最佳化的功力拉！</p>
 <p>Julia是一個達成物件導向精神的語言！</p>
-<h1 id="State-centered-and-behavior-centered-OOP"><a href="#State-centered-and-behavior-centered-OOP" class="headerlink" title="State-centered and behavior-centered OOP"></a>State-centered and behavior-centered OOP</h1><h2 id="The-state-centered-OOP"><a href="#The-state-centered-OOP" class="headerlink" title="The state-centered OOP"></a>The state-centered OOP</h2><p>傳統大家認知的物件導向，大多都由一個<strong>概念</strong>或是<strong>實體</strong>所構成。</p>
+<h1>State-centered and behavior-centered OOP</h1>
+<h2 id="The-state-centered-OOP">The state-centered OOP</h2>
+<p>傳統大家認知的物件導向，大多都由一個<strong>概念</strong>或是<strong>實體</strong>所構成。</p>
 <p>大家在做程式設計的時候，大家所關注的大多是一個變數的<em>值是如何變化</em>或是一個物件的<em>狀態如何變化</em>。</p>
 <p>所以很自然的會從一個實體或是概念著手，進而去設計他應該有怎樣的properties或是做什麼事情。</p>
 <p>會慢慢凝聚出一個概念，並且把這個概念化成一個個的class，並把這個class描繪清楚。</p>
 <p>class描繪仔細了以後，就去關注class跟class之間的互動關係，進而完成整個演算法或是架構。</p>
-<h2 id="The-behavior-centered-OOP"><a href="#The-behavior-centered-OOP" class="headerlink" title="The behavior-centered OOP"></a>The behavior-centered OOP</h2><p>在Julia的物件導向則是敘述<strong>關係</strong>或是<strong>行為</strong>。</p>
+<h2 id="The-behavior-centered-OOP">The behavior-centered OOP</h2>
+<p>在Julia的物件導向則是敘述<strong>關係</strong>或是<strong>行為</strong>。</p>
 <p>Julia會以函式的角度出發，Julia中的物件導向指的是<strong>design a set of methods</strong>這回事。</p>
 <p>Julia會使你關注在參數之間的關係，他們應該如何一起完成工作？參數如何被dispatch？函式跟函式之間會不會衝突？</p>
 <p>型別應該會有什麼樣的行為？<code>*</code>用在數字上跟用在字串上的語意有沒有一樣？</p>
@@ -386,7 +394,7 @@
         
             <h4 id="about-card-name">Yueh-Hua Tu</h4>
         
-            <div id="about-card-bio"><p>目標是計算生物學家！&lt;/br&gt;Systems Biology, Computational Biology, Machine Learning&lt;/br&gt;Julia Taiwan 發起人</p>
+            <div id="about-card-bio"><p>目標是計算生物學家！</br>Systems Biology, Computational Biology, Machine Learning</br>Julia Taiwan 發起人</p>
 </div>
         
         
@@ -414,23 +422,8 @@
 
 <script src="/assets/js/script-xzfezjobyekpxrjktw5tz6muvzqfsbmo5n6atk3p5om9ulfptldi3p7cyqd8.min.js"></script>
 
-<!--SCRIPTS END-->
+<!--SCRIPTS END--><!-- hexo-inject:begin --><!-- hexo-inject:end -->
 
 
-    <script type="text/x-mathjax-config">
-    MathJax.Hub.Config({
-        tex2jax: {
-            inlineMath: [ ["$","$"], ["\\(","\\)"] ],
-            skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code'],
-            processEscapes: true
-        }
-    });
-    MathJax.Hub.Queue(function() {
-        var all = MathJax.Hub.getAllJax();
-        for (var i = 0; i < all.length; ++i)
-            all[i].SourceElement().parentNode.className += ' has-jax';
-    });
-</script>
-<script src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
-</body>
+    </body>
 </html>

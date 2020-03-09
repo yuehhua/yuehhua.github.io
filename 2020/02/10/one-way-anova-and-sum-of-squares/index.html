@@ -3,7 +3,7 @@
 <html lang="zh-tw,en,default">
     
 <head>
-    <meta charset="UTF-8">
+    <!-- hexo-inject:begin --><!-- hexo-inject:end --><meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="generator" content="Dream Maker">
     <title>One-way ANOVA and sum of squares - Dream Maker</title>
@@ -15,7 +15,7 @@
     
         <link rel="alternate" type="application/atom+xml" title="RSS" href="/atom.xml">
     
-    <script type="application/ld+json">{"@context":"http://schema.org","@type":"BlogPosting","author":{"@type":"Person","name":"Yueh-Hua Tu","sameAs":["https://github.com/yuehhua/","https://www.facebook.com/a504082002","https://www.linkedin.com/in/%E5%B2%B3%E8%8F%AF-%E6%9D%9C-6a3995a0/","mailto:a504082002@gmail.com"],"image":"https://www.gravatar.com/avatar/a565749fba4782b717234da670b273fd"},"articleBody":"Analysis of variance (ANOVA) starts from the analysis of variance which is caught by the model or not. If the variance is modeled, then the variance must be explained by the model, I mean of which is “caught” by the model. If it is not, variance is left unexplained as noises. These two concepts forms explained variance (or between-group variance in categorical factor) and unexplained variance (or within-group variance in categorical factor).\n\nSum of squaresSum of squares come from the concept of calculating the (squared Euclidean) distance among data. Let’s consider the total sum of squares $SS_{total}$.\n\nSS_{total} = \\sum_i (y_i - \\bar{y})^2$yi$ represents the true data value, $\\bar{y}$ represents the mean of data $y_i$. We can get variance from $SS{total}$ by dividing the degree of freedom ($df$).\n\n\\begin{align}\nVar[Y] &= \\frac{SS_{total}}{df} \\\\\\\\\n&= \\frac{1}{n-1} \\sum_i (y_i - \\bar{y})^2\n\\end{align}The equation above shows the relation between sum of square and variance.\nWe always attempt to model the phonomena from data. Constructing the hypothesis or model and validate our hypothesis by testing their siginificant. If our model is true, then model must catch some variance and extract information from data for us. If the model is not true, model catch less variance just as the noise does.\nSo, we defined two kinds of sum of squares to measure how much variance is caught by model or not. We usually use a regression to model our data, so we have regression sum of square $SS{reg}$, which represents the amount of sum of square explained by model. Sum of square other than regression sum of square is left as residual sum of square $SS{res}$, which represents the amount of sum of square unexplained by model.\n\nSS_{reg} = \\sum_i (\\hat{y}_i - \\bar{y})^2$\\hat{y}_i$ represents the prediction value given by the model. If the sum of square is modeled, then the distance between the mean and the model prediction is explained by model.\n\nSS_{res} = \\sum_i (y_i - \\hat{y}_i)^2If the sum of square is not modeled, then the distance between the data and the model prediction is left unexplained as noise.\nThere is a relationship amoung them. We are going to proof it. However, the tools are not enough to prove it. We need the following two equations:\n\n\\sum_i e_i = \\sum_i (y_i - \\hat{y}_i) = 0\n\\sum_i \\hat{y}_i e_i = 0We start from $SS_{total}$.\n\n\\begin{align}\nSS_{total} &= \\sum_i (y_i - \\bar{y})^2 \\\\\\\\\n&= \\sum_i (y_i - \\hat{y}_i + \\hat{y}_i - \\bar{y})^2 \\\\\\\\\n&= \\sum_i (y_i - \\hat{y}_i)^2 + (\\hat{y}_i - \\bar{y})^2 + 2(y_i - \\hat{y}_i)(\\hat{y}_i - \\bar{y}) \\\\\\\\\n&= \\sum_i (y_i - \\hat{y}_i)^2 + \\sum_i (\\hat{y}_i - \\bar{y})^2 + 2 \\sum_i \\hat{y}_i(y_i - \\hat{y}_i) - 2\\bar{y} \\sum_i (y_i - \\hat{y}_i) \\\\\\\\\n\\end{align}\n\\begin{align}\nSS_{total} &= SS_{reg} + SS_{res} + 2 \\sum_i \\hat{y}_i e_i - 2\\bar{y} \\sum_i e_i \\\\\\\\\n&= SS_{reg} + SS_{res}\n\\end{align}So now we have it! If we face a dataset, assuming that we know nothing about the data, we could only measure the mean and variance about the data.\nMean tells us the “location” about the data. If I told you the average height of whole people in the class, you prabably could have a idea or even guess where data locate.\nVariance tell us the “range”, or formally “dispersion”, about the dataset. If the variance is large, we have high uncertainty about the data. Sometimes, we even know the mean, we still cannot guess the answer accurately, because we have no idea about what is the scale of data. In some sense, variance is associated with sum of squares(, and it truely is).\nIf we know the model in advance, we know the inner structure of phenomena and how the data is generated. That’s why we usually want to model things. If we introduce a model, it can help us extracting the inner structure (or information) from uncertainty. It reduce the uncertainty and give us information.\nThe total sum of squares act as the total uncertainty we face, and it can further be decoupled into two parts. If we have a model to help us, model extracts information and represents as regression sum of squares. The rest of uncertainty remains as residuals.\nOne-way ANOVAANOVA is a way to decouple sum of squares so that we can quantify how well the model is.\nWe can further make the ANOVA table as follow:\n\n\\begin{array}{l c c c}\n\\ & SS & df & MS & F \\\\\\\\\n\\hline\nmodel & SS_{reg} & k-1 & MS_{reg} & \\frac{MS_{reg}}{MS_{res}} \\\\\\\\\nerror & SS_{res} & n-k & MS_{res} & \\\\\\\\\n\\hline\ntotal & SS_{total} & n-1 & MS_{total} & \\\\\\\\\n\\end{array}Fill in the corresponding cell. Degree of freedom is about how many parameters you used to estimate your model. However, it is not always the case, you may want to read statistics textbook for some theoretical reasons. $k$ is the random variables you used in your model.\n\nMS_{reg} = \\frac{SS_{reg}}{k-1} \\\\\\\\\nMS_{res} = \\frac{SS_{res}}{n-k}$MS$ means mean of squares, which it $SS$ divided by $df$. Moreover, we can calculate the F statistics for F test and the F test itself is so called one-way ANOVA.\n\nF = \\frac{\\text{explained variance}}{\\text{unexplained variance}}F-value has its own meaning. It measures how much variance is caught by our model (or $MS{reg}$), and it is a relative measurement, so it is divided by the variance not caught by our model (or $MS{res}$). In aonother way, the model can explained part of variance, and the rest is left unexplained.\nIf the model we used is not something like linear regression, rather, we separate data into different categories. We used the following formula:\n\nF = \\frac{\\text{between-group variance}}{\\text{within-group variance}}We could further test if the F-value is significant or not.\n","dateCreated":"2020-02-10T00:01:59+08:00","dateModified":"2020-03-07T01:04:22+08:00","datePublished":"2020-02-10T00:01:59+08:00","description":"Analysis of variance (ANOVA) starts from the analysis of variance which is caught by the model or not. If the variance is modeled, then the variance must be explained by the model, I mean of which is “caught” by the model. If it is not, variance is left unexplained as noises. These two concepts forms explained variance (or between-group variance in categorical factor) and unexplained variance (or within-group variance in categorical factor).","headline":"One-way ANOVA and sum of squares","image":[],"mainEntityOfPage":{"@type":"WebPage","@id":"https://yuehhua.github.io/2020/02/10/one-way-anova-and-sum-of-squares/"},"publisher":{"@type":"Organization","name":"Yueh-Hua Tu","sameAs":["https://github.com/yuehhua/","https://www.facebook.com/a504082002","https://www.linkedin.com/in/%E5%B2%B3%E8%8F%AF-%E6%9D%9C-6a3995a0/","mailto:a504082002@gmail.com"],"image":"https://www.gravatar.com/avatar/a565749fba4782b717234da670b273fd","logo":{"@type":"ImageObject","url":"https://www.gravatar.com/avatar/a565749fba4782b717234da670b273fd"}},"url":"https://yuehhua.github.io/2020/02/10/one-way-anova-and-sum-of-squares/"}</script>
+    <script type="application/ld+json">{"@context":"http://schema.org","@type":"BlogPosting","author":{"@type":"Person","name":"Yueh-Hua Tu","sameAs":["https://github.com/yuehhua/","https://www.facebook.com/a504082002","https://www.linkedin.com/in/%E5%B2%B3%E8%8F%AF-%E6%9D%9C-6a3995a0/","mailto:a504082002@gmail.com"],"image":"https://www.gravatar.com/avatar/a565749fba4782b717234da670b273fd"},"articleBody":"Analysis of variance (ANOVA) starts from the analysis of variance which is caught by the model or not. If the variance is modeled, then the variance must be explained by the model, I mean of which is “caught” by the model. If it is not, variance is left unexplained as noises. These two concepts forms explained variance (or between-group variance in categorical factor) and unexplained variance (or within-group variance in categorical factor).\n\nSum of squares\nSum of squares come from the concept of calculating the (squared Euclidean) distance among data. Let’s consider the total sum of squares $SS_{total}$.\n$$\nSS_{total} = \\sum_i (y_i - \\bar{y})^2\n$$\n$y_i$ represents the true data value, $\\bar{y}$ represents the mean of data $y_i$. We can get variance from $SS_{total}$ by dividing the degree of freedom ($df$).\n$$\n\\begin{align}\nVar[Y] &amp;= \\frac{SS_{total}}{df} \\\\\n&amp;= \\frac{1}{n-1} \\sum_i (y_i - \\bar{y})^2\n\\end{align}\n$$\nThe equation above shows the relation between sum of square and variance.\nWe always attempt to model the phonomena from data. Constructing the hypothesis or model and validate our hypothesis by testing their siginificant. If our model is true, then model must catch some variance and extract information from data for us. If the model is not true, model catch less variance just as the noise does.\nSo, we defined two kinds of sum of squares to measure how much variance is caught by model or not. We usually use a regression to model our data, so we have regression sum of square $SS_{reg}$, which represents the amount of sum of square explained by model. Sum of square other than regression sum of square is left as residual sum of square $SS_{res}$, which represents the amount of sum of square unexplained by model.\n$$\nSS_{reg} = \\sum_i (\\hat{y}_i - \\bar{y})^2\n$$\n$\\hat{y}_i$ represents the prediction value given by the model. If the sum of square is modeled, then the distance between the mean and the model prediction is explained by model.\n$$\nSS_{res} = \\sum_i (y_i - \\hat{y}_i)^2\n$$\nIf the sum of square is not modeled, then the distance between the data and the model prediction is left unexplained as noise.\nThere is a relationship amoung them. We are going to proof it. However, the tools are not enough to prove it. We need the following two equations:\n$$\n\\sum_i e_i = \\sum_i (y_i - \\hat{y}_i) = 0\n$$\n$$\n\\sum_i \\hat{y}_i e_i = 0\n$$\nWe start from $SS_{total}$.\n$$\n\\begin{align}\nSS_{total} &amp;= \\sum_i (y_i - \\bar{y})^2 \\\\\n&amp;= \\sum_i (y_i - \\hat{y}_i + \\hat{y}_i - \\bar{y})^2 \\\\\n&amp;= \\sum_i (y_i - \\hat{y}_i)^2 + (\\hat{y}_i - \\bar{y})^2 + 2(y_i - \\hat{y}_i)(\\hat{y}_i - \\bar{y}) \\\\\n&amp;= \\sum_i (y_i - \\hat{y}_i)^2 + \\sum_i (\\hat{y}_i - \\bar{y})^2 + 2 \\sum_i \\hat{y}_i(y_i - \\hat{y}_i) - 2\\bar{y} \\sum_i (y_i - \\hat{y}_i) \\\\\n\\end{align}\n$$\nNow you may see $SS_{reg}$ and $SS_{res}$ in the formula.\n$$\nSS_{total} = SS_{reg} + SS_{res} + 2 \\sum_i \\hat{y}_i e_i - 2\\bar{y} \\sum_i e_i\n$$\nDue to the fact that the last two summation terms are zero. So we have:\n$$\nSS_{total} = SS_{reg} + SS_{res}\n$$\nSo now we have it! If we face a dataset, assuming that we know nothing about the data, we could only measure the mean and variance about the data.\nMean tells us the “location” about the data. If I told you the average height of whole people in the class, you prabably could have a idea or even guess where data locate.\nVariance tell us the “range”, or formally “dispersion”, about the dataset. If the variance is large, we have high uncertainty about the data. Sometimes, we even know the mean, we still cannot guess the answer accurately, because we have no idea about what is the scale of data. In some sense, variance is associated with sum of squares(, and it truely is).\nIf we know the model in advance, we know the inner structure of phenomena and how the data is generated. That’s why we usually want to model things. If we introduce a model, it can help us extracting the inner structure (or information) from uncertainty. It reduce the uncertainty and give us information.\nThe total sum of squares act as the total uncertainty we face, and it can further be decoupled into two parts. If we have a model to help us, model extracts information and represents as regression sum of squares. The rest of uncertainty remains as residuals.\nOne-way ANOVA\nANOVA is a way to decouple sum of squares so that we can quantify how well the model is.\nWe can further make the ANOVA table as follow:\n$$\n\\begin{array}{l c c c}\n\\ &amp; SS &amp; df &amp; MS &amp; F \\\\\n\\hline\nmodel &amp; SS_{reg} &amp; k-1 &amp; MS_{reg} &amp; \\frac{MS_{reg}}{MS_{res}} \\\\\nerror &amp; SS_{res} &amp; n-k &amp; MS_{res} &amp; \\\\\n\\hline\ntotal &amp; SS_{total} &amp; n-1 &amp; MS_{total} &amp; \\\\\n\\end{array}\n$$\nFill in the corresponding cell. Degree of freedom is about how many parameters you used to estimate your model. However, it is not always the case, you may want to read statistics textbook for some theoretical reasons. $k$ is the random variables you used in your model.\n$$\nMS_{reg} = \\frac{SS_{reg}}{k-1} \\\\\nMS_{res} = \\frac{SS_{res}}{n-k}\n$$\n$MS$ means mean of squares, which it $SS$ divided by $df$. Moreover, we can calculate the F statistics for F test and the F test itself is so called one-way ANOVA.\n$$\nF = \\frac{\\text{explained variance}}{\\text{unexplained variance}}\n$$\nF-value has its own meaning. It measures how much variance is caught by our model (or $MS_{reg}$), and it is a relative measurement, so it is divided by the variance not caught by our model (or $MS_{res}$). In aonother way, the model can explained part of variance, and the rest is left unexplained.\nIf the model we used is not something like linear regression, rather, we separate data into different categories. We used the following formula:\n$$\nF = \\frac{\\text{between-group variance}}{\\text{within-group variance}}\n$$\nWe could further test if the F-value is significant or not.\n","dateCreated":"2020-02-10T00:01:59+08:00","dateModified":"2020-03-10T01:07:49+08:00","datePublished":"2020-02-10T00:01:59+08:00","description":"Analysis of variance (ANOVA) starts from the analysis of variance which is caught by the model or not. If the variance is modeled, then the variance must be explained by the model, I mean of which is “caught” by the model. If it is not, variance is left unexplained as noises. These two concepts forms explained variance (or between-group variance in categorical factor) and unexplained variance (or within-group variance in categorical factor).","headline":"One-way ANOVA and sum of squares","image":[],"mainEntityOfPage":{"@type":"WebPage","@id":"https://yuehhua.github.io/2020/02/10/one-way-anova-and-sum-of-squares/"},"publisher":{"@type":"Organization","name":"Yueh-Hua Tu","sameAs":["https://github.com/yuehhua/","https://www.facebook.com/a504082002","https://www.linkedin.com/in/%E5%B2%B3%E8%8F%AF-%E6%9D%9C-6a3995a0/","mailto:a504082002@gmail.com"],"image":"https://www.gravatar.com/avatar/a565749fba4782b717234da670b273fd","logo":{"@type":"ImageObject","url":"https://www.gravatar.com/avatar/a565749fba4782b717234da670b273fd"}},"url":"https://yuehhua.github.io/2020/02/10/one-way-anova-and-sum-of-squares/"}</script>
     <meta name="description" content="Analysis of variance (ANOVA) starts from the analysis of variance which is caught by the model or not. If the variance is modeled, then the variance must be explained by the model, I mean of which is">
 <meta property="og:type" content="blog">
 <meta property="og:title" content="One-way ANOVA and sum of squares">
@@ -24,7 +24,7 @@
 <meta property="og:description" content="Analysis of variance (ANOVA) starts from the analysis of variance which is caught by the model or not. If the variance is modeled, then the variance must be explained by the model, I mean of which is">
 <meta property="og:locale" content="zh_TW">
 <meta property="article:published_time" content="2020-02-09T16:01:59.000Z">
-<meta property="article:modified_time" content="2020-03-06T17:04:22.214Z">
+<meta property="article:modified_time" content="2020-03-09T17:07:49.402Z">
 <meta property="article:author" content="Yueh-Hua Tu">
 <meta property="article:tag" content="machine learning">
 <meta property="article:tag" content="deep learning">
@@ -54,13 +54,13 @@
 
         ga('create', 'UA-119690895-1', 'auto');
         ga('send', 'pageview');
-    </script>
+    </script><!-- hexo-inject:begin --><!-- hexo-inject:end -->
     
     
 </head>
 
     <body>
-        <div id="blog">
+        <!-- hexo-inject:begin --><!-- hexo-inject:end --><div id="blog">
             <!-- Define author's picture -->
 
 
@@ -269,58 +269,86 @@
                                 <div class="main-content-wrap">
                                     <p><strong>An</strong>alysis <strong>o</strong>f <strong>va</strong>riance (ANOVA) starts from the analysis of variance which is caught by the model or not. If the variance is modeled, then the variance must be explained by the model, I mean of which is “caught” by the model. If it is not, variance is left unexplained as noises. These two concepts forms <strong>explained variance</strong> (or <strong>between-group variance</strong> in categorical factor) and <strong>unexplained variance</strong> (or <strong>within-group variance</strong> in categorical factor).</p>
 <a id="more"></a>
-<h2 id="Sum-of-squares"><a href="#Sum-of-squares" class="headerlink" title="Sum of squares"></a>Sum of squares</h2><p>Sum of squares come from the concept of calculating the (squared Euclidean) distance among data. Let’s consider the total sum of squares $SS_{total}$.</p>
-<script type="math/tex; mode=display">
-SS_{total} = \sum_i (y_i - \bar{y})^2</script><p>$y<em>i$ represents the true data value, $\bar{y}$ represents the mean of data $y_i$. We can get variance from $SS</em>{total}$ by dividing the <strong>degree of freedom</strong> ($df$).</p>
-<script type="math/tex; mode=display">
-\begin{align}
-Var[Y] &= \frac{SS_{total}}{df} \\\\
-&= \frac{1}{n-1} \sum_i (y_i - \bar{y})^2
-\end{align}</script><p>The equation above shows the relation between sum of square and variance.</p>
+<h2 id="Sum-of-squares">Sum of squares</h2>
+<p>Sum of squares come from the concept of calculating the (squared Euclidean) distance among data. Let’s consider the total sum of squares $SS_{total}$.</p>
+<p>$$<br>
+SS_{total} = \sum_i (y_i - \bar{y})^2<br>
+$$</p>
+<p>$y_i$ represents the true data value, $\bar{y}$ represents the mean of data $y_i$. We can get variance from $SS_{total}$ by dividing the <strong>degree of freedom</strong> ($df$).</p>
+<p>$$<br>
+\begin{align}<br>
+Var[Y] &amp;= \frac{SS_{total}}{df} \\<br>
+&amp;= \frac{1}{n-1} \sum_i (y_i - \bar{y})^2<br>
+\end{align}<br>
+$$</p>
+<p>The equation above shows the relation between sum of square and variance.</p>
 <p>We always attempt to model the phonomena from data. Constructing the hypothesis or model and validate our hypothesis by testing their siginificant. If our model is true, then model must catch some variance and extract information from data for us. If the model is not true, model catch less variance just as the noise does.</p>
-<p>So, we defined two kinds of sum of squares to measure how much variance is caught by model or not. We usually use a regression to model our data, so we have regression sum of square $SS<em>{reg}$, which represents the amount of sum of square explained by model. Sum of square other than regression sum of square is left as residual sum of square $SS</em>{res}$, which represents the amount of sum of square unexplained by model.</p>
-<script type="math/tex; mode=display">
-SS_{reg} = \sum_i (\hat{y}_i - \bar{y})^2</script><p>$\hat{y}_i$ represents the prediction value given by the model. If the sum of square is modeled, then the distance between the mean and the model prediction is explained by model.</p>
-<script type="math/tex; mode=display">
-SS_{res} = \sum_i (y_i - \hat{y}_i)^2</script><p>If the sum of square is not modeled, then the distance between the data and the model prediction is left unexplained as noise.</p>
+<p>So, we defined two kinds of sum of squares to measure how much variance is caught by model or not. We usually use a regression to model our data, so we have regression sum of square $SS_{reg}$, which represents the amount of sum of square explained by model. Sum of square other than regression sum of square is left as residual sum of square $SS_{res}$, which represents the amount of sum of square unexplained by model.</p>
+<p>$$<br>
+SS_{reg} = \sum_i (\hat{y}_i - \bar{y})^2<br>
+$$</p>
+<p>$\hat{y}_i$ represents the prediction value given by the model. If the sum of square is modeled, then the distance between the mean and the model prediction is explained by model.</p>
+<p>$$<br>
+SS_{res} = \sum_i (y_i - \hat{y}_i)^2<br>
+$$</p>
+<p>If the sum of square is not modeled, then the distance between the data and the model prediction is left unexplained as noise.</p>
 <p>There is a relationship amoung them. We are going to proof it. However, the tools are not enough to prove it. We need the following two equations:</p>
-<script type="math/tex; mode=display">
-\sum_i e_i = \sum_i (y_i - \hat{y}_i) = 0</script><script type="math/tex; mode=display">
-\sum_i \hat{y}_i e_i = 0</script><p>We start from $SS_{total}$.</p>
-<script type="math/tex; mode=display">
-\begin{align}
-SS_{total} &= \sum_i (y_i - \bar{y})^2 \\\\
-&= \sum_i (y_i - \hat{y}_i + \hat{y}_i - \bar{y})^2 \\\\
-&= \sum_i (y_i - \hat{y}_i)^2 + (\hat{y}_i - \bar{y})^2 + 2(y_i - \hat{y}_i)(\hat{y}_i - \bar{y}) \\\\
-&= \sum_i (y_i - \hat{y}_i)^2 + \sum_i (\hat{y}_i - \bar{y})^2 + 2 \sum_i \hat{y}_i(y_i - \hat{y}_i) - 2\bar{y} \sum_i (y_i - \hat{y}_i) \\\\
-\end{align}</script><script type="math/tex; mode=display">
-\begin{align}
-SS_{total} &= SS_{reg} + SS_{res} + 2 \sum_i \hat{y}_i e_i - 2\bar{y} \sum_i e_i \\\\
-&= SS_{reg} + SS_{res}
-\end{align}</script><p>So now we have it! If we face a dataset, assuming that we know nothing about the data, we could only measure the mean and variance about the data.</p>
+<p>$$<br>
+\sum_i e_i = \sum_i (y_i - \hat{y}_i) = 0<br>
+$$</p>
+<p>$$<br>
+\sum_i \hat{y}_i e_i = 0<br>
+$$</p>
+<p>We start from $SS_{total}$.</p>
+<p>$$<br>
+\begin{align}<br>
+SS_{total} &amp;= \sum_i (y_i - \bar{y})^2 \\<br>
+&amp;= \sum_i (y_i - \hat{y}_i + \hat{y}_i - \bar{y})^2 \\<br>
+&amp;= \sum_i (y_i - \hat{y}_i)^2 + (\hat{y}_i - \bar{y})^2 + 2(y_i - \hat{y}_i)(\hat{y}_i - \bar{y}) \\<br>
+&amp;= \sum_i (y_i - \hat{y}_i)^2 + \sum_i (\hat{y}_i - \bar{y})^2 + 2 \sum_i \hat{y}_i(y_i - \hat{y}_i) - 2\bar{y} \sum_i (y_i - \hat{y}_i) \\<br>
+\end{align}<br>
+$$</p>
+<p>Now you may see $SS_{reg}$ and $SS_{res}$ in the formula.</p>
+<p>$$<br>
+SS_{total} = SS_{reg} + SS_{res} + 2 \sum_i \hat{y}_i e_i - 2\bar{y} \sum_i e_i<br>
+$$</p>
+<p>Due to the fact that the last two summation terms are zero. So we have:</p>
+<p>$$<br>
+SS_{total} = SS_{reg} + SS_{res}<br>
+$$</p>
+<p>So now we have it! If we face a dataset, assuming that we know nothing about the data, we could only measure the mean and variance about the data.</p>
 <p>Mean tells us the “location” about the data. If I told you the average height of whole people in the class, you prabably could have a idea or even guess <em>where data locate</em>.</p>
 <p>Variance tell us the “range”, or formally “dispersion”, about the dataset. If the variance is large, we have high uncertainty about the data. Sometimes, we even know the mean, we still cannot guess the answer accurately, because we have no idea about <em>what is the scale of data</em>. In some sense, variance is associated with sum of squares(, and it truely is).</p>
 <p>If we know the model in advance, we know the inner structure of phenomena and how the data is generated. That’s why we usually want to model things. If we introduce a model, it can help us extracting the inner structure (or information) from uncertainty. It reduce the uncertainty and give us information.</p>
 <p>The total sum of squares act as the total uncertainty we face, and it can further be decoupled into two parts. If we have a model to help us, model extracts information and represents as regression sum of squares. The rest of uncertainty remains as <strong>residuals</strong>.</p>
-<h2 id="One-way-ANOVA"><a href="#One-way-ANOVA" class="headerlink" title="One-way ANOVA"></a>One-way ANOVA</h2><p>ANOVA is a way to decouple sum of squares so that we can quantify how well the model is.</p>
+<h2 id="One-way-ANOVA">One-way ANOVA</h2>
+<p>ANOVA is a way to decouple sum of squares so that we can quantify how well the model is.</p>
 <p>We can further make the ANOVA table as follow:</p>
-<script type="math/tex; mode=display">
-\begin{array}{l c c c}
-\ & SS & df & MS & F \\\\
-\hline
-model & SS_{reg} & k-1 & MS_{reg} & \frac{MS_{reg}}{MS_{res}} \\\\
-error & SS_{res} & n-k & MS_{res} & \\\\
-\hline
-total & SS_{total} & n-1 & MS_{total} & \\\\
-\end{array}</script><p>Fill in the corresponding cell. Degree of freedom is about how many parameters you used to estimate your model. However, it is not always the case, you may want to read statistics textbook for some theoretical reasons. $k$ is the random variables you used in your model.</p>
-<script type="math/tex; mode=display">
-MS_{reg} = \frac{SS_{reg}}{k-1} \\\\
-MS_{res} = \frac{SS_{res}}{n-k}</script><p>$MS$ means <em>mean of squares</em>, which it $SS$ divided by $df$. Moreover, we can calculate the F statistics for F test and the F test itself is so called <strong>one-way ANOVA</strong>.</p>
-<script type="math/tex; mode=display">
-F = \frac{\text{explained variance}}{\text{unexplained variance}}</script><p>F-value has its own meaning. It measures <em>how much variance is caught by our model</em> (or $MS<em>{reg}$), and it is a relative measurement, so it is divided by <em>the variance not caught by our model</em> (or $MS</em>{res}$). In aonother way, the model can <strong>explained</strong> part of variance, and the rest is left <strong>unexplained</strong>.</p>
+<p>$$<br>
+\begin{array}{l c c c}<br>
+\ &amp; SS &amp; df &amp; MS &amp; F \\<br>
+\hline<br>
+model &amp; SS_{reg} &amp; k-1 &amp; MS_{reg} &amp; \frac{MS_{reg}}{MS_{res}} \\<br>
+error &amp; SS_{res} &amp; n-k &amp; MS_{res} &amp; \\<br>
+\hline<br>
+total &amp; SS_{total} &amp; n-1 &amp; MS_{total} &amp; \\<br>
+\end{array}<br>
+$$</p>
+<p>Fill in the corresponding cell. Degree of freedom is about how many parameters you used to estimate your model. However, it is not always the case, you may want to read statistics textbook for some theoretical reasons. $k$ is the random variables you used in your model.</p>
+<p>$$<br>
+MS_{reg} = \frac{SS_{reg}}{k-1} \\<br>
+MS_{res} = \frac{SS_{res}}{n-k}<br>
+$$</p>
+<p>$MS$ means <em>mean of squares</em>, which it $SS$ divided by $df$. Moreover, we can calculate the F statistics for F test and the F test itself is so called <strong>one-way ANOVA</strong>.</p>
+<p>$$<br>
+F = \frac{\text{explained variance}}{\text{unexplained variance}}<br>
+$$</p>
+<p>F-value has its own meaning. It measures <em>how much variance is caught by our model</em> (or $MS_{reg}$), and it is a relative measurement, so it is divided by <em>the variance not caught by our model</em> (or $MS_{res}$). In aonother way, the model can <strong>explained</strong> part of variance, and the rest is left <strong>unexplained</strong>.</p>
 <p>If the model we used is not something like linear regression, rather, we separate data into different categories. We used the following formula:</p>
-<script type="math/tex; mode=display">
-F = \frac{\text{between-group variance}}{\text{within-group variance}}</script><p>We could further test if the F-value is significant or not.</p>
+<p>$$<br>
+F = \frac{\text{between-group variance}}{\text{within-group variance}}<br>
+$$</p>
+<p>We could further test if the F-value is significant or not.</p>
 
                                         
 
@@ -502,7 +530,7 @@ F = \frac{\text{between-group variance}}{\text{within-group variance}}</script><
         
             <h4 id="about-card-name">Yueh-Hua Tu</h4>
         
-            <div id="about-card-bio"><p>目標是計算生物學家！&lt;/br&gt;Systems Biology, Computational Biology, Machine Learning&lt;/br&gt;Julia Taiwan 發起人</p>
+            <div id="about-card-bio"><p>目標是計算生物學家！</br>Systems Biology, Computational Biology, Machine Learning</br>Julia Taiwan 發起人</p>
 </div>
         
         
@@ -548,24 +576,26 @@ F = \frac{\text{between-group variance}}{\text{within-group variance}}</script><
         s.setAttribute('data-timestamp', +new Date());
         (d.head || d.body).appendChild(s);
     })();
+</script><!-- hexo-inject:begin --><!-- Begin: Injected MathJax -->
+<script type="text/x-mathjax-config">
+  MathJax.Hub.Config({"tex2jax":{"inlineMath":[["$","$"],["\\(","\\)"]],"skipTags":["script","noscript","style","textarea","pre","code"],"processEscapes":true},"TeX":{"equationNumbers":{"autoNumber":"AMS"}}});
 </script>
 
-
-
-    <script type="text/x-mathjax-config">
-    MathJax.Hub.Config({
-        tex2jax: {
-            inlineMath: [ ["$","$"], ["\\(","\\)"] ],
-            skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code'],
-            processEscapes: true
-        }
-    });
-    MathJax.Hub.Queue(function() {
-        var all = MathJax.Hub.getAllJax();
-        for (var i = 0; i < all.length; ++i)
-            all[i].SourceElement().parentNode.className += ' has-jax';
-    });
+<script type="text/x-mathjax-config">
+  MathJax.Hub.Queue(function() {
+    var all = MathJax.Hub.getAllJax(), i;
+    for(i=0; i < all.length; i += 1) {
+      all[i].SourceElement().parentNode.className += ' has-jax';
+    }
+  });
 </script>
-<script src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
-</body>
+
+<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.6/latest.js?config=TeX-AMS-MML_HTMLorMML">
+</script>
+<!-- End: Injected MathJax -->
+<!-- hexo-inject:end -->
+
+
+
+    </body>
 </html>

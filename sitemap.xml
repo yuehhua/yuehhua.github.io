@@ -2,9 +2,16 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   
   <url>
+    <loc>https://yuehhua.github.io/2019/01/15/compare-clustering-and-embedding/</loc>
+    
+    <lastmod>2020-03-09T17:09:38.855Z</lastmod>
+    
+  </url>
+  
+  <url>
     <loc>https://yuehhua.github.io/2020/02/10/one-way-anova-and-sum-of-squares/</loc>
     
-    <lastmod>2020-03-06T17:04:22.214Z</lastmod>
+    <lastmod>2020-03-09T17:07:49.402Z</lastmod>
     
   </url>
   
@@ -278,13 +285,6 @@
     <loc>https://yuehhua.github.io/2019/01/16/isometry/</loc>
     
     <lastmod>2019-01-16T06:07:41.143Z</lastmod>
-    
-  </url>
-  
-  <url>
-    <loc>https://yuehhua.github.io/2019/01/15/compare-clustering-and-embedding/</loc>
-    
-    <lastmod>2019-01-15T01:22:16.348Z</lastmod>
     
   </url>
   

@@ -3,7 +3,7 @@
 <html lang="zh-tw,en,default">
     
 <head>
-    <meta charset="UTF-8">
+    <!-- hexo-inject:begin --><!-- hexo-inject:end --><meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="generator" content="Dream Maker">
     <title>Julia 中的行內函式（inline functions） - Dream Maker</title>
@@ -15,7 +15,7 @@
     
         <link rel="alternate" type="application/atom+xml" title="RSS" href="/atom.xml">
     
-    <script type="application/ld+json">{"@context":"http://schema.org","@type":"BlogPosting","author":{"@type":"Person","name":"Yueh-Hua Tu","sameAs":["https://github.com/yuehhua/","https://www.facebook.com/a504082002","https://www.linkedin.com/in/%E5%B2%B3%E8%8F%AF-%E6%9D%9C-6a3995a0/","mailto:a504082002@gmail.com"],"image":"https://www.gravatar.com/avatar/a565749fba4782b717234da670b273fd"},"articleBody":"剛好看到一些跟編譯器相關的議題，所以來紀錄一下。\n在一些語言中會有行內函式（inline function）的設計，使用的話一般會讓程式的效能變好。\n最知名應該是 C 跟 C++ 的 inline。\nInline function 會在編譯時期直接將函式內容展開到程式碼中，不過展開與否是由編譯器決定的，inline 的標記只是告訴編譯器這個函式可以成為 inline function。\nInline expansion 就是編譯時期會由編譯器執行的一個動作，看起來與 macro expansion 相似，但不同的是 macro expansion 是在前處理（preprocessing）時期做的，會直接展開在原始碼裡頭，而 inline expansion 則是在編譯時期做的，會在呼叫位點（call site）直接展開。\n展開後編譯器便可以進行最佳化，執行時，就不需要做函式呼叫，也不會在 function stack 上多配置空間。一般使用在短小的函式上會有好處，在巨大的函式上使用不一定會有好處。然而過多的 inline function 反而可能造成過多的指令快取的消耗，造成反效果。\n在 Julia 中，編譯器會自動偵測哪些函式可以被展開，會自動做 inline expansion。一般短小的函式會自動被編譯器判定要 inline，不過也可以由程式設計師自己指定哪些巨大函式可以 inline，可以參考文件]。\n除了 @inline 以外，還有 @noinline。為了避免過多的 inline 反而傷害效能，也可以標記一些短小的函式不要 inline。\n範例：\n123@inline function bigfunc(x)    ...end\n相關技術：Inline caching\n","dateCreated":"2019-09-06T10:34:58+08:00","dateModified":"2019-09-06T11:16:32+08:00","datePublished":"2019-09-06T10:34:58+08:00","description":"","headline":"Julia 中的行內函式（inline functions）","image":[],"mainEntityOfPage":{"@type":"WebPage","@id":"https://yuehhua.github.io/2019/09/06/inline-functions-in-julia/"},"publisher":{"@type":"Organization","name":"Yueh-Hua Tu","sameAs":["https://github.com/yuehhua/","https://www.facebook.com/a504082002","https://www.linkedin.com/in/%E5%B2%B3%E8%8F%AF-%E6%9D%9C-6a3995a0/","mailto:a504082002@gmail.com"],"image":"https://www.gravatar.com/avatar/a565749fba4782b717234da670b273fd","logo":{"@type":"ImageObject","url":"https://www.gravatar.com/avatar/a565749fba4782b717234da670b273fd"}},"url":"https://yuehhua.github.io/2019/09/06/inline-functions-in-julia/","keywords":"optimization"}</script>
+    <script type="application/ld+json">{"@context":"http://schema.org","@type":"BlogPosting","author":{"@type":"Person","name":"Yueh-Hua Tu","sameAs":["https://github.com/yuehhua/","https://www.facebook.com/a504082002","https://www.linkedin.com/in/%E5%B2%B3%E8%8F%AF-%E6%9D%9C-6a3995a0/","mailto:a504082002@gmail.com"],"image":"https://www.gravatar.com/avatar/a565749fba4782b717234da670b273fd"},"articleBody":"剛好看到一些跟編譯器相關的議題，所以來紀錄一下。\n在一些語言中會有行內函式（inline function）的設計，使用的話一般會讓程式的效能變好。\n最知名應該是 C 跟 C++ 的 inline。\nInline function 會在編譯時期直接將函式內容展開到程式碼中，不過展開與否是由編譯器決定的，inline 的標記只是告訴編譯器這個函式可以成為 inline function。\nInline expansion 就是編譯時期會由編譯器執行的一個動作，看起來與 macro expansion 相似，但不同的是 macro expansion 是在前處理（preprocessing）時期做的，會直接展開在原始碼裡頭，而 inline expansion 則是在編譯時期做的，會在呼叫位點（call site）直接展開。\n展開後編譯器便可以進行最佳化，執行時，就不需要做函式呼叫，也不會在 function stack 上多配置空間。一般使用在短小的函式上會有好處，在巨大的函式上使用不一定會有好處。然而過多的 inline function 反而可能造成過多的指令快取的消耗，造成反效果。\n在 Julia 中，編譯器會自動偵測哪些函式可以被展開，會自動做 inline expansion。一般短小的函式會自動被編譯器判定要 inline，不過也可以由程式設計師自己指定哪些巨大函式可以 inline，可以參考[文件]](https://docs.julialang.org/en/v1.2/base/base/#Base.@inline)。\n除了 @inline 以外，還有 @noinline。為了避免過多的 inline 反而傷害效能，也可以標記一些短小的函式不要 inline。\n範例：\n123@inline function bigfunc(x)    ...end\n相關技術：Inline caching\n","dateCreated":"2019-09-06T10:34:58+08:00","dateModified":"2019-09-06T11:16:32+08:00","datePublished":"2019-09-06T10:34:58+08:00","description":"","headline":"Julia 中的行內函式（inline functions）","image":[],"mainEntityOfPage":{"@type":"WebPage","@id":"https://yuehhua.github.io/2019/09/06/inline-functions-in-julia/"},"publisher":{"@type":"Organization","name":"Yueh-Hua Tu","sameAs":["https://github.com/yuehhua/","https://www.facebook.com/a504082002","https://www.linkedin.com/in/%E5%B2%B3%E8%8F%AF-%E6%9D%9C-6a3995a0/","mailto:a504082002@gmail.com"],"image":"https://www.gravatar.com/avatar/a565749fba4782b717234da670b273fd","logo":{"@type":"ImageObject","url":"https://www.gravatar.com/avatar/a565749fba4782b717234da670b273fd"}},"url":"https://yuehhua.github.io/2019/09/06/inline-functions-in-julia/","keywords":"optimization"}</script>
     <meta name="description" content="剛好看到一些跟編譯器相關的議題，所以來紀錄一下。 在一些語言中會有行內函式（inline function）的設計，使用的話一般會讓程式的效能變好。 最知名應該是 C 跟 C++ 的 inline。 Inline function 會在編譯時期直接將函式內容展開到程式碼中，不過展開與否是由編譯器決定的，inline 的標記只是告訴編譯器這個函式可以成為 inline function。 Inlin">
 <meta property="og:type" content="blog">
 <meta property="og:title" content="Julia 中的行內函式（inline functions）">
@@ -52,13 +52,13 @@
 
         ga('create', 'UA-119690895-1', 'auto');
         ga('send', 'pageview');
-    </script>
+    </script><!-- hexo-inject:begin --><!-- hexo-inject:end -->
     
     
 </head>
 
     <body>
-        <div id="blog">
+        <!-- hexo-inject:begin --><!-- hexo-inject:end --><div id="blog">
             <!-- Define author's picture -->
 
 
@@ -271,7 +271,7 @@
 <p>Inline function 會在編譯時期直接將函式內容展開到程式碼中，不過展開與否是由編譯器決定的，<code>inline</code> 的標記只是告訴編譯器這個函式可以成為 inline function。</p>
 <p><a href="https://en.wikipedia.org/wiki/Inline_expansion" target="_blank" rel="noopener">Inline expansion</a> 就是編譯時期會由編譯器執行的一個動作，看起來與 macro expansion 相似，但不同的是 macro expansion 是在前處理（preprocessing）時期做的，會直接展開在原始碼裡頭，而 inline expansion 則是在編譯時期做的，會在呼叫位點（call site）直接展開。</p>
 <p>展開後編譯器便可以進行最佳化，執行時，就不需要做函式呼叫，也不會在 function stack 上多配置空間。一般使用在短小的函式上會有好處，在巨大的函式上使用不一定會有好處。然而過多的 inline function 反而可能造成過多的指令快取的消耗，造成反效果。</p>
-<p>在 Julia 中，編譯器會自動偵測哪些函式可以被展開，會自動做 inline expansion。一般短小的函式會自動被編譯器判定要 inline，不過也可以由程式設計師自己指定哪些巨大函式可以 inline，可以參考<a href="https://docs.julialang.org/en/v1.2/base/base/#Base.@inline" target="_blank" rel="noopener">文件]</a>。</p>
+<p>在 Julia 中，編譯器會自動偵測哪些函式可以被展開，會自動做 inline expansion。一般短小的函式會自動被編譯器判定要 inline，不過也可以由程式設計師自己指定哪些巨大函式可以 inline，可以參考[文件]](<a href="https://docs.julialang.org/en/v1.2/base/base/#Base.@inline" target="_blank" rel="noopener">https://docs.julialang.org/en/v1.2/base/base/#Base.@inline</a>)。</p>
 <p>除了 <code>@inline</code> 以外，還有 <code>@noinline</code>。為了避免過多的 inline 反而傷害效能，也可以標記一些短小的函式不要 inline。</p>
 <p>範例：</p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">@inline function bigfunc(x)</span><br><span class="line">    ...</span><br><span class="line">end</span><br></pre></td></tr></table></figure>
@@ -467,7 +467,7 @@
         
             <h4 id="about-card-name">Yueh-Hua Tu</h4>
         
-            <div id="about-card-bio"><p>目標是計算生物學家！&lt;/br&gt;Systems Biology, Computational Biology, Machine Learning&lt;/br&gt;Julia Taiwan 發起人</p>
+            <div id="about-card-bio"><p>目標是計算生物學家！</br>Systems Biology, Computational Biology, Machine Learning</br>Julia Taiwan 發起人</p>
 </div>
         
         
@@ -513,24 +513,9 @@
         s.setAttribute('data-timestamp', +new Date());
         (d.head || d.body).appendChild(s);
     })();
-</script>
+</script><!-- hexo-inject:begin --><!-- hexo-inject:end -->
 
 
 
-    <script type="text/x-mathjax-config">
-    MathJax.Hub.Config({
-        tex2jax: {
-            inlineMath: [ ["$","$"], ["\\(","\\)"] ],
-            skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code'],
-            processEscapes: true
-        }
-    });
-    MathJax.Hub.Queue(function() {
-        var all = MathJax.Hub.getAllJax();
-        for (var i = 0; i < all.length; ++i)
-            all[i].SourceElement().parentNode.className += ' has-jax';
-    });
-</script>
-<script src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
-</body>
+    </body>
 </html>

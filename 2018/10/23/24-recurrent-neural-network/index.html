@@ -3,7 +3,7 @@
 <html lang="zh-tw,en,default">
     
 <head>
-    <meta charset="UTF-8">
+    <!-- hexo-inject:begin --><!-- hexo-inject:end --><meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="generator" content="Dream Maker">
     <title>24 Recurrent neural network - Dream Maker</title>
@@ -15,13 +15,13 @@
     
         <link rel="alternate" type="application/atom+xml" title="RSS" href="/atom.xml">
     
-    <script type="application/ld+json">{"@context":"http://schema.org","@type":"BlogPosting","author":{"@type":"Person","name":"Yueh-Hua Tu","sameAs":["https://github.com/yuehhua/","https://www.facebook.com/a504082002","https://www.linkedin.com/in/%E5%B2%B3%E8%8F%AF-%E6%9D%9C-6a3995a0/","mailto:a504082002@gmail.com"],"image":"https://www.gravatar.com/avatar/a565749fba4782b717234da670b273fd"},"articleBody":"接續上一篇。\nRecurrent neural network那大家所熟知的 RNN 是怎麼回事呢？我們把假設改了一下：\n\n狀態都是 連續 的。\n時間是離散的。\n內在狀態是不能被觀察的，外在狀態是可被觀察的。\n以一個 隨機向量 作為一個狀態。\n允許在每個時間點給輸入\n引入非線性\n\n首先，在這邊的狀態會以一個向量做表示，大家應該也知道 RNN 的 input 是一個向量，當中的狀態也是一個向量，最後的 output 也是一個向量。而這些向量當中的的值都是連續的 $\\mathbb{R}^n$（假設向量大小為 n），不像上面的模型都是離散的 $k$（假設有 k 個狀態），所以在空間上的大小可以說是擴大非常多。\n接下來我們來看看時間的狀態轉換：\n&lt;/br&gt;\n\n&lt;/br&gt;\n\n&lt;/br&gt;\n在 RNN 中一樣含有內在狀態，但不同的是 RNN 可以在每個時間點上給輸入向量（$\\mathbf{x^{(t)}}$），所以可以根據前一個時間點的內在狀態（$\\mathbf{h^{(t)}}$）跟輸入向量去計算輸出，或是外在狀態（$\\mathbf{y^{(t)}}$）。\n所以大家會在一些論文上看到模型的狀態關係式長下面這個樣子：\n\n\\mathbf{h^{(t)}} = f(\\mathbf{x^{(t)}}, \\mathbf{h^{(t-1)}}) = \\mathbf{x^{(t)}} W_x + \\mathbf{h^{(t-1)}} W_h + \\mathbf{b}\n\\mathbf{y^{(t)}} = g(\\mathbf{h^{(t)}}) = sigm(\\mathbf{h^{(t)}} W_y)這邊特別引入了非線性的轉換（$sigm$）來讓模型更強大。\n隨著從一開始的馬可夫模型到這邊應該對這幾個模型有點感覺，其實 RNN 可以說是很大的突破，在假設上放了很多元素讓模型變得更強大。\nLong short-term memory人們為了改進 RNN這個模型的記憶性，希望他可以記住更遠以前的東西，所以設計了 LSTM 來替換他的 hidden layer 的運作模式，後期更有 GRU，還有人說只需要 forget gate 就有很強大的效能的 MGU。這些都是對於記憶性做的改進，個人覺得這些在工程上的貢獻比較大，真正學術上的突破其實還好。\n今天的整理就先到這邊啦！\n","dateCreated":"2018-10-23T21:43:49+08:00","dateModified":"2018-10-23T21:43:49+08:00","datePublished":"2018-10-23T21:43:49+08:00","description":"","headline":"24 Recurrent neural network","image":[],"mainEntityOfPage":{"@type":"WebPage","@id":"https://yuehhua.github.io/2018/10/23/24-recurrent-neural-network/"},"publisher":{"@type":"Organization","name":"Yueh-Hua Tu","sameAs":["https://github.com/yuehhua/","https://www.facebook.com/a504082002","https://www.linkedin.com/in/%E5%B2%B3%E8%8F%AF-%E6%9D%9C-6a3995a0/","mailto:a504082002@gmail.com"],"image":"https://www.gravatar.com/avatar/a565749fba4782b717234da670b273fd","logo":{"@type":"ImageObject","url":"https://www.gravatar.com/avatar/a565749fba4782b717234da670b273fd"}},"url":"https://yuehhua.github.io/2018/10/23/24-recurrent-neural-network/"}</script>
-    <meta name="description" content="接續上一篇。 Recurrent neural network那大家所熟知的 RNN 是怎麼回事呢？我們把假設改了一下：  狀態都是 連續 的。 時間是離散的。 內在狀態是不能被觀察的，外在狀態是可被觀察的。 以一個 隨機向量 作為一個狀態。 允許在每個時間點給輸入 引入非線性  首先，在這邊的狀態會以一個向量做表示，大家應該也知道 RNN 的 input 是一個向量，當中的狀態也是一個向量，最後">
+    <script type="application/ld+json">{"@context":"http://schema.org","@type":"BlogPosting","author":{"@type":"Person","name":"Yueh-Hua Tu","sameAs":["https://github.com/yuehhua/","https://www.facebook.com/a504082002","https://www.linkedin.com/in/%E5%B2%B3%E8%8F%AF-%E6%9D%9C-6a3995a0/","mailto:a504082002@gmail.com"],"image":"https://www.gravatar.com/avatar/a565749fba4782b717234da670b273fd"},"articleBody":"接續上一篇。\nRecurrent neural network\n那大家所熟知的 RNN 是怎麼回事呢？我們把假設改了一下：\n\n狀態都是 連續 的。\n時間是離散的。\n內在狀態是不能被觀察的，外在狀態是可被觀察的。\n以一個 隨機向量 作為一個狀態。\n允許在每個時間點給輸入\n引入非線性\n\n首先，在這邊的狀態會以一個向量做表示，大家應該也知道 RNN 的 input 是一個向量，當中的狀態也是一個向量，最後的 output 也是一個向量。而這些向量當中的的值都是連續的 $\\mathbb{R}^n$（假設向量大小為 n），不像上面的模型都是離散的 $k$（假設有 k 個狀態），所以在空間上的大小可以說是擴大非常多。\n接下來我們來看看時間的狀態轉換：\n\n\n\n\n\n在 RNN 中一樣含有內在狀態，但不同的是 RNN 可以在每個時間點上給輸入向量（$\\mathbf{x^{(t)}}$），所以可以根據前一個時間點的內在狀態（$\\mathbf{h^{(t)}}$）跟輸入向量去計算輸出，或是外在狀態（$\\mathbf{y^{(t)}}$）。\n所以大家會在一些論文上看到模型的狀態關係式長下面這個樣子：\n$$\n\\mathbf{h^{(t)}} = f(\\mathbf{x^{(t)}}, \\mathbf{h^{(t-1)}}) = \\mathbf{x^{(t)}} W_x + \\mathbf{h^{(t-1)}} W_h + \\mathbf{b}\n$$\n$$\n\\mathbf{y^{(t)}} = g(\\mathbf{h^{(t)}}) = sigm(\\mathbf{h^{(t)}} W_y)\n$$\n這邊特別引入了非線性的轉換（$sigm$）來讓模型更強大。\n隨著從一開始的馬可夫模型到這邊應該對這幾個模型有點感覺，其實 RNN 可以說是很大的突破，在假設上放了很多元素讓模型變得更強大。\nLong short-term memory\n人們為了改進 RNN這個模型的記憶性，希望他可以記住更遠以前的東西，所以設計了 LSTM 來替換他的 hidden layer 的運作模式，後期更有 GRU，還有人說只需要 forget gate 就有很強大的效能的 MGU。這些都是對於記憶性做的改進，個人覺得這些在工程上的貢獻比較大，真正學術上的突破其實還好。\n今天的整理就先到這邊啦！\n","dateCreated":"2018-10-23T21:43:49+08:00","dateModified":"2018-10-23T21:43:49+08:00","datePublished":"2018-10-23T21:43:49+08:00","description":"","headline":"24 Recurrent neural network","image":[],"mainEntityOfPage":{"@type":"WebPage","@id":"https://yuehhua.github.io/2018/10/23/24-recurrent-neural-network/"},"publisher":{"@type":"Organization","name":"Yueh-Hua Tu","sameAs":["https://github.com/yuehhua/","https://www.facebook.com/a504082002","https://www.linkedin.com/in/%E5%B2%B3%E8%8F%AF-%E6%9D%9C-6a3995a0/","mailto:a504082002@gmail.com"],"image":"https://www.gravatar.com/avatar/a565749fba4782b717234da670b273fd","logo":{"@type":"ImageObject","url":"https://www.gravatar.com/avatar/a565749fba4782b717234da670b273fd"}},"url":"https://yuehhua.github.io/2018/10/23/24-recurrent-neural-network/"}</script>
+    <meta name="description" content="接續上一篇。 Recurrent neural network 那大家所熟知的 RNN 是怎麼回事呢？我們把假設改了一下：  狀態都是 連續 的。 時間是離散的。 內在狀態是不能被觀察的，外在狀態是可被觀察的。 以一個 隨機向量 作為一個狀態。 允許在每個時間點給輸入 引入非線性  首先，在這邊的狀態會以一個向量做表示，大家應該也知道 RNN 的 input 是一個向量，當中的狀態也是一個向量，最">
 <meta property="og:type" content="blog">
 <meta property="og:title" content="24 Recurrent neural network">
 <meta property="og:url" content="https://yuehhua.github.io/2018/10/23/24-recurrent-neural-network/index.html">
 <meta property="og:site_name" content="Dream Maker">
-<meta property="og:description" content="接續上一篇。 Recurrent neural network那大家所熟知的 RNN 是怎麼回事呢？我們把假設改了一下：  狀態都是 連續 的。 時間是離散的。 內在狀態是不能被觀察的，外在狀態是可被觀察的。 以一個 隨機向量 作為一個狀態。 允許在每個時間點給輸入 引入非線性  首先，在這邊的狀態會以一個向量做表示，大家應該也知道 RNN 的 input 是一個向量，當中的狀態也是一個向量，最後">
+<meta property="og:description" content="接續上一篇。 Recurrent neural network 那大家所熟知的 RNN 是怎麼回事呢？我們把假設改了一下：  狀態都是 連續 的。 時間是離散的。 內在狀態是不能被觀察的，外在狀態是可被觀察的。 以一個 隨機向量 作為一個狀態。 允許在每個時間點給輸入 引入非線性  首先，在這邊的狀態會以一個向量做表示，大家應該也知道 RNN 的 input 是一個向量，當中的狀態也是一個向量，最">
 <meta property="og:locale" content="zh_TW">
 <meta property="og:image" content="https://yuehhua.github.io/images/rnn_time.svg">
 <meta property="og:image" content="https://yuehhua.github.io/images/rnn_expand_time.svg">
@@ -57,13 +57,13 @@
 
         ga('create', 'UA-119690895-1', 'auto');
         ga('send', 'pageview');
-    </script>
+    </script><!-- hexo-inject:begin --><!-- hexo-inject:end -->
     
     
 </head>
 
     <body>
-        <div id="blog">
+        <!-- hexo-inject:begin --><!-- hexo-inject:end --><div id="blog">
             <!-- Define author's picture -->
 
 
@@ -271,7 +271,8 @@
                             <div class="post-content markdown">
                                 <div class="main-content-wrap">
                                     <p>接續上一篇。</p>
-<h2 id="Recurrent-neural-network"><a href="#Recurrent-neural-network" class="headerlink" title="Recurrent neural network"></a>Recurrent neural network</h2><p>那大家所熟知的 RNN 是怎麼回事呢？我們把假設改了一下：</p>
+<h2 id="Recurrent-neural-network">Recurrent neural network</h2>
+<p>那大家所熟知的 RNN 是怎麼回事呢？我們把假設改了一下：</p>
 <ul>
 <li>狀態都是 <strong>連續</strong> 的。</li>
 <li>時間是離散的。</li>
@@ -282,18 +283,23 @@
 </ul>
 <p>首先，在這邊的狀態會以一個向量做表示，大家應該也知道 RNN 的 input 是一個向量，當中的狀態也是一個向量，最後的 output 也是一個向量。而這些向量當中的的值都是連續的 $\mathbb{R}^n$（假設向量大小為 n），不像上面的模型都是離散的 $k$（假設有 k 個狀態），所以在空間上的大小可以說是擴大非常多。</p>
 <p>接下來我們來看看時間的狀態轉換：</p>
-<p>&lt;/br&gt;</p>
+</br>
 <p><img src="/images/rnn_time.svg" alt=""></p>
-<p>&lt;/br&gt;</p>
+</br>
 <p><img src="/images/rnn_expand_time.svg" alt=""></p>
-<p>&lt;/br&gt;</p>
+</br>
 <p>在 RNN 中一樣含有內在狀態，但不同的是 RNN 可以在每個時間點上給輸入向量（$\mathbf{x^{(t)}}$），所以可以根據前一個時間點的內在狀態（$\mathbf{h^{(t)}}$）跟輸入向量去計算輸出，或是外在狀態（$\mathbf{y^{(t)}}$）。</p>
 <p>所以大家會在一些論文上看到模型的狀態關係式長下面這個樣子：</p>
-<script type="math/tex; mode=display">
-\mathbf{h^{(t)}} = f(\mathbf{x^{(t)}}, \mathbf{h^{(t-1)}}) = \mathbf{x^{(t)}} W_x + \mathbf{h^{(t-1)}} W_h + \mathbf{b}</script><script type="math/tex; mode=display">
-\mathbf{y^{(t)}} = g(\mathbf{h^{(t)}}) = sigm(\mathbf{h^{(t)}} W_y)</script><p>這邊特別引入了非線性的轉換（$sigm$）來讓模型更強大。</p>
+<p>$$<br>
+\mathbf{h^{(t)}} = f(\mathbf{x^{(t)}}, \mathbf{h^{(t-1)}}) = \mathbf{x^{(t)}} W_x + \mathbf{h^{(t-1)}} W_h + \mathbf{b}<br>
+$$</p>
+<p>$$<br>
+\mathbf{y^{(t)}} = g(\mathbf{h^{(t)}}) = sigm(\mathbf{h^{(t)}} W_y)<br>
+$$</p>
+<p>這邊特別引入了非線性的轉換（$sigm$）來讓模型更強大。</p>
 <p>隨著從一開始的馬可夫模型到這邊應該對這幾個模型有點感覺，其實 RNN 可以說是很大的突破，在假設上放了很多元素讓模型變得更強大。</p>
-<h2 id="Long-short-term-memory"><a href="#Long-short-term-memory" class="headerlink" title="Long short-term memory"></a>Long short-term memory</h2><p>人們為了改進 RNN這個模型的記憶性，希望他可以記住更遠以前的東西，所以設計了 LSTM 來替換他的 hidden layer 的運作模式，後期更有 GRU，還有人說只需要 forget gate 就有很強大的效能的 MGU。這些都是對於記憶性做的改進，個人覺得這些在工程上的貢獻比較大，真正學術上的突破其實還好。</p>
+<h2 id="Long-short-term-memory">Long short-term memory</h2>
+<p>人們為了改進 RNN這個模型的記憶性，希望他可以記住更遠以前的東西，所以設計了 LSTM 來替換他的 hidden layer 的運作模式，後期更有 GRU，還有人說只需要 forget gate 就有很強大的效能的 MGU。這些都是對於記憶性做的改進，個人覺得這些在工程上的貢獻比較大，真正學術上的突破其實還好。</p>
 <p>今天的整理就先到這邊啦！</p>
 
                                         
@@ -476,7 +482,7 @@
         
             <h4 id="about-card-name">Yueh-Hua Tu</h4>
         
-            <div id="about-card-bio"><p>目標是計算生物學家！&lt;/br&gt;Systems Biology, Computational Biology, Machine Learning&lt;/br&gt;Julia Taiwan 發起人</p>
+            <div id="about-card-bio"><p>目標是計算生物學家！</br>Systems Biology, Computational Biology, Machine Learning</br>Julia Taiwan 發起人</p>
 </div>
         
         
@@ -522,24 +528,26 @@
         s.setAttribute('data-timestamp', +new Date());
         (d.head || d.body).appendChild(s);
     })();
+</script><!-- hexo-inject:begin --><!-- Begin: Injected MathJax -->
+<script type="text/x-mathjax-config">
+  MathJax.Hub.Config({"tex2jax":{"inlineMath":[["$","$"],["\\(","\\)"]],"skipTags":["script","noscript","style","textarea","pre","code"],"processEscapes":true},"TeX":{"equationNumbers":{"autoNumber":"AMS"}}});
 </script>
 
-
-
-    <script type="text/x-mathjax-config">
-    MathJax.Hub.Config({
-        tex2jax: {
-            inlineMath: [ ["$","$"], ["\\(","\\)"] ],
-            skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code'],
-            processEscapes: true
-        }
-    });
-    MathJax.Hub.Queue(function() {
-        var all = MathJax.Hub.getAllJax();
-        for (var i = 0; i < all.length; ++i)
-            all[i].SourceElement().parentNode.className += ' has-jax';
-    });
+<script type="text/x-mathjax-config">
+  MathJax.Hub.Queue(function() {
+    var all = MathJax.Hub.getAllJax(), i;
+    for(i=0; i < all.length; i += 1) {
+      all[i].SourceElement().parentNode.className += ' has-jax';
+    }
+  });
 </script>
-<script src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
-</body>
+
+<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.6/latest.js?config=TeX-AMS-MML_HTMLorMML">
+</script>
+<!-- End: Injected MathJax -->
+<!-- hexo-inject:end -->
+
+
+
+    </body>
 </html>

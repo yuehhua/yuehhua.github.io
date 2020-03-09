@@ -3,7 +3,7 @@
 <html lang="zh-tw,en,default">
     
 <head>
-    <meta charset="UTF-8">
+    <!-- hexo-inject:begin --><!-- hexo-inject:end --><meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="generator" content="Dream Maker">
     <title>所有文章: 2019 - Dream Maker</title>
@@ -50,13 +50,13 @@
 
         ga('create', 'UA-119690895-1', 'auto');
         ga('send', 'pageview');
-    </script>
+    </script><!-- hexo-inject:begin --><!-- hexo-inject:end -->
     
     
 </head>
 
     <body>
-        <div id="blog">
+        <!-- hexo-inject:begin --><!-- hexo-inject:end --><div id="blog">
             <!-- Define author's picture -->
 
 
@@ -271,32 +271,44 @@
 <p>由於一個向量 $\mathbb{v} \in \mathbb{R}^{\infty}$，在無限維度下我們需要考慮一個問題，就是 norm。</p>
 <p>如果這個空間有定義 norm 的話，我們就要考慮他有沒有收斂，也就是 $||\mathbb{v}||^2$ 要存在。</p>
 <p>所以條件就是</p>
-<script type="math/tex; mode=display">
-||\mathbb{v}||^2 = \sum_{i=1}^{\infty} v_i^2</script><p>要收斂。</p>
-<ol>
+<p>$$<br>
+||\mathbb{v}||^2 = \sum_{i=1}^{\infty} v_i^2<br>
+$$</p>
+<p>要收斂。</p>
+<ol start="2">
 <li>從 $\mathbb{R}^{\infty}$ 無限維度的向量空間再拓展到 $C^{\omega}$ 函數空間，所需要俱備的條件是什麼？</li>
 </ol>
 <p>一個無限維度的向量是一個離散的版本，由剛剛的式子可以看的出來</p>
-<script type="math/tex; mode=display">
-||\mathbb{v}||^2 = \sum_{i=1}^{\infty} v_i^2</script><p>而一個（解析）函數則是連續的</p>
-<script type="math/tex; mode=display">
-||f||^2 = \int f^2(x) dx</script><p>除了以上的 norm 要收斂外，從離散到連續應該有些假設或是條件才是。</p>
-<ol>
+<p>$$<br>
+||\mathbb{v}||^2 = \sum_{i=1}^{\infty} v_i^2<br>
+$$</p>
+<p>而一個（解析）函數則是連續的</p>
+<p>$$<br>
+||f||^2 = \int f^2(x) dx<br>
+$$</p>
+<p>除了以上的 norm 要收斂外，從離散到連續應該有些假設或是條件才是。</p>
+<ol start="3">
 <li>函數的基底</li>
 </ol>
 <p>Fourier series</p>
-<script type="math/tex; mode=display">
-f(x) = a_0 + a_1 \cos x + b_1 \sin x + a_2 \cos 2x + b_2 \sin 2x + \cdots</script><p>所以基底就是</p>
-<script type="math/tex; mode=display">
-<\beta> = <1, \cos x, \sin x, \cos 2x, \sin 2x, \cdots></script><ol>
+<p>$$<br>
+f(x) = a_0 + a_1 \cos x + b_1 \sin x + a_2 \cos 2x + b_2 \sin 2x + \cdots<br>
+$$</p>
+<p>所以基底就是</p>
+<p>$$<br>
+&lt;\beta&gt; = &lt;1, \cos x, \sin x, \cos 2x, \sin 2x, \cdots&gt;<br>
+$$</p>
+<ol start="4">
 <li>非週期性函數基底</li>
 </ol>
 <p>Legendre polynomial</p>
-<ol>
+<ol start="5">
 <li>Least square problem</li>
 </ol>
-<script type="math/tex; mode=display">
-(A^TA)\hat{y} = A^Tb</script>
+<p>$$<br>
+(A^TA)\hat{y} = A^Tb<br>
+$$</p>
+
                     
                         
 
@@ -352,27 +364,37 @@ f(x) = a_0 + a_1 \cos x + b_1 \sin x + a_2 \cos 2x + b_2 \sin 2x + \cdots</scrip
 <figure class="highlight julia"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">struct</span> B</span><br><span class="line">    x::<span class="built_in">Int64</span></span><br><span class="line"><span class="keyword">end</span></span><br></pre></td></tr></table></figure>
 <p><em>全文出現的程式碼為實際測試程式碼</em></p>
 <p>因為 Julia 有提供好用的 <code>@code_llvm</code> 及 <code>@code_native</code> 來觀察一行程式碼實際被轉換成 LLVM 或是組合語言的時候會產生多少行的程式碼，藉此我們可以用低階程式碼來評估是否有效率。程式碼的行數愈少是越有效率的。</p>
-<h2 id="建立"><a href="#建立" class="headerlink" title="建立"></a>建立</h2><p>我們來測試一個物件被建立需要多少行的程式碼。</p>
-<h3 id="A-LLVM"><a href="#A-LLVM" class="headerlink" title="A - LLVM"></a>A - LLVM</h3><figure class="highlight julia"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@code_llvm</span> A&#123;<span class="number">5</span>&#125;()</span><br></pre></td></tr></table></figure>
+<h2 id="建立">建立</h2>
+<p>我們來測試一個物件被建立需要多少行的程式碼。</p>
+<h3 id="A-LLVM">A - LLVM</h3>
+<figure class="highlight julia"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@code_llvm</span> A&#123;<span class="number">5</span>&#125;()</span><br></pre></td></tr></table></figure>
 <figure class="highlight llvm"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">;  @ REPL[1]:3 within `Type'</span></span><br><span class="line"><span class="comment">define nonnull %jl_value_t addrspace(10)* @japi1_Type_12238(%jl_value_t addrspace(10)*, %jl_value_t addrspace(10)**, i32) #0 &#123;</span></span><br><span class="line"><span class="comment">top:</span></span><br><span class="line"><span class="comment">  %3 = alloca %jl_value_t addrspace(10)**, align 8</span></span><br><span class="line"><span class="comment">  store volatile %jl_value_t addrspace(10)** %1, %jl_value_t addrspace(10)*** %3, align 8</span></span><br><span class="line"><span class="comment">  ret %jl_value_t addrspace(10)* addrspacecast (%jl_value_t* inttoptr (i64 140407726014496 to %jl_value_t*) to %jl_value_t addrspace(10)*)</span></span><br><span class="line"><span class="comment">&#125;</span></span><br></pre></td></tr></table></figure>
-<h3 id="B-LLVM"><a href="#B-LLVM" class="headerlink" title="B - LLVM"></a>B - LLVM</h3><figure class="highlight julia"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@code_llvm</span> B(<span class="number">5</span>)</span><br></pre></td></tr></table></figure>
+<h3 id="B-LLVM">B - LLVM</h3>
+<figure class="highlight julia"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@code_llvm</span> B(<span class="number">5</span>)</span><br></pre></td></tr></table></figure>
 <figure class="highlight llvm"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">;  @ REPL[1]:2 within `Type'</span></span><br><span class="line"><span class="comment">define &#123; i64 &#125; @julia_Type_12221(%jl_value_t addrspace(10)*, i64) &#123;</span></span><br><span class="line"><span class="comment">top:</span></span><br><span class="line"><span class="comment">  %.fca.0.insert = insertvalue &#123; i64 &#125; undef, i64 %1, 0</span></span><br><span class="line"><span class="comment">  ret &#123; i64 &#125; %.fca.0.insert</span></span><br><span class="line"><span class="comment">&#125;</span></span><br></pre></td></tr></table></figure>
-<h3 id="A-Assembly"><a href="#A-Assembly" class="headerlink" title="A - Assembly"></a>A - Assembly</h3><figure class="highlight julia"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@code_native</span> A&#123;<span class="number">5</span>&#125;()</span><br></pre></td></tr></table></figure>
+<h3 id="A-Assembly">A - Assembly</h3>
+<figure class="highlight julia"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@code_native</span> A&#123;<span class="number">5</span>&#125;()</span><br></pre></td></tr></table></figure>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">; ┌ @ REPL[1]:3 within &#96;Type&#39;</span><br><span class="line">	movq	%rsi, -8(%rsp)</span><br><span class="line">	movabsq	$140407726014496, %rax  # imm &#x3D; 0x7FB338A20020</span><br><span class="line">	retq</span><br><span class="line">; └</span><br></pre></td></tr></table></figure>
-<h3 id="B-Assembly"><a href="#B-Assembly" class="headerlink" title="B - Assembly"></a>B - Assembly</h3><figure class="highlight julia"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@code_native</span> B(<span class="number">5</span>)</span><br></pre></td></tr></table></figure>
+<h3 id="B-Assembly">B - Assembly</h3>
+<figure class="highlight julia"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@code_native</span> B(<span class="number">5</span>)</span><br></pre></td></tr></table></figure>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">; ┌ @ REPL[1]:2 within &#96;Type&#39;</span><br><span class="line">	movq	%rsi, %rax</span><br><span class="line">	retq</span><br><span class="line">	nopw	%cs:(%rax,%rax)</span><br><span class="line">; └</span><br></pre></td></tr></table></figure>
-<h2 id="取值"><a href="#取值" class="headerlink" title="取值"></a>取值</h2><p>接著測試從物件當中取值出來的效能。</p>
+<h2 id="取值">取值</h2>
+<p>接著測試從物件當中取值出來的效能。</p>
 <p>定義取值的方法：</p>
 <figure class="highlight julia"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">get_value(::A&#123;T&#125;) <span class="keyword">where</span> &#123;T&#125; = T</span><br><span class="line">get_value(b::B) = b.x</span><br></pre></td></tr></table></figure>
 <p>事先建立好物件：</p>
 <figure class="highlight julia"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">a = A&#123;<span class="number">5</span>&#125;()</span><br><span class="line">b = B(<span class="number">5</span>)</span><br></pre></td></tr></table></figure>
-<h3 id="A-LLVM-1"><a href="#A-LLVM-1" class="headerlink" title="A - LLVM"></a>A - LLVM</h3><figure class="highlight julia"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@code_llvm</span> get_value(a)</span><br></pre></td></tr></table></figure>
+<h3 id="A-LLVM-2">A - LLVM</h3>
+<figure class="highlight julia"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@code_llvm</span> get_value(a)</span><br></pre></td></tr></table></figure>
 <figure class="highlight llvm"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">;  @ REPL[8]:1 within `get_value'</span></span><br><span class="line"><span class="comment">define i64 @julia_get_value_12274() &#123;</span></span><br><span class="line"><span class="comment">top:</span></span><br><span class="line"><span class="comment">  ret i64 5</span></span><br><span class="line"><span class="comment">&#125;</span></span><br></pre></td></tr></table></figure>
-<h3 id="B-LLVM-1"><a href="#B-LLVM-1" class="headerlink" title="B - LLVM"></a>B - LLVM</h3><figure class="highlight julia"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@code_llvm</span> get_value(b)</span><br></pre></td></tr></table></figure>
+<h3 id="B-LLVM-2">B - LLVM</h3>
+<figure class="highlight julia"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@code_llvm</span> get_value(b)</span><br></pre></td></tr></table></figure>
 <figure class="highlight llvm"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">;  @ REPL[5]:1 within `get_value'</span></span><br><span class="line"><span class="comment">define i64 @julia_get_value_12630(&#123; i64 &#125; addrspace(11)* nocapture nonnull readonly dereferenceable(8)) &#123;</span></span><br><span class="line"><span class="comment">top:</span></span><br><span class="line"><span class="comment">; ┌ @ sysimg.jl:18 within `getproperty'</span></span><br><span class="line"><span class="comment">   %1 = getelementptr inbounds &#123; i64 &#125;, &#123; i64 &#125; addrspace(11)* %0, i64 0, i32 0</span></span><br><span class="line"><span class="comment">; └</span></span><br><span class="line"><span class="comment">  %2 = load i64, i64 addrspace(11)* %1, align 8</span></span><br><span class="line"><span class="comment">  ret i64 %2</span></span><br><span class="line"><span class="comment">&#125;</span></span><br></pre></td></tr></table></figure>
-<h3 id="A-Assembly-1"><a href="#A-Assembly-1" class="headerlink" title="A - Assembly"></a>A - Assembly</h3><figure class="highlight julia"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@code_native</span> get_value(a)</span><br></pre></td></tr></table></figure>
+<h3 id="A-Assembly-2">A - Assembly</h3>
+<figure class="highlight julia"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@code_native</span> get_value(a)</span><br></pre></td></tr></table></figure>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">; ┌ @ REPL[8]:1 within &#96;get_value&#39;</span><br><span class="line">	movl	$5, %eax</span><br><span class="line">	retq</span><br><span class="line">	nopw	%cs:(%rax,%rax)</span><br><span class="line">; └</span><br></pre></td></tr></table></figure>
-<h3 id="B-Assembly-1"><a href="#B-Assembly-1" class="headerlink" title="B - Assembly"></a>B - Assembly</h3><figure class="highlight julia"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@code_native</span> get_value(b)</span><br></pre></td></tr></table></figure>
+<h3 id="B-Assembly-2">B - Assembly</h3>
+<figure class="highlight julia"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@code_native</span> get_value(b)</span><br></pre></td></tr></table></figure>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">; ┌ @ REPL[5]:1 within &#96;get_value&#39;</span><br><span class="line">	movq	(%rdi), %rax</span><br><span class="line">	retq</span><br><span class="line">	nopw	%cs:(%rax,%rax)</span><br><span class="line">; └</span><br></pre></td></tr></table></figure>
 <p>給大家參考。</p>
 
@@ -433,14 +455,17 @@ f(x) = a_0 + a_1 \cos x + b_1 \sin x + a_2 \cos 2x + b_2 \sin 2x + \cdots</scrip
 <p>原來這麼簡單就可以完成了！語法上並沒有限定一定要是<em>型別</em>，要放型別以外的東西似乎是可以的。</p>
 <p>我目前測試了可以的有：Int64、Float64、Complex、Char、Bool、Symbol，所以估計數字應該都是可以的。</p>
 <p>不行的有：String、Array，估計物件或是陣列都是不行的。</p>
-<h2 id="定義範圍"><a href="#定義範圍" class="headerlink" title="定義範圍"></a>定義範圍</h2><p>不過使用上並沒有任何限制會有點危險，所以還是定義一下範圍會比較好，像是：</p>
+<h2 id="定義範圍">定義範圍</h2>
+<p>不過使用上並沒有任何限制會有點危險，所以還是定義一下範圍會比較好，像是：</p>
 <figure class="highlight julia"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">struct</span> A&#123;<span class="literal">I</span>&#125;</span><br><span class="line">    <span class="keyword">function</span> A&#123;<span class="literal">I</span>&#125;() <span class="keyword">where</span> &#123;<span class="literal">I</span>&#125;</span><br><span class="line">        <span class="keyword">isa</span>(<span class="literal">I</span>,<span class="built_in">Integer</span>) || error(<span class="string">"bad parameter"</span>)</span><br><span class="line">        new()</span><br><span class="line">    <span class="keyword">end</span></span><br><span class="line"><span class="keyword">end</span></span><br></pre></td></tr></table></figure>
 <p>這樣就可以限制參數要是整數的範圍。</p>
-<h2 id="從參數取值"><a href="#從參數取值" class="headerlink" title="從參數取值"></a>從參數取值</h2><p>那我們能不能從型別的參數當中取值呢？</p>
+<h2 id="從參數取值">從參數取值</h2>
+<p>那我們能不能從型別的參數當中取值呢？</p>
 <p>可以。</p>
 <figure class="highlight julia"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">get_value(::A&#123;<span class="literal">I</span>&#125;) <span class="keyword">where</span> A&#123;<span class="literal">I</span>&#125; = <span class="literal">I</span></span><br></pre></td></tr></table></figure>
 <p>如此一來，我們就可以從型別中拿到值了。</p>
-<h2 id="好處？"><a href="#好處？" class="headerlink" title="好處？"></a>好處？</h2><p>這麼做有什麼好處？</p>
+<h2 id="好處？">好處？</h2>
+<p>這麼做有什麼好處？</p>
 <p>當你把值的資訊放到型別當中，型別就多了一些資訊可以提供編譯器處理，這對於要自己設計型別階層可是非常好用的。</p>
 <p>例如像是你可以將陣列的長度資訊儲存到型別上，這樣編譯器就可以處理陣列的長度資訊了。</p>
 <p>這樣的程式風格會跟 dependent type language 有些相似了。</p>
@@ -712,17 +737,26 @@ f(x) = a_0 + a_1 \cos x + b_1 \sin x + a_2 \cos 2x + b_2 \sin 2x + \cdots</scrip
             </div>
             
                 <div class="postShorten-content">
-                    <p>$<br>\Omega \subset \mathbb{R}^2, f: \Omega \rightarrow \mathbb{R}^2<br>$</p>
-<script type="math/tex; mode=display">
-f(x, y) = (u(x, y), v(x, y))</script><script type="math/tex; mode=display">
-J(x, y) = 
-\begin{bmatrix}
-\frac{\partial u}{\partial x}& \frac{\partial u}{\partial y} \\\\
-\frac{\partial v}{\partial x}& \frac{\partial v}{\partial y}
-\end{bmatrix}</script><p>$<br>(x, y) \in \Omega, J(x, y) = s(x, y)R(x, y)<br>$</p>
+                    <p>$<br>
+\Omega \subset \mathbb{R}^2, f: \Omega \rightarrow \mathbb{R}^2<br>
+$</p>
+<p>$$<br>
+f(x, y) = (u(x, y), v(x, y))<br>
+$$</p>
+<p>$$<br>
+J(x, y) =<br>
+\begin{bmatrix}<br>
+\frac{\partial u}{\partial x}&amp; \frac{\partial u}{\partial y} \\<br>
+\frac{\partial v}{\partial x}&amp; \frac{\partial v}{\partial y}<br>
+\end{bmatrix}<br>
+$$</p>
+<p>$<br>
+(x, y) \in \Omega, J(x, y) = s(x, y)R(x, y)<br>
+$</p>
 <p>$s$ is a non-zero scalar.</p>
 <p>$R$ is a $2 \times 2$ rotation matrix.</p>
-<h5 id="mathcal-prop"><a href="#mathcal-prop" class="headerlink" title="$\mathcal{prop.}$"></a>$\mathcal{prop.}$</h5><ol>
+<h5 id="mathcal-prop">$\mathcal{prop.}$</h5>
+<ol>
 <li>$f: \Omega \rightarrow \mathbb{R}^2 \text{ and } g: f(\Omega) \rightarrow \mathbb{R}^2$ are conformal map, then $g \circ f$ is conformal map</li>
 <li>$f: \Omega \rightarrow \mathbb{R}^2$ is conformal map, $f^{-1}$ is conformal map</li>
 </ol>
@@ -774,12 +808,18 @@ J(x, y) =
             </div>
             
                 <div class="postShorten-content">
-                    <h5 id="mathcal-Def"><a href="#mathcal-Def" class="headerlink" title="$\mathcal{Def.}$"></a>$\mathcal{Def.}$</h5><p>$A$ 為保角映射（angle-preserving map）</p>
-<script type="math/tex; mode=display">
-\frac{(Ax)^T(Ay)}{||Ax|| \cdot ||Ay||} = \frac{x^Ty}{||x|| \cdot ||y||} \\\\
-(\Rightarrow A\text{ is invertible})</script><script type="math/tex; mode=display">
-\Rightarrow A = sQ, Q^TQ = I, s \ne 0</script><p>$s$ 代表伸縮量</p>
-<p>$det Q = 1$: 伸縮 + 旋轉<br>$det Q = -1$: 伸縮 + 鏡射</p>
+                    <h5 id="mathcal-Def">$\mathcal{Def.}$</h5>
+<p>$A$ 為保角映射（angle-preserving map）</p>
+<p>$$<br>
+\frac{(Ax)^T(Ay)}{||Ax|| \cdot ||Ay||} = \frac{x^Ty}{||x|| \cdot ||y||} \\<br>
+(\Rightarrow A\text{ is invertible})<br>
+$$</p>
+<p>$$<br>
+\Rightarrow A = sQ, Q^TQ = I, s \ne 0<br>
+$$</p>
+<p>$s$ 代表伸縮量</p>
+<p>$det Q = 1$: 伸縮 + 旋轉<br>
+$det Q = -1$: 伸縮 + 鏡射</p>
 
                     
                         
@@ -830,7 +870,8 @@ J(x, y) =
                 <div class="postShorten-content">
                     <p>let $A \in \mathbb{R}^{n \times n}, f(x) = Ax$</p>
 <p>$A$ 為保長映射（length-preserving map）或等距同構（isometry），以下為等價定義方式：</p>
-<h5 id="mathcal-Def"><a href="#mathcal-Def" class="headerlink" title="$\mathcal{Def}$."></a>$\mathcal{Def}$.</h5><ol>
+<h5 id="mathcal-Def">$\mathcal{Def}$.</h5>
+<ol>
 <li>$A$ is orthogonal matrix</li>
 <li>$||Ax|| = ||x||$</li>
 <li>$||Ax - Ay|| = ||x - y||$</li>
@@ -901,7 +942,7 @@ J(x, y) =
         
             <h4 id="about-card-name">Yueh-Hua Tu</h4>
         
-            <div id="about-card-bio"><p>目標是計算生物學家！&lt;/br&gt;Systems Biology, Computational Biology, Machine Learning&lt;/br&gt;Julia Taiwan 發起人</p>
+            <div id="about-card-bio"><p>目標是計算生物學家！</br>Systems Biology, Computational Biology, Machine Learning</br>Julia Taiwan 發起人</p>
 </div>
         
         
@@ -929,23 +970,25 @@ J(x, y) =
 
 <script src="/assets/js/script-xzfezjobyekpxrjktw5tz6muvzqfsbmo5n6atk3p5om9ulfptldi3p7cyqd8.min.js"></script>
 
-<!--SCRIPTS END-->
-
-
-    <script type="text/x-mathjax-config">
-    MathJax.Hub.Config({
-        tex2jax: {
-            inlineMath: [ ["$","$"], ["\\(","\\)"] ],
-            skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code'],
-            processEscapes: true
-        }
-    });
-    MathJax.Hub.Queue(function() {
-        var all = MathJax.Hub.getAllJax();
-        for (var i = 0; i < all.length; ++i)
-            all[i].SourceElement().parentNode.className += ' has-jax';
-    });
+<!--SCRIPTS END--><!-- hexo-inject:begin --><!-- Begin: Injected MathJax -->
+<script type="text/x-mathjax-config">
+  MathJax.Hub.Config({"tex2jax":{"inlineMath":[["$","$"],["\\(","\\)"]],"skipTags":["script","noscript","style","textarea","pre","code"],"processEscapes":true},"TeX":{"equationNumbers":{"autoNumber":"AMS"}}});
 </script>
-<script src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
-</body>
+
+<script type="text/x-mathjax-config">
+  MathJax.Hub.Queue(function() {
+    var all = MathJax.Hub.getAllJax(), i;
+    for(i=0; i < all.length; i += 1) {
+      all[i].SourceElement().parentNode.className += ' has-jax';
+    }
+  });
+</script>
+
+<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.6/latest.js?config=TeX-AMS-MML_HTMLorMML">
+</script>
+<!-- End: Injected MathJax -->
+<!-- hexo-inject:end -->
+
+
+    </body>
 </html>

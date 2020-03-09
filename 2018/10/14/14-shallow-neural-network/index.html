@@ -3,7 +3,7 @@
 <html lang="zh-tw,en,default">
     
 <head>
-    <meta charset="UTF-8">
+    <!-- hexo-inject:begin --><!-- hexo-inject:end --><meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="generator" content="Dream Maker">
     <title>14 淺層神經網路 - Dream Maker</title>
@@ -15,7 +15,7 @@
     
         <link rel="alternate" type="application/atom+xml" title="RSS" href="/atom.xml">
     
-    <script type="application/ld+json">{"@context":"http://schema.org","@type":"BlogPosting","author":{"@type":"Person","name":"Yueh-Hua Tu","sameAs":["https://github.com/yuehhua/","https://www.facebook.com/a504082002","https://www.linkedin.com/in/%E5%B2%B3%E8%8F%AF-%E6%9D%9C-6a3995a0/","mailto:a504082002@gmail.com"],"image":"https://www.gravatar.com/avatar/a565749fba4782b717234da670b273fd"},"articleBody":"為什麼大家到現在都這麼迷神經網路模型？\n我想主因不是因為他是模擬生物而來，他有一些更扎實的數學特性。\n我們前面講過各種線性模型，然後將他過渡到神經網路。\n今天要告訴大家，即便是淺層的神經網路也是很厲害的。\n\nUniversal approximation theoremUniversal approximation theorem 是個淺層的神經網路的數學定理。\n他說：一個簡單的 feedforward network，只包含了一個 hidden layer，並且有適切的 activation function，包含有限個神經元的情況下，可以去逼近任何連續函數。\n在 1989 就以經由 George Cybenko 先生第一次證實了這個定理，他使用了 sigmoid activation function。\n如果大家對細節有興趣，請參閱 維基百科的條目。\n這代表什麼呢？\n到目前為止，我們都會將一個現實中的問題化成一個數學問題，一個數學問題基本上都是包含函數的。\n像是影像辨識，我們就可以看成一個可以輸入影像的函數，這個函數會輸出辨識結果，也就是分類。\n我們可以這樣寫 $f: \\text{images} \\rightarrow \\text{classes}$。\n所以語音辨識就是 $f: \\text{speech} \\rightarrow \\text{text}$。\n聊天機器人就是 $f: \\text{text} \\rightarrow \\text{text}$。\n…\n到這邊你可以想想，幾乎人類的問題都可以化成一個函數來解答。\n所以可以逼近任何連續函數的模型根本就可以解答任何問題的意思阿！\n所以大家才拼了命的用這個模型去解決很多問題。\n待解問題如果這個模型這麼萬能，那麼他就真的沒有缺點嗎？\n我們需要從這個定理切入，定理中描述的有限個神經元，但至少不是無限，他並沒有說需要幾個。\n這理所當然，因為沒有人知道你的問題有多複雜，需要用多難的方法解嘛！\n然後 activation function 也是沒有提的。\n所以這就是留給現代的大家去決定的。\n","dateCreated":"2018-10-14T23:16:02+08:00","dateModified":"2018-10-15T15:03:50+08:00","datePublished":"2018-10-14T23:16:02+08:00","description":"為什麼大家到現在都這麼迷神經網路模型？\n我想主因不是因為他是模擬生物而來，他有一些更扎實的數學特性。\n我們前面講過各種線性模型，然後將他過渡到神經網路。\n今天要告訴大家，即便是淺層的神經網路也是很厲害的。","headline":"14 淺層神經網路","image":[],"mainEntityOfPage":{"@type":"WebPage","@id":"https://yuehhua.github.io/2018/10/14/14-shallow-neural-network/"},"publisher":{"@type":"Organization","name":"Yueh-Hua Tu","sameAs":["https://github.com/yuehhua/","https://www.facebook.com/a504082002","https://www.linkedin.com/in/%E5%B2%B3%E8%8F%AF-%E6%9D%9C-6a3995a0/","mailto:a504082002@gmail.com"],"image":"https://www.gravatar.com/avatar/a565749fba4782b717234da670b273fd","logo":{"@type":"ImageObject","url":"https://www.gravatar.com/avatar/a565749fba4782b717234da670b273fd"}},"url":"https://yuehhua.github.io/2018/10/14/14-shallow-neural-network/"}</script>
+    <script type="application/ld+json">{"@context":"http://schema.org","@type":"BlogPosting","author":{"@type":"Person","name":"Yueh-Hua Tu","sameAs":["https://github.com/yuehhua/","https://www.facebook.com/a504082002","https://www.linkedin.com/in/%E5%B2%B3%E8%8F%AF-%E6%9D%9C-6a3995a0/","mailto:a504082002@gmail.com"],"image":"https://www.gravatar.com/avatar/a565749fba4782b717234da670b273fd"},"articleBody":"為什麼大家到現在都這麼迷神經網路模型？\n我想主因不是因為他是模擬生物而來，他有一些更扎實的數學特性。\n我們前面講過各種線性模型，然後將他過渡到神經網路。\n今天要告訴大家，即便是淺層的神經網路也是很厲害的。\n\nUniversal approximation theorem\nUniversal approximation theorem 是個淺層的神經網路的數學定理。\n他說：一個簡單的 feedforward network，只包含了一個 hidden layer，並且有適切的 activation function，包含有限個神經元的情況下，可以去逼近任何連續函數。\n在 1989 就以經由 George Cybenko 先生第一次證實了這個定理，他使用了 sigmoid activation function。\n如果大家對細節有興趣，請參閱 維基百科的條目。\n這代表什麼呢？\n到目前為止，我們都會將一個現實中的問題化成一個數學問題，一個數學問題基本上都是包含函數的。\n像是影像辨識，我們就可以看成一個可以輸入影像的函數，這個函數會輸出辨識結果，也就是分類。\n我們可以這樣寫 $f: \\text{images} \\rightarrow \\text{classes}$。\n所以語音辨識就是 $f: \\text{speech} \\rightarrow \\text{text}$。\n聊天機器人就是 $f: \\text{text} \\rightarrow \\text{text}$。\n…\n到這邊你可以想想，幾乎人類的問題都可以化成一個函數來解答。\n所以可以逼近任何連續函數的模型根本就可以解答任何問題的意思阿！\n所以大家才拼了命的用這個模型去解決很多問題。\n待解問題\n如果這個模型這麼萬能，那麼他就真的沒有缺點嗎？\n我們需要從這個定理切入，定理中描述的有限個神經元，但至少不是無限，他並沒有說需要幾個。\n這理所當然，因為沒有人知道你的問題有多複雜，需要用多難的方法解嘛！\n然後 activation function 也是沒有提的。\n所以這就是留給現代的大家去決定的。\n","dateCreated":"2018-10-14T23:16:02+08:00","dateModified":"2018-10-15T15:03:50+08:00","datePublished":"2018-10-14T23:16:02+08:00","description":"為什麼大家到現在都這麼迷神經網路模型？\n我想主因不是因為他是模擬生物而來，他有一些更扎實的數學特性。\n我們前面講過各種線性模型，然後將他過渡到神經網路。\n今天要告訴大家，即便是淺層的神經網路也是很厲害的。","headline":"14 淺層神經網路","image":[],"mainEntityOfPage":{"@type":"WebPage","@id":"https://yuehhua.github.io/2018/10/14/14-shallow-neural-network/"},"publisher":{"@type":"Organization","name":"Yueh-Hua Tu","sameAs":["https://github.com/yuehhua/","https://www.facebook.com/a504082002","https://www.linkedin.com/in/%E5%B2%B3%E8%8F%AF-%E6%9D%9C-6a3995a0/","mailto:a504082002@gmail.com"],"image":"https://www.gravatar.com/avatar/a565749fba4782b717234da670b273fd","logo":{"@type":"ImageObject","url":"https://www.gravatar.com/avatar/a565749fba4782b717234da670b273fd"}},"url":"https://yuehhua.github.io/2018/10/14/14-shallow-neural-network/"}</script>
     <meta name="description" content="為什麼大家到現在都這麼迷神經網路模型？ 我想主因不是因為他是模擬生物而來，他有一些更扎實的數學特性。 我們前面講過各種線性模型，然後將他過渡到神經網路。 今天要告訴大家，即便是淺層的神經網路也是很厲害的。">
 <meta property="og:type" content="blog">
 <meta property="og:title" content="14 淺層神經網路">
@@ -54,13 +54,13 @@
 
         ga('create', 'UA-119690895-1', 'auto');
         ga('send', 'pageview');
-    </script>
+    </script><!-- hexo-inject:begin --><!-- hexo-inject:end -->
     
     
 </head>
 
     <body>
-        <div id="blog">
+        <!-- hexo-inject:begin --><!-- hexo-inject:end --><div id="blog">
             <!-- Define author's picture -->
 
 
@@ -272,7 +272,8 @@
 <p>我們前面講過各種線性模型，然後將他過渡到神經網路。</p>
 <p>今天要告訴大家，即便是淺層的神經網路也是很厲害的。</p>
 <a id="more"></a>
-<h2 id="Universal-approximation-theorem"><a href="#Universal-approximation-theorem" class="headerlink" title="Universal approximation theorem"></a>Universal approximation theorem</h2><p>Universal approximation theorem 是個淺層的神經網路的數學定理。</p>
+<h2 id="Universal-approximation-theorem">Universal approximation theorem</h2>
+<p>Universal approximation theorem 是個淺層的神經網路的數學定理。</p>
 <p>他說：一個簡單的 feedforward network，只包含了一個 hidden layer，並且有適切的 activation function，包含有限個神經元的情況下，可以去逼近任何連續函數。</p>
 <p>在 1989 就以經由 George Cybenko 先生第一次證實了這個定理，他使用了 sigmoid activation function。</p>
 <p>如果大家對細節有興趣，請參閱 <a href="https://en.wikipedia.org/wiki/Universal_approximation_theorem" target="_blank" rel="noopener">維基百科的條目</a>。</p>
@@ -286,7 +287,8 @@
 <p>到這邊你可以想想，幾乎人類的問題都可以化成一個函數來解答。</p>
 <p>所以可以逼近任何連續函數的模型根本就可以解答任何問題的意思阿！</p>
 <p>所以大家才拼了命的用這個模型去解決很多問題。</p>
-<h2 id="待解問題"><a href="#待解問題" class="headerlink" title="待解問題"></a>待解問題</h2><p>如果這個模型這麼萬能，那麼他就真的沒有缺點嗎？</p>
+<h2 id="待解問題">待解問題</h2>
+<p>如果這個模型這麼萬能，那麼他就真的沒有缺點嗎？</p>
 <p>我們需要從這個定理切入，定理中描述的有限個神經元，但至少不是無限，他並沒有說需要幾個。</p>
 <p>這理所當然，因為沒有人知道你的問題有多複雜，需要用多難的方法解嘛！</p>
 <p>然後 activation function 也是沒有提的。</p>
@@ -472,7 +474,7 @@
         
             <h4 id="about-card-name">Yueh-Hua Tu</h4>
         
-            <div id="about-card-bio"><p>目標是計算生物學家！&lt;/br&gt;Systems Biology, Computational Biology, Machine Learning&lt;/br&gt;Julia Taiwan 發起人</p>
+            <div id="about-card-bio"><p>目標是計算生物學家！</br>Systems Biology, Computational Biology, Machine Learning</br>Julia Taiwan 發起人</p>
 </div>
         
         
@@ -518,24 +520,26 @@
         s.setAttribute('data-timestamp', +new Date());
         (d.head || d.body).appendChild(s);
     })();
+</script><!-- hexo-inject:begin --><!-- Begin: Injected MathJax -->
+<script type="text/x-mathjax-config">
+  MathJax.Hub.Config({"tex2jax":{"inlineMath":[["$","$"],["\\(","\\)"]],"skipTags":["script","noscript","style","textarea","pre","code"],"processEscapes":true},"TeX":{"equationNumbers":{"autoNumber":"AMS"}}});
 </script>
 
-
-
-    <script type="text/x-mathjax-config">
-    MathJax.Hub.Config({
-        tex2jax: {
-            inlineMath: [ ["$","$"], ["\\(","\\)"] ],
-            skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code'],
-            processEscapes: true
-        }
-    });
-    MathJax.Hub.Queue(function() {
-        var all = MathJax.Hub.getAllJax();
-        for (var i = 0; i < all.length; ++i)
-            all[i].SourceElement().parentNode.className += ' has-jax';
-    });
+<script type="text/x-mathjax-config">
+  MathJax.Hub.Queue(function() {
+    var all = MathJax.Hub.getAllJax(), i;
+    for(i=0; i < all.length; i += 1) {
+      all[i].SourceElement().parentNode.className += ' has-jax';
+    }
+  });
 </script>
-<script src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
-</body>
+
+<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.6/latest.js?config=TeX-AMS-MML_HTMLorMML">
+</script>
+<!-- End: Injected MathJax -->
+<!-- hexo-inject:end -->
+
+
+
+    </body>
 </html>

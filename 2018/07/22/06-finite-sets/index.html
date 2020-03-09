@@ -3,7 +3,7 @@
 <html lang="zh-tw,en,default">
     
 <head>
-    <meta charset="UTF-8">
+    <!-- hexo-inject:begin --><!-- hexo-inject:end --><meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="generator" content="Dream Maker">
     <title>Finite sets - Dream Maker</title>
@@ -15,13 +15,13 @@
     
         <link rel="alternate" type="application/atom+xml" title="RSS" href="/atom.xml">
     
-    <script type="application/ld+json">{"@context":"http://schema.org","@type":"BlogPosting","author":{"@type":"Person","name":"Yueh-Hua Tu","sameAs":["https://github.com/yuehhua/","https://www.facebook.com/a504082002","https://www.linkedin.com/in/%E5%B2%B3%E8%8F%AF-%E6%9D%9C-6a3995a0/","mailto:a504082002@gmail.com"],"image":"https://www.gravatar.com/avatar/a565749fba4782b717234da670b273fd"},"articleBody":"接下來我們會來討論幾個常見的概念，像是有限集及無限集、可數集及不可數集。\n有限集（finite set）：\n\n Def.\n\nA set A is finite if\n\n\\exists f: A \\rightarrow \\\\{ 1, ..., n \\\\}, f \\enspace is \\enspace bijective.這時我們會說 set $A$ 的 cardinality 是 n。\n\n在這其中，這個定義的結果是不是唯一的？也就是，有沒有一個可能存在一個集合，兩個人數當中的元素個數結果不一樣（一個數到 $m$，一個數到 $n$），但兩個人都是對的？在真實世界，你可能會覺得這根本不可能，但是為了這點，數學家做了一些基礎工作。\n\n Lemma\n\n\nA \\enspace is \\enspace a \\enspace set, n \\in \\mathbb{N}, a_0 \\in A, \\exists f: A \\rightarrow \\\\{ 1, ... , n+1\\\\}, f \\enspace is \\enspace bijective\n\\Leftrightarrow \\exists g: A - \\\\{ a_0 \\\\} \\rightarrow \\\\{ 1, ... , n\\\\}, g \\enspace is \\enspace bijective也就是呢，當 $A$ 可以對映到 $n+1$ 個元素的集合的時候，把 $A$ 當中的一個元素拿掉，就必須對映到 $n$ 個元素的集合。\n那接下來我們就可以有這個定理：\n\n Theorem\n\n\nA \\enspace is \\enspace a \\enspace set, f: A \\rightarrow \\\\{ 1, ... , n\\\\}, n \\in \\mathbb{N}, f \\enspace is \\enspace bijective, B \\subset A\nthen \\enspace \\nexists g: B \\rightarrow \\\\{ 1, ... , n\\\\}, g \\enspace is \\enspace bijective\n\\exists h: B \\rightarrow \\\\{ 1, ... , m\\\\}, h \\enspace is \\enspace bijective, m < n所以是說，$B$ 是 $A$ 的嚴格子集，那麼 $B$ 的 cardinality 就必須跟 $A$ 的不同，並且要比較小。\n以此，我們可以導出以下結論：\n\n Corollary\n\n\nIf \\enspace A \\enspace is \\enspace finite, B \\subset A, \\nexists f: A \\rightarrow B, f \\enspace is \\enspace bijective\n Corollary\n\n\n\\mathbb{N} \\enspace is \\enspace not \\enspace finite\n Corollary\n\n\nThe \\enspace cardinality \\enspace of \\enspace a \\enspace finite \\enspace set \\enspace A \\enspace is \\enspace uniquely \\enspace determined \\enspace by \\enspace A\n Corollary\n\n\nA \\enspace is \\enspace finite, B \\subset A, B \\enspace is \\enspace finite有限集，以下等價：\n\n Corollary\n\n\n$A$ is finite\nExists a surjective function from a section of $\\mathbb{N}$ to $A$\nExists a injective function from $A$ to a section of $\\mathbb{N}$\n\n\n Corollary\n\n\nFinite \\enspace unions \\enspace and \\enspace finite \\enspace cartesian \\enspace products \\enspace of \\enspace finite \\enspace sets \\enspace are \\enspace finite","dateCreated":"2018-07-22T00:27:18+08:00","dateModified":"2018-07-26T13:28:46+08:00","datePublished":"2018-07-22T00:27:18+08:00","description":"接下來我們會來討論幾個常見的概念，像是有限集及無限集、可數集及不可數集。\n有限集（finite set）：\n\n Def.\n\nA set A is finite if\n\n\\exists f: A \\rightarrow \\\\{ 1, ..., n \\\\}, f \\enspace is \\enspace bijective.這時我們會說 set $A$ 的 cardinality 是 n。","headline":"Finite sets","image":[],"mainEntityOfPage":{"@type":"WebPage","@id":"https://yuehhua.github.io/2018/07/22/06-finite-sets/"},"publisher":{"@type":"Organization","name":"Yueh-Hua Tu","sameAs":["https://github.com/yuehhua/","https://www.facebook.com/a504082002","https://www.linkedin.com/in/%E5%B2%B3%E8%8F%AF-%E6%9D%9C-6a3995a0/","mailto:a504082002@gmail.com"],"image":"https://www.gravatar.com/avatar/a565749fba4782b717234da670b273fd","logo":{"@type":"ImageObject","url":"https://www.gravatar.com/avatar/a565749fba4782b717234da670b273fd"}},"url":"https://yuehhua.github.io/2018/07/22/06-finite-sets/"}</script>
-    <meta name="description" content="接下來我們會來討論幾個常見的概念，像是有限集及無限集、可數集及不可數集。 有限集（finite set）：   Def.  A set A is finite if  \exists f: A \rightarrow \\{ 1, ..., n \\}, f \enspace is \enspace bijective.這時我們會說 set $A$ 的 cardinality 是 n。">
+    <script type="application/ld+json">{"@context":"http://schema.org","@type":"BlogPosting","author":{"@type":"Person","name":"Yueh-Hua Tu","sameAs":["https://github.com/yuehhua/","https://www.facebook.com/a504082002","https://www.linkedin.com/in/%E5%B2%B3%E8%8F%AF-%E6%9D%9C-6a3995a0/","mailto:a504082002@gmail.com"],"image":"https://www.gravatar.com/avatar/a565749fba4782b717234da670b273fd"},"articleBody":"接下來我們會來討論幾個常見的概念，像是有限集及無限集、可數集及不可數集。\n有限集（finite set）：\n\nDef.\n\nA set A is finite if\n$$\n\\exists f: A \\rightarrow \\{ 1, …, n \\}, f \\enspace is \\enspace bijective.\n$$\n這時我們會說 set $A$ 的 cardinality 是 n。\n\n在這其中，這個定義的結果是不是唯一的？也就是，有沒有一個可能存在一個集合，兩個人數當中的元素個數結果不一樣（一個數到 $m$，一個數到 $n$），但兩個人都是對的？在真實世界，你可能會覺得這根本不可能，但是為了這點，數學家做了一些基礎工作。\n\nLemma\n\n$$\nA \\enspace is \\enspace a \\enspace set, n \\in \\mathbb{N}, a_0 \\in A, \\exists f: A \\rightarrow \\{ 1, … , n+1\\}, f \\enspace is \\enspace bijective\n$$\n$$\n\\Leftrightarrow \\exists g: A - \\{ a_0 \\} \\rightarrow \\{ 1, … , n\\}, g \\enspace is \\enspace bijective\n$$\n也就是呢，當 $A$ 可以對映到 $n+1$ 個元素的集合的時候，把 $A$ 當中的一個元素拿掉，就必須對映到 $n$ 個元素的集合。\n那接下來我們就可以有這個定理：\n\nTheorem\n\n$$\nA \\enspace is \\enspace a \\enspace set, f: A \\rightarrow \\{ 1, … , n\\}, n \\in \\mathbb{N}, f \\enspace is \\enspace bijective, B \\subset A\n$$\n$$\nthen \\enspace \\nexists g: B \\rightarrow \\{ 1, … , n\\}, g \\enspace is \\enspace bijective\n$$\n$$\n\\exists h: B \\rightarrow \\{ 1, … , m\\}, h \\enspace is \\enspace bijective, m &lt; n\n$$\n所以是說，$B$ 是 $A$ 的嚴格子集，那麼 $B$ 的 cardinality 就必須跟 $A$ 的不同，並且要比較小。\n以此，我們可以導出以下結論：\n\nCorollary\n\n$$\nIf \\enspace A \\enspace is \\enspace finite, B \\subset A, \\nexists f: A \\rightarrow B, f \\enspace is \\enspace bijective\n$$\n\nCorollary\n\n$$\n\\mathbb{N} \\enspace is \\enspace not \\enspace finite\n$$\n\nCorollary\n\n$$\nThe \\enspace cardinality \\enspace of \\enspace a \\enspace finite \\enspace set \\enspace A \\enspace is \\enspace uniquely \\enspace determined \\enspace by \\enspace A\n$$\n\nCorollary\n\n$$\nA \\enspace is \\enspace finite, B \\subset A, B \\enspace is \\enspace finite\n$$\n有限集，以下等價：\n\nCorollary\n\n\n$A$ is finite\nExists a surjective function from a section of $\\mathbb{N}$ to $A$\nExists a injective function from $A$ to a section of $\\mathbb{N}$\n\n\nCorollary\n\n$$\nFinite \\enspace unions \\enspace and \\enspace finite \\enspace cartesian \\enspace products \\enspace of \\enspace finite \\enspace sets \\enspace are \\enspace finite\n$$\n","dateCreated":"2018-07-22T00:27:18+08:00","dateModified":"2018-07-26T13:28:46+08:00","datePublished":"2018-07-22T00:27:18+08:00","description":"接下來我們會來討論幾個常見的概念，像是有限集及無限集、可數集及不可數集。\n有限集（finite set）：\n\nDef.\n\nA set A is finite if\n$$\n\\exists f: A \\rightarrow \\{ 1, …, n \\}, f \\enspace is \\enspace bijective.\n$$\n這時我們會說 set $A$ 的 cardinality 是 n。","headline":"Finite sets","image":[],"mainEntityOfPage":{"@type":"WebPage","@id":"https://yuehhua.github.io/2018/07/22/06-finite-sets/"},"publisher":{"@type":"Organization","name":"Yueh-Hua Tu","sameAs":["https://github.com/yuehhua/","https://www.facebook.com/a504082002","https://www.linkedin.com/in/%E5%B2%B3%E8%8F%AF-%E6%9D%9C-6a3995a0/","mailto:a504082002@gmail.com"],"image":"https://www.gravatar.com/avatar/a565749fba4782b717234da670b273fd","logo":{"@type":"ImageObject","url":"https://www.gravatar.com/avatar/a565749fba4782b717234da670b273fd"}},"url":"https://yuehhua.github.io/2018/07/22/06-finite-sets/"}</script>
+    <meta name="description" content="接下來我們會來討論幾個常見的概念，像是有限集及無限集、可數集及不可數集。 有限集（finite set）：  Def.  A set A is finite if $$ \exists f: A \rightarrow \{ 1, …, n \}, f \enspace is \enspace bijective. $$ 這時我們會說 set $A$ 的 cardinality 是 n。">
 <meta property="og:type" content="blog">
 <meta property="og:title" content="Finite sets">
 <meta property="og:url" content="https://yuehhua.github.io/2018/07/22/06-finite-sets/index.html">
 <meta property="og:site_name" content="Dream Maker">
-<meta property="og:description" content="接下來我們會來討論幾個常見的概念，像是有限集及無限集、可數集及不可數集。 有限集（finite set）：   Def.  A set A is finite if  \exists f: A \rightarrow \\{ 1, ..., n \\}, f \enspace is \enspace bijective.這時我們會說 set $A$ 的 cardinality 是 n。">
+<meta property="og:description" content="接下來我們會來討論幾個常見的概念，像是有限集及無限集、可數集及不可數集。 有限集（finite set）：  Def.  A set A is finite if $$ \exists f: A \rightarrow \{ 1, …, n \}, f \enspace is \enspace bijective. $$ 這時我們會說 set $A$ 的 cardinality 是 n。">
 <meta property="og:locale" content="zh_TW">
 <meta property="article:published_time" content="2018-07-21T16:27:18.000Z">
 <meta property="article:modified_time" content="2018-07-26T05:28:46.816Z">
@@ -54,13 +54,13 @@
 
         ga('create', 'UA-119690895-1', 'auto');
         ga('send', 'pageview');
-    </script>
+    </script><!-- hexo-inject:begin --><!-- hexo-inject:end -->
     
     
 </head>
 
     <body>
-        <div id="blog">
+        <!-- hexo-inject:begin --><!-- hexo-inject:end --><div id="blog">
             <!-- Define author's picture -->
 
 
@@ -270,47 +270,67 @@
                                     <p>接下來我們會來討論幾個常見的概念，像是有限集及無限集、可數集及不可數集。</p>
 <p>有限集（finite set）：</p>
 <blockquote>
-<p> <strong><em>Def.</em></strong></p>
+<p><em><strong>Def.</strong></em></p>
 </blockquote>
-<p>A set A is <strong><em>finite</em></strong> if</p>
-<script type="math/tex; mode=display">
-\exists f: A \rightarrow \\{ 1, ..., n \\}, f \enspace is \enspace bijective.</script><p>這時我們會說 <em>set</em> $A$ 的 cardinality 是 n。</p>
+<p>A set A is <em><strong>finite</strong></em> if</p>
+<p>$$<br>
+\exists f: A \rightarrow \{ 1, …, n \}, f \enspace is \enspace bijective.<br>
+$$</p>
+<p>這時我們會說 <em>set</em> $A$ 的 cardinality 是 n。</p>
 <a id="more"></a>
 <p>在這其中，這個定義的結果是不是唯一的？也就是，有沒有一個可能存在一個集合，兩個人數當中的元素個數結果不一樣（一個數到 $m$，一個數到 $n$），但兩個人都是對的？在真實世界，你可能會覺得這根本不可能，但是為了這點，數學家做了一些基礎工作。</p>
 <blockquote>
-<p> <strong><em>Lemma</em></strong></p>
+<p><em><strong>Lemma</strong></em></p>
 </blockquote>
-<script type="math/tex; mode=display">
-A \enspace is \enspace a \enspace set, n \in \mathbb{N}, a_0 \in A, \exists f: A \rightarrow \\{ 1, ... , n+1\\}, f \enspace is \enspace bijective</script><script type="math/tex; mode=display">
-\Leftrightarrow \exists g: A - \\{ a_0 \\} \rightarrow \\{ 1, ... , n\\}, g \enspace is \enspace bijective</script><p>也就是呢，當 $A$ 可以對映到 $n+1$ 個元素的集合的時候，把 $A$ 當中的一個元素拿掉，就必須對映到 $n$ 個元素的集合。</p>
+<p>$$<br>
+A \enspace is \enspace a \enspace set, n \in \mathbb{N}, a_0 \in A, \exists f: A \rightarrow \{ 1, … , n+1\}, f \enspace is \enspace bijective<br>
+$$</p>
+<p>$$<br>
+\Leftrightarrow \exists g: A - \{ a_0 \} \rightarrow \{ 1, … , n\}, g \enspace is \enspace bijective<br>
+$$</p>
+<p>也就是呢，當 $A$ 可以對映到 $n+1$ 個元素的集合的時候，把 $A$ 當中的一個元素拿掉，就必須對映到 $n$ 個元素的集合。</p>
 <p>那接下來我們就可以有這個定理：</p>
 <blockquote>
-<p> <strong><em>Theorem</em></strong></p>
+<p><em><strong>Theorem</strong></em></p>
 </blockquote>
-<script type="math/tex; mode=display">
-A \enspace is \enspace a \enspace set, f: A \rightarrow \\{ 1, ... , n\\}, n \in \mathbb{N}, f \enspace is \enspace bijective, B \subset A</script><script type="math/tex; mode=display">
-then \enspace \nexists g: B \rightarrow \\{ 1, ... , n\\}, g \enspace is \enspace bijective</script><script type="math/tex; mode=display">
-\exists h: B \rightarrow \\{ 1, ... , m\\}, h \enspace is \enspace bijective, m < n</script><p>所以是說，$B$ 是 $A$ 的嚴格子集，那麼 $B$ 的 cardinality 就必須跟 $A$ 的不同，並且要比較小。</p>
+<p>$$<br>
+A \enspace is \enspace a \enspace set, f: A \rightarrow \{ 1, … , n\}, n \in \mathbb{N}, f \enspace is \enspace bijective, B \subset A<br>
+$$</p>
+<p>$$<br>
+then \enspace \nexists g: B \rightarrow \{ 1, … , n\}, g \enspace is \enspace bijective<br>
+$$</p>
+<p>$$<br>
+\exists h: B \rightarrow \{ 1, … , m\}, h \enspace is \enspace bijective, m &lt; n<br>
+$$</p>
+<p>所以是說，$B$ 是 $A$ 的嚴格子集，那麼 $B$ 的 cardinality 就必須跟 $A$ 的不同，並且要比較小。</p>
 <p>以此，我們可以導出以下結論：</p>
 <blockquote>
-<p> <strong><em>Corollary</em></strong></p>
+<p><em><strong>Corollary</strong></em></p>
 </blockquote>
-<script type="math/tex; mode=display">
-If \enspace A \enspace is \enspace finite, B \subset A, \nexists f: A \rightarrow B, f \enspace is \enspace bijective</script><blockquote>
-<p> <strong><em>Corollary</em></strong></p>
-</blockquote>
-<script type="math/tex; mode=display">
-\mathbb{N} \enspace is \enspace not \enspace finite</script><blockquote>
-<p> <strong><em>Corollary</em></strong></p>
-</blockquote>
-<script type="math/tex; mode=display">
-The \enspace cardinality \enspace of \enspace a \enspace finite \enspace set \enspace A \enspace is \enspace uniquely \enspace determined \enspace by \enspace A</script><blockquote>
-<p> <strong><em>Corollary</em></strong></p>
-</blockquote>
-<script type="math/tex; mode=display">
-A \enspace is \enspace finite, B \subset A, B \enspace is \enspace finite</script><p>有限集，以下等價：</p>
+<p>$$<br>
+If \enspace A \enspace is \enspace finite, B \subset A, \nexists f: A \rightarrow B, f \enspace is \enspace bijective<br>
+$$</p>
 <blockquote>
-<p> <strong><em>Corollary</em></strong></p>
+<p><em><strong>Corollary</strong></em></p>
+</blockquote>
+<p>$$<br>
+\mathbb{N} \enspace is \enspace not \enspace finite<br>
+$$</p>
+<blockquote>
+<p><em><strong>Corollary</strong></em></p>
+</blockquote>
+<p>$$<br>
+The \enspace cardinality \enspace of \enspace a \enspace finite \enspace set \enspace A \enspace is \enspace uniquely \enspace determined \enspace by \enspace A<br>
+$$</p>
+<blockquote>
+<p><em><strong>Corollary</strong></em></p>
+</blockquote>
+<p>$$<br>
+A \enspace is \enspace finite, B \subset A, B \enspace is \enspace finite<br>
+$$</p>
+<p>有限集，以下等價：</p>
+<blockquote>
+<p><em><strong>Corollary</strong></em></p>
 </blockquote>
 <ol>
 <li>$A$ is finite</li>
@@ -318,10 +338,12 @@ A \enspace is \enspace finite, B \subset A, B \enspace is \enspace finite</scrip
 <li>Exists a injective function from $A$ to a section of $\mathbb{N}$</li>
 </ol>
 <blockquote>
-<p> <strong><em>Corollary</em></strong></p>
+<p><em><strong>Corollary</strong></em></p>
 </blockquote>
-<script type="math/tex; mode=display">
-Finite \enspace unions \enspace and \enspace finite \enspace cartesian \enspace products \enspace of \enspace finite \enspace sets \enspace are \enspace finite</script>
+<p>$$<br>
+Finite \enspace unions \enspace and \enspace finite \enspace cartesian \enspace products \enspace of \enspace finite \enspace sets \enspace are \enspace finite<br>
+$$</p>
+
                                         
 
                                 </div>
@@ -502,7 +524,7 @@ Finite \enspace unions \enspace and \enspace finite \enspace cartesian \enspace 
         
             <h4 id="about-card-name">Yueh-Hua Tu</h4>
         
-            <div id="about-card-bio"><p>目標是計算生物學家！&lt;/br&gt;Systems Biology, Computational Biology, Machine Learning&lt;/br&gt;Julia Taiwan 發起人</p>
+            <div id="about-card-bio"><p>目標是計算生物學家！</br>Systems Biology, Computational Biology, Machine Learning</br>Julia Taiwan 發起人</p>
 </div>
         
         
@@ -548,24 +570,26 @@ Finite \enspace unions \enspace and \enspace finite \enspace cartesian \enspace 
         s.setAttribute('data-timestamp', +new Date());
         (d.head || d.body).appendChild(s);
     })();
+</script><!-- hexo-inject:begin --><!-- Begin: Injected MathJax -->
+<script type="text/x-mathjax-config">
+  MathJax.Hub.Config({"tex2jax":{"inlineMath":[["$","$"],["\\(","\\)"]],"skipTags":["script","noscript","style","textarea","pre","code"],"processEscapes":true},"TeX":{"equationNumbers":{"autoNumber":"AMS"}}});
 </script>
 
-
-
-    <script type="text/x-mathjax-config">
-    MathJax.Hub.Config({
-        tex2jax: {
-            inlineMath: [ ["$","$"], ["\\(","\\)"] ],
-            skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code'],
-            processEscapes: true
-        }
-    });
-    MathJax.Hub.Queue(function() {
-        var all = MathJax.Hub.getAllJax();
-        for (var i = 0; i < all.length; ++i)
-            all[i].SourceElement().parentNode.className += ' has-jax';
-    });
+<script type="text/x-mathjax-config">
+  MathJax.Hub.Queue(function() {
+    var all = MathJax.Hub.getAllJax(), i;
+    for(i=0; i < all.length; i += 1) {
+      all[i].SourceElement().parentNode.className += ' has-jax';
+    }
+  });
 </script>
-<script src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
-</body>
+
+<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.6/latest.js?config=TeX-AMS-MML_HTMLorMML">
+</script>
+<!-- End: Injected MathJax -->
+<!-- hexo-inject:end -->
+
+
+
+    </body>
 </html>

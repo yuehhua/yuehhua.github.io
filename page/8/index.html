@@ -3,7 +3,7 @@
 <html lang="zh-tw,en,default">
     
 <head>
-    <meta charset="UTF-8">
+    <!-- hexo-inject:begin --><!-- hexo-inject:end --><meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="generator" content="Dream Maker">
     <title>Dream Maker</title>
@@ -50,13 +50,13 @@
 
         ga('create', 'UA-119690895-1', 'auto');
         ga('send', 'pageview');
-    </script>
+    </script><!-- hexo-inject:begin --><!-- hexo-inject:end -->
     
     
 </head>
 
     <body>
-        <div id="blog">
+        <!-- hexo-inject:begin --><!-- hexo-inject:end --><div id="blog">
             <!-- Define author's picture -->
 
 
@@ -267,11 +267,14 @@
 <p>我們會定義數學上的關係，並且談到在數學上大量使用的兩個關係：等價關係及次序關係。次序關係將會貫穿整個拓樸學領域。</p>
 <p><strong>關係（relations）</strong> 的定義如下：</p>
 <blockquote>
-<p> <strong><em>Def.</em></strong></p>
+<p><em><strong>Def.</strong></em></p>
 </blockquote>
-<script type="math/tex; mode=display">
-A \enspace relation \enspace on \enspace set \enspace A \enspace is</script><script type="math/tex; mode=display">
-a \enspace subset \enspace C \subseteq A \times A</script>
+<p>$$<br>
+A \enspace relation \enspace on \enspace set \enspace A \enspace is<br>
+$$</p>
+<p>$$<br>
+a \enspace subset \enspace C \subseteq A \times A<br>
+$$</p>
                     
                         <a href="/2018/07/22/03-relations/" class="postShorten-excerpt_link link">
                             繼續閱讀
@@ -316,11 +319,14 @@ a \enspace subset \enspace C \subseteq A \times A</script>
                 <div class="postShorten-excerpt">
                     <p>Function 會是在數學上常常看到的概念，但他到底是什麼？Function 常常被視為兩個集合之間<strong>對映的規則</strong>。我們先來定義<strong>對映的規則（rule of assignment）</strong>：</p>
 <blockquote>
-<p> <strong><em>Def.</em></strong></p>
+<p><em><strong>Def.</strong></em></p>
 </blockquote>
-<script type="math/tex; mode=display">
-two \enspace sets \enspace C, D, r \subseteq C \times D, \forall c \in C , d \in D,</script><script type="math/tex; mode=display">
-\exists \enspace at \enspace most \enspace one \enspace (c, d) \in r</script>
+<p>$$<br>
+two \enspace sets \enspace C, D, r \subseteq C \times D, \forall c \in C , d \in D,<br>
+$$</p>
+<p>$$<br>
+\exists \enspace at \enspace most \enspace one \enspace (c, d) \in r<br>
+$$</p>
                     
                         <a href="/2018/07/22/02-functions/" class="postShorten-excerpt_link link">
                             繼續閱讀
@@ -365,8 +371,9 @@ two \enspace sets \enspace C, D, r \subseteq C \times D, \forall c \in C , d \in
                 <div class="postShorten-excerpt">
                     <p>先以集合論開始切入，集合論是以後各門數學相關學科的根基，也就是很多數學的分支都會定義在集合論上。</p>
 <p>在數學上，集合就是一群不重複的物件（object）或是元素（element）。像我們可以定義<strong>一個set A當中的elements有a、b、c</strong>，寫成：</p>
-<script type="math/tex; mode=display">
-A = \\{ a, b, c \\}</script>
+<p>$$<br>
+A = \{ a, b, c \}<br>
+$$</p>
                     
                         <a href="/2018/07/22/01-set-theory/" class="postShorten-excerpt_link link">
                             繼續閱讀
@@ -411,9 +418,9 @@ A = \\{ a, b, c \\}</script>
                 <div class="postShorten-excerpt">
                     <pre><code>attach    Attach to a running container
 build     Build an image from a Dockerfile
-commit    Create a new image from a container&#39;s changes
+commit    Create a new image from a container's changes
 cp        Copy files/folders from the containers filesystem to the host path
-diff      Inspect changes on a container&#39;s filesystem
+diff      Inspect changes on a container's filesystem
 events    Get real time events from the server
 export    Stream the contents of a container as a tar archive
 history   Show the history of an image
@@ -443,7 +450,9 @@ top       Lookup the running processes of a container
 unpause   Unpause a paused container
 version   Show the docker version information
 wait      Block until a container stops, then print its exit code
-</code></pre><h2 id="Docker-Commands-Diagram"><a href="#Docker-Commands-Diagram" class="headerlink" title="Docker Commands Diagram"></a><strong>Docker Commands Diagram</strong></h2><p><img src="https://raw.githubusercontent.com/philipz/docker_practice/master/_images/cmd_logic.png" alt="Docker Commands Diagram"></p>
+</code></pre>
+<h2 id="Docker-Commands-Diagram"><strong>Docker Commands Diagram</strong></h2>
+<p><img src="https://raw.githubusercontent.com/philipz/docker_practice/master/_images/cmd_logic.png" alt="Docker Commands Diagram"></p>
                     
                         <a href="/2018/07/21/04-reference/" class="postShorten-excerpt_link link">
                             繼續閱讀
@@ -495,6 +504,7 @@ docker pull dockerfile/python
 docker pull pypy  # official repos
 docker pull rocker/rstudio:latest
 </code></pre>
+
                     
                         
 
@@ -670,12 +680,14 @@ docker pull rocker/rstudio:latest
             </div>
             
                 <div class="postShorten-content">
-                    <h2 id="杜岳華"><a href="#杜岳華" class="headerlink" title="杜岳華"></a>杜岳華</h2><p>Yueh-Hua Tu</p>
+                    <h2 id="杜岳華">杜岳華</h2>
+<p>Yueh-Hua Tu</p>
 <p>兼俱科學家與工程師思維</p>
 <p>熱愛數學、科學、生物學、電腦科學</p>
 <p>專業是Computational Biology, Systems Biology, Network Biology</p>
 <p>我要成為生醫資料科學家！</p>
-<h3 id="學歷："><a href="#學歷：" class="headerlink" title="學歷："></a>學歷：</h3><ul>
+<h3 id="學歷：">學歷：</h3>
+<ul>
 <li>國立陽明大學 生物醫學資訊所 碩士 第1名畢業</li>
 <li>國立成功大學 醫學檢驗生物技術學系 學士</li>
 <li>國立成功大學 資訊工程學系 學士</li>
@@ -731,7 +743,7 @@ docker pull rocker/rstudio:latest
                     <!-- toc -->
 <p>今天又是個長長的故事。</p>
 <p>上次我們講完在空間上，我們可以知道資料的區域性，並且利用 convolution 來萃取特徵。</p>
-<p>這次我們來講時間，其實不一定要是”時間”序列資料，只要是有先後順序的資料就可以。</p>
+<p>這次我們來講時間，其實不一定要是&quot;時間&quot;序列資料，只要是有先後順序的資料就可以。</p>
 <p>在時間序列分析及統計的領域中，我們有基礎的馬可夫模型（Markov chain）。</p>
                     
                         <a href="/2018/07/21/why-rnn/" class="postShorten-excerpt_link link">
@@ -790,7 +802,7 @@ docker pull rocker/rstudio:latest
         
             <h4 id="about-card-name">Yueh-Hua Tu</h4>
         
-            <div id="about-card-bio"><p>目標是計算生物學家！&lt;/br&gt;Systems Biology, Computational Biology, Machine Learning&lt;/br&gt;Julia Taiwan 發起人</p>
+            <div id="about-card-bio"><p>目標是計算生物學家！</br>Systems Biology, Computational Biology, Machine Learning</br>Julia Taiwan 發起人</p>
 </div>
         
         
@@ -818,23 +830,25 @@ docker pull rocker/rstudio:latest
 
 <script src="/assets/js/script-xzfezjobyekpxrjktw5tz6muvzqfsbmo5n6atk3p5om9ulfptldi3p7cyqd8.min.js"></script>
 
-<!--SCRIPTS END-->
-
-
-    <script type="text/x-mathjax-config">
-    MathJax.Hub.Config({
-        tex2jax: {
-            inlineMath: [ ["$","$"], ["\\(","\\)"] ],
-            skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code'],
-            processEscapes: true
-        }
-    });
-    MathJax.Hub.Queue(function() {
-        var all = MathJax.Hub.getAllJax();
-        for (var i = 0; i < all.length; ++i)
-            all[i].SourceElement().parentNode.className += ' has-jax';
-    });
+<!--SCRIPTS END--><!-- hexo-inject:begin --><!-- Begin: Injected MathJax -->
+<script type="text/x-mathjax-config">
+  MathJax.Hub.Config({"tex2jax":{"inlineMath":[["$","$"],["\\(","\\)"]],"skipTags":["script","noscript","style","textarea","pre","code"],"processEscapes":true},"TeX":{"equationNumbers":{"autoNumber":"AMS"}}});
 </script>
-<script src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
-</body>
+
+<script type="text/x-mathjax-config">
+  MathJax.Hub.Queue(function() {
+    var all = MathJax.Hub.getAllJax(), i;
+    for(i=0; i < all.length; i += 1) {
+      all[i].SourceElement().parentNode.className += ' has-jax';
+    }
+  });
+</script>
+
+<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.6/latest.js?config=TeX-AMS-MML_HTMLorMML">
+</script>
+<!-- End: Injected MathJax -->
+<!-- hexo-inject:end -->
+
+
+    </body>
 </html>

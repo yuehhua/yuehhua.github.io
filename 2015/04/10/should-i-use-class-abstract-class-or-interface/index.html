@@ -3,7 +3,7 @@
 <html lang="zh-tw,en,default">
     
 <head>
-    <meta charset="UTF-8">
+    <!-- hexo-inject:begin --><!-- hexo-inject:end --><meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="generator" content="Dream Maker">
     <title>我該用類別, 抽象類別還是介面? - Dream Maker</title>
@@ -15,13 +15,13 @@
     
         <link rel="alternate" type="application/atom+xml" title="RSS" href="/atom.xml">
     
-    <script type="application/ld+json">{"@context":"http://schema.org","@type":"BlogPosting","author":{"@type":"Person","name":"Yueh-Hua Tu","sameAs":["https://github.com/yuehhua/","https://www.facebook.com/a504082002","https://www.linkedin.com/in/%E5%B2%B3%E8%8F%AF-%E6%9D%9C-6a3995a0/","mailto:a504082002@gmail.com"],"image":"https://www.gravatar.com/avatar/a565749fba4782b717234da670b273fd"},"articleBody":"很多初學java的人都會有這樣的疑問：\n\n我該用類別, 抽象類別還是介面?\n\n尤其在學 java 之前沒有碰過物件導向概念的人。在多種選擇的情況下，我該用哪一個比較好呢？\n我們可以分幾個觀點來看這個問題\n概念解釋觀點在物件導向的語言裏面，物件跟類別是被抽象化的概念。也得力於這樣的抽象化，我們可以把某些東西廣義化應用到不同的層面。這樣的抽象化有賴於封裝、繼承、多型的落實。封裝可以將概念相同的程式碼放在一起，這些程式碼做同一件事，所以他們代表同一個概念。同時也比較好維護。繼承可以提高 reusabiity 的機會，同時也展現了概念上的相似性。多型就是一種同中求異的概念。位於同一個繼承體系之下，可以有不同的行為。\n承續我先前寫過的文章繼承是is-a的概念，而實作介面是has-a的概念。這些概念是不相違背的，所以我們可以簡單的把類別、抽象類別、介面分開。類別跟抽象類別應該位於繼承體系之下，因為抽象類別也有is-a關係。但是相對於（具體）類別，抽象類別是不允許被實體化（instantiate）的。\n為什麼？舉個例，Cat 跟 Dog 都繼承於 Animal，因為 Cat is an Animal and Dog is an Animal.這時我們會把 Animal 寫成抽象類別，因為 Animal 被實體化之後不具任何意義。他只是我們在繼承體系上或是概念上的類別，他並不是一個具體的物件，不具屬性跟行為。所以 Animal 不應該被寫成（具體）類別。\n那不能被實體化的類別我還需要去定義他的屬性跟方法嗎？當然要！回到我們的例子，通常只要是 Animal 就會 eat()、move()，或是我想給 Animal id 或是 name。這時我們不會把這些東西寫在 Cat 或是 Dog 裏面。我們會把他通通寫到 Animal 裏面，如此一來下面的子類別就可以簡單的具有這些屬性跟方法了。\n這時我們來講講介面，就如同我前面提到的。介面的實作是has-a的關係。所以他提供了在一個繼承體系之外的功能性。他可以讓繼承於 Animal 的 Bird 擁有 fly() 的行為。他可以讓繼承於 Animal 的 Turtle 擁有 swim() 的行為。這些都是無法從 Animal 繼承過來的東西。\n那無法繼承過來的話，自己寫就好阿，大驚小怪！錯！這時我們就會看到會 fly()（飛）的 Bird（鳥）。會 transport()（運輸）的 Airplane（飛機）。會 swing()（拍翅膀）的 Swan（天鵝）。但是他們想表達的都是在天上飛的概念。所以介面可以達到統一格式的效果。大家都實作同樣的方法來表達同樣的行為。或許行為的實際內容不一樣，但是在概念上是相同的。\n軟體工程觀點在前一個觀點當中提到抽象化。抽象化使得同樣的一段程式碼可以提高他使用的頻率。也達到reusability (重複利用性)的效果。\n我們有了繼承體系來提高 reusability。在程式碼上，子類別不用重寫同樣的程式碼，只要從父類別繼承來就好。相對於同樣的程式碼散落在各個子類別，當要維護的時候就要一個一個修改。這樣父類別就控制了子類別的行為。如果父類別的方法被修改的話，也會影響到子類別。\n如果你不希望父類別的改變影響到子類別的話，這時請確認兩者是否真的要使用繼承關係。如果是繼承關係但又不希望受影響，那就用多型吧！\n我們使用介面來提高系統的flexibility (靈活性)。當你需要有相同概念的方法時只要實作同樣的介面就可以達到。同時規定同樣的介面便於管理維護。只要實作同樣的介面就可以簡單地擴充模組。這是一個靈活的系統該有的特徵。\n相對於多重繼承 (ex. C++)相對於C++的多重繼承，java 只允許單一繼承。在多重繼承當中，可以讓一個類別擁有很多身份。一個類別可以是很多種東西。這樣的概念其實可以讓人容易了解這個類別在做些什麼。像是Computer is a Machine and Computer is a Calculator.這樣我們可以理解電腦是一種會計算的機器。但是相對應的他也帶來一些不必要的副作用。繼承於多樣的父類別，也同時繼承到了父類別的屬性跟方法，但是並不是所有的屬性跟方法都是有用的，甚至有些屬性或方法根本用不到。當你沒有要使用到的時候卻又繼承了太多的東西，這就造成了另一種的設計不良的狀況。這會讓別人誤解子類別有擁有父類別的某些方法，但卻不知道那是不應該出現的。造成誤用問題就更大了。這樣的問題小至程式錯誤，大至系統崩潰，這就成了系統的弱點之一了。\n","dateCreated":"2015-04-10T00:46:00+08:00","dateModified":"2019-09-06T11:20:24+08:00","datePublished":"2015-04-10T00:46:00+08:00","description":"","headline":"我該用類別, 抽象類別還是介面?","image":[],"mainEntityOfPage":{"@type":"WebPage","@id":"https://yuehhua.github.io/2015/04/10/should-i-use-class-abstract-class-or-interface/"},"publisher":{"@type":"Organization","name":"Yueh-Hua Tu","sameAs":["https://github.com/yuehhua/","https://www.facebook.com/a504082002","https://www.linkedin.com/in/%E5%B2%B3%E8%8F%AF-%E6%9D%9C-6a3995a0/","mailto:a504082002@gmail.com"],"image":"https://www.gravatar.com/avatar/a565749fba4782b717234da670b273fd","logo":{"@type":"ImageObject","url":"https://www.gravatar.com/avatar/a565749fba4782b717234da670b273fd"}},"url":"https://yuehhua.github.io/2015/04/10/should-i-use-class-abstract-class-or-interface/"}</script>
-    <meta name="description" content="很多初學java的人都會有這樣的疑問：  我該用類別, 抽象類別還是介面?  尤其在學 java 之前沒有碰過物件導向概念的人。在多種選擇的情況下，我該用哪一個比較好呢？ 我們可以分幾個觀點來看這個問題 概念解釋觀點在物件導向的語言裏面，物件跟類別是被抽象化的概念。也得力於這樣的抽象化，我們可以把某些東西廣義化應用到不同的層面。這樣的抽象化有賴於封裝、繼承、多型的落實。封裝可以將概念相同的程式碼放">
+    <script type="application/ld+json">{"@context":"http://schema.org","@type":"BlogPosting","author":{"@type":"Person","name":"Yueh-Hua Tu","sameAs":["https://github.com/yuehhua/","https://www.facebook.com/a504082002","https://www.linkedin.com/in/%E5%B2%B3%E8%8F%AF-%E6%9D%9C-6a3995a0/","mailto:a504082002@gmail.com"],"image":"https://www.gravatar.com/avatar/a565749fba4782b717234da670b273fd"},"articleBody":"很多初學java的人都會有這樣的疑問：\n\n我該用類別, 抽象類別還是介面?\n\n尤其在學 java 之前沒有碰過物件導向概念的人。\n在多種選擇的情況下，我該用哪一個比較好呢？\n我們可以分幾個觀點來看這個問題\n概念解釋觀點\n在物件導向的語言裏面，物件跟類別是被抽象化的概念。\n也得力於這樣的抽象化，我們可以把某些東西廣義化應用到不同的層面。\n這樣的抽象化有賴於封裝、繼承、多型的落實。\n封裝可以將概念相同的程式碼放在一起，這些程式碼做同一件事，所以他們代表同一個概念。\n同時也比較好維護。\n繼承可以提高 reusabiity 的機會，同時也展現了概念上的相似性。\n多型就是一種同中求異的概念。\n位於同一個繼承體系之下，可以有不同的行為。\n承續我先前寫過的文章\n繼承是is-a的概念，而實作介面是has-a的概念。\n這些概念是不相違背的，所以我們可以簡單的把類別、抽象類別、介面分開。\n類別跟抽象類別應該位於繼承體系之下，因為抽象類別也有is-a關係。\n但是相對於（具體）類別，抽象類別是不允許被實體化（instantiate）的。\n為什麼？\n舉個例，Cat 跟 Dog 都繼承於 Animal，因為 Cat is an Animal and Dog is an Animal.\n這時我們會把 Animal 寫成抽象類別，因為 Animal 被實體化之後不具任何意義。\n他只是我們在繼承體系上或是概念上的類別，他並不是一個具體的物件，不具屬性跟行為。\n所以 Animal 不應該被寫成（具體）類別。\n那不能被實體化的類別我還需要去定義他的屬性跟方法嗎？\n當然要！\n回到我們的例子，通常只要是 Animal 就會 eat()、move()，或是我想給 Animal id 或是 name。\n這時我們不會把這些東西寫在 Cat 或是 Dog 裏面。\n我們會把他通通寫到 Animal 裏面，如此一來下面的子類別就可以簡單的具有這些屬性跟方法了。\n這時我們來講講介面，就如同我前面提到的。\n介面的實作是has-a的關係。\n所以他提供了在一個繼承體系之外的功能性。\n他可以讓繼承於 Animal 的 Bird 擁有 fly() 的行為。\n他可以讓繼承於 Animal 的 Turtle 擁有 swim() 的行為。\n這些都是無法從 Animal 繼承過來的東西。\n那無法繼承過來的話，自己寫就好阿，大驚小怪！\n錯！\n這時我們就會看到\n會 fly()（飛）的 Bird（鳥）。\n會 transport()（運輸）的 Airplane（飛機）。\n會 swing()（拍翅膀）的 Swan（天鵝）。\n但是他們想表達的都是在天上飛的概念。\n所以介面可以達到統一格式的效果。\n大家都實作同樣的方法來表達同樣的行為。\n或許行為的實際內容不一樣，但是在概念上是相同的。\n軟體工程觀點\n在前一個觀點當中提到抽象化。\n抽象化使得同樣的一段程式碼可以提高他使用的頻率。\n也達到**reusability (重複利用性)**的效果。\n我們有了繼承體系來提高 reusability。\n在程式碼上，子類別不用重寫同樣的程式碼，只要從父類別繼承來就好。\n相對於同樣的程式碼散落在各個子類別，當要維護的時候就要一個一個修改。\n這樣父類別就控制了子類別的行為。\n如果父類別的方法被修改的話，也會影響到子類別。\n如果你不希望父類別的改變影響到子類別的話，這時請確認兩者是否真的要使用繼承關係。\n如果是繼承關係但又不希望受影響，那就用多型吧！\n我們使用介面來提高系統的flexibility (靈活性)。\n當你需要有相同概念的方法時只要實作同樣的介面就可以達到。\n同時規定同樣的介面便於管理維護。\n只要實作同樣的介面就可以簡單地擴充模組。\n這是一個靈活的系統該有的特徵。\n相對於多重繼承 (ex. C++)\n相對於C++的多重繼承，java 只允許單一繼承。\n在多重繼承當中，可以讓一個類別擁有很多身份。\n一個類別可以是很多種東西。\n這樣的概念其實可以讓人容易了解這個類別在做些什麼。\n像是Computer is a Machine and Computer is a Calculator.\n這樣我們可以理解電腦是一種會計算的機器。\n但是相對應的他也帶來一些不必要的副作用。\n繼承於多樣的父類別，也同時繼承到了父類別的屬性跟方法，但是並不是所有的屬性跟方法都是有用的，甚至有些屬性或方法根本用不到。\n當你沒有要使用到的時候卻又繼承了太多的東西，這就造成了另一種的設計不良的狀況。\n這會讓別人誤解子類別有擁有父類別的某些方法，但卻不知道那是不應該出現的。\n造成誤用問題就更大了。\n這樣的問題小至程式錯誤，大至系統崩潰，這就成了系統的弱點之一了。\n","dateCreated":"2015-04-10T00:46:00+08:00","dateModified":"2019-09-06T11:20:24+08:00","datePublished":"2015-04-10T00:46:00+08:00","description":"","headline":"我該用類別, 抽象類別還是介面?","image":[],"mainEntityOfPage":{"@type":"WebPage","@id":"https://yuehhua.github.io/2015/04/10/should-i-use-class-abstract-class-or-interface/"},"publisher":{"@type":"Organization","name":"Yueh-Hua Tu","sameAs":["https://github.com/yuehhua/","https://www.facebook.com/a504082002","https://www.linkedin.com/in/%E5%B2%B3%E8%8F%AF-%E6%9D%9C-6a3995a0/","mailto:a504082002@gmail.com"],"image":"https://www.gravatar.com/avatar/a565749fba4782b717234da670b273fd","logo":{"@type":"ImageObject","url":"https://www.gravatar.com/avatar/a565749fba4782b717234da670b273fd"}},"url":"https://yuehhua.github.io/2015/04/10/should-i-use-class-abstract-class-or-interface/"}</script>
+    <meta name="description" content="很多初學java的人都會有這樣的疑問：  我該用類別, 抽象類別還是介面?  尤其在學 java 之前沒有碰過物件導向概念的人。 在多種選擇的情況下，我該用哪一個比較好呢？ 我們可以分幾個觀點來看這個問題 概念解釋觀點 在物件導向的語言裏面，物件跟類別是被抽象化的概念。 也得力於這樣的抽象化，我們可以把某些東西廣義化應用到不同的層面。 這樣的抽象化有賴於封裝、繼承、多型的落實。 封裝可以將概念相同">
 <meta property="og:type" content="blog">
 <meta property="og:title" content="我該用類別, 抽象類別還是介面?">
 <meta property="og:url" content="https://yuehhua.github.io/2015/04/10/should-i-use-class-abstract-class-or-interface/index.html">
 <meta property="og:site_name" content="Dream Maker">
-<meta property="og:description" content="很多初學java的人都會有這樣的疑問：  我該用類別, 抽象類別還是介面?  尤其在學 java 之前沒有碰過物件導向概念的人。在多種選擇的情況下，我該用哪一個比較好呢？ 我們可以分幾個觀點來看這個問題 概念解釋觀點在物件導向的語言裏面，物件跟類別是被抽象化的概念。也得力於這樣的抽象化，我們可以把某些東西廣義化應用到不同的層面。這樣的抽象化有賴於封裝、繼承、多型的落實。封裝可以將概念相同的程式碼放">
+<meta property="og:description" content="很多初學java的人都會有這樣的疑問：  我該用類別, 抽象類別還是介面?  尤其在學 java 之前沒有碰過物件導向概念的人。 在多種選擇的情況下，我該用哪一個比較好呢？ 我們可以分幾個觀點來看這個問題 概念解釋觀點 在物件導向的語言裏面，物件跟類別是被抽象化的概念。 也得力於這樣的抽象化，我們可以把某些東西廣義化應用到不同的層面。 這樣的抽象化有賴於封裝、繼承、多型的落實。 封裝可以將概念相同">
 <meta property="og:locale" content="zh_TW">
 <meta property="article:published_time" content="2015-04-09T16:46:00.000Z">
 <meta property="article:modified_time" content="2019-09-06T03:20:24.497Z">
@@ -54,13 +54,13 @@
 
         ga('create', 'UA-119690895-1', 'auto');
         ga('send', 'pageview');
-    </script>
+    </script><!-- hexo-inject:begin --><!-- hexo-inject:end -->
     
     
 </head>
 
     <body>
-        <div id="blog">
+        <!-- hexo-inject:begin --><!-- hexo-inject:end --><div id="blog">
             <!-- Define author's picture -->
 
 
@@ -271,19 +271,78 @@
 <blockquote>
 <p>我該用類別, 抽象類別還是介面?</p>
 </blockquote>
-<p>尤其在學 java 之前沒有碰過物件導向概念的人。<br>在多種選擇的情況下，我該用哪一個比較好呢？</p>
+<p>尤其在學 java 之前沒有碰過物件導向概念的人。<br>
+在多種選擇的情況下，我該用哪一個比較好呢？</p>
 <p>我們可以分幾個觀點來看這個問題</p>
-<h3 id="概念解釋觀點"><a href="#概念解釋觀點" class="headerlink" title="概念解釋觀點"></a><strong>概念解釋觀點</strong></h3><p>在物件導向的語言裏面，物件跟類別是被抽象化的概念。<br>也得力於這樣的抽象化，我們可以把某些東西<strong>廣義化</strong>應用到不同的層面。<br>這樣的抽象化有賴於封裝、繼承、多型的落實。<br>封裝可以將<strong>概念相同的程式碼放在一起</strong>，這些程式碼做同一件事，所以他們代表同一個概念。<br>同時也比較好維護。<br>繼承可以<strong>提高 reusabiity 的機會</strong>，同時也展現了<strong>概念上的相似性</strong>。<br>多型就是一種<em>同中求異</em>的概念。<br>位於同一個繼承體系之下，可以有不同的行為。</p>
-<p>承續我先前寫過的文章<br>繼承是<strong>is-a</strong>的概念，而實作介面是<strong>has-a</strong>的概念。<br>這些概念是不相違背的，所以我們可以簡單的把類別、抽象類別、介面分開。<br>類別跟抽象類別應該位於繼承體系之下，因為抽象類別也有<strong>is-a</strong>關係。<br>但是相對於（具體）類別，抽象類別是不允許被實體化（instantiate）的。</p>
-<p>為什麼？<br>舉個例，Cat 跟 Dog 都繼承於 Animal，因為 Cat is an Animal and Dog is an Animal.<br>這時我們會把 Animal 寫成抽象類別，因為 Animal 被實體化之後不具任何意義。<br>他只是我們在繼承體系上或是概念上的類別，他並不是一個具體的物件，不具屬性跟行為。<br>所以 Animal 不應該被寫成（具體）類別。</p>
-<p>那不能被實體化的類別我還需要去定義他的屬性跟方法嗎？<br>當然要！<br>回到我們的例子，通常只要是 Animal 就會 <code>eat()</code>、<code>move()</code>，或是我想給 Animal <code>id</code> 或是 <code>name</code>。<br>這時我們不會把這些東西寫在 Cat 或是 Dog 裏面。<br>我們會把他通通寫到 Animal 裏面，如此一來下面的子類別就可以簡單的具有這些屬性跟方法了。</p>
-<p>這時我們來講講介面，就如同我前面提到的。<br>介面的實作是<strong>has-a</strong>的關係。<br>所以他提供了在一個繼承體系之外的<strong>功能性</strong>。<br>他可以讓繼承於 Animal 的 Bird 擁有 <code>fly()</code> 的行為。<br>他可以讓繼承於 Animal 的 Turtle 擁有 <code>swim()</code> 的行為。<br>這些都是無法從 Animal 繼承過來的東西。</p>
-<p>那無法繼承過來的話，自己寫就好阿，大驚小怪！<br>錯！<br>這時我們就會看到<br>會 <code>fly()</code>（飛）的 Bird（鳥）。<br>會 <code>transport()</code>（運輸）的 Airplane（飛機）。<br>會 <code>swing()</code>（拍翅膀）的 Swan（天鵝）。<br>但是他們想表達的都是<strong>在天上飛</strong>的概念。<br>所以介面可以達到統一格式的效果。<br>大家都實作同樣的方法來表達同樣的行為。<br>或許行為的實際內容不一樣，但是在概念上是相同的。</p>
-<h3 id="軟體工程觀點"><a href="#軟體工程觀點" class="headerlink" title="軟體工程觀點"></a><strong>軟體工程觀點</strong></h3><p>在前一個觀點當中提到抽象化。<br>抽象化使得同樣的一段程式碼可以提高他使用的頻率。<br>也達到<strong>reusability (重複利用性)</strong>的效果。</p>
-<p>我們有了繼承體系來<strong>提高 reusability</strong>。<br>在程式碼上，子類別不用重寫同樣的程式碼，只要從父類別繼承來就好。<br>相對於同樣的程式碼散落在各個子類別，當要維護的時候就要一個一個修改。<br>這樣父類別就控制了子類別的行為。<br>如果父類別的方法被修改的話，也會影響到子類別。</p>
-<p>如果你不希望父類別的改變影響到子類別的話，這時請確認兩者是否真的要使用繼承關係。<br>如果是繼承關係但又不希望受影響，那就用多型吧！</p>
-<p>我們使用介面來提高系統的<strong>flexibility (靈活性)</strong>。<br>當你需要有相同概念的方法時只要實作同樣的介面就可以達到。<br>同時規定同樣的介面便於管理維護。<br>只要實作同樣的介面就可以簡單地擴充模組。<br>這是一個靈活的系統該有的特徵。</p>
-<h3 id="相對於多重繼承-ex-C"><a href="#相對於多重繼承-ex-C" class="headerlink" title="相對於多重繼承 (ex. C++)"></a><strong>相對於多重繼承 (ex. C++)</strong></h3><p>相對於C++的多重繼承，java 只允許單一繼承。<br>在多重繼承當中，可以讓一個類別<strong>擁有很多身份</strong>。<br>一個類別可以<strong>是</strong>很多種東西。<br>這樣的概念其實可以讓人容易了解這個類別在做些什麼。<br>像是Computer is a Machine and Computer is a Calculator.<br>這樣我們可以理解電腦是一種會計算的機器。<br>但是相對應的他也帶來一些不必要的副作用。<br>繼承於多樣的父類別，也同時繼承到了父類別的屬性跟方法，但是並不是所有的屬性跟方法都是有用的，甚至有些屬性或方法根本用不到。<br>當你沒有要使用到的時候卻又繼承了太多的東西，這就造成了另一種的設計不良的狀況。<br>這會讓別人誤解子類別有擁有父類別的某些方法，但卻不知道那是不應該出現的。<br>造成誤用問題就更大了。<br>這樣的問題小至程式錯誤，大至系統崩潰，這就成了系統的弱點之一了。</p>
+<h3 id="概念解釋觀點"><strong>概念解釋觀點</strong></h3>
+<p>在物件導向的語言裏面，物件跟類別是被抽象化的概念。<br>
+也得力於這樣的抽象化，我們可以把某些東西<strong>廣義化</strong>應用到不同的層面。<br>
+這樣的抽象化有賴於封裝、繼承、多型的落實。<br>
+封裝可以將<strong>概念相同的程式碼放在一起</strong>，這些程式碼做同一件事，所以他們代表同一個概念。<br>
+同時也比較好維護。<br>
+繼承可以<strong>提高 reusabiity 的機會</strong>，同時也展現了<strong>概念上的相似性</strong>。<br>
+多型就是一種<em>同中求異</em>的概念。<br>
+位於同一個繼承體系之下，可以有不同的行為。</p>
+<p>承續我先前寫過的文章<br>
+繼承是<strong>is-a</strong>的概念，而實作介面是<strong>has-a</strong>的概念。<br>
+這些概念是不相違背的，所以我們可以簡單的把類別、抽象類別、介面分開。<br>
+類別跟抽象類別應該位於繼承體系之下，因為抽象類別也有<strong>is-a</strong>關係。<br>
+但是相對於（具體）類別，抽象類別是不允許被實體化（instantiate）的。</p>
+<p>為什麼？<br>
+舉個例，Cat 跟 Dog 都繼承於 Animal，因為 Cat is an Animal and Dog is an Animal.<br>
+這時我們會把 Animal 寫成抽象類別，因為 Animal 被實體化之後不具任何意義。<br>
+他只是我們在繼承體系上或是概念上的類別，他並不是一個具體的物件，不具屬性跟行為。<br>
+所以 Animal 不應該被寫成（具體）類別。</p>
+<p>那不能被實體化的類別我還需要去定義他的屬性跟方法嗎？<br>
+當然要！<br>
+回到我們的例子，通常只要是 Animal 就會 <code>eat()</code>、<code>move()</code>，或是我想給 Animal <code>id</code> 或是 <code>name</code>。<br>
+這時我們不會把這些東西寫在 Cat 或是 Dog 裏面。<br>
+我們會把他通通寫到 Animal 裏面，如此一來下面的子類別就可以簡單的具有這些屬性跟方法了。</p>
+<p>這時我們來講講介面，就如同我前面提到的。<br>
+介面的實作是<strong>has-a</strong>的關係。<br>
+所以他提供了在一個繼承體系之外的<strong>功能性</strong>。<br>
+他可以讓繼承於 Animal 的 Bird 擁有 <code>fly()</code> 的行為。<br>
+他可以讓繼承於 Animal 的 Turtle 擁有 <code>swim()</code> 的行為。<br>
+這些都是無法從 Animal 繼承過來的東西。</p>
+<p>那無法繼承過來的話，自己寫就好阿，大驚小怪！<br>
+錯！<br>
+這時我們就會看到<br>
+會 <code>fly()</code>（飛）的 Bird（鳥）。<br>
+會 <code>transport()</code>（運輸）的 Airplane（飛機）。<br>
+會 <code>swing()</code>（拍翅膀）的 Swan（天鵝）。<br>
+但是他們想表達的都是<strong>在天上飛</strong>的概念。<br>
+所以介面可以達到統一格式的效果。<br>
+大家都實作同樣的方法來表達同樣的行為。<br>
+或許行為的實際內容不一樣，但是在概念上是相同的。</p>
+<h3 id="軟體工程觀點"><strong>軟體工程觀點</strong></h3>
+<p>在前一個觀點當中提到抽象化。<br>
+抽象化使得同樣的一段程式碼可以提高他使用的頻率。<br>
+也達到**reusability (重複利用性)**的效果。</p>
+<p>我們有了繼承體系來<strong>提高 reusability</strong>。<br>
+在程式碼上，子類別不用重寫同樣的程式碼，只要從父類別繼承來就好。<br>
+相對於同樣的程式碼散落在各個子類別，當要維護的時候就要一個一個修改。<br>
+這樣父類別就控制了子類別的行為。<br>
+如果父類別的方法被修改的話，也會影響到子類別。</p>
+<p>如果你不希望父類別的改變影響到子類別的話，這時請確認兩者是否真的要使用繼承關係。<br>
+如果是繼承關係但又不希望受影響，那就用多型吧！</p>
+<p>我們使用介面來提高系統的<strong>flexibility (靈活性)</strong>。<br>
+當你需要有相同概念的方法時只要實作同樣的介面就可以達到。<br>
+同時規定同樣的介面便於管理維護。<br>
+只要實作同樣的介面就可以簡單地擴充模組。<br>
+這是一個靈活的系統該有的特徵。</p>
+<h3 id="相對於多重繼承-ex-C"><strong>相對於多重繼承 (ex. C++)</strong></h3>
+<p>相對於C++的多重繼承，java 只允許單一繼承。<br>
+在多重繼承當中，可以讓一個類別<strong>擁有很多身份</strong>。<br>
+一個類別可以<strong>是</strong>很多種東西。<br>
+這樣的概念其實可以讓人容易了解這個類別在做些什麼。<br>
+像是Computer is a Machine and Computer is a Calculator.<br>
+這樣我們可以理解電腦是一種會計算的機器。<br>
+但是相對應的他也帶來一些不必要的副作用。<br>
+繼承於多樣的父類別，也同時繼承到了父類別的屬性跟方法，但是並不是所有的屬性跟方法都是有用的，甚至有些屬性或方法根本用不到。<br>
+當你沒有要使用到的時候卻又繼承了太多的東西，這就造成了另一種的設計不良的狀況。<br>
+這會讓別人誤解子類別有擁有父類別的某些方法，但卻不知道那是不應該出現的。<br>
+造成誤用問題就更大了。<br>
+這樣的問題小至程式錯誤，大至系統崩潰，這就成了系統的弱點之一了。</p>
 
                                         
 
@@ -465,7 +524,7 @@
         
             <h4 id="about-card-name">Yueh-Hua Tu</h4>
         
-            <div id="about-card-bio"><p>目標是計算生物學家！&lt;/br&gt;Systems Biology, Computational Biology, Machine Learning&lt;/br&gt;Julia Taiwan 發起人</p>
+            <div id="about-card-bio"><p>目標是計算生物學家！</br>Systems Biology, Computational Biology, Machine Learning</br>Julia Taiwan 發起人</p>
 </div>
         
         
@@ -511,24 +570,9 @@
         s.setAttribute('data-timestamp', +new Date());
         (d.head || d.body).appendChild(s);
     })();
-</script>
+</script><!-- hexo-inject:begin --><!-- hexo-inject:end -->
 
 
 
-    <script type="text/x-mathjax-config">
-    MathJax.Hub.Config({
-        tex2jax: {
-            inlineMath: [ ["$","$"], ["\\(","\\)"] ],
-            skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code'],
-            processEscapes: true
-        }
-    });
-    MathJax.Hub.Queue(function() {
-        var all = MathJax.Hub.getAllJax();
-        for (var i = 0; i < all.length; ++i)
-            all[i].SourceElement().parentNode.className += ' has-jax';
-    });
-</script>
-<script src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
-</body>
+    </body>
 </html>
