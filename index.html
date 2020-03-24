@@ -240,6 +240,50 @@
             <div class="postShorten-header">
                 <h1 class="postShorten-title">
                     
+                        <a class="link-unstyled" href="/2020/03/24/julia-v1-4-release/">
+                            julia v1.4 釋出
+                        </a>
+                    
+                </h1>
+                <div class="postShorten-meta">
+    <time datetime="2020-03-24T12:02:05+08:00">
+	
+		    3月 24, 2020
+    	
+    </time>
+    
+        <span>分類 </span>
+        
+    <a class="category-link" href="/categories/My-Style/">My Style</a>, <a class="category-link" href="/categories/My-Style/Computer-Science/">Computer Science</a>, <a class="category-link" href="/categories/My-Style/Computer-Science/Julialang/">Julialang</a>
+
+
+    
+</div>
+
+            </div>
+            
+                <div class="postShorten-excerpt">
+                    <p>Julia v1.4 已經釋出啦！這邊來跟大家介紹一些新功能。<br>
+底下新功能後面會有括弧，附註相關的實作程式碼。</p>
+                    
+                        <a href="/2020/03/24/julia-v1-4-release/" class="postShorten-excerpt_link link">
+                            繼續閱讀
+                        </a>
+                        
+                    
+                </div>
+            
+        </div>
+        
+    </article>
+    
+    
+    <article class="postShorten postShorten--thumbnailimg-right">
+        <div class="postShorten-wrap">
+            
+            <div class="postShorten-header">
+                <h1 class="postShorten-title">
+                    
                         <a class="link-unstyled" href="/2020/03/01/from-iterator-and-generator-to-iterable/">
                             從 iterator 及 generator 到 iterable
                         </a>
@@ -726,62 +770,6 @@ $$</p>
                             繼續閱讀
                         </a>
                         
-                    
-                </div>
-            
-        </div>
-        
-    </article>
-    
-    
-    <article class="postShorten postShorten--thumbnailimg-bottom">
-        <div class="postShorten-wrap">
-            
-            <div class="postShorten-header">
-                <h1 class="postShorten-title">
-                    
-                        <a class="link-unstyled" href="/2019/05/06/operate-value-in-julia-parametric-type/">
-                            運算 Julia 參數型別上的值
-                        </a>
-                    
-                </h1>
-                <div class="postShorten-meta">
-    <time datetime="2019-05-06T13:56:52+08:00">
-	
-		    5月 06, 2019
-    	
-    </time>
-    
-        <span>分類 </span>
-        
-    <a class="category-link" href="/categories/My-Style/">My Style</a>, <a class="category-link" href="/categories/My-Style/Computer-Science/">Computer Science</a>, <a class="category-link" href="/categories/My-Style/Computer-Science/Julialang/">Julialang</a>
-
-
-    
-</div>
-
-            </div>
-            
-                <div class="postShorten-content">
-                    <p>之前介紹過將值放在參數型別上。</p>
-<p>今天來介紹一下如何可以做到類似運算的效果。</p>
-<figure class="highlight julia"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">struct</span> A&#123;T&#125;</span><br><span class="line"><span class="keyword">end</span></span><br><span class="line"></span><br><span class="line">a1 = A&#123;<span class="number">5</span>&#125;()</span><br><span class="line">a2 = A&#123;<span class="number">3</span>&#125;()</span><br></pre></td></tr></table></figure>
-<p>在一些應用場景上會希望將參數欄位上的值做運算，例如加總。</p>
-<p>這時候我們可以這樣做：</p>
-<figure class="highlight julia"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> Base:+</span><br><span class="line"></span><br><span class="line"><span class="keyword">function</span> +(::A&#123;T&#125;, ::A&#123;S&#125;) <span class="keyword">where</span> &#123;T, S&#125;</span><br><span class="line">	x = T + S</span><br><span class="line">	<span class="keyword">return</span> A&#123;x&#125;()</span><br><span class="line"><span class="keyword">end</span></span><br></pre></td></tr></table></figure>
-<p>如此一來，就可以簡單搞定囉！</p>
-<figure class="highlight julia"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">println(a1 + a2)</span><br></pre></td></tr></table></figure>
-<figure class="highlight julia"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">A&#123;<span class="number">8</span>&#125;()</span><br></pre></td></tr></table></figure>
-                    
-                        
-
-                    
-                    
-                        <p>
-                            <a href="/2019/05/06/operate-value-in-julia-parametric-type/#post-footer" class="postShorten-excerpt_link link">
-                                留言與分享
-                            </a>
-                        </p>
                     
                 </div>
             

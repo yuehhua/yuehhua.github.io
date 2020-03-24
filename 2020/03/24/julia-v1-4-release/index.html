@@ -1,0 +1,557 @@
+
+<!DOCTYPE html>
+<html lang="zh-tw,en,default">
+    
+<head>
+    <!-- hexo-inject:begin --><!-- hexo-inject:end --><meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="generator" content="Dream Maker">
+    <title>julia v1.4 釋出 - Dream Maker</title>
+    <meta name="author" content="Yueh-Hua Tu">
+    
+        <meta name="keywords" content="machine learning,deep learning,topology,">
+    
+    
+    
+        <link rel="alternate" type="application/atom+xml" title="RSS" href="/atom.xml">
+    
+    <script type="application/ld+json">{"@context":"http://schema.org","@type":"BlogPosting","author":{"@type":"Person","name":"Yueh-Hua Tu","sameAs":["https://github.com/yuehhua/","https://www.facebook.com/a504082002","https://www.linkedin.com/in/%E5%B2%B3%E8%8F%AF-%E6%9D%9C-6a3995a0/","mailto:a504082002@gmail.com"],"image":"https://www.gravatar.com/avatar/a565749fba4782b717234da670b273fd"},"articleBody":"Julia v1.4 已經釋出啦！這邊來跟大家介紹一些新功能。\n底下新功能後面會有括弧，附註相關的實作程式碼。\n\n重要功能\n使用者功能\n\nimport 允許符號，例如 import Base.:+。(#33158)\n允許使用 a[begin] 來存取 a 的首位元素。首位元素的索引是由 firstindex(a) 計算得出。(#33946)\n\n12345678julia&gt; x = [1,2,3]3-element Array&#123;Int64,1&#125;: 1 2 3julia&gt; x[begin]1\n\n值可以藉由 $ 內插到 @async 及 @spawn 中，它會將值直接複製一份到閉包（closure）中。(#33119)\n\n開發者功能\n\n結構 struct 當中，所有位元（isbits）或是位元聯集（isbitsunion）的欄位（fields）都會儲存為陣列的元素。(#32448)\n\n以前在 Julia 的結構當中，只有所有欄位都有相同的型別，而且型別都是原始型別時，Julia 底層會將他們封裝到一個陣列中，如此可以加速。在 v1.4 版後放寬了這樣的限制，讓有所有位元欄位都儲存為陣列。\n新功能\n\nIterators 模組中有 accumulate 實作。(#34033)\n\nJeff 頗驚訝，之前怎麼沒有這個功能XD\n12345678910111213julia&gt; x = [1,2,3]3-element Array&#123;Int64,1&#125;: 1 2 3julia&gt; iter = Iterators.accumulate(+, x)Base.Iterators.Accumulate&#123;typeof(+),Array&#123;Int64,1&#125;&#125;(+, [1, 2, 3])julia&gt; foreach(println, iter)136\n功能與 Base.accumulate 雷同，但是屬於 lazy evaluation。\n\nevalpoly 可以用來計算多項式函數，例如 evalpoly(x, (p1, p2, p3))。(#32753)\n\n12julia&gt; evalpoly(5, (10, 3, 1))50\n相當於計算 $p(5) = 10 + 3\\times5 + 1\\times5^2$。\n\n允許複合函數（function composition）∘(f, g, h) = f ∘ g ∘ h，以及解開 ∘(fs...)，當中 fs 可以是 Iterable 的函數集合。(#33568)\n\n1234567891011julia&gt; f(x) = x + 1f (generic function with 1 method)julia&gt; g(x) = 2xg (generic function with 1 method)julia&gt; F = f∘g#64 (generic function with 1 method)julia&gt; F(5)11\n新支援\n\ngcd、lcm 及 gcdx 支援 Rational 型別的參數。(#33910)\nsplitpath 支援任何 AbstractString 型別，然而以前只支援 String 的路徑。(#33012)\nfilter 可以作用在 Tuple 上。(#32968)\n\n","dateCreated":"2020-03-24T12:02:05+08:00","dateModified":"2020-03-24T12:02:05+08:00","datePublished":"2020-03-24T12:02:05+08:00","description":"Julia v1.4 已經釋出啦！這邊來跟大家介紹一些新功能。\n底下新功能後面會有括弧，附註相關的實作程式碼。","headline":"julia v1.4 釋出","image":[],"mainEntityOfPage":{"@type":"WebPage","@id":"https://yuehhua.github.io/2020/03/24/julia-v1-4-release/"},"publisher":{"@type":"Organization","name":"Yueh-Hua Tu","sameAs":["https://github.com/yuehhua/","https://www.facebook.com/a504082002","https://www.linkedin.com/in/%E5%B2%B3%E8%8F%AF-%E6%9D%9C-6a3995a0/","mailto:a504082002@gmail.com"],"image":"https://www.gravatar.com/avatar/a565749fba4782b717234da670b273fd","logo":{"@type":"ImageObject","url":"https://www.gravatar.com/avatar/a565749fba4782b717234da670b273fd"}},"url":"https://yuehhua.github.io/2020/03/24/julia-v1-4-release/"}</script>
+    <meta name="description" content="Julia v1.4 已經釋出啦！這邊來跟大家介紹一些新功能。 底下新功能後面會有括弧，附註相關的實作程式碼。">
+<meta property="og:type" content="blog">
+<meta property="og:title" content="julia v1.4 釋出">
+<meta property="og:url" content="https://yuehhua.github.io/2020/03/24/julia-v1-4-release/index.html">
+<meta property="og:site_name" content="Dream Maker">
+<meta property="og:description" content="Julia v1.4 已經釋出啦！這邊來跟大家介紹一些新功能。 底下新功能後面會有括弧，附註相關的實作程式碼。">
+<meta property="og:locale" content="zh_TW">
+<meta property="article:published_time" content="2020-03-24T04:02:05.000Z">
+<meta property="article:modified_time" content="2020-03-24T04:02:05.904Z">
+<meta property="article:author" content="Yueh-Hua Tu">
+<meta property="article:tag" content="machine learning">
+<meta property="article:tag" content="deep learning">
+<meta property="article:tag" content="topology">
+<meta name="twitter:card" content="summary">
+    
+    
+        
+    
+    
+    
+    
+    
+    <!--STYLES-->
+    
+<link rel="stylesheet" href="/assets/css/style-3frockyt2j28isvdztjchy5nhkz8tjki9ermufc1ckptmvjdftux94m2ahub.min.css">
+
+    <!--STYLES END-->
+    
+    <script type="text/javascript">
+        (function (i, s, o, g, r, a, m) {
+        i['GoogleAnalyticsObject'] = r; i[r] = i[r] || function () {
+            (i[r].q = i[r].q || []).push(arguments)
+        }, i[r].l = 1 * new Date(); a = s.createElement(o),
+            m = s.getElementsByTagName(o)[0]; a.async = 1; a.src = g; m.parentNode.insertBefore(a, m)
+        })(window, document, 'script', '//www.google-analytics.com/analytics.js', 'ga');
+
+        ga('create', 'UA-119690895-1', 'auto');
+        ga('send', 'pageview');
+    </script><!-- hexo-inject:begin --><!-- hexo-inject:end -->
+    
+    
+</head>
+
+    <body>
+        <!-- hexo-inject:begin --><!-- hexo-inject:end --><div id="blog">
+            <!-- Define author's picture -->
+
+
+    
+
+<header id="header" data-behavior="5">
+    <i id="btn-open-sidebar" class="fa fa-lg fa-bars"></i>
+    <div class="header-title">
+        <a class="header-title-link" href="/%20">Dream Maker</a>
+    </div>
+    
+        
+            <a  class="header-right-picture "
+                href="#about">
+        
+        
+        </a>
+    
+</header>
+
+            <!-- Define author's picture -->
+
+
+<nav id="sidebar" data-behavior="5">
+    <div class="sidebar-container">
+        
+        
+            <ul class="sidebar-buttons">
+            
+                <li class="sidebar-button">
+                    
+                        <a  class="sidebar-button-link "
+                             href="/%20"
+                            
+                            title="首頁"
+                        >
+                    
+                        <i class="sidebar-button-icon fa fa-home" aria-hidden="true"></i>
+                        <span class="sidebar-button-desc">首頁</span>
+                    </a>
+            </li>
+            
+                <li class="sidebar-button">
+                    
+                        <a  class="sidebar-button-link "
+                             href="/all-categories"
+                            
+                            title="分類"
+                        >
+                    
+                        <i class="sidebar-button-icon fa fa-bookmark" aria-hidden="true"></i>
+                        <span class="sidebar-button-desc">分類</span>
+                    </a>
+            </li>
+            
+                <li class="sidebar-button">
+                    
+                        <a  class="sidebar-button-link "
+                             href="/all-tags"
+                            
+                            title="標籤"
+                        >
+                    
+                        <i class="sidebar-button-icon fa fa-tags" aria-hidden="true"></i>
+                        <span class="sidebar-button-desc">標籤</span>
+                    </a>
+            </li>
+            
+                <li class="sidebar-button">
+                    
+                        <a  class="sidebar-button-link "
+                             href="/all-archives"
+                            
+                            title="所有文章"
+                        >
+                    
+                        <i class="sidebar-button-icon fa fa-archive" aria-hidden="true"></i>
+                        <span class="sidebar-button-desc">所有文章</span>
+                    </a>
+            </li>
+            
+                <li class="sidebar-button">
+                    
+                        <a  class="sidebar-button-link open-algolia-search"
+                             href="#search"
+                            
+                            title="搜尋"
+                        >
+                    
+                        <i class="sidebar-button-icon fa fa-search" aria-hidden="true"></i>
+                        <span class="sidebar-button-desc">搜尋</span>
+                    </a>
+            </li>
+            
+                <li class="sidebar-button">
+                    
+                        <a  class="sidebar-button-link "
+                             href="#about"
+                            
+                            title="關於"
+                        >
+                    
+                        <i class="sidebar-button-icon fa fa-question" aria-hidden="true"></i>
+                        <span class="sidebar-button-desc">關於</span>
+                    </a>
+            </li>
+            
+        </ul>
+        
+            <ul class="sidebar-buttons">
+            
+                <li class="sidebar-button">
+                    
+                        <a  class="sidebar-button-link " href="https://github.com/yuehhua/" target="_blank" rel="noopener" title="GitHub">
+                    
+                        <i class="sidebar-button-icon fab fa-github" aria-hidden="true"></i>
+                        <span class="sidebar-button-desc">GitHub</span>
+                    </a>
+            </li>
+            
+                <li class="sidebar-button">
+                    
+                        <a  class="sidebar-button-link " href="https://www.facebook.com/a504082002" target="_blank" rel="noopener" title="Facebook">
+                    
+                        <i class="sidebar-button-icon fab fa-facebook" aria-hidden="true"></i>
+                        <span class="sidebar-button-desc">Facebook</span>
+                    </a>
+            </li>
+            
+                <li class="sidebar-button">
+                    
+                        <a  class="sidebar-button-link " href="https://www.linkedin.com/in/%E5%B2%B3%E8%8F%AF-%E6%9D%9C-6a3995a0/" target="_blank" rel="noopener" title="LinkedIn">
+                    
+                        <i class="sidebar-button-icon fab fa-linkedin" aria-hidden="true"></i>
+                        <span class="sidebar-button-desc">LinkedIn</span>
+                    </a>
+            </li>
+            
+                <li class="sidebar-button">
+                    
+                        <a  class="sidebar-button-link " href="mailto:a504082002@gmail.com" target="_blank" rel="noopener" title="Email">
+                    
+                        <i class="sidebar-button-icon fab fa-envelope" aria-hidden="true"></i>
+                        <span class="sidebar-button-desc">Email</span>
+                    </a>
+            </li>
+            
+        </ul>
+        
+            <ul class="sidebar-buttons">
+            
+                <li class="sidebar-button">
+                    
+                        <a  class="sidebar-button-link "
+                             href="/atom.xml"
+                            
+                            title="Atom"
+                        >
+                    
+                        <i class="sidebar-button-icon fa fa-rss" aria-hidden="true"></i>
+                        <span class="sidebar-button-desc">Atom</span>
+                    </a>
+            </li>
+            
+        </ul>
+        
+    </div>
+</nav>
+
+            
+            <div id="main" data-behavior="5"
+                 class="
+                        hasCoverMetaIn
+                        ">
+                
+    <article class="post">
+        
+                
+                    <div class="post-header main-content-wrap text-left">
+    
+        <h1 class="post-title">
+            julia v1.4 釋出
+        </h1>
+    
+    
+        <div class="post-meta">
+    <time datetime="2020-03-24T12:02:05+08:00">
+	
+		    3月 24, 2020
+    	
+    </time>
+    
+        <span>分類 </span>
+        
+    <a class="category-link" href="/categories/My-Style/">My Style</a>, <a class="category-link" href="/categories/My-Style/Computer-Science/">Computer Science</a>, <a class="category-link" href="/categories/My-Style/Computer-Science/Julialang/">Julialang</a>
+
+
+    
+</div>
+
+    
+</div>
+
+                        
+                            <div class="post-content markdown">
+                                <div class="main-content-wrap">
+                                    <p>Julia v1.4 已經釋出啦！這邊來跟大家介紹一些新功能。<br>
+底下新功能後面會有括弧，附註相關的實作程式碼。</p>
+<a id="more"></a>
+<h2 id="重要功能">重要功能</h2>
+<h3 id="使用者功能">使用者功能</h3>
+<ul>
+<li><code>import</code> 允許符號，例如 <code>import Base.:+</code>。(#33158)</li>
+<li>允許使用 <code>a[begin]</code> 來存取 <code>a</code> 的首位元素。首位元素的索引是由 <code>firstindex(a)</code> 計算得出。(#33946)</li>
+</ul>
+<figure class="highlight julia"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">julia&gt; x = [<span class="number">1</span>,<span class="number">2</span>,<span class="number">3</span>]</span><br><span class="line"><span class="number">3</span>-element <span class="built_in">Array</span>&#123;<span class="built_in">Int64</span>,<span class="number">1</span>&#125;:</span><br><span class="line"> <span class="number">1</span></span><br><span class="line"> <span class="number">2</span></span><br><span class="line"> <span class="number">3</span></span><br><span class="line"></span><br><span class="line">julia&gt; x[<span class="keyword">begin</span>]</span><br><span class="line"><span class="number">1</span></span><br></pre></td></tr></table></figure>
+<ul>
+<li>值可以藉由 <code>$</code> 內插到 <code>@async</code> 及 <code>@spawn</code> 中，它會將值直接複製一份到閉包（closure）中。(#33119)</li>
+</ul>
+<h3 id="開發者功能">開發者功能</h3>
+<ul>
+<li>結構 <code>struct</code> 當中，所有位元（isbits）或是位元聯集（isbitsunion）的欄位（fields）都會儲存為陣列的元素。(#32448)</li>
+</ul>
+<p>以前在 Julia 的結構當中，只有所有欄位都有相同的型別，而且型別都是原始型別時，Julia 底層會將他們封裝到一個陣列中，如此可以加速。在 v1.4 版後放寬了這樣的限制，讓有所有位元欄位都儲存為陣列。</p>
+<h2 id="新功能">新功能</h2>
+<ul>
+<li>Iterators 模組中有 <code>accumulate</code> 實作。(#34033)</li>
+</ul>
+<p>Jeff 頗驚訝，之前怎麼沒有這個功能XD</p>
+<figure class="highlight julia"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">julia&gt; x = [<span class="number">1</span>,<span class="number">2</span>,<span class="number">3</span>]</span><br><span class="line"><span class="number">3</span>-element <span class="built_in">Array</span>&#123;<span class="built_in">Int64</span>,<span class="number">1</span>&#125;:</span><br><span class="line"> <span class="number">1</span></span><br><span class="line"> <span class="number">2</span></span><br><span class="line"> <span class="number">3</span></span><br><span class="line"></span><br><span class="line">julia&gt; iter = Iterators.accumulate(+, x)</span><br><span class="line">Base.Iterators.Accumulate&#123;typeof(+),<span class="built_in">Array</span>&#123;<span class="built_in">Int64</span>,<span class="number">1</span>&#125;&#125;(+, [<span class="number">1</span>, <span class="number">2</span>, <span class="number">3</span>])</span><br><span class="line"></span><br><span class="line">julia&gt; foreach(println, iter)</span><br><span class="line"><span class="number">1</span></span><br><span class="line"><span class="number">3</span></span><br><span class="line"><span class="number">6</span></span><br></pre></td></tr></table></figure>
+<p>功能與 <code>Base.accumulate</code> 雷同，但是屬於 lazy evaluation。</p>
+<ul>
+<li><code>evalpoly</code> 可以用來計算多項式函數，例如 <code>evalpoly(x, (p1, p2, p3))</code>。(#32753)</li>
+</ul>
+<figure class="highlight julia"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">julia&gt; evalpoly(<span class="number">5</span>, (<span class="number">10</span>, <span class="number">3</span>, <span class="number">1</span>))</span><br><span class="line"><span class="number">50</span></span><br></pre></td></tr></table></figure>
+<p>相當於計算 $p(5) = 10 + 3\times5 + 1\times5^2$。</p>
+<ul>
+<li>允許複合函數（function composition）<code>∘(f, g, h) = f ∘ g ∘ h</code>，以及解開 <code>∘(fs...)</code>，當中 <code>fs</code> 可以是 Iterable 的函數集合。(#33568)</li>
+</ul>
+<figure class="highlight julia"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">julia&gt; f(x) = x + <span class="number">1</span></span><br><span class="line">f (generic <span class="keyword">function</span> with <span class="number">1</span> method)</span><br><span class="line"></span><br><span class="line">julia&gt; g(x) = <span class="number">2</span>x</span><br><span class="line">g (generic <span class="keyword">function</span> with <span class="number">1</span> method)</span><br><span class="line"></span><br><span class="line">julia&gt; F = f∘g</span><br><span class="line"><span class="comment">#64 (generic function with 1 method)</span></span><br><span class="line"></span><br><span class="line">julia&gt; F(<span class="number">5</span>)</span><br><span class="line"><span class="number">11</span></span><br></pre></td></tr></table></figure>
+<h2 id="新支援">新支援</h2>
+<ul>
+<li><code>gcd</code>、<code>lcm</code> 及 <code>gcdx</code> 支援 <code>Rational</code> 型別的參數。(#33910)</li>
+<li><code>splitpath</code> 支援任何 <code>AbstractString</code> 型別，然而以前只支援 <code>String</code> 的路徑。(#33012)</li>
+<li><code>filter</code> 可以作用在 <code>Tuple</code> 上。(#32968)</li>
+</ul>
+
+                                        
+
+                                </div>
+                            </div>
+                            <div id="post-footer" class="post-footer main-content-wrap">
+                                
+                                        
+                                            <div class="post-actions-wrap">
+    <nav>
+        <ul class="post-actions post-action-nav">
+            <li class="post-action">
+                
+                    <a class="post-action-btn btn btn--disabled">
+                
+                    <i class="fa fa-angle-left" aria-hidden="true"></i>
+                    <span class="hide-xs hide-sm text-small icon-ml">上一篇</span>
+                </a>
+            </li>
+            <li class="post-action">
+                
+                    
+                    <a class="post-action-btn btn btn--default tooltip--top" href="/2020/03/01/from-iterator-and-generator-to-iterable/" data-tooltip="從 iterator 及 generator 到 iterable" aria-label="下一篇: 從 iterator 及 generator 到 iterable">
+                
+                    <span class="hide-xs hide-sm text-small icon-mr">下一篇</span>
+                    <i class="fa fa-angle-right" aria-hidden="true"></i>
+                </a>
+            </li>
+        </ul>
+    </nav>
+    <ul class="post-actions post-action-share">
+        <li class="post-action hide-lg hide-md hide-sm">
+            <a class="post-action-btn btn btn--default btn-open-shareoptions" href="#btn-open-shareoptions" aria-label="Share this post">
+                <i class="fa fa-share-alt" aria-hidden="true"></i>
+            </a>
+        </li>
+        
+            
+            
+            <li class="post-action hide-xs">
+                <a class="post-action-btn btn btn--default" target="new" href="https://www.facebook.com/sharer/sharer.php?u=https://yuehhua.github.io/2020/03/24/julia-v1-4-release/" title="分享到 Facebook">
+                    <i class="fa fa-facebook-official" aria-hidden="true"></i>
+                </a>
+            </li>
+        
+        
+            
+                <li class="post-action">
+                    <a class="post-action-btn btn btn--default" href="#disqus_thread">
+                        <i class="fa fa-comment-o"></i>
+                    </a>
+                </li>
+            
+        
+        <li class="post-action">
+            
+                <a class="post-action-btn btn btn--default" href="#" aria-label="Back to top">
+            
+                <i class="fa fa-list" aria-hidden="true"></i>
+            </a>
+        </li>
+    </ul>
+</div>
+
+
+                                                
+                                                    
+                                                        
+                                                            <div id="disqus_thread">
+    <noscript>Please enable JavaScript to view the <a href="//disqus.com/?ref_noscript" target="_blank" rel="noopener">comments powered by Disqus.</a></noscript>
+</div>
+                                                                
+                                                                            
+                            </div>
+                            
+                                <script src='https://unpkg.com/mermaid@7.1.2/dist/mermaid.min.js'></script>
+                                <script>
+                                    if (window.mermaid) {
+                                        mermaid.initialize({ theme: 'forest' });
+                                    }
+                                </script>
+                                
+    </article>
+
+                <footer id="footer" class="main-content-wrap">
+    <span class="copyrights">
+        Copyrights &copy; 2020 Yueh-Hua Tu. All Rights Reserved.
+    </span>
+</footer>
+
+            </div>
+            
+                <div id="bottom-bar" class="post-bottom-bar" data-behavior="5">
+                    <div class="post-actions-wrap">
+    <nav>
+        <ul class="post-actions post-action-nav">
+            <li class="post-action">
+                
+                    <a class="post-action-btn btn btn--disabled">
+                
+                    <i class="fa fa-angle-left" aria-hidden="true"></i>
+                    <span class="hide-xs hide-sm text-small icon-ml">上一篇</span>
+                </a>
+            </li>
+            <li class="post-action">
+                
+                    
+                    <a class="post-action-btn btn btn--default tooltip--top" href="/2020/03/01/from-iterator-and-generator-to-iterable/" data-tooltip="從 iterator 及 generator 到 iterable" aria-label="下一篇: 從 iterator 及 generator 到 iterable">
+                
+                    <span class="hide-xs hide-sm text-small icon-mr">下一篇</span>
+                    <i class="fa fa-angle-right" aria-hidden="true"></i>
+                </a>
+            </li>
+        </ul>
+    </nav>
+    <ul class="post-actions post-action-share">
+        <li class="post-action hide-lg hide-md hide-sm">
+            <a class="post-action-btn btn btn--default btn-open-shareoptions" href="#btn-open-shareoptions" aria-label="Share this post">
+                <i class="fa fa-share-alt" aria-hidden="true"></i>
+            </a>
+        </li>
+        
+            
+            
+            <li class="post-action hide-xs">
+                <a class="post-action-btn btn btn--default" target="new" href="https://www.facebook.com/sharer/sharer.php?u=https://yuehhua.github.io/2020/03/24/julia-v1-4-release/" title="分享到 Facebook">
+                    <i class="fa fa-facebook-official" aria-hidden="true"></i>
+                </a>
+            </li>
+        
+        
+            
+                <li class="post-action">
+                    <a class="post-action-btn btn btn--default" href="#disqus_thread">
+                        <i class="fa fa-comment-o"></i>
+                    </a>
+                </li>
+            
+        
+        <li class="post-action">
+            
+                <a class="post-action-btn btn btn--default" href="#" aria-label="Back to top">
+            
+                <i class="fa fa-list" aria-hidden="true"></i>
+            </a>
+        </li>
+    </ul>
+</div>
+
+
+                </div>
+                <div id="share-options-bar" class="share-options-bar" data-behavior="5">
+    <i id="btn-close-shareoptions" class="fa fa-close"></i>
+    <ul class="share-options">
+        
+            
+            
+            <li class="share-option">
+                <a class="share-option-btn" target="new" href="https://www.facebook.com/sharer/sharer.php?u=https://yuehhua.github.io/2020/03/24/julia-v1-4-release/">
+                    <i class="fa fa-facebook-official" aria-hidden="true"></i><span>分享到 Facebook</span>
+                </a>
+            </li>
+        
+    </ul>
+</div>
+
+            
+        </div>
+        
+
+
+<div id="about">
+    <div id="about-card">
+        <div id="about-btn-close">
+            <i class="fa fa-remove"></i>
+        </div>
+        
+            <h4 id="about-card-name">Yueh-Hua Tu</h4>
+        
+            <div id="about-card-bio"><p>目標是計算生物學家！</br>Systems Biology, Computational Biology, Machine Learning</br>Julia Taiwan 發起人</p>
+</div>
+        
+        
+            <div id="about-card-job">
+                <i class="fa fa-briefcase"></i>
+                <br/>
+                <p>研發替代役研究助理</p>
+
+            </div>
+        
+        
+            <div id="about-card-location">
+                <i class="fa fa-map-marker"></i>
+                <br/>
+                Taiwan
+            </div>
+        
+    </div>
+</div>
+
+        
+        
+<div id="cover" style="background-image:url('/assets/images/cover.jpg');"></div>
+        <!--SCRIPTS-->
+
+<script src="/assets/js/script-xzfezjobyekpxrjktw5tz6muvzqfsbmo5n6atk3p5om9ulfptldi3p7cyqd8.min.js"></script>
+
+<!--SCRIPTS END-->
+
+
+<script>
+    var disqus_config = function () {
+        this.page.url = 'https://yuehhua.github.io/2020/03/24/julia-v1-4-release/';
+                 
+            this.page.identifier = '2020/03/24/julia-v1-4-release/';
+                 
+             };
+    (function () {
+        var d = document, s = d.createElement('script');
+        var disqus_shortname = 'dream-maker';
+        s.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+
+        s.setAttribute('data-timestamp', +new Date());
+        (d.head || d.body).appendChild(s);
+    })();
+</script><!-- hexo-inject:begin --><!-- Begin: Injected MathJax -->
+<script type="text/x-mathjax-config">
+  MathJax.Hub.Config({"tex2jax":{"inlineMath":[["$","$"],["\\(","\\)"]],"skipTags":["script","noscript","style","textarea","pre","code"],"processEscapes":true},"TeX":{"equationNumbers":{"autoNumber":"AMS"}}});
+</script>
+
+<script type="text/x-mathjax-config">
+  MathJax.Hub.Queue(function() {
+    var all = MathJax.Hub.getAllJax(), i;
+    for(i=0; i < all.length; i += 1) {
+      all[i].SourceElement().parentNode.className += ' has-jax';
+    }
+  });
+</script>
+
+<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.6/latest.js?config=TeX-AMS-MML_HTMLorMML">
+</script>
+<!-- End: Injected MathJax -->
+<!-- hexo-inject:end -->
+
+
+
+    </body>
+</html>

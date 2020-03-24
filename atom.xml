@@ -6,7 +6,7 @@
   <link href="/atom.xml" rel="self"/>
   
   <link href="https://yuehhua.github.io/"/>
-  <updated>2020-03-05T16:32:51.101Z</updated>
+  <updated>2020-03-24T04:02:05.904Z</updated>
   <id>https://yuehhua.github.io/</id>
   
   <author>
@@ -15,6 +15,32 @@
   </author>
   
   <generator uri="https://hexo.io/">Hexo</generator>
+  
+  <entry>
+    <title>julia v1.4 釋出</title>
+    <link href="https://yuehhua.github.io/2020/03/24/julia-v1-4-release/"/>
+    <id>https://yuehhua.github.io/2020/03/24/julia-v1-4-release/</id>
+    <published>2020-03-24T04:02:05.000Z</published>
+    <updated>2020-03-24T04:02:05.904Z</updated>
+    
+    <content type="html"><![CDATA[<p>Julia v1.4 已經釋出啦！這邊來跟大家介紹一些新功能。<br>底下新功能後面會有括弧，附註相關的實作程式碼。</p><a id="more"></a><h2 id="重要功能">重要功能</h2><h3 id="使用者功能">使用者功能</h3><ul><li><code>import</code> 允許符號，例如 <code>import Base.:+</code>。(#33158)</li><li>允許使用 <code>a[begin]</code> 來存取 <code>a</code> 的首位元素。首位元素的索引是由 <code>firstindex(a)</code> 計算得出。(#33946)</li></ul><figure class="highlight julia"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">julia&gt; x = [<span class="number">1</span>,<span class="number">2</span>,<span class="number">3</span>]</span><br><span class="line"><span class="number">3</span>-element <span class="built_in">Array</span>&#123;<span class="built_in">Int64</span>,<span class="number">1</span>&#125;:</span><br><span class="line"> <span class="number">1</span></span><br><span class="line"> <span class="number">2</span></span><br><span class="line"> <span class="number">3</span></span><br><span class="line"></span><br><span class="line">julia&gt; x[<span class="keyword">begin</span>]</span><br><span class="line"><span class="number">1</span></span><br></pre></td></tr></table></figure><ul><li>值可以藉由 <code>$</code> 內插到 <code>@async</code> 及 <code>@spawn</code> 中，它會將值直接複製一份到閉包（closure）中。(#33119)</li></ul><h3 id="開發者功能">開發者功能</h3><ul><li>結構 <code>struct</code> 當中，所有位元（isbits）或是位元聯集（isbitsunion）的欄位（fields）都會儲存為陣列的元素。(#32448)</li></ul><p>以前在 Julia 的結構當中，只有所有欄位都有相同的型別，而且型別都是原始型別時，Julia 底層會將他們封裝到一個陣列中，如此可以加速。在 v1.4 版後放寬了這樣的限制，讓有所有位元欄位都儲存為陣列。</p><h2 id="新功能">新功能</h2><ul><li>Iterators 模組中有 <code>accumulate</code> 實作。(#34033)</li></ul><p>Jeff 頗驚訝，之前怎麼沒有這個功能XD</p><figure class="highlight julia"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">julia&gt; x = [<span class="number">1</span>,<span class="number">2</span>,<span class="number">3</span>]</span><br><span class="line"><span class="number">3</span>-element <span class="built_in">Array</span>&#123;<span class="built_in">Int64</span>,<span class="number">1</span>&#125;:</span><br><span class="line"> <span class="number">1</span></span><br><span class="line"> <span class="number">2</span></span><br><span class="line"> <span class="number">3</span></span><br><span class="line"></span><br><span class="line">julia&gt; iter = Iterators.accumulate(+, x)</span><br><span class="line">Base.Iterators.Accumulate&#123;typeof(+),<span class="built_in">Array</span>&#123;<span class="built_in">Int64</span>,<span class="number">1</span>&#125;&#125;(+, [<span class="number">1</span>, <span class="number">2</span>, <span class="number">3</span>])</span><br><span class="line"></span><br><span class="line">julia&gt; foreach(println, iter)</span><br><span class="line"><span class="number">1</span></span><br><span class="line"><span class="number">3</span></span><br><span class="line"><span class="number">6</span></span><br></pre></td></tr></table></figure><p>功能與 <code>Base.accumulate</code> 雷同，但是屬於 lazy evaluation。</p><ul><li><code>evalpoly</code> 可以用來計算多項式函數，例如 <code>evalpoly(x, (p1, p2, p3))</code>。(#32753)</li></ul><figure class="highlight julia"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">julia&gt; evalpoly(<span class="number">5</span>, (<span class="number">10</span>, <span class="number">3</span>, <span class="number">1</span>))</span><br><span class="line"><span class="number">50</span></span><br></pre></td></tr></table></figure><p>相當於計算 $p(5) = 10 + 3\times5 + 1\times5^2$。</p><ul><li>允許複合函數（function composition）<code>∘(f, g, h) = f ∘ g ∘ h</code>，以及解開 <code>∘(fs...)</code>，當中 <code>fs</code> 可以是 Iterable 的函數集合。(#33568)</li></ul><figure class="highlight julia"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">julia&gt; f(x) = x + <span class="number">1</span></span><br><span class="line">f (generic <span class="keyword">function</span> with <span class="number">1</span> method)</span><br><span class="line"></span><br><span class="line">julia&gt; g(x) = <span class="number">2</span>x</span><br><span class="line">g (generic <span class="keyword">function</span> with <span class="number">1</span> method)</span><br><span class="line"></span><br><span class="line">julia&gt; F = f∘g</span><br><span class="line"><span class="comment">#64 (generic function with 1 method)</span></span><br><span class="line"></span><br><span class="line">julia&gt; F(<span class="number">5</span>)</span><br><span class="line"><span class="number">11</span></span><br></pre></td></tr></table></figure><h2 id="新支援">新支援</h2><ul><li><code>gcd</code>、<code>lcm</code> 及 <code>gcdx</code> 支援 <code>Rational</code> 型別的參數。(#33910)</li><li><code>splitpath</code> 支援任何 <code>AbstractString</code> 型別，然而以前只支援 <code>String</code> 的路徑。(#33012)</li><li><code>filter</code> 可以作用在 <code>Tuple</code> 上。(#32968)</li></ul>]]></content>
+    
+    <summary type="html">
+    
+      &lt;p&gt;Julia v1.4 已經釋出啦！這邊來跟大家介紹一些新功能。&lt;br&gt;
+底下新功能後面會有括弧，附註相關的實作程式碼。&lt;/p&gt;
+    
+    </summary>
+    
+    
+      <category term="My Style" scheme="https://yuehhua.github.io/categories/My-Style/"/>
+    
+      <category term="Computer Science" scheme="https://yuehhua.github.io/categories/My-Style/Computer-Science/"/>
+    
+      <category term="Julialang" scheme="https://yuehhua.github.io/categories/My-Style/Computer-Science/Julialang/"/>
+    
+    
+  </entry>
   
   <entry>
     <title>從 iterator 及 generator 到 iterable</title>
@@ -515,28 +541,6 @@ $$&lt;/p&gt;
       <category term="My Style" scheme="https://yuehhua.github.io/categories/My-Style/"/>
     
       <category term="Friends" scheme="https://yuehhua.github.io/categories/My-Style/Friends/"/>
-    
-    
-  </entry>
-  
-  <entry>
-    <title>The Deterministic Information Bottleneck</title>
-    <link href="https://yuehhua.github.io/2019/01/18/deterministic-information-bottleneck/"/>
-    <id>https://yuehhua.github.io/2019/01/18/deterministic-information-bottleneck/</id>
-    <published>2019-01-18T03:39:06.000Z</published>
-    <updated>2019-01-19T16:10:31.676Z</updated>
-    
-    <content type="html"><![CDATA[<p>在 Information Bottleneck 之後出現了不少驚豔的呼喊，也出現了指出這個方法的缺點及詮釋錯誤。</p><p>在這之後有人專注在確定性這件事上。</p><a id="more"></a><iframe width="560" height="315" src="https://www.youtube.com/embed/-D5b_zCJxrs" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">graph LR</span><br><span class="line">    X --&gt;|&quot;p(x, y)&quot;|Y</span><br><span class="line">    X --&gt;|&quot;q(t|x)&quot;|T</span><br><span class="line">    T --- Y</span><br><span class="line">    X((X))</span><br><span class="line">    Y((Y))</span><br><span class="line">    T((T))</span><br></pre></td></tr></table></figure><p>$T$:</p><ul><li>soft sufficient statistics (for statistics)</li><li>lossy compression (for signal)</li><li>maximally informative clustering (for machine learning)</li></ul><h2 id="IB">IB</h2><p>$$<br>min\ \mathcal{L} [q(t|x)] = I(T; X) - \beta I(T; Y), \beta &gt; 0<br>$$</p><p>$I(T; X)$: compression<br>$I(T; Y)$: relevance</p><p>Markov constraint: $T \leftarrow X \leftrightarrow Y$</p><p>$$<br>q(t|x) = \frac{q(t)}{Z(x, \beta)} exp(- \beta D_{KL} [p(y|x) || q(y|t)])) \\<br>q(t) = \sum_x p(x)q(t|x) \\<br>q(y|t) = \frac{1}{q(t)} \sum_x p(y|x)q(t|x)p(x)<br>$$</p><p>$I(T; X)$ from channel coding, rate distortion theory</p><h2 id="DIB">DIB</h2><p>$$<br>min\ \mathcal{L} [q(t|x)] = H(T) - \beta I(T; Y)<br>$$</p><p>$H(T)$: penalize coding itself<br>$I(T; Y)$: lead to deterministic $\mathcal{L}_{IB}$</p><p>$$<br>\mathcal{L} _{IB} - \mathcal{L} _{DIB} = I(T; X) - H(T) = -H(T|X)<br>$$</p><p>$\mathcal{L}_{IB}$: implicit encourage of stochastic</p><h2 id="Generalized-IB">Generalized IB</h2><p>$$<br>\mathcal{L}_{\alpha} = H(T) - \alpha H(T|X) - \beta I(Y; T)<br>$$</p><p>$\alpha = 1 \Rightarrow \mathcal{L} _{IB}$: stochastic $\rightarrow$ soft clustering<br>$\alpha = 0 \Rightarrow \mathcal{L} _{DIB}$: deterministic $\rightarrow$ hard clustering</p>]]></content>
-    
-    <summary type="html">
-    
-      &lt;p&gt;在 Information Bottleneck 之後出現了不少驚豔的呼喊，也出現了指出這個方法的缺點及詮釋錯誤。&lt;/p&gt;
-&lt;p&gt;在這之後有人專注在確定性這件事上。&lt;/p&gt;
-    
-    </summary>
-    
-    
-      <category term="Deep Learning" scheme="https://yuehhua.github.io/categories/Deep-Learning/"/>
     
     
   </entry>
