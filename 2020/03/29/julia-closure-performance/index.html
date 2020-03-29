@@ -1,0 +1,538 @@
+
+<!DOCTYPE html>
+<html lang="zh-tw,en,default">
+    
+<head>
+    <!-- hexo-inject:begin --><!-- hexo-inject:end --><meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="generator" content="Dream Maker">
+    <title>Julia 的閉包（closure）效能 - Dream Maker</title>
+    <meta name="author" content="Yueh-Hua Tu">
+    
+        <meta name="keywords" content="machine learning,deep learning,topology,">
+    
+    
+    
+        <link rel="alternate" type="application/atom+xml" title="RSS" href="/atom.xml">
+    
+    <script type="application/ld+json">{"@context":"http://schema.org","@type":"BlogPosting","author":{"@type":"Person","name":"Yueh-Hua Tu","sameAs":["https://github.com/yuehhua/","https://www.facebook.com/a504082002","https://www.linkedin.com/in/%E5%B2%B3%E8%8F%AF-%E6%9D%9C-6a3995a0/","mailto:a504082002@gmail.com"],"image":"https://www.gravatar.com/avatar/a565749fba4782b717234da670b273fd"},"articleBody":"前一陣子意外看到這篇文章，當中 JuliaData 的核心開發者描述他在開發過程中遇到的問題。他撞到一個有名的效能問題，這個效能瓶頸與閉包（closure）有關。\n\n閉包\n閉包（closure）在眾多語言當中都有支援，他是指函式中會包含外部的變數，像是將「變數」關進函式當中一樣。\n12345678910julia&gt; x = 11julia&gt; function foo(a)           return x + a       endfoo (generic function with 1 method)julia&gt; foo(5)6\n如以上函式 foo 就將 x 封進函式當中，所以運算結果就如同程式碼呈現。\n一旦外部的變數改變，而運算的結果也會跟著變動。\n12345julia&gt; x = 22julia&gt; foo(5)7\n而這樣有什麼效能問題呢？\n效能問題\n我們可以來測測看這樣的運算需要多久的時間？\n12345julia&gt; using BenchmarkToolsjulia&gt; @btime foo(5)  25.731 ns (0 allocations: 0 bytes)7\n這樣的時間對於一個整數加法來說算久嗎？我們需要一個對照組：\n1234567891011julia&gt; function bar(a)           return 2 + a       endbar (generic function with 1 method)julia&gt; bar(5)7julia&gt; @btime bar(5)  0.021 ns (0 allocations: 0 bytes)7\n我們模擬不用閉包的狀況，單純計算兩個整數相加的狀況，所以直接將整數寫在函式當中。\n會發現其實整數加法非常快，連 0.1 ns 都不到。這樣的話跟使用閉包的效能有相當大的差異，約是 1225 倍！\n分析\n那面對這樣的效能問題的原因是什麼呢？\n追根究底，這樣的效能問題來自 type instability。\n也就是被封進函式的變數無法進行型別推斷（type inference），導致的效能低落。\n我們用 @code_warntype 來看看，他可以顯示在函式的哪一個部份型別推斷的結果仍然是 Any 或 Union{}，這會造成效能問題。\n1234567891011121314151617julia&gt; @code_warntype foo(5)Variables  #self#::Core.Compiler.Const(foo, false)  a::Int64Body::Any1 ─ %1 = (Main.x + a)::Any└──      return %1julia&gt; @code_warntype bar(5)Variables  #self#::Core.Compiler.Const(bar, false)  a::Int64Body::Int641 ─ %1 = (2 + a)::Int64└──      return %1\n我們可以很明顯看到 foo(5) 的型別推斷結果是 Body::Any，而 bar(5) 則是 Body::Int64。\n代表兩者會回傳不同的型別的結果。在 foo(5) 中並不確定 Main.x 是什麼樣的型別，由於這個變數所存在的作用域（scope）並不在這個函式中，所以無法推斷其型別。相對 bar(5) 就好很多。\n解法\n知道原因了，那我們有沒有什麼解法呢？\n解法有兩種：\n使用常數\n使用常數來定義要被封進函式的變數，由於常數本身的型別是固定的，所以編譯器就有辦法進行型別推斷。\n123456789101112131415161718julia&gt; const x = 22julia&gt; foo(5)7julia&gt; @btime foo(5)  0.020 ns (0 allocations: 0 bytes)7julia&gt; @code_warntype foo(5)Variables  #self#::Core.Compiler.Const(foo, false)  a::Int64Body::Int641 ─ %1 = (Main.x + a)::Int64└──      return %1\n我們可以看到使用常數後，執行時間變得非常接近 bar 了，而 @code_warntype 也顯示可以進行型別推斷。\n可是我們不一定能總是把要封進閉包的變數設定為常數阿，這樣會非常不方便。\n使用 let\n另一個作法是使用 let，let 可以創造出一個作用域，在這個作用域當中被宣告的變數會存在。\n123456789101112131415161718julia&gt; foo = let x = 2       a -&gt; x + a       end#3 (generic function with 1 method)julia&gt; @code_warntype foo(5)Variables  #self#::var\"#3#4\"&#123;Int64&#125;  a::Int64Body::Int641 ─ %1 = Core.getfield(#self#, :x)::Int64│   %2 = (%1 + a)::Int64└──      return %2julia&gt; @btime foo(5)  19.774 ns (0 allocations: 0 bytes)7\n這個作法就是有個 let 區塊，並且定義在這個作用域中 x = 2。然後我在這個區塊中定義了匿名函式，匿名函式最後指定給 foo，這樣我就可以把 foo 當成一般的函式呼叫了。\n我們可以看到有成功的型別推斷，但是執行時間似乎沒有好太多。這邊又牽涉到 Julia 底層的作用機制了。（攤手\n今天我們的解析就先到這邊為止，感謝大家閱讀。\n","dateCreated":"2020-03-29T23:12:13+08:00","dateModified":"2020-03-29T23:12:54+08:00","datePublished":"2020-03-29T23:12:13+08:00","description":"前一陣子意外看到這篇文章，當中 JuliaData 的核心開發者描述他在開發過程中遇到的問題。他撞到一個有名的效能問題，這個效能瓶頸與閉包（closure）有關。","headline":"Julia 的閉包（closure）效能","image":[],"mainEntityOfPage":{"@type":"WebPage","@id":"https://yuehhua.github.io/2020/03/29/julia-closure-performance/"},"publisher":{"@type":"Organization","name":"Yueh-Hua Tu","sameAs":["https://github.com/yuehhua/","https://www.facebook.com/a504082002","https://www.linkedin.com/in/%E5%B2%B3%E8%8F%AF-%E6%9D%9C-6a3995a0/","mailto:a504082002@gmail.com"],"image":"https://www.gravatar.com/avatar/a565749fba4782b717234da670b273fd","logo":{"@type":"ImageObject","url":"https://www.gravatar.com/avatar/a565749fba4782b717234da670b273fd"}},"url":"https://yuehhua.github.io/2020/03/29/julia-closure-performance/"}</script>
+    <meta name="description" content="前一陣子意外看到這篇文章，當中 JuliaData 的核心開發者描述他在開發過程中遇到的問題。他撞到一個有名的效能問題，這個效能瓶頸與閉包（closure）有關。">
+<meta property="og:type" content="blog">
+<meta property="og:title" content="Julia 的閉包（closure）效能">
+<meta property="og:url" content="https://yuehhua.github.io/2020/03/29/julia-closure-performance/index.html">
+<meta property="og:site_name" content="Dream Maker">
+<meta property="og:description" content="前一陣子意外看到這篇文章，當中 JuliaData 的核心開發者描述他在開發過程中遇到的問題。他撞到一個有名的效能問題，這個效能瓶頸與閉包（closure）有關。">
+<meta property="og:locale" content="zh_TW">
+<meta property="article:published_time" content="2020-03-29T15:12:13.000Z">
+<meta property="article:modified_time" content="2020-03-29T15:12:54.590Z">
+<meta property="article:author" content="Yueh-Hua Tu">
+<meta property="article:tag" content="machine learning">
+<meta property="article:tag" content="deep learning">
+<meta property="article:tag" content="topology">
+<meta name="twitter:card" content="summary">
+    
+    
+        
+    
+    
+    
+    
+    
+    <!--STYLES-->
+    
+<link rel="stylesheet" href="/assets/css/style-3frockyt2j28isvdztjchy5nhkz8tjki9ermufc1ckptmvjdftux94m2ahub.min.css">
+
+    <!--STYLES END-->
+    
+    <script type="text/javascript">
+        (function (i, s, o, g, r, a, m) {
+        i['GoogleAnalyticsObject'] = r; i[r] = i[r] || function () {
+            (i[r].q = i[r].q || []).push(arguments)
+        }, i[r].l = 1 * new Date(); a = s.createElement(o),
+            m = s.getElementsByTagName(o)[0]; a.async = 1; a.src = g; m.parentNode.insertBefore(a, m)
+        })(window, document, 'script', '//www.google-analytics.com/analytics.js', 'ga');
+
+        ga('create', 'UA-119690895-1', 'auto');
+        ga('send', 'pageview');
+    </script><!-- hexo-inject:begin --><!-- hexo-inject:end -->
+    
+    
+</head>
+
+    <body>
+        <!-- hexo-inject:begin --><!-- hexo-inject:end --><div id="blog">
+            <!-- Define author's picture -->
+
+
+    
+
+<header id="header" data-behavior="5">
+    <i id="btn-open-sidebar" class="fa fa-lg fa-bars"></i>
+    <div class="header-title">
+        <a class="header-title-link" href="/%20">Dream Maker</a>
+    </div>
+    
+        
+            <a  class="header-right-picture "
+                href="#about">
+        
+        
+        </a>
+    
+</header>
+
+            <!-- Define author's picture -->
+
+
+<nav id="sidebar" data-behavior="5">
+    <div class="sidebar-container">
+        
+        
+            <ul class="sidebar-buttons">
+            
+                <li class="sidebar-button">
+                    
+                        <a  class="sidebar-button-link "
+                             href="/%20"
+                            
+                            title="首頁"
+                        >
+                    
+                        <i class="sidebar-button-icon fa fa-home" aria-hidden="true"></i>
+                        <span class="sidebar-button-desc">首頁</span>
+                    </a>
+            </li>
+            
+                <li class="sidebar-button">
+                    
+                        <a  class="sidebar-button-link "
+                             href="/all-categories"
+                            
+                            title="分類"
+                        >
+                    
+                        <i class="sidebar-button-icon fa fa-bookmark" aria-hidden="true"></i>
+                        <span class="sidebar-button-desc">分類</span>
+                    </a>
+            </li>
+            
+                <li class="sidebar-button">
+                    
+                        <a  class="sidebar-button-link "
+                             href="/all-tags"
+                            
+                            title="標籤"
+                        >
+                    
+                        <i class="sidebar-button-icon fa fa-tags" aria-hidden="true"></i>
+                        <span class="sidebar-button-desc">標籤</span>
+                    </a>
+            </li>
+            
+                <li class="sidebar-button">
+                    
+                        <a  class="sidebar-button-link "
+                             href="/all-archives"
+                            
+                            title="所有文章"
+                        >
+                    
+                        <i class="sidebar-button-icon fa fa-archive" aria-hidden="true"></i>
+                        <span class="sidebar-button-desc">所有文章</span>
+                    </a>
+            </li>
+            
+                <li class="sidebar-button">
+                    
+                        <a  class="sidebar-button-link open-algolia-search"
+                             href="#search"
+                            
+                            title="搜尋"
+                        >
+                    
+                        <i class="sidebar-button-icon fa fa-search" aria-hidden="true"></i>
+                        <span class="sidebar-button-desc">搜尋</span>
+                    </a>
+            </li>
+            
+                <li class="sidebar-button">
+                    
+                        <a  class="sidebar-button-link "
+                             href="#about"
+                            
+                            title="關於"
+                        >
+                    
+                        <i class="sidebar-button-icon fa fa-question" aria-hidden="true"></i>
+                        <span class="sidebar-button-desc">關於</span>
+                    </a>
+            </li>
+            
+        </ul>
+        
+            <ul class="sidebar-buttons">
+            
+                <li class="sidebar-button">
+                    
+                        <a  class="sidebar-button-link " href="https://github.com/yuehhua/" target="_blank" rel="noopener" title="GitHub">
+                    
+                        <i class="sidebar-button-icon fab fa-github" aria-hidden="true"></i>
+                        <span class="sidebar-button-desc">GitHub</span>
+                    </a>
+            </li>
+            
+                <li class="sidebar-button">
+                    
+                        <a  class="sidebar-button-link " href="https://www.facebook.com/a504082002" target="_blank" rel="noopener" title="Facebook">
+                    
+                        <i class="sidebar-button-icon fab fa-facebook" aria-hidden="true"></i>
+                        <span class="sidebar-button-desc">Facebook</span>
+                    </a>
+            </li>
+            
+                <li class="sidebar-button">
+                    
+                        <a  class="sidebar-button-link " href="https://www.linkedin.com/in/%E5%B2%B3%E8%8F%AF-%E6%9D%9C-6a3995a0/" target="_blank" rel="noopener" title="LinkedIn">
+                    
+                        <i class="sidebar-button-icon fab fa-linkedin" aria-hidden="true"></i>
+                        <span class="sidebar-button-desc">LinkedIn</span>
+                    </a>
+            </li>
+            
+                <li class="sidebar-button">
+                    
+                        <a  class="sidebar-button-link " href="mailto:a504082002@gmail.com" target="_blank" rel="noopener" title="Email">
+                    
+                        <i class="sidebar-button-icon fab fa-envelope" aria-hidden="true"></i>
+                        <span class="sidebar-button-desc">Email</span>
+                    </a>
+            </li>
+            
+        </ul>
+        
+            <ul class="sidebar-buttons">
+            
+                <li class="sidebar-button">
+                    
+                        <a  class="sidebar-button-link "
+                             href="/atom.xml"
+                            
+                            title="Atom"
+                        >
+                    
+                        <i class="sidebar-button-icon fa fa-rss" aria-hidden="true"></i>
+                        <span class="sidebar-button-desc">Atom</span>
+                    </a>
+            </li>
+            
+        </ul>
+        
+    </div>
+</nav>
+
+            
+            <div id="main" data-behavior="5"
+                 class="
+                        hasCoverMetaIn
+                        ">
+                
+    <article class="post">
+        
+                
+                    <div class="post-header main-content-wrap text-left">
+    
+        <h1 class="post-title">
+            Julia 的閉包（closure）效能
+        </h1>
+    
+    
+        <div class="post-meta">
+    <time datetime="2020-03-29T23:12:13+08:00">
+	
+		    3月 29, 2020
+    	
+    </time>
+    
+        <span>分類 </span>
+        
+    <a class="category-link" href="/categories/My-Style/">My Style</a>, <a class="category-link" href="/categories/My-Style/Computer-Science/">Computer Science</a>, <a class="category-link" href="/categories/My-Style/Computer-Science/Julialang/">Julialang</a>
+
+
+    
+</div>
+
+    
+</div>
+
+                        
+                            <div class="post-content markdown">
+                                <div class="main-content-wrap">
+                                    <p>前一陣子意外看到<a href="https://quinnj.home.blog/2019/12/31/byo-closures-for-performance/" target="_blank" rel="noopener">這篇文章</a>，當中 JuliaData 的核心開發者描述他在開發過程中遇到的問題。他撞到一個有名的效能問題，這個效能瓶頸與閉包（closure）有關。</p>
+<a id="more"></a>
+<h2 id="閉包">閉包</h2>
+<p>閉包（closure）在眾多語言當中都有支援，他是指函式中會包含外部的變數，像是將「變數」關進函式當中一樣。</p>
+<figure class="highlight julia"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">julia&gt; x = <span class="number">1</span></span><br><span class="line"><span class="number">1</span></span><br><span class="line"></span><br><span class="line">julia&gt; <span class="keyword">function</span> foo(a)</span><br><span class="line">           <span class="keyword">return</span> x + a</span><br><span class="line">       <span class="keyword">end</span></span><br><span class="line">foo (generic <span class="keyword">function</span> with <span class="number">1</span> method)</span><br><span class="line"></span><br><span class="line">julia&gt; foo(<span class="number">5</span>)</span><br><span class="line"><span class="number">6</span></span><br></pre></td></tr></table></figure>
+<p>如以上函式 <code>foo</code> 就將 <code>x</code> 封進函式當中，所以運算結果就如同程式碼呈現。</p>
+<p>一旦外部的變數改變，而運算的結果也會跟著變動。</p>
+<figure class="highlight julia"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">julia&gt; x = <span class="number">2</span></span><br><span class="line"><span class="number">2</span></span><br><span class="line"></span><br><span class="line">julia&gt; foo(<span class="number">5</span>)</span><br><span class="line"><span class="number">7</span></span><br></pre></td></tr></table></figure>
+<p>而這樣有什麼效能問題呢？</p>
+<h2 id="效能問題">效能問題</h2>
+<p>我們可以來測測看這樣的運算需要多久的時間？</p>
+<figure class="highlight julia"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">julia&gt; <span class="keyword">using</span> BenchmarkTools</span><br><span class="line"></span><br><span class="line">julia&gt; <span class="meta">@btime</span> foo(<span class="number">5</span>)</span><br><span class="line">  <span class="number">25.731</span> ns (<span class="number">0</span> allocations: <span class="number">0</span> bytes)</span><br><span class="line"><span class="number">7</span></span><br></pre></td></tr></table></figure>
+<p>這樣的時間對於一個整數加法來說算久嗎？我們需要一個對照組：</p>
+<figure class="highlight julia"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">julia&gt; <span class="keyword">function</span> bar(a)</span><br><span class="line">           <span class="keyword">return</span> <span class="number">2</span> + a</span><br><span class="line">       <span class="keyword">end</span></span><br><span class="line">bar (generic <span class="keyword">function</span> with <span class="number">1</span> method)</span><br><span class="line"></span><br><span class="line">julia&gt; bar(<span class="number">5</span>)</span><br><span class="line"><span class="number">7</span></span><br><span class="line"></span><br><span class="line">julia&gt; <span class="meta">@btime</span> bar(<span class="number">5</span>)</span><br><span class="line">  <span class="number">0.021</span> ns (<span class="number">0</span> allocations: <span class="number">0</span> bytes)</span><br><span class="line"><span class="number">7</span></span><br></pre></td></tr></table></figure>
+<p>我們模擬不用閉包的狀況，單純計算兩個整數相加的狀況，所以直接將整數寫在函式當中。<br>
+會發現其實整數加法非常快，連 0.1 ns 都不到。這樣的話跟使用閉包的效能有相當大的差異，約是 1225 倍！</p>
+<h2 id="分析">分析</h2>
+<p>那面對這樣的效能問題的原因是什麼呢？<br>
+追根究底，這樣的效能問題來自 type instability。<br>
+也就是被封進函式的變數無法進行型別推斷（type inference），導致的效能低落。<br>
+我們用 <code>@code_warntype</code> 來看看，他可以顯示在函式的哪一個部份型別推斷的結果仍然是 <code>Any</code> 或 <code>Union{}</code>，這會造成效能問題。</p>
+<figure class="highlight julia"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line">julia&gt; <span class="meta">@code_warntype</span> foo(<span class="number">5</span>)</span><br><span class="line">Variables</span><br><span class="line">  <span class="comment">#self#::Core.Compiler.Const(foo, false)</span></span><br><span class="line">  a::<span class="built_in">Int64</span></span><br><span class="line"></span><br><span class="line">Body::<span class="built_in">Any</span></span><br><span class="line"><span class="number">1</span> ─ %<span class="number">1</span> = (Main.x + a)::<span class="built_in">Any</span></span><br><span class="line">└──      <span class="keyword">return</span> %<span class="number">1</span></span><br><span class="line"></span><br><span class="line">julia&gt; <span class="meta">@code_warntype</span> bar(<span class="number">5</span>)</span><br><span class="line">Variables</span><br><span class="line">  <span class="comment">#self#::Core.Compiler.Const(bar, false)</span></span><br><span class="line">  a::<span class="built_in">Int64</span></span><br><span class="line"></span><br><span class="line">Body::<span class="built_in">Int64</span></span><br><span class="line"><span class="number">1</span> ─ %<span class="number">1</span> = (<span class="number">2</span> + a)::<span class="built_in">Int64</span></span><br><span class="line">└──      <span class="keyword">return</span> %<span class="number">1</span></span><br></pre></td></tr></table></figure>
+<p>我們可以很明顯看到 <code>foo(5)</code> 的型別推斷結果是 <code>Body::Any</code>，而 <code>bar(5)</code> 則是 <code>Body::Int64</code>。<br>
+代表兩者會回傳不同的型別的結果。在 <code>foo(5)</code> 中並不確定 <code>Main.x</code> 是什麼樣的型別，由於這個變數所存在的作用域（scope）並不在這個函式中，所以無法推斷其型別。相對 <code>bar(5)</code> 就好很多。</p>
+<h2 id="解法">解法</h2>
+<p>知道原因了，那我們有沒有什麼解法呢？<br>
+解法有兩種：</p>
+<h3 id="使用常數">使用常數</h3>
+<p>使用常數來定義要被封進函式的變數，由於常數本身的型別是固定的，所以編譯器就有辦法進行型別推斷。</p>
+<figure class="highlight julia"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line">julia&gt; <span class="keyword">const</span> x = <span class="number">2</span></span><br><span class="line"><span class="number">2</span></span><br><span class="line"></span><br><span class="line">julia&gt; foo(<span class="number">5</span>)</span><br><span class="line"><span class="number">7</span></span><br><span class="line"></span><br><span class="line">julia&gt; <span class="meta">@btime</span> foo(<span class="number">5</span>)</span><br><span class="line">  <span class="number">0.020</span> ns (<span class="number">0</span> allocations: <span class="number">0</span> bytes)</span><br><span class="line"><span class="number">7</span></span><br><span class="line"></span><br><span class="line">julia&gt; <span class="meta">@code_warntype</span> foo(<span class="number">5</span>)</span><br><span class="line">Variables</span><br><span class="line">  <span class="comment">#self#::Core.Compiler.Const(foo, false)</span></span><br><span class="line">  a::<span class="built_in">Int64</span></span><br><span class="line"></span><br><span class="line">Body::<span class="built_in">Int64</span></span><br><span class="line"><span class="number">1</span> ─ %<span class="number">1</span> = (Main.x + a)::<span class="built_in">Int64</span></span><br><span class="line">└──      <span class="keyword">return</span> %<span class="number">1</span></span><br></pre></td></tr></table></figure>
+<p>我們可以看到使用常數後，執行時間變得非常接近 <code>bar</code> 了，而 <code>@code_warntype</code> 也顯示可以進行型別推斷。<br>
+可是我們不一定能總是把要封進閉包的變數設定為常數阿，這樣會非常不方便。</p>
+<h3 id="使用-let">使用 <code>let</code></h3>
+<p>另一個作法是使用 <code>let</code>，<code>let</code> 可以創造出一個作用域，在這個作用域當中被宣告的變數會存在。</p>
+<figure class="highlight julia"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line">julia&gt; foo = <span class="keyword">let</span> x = <span class="number">2</span></span><br><span class="line">       a -&gt; x + a</span><br><span class="line">       <span class="keyword">end</span></span><br><span class="line"><span class="comment">#3 (generic function with 1 method)</span></span><br><span class="line"></span><br><span class="line">julia&gt; <span class="meta">@code_warntype</span> foo(<span class="number">5</span>)</span><br><span class="line">Variables</span><br><span class="line">  <span class="comment">#self#::var"#3#4"&#123;Int64&#125;</span></span><br><span class="line">  a::<span class="built_in">Int64</span></span><br><span class="line"></span><br><span class="line">Body::<span class="built_in">Int64</span></span><br><span class="line"><span class="number">1</span> ─ %<span class="number">1</span> = Core.getfield(<span class="comment">#self#, :x)::Int64</span></span><br><span class="line">│   %<span class="number">2</span> = (%<span class="number">1</span> + a)::<span class="built_in">Int64</span></span><br><span class="line">└──      <span class="keyword">return</span> %<span class="number">2</span></span><br><span class="line"></span><br><span class="line">julia&gt; <span class="meta">@btime</span> foo(<span class="number">5</span>)</span><br><span class="line">  <span class="number">19.774</span> ns (<span class="number">0</span> allocations: <span class="number">0</span> bytes)</span><br><span class="line"><span class="number">7</span></span><br></pre></td></tr></table></figure>
+<p>這個作法就是有個 <code>let</code> 區塊，並且定義在這個作用域中 <code>x = 2</code>。然後我在這個區塊中定義了匿名函式，匿名函式最後指定給 <code>foo</code>，這樣我就可以把 <code>foo</code> 當成一般的函式呼叫了。<br>
+我們可以看到有成功的型別推斷，但是執行時間似乎沒有好太多。這邊又牽涉到 Julia 底層的作用機制了。（攤手<br>
+今天我們的解析就先到這邊為止，感謝大家閱讀。</p>
+
+                                        
+
+                                </div>
+                            </div>
+                            <div id="post-footer" class="post-footer main-content-wrap">
+                                
+                                        
+                                            <div class="post-actions-wrap">
+    <nav>
+        <ul class="post-actions post-action-nav">
+            <li class="post-action">
+                
+                    <a class="post-action-btn btn btn--disabled">
+                
+                    <i class="fa fa-angle-left" aria-hidden="true"></i>
+                    <span class="hide-xs hide-sm text-small icon-ml">上一篇</span>
+                </a>
+            </li>
+            <li class="post-action">
+                
+                    
+                    <a class="post-action-btn btn btn--default tooltip--top" href="/2020/03/24/julia-v1-4-release/" data-tooltip="julia v1.4 釋出" aria-label="下一篇: julia v1.4 釋出">
+                
+                    <span class="hide-xs hide-sm text-small icon-mr">下一篇</span>
+                    <i class="fa fa-angle-right" aria-hidden="true"></i>
+                </a>
+            </li>
+        </ul>
+    </nav>
+    <ul class="post-actions post-action-share">
+        <li class="post-action hide-lg hide-md hide-sm">
+            <a class="post-action-btn btn btn--default btn-open-shareoptions" href="#btn-open-shareoptions" aria-label="Share this post">
+                <i class="fa fa-share-alt" aria-hidden="true"></i>
+            </a>
+        </li>
+        
+            
+            
+            <li class="post-action hide-xs">
+                <a class="post-action-btn btn btn--default" target="new" href="https://www.facebook.com/sharer/sharer.php?u=https://yuehhua.github.io/2020/03/29/julia-closure-performance/" title="分享到 Facebook">
+                    <i class="fa fa-facebook-official" aria-hidden="true"></i>
+                </a>
+            </li>
+        
+        
+            
+                <li class="post-action">
+                    <a class="post-action-btn btn btn--default" href="#disqus_thread">
+                        <i class="fa fa-comment-o"></i>
+                    </a>
+                </li>
+            
+        
+        <li class="post-action">
+            
+                <a class="post-action-btn btn btn--default" href="#" aria-label="Back to top">
+            
+                <i class="fa fa-list" aria-hidden="true"></i>
+            </a>
+        </li>
+    </ul>
+</div>
+
+
+                                                
+                                                    
+                                                        
+                                                            <div id="disqus_thread">
+    <noscript>Please enable JavaScript to view the <a href="//disqus.com/?ref_noscript" target="_blank" rel="noopener">comments powered by Disqus.</a></noscript>
+</div>
+                                                                
+                                                                            
+                            </div>
+                            
+                                <script src='https://unpkg.com/mermaid@7.1.2/dist/mermaid.min.js'></script>
+                                <script>
+                                    if (window.mermaid) {
+                                        mermaid.initialize({ theme: 'forest' });
+                                    }
+                                </script>
+                                
+    </article>
+
+                <footer id="footer" class="main-content-wrap">
+    <span class="copyrights">
+        Copyrights &copy; 2020 Yueh-Hua Tu. All Rights Reserved.
+    </span>
+</footer>
+
+            </div>
+            
+                <div id="bottom-bar" class="post-bottom-bar" data-behavior="5">
+                    <div class="post-actions-wrap">
+    <nav>
+        <ul class="post-actions post-action-nav">
+            <li class="post-action">
+                
+                    <a class="post-action-btn btn btn--disabled">
+                
+                    <i class="fa fa-angle-left" aria-hidden="true"></i>
+                    <span class="hide-xs hide-sm text-small icon-ml">上一篇</span>
+                </a>
+            </li>
+            <li class="post-action">
+                
+                    
+                    <a class="post-action-btn btn btn--default tooltip--top" href="/2020/03/24/julia-v1-4-release/" data-tooltip="julia v1.4 釋出" aria-label="下一篇: julia v1.4 釋出">
+                
+                    <span class="hide-xs hide-sm text-small icon-mr">下一篇</span>
+                    <i class="fa fa-angle-right" aria-hidden="true"></i>
+                </a>
+            </li>
+        </ul>
+    </nav>
+    <ul class="post-actions post-action-share">
+        <li class="post-action hide-lg hide-md hide-sm">
+            <a class="post-action-btn btn btn--default btn-open-shareoptions" href="#btn-open-shareoptions" aria-label="Share this post">
+                <i class="fa fa-share-alt" aria-hidden="true"></i>
+            </a>
+        </li>
+        
+            
+            
+            <li class="post-action hide-xs">
+                <a class="post-action-btn btn btn--default" target="new" href="https://www.facebook.com/sharer/sharer.php?u=https://yuehhua.github.io/2020/03/29/julia-closure-performance/" title="分享到 Facebook">
+                    <i class="fa fa-facebook-official" aria-hidden="true"></i>
+                </a>
+            </li>
+        
+        
+            
+                <li class="post-action">
+                    <a class="post-action-btn btn btn--default" href="#disqus_thread">
+                        <i class="fa fa-comment-o"></i>
+                    </a>
+                </li>
+            
+        
+        <li class="post-action">
+            
+                <a class="post-action-btn btn btn--default" href="#" aria-label="Back to top">
+            
+                <i class="fa fa-list" aria-hidden="true"></i>
+            </a>
+        </li>
+    </ul>
+</div>
+
+
+                </div>
+                <div id="share-options-bar" class="share-options-bar" data-behavior="5">
+    <i id="btn-close-shareoptions" class="fa fa-close"></i>
+    <ul class="share-options">
+        
+            
+            
+            <li class="share-option">
+                <a class="share-option-btn" target="new" href="https://www.facebook.com/sharer/sharer.php?u=https://yuehhua.github.io/2020/03/29/julia-closure-performance/">
+                    <i class="fa fa-facebook-official" aria-hidden="true"></i><span>分享到 Facebook</span>
+                </a>
+            </li>
+        
+    </ul>
+</div>
+
+            
+        </div>
+        
+
+
+<div id="about">
+    <div id="about-card">
+        <div id="about-btn-close">
+            <i class="fa fa-remove"></i>
+        </div>
+        
+            <h4 id="about-card-name">Yueh-Hua Tu</h4>
+        
+            <div id="about-card-bio"><p>目標是計算生物學家！</br>Systems Biology, Computational Biology, Machine Learning</br>Julia Taiwan 發起人</p>
+</div>
+        
+        
+            <div id="about-card-job">
+                <i class="fa fa-briefcase"></i>
+                <br/>
+                <p>研發替代役研究助理</p>
+
+            </div>
+        
+        
+            <div id="about-card-location">
+                <i class="fa fa-map-marker"></i>
+                <br/>
+                Taiwan
+            </div>
+        
+    </div>
+</div>
+
+        
+        
+<div id="cover" style="background-image:url('/assets/images/cover.jpg');"></div>
+        <!--SCRIPTS-->
+
+<script src="/assets/js/script-xzfezjobyekpxrjktw5tz6muvzqfsbmo5n6atk3p5om9ulfptldi3p7cyqd8.min.js"></script>
+
+<!--SCRIPTS END-->
+
+
+<script>
+    var disqus_config = function () {
+        this.page.url = 'https://yuehhua.github.io/2020/03/29/julia-closure-performance/';
+                 
+            this.page.identifier = '2020/03/29/julia-closure-performance/';
+                 
+             };
+    (function () {
+        var d = document, s = d.createElement('script');
+        var disqus_shortname = 'dream-maker';
+        s.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+
+        s.setAttribute('data-timestamp', +new Date());
+        (d.head || d.body).appendChild(s);
+    })();
+</script><!-- hexo-inject:begin --><!-- hexo-inject:end -->
+
+
+
+    </body>
+</html>
