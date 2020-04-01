@@ -6,7 +6,7 @@
     <!-- hexo-inject:begin --><!-- hexo-inject:end --><meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="generator" content="Dream Maker">
-    <title>所有文章: 2020 - Dream Maker</title>
+    <title>Julia 的多重分派 - Dream Maker</title>
     <meta name="author" content="Yueh-Hua Tu">
     
         <meta name="keywords" content="machine learning,deep learning,topology,">
@@ -15,12 +15,16 @@
     
         <link rel="alternate" type="application/atom+xml" title="RSS" href="/atom.xml">
     
-    <script type="application/ld+json">{}</script>
-    <meta property="og:type" content="blog">
-<meta property="og:title" content="Dream Maker">
-<meta property="og:url" content="https://yuehhua.github.io/archives/2020/index.html">
+    <script type="application/ld+json">{"@context":"http://schema.org","@type":"BlogPosting","author":{"@type":"Person","name":"Yueh-Hua Tu","sameAs":["https://github.com/yuehhua/","https://www.facebook.com/a504082002","https://www.linkedin.com/in/%E5%B2%B3%E8%8F%AF-%E6%9D%9C-6a3995a0/","mailto:a504082002@gmail.com"],"image":"https://www.gravatar.com/avatar/a565749fba4782b717234da670b273fd"},"articleBody":"今天來談談 Julia 的多重分派（multiple dispatch）。\n很顯然地，多重分派有別於單一分派（single dispatch），而單一分派是在現今主流的物件導向程式設計中常見的方式。\n在現今的物件導向程式設計當中，我們會將函式歸納到某個類別底下成為其類別的方法，而這個方法就屬於這個類別。\n多重分派 v.s. 單一分派\n這樣的觀點就是單一分派的精神，單一分派是指一個方法的呼叫，要如何決定呼叫的是哪一個方法實作呢？\n12345678910class Foo:    def abc(self, x):        return str(x)class Bar:    def abc(self, x):        return int(x)foo = Foo()bar = Bar()\n像以上的 python 程式碼，foo.abc(x) 就是去呼叫 Foo 的方法，而 bar.abc(x) 則是去呼叫 Bar 的方法。\n也就是說，方法的呼叫是由第一個參數所決定的，這邊要注意的是第一個參數並不是 x，而是 self 喔！也就是物件本身！\n相對於單一分派，多重分派是指他會參考所有的參數型別及其組合來決定到底要呼叫哪一個方法。\n所以我們也有了更細緻的選擇。\n1234abc(foo::Foo, x::String) = xabc(foo::Foo, x::Int64) = String(x)abc(bar::Bar, x::String) = Meta.parse(x)abc(bar::Bar, x::Int64) = x\n當第一個參數型別是 Foo 時，就回傳字串，而當第一個參數型別是 Bar 時，就回傳整數。\n我們可以去區別，當 x 已經是整數或是字串時就不用去處理它，直接回傳即可。若是有不同型別時，個別處理。\n這邊我們並沒有使用到第一個型別的參數，在 Julia 裡可以省略變數本身，只寫型別。\n1234abc(::Foo, x::String) = xabc(::Foo, x::Int64) = String(x)abc(::Bar, x::String) = Meta.parse(x)abc(::Bar, x::Int64) = x\n多重分派的自由與限制\n使用多重分派可以讓語言有更細緻的定義，也有更高的自由度。\n我們可以看看以下的例子，這邊使用了常常被使用的 null pattern：\n123push!(ls::List, obj::NullObject) = lspsuh!(ls::List, obj::Object) = push!(ls.array, obj)\n當我要去表示一類物件，我們會實作 Object，但往往我們會想要表示一個為空的物件，這時候我們就會有一個 NullObject 來表達這件事。\n當我們想要將一個 Object 放到 List 中的時候，我們會實作 push!，然而當一個 NullObject 被放入 List 的時候，我們並不需要真的做什麼樣的動作。實作就會如同上面的程式碼。\n相對在 python 或是一般物件導向語言當中，我們就會看到以下的程式碼：\n123456class List:    def append(self, obj):        if type(obj) == NullObject:            return self        elif type(obj) == Object:            self.array.append(obj)\n我們需要自己去判斷接收進來的參數型別，然後進一步做處理。這樣的話會讓我們的程式碼充滿 if-else，當條件一多時，會變得相當難以閱讀及修改。\n使用多重分派並不是只有優點，他也有缺點。多重分派會引入模糊性（ambiguity）。\n考慮以下程式碼：\n12345foo(a::A, b) = afoo(a, b::B) = ba = A()b = B()\n請問 foo(a, b) 該呼叫哪一個方法呢？\n這樣的呼叫在 Julia 會產生錯誤，也就是編譯器不知道該呼叫哪一個方法。\n這時候編譯器會建議修改的方式，就是定義一個更明確的方法：\n1foo(a::A, b::B)\n應用情境\n我們來寫個簡單的剪刀石頭布遊戲！\n123struct Paper endstruct Scissor endstruct Stone end\n我們分別有三個型別分別代表剪刀石頭布。\n接下來我們定義運算，先定義贏的狀況：\n123play(::Paper, ::Stone) = 1play(::Scissor, ::Paper) = 1play(::Stone, ::Scissor) = 1\n當雙方是相同時就平手：\n1play(::T, ::T) where &#123;T&#125; = 0\n這邊我們利用了 Julia 的參數化方法，當兩個有相同的型別時，就回傳 0。\n最後，是輸的狀況：\n1play(a, b) = -1\n也就是，如果沒有符合以上的狀況的方法呼叫，就會落到這個狀況來，所以這邊我們允許最廣義的 Any 型別。\n希望大家可以經由這個簡單的例子來理解 Julia 的多重分派有多好用，甚至是搭配上參數化方法根本是逆天阿！\n","dateCreated":"2020-04-01T23:27:42+08:00","dateModified":"2020-04-01T23:27:42+08:00","datePublished":"2020-04-01T23:27:42+08:00","description":"","headline":"Julia 的多重分派","image":[],"mainEntityOfPage":{"@type":"WebPage","@id":"https://yuehhua.github.io/2020/04/01/julia-multiple-dispatch/"},"publisher":{"@type":"Organization","name":"Yueh-Hua Tu","sameAs":["https://github.com/yuehhua/","https://www.facebook.com/a504082002","https://www.linkedin.com/in/%E5%B2%B3%E8%8F%AF-%E6%9D%9C-6a3995a0/","mailto:a504082002@gmail.com"],"image":"https://www.gravatar.com/avatar/a565749fba4782b717234da670b273fd","logo":{"@type":"ImageObject","url":"https://www.gravatar.com/avatar/a565749fba4782b717234da670b273fd"}},"url":"https://yuehhua.github.io/2020/04/01/julia-multiple-dispatch/"}</script>
+    <meta name="description" content="今天來談談 Julia 的多重分派（multiple dispatch）。 很顯然地，多重分派有別於單一分派（single dispatch），而單一分派是在現今主流的物件導向程式設計中常見的方式。 在現今的物件導向程式設計當中，我們會將函式歸納到某個類別底下成為其類別的方法，而這個方法就屬於這個類別。 多重分派 v.s. 單一分派 這樣的觀點就是單一分派的精神，單一分派是指一個方法的呼叫，要如何">
+<meta property="og:type" content="blog">
+<meta property="og:title" content="Julia 的多重分派">
+<meta property="og:url" content="https://yuehhua.github.io/2020/04/01/julia-multiple-dispatch/index.html">
 <meta property="og:site_name" content="Dream Maker">
+<meta property="og:description" content="今天來談談 Julia 的多重分派（multiple dispatch）。 很顯然地，多重分派有別於單一分派（single dispatch），而單一分派是在現今主流的物件導向程式設計中常見的方式。 在現今的物件導向程式設計當中，我們會將函式歸納到某個類別底下成為其類別的方法，而這個方法就屬於這個類別。 多重分派 v.s. 單一分派 這樣的觀點就是單一分派的精神，單一分派是指一個方法的呼叫，要如何">
 <meta property="og:locale" content="zh_TW">
+<meta property="article:published_time" content="2020-04-01T15:27:42.000Z">
+<meta property="article:modified_time" content="2020-04-01T15:27:42.500Z">
 <meta property="article:author" content="Yueh-Hua Tu">
 <meta property="article:tag" content="machine learning">
 <meta property="article:tag" content="deep learning">
@@ -62,7 +66,7 @@
 
     
 
-<header id="header" data-behavior="2">
+<header id="header" data-behavior="5">
     <i id="btn-open-sidebar" class="fa fa-lg fa-bars"></i>
     <div class="header-title">
         <a class="header-title-link" href="/%20">Dream Maker</a>
@@ -80,7 +84,7 @@
             <!-- Define author's picture -->
 
 
-<nav id="sidebar" data-behavior="2">
+<nav id="sidebar" data-behavior="5">
     <div class="sidebar-container">
         
         
@@ -227,26 +231,22 @@
 </nav>
 
             
-            <div id="main" data-behavior="2"
+            <div id="main" data-behavior="5"
                  class="
                         hasCoverMetaIn
                         ">
                 
-    <section class="postShorten-group main-content-wrap">
+    <article class="post">
+        
+                
+                    <div class="post-header main-content-wrap text-left">
+    
+        <h1 class="post-title">
+            Julia 的多重分派
+        </h1>
     
     
-    <article class="postShorten postShorten--thumbnailimg-bottom">
-        <div class="postShorten-wrap">
-            
-            <div class="postShorten-header">
-                <h1 class="postShorten-title">
-                    
-                        <a class="link-unstyled" href="/2020/04/01/julia-multiple-dispatch/">
-                            Julia 的多重分派
-                        </a>
-                    
-                </h1>
-                <div class="postShorten-meta">
+        <div class="post-meta">
     <time datetime="2020-04-01T23:27:42+08:00">
 	
 		    4月 01, 2020
@@ -261,10 +261,13 @@
     
 </div>
 
-            </div>
-            
-                <div class="postShorten-content">
-                    <p>今天來談談 Julia 的多重分派（multiple dispatch）。</p>
+    
+</div>
+
+                        
+                            <div class="post-content markdown">
+                                <div class="main-content-wrap">
+                                    <p>今天來談談 Julia 的多重分派（multiple dispatch）。</p>
 <p>很顯然地，多重分派有別於單一分派（single dispatch），而單一分派是在現今主流的物件導向程式設計中常見的方式。</p>
 <p>在現今的物件導向程式設計當中，我們會將函式歸納到某個類別底下成為其類別的方法，而這個方法就屬於這個類別。</p>
 <h2 id="多重分派-v-s-單一分派">多重分派 v.s. 單一分派</h2>
@@ -309,213 +312,88 @@
 <p>也就是，如果沒有符合以上的狀況的方法呼叫，就會落到這個狀況來，所以這邊我們允許最廣義的 <code>Any</code> 型別。</p>
 <p>希望大家可以經由這個簡單的例子來理解 Julia 的多重分派有多好用，甚至是搭配上參數化方法根本是逆天阿！</p>
 
-                    
-                        
+                                        
 
+                                </div>
+                            </div>
+                            <div id="post-footer" class="post-footer main-content-wrap">
+                                
+                                        
+                                            <div class="post-actions-wrap">
+    <nav>
+        <ul class="post-actions post-action-nav">
+            <li class="post-action">
+                
+                    <a class="post-action-btn btn btn--disabled">
+                
+                    <i class="fa fa-angle-left" aria-hidden="true"></i>
+                    <span class="hide-xs hide-sm text-small icon-ml">上一篇</span>
+                </a>
+            </li>
+            <li class="post-action">
+                
                     
-                    
-                        <p>
-                            <a href="/2020/04/01/julia-multiple-dispatch/#post-footer" class="postShorten-excerpt_link link">
-                                留言與分享
-                            </a>
-                        </p>
-                    
-                </div>
-            
-        </div>
+                    <a class="post-action-btn btn btn--default tooltip--top" href="/2020/03/24/julia-v1-4-release/" data-tooltip="julia v1.4 釋出" aria-label="下一篇: julia v1.4 釋出">
+                
+                    <span class="hide-xs hide-sm text-small icon-mr">下一篇</span>
+                    <i class="fa fa-angle-right" aria-hidden="true"></i>
+                </a>
+            </li>
+        </ul>
+    </nav>
+    <ul class="post-actions post-action-share">
+        <li class="post-action hide-lg hide-md hide-sm">
+            <a class="post-action-btn btn btn--default btn-open-shareoptions" href="#btn-open-shareoptions" aria-label="Share this post">
+                <i class="fa fa-share-alt" aria-hidden="true"></i>
+            </a>
+        </li>
         
-    </article>
-    
-    
-    <article class="postShorten postShorten--thumbnailimg-right">
-        <div class="postShorten-wrap">
             
-            <div class="postShorten-header">
-                <h1 class="postShorten-title">
-                    
-                        <a class="link-unstyled" href="/2020/03/24/julia-v1-4-release/">
-                            julia v1.4 釋出
-                        </a>
-                    
-                </h1>
-                <div class="postShorten-meta">
-    <time datetime="2020-03-24T12:02:05+08:00">
-	
-		    3月 24, 2020
-    	
-    </time>
-    
-        <span>分類 </span>
-        
-    <a class="category-link" href="/categories/My-Style/">My Style</a>, <a class="category-link" href="/categories/My-Style/Computer-Science/">Computer Science</a>, <a class="category-link" href="/categories/My-Style/Computer-Science/Julialang/">Julialang</a>
-
-
-    
-</div>
-
-            </div>
             
-                <div class="postShorten-excerpt">
-                    <p>Julia v1.4 已經釋出啦！這邊來跟大家介紹一些新功能。<br>
-底下新功能後面會有括弧，附註相關的實作程式碼。</p>
-                    
-                        <a href="/2020/03/24/julia-v1-4-release/" class="postShorten-excerpt_link link">
-                            繼續閱讀
-                        </a>
-                        
-                    
-                </div>
-            
-        </div>
-        
-    </article>
-    
-    
-    <article class="postShorten postShorten--thumbnailimg-right">
-        <div class="postShorten-wrap">
-            
-            <div class="postShorten-header">
-                <h1 class="postShorten-title">
-                    
-                        <a class="link-unstyled" href="/2020/03/01/from-iterator-and-generator-to-iterable/">
-                            從 iterator 及 generator 到 iterable
-                        </a>
-                    
-                </h1>
-                <div class="postShorten-meta">
-    <time datetime="2020-03-01T14:31:49+08:00">
-	
-		    3月 01, 2020
-    	
-    </time>
-    
-        <span>分類 </span>
-        
-    <a class="category-link" href="/categories/My-Style/">My Style</a>, <a class="category-link" href="/categories/My-Style/Computer-Science/">Computer Science</a>, <a class="category-link" href="/categories/My-Style/Computer-Science/Julialang/">Julialang</a>
-
-
-    
-</div>
-
-            </div>
-            
-                <div class="postShorten-excerpt">
-                    <p>今天來跟大家介紹 iterator、generator 及 iterable 這三個東西。基本上，大家應該都有用過 for 迴圈，然而很多東西可以放在迴圈的 <code>in</code> 後方，這樣就可以將裡頭的元素一個一個取出來。但是這是怎做到的呢？</p>
-                    
-                        <a href="/2020/03/01/from-iterator-and-generator-to-iterable/" class="postShorten-excerpt_link link">
-                            繼續閱讀
-                        </a>
-                        
-                    
-                </div>
-            
-        </div>
-        
-    </article>
-    
-    
-    <article class="postShorten postShorten--thumbnailimg-right">
-        <div class="postShorten-wrap">
-            
-            <div class="postShorten-header">
-                <h1 class="postShorten-title">
-                    
-                        <a class="link-unstyled" href="/2020/02/10/one-way-anova-and-sum-of-squares/">
-                            One-way ANOVA and sum of squares
-                        </a>
-                    
-                </h1>
-                <div class="postShorten-meta">
-    <time datetime="2020-02-10T00:01:59+08:00">
-	
-		    2月 10, 2020
-    	
-    </time>
-    
-        <span>分類 </span>
-        
-    <a class="category-link" href="/categories/Statistics/">Statistics</a>
-
-
-    
-</div>
-
-            </div>
-            
-                <div class="postShorten-excerpt">
-                    <p><strong>An</strong>alysis <strong>o</strong>f <strong>va</strong>riance (ANOVA) starts from the analysis of variance which is caught by the model or not. If the variance is modeled, then the variance must be explained by the model, I mean of which is “caught” by the model. If it is not, variance is left unexplained as noises. These two concepts forms <strong>explained variance</strong> (or <strong>between-group variance</strong> in categorical factor) and <strong>unexplained variance</strong> (or <strong>within-group variance</strong> in categorical factor).</p>
-                    
-                        <a href="/2020/02/10/one-way-anova-and-sum-of-squares/" class="postShorten-excerpt_link link">
-                            繼續閱讀
-                        </a>
-                        
-                    
-                </div>
-            
-        </div>
-        
-    </article>
-    
-    
-    <article class="postShorten postShorten--thumbnailimg-right">
-        <div class="postShorten-wrap">
-            
-            <div class="postShorten-header">
-                <h1 class="postShorten-title">
-                    
-                        <a class="link-unstyled" href="/2020/02/09/relationship-between-variance-and-pairwise-distance/">
-                            Relationship between variance and pairwise distance
-                        </a>
-                    
-                </h1>
-                <div class="postShorten-meta">
-    <time datetime="2020-02-09T22:28:52+08:00">
-	
-		    2月 09, 2020
-    	
-    </time>
-    
-        <span>分類 </span>
-        
-    <a class="category-link" href="/categories/Statistics/">Statistics</a>
-
-
-    
-</div>
-
-            </div>
-            
-                <div class="postShorten-excerpt">
-                    <p>Random variable $X$, we have the variance</p>
-<p>$$<br>
-\begin{align}<br>
-Var[X] &amp;= \mathbb{E}[(X - \mu)^2] \\<br>
-&amp;= \frac{1}{n} \sum_{i=1}^n (x_i - \mu)^2<br>
-\end{align}<br>
-$$</p>
-                    
-                        <a href="/2020/02/09/relationship-between-variance-and-pairwise-distance/" class="postShorten-excerpt_link link">
-                            繼續閱讀
-                        </a>
-                        
-                    
-                </div>
-            
-        </div>
-        
-    </article>
-    
-    <div class="pagination-bar">
-    <ul class="pagination">
+            <li class="post-action hide-xs">
+                <a class="post-action-btn btn btn--default" target="new" href="https://www.facebook.com/sharer/sharer.php?u=https://yuehhua.github.io/2020/04/01/julia-multiple-dispatch/" title="分享到 Facebook">
+                    <i class="fa fa-facebook-official" aria-hidden="true"></i>
+                </a>
+            </li>
         
         
-        <li class="pagination-number">第 1 頁 共 1 頁</li>
+            
+                <li class="post-action">
+                    <a class="post-action-btn btn btn--default" href="#disqus_thread">
+                        <i class="fa fa-comment-o"></i>
+                    </a>
+                </li>
+            
+        
+        <li class="post-action">
+            
+                <a class="post-action-btn btn btn--default" href="#" aria-label="Back to top">
+            
+                <i class="fa fa-list" aria-hidden="true"></i>
+            </a>
+        </li>
     </ul>
 </div>
 
-</section>
 
-
+                                                
+                                                    
+                                                        
+                                                            <div id="disqus_thread">
+    <noscript>Please enable JavaScript to view the <a href="//disqus.com/?ref_noscript" target="_blank" rel="noopener">comments powered by Disqus.</a></noscript>
+</div>
+                                                                
+                                                                            
+                            </div>
+                            
+                                <script src='https://unpkg.com/mermaid@7.1.2/dist/mermaid.min.js'></script>
+                                <script>
+                                    if (window.mermaid) {
+                                        mermaid.initialize({ theme: 'forest' });
+                                    }
+                                </script>
+                                
+    </article>
 
                 <footer id="footer" class="main-content-wrap">
     <span class="copyrights">
@@ -524,6 +402,81 @@ $$</p>
 </footer>
 
             </div>
+            
+                <div id="bottom-bar" class="post-bottom-bar" data-behavior="5">
+                    <div class="post-actions-wrap">
+    <nav>
+        <ul class="post-actions post-action-nav">
+            <li class="post-action">
+                
+                    <a class="post-action-btn btn btn--disabled">
+                
+                    <i class="fa fa-angle-left" aria-hidden="true"></i>
+                    <span class="hide-xs hide-sm text-small icon-ml">上一篇</span>
+                </a>
+            </li>
+            <li class="post-action">
+                
+                    
+                    <a class="post-action-btn btn btn--default tooltip--top" href="/2020/03/24/julia-v1-4-release/" data-tooltip="julia v1.4 釋出" aria-label="下一篇: julia v1.4 釋出">
+                
+                    <span class="hide-xs hide-sm text-small icon-mr">下一篇</span>
+                    <i class="fa fa-angle-right" aria-hidden="true"></i>
+                </a>
+            </li>
+        </ul>
+    </nav>
+    <ul class="post-actions post-action-share">
+        <li class="post-action hide-lg hide-md hide-sm">
+            <a class="post-action-btn btn btn--default btn-open-shareoptions" href="#btn-open-shareoptions" aria-label="Share this post">
+                <i class="fa fa-share-alt" aria-hidden="true"></i>
+            </a>
+        </li>
+        
+            
+            
+            <li class="post-action hide-xs">
+                <a class="post-action-btn btn btn--default" target="new" href="https://www.facebook.com/sharer/sharer.php?u=https://yuehhua.github.io/2020/04/01/julia-multiple-dispatch/" title="分享到 Facebook">
+                    <i class="fa fa-facebook-official" aria-hidden="true"></i>
+                </a>
+            </li>
+        
+        
+            
+                <li class="post-action">
+                    <a class="post-action-btn btn btn--default" href="#disqus_thread">
+                        <i class="fa fa-comment-o"></i>
+                    </a>
+                </li>
+            
+        
+        <li class="post-action">
+            
+                <a class="post-action-btn btn btn--default" href="#" aria-label="Back to top">
+            
+                <i class="fa fa-list" aria-hidden="true"></i>
+            </a>
+        </li>
+    </ul>
+</div>
+
+
+                </div>
+                <div id="share-options-bar" class="share-options-bar" data-behavior="5">
+    <i id="btn-close-shareoptions" class="fa fa-close"></i>
+    <ul class="share-options">
+        
+            
+            
+            <li class="share-option">
+                <a class="share-option-btn" target="new" href="https://www.facebook.com/sharer/sharer.php?u=https://yuehhua.github.io/2020/04/01/julia-multiple-dispatch/">
+                    <i class="fa fa-facebook-official" aria-hidden="true"></i><span>分享到 Facebook</span>
+                </a>
+            </li>
+        
+    </ul>
+</div>
+
             
         </div>
         
@@ -565,24 +518,26 @@ $$</p>
 
 <script src="/assets/js/script-xzfezjobyekpxrjktw5tz6muvzqfsbmo5n6atk3p5om9ulfptldi3p7cyqd8.min.js"></script>
 
-<!--SCRIPTS END--><!-- hexo-inject:begin --><!-- Begin: Injected MathJax -->
-<script type="text/x-mathjax-config">
-  MathJax.Hub.Config({"tex2jax":{"inlineMath":[["$","$"],["\\(","\\)"]],"skipTags":["script","noscript","style","textarea","pre","code"],"processEscapes":true},"TeX":{"equationNumbers":{"autoNumber":"AMS"}}});
-</script>
+<!--SCRIPTS END-->
 
-<script type="text/x-mathjax-config">
-  MathJax.Hub.Queue(function() {
-    var all = MathJax.Hub.getAllJax(), i;
-    for(i=0; i < all.length; i += 1) {
-      all[i].SourceElement().parentNode.className += ' has-jax';
-    }
-  });
-</script>
 
-<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.6/latest.js?config=TeX-AMS-MML_HTMLorMML">
-</script>
-<!-- End: Injected MathJax -->
-<!-- hexo-inject:end -->
+<script>
+    var disqus_config = function () {
+        this.page.url = 'https://yuehhua.github.io/2020/04/01/julia-multiple-dispatch/';
+                 
+            this.page.identifier = '2020/04/01/julia-multiple-dispatch/';
+                 
+             };
+    (function () {
+        var d = document, s = d.createElement('script');
+        var disqus_shortname = 'dream-maker';
+        s.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+
+        s.setAttribute('data-timestamp', +new Date());
+        (d.head || d.body).appendChild(s);
+    })();
+</script><!-- hexo-inject:begin --><!-- hexo-inject:end -->
+
 
 
     </body>
