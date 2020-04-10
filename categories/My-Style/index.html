@@ -235,6 +235,97 @@
     <section class="postShorten-group main-content-wrap">
     
     
+    <article class="postShorten postShorten--thumbnailimg-right">
+        <div class="postShorten-wrap">
+            
+            <div class="postShorten-header">
+                <h1 class="postShorten-title">
+                    
+                        <a class="link-unstyled" href="/2020/04/10/julia-multithread-setup/">
+                            設定 Julia 多執行緒
+                        </a>
+                    
+                </h1>
+                <div class="postShorten-meta">
+    <time datetime="2020-04-10T10:19:55+08:00">
+	
+		    4月 10, 2020
+    	
+    </time>
+    
+        <span>分類 </span>
+        
+    <a class="category-link" href="/categories/My-Style/">My Style</a>, <a class="category-link" href="/categories/My-Style/Computer-Science/">Computer Science</a>, <a class="category-link" href="/categories/My-Style/Computer-Science/Julialang/">Julialang</a>
+
+
+    
+</div>
+
+            </div>
+            
+                <div class="postShorten-excerpt">
+                    <p>Julia 從 v1.3 起支援多執行緒（multithreading）。</p>
+<p>這邊文章要來教大家如何在 Julia 啟動時，自動配置多執行緒。</p>
+                    
+                        <a href="/2020/04/10/julia-multithread-setup/" class="postShorten-excerpt_link link">
+                            繼續閱讀
+                        </a>
+                        
+                    
+                </div>
+            
+        </div>
+        
+    </article>
+    
+    
+    <article class="postShorten postShorten--thumbnailimg-right">
+        <div class="postShorten-wrap">
+            
+            <div class="postShorten-header">
+                <h1 class="postShorten-title">
+                    
+                        <a class="link-unstyled" href="/2020/04/10/compile-julia-package/">
+                            編譯 Julia 套件來避免過長的載入時間
+                        </a>
+                    
+                </h1>
+                <div class="postShorten-meta">
+    <time datetime="2020-04-10T10:06:04+08:00">
+	
+		    4月 10, 2020
+    	
+    </time>
+    
+        <span>分類 </span>
+        
+    <a class="category-link" href="/categories/My-Style/">My Style</a>, <a class="category-link" href="/categories/My-Style/Computer-Science/">Computer Science</a>, <a class="category-link" href="/categories/My-Style/Computer-Science/Julialang/">Julialang</a>
+
+
+    
+</div>
+
+            </div>
+            
+                <div class="postShorten-excerpt">
+                    <p>Julia 有優異的效能，但是它的 JIT 讓套件的載入時間（<code>using</code>）過於冗長。</p>
+<p>Julia JIT 會在套件載入時期以及第一次使用函式時期進行編譯，若是有編譯完成的版本，便可以直接使用，避免編譯時間。儘管 Julia 將程式碼進行編譯，得到了絕佳的執行時間，但是套件載入的第一次編譯時間成為了大家的痛點。</p>
+<p>為了解決這樣的痛點，開發者社群做了不少努力，主要是 PackageCompiler.jl 套件，讓套件可以預先進行編譯，而後來也補充了不少 binary package 來支援套件編譯。</p>
+<p>PackageCompiler.jl 套件可以將 Julia 程式碼編譯成可執行檔以及動態函式庫（.so），支援套件編譯成動態函式庫，以及增量編譯（incremental compilation）。</p>
+<p>近期 PackageCompiler.jl 套件正式發佈 v1.0，正式成熟可以使用了！本文將會介紹如何將套件編譯成動態函式庫，並且在啟動時載入，來避免過長的載入及編譯時間。</p>
+                    
+                        <a href="/2020/04/10/compile-julia-package/" class="postShorten-excerpt_link link">
+                            繼續閱讀
+                        </a>
+                        
+                    
+                </div>
+            
+        </div>
+        
+    </article>
+    
+    
     <article class="postShorten postShorten--thumbnailimg-bottom">
         <div class="postShorten-wrap">
             
@@ -671,105 +762,6 @@
 <p>我自己在 Julia 的一個統計相關的專案上發了一個 PR，希望補齊在標準化上的一些功能，並且可以支援一維的陣列標準化。</p>
                     
                         <a href="/2019/07/08/opensource-contribution-experience/" class="postShorten-excerpt_link link">
-                            繼續閱讀
-                        </a>
-                        
-                    
-                </div>
-            
-        </div>
-        
-    </article>
-    
-    
-    <article class="postShorten postShorten--thumbnailimg-bottom">
-        <div class="postShorten-wrap">
-            
-            <div class="postShorten-header">
-                <h1 class="postShorten-title">
-                    
-                        <a class="link-unstyled" href="/2019/05/06/operate-value-in-julia-parametric-type/">
-                            運算 Julia 參數型別上的值
-                        </a>
-                    
-                </h1>
-                <div class="postShorten-meta">
-    <time datetime="2019-05-06T13:56:52+08:00">
-	
-		    5月 06, 2019
-    	
-    </time>
-    
-        <span>分類 </span>
-        
-    <a class="category-link" href="/categories/My-Style/">My Style</a>, <a class="category-link" href="/categories/My-Style/Computer-Science/">Computer Science</a>, <a class="category-link" href="/categories/My-Style/Computer-Science/Julialang/">Julialang</a>
-
-
-    
-</div>
-
-            </div>
-            
-                <div class="postShorten-content">
-                    <p>之前介紹過將值放在參數型別上。</p>
-<p>今天來介紹一下如何可以做到類似運算的效果。</p>
-<figure class="highlight julia"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">struct</span> A&#123;T&#125;</span><br><span class="line"><span class="keyword">end</span></span><br><span class="line"></span><br><span class="line">a1 = A&#123;<span class="number">5</span>&#125;()</span><br><span class="line">a2 = A&#123;<span class="number">3</span>&#125;()</span><br></pre></td></tr></table></figure>
-<p>在一些應用場景上會希望將參數欄位上的值做運算，例如加總。</p>
-<p>這時候我們可以這樣做：</p>
-<figure class="highlight julia"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> Base:+</span><br><span class="line"></span><br><span class="line"><span class="keyword">function</span> +(::A&#123;T&#125;, ::A&#123;S&#125;) <span class="keyword">where</span> &#123;T, S&#125;</span><br><span class="line">	x = T + S</span><br><span class="line">	<span class="keyword">return</span> A&#123;x&#125;()</span><br><span class="line"><span class="keyword">end</span></span><br></pre></td></tr></table></figure>
-<p>如此一來，就可以簡單搞定囉！</p>
-<figure class="highlight julia"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">println(a1 + a2)</span><br></pre></td></tr></table></figure>
-<figure class="highlight julia"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">A&#123;<span class="number">8</span>&#125;()</span><br></pre></td></tr></table></figure>
-                    
-                        
-
-                    
-                    
-                        <p>
-                            <a href="/2019/05/06/operate-value-in-julia-parametric-type/#post-footer" class="postShorten-excerpt_link link">
-                                留言與分享
-                            </a>
-                        </p>
-                    
-                </div>
-            
-        </div>
-        
-    </article>
-    
-    
-    <article class="postShorten postShorten--thumbnailimg-right">
-        <div class="postShorten-wrap">
-            
-            <div class="postShorten-header">
-                <h1 class="postShorten-title">
-                    
-                        <a class="link-unstyled" href="/2019/03/11/changhua-with-ning/">
-                            彰化行
-                        </a>
-                    
-                </h1>
-                <div class="postShorten-meta">
-    <time datetime="2019-03-11T01:19:06+08:00">
-	
-		    3月 11, 2019
-    	
-    </time>
-    
-        <span>分類 </span>
-        
-    <a class="category-link" href="/categories/My-Style/">My Style</a>, <a class="category-link" href="/categories/My-Style/Friends/">Friends</a>
-
-
-    
-</div>
-
-            </div>
-            
-                <div class="postShorten-excerpt">
-                    Private post
-                    
-                        <a href="/2019/03/11/changhua-with-ning/" class="postShorten-excerpt_link link">
                             繼續閱讀
                         </a>
                         

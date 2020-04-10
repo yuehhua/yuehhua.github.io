@@ -6,7 +6,7 @@
   <link href="/atom.xml" rel="self"/>
   
   <link href="https://yuehhua.github.io/"/>
-  <updated>2020-04-01T15:27:42.500Z</updated>
+  <updated>2020-04-10T02:19:55.814Z</updated>
   <id>https://yuehhua.github.io/</id>
   
   <author>
@@ -15,6 +15,61 @@
   </author>
   
   <generator uri="https://hexo.io/">Hexo</generator>
+  
+  <entry>
+    <title>設定 Julia 多執行緒</title>
+    <link href="https://yuehhua.github.io/2020/04/10/julia-multithread-setup/"/>
+    <id>https://yuehhua.github.io/2020/04/10/julia-multithread-setup/</id>
+    <published>2020-04-10T02:19:55.000Z</published>
+    <updated>2020-04-10T02:19:55.814Z</updated>
+    
+    <content type="html"><![CDATA[<p>Julia 從 v1.3 起支援多執行緒（multithreading）。</p><p>這邊文章要來教大家如何在 Julia 啟動時，自動配置多執行緒。</p><a id="more"></a><p>一般要在 Julia 中使用多執行緒，可以在啟動 Julia 時，以環境變數的形式指定。</p><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ JULIA_NUM_THREADS&#x3D;4 julia</span><br></pre></td></tr></table></figure><p>但不想在每次啟動時都加入，這樣會很麻煩。</p><p>我們可以將這個寫到環境變數當中。像是在 Linux 環境中，可以將以下環境變數寫到 ~/.bashrc 或 ~/.bash_profile 中。</p><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">export JULIA_NUM_THREADS&#x3D;4</span><br></pre></td></tr></table></figure><p>Ref: <a href="https://docs.julialang.org/en/v1/manual/environment-variables/index.html" target="_blank" rel="noopener">https://docs.julialang.org/en/v1/manual/environment-variables/index.html</a></p>]]></content>
+    
+    <summary type="html">
+    
+      &lt;p&gt;Julia 從 v1.3 起支援多執行緒（multithreading）。&lt;/p&gt;
+&lt;p&gt;這邊文章要來教大家如何在 Julia 啟動時，自動配置多執行緒。&lt;/p&gt;
+    
+    </summary>
+    
+    
+      <category term="My Style" scheme="https://yuehhua.github.io/categories/My-Style/"/>
+    
+      <category term="Computer Science" scheme="https://yuehhua.github.io/categories/My-Style/Computer-Science/"/>
+    
+      <category term="Julialang" scheme="https://yuehhua.github.io/categories/My-Style/Computer-Science/Julialang/"/>
+    
+    
+  </entry>
+  
+  <entry>
+    <title>編譯 Julia 套件來避免過長的載入時間</title>
+    <link href="https://yuehhua.github.io/2020/04/10/compile-julia-package/"/>
+    <id>https://yuehhua.github.io/2020/04/10/compile-julia-package/</id>
+    <published>2020-04-10T02:06:04.000Z</published>
+    <updated>2020-04-10T02:11:39.723Z</updated>
+    
+    <content type="html"><![CDATA[<p>Julia 有優異的效能，但是它的 JIT 讓套件的載入時間（<code>using</code>）過於冗長。</p><p>Julia JIT 會在套件載入時期以及第一次使用函式時期進行編譯，若是有編譯完成的版本，便可以直接使用，避免編譯時間。儘管 Julia 將程式碼進行編譯，得到了絕佳的執行時間，但是套件載入的第一次編譯時間成為了大家的痛點。</p><p>為了解決這樣的痛點，開發者社群做了不少努力，主要是 PackageCompiler.jl 套件，讓套件可以預先進行編譯，而後來也補充了不少 binary package 來支援套件編譯。</p><p>PackageCompiler.jl 套件可以將 Julia 程式碼編譯成可執行檔以及動態函式庫（.so），支援套件編譯成動態函式庫，以及增量編譯（incremental compilation）。</p><p>近期 PackageCompiler.jl 套件正式發佈 v1.0，正式成熟可以使用了！本文將會介紹如何將套件編譯成動態函式庫，並且在啟動時載入，來避免過長的載入及編譯時間。</p><a id="more"></a><h2 id="動態語言編譯">動態語言編譯</h2><p>在動態語言中，編譯一直是一個大問題。編譯時，需要知道更多底層的細節，像是變數的型別。例如 <code>foo(a::Any, b::Any)</code> 這樣的函式在動態語言中非常常見。Julia 會在呼叫 <code>foo(3, 4)</code> 時，經由型別推斷（type inference）知道它需要編譯 <code>foo(a::Int64, b::Int64)</code> 這樣的方法出來。當下次呼叫 <code>foo(3., 4.)</code> 時，則需要編譯 <code>foo(a::Float64, b::Float64)</code>。然而，要完整的編譯 <code>foo</code> 這個函式，需要編譯多少種方法呢？在型別的排列組合上會造成組合爆炸的問題，讓需要編譯的方法多到難以處理。這一直以來是動態語言無法完整編譯的問題點。</p><p>那麼 Julia 怎麼做？PackageCompiler.jl 套件的編譯來自於 JIT，所以它直接將 Julia session 中已經編譯的函式儲存下來，以利後續使用。編譯的函式會以動態函式庫（.so）的形式儲存，就如同其他語言一樣。然而，Julia 仍然沒有完整編譯，Julia 只有部份編譯便存入動態函式庫。若是需要使用到未編譯的函式，就會在使用時 JIT 去處理。或許可以藉由套件的測試來增加編譯的函式數目，例如提高測試的覆蓋度來儘可能觸發各式各樣的方法進行編譯，然後儲存下來。</p><h2 id="編譯套件">編譯套件</h2><p>這邊我以編譯 Plots.jl 套件為例，繪圖相關套件的載入時間總是異常地久，所以我選擇 Plots.jl 套件來舉例。</p><p>請確定 Julia 中已經安裝 Plots.jl 套件。</p><figure class="highlight julia"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">julia&gt; <span class="keyword">using</span> PackageCompiler</span><br><span class="line"></span><br><span class="line">julia&gt; create_sysimage(:Plots; sysimage_path=<span class="string">"Plots.so"</span>)</span><br><span class="line">[ Info: PackageCompiler: creating system image object file, this might take a <span class="keyword">while</span>...</span><br></pre></td></tr></table></figure><p><code>create_sysimage</code> 會編譯並產生 sysimage，這個 image 可以在 Julia 啟動時一併載入，它會以動態函式庫的形式儲存下來。第一個參數請指定需要編譯的套件名稱，可以同時編譯多個套件，例如 <code>[:Plots, :Gadfly]</code>。關鍵字參數 <code>sysimage_path=&quot;Plots.so&quot;</code> 需要指定 system image 的檔名。執行後需要一段時間進行編譯。</p><figure class="highlight julia"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">shell&gt; ls</span><br><span class="line">Plots.so</span><br></pre></td></tr></table></figure><p>編譯完成後便可以在目前的資料夾下看到編譯完成的檔案 <a href="http://Plots.so" target="_blank" rel="noopener">Plots.so</a>。</p><p>在下次使用時使用的話，請在啟動 Julia 時加入參數 <code>-JPlots.so</code>。</p><figure class="highlight julia"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">julia&gt; exit()</span><br><span class="line"></span><br><span class="line">$ julia -JPlots.so</span><br></pre></td></tr></table></figure><p>如此，我們就可以看到在啟動 Julia 之後載入的套件就有 Plots.jl 囉！</p><figure class="highlight julia"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br></pre></td><td class="code"><pre><span class="line">julia&gt; Base.loaded_modules</span><br><span class="line"><span class="built_in">Dict</span>&#123;Base.PkgId,<span class="built_in">Module</span>&#125; with <span class="number">72</span> entries:</span><br><span class="line">  <span class="built_in">Future</span> [<span class="number">9</span>fa8497b-<span class="number">333</span>b-<span class="number">5362</span>-<span class="number">9e8</span>d-<span class="number">4</span>d0656e87820]           =&gt; <span class="built_in">Future</span></span><br><span class="line">  Requires [ae029012-a4dd-<span class="number">5104</span>-<span class="number">9</span>daa-d747884805df]         =&gt; Requires</span><br><span class="line">  RecipesBase [<span class="number">3</span>cdcf5f2-<span class="number">1</span>ef4-<span class="number">517</span>c-<span class="number">9805</span>-<span class="number">6587</span>b60abb01]      =&gt; RecipesBase</span><br><span class="line">  InteractiveUtils [b77e0a4c-d291-<span class="number">57</span>a0-<span class="number">90e8</span>-<span class="number">8</span>db25a27a240] =&gt; InteractiveUtils</span><br><span class="line">  Pkg [<span class="number">44</span>cfe95a-<span class="number">1</span>eb2-<span class="number">52</span>ea-b672-e2afdf69b78f]              =&gt; Pkg</span><br><span class="line">  Printf [de0858da-<span class="number">6303</span>-<span class="number">5e67</span>-<span class="number">8744</span>-<span class="number">51</span>eddeeeb8d7]           =&gt; Printf</span><br><span class="line">  Base64 [<span class="number">2</span>a0f44e3-<span class="number">6</span>c83-<span class="number">55</span>bd-<span class="number">87e4</span>-b1978d98bd5f]           =&gt; Base64</span><br><span class="line">  Test [<span class="number">8</span>dfed614-e22c-<span class="number">5e08</span>-<span class="number">85e1</span>-<span class="number">65</span>c5234f0b40]             =&gt; Test</span><br><span class="line">  Reexport [<span class="number">189</span>a3867-<span class="number">3050</span>-<span class="number">52</span>da-a836-e630ba90ab69]         =&gt; Reexport</span><br><span class="line">  Dates [ade2ca70-<span class="number">3891</span>-<span class="number">5945</span>-<span class="number">98</span>fb-dc099432e06a]            =&gt; Dates</span><br><span class="line">  DelimitedFiles [<span class="number">8</span>bb1440f-<span class="number">4735</span>-<span class="number">579</span>b-a4ab-<span class="number">409</span>b98df4dab]   =&gt; DelimitedFiles</span><br><span class="line">  LAME_jll [c1c5ebd0-<span class="number">6772</span>-<span class="number">5130</span>-a774-d5fcae4a789d]         =&gt; LAME_jll</span><br><span class="line">  Missings [e1d29d7a-bbdc-<span class="number">5</span>cf2-<span class="number">9</span>ac0-f12de2c33e28]         =&gt; Missings</span><br><span class="line">  __PackagePrecompilationStatementModule [top-level]      =&gt; __PackagePrecompilationStatementModule</span><br><span class="line">  Opus_jll [<span class="number">91</span>d4177d-<span class="number">7536</span>-<span class="number">5919</span>-b921-<span class="number">800302f37372</span>]         =&gt; Opus_jll</span><br><span class="line">  StatsBase [<span class="number">2913</span>bbd2-ae8a-<span class="number">5f71</span>-<span class="number">8</span>c99-<span class="number">4</span>fb6c76f3a91]        =&gt; StatsBase</span><br><span class="line">  libfdk_aac_jll [f638f0a6-<span class="number">7</span>fb0-<span class="number">5443</span>-<span class="number">88</span>ba-<span class="number">1</span>cc74229b280]   =&gt; libfdk_aac_jll</span><br><span class="line">  libvorbis_jll [f27f6e37-<span class="number">5</span>d2b-<span class="number">51</span>aa-<span class="number">960</span>f-b287f2bc3b7a]    =&gt; libvorbis_jll</span><br><span class="line">  REPL [<span class="number">3</span>fa0cd96-eef1-<span class="number">5676</span>-<span class="number">8</span>a61-b3b8758bbffb]             =&gt; REPL</span><br><span class="line">  x265_jll [dfaa095f-<span class="number">4041</span>-<span class="number">5</span>dcd-<span class="number">9319</span>-<span class="number">2</span>fabd8486b76]         =&gt; x265_jll</span><br><span class="line">  LibGit2 [<span class="number">76f85450</span>-<span class="number">5226</span>-<span class="number">5</span>b5a-<span class="number">8</span>eaa-<span class="number">529</span>ad045b433]          =&gt; LibGit2</span><br><span class="line">  Distributed [<span class="number">8</span>ba89e20-<span class="number">285</span>c-<span class="number">5</span>b6f-<span class="number">9357</span>-<span class="number">94700520</span>ee1b]      =&gt; Distributed</span><br><span class="line">  Plots [<span class="number">91</span>a5bcdd-<span class="number">55</span>d7-<span class="number">5</span>caf-<span class="number">9e0</span>b-<span class="number">520</span>d859cae80]            =&gt; Plots</span><br><span class="line">  LinearAlgebra [<span class="number">37e2</span>e46d-f89d-<span class="number">539</span>d-b4ee-<span class="number">838</span>fcccc9c8e]    =&gt; LinearAlgebra</span><br><span class="line">  ⋮                                                       =&gt; ⋮</span><br><span class="line"></span><br><span class="line">julia&gt; Plots.plot</span><br><span class="line">plot (generic <span class="keyword">function</span> with <span class="number">3</span> methods)</span><br></pre></td></tr></table></figure><h2 id="編譯到預設位置">編譯到預設位置</h2><p>Julia 在系統中有 <a href="http://sys.so" target="_blank" rel="noopener">sys.so</a>，它預設會在 Julia 啟動時載入，我們可以利用預先編譯好的函式庫來取代它，就可以不用參數的情況下自動載入。</p><figure class="highlight julia"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">create_sysimage([:Debugger, :OhMyREPL]; replace_default=<span class="literal">true</span>)</span><br></pre></td></tr></table></figure><p>將 <code>sysimage_path</code> 換成 <code>replace_default=true</code>，來將編譯的函式庫取代 <a href="http://sys.so" target="_blank" rel="noopener">sys.so</a>，它會將原本的 <a href="http://sys.so" target="_blank" rel="noopener">sys.so</a> 備份到 sys.so.backup，並將編譯好的 <a href="http://sys.so" target="_blank" rel="noopener">sys.so</a> 寫入。</p><h2 id="增量編譯（incremental-compilation）">增量編譯（incremental compilation）</h2><p>sysimage 可以進行增量編譯。增量編譯是指既有的函式並不會重新編譯，只會編譯那些新加入的函式。如果已經有 sysimage，那麼下次呼叫 <code>create_sysimage</code> 時，只會編譯新加入的部份，並且用新的函式庫檔案取代舊的。</p><p>如果你想要關閉這個功能，那需要加入 <code>incremental=false</code> 來關閉增量編譯，這樣就會編譯一個全新的函式庫。</p><p>Ref: <a href="https://julialang.github.io/PackageCompiler.jl/dev/sysimages/" target="_blank" rel="noopener">https://julialang.github.io/PackageCompiler.jl/dev/sysimages/</a></p>]]></content>
+    
+    <summary type="html">
+    
+      &lt;p&gt;Julia 有優異的效能，但是它的 JIT 讓套件的載入時間（&lt;code&gt;using&lt;/code&gt;）過於冗長。&lt;/p&gt;
+&lt;p&gt;Julia JIT 會在套件載入時期以及第一次使用函式時期進行編譯，若是有編譯完成的版本，便可以直接使用，避免編譯時間。儘管 Julia 將程式碼進行編譯，得到了絕佳的執行時間，但是套件載入的第一次編譯時間成為了大家的痛點。&lt;/p&gt;
+&lt;p&gt;為了解決這樣的痛點，開發者社群做了不少努力，主要是 PackageCompiler.jl 套件，讓套件可以預先進行編譯，而後來也補充了不少 binary package 來支援套件編譯。&lt;/p&gt;
+&lt;p&gt;PackageCompiler.jl 套件可以將 Julia 程式碼編譯成可執行檔以及動態函式庫（.so），支援套件編譯成動態函式庫，以及增量編譯（incremental compilation）。&lt;/p&gt;
+&lt;p&gt;近期 PackageCompiler.jl 套件正式發佈 v1.0，正式成熟可以使用了！本文將會介紹如何將套件編譯成動態函式庫，並且在啟動時載入，來避免過長的載入及編譯時間。&lt;/p&gt;
+    
+    </summary>
+    
+    
+      <category term="My Style" scheme="https://yuehhua.github.io/categories/My-Style/"/>
+    
+      <category term="Computer Science" scheme="https://yuehhua.github.io/categories/My-Style/Computer-Science/"/>
+    
+      <category term="Julialang" scheme="https://yuehhua.github.io/categories/My-Style/Computer-Science/Julialang/"/>
+    
+    
+  </entry>
   
   <entry>
     <title>Julia 的多重分派</title>
@@ -495,59 +550,6 @@ $$&lt;/p&gt;
       <category term="Computer Science" scheme="https://yuehhua.github.io/categories/My-Style/Computer-Science/"/>
     
       <category term="Julialang" scheme="https://yuehhua.github.io/categories/My-Style/Computer-Science/Julialang/"/>
-    
-    
-  </entry>
-  
-  <entry>
-    <title>Note - Mathematical objects</title>
-    <link href="https://yuehhua.github.io/2019/02/06/mathematical-objects/"/>
-    <id>https://yuehhua.github.io/2019/02/06/mathematical-objects/</id>
-    <published>2019-02-05T16:02:53.000Z</published>
-    <updated>2019-02-05T16:02:53.088Z</updated>
-    
-    <content type="html"><![CDATA[<p>20th century Cantor:</p><blockquote><p>All mathematical objects can be defined as sets.</p></blockquote><p>Fundamentals:</p><ul><li>numbers</li><li>permutations</li><li>partitions</li><li>matrices</li><li>sets</li><li>functions</li><li>relations</li></ul><p>Geometry:</p><ul><li>hexagons</li><li>points</li><li>lines</li><li>triangles</li><li>circles</li><li>spheres</li><li>polyhedra</li><li>topological space</li><li>manifolds</li></ul><p>Algebra:</p><ul><li>groups</li><li>rings</li><li>fields</li><li>lattices</li></ul>]]></content>
-    
-    <summary type="html">
-    
-      
-      
-        &lt;p&gt;20th century Cantor:&lt;/p&gt;
-&lt;blockquote&gt;
-&lt;p&gt;All mathematical objects can be defined as sets.&lt;/p&gt;
-&lt;/blockquote&gt;
-&lt;p&gt;Fundamentals:&lt;/p&gt;
-&lt;ul&gt;
-&lt;li
-      
-    
-    </summary>
-    
-    
-      <category term="Math" scheme="https://yuehhua.github.io/categories/Math/"/>
-    
-    
-  </entry>
-  
-  <entry>
-    <title>生物資訊的初衷</title>
-    <link href="https://yuehhua.github.io/2019/02/01/original-intention-to-bioinformatics/"/>
-    <id>https://yuehhua.github.io/2019/02/01/original-intention-to-bioinformatics/</id>
-    <published>2019-01-31T16:25:47.000Z</published>
-    <updated>2019-01-31T16:25:47.679Z</updated>
-    
-    <content type="html"><![CDATA[<p>受到其他文章的啟發，我也來寫一篇為什麼我踏入生物資訊領域好了。</p><p>受到啟發應該算是從高中的時候說起，高中的時候喜歡數學、物理跟生物。對於數學，喜歡他的抽象及純粹，而物理可以解釋這個世界的法則，對於生物則是一直以來隱隱約約有些感覺的。小時候對於生命現象一直很好奇，對於生物的多樣性感到驚奇，但到了高中卻成了考卷上的考題，我不認為那是我要的。</p><p>還記得高中生物上到下視丘的時候會講到很多不同種的激素調控，我突然覺得這一切的背後似乎有著什麼，我對「調控」產生了興趣。接著到了高中快結束，終於上到近代的生物技術以及 DNA 分子的轉錄轉譯，雖然對當時的我來說有點複雜，但是我喜歡挑戰理解這種複雜的事物，我將他轉化成比較好理解的「設計圖」解釋。DNA 就像是一台車子的整體設計圖，RNA 就是將設計圖的一部份零件複製一份出來，並且製造出蛋白質，也就是真實的零件。理解了這些讓我非常開心。</p><p>大學念了醫學檢驗生物技術，但卻不是我的第一志願，不過我確定我對生物技術是有興趣的，我也非常認真對待我的選擇。在傳統的生物醫學研究都是花了十幾年的時間在研究一個蛋白或是一個基因的功能或是交互作用。</p><p>我大三的某天在逛維基百科（你沒看錯，我會去逛維基百科）被我發現了系統生物學這個領域，看到頁面的當下非常震驚，可以以一個系統的觀點切入生物的議題，那麼就可以不用那麼辛苦的一個基因一個基因研究了。而且系統的概念直接串起了在生化中學到的調控，他不只是 pathway，而是一個複雜的網路，可以藉由網路的調控或是反應機制，讓生物體做出特定的行為。生物體就是個巨大的機械，但是複雜度卻遠高於機械，也不像機構那樣那麼容易理解，很多事情是人類目前還不知道的。</p><p>因為這樣的未知，這樣的複雜，這樣的調控系統，讓我決心研究所要往這個方向走。</p><p>大四的時候有進階生物技術，接觸到定序技術、生物資訊、序列處理的議題。同時雙主修資訊工程，我更享受在資工系的課程當中，雖然他講的是程式、作業系統等等，但是對於（建造）系統的概念始終是保留的。我最有興趣的大概是離散數學、演算法跟訊號與系統了，離散數學中的圖論可以說是非常神妙，而圖論的用途也超級廣，可以拿來 model 很多不同的事物。演算法則是去證明一件事情可以被如何的完成是最快的，這些魔法都來自於數學。訊號與系統講述了如何去探知或是解析一個系統，我們怎麼從一個系統的行為當中去反推這個系統的架構。</p><p>到研究所真正接觸了生物資訊與我的認知相去不遠，不過還是少了點什麼，看了看課程發現了機器學習的課程，也詢問了學長關於這個領域，聽說還蠻推薦的，但是受限於開課時間，就乾脆自己去找了 coursera 上林軒田老師的機器學習課程看，大概一個月左右就把他看完了。看的當下非常開心，學到了跟演算法非常相似的技術，而當時大數據剛開始紅，所以就以這個技術為主軸開始了我的研究。</p><p>殊不知，後來的深度學習的崛起，AI 的爆紅，讓機器學習變得異常的熱門。不過我還是希望繼續做系統生物學，應該說是計算生物學。來把這迷樣的生物系統 model 出來吧！</p>]]></content>
-    
-    <summary type="html">
-    
-      
-      
-        &lt;p&gt;受到其他文章的啟發，我也來寫一篇為什麼我踏入生物資訊領域好了。&lt;/p&gt;
-&lt;p&gt;受到啟發應該算是從高中的時候說起，高中的時候喜歡數學、物理跟生物。對於數學，喜歡他的抽象及純粹，而物理可以解釋這個世界的法則，對於生物則是一直以來隱隱約約有些感覺的。小時候對於生命現象一直很好奇，
-      
-    
-    </summary>
-    
     
     
   </entry>

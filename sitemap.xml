@@ -2,6 +2,20 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   
   <url>
+    <loc>https://yuehhua.github.io/2020/04/10/julia-multithread-setup/</loc>
+    
+    <lastmod>2020-04-10T02:19:55.814Z</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>https://yuehhua.github.io/2020/04/10/compile-julia-package/</loc>
+    
+    <lastmod>2020-04-10T02:11:39.723Z</lastmod>
+    
+  </url>
+  
+  <url>
     <loc>https://yuehhua.github.io/2020/04/01/julia-multiple-dispatch/</loc>
     
     <lastmod>2020-04-01T15:27:42.500Z</lastmod>

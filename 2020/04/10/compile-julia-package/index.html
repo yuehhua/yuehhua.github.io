@@ -1,0 +1,547 @@
+
+<!DOCTYPE html>
+<html lang="zh-tw,en,default">
+    
+<head>
+    <!-- hexo-inject:begin --><!-- hexo-inject:end --><meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="generator" content="Dream Maker">
+    <title>編譯 Julia 套件來避免過長的載入時間 - Dream Maker</title>
+    <meta name="author" content="Yueh-Hua Tu">
+    
+        <meta name="keywords" content="machine learning,deep learning,topology,">
+    
+    
+    
+        <link rel="alternate" type="application/atom+xml" title="RSS" href="/atom.xml">
+    
+    <script type="application/ld+json">{"@context":"http://schema.org","@type":"BlogPosting","author":{"@type":"Person","name":"Yueh-Hua Tu","sameAs":["https://github.com/yuehhua/","https://www.facebook.com/a504082002","https://www.linkedin.com/in/%E5%B2%B3%E8%8F%AF-%E6%9D%9C-6a3995a0/","mailto:a504082002@gmail.com"],"image":"https://www.gravatar.com/avatar/a565749fba4782b717234da670b273fd"},"articleBody":"Julia 有優異的效能，但是它的 JIT 讓套件的載入時間（using）過於冗長。\nJulia JIT 會在套件載入時期以及第一次使用函式時期進行編譯，若是有編譯完成的版本，便可以直接使用，避免編譯時間。儘管 Julia 將程式碼進行編譯，得到了絕佳的執行時間，但是套件載入的第一次編譯時間成為了大家的痛點。\n為了解決這樣的痛點，開發者社群做了不少努力，主要是 PackageCompiler.jl 套件，讓套件可以預先進行編譯，而後來也補充了不少 binary package 來支援套件編譯。\nPackageCompiler.jl 套件可以將 Julia 程式碼編譯成可執行檔以及動態函式庫（.so），支援套件編譯成動態函式庫，以及增量編譯（incremental compilation）。\n近期 PackageCompiler.jl 套件正式發佈 v1.0，正式成熟可以使用了！本文將會介紹如何將套件編譯成動態函式庫，並且在啟動時載入，來避免過長的載入及編譯時間。\n\n動態語言編譯\n在動態語言中，編譯一直是一個大問題。編譯時，需要知道更多底層的細節，像是變數的型別。例如 foo(a::Any, b::Any) 這樣的函式在動態語言中非常常見。Julia 會在呼叫 foo(3, 4) 時，經由型別推斷（type inference）知道它需要編譯 foo(a::Int64, b::Int64) 這樣的方法出來。當下次呼叫 foo(3., 4.) 時，則需要編譯 foo(a::Float64, b::Float64)。然而，要完整的編譯 foo 這個函式，需要編譯多少種方法呢？在型別的排列組合上會造成組合爆炸的問題，讓需要編譯的方法多到難以處理。這一直以來是動態語言無法完整編譯的問題點。\n那麼 Julia 怎麼做？PackageCompiler.jl 套件的編譯來自於 JIT，所以它直接將 Julia session 中已經編譯的函式儲存下來，以利後續使用。編譯的函式會以動態函式庫（.so）的形式儲存，就如同其他語言一樣。然而，Julia 仍然沒有完整編譯，Julia 只有部份編譯便存入動態函式庫。若是需要使用到未編譯的函式，就會在使用時 JIT 去處理。或許可以藉由套件的測試來增加編譯的函式數目，例如提高測試的覆蓋度來儘可能觸發各式各樣的方法進行編譯，然後儲存下來。\n編譯套件\n這邊我以編譯 Plots.jl 套件為例，繪圖相關套件的載入時間總是異常地久，所以我選擇 Plots.jl 套件來舉例。\n請確定 Julia 中已經安裝 Plots.jl 套件。\n1234julia&gt; using PackageCompilerjulia&gt; create_sysimage(:Plots; sysimage_path=\"Plots.so\")[ Info: PackageCompiler: creating system image object file, this might take a while...\ncreate_sysimage 會編譯並產生 sysimage，這個 image 可以在 Julia 啟動時一併載入，它會以動態函式庫的形式儲存下來。第一個參數請指定需要編譯的套件名稱，可以同時編譯多個套件，例如 [:Plots, :Gadfly]。關鍵字參數 sysimage_path=&quot;Plots.so&quot; 需要指定 system image 的檔名。執行後需要一段時間進行編譯。\n12shell&gt; lsPlots.so\n編譯完成後便可以在目前的資料夾下看到編譯完成的檔案 Plots.so。\n在下次使用時使用的話，請在啟動 Julia 時加入參數 -JPlots.so。\n123julia&gt; exit()$ julia -JPlots.so\n如此，我們就可以看到在啟動 Julia 之後載入的套件就有 Plots.jl 囉！\n123456789101112131415161718192021222324252627282930julia&gt; Base.loaded_modulesDict&#123;Base.PkgId,Module&#125; with 72 entries:  Future [9fa8497b-333b-5362-9e8d-4d0656e87820]           =&gt; Future  Requires [ae029012-a4dd-5104-9daa-d747884805df]         =&gt; Requires  RecipesBase [3cdcf5f2-1ef4-517c-9805-6587b60abb01]      =&gt; RecipesBase  InteractiveUtils [b77e0a4c-d291-57a0-90e8-8db25a27a240] =&gt; InteractiveUtils  Pkg [44cfe95a-1eb2-52ea-b672-e2afdf69b78f]              =&gt; Pkg  Printf [de0858da-6303-5e67-8744-51eddeeeb8d7]           =&gt; Printf  Base64 [2a0f44e3-6c83-55bd-87e4-b1978d98bd5f]           =&gt; Base64  Test [8dfed614-e22c-5e08-85e1-65c5234f0b40]             =&gt; Test  Reexport [189a3867-3050-52da-a836-e630ba90ab69]         =&gt; Reexport  Dates [ade2ca70-3891-5945-98fb-dc099432e06a]            =&gt; Dates  DelimitedFiles [8bb1440f-4735-579b-a4ab-409b98df4dab]   =&gt; DelimitedFiles  LAME_jll [c1c5ebd0-6772-5130-a774-d5fcae4a789d]         =&gt; LAME_jll  Missings [e1d29d7a-bbdc-5cf2-9ac0-f12de2c33e28]         =&gt; Missings  __PackagePrecompilationStatementModule [top-level]      =&gt; __PackagePrecompilationStatementModule  Opus_jll [91d4177d-7536-5919-b921-800302f37372]         =&gt; Opus_jll  StatsBase [2913bbd2-ae8a-5f71-8c99-4fb6c76f3a91]        =&gt; StatsBase  libfdk_aac_jll [f638f0a6-7fb0-5443-88ba-1cc74229b280]   =&gt; libfdk_aac_jll  libvorbis_jll [f27f6e37-5d2b-51aa-960f-b287f2bc3b7a]    =&gt; libvorbis_jll  REPL [3fa0cd96-eef1-5676-8a61-b3b8758bbffb]             =&gt; REPL  x265_jll [dfaa095f-4041-5dcd-9319-2fabd8486b76]         =&gt; x265_jll  LibGit2 [76f85450-5226-5b5a-8eaa-529ad045b433]          =&gt; LibGit2  Distributed [8ba89e20-285c-5b6f-9357-94700520ee1b]      =&gt; Distributed  Plots [91a5bcdd-55d7-5caf-9e0b-520d859cae80]            =&gt; Plots  LinearAlgebra [37e2e46d-f89d-539d-b4ee-838fcccc9c8e]    =&gt; LinearAlgebra  ⋮                                                       =&gt; ⋮julia&gt; Plots.plotplot (generic function with 3 methods)\n編譯到預設位置\nJulia 在系統中有 sys.so，它預設會在 Julia 啟動時載入，我們可以利用預先編譯好的函式庫來取代它，就可以不用參數的情況下自動載入。\n1create_sysimage([:Debugger, :OhMyREPL]; replace_default=true)\n將 sysimage_path 換成 replace_default=true，來將編譯的函式庫取代 sys.so，它會將原本的 sys.so 備份到 sys.so.backup，並將編譯好的 sys.so 寫入。\n增量編譯（incremental compilation）\nsysimage 可以進行增量編譯。增量編譯是指既有的函式並不會重新編譯，只會編譯那些新加入的函式。如果已經有 sysimage，那麼下次呼叫 create_sysimage 時，只會編譯新加入的部份，並且用新的函式庫檔案取代舊的。\n如果你想要關閉這個功能，那需要加入 incremental=false 來關閉增量編譯，這樣就會編譯一個全新的函式庫。\nRef: https://julialang.github.io/PackageCompiler.jl/dev/sysimages/\n","dateCreated":"2020-04-10T10:06:04+08:00","dateModified":"2020-04-10T10:11:39+08:00","datePublished":"2020-04-10T10:06:04+08:00","description":"Julia 有優異的效能，但是它的 JIT 讓套件的載入時間（using）過於冗長。\nJulia JIT 會在套件載入時期以及第一次使用函式時期進行編譯，若是有編譯完成的版本，便可以直接使用，避免編譯時間。儘管 Julia 將程式碼進行編譯，得到了絕佳的執行時間，但是套件載入的第一次編譯時間成為了大家的痛點。\n為了解決這樣的痛點，開發者社群做了不少努力，主要是 PackageCompiler.jl 套件，讓套件可以預先進行編譯，而後來也補充了不少 binary package 來支援套件編譯。\nPackageCompiler.jl 套件可以將 Julia 程式碼編譯成可執行檔以及動態函式庫（.so），支援套件編譯成動態函式庫，以及增量編譯（incremental compilation）。\n近期 PackageCompiler.jl 套件正式發佈 v1.0，正式成熟可以使用了！本文將會介紹如何將套件編譯成動態函式庫，並且在啟動時載入，來避免過長的載入及編譯時間。","headline":"編譯 Julia 套件來避免過長的載入時間","image":[],"mainEntityOfPage":{"@type":"WebPage","@id":"https://yuehhua.github.io/2020/04/10/compile-julia-package/"},"publisher":{"@type":"Organization","name":"Yueh-Hua Tu","sameAs":["https://github.com/yuehhua/","https://www.facebook.com/a504082002","https://www.linkedin.com/in/%E5%B2%B3%E8%8F%AF-%E6%9D%9C-6a3995a0/","mailto:a504082002@gmail.com"],"image":"https://www.gravatar.com/avatar/a565749fba4782b717234da670b273fd","logo":{"@type":"ImageObject","url":"https://www.gravatar.com/avatar/a565749fba4782b717234da670b273fd"}},"url":"https://yuehhua.github.io/2020/04/10/compile-julia-package/"}</script>
+    <meta name="description" content="Julia 有優異的效能，但是它的 JIT 讓套件的載入時間（using）過於冗長。 Julia JIT 會在套件載入時期以及第一次使用函式時期進行編譯，若是有編譯完成的版本，便可以直接使用，避免編譯時間。儘管 Julia 將程式碼進行編譯，得到了絕佳的執行時間，但是套件載入的第一次編譯時間成為了大家的痛點。 為了解決這樣的痛點，開發者社群做了不少努力，主要是 PackageCompiler.jl">
+<meta property="og:type" content="blog">
+<meta property="og:title" content="編譯 Julia 套件來避免過長的載入時間">
+<meta property="og:url" content="https://yuehhua.github.io/2020/04/10/compile-julia-package/index.html">
+<meta property="og:site_name" content="Dream Maker">
+<meta property="og:description" content="Julia 有優異的效能，但是它的 JIT 讓套件的載入時間（using）過於冗長。 Julia JIT 會在套件載入時期以及第一次使用函式時期進行編譯，若是有編譯完成的版本，便可以直接使用，避免編譯時間。儘管 Julia 將程式碼進行編譯，得到了絕佳的執行時間，但是套件載入的第一次編譯時間成為了大家的痛點。 為了解決這樣的痛點，開發者社群做了不少努力，主要是 PackageCompiler.jl">
+<meta property="og:locale" content="zh_TW">
+<meta property="article:published_time" content="2020-04-10T02:06:04.000Z">
+<meta property="article:modified_time" content="2020-04-10T02:11:39.723Z">
+<meta property="article:author" content="Yueh-Hua Tu">
+<meta property="article:tag" content="machine learning">
+<meta property="article:tag" content="deep learning">
+<meta property="article:tag" content="topology">
+<meta name="twitter:card" content="summary">
+    
+    
+        
+    
+    
+    
+    
+    
+    <!--STYLES-->
+    
+<link rel="stylesheet" href="/assets/css/style-3frockyt2j28isvdztjchy5nhkz8tjki9ermufc1ckptmvjdftux94m2ahub.min.css">
+
+    <!--STYLES END-->
+    
+    <script type="text/javascript">
+        (function (i, s, o, g, r, a, m) {
+        i['GoogleAnalyticsObject'] = r; i[r] = i[r] || function () {
+            (i[r].q = i[r].q || []).push(arguments)
+        }, i[r].l = 1 * new Date(); a = s.createElement(o),
+            m = s.getElementsByTagName(o)[0]; a.async = 1; a.src = g; m.parentNode.insertBefore(a, m)
+        })(window, document, 'script', '//www.google-analytics.com/analytics.js', 'ga');
+
+        ga('create', 'UA-119690895-1', 'auto');
+        ga('send', 'pageview');
+    </script><!-- hexo-inject:begin --><!-- hexo-inject:end -->
+    
+    
+</head>
+
+    <body>
+        <!-- hexo-inject:begin --><!-- hexo-inject:end --><div id="blog">
+            <!-- Define author's picture -->
+
+
+    
+
+<header id="header" data-behavior="5">
+    <i id="btn-open-sidebar" class="fa fa-lg fa-bars"></i>
+    <div class="header-title">
+        <a class="header-title-link" href="/%20">Dream Maker</a>
+    </div>
+    
+        
+            <a  class="header-right-picture "
+                href="#about">
+        
+        
+        </a>
+    
+</header>
+
+            <!-- Define author's picture -->
+
+
+<nav id="sidebar" data-behavior="5">
+    <div class="sidebar-container">
+        
+        
+            <ul class="sidebar-buttons">
+            
+                <li class="sidebar-button">
+                    
+                        <a  class="sidebar-button-link "
+                             href="/%20"
+                            
+                            title="首頁"
+                        >
+                    
+                        <i class="sidebar-button-icon fa fa-home" aria-hidden="true"></i>
+                        <span class="sidebar-button-desc">首頁</span>
+                    </a>
+            </li>
+            
+                <li class="sidebar-button">
+                    
+                        <a  class="sidebar-button-link "
+                             href="/all-categories"
+                            
+                            title="分類"
+                        >
+                    
+                        <i class="sidebar-button-icon fa fa-bookmark" aria-hidden="true"></i>
+                        <span class="sidebar-button-desc">分類</span>
+                    </a>
+            </li>
+            
+                <li class="sidebar-button">
+                    
+                        <a  class="sidebar-button-link "
+                             href="/all-tags"
+                            
+                            title="標籤"
+                        >
+                    
+                        <i class="sidebar-button-icon fa fa-tags" aria-hidden="true"></i>
+                        <span class="sidebar-button-desc">標籤</span>
+                    </a>
+            </li>
+            
+                <li class="sidebar-button">
+                    
+                        <a  class="sidebar-button-link "
+                             href="/all-archives"
+                            
+                            title="所有文章"
+                        >
+                    
+                        <i class="sidebar-button-icon fa fa-archive" aria-hidden="true"></i>
+                        <span class="sidebar-button-desc">所有文章</span>
+                    </a>
+            </li>
+            
+                <li class="sidebar-button">
+                    
+                        <a  class="sidebar-button-link open-algolia-search"
+                             href="#search"
+                            
+                            title="搜尋"
+                        >
+                    
+                        <i class="sidebar-button-icon fa fa-search" aria-hidden="true"></i>
+                        <span class="sidebar-button-desc">搜尋</span>
+                    </a>
+            </li>
+            
+                <li class="sidebar-button">
+                    
+                        <a  class="sidebar-button-link "
+                             href="#about"
+                            
+                            title="關於"
+                        >
+                    
+                        <i class="sidebar-button-icon fa fa-question" aria-hidden="true"></i>
+                        <span class="sidebar-button-desc">關於</span>
+                    </a>
+            </li>
+            
+        </ul>
+        
+            <ul class="sidebar-buttons">
+            
+                <li class="sidebar-button">
+                    
+                        <a  class="sidebar-button-link " href="https://github.com/yuehhua/" target="_blank" rel="noopener" title="GitHub">
+                    
+                        <i class="sidebar-button-icon fab fa-github" aria-hidden="true"></i>
+                        <span class="sidebar-button-desc">GitHub</span>
+                    </a>
+            </li>
+            
+                <li class="sidebar-button">
+                    
+                        <a  class="sidebar-button-link " href="https://www.facebook.com/a504082002" target="_blank" rel="noopener" title="Facebook">
+                    
+                        <i class="sidebar-button-icon fab fa-facebook" aria-hidden="true"></i>
+                        <span class="sidebar-button-desc">Facebook</span>
+                    </a>
+            </li>
+            
+                <li class="sidebar-button">
+                    
+                        <a  class="sidebar-button-link " href="https://www.linkedin.com/in/%E5%B2%B3%E8%8F%AF-%E6%9D%9C-6a3995a0/" target="_blank" rel="noopener" title="LinkedIn">
+                    
+                        <i class="sidebar-button-icon fab fa-linkedin" aria-hidden="true"></i>
+                        <span class="sidebar-button-desc">LinkedIn</span>
+                    </a>
+            </li>
+            
+                <li class="sidebar-button">
+                    
+                        <a  class="sidebar-button-link " href="mailto:a504082002@gmail.com" target="_blank" rel="noopener" title="Email">
+                    
+                        <i class="sidebar-button-icon fab fa-envelope" aria-hidden="true"></i>
+                        <span class="sidebar-button-desc">Email</span>
+                    </a>
+            </li>
+            
+        </ul>
+        
+            <ul class="sidebar-buttons">
+            
+                <li class="sidebar-button">
+                    
+                        <a  class="sidebar-button-link "
+                             href="/atom.xml"
+                            
+                            title="Atom"
+                        >
+                    
+                        <i class="sidebar-button-icon fa fa-rss" aria-hidden="true"></i>
+                        <span class="sidebar-button-desc">Atom</span>
+                    </a>
+            </li>
+            
+        </ul>
+        
+    </div>
+</nav>
+
+            
+            <div id="main" data-behavior="5"
+                 class="
+                        hasCoverMetaIn
+                        ">
+                
+    <article class="post">
+        
+                
+                    <div class="post-header main-content-wrap text-left">
+    
+        <h1 class="post-title">
+            編譯 Julia 套件來避免過長的載入時間
+        </h1>
+    
+    
+        <div class="post-meta">
+    <time datetime="2020-04-10T10:06:04+08:00">
+	
+		    4月 10, 2020
+    	
+    </time>
+    
+        <span>分類 </span>
+        
+    <a class="category-link" href="/categories/My-Style/">My Style</a>, <a class="category-link" href="/categories/My-Style/Computer-Science/">Computer Science</a>, <a class="category-link" href="/categories/My-Style/Computer-Science/Julialang/">Julialang</a>
+
+
+    
+</div>
+
+    
+</div>
+
+                        
+                            <div class="post-content markdown">
+                                <div class="main-content-wrap">
+                                    <p>Julia 有優異的效能，但是它的 JIT 讓套件的載入時間（<code>using</code>）過於冗長。</p>
+<p>Julia JIT 會在套件載入時期以及第一次使用函式時期進行編譯，若是有編譯完成的版本，便可以直接使用，避免編譯時間。儘管 Julia 將程式碼進行編譯，得到了絕佳的執行時間，但是套件載入的第一次編譯時間成為了大家的痛點。</p>
+<p>為了解決這樣的痛點，開發者社群做了不少努力，主要是 PackageCompiler.jl 套件，讓套件可以預先進行編譯，而後來也補充了不少 binary package 來支援套件編譯。</p>
+<p>PackageCompiler.jl 套件可以將 Julia 程式碼編譯成可執行檔以及動態函式庫（.so），支援套件編譯成動態函式庫，以及增量編譯（incremental compilation）。</p>
+<p>近期 PackageCompiler.jl 套件正式發佈 v1.0，正式成熟可以使用了！本文將會介紹如何將套件編譯成動態函式庫，並且在啟動時載入，來避免過長的載入及編譯時間。</p>
+<a id="more"></a>
+<h2 id="動態語言編譯">動態語言編譯</h2>
+<p>在動態語言中，編譯一直是一個大問題。編譯時，需要知道更多底層的細節，像是變數的型別。例如 <code>foo(a::Any, b::Any)</code> 這樣的函式在動態語言中非常常見。Julia 會在呼叫 <code>foo(3, 4)</code> 時，經由型別推斷（type inference）知道它需要編譯 <code>foo(a::Int64, b::Int64)</code> 這樣的方法出來。當下次呼叫 <code>foo(3., 4.)</code> 時，則需要編譯 <code>foo(a::Float64, b::Float64)</code>。然而，要完整的編譯 <code>foo</code> 這個函式，需要編譯多少種方法呢？在型別的排列組合上會造成組合爆炸的問題，讓需要編譯的方法多到難以處理。這一直以來是動態語言無法完整編譯的問題點。</p>
+<p>那麼 Julia 怎麼做？PackageCompiler.jl 套件的編譯來自於 JIT，所以它直接將 Julia session 中已經編譯的函式儲存下來，以利後續使用。編譯的函式會以動態函式庫（.so）的形式儲存，就如同其他語言一樣。然而，Julia 仍然沒有完整編譯，Julia 只有部份編譯便存入動態函式庫。若是需要使用到未編譯的函式，就會在使用時 JIT 去處理。或許可以藉由套件的測試來增加編譯的函式數目，例如提高測試的覆蓋度來儘可能觸發各式各樣的方法進行編譯，然後儲存下來。</p>
+<h2 id="編譯套件">編譯套件</h2>
+<p>這邊我以編譯 Plots.jl 套件為例，繪圖相關套件的載入時間總是異常地久，所以我選擇 Plots.jl 套件來舉例。</p>
+<p>請確定 Julia 中已經安裝 Plots.jl 套件。</p>
+<figure class="highlight julia"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">julia&gt; <span class="keyword">using</span> PackageCompiler</span><br><span class="line"></span><br><span class="line">julia&gt; create_sysimage(:Plots; sysimage_path=<span class="string">"Plots.so"</span>)</span><br><span class="line">[ Info: PackageCompiler: creating system image object file, this might take a <span class="keyword">while</span>...</span><br></pre></td></tr></table></figure>
+<p><code>create_sysimage</code> 會編譯並產生 sysimage，這個 image 可以在 Julia 啟動時一併載入，它會以動態函式庫的形式儲存下來。第一個參數請指定需要編譯的套件名稱，可以同時編譯多個套件，例如 <code>[:Plots, :Gadfly]</code>。關鍵字參數 <code>sysimage_path=&quot;Plots.so&quot;</code> 需要指定 system image 的檔名。執行後需要一段時間進行編譯。</p>
+<figure class="highlight julia"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">shell&gt; ls</span><br><span class="line">Plots.so</span><br></pre></td></tr></table></figure>
+<p>編譯完成後便可以在目前的資料夾下看到編譯完成的檔案 <a href="http://Plots.so" target="_blank" rel="noopener">Plots.so</a>。</p>
+<p>在下次使用時使用的話，請在啟動 Julia 時加入參數 <code>-JPlots.so</code>。</p>
+<figure class="highlight julia"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">julia&gt; exit()</span><br><span class="line"></span><br><span class="line">$ julia -JPlots.so</span><br></pre></td></tr></table></figure>
+<p>如此，我們就可以看到在啟動 Julia 之後載入的套件就有 Plots.jl 囉！</p>
+<figure class="highlight julia"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br></pre></td><td class="code"><pre><span class="line">julia&gt; Base.loaded_modules</span><br><span class="line"><span class="built_in">Dict</span>&#123;Base.PkgId,<span class="built_in">Module</span>&#125; with <span class="number">72</span> entries:</span><br><span class="line">  <span class="built_in">Future</span> [<span class="number">9</span>fa8497b-<span class="number">333</span>b-<span class="number">5362</span>-<span class="number">9e8</span>d-<span class="number">4</span>d0656e87820]           =&gt; <span class="built_in">Future</span></span><br><span class="line">  Requires [ae029012-a4dd-<span class="number">5104</span>-<span class="number">9</span>daa-d747884805df]         =&gt; Requires</span><br><span class="line">  RecipesBase [<span class="number">3</span>cdcf5f2-<span class="number">1</span>ef4-<span class="number">517</span>c-<span class="number">9805</span>-<span class="number">6587</span>b60abb01]      =&gt; RecipesBase</span><br><span class="line">  InteractiveUtils [b77e0a4c-d291-<span class="number">57</span>a0-<span class="number">90e8</span>-<span class="number">8</span>db25a27a240] =&gt; InteractiveUtils</span><br><span class="line">  Pkg [<span class="number">44</span>cfe95a-<span class="number">1</span>eb2-<span class="number">52</span>ea-b672-e2afdf69b78f]              =&gt; Pkg</span><br><span class="line">  Printf [de0858da-<span class="number">6303</span>-<span class="number">5e67</span>-<span class="number">8744</span>-<span class="number">51</span>eddeeeb8d7]           =&gt; Printf</span><br><span class="line">  Base64 [<span class="number">2</span>a0f44e3-<span class="number">6</span>c83-<span class="number">55</span>bd-<span class="number">87e4</span>-b1978d98bd5f]           =&gt; Base64</span><br><span class="line">  Test [<span class="number">8</span>dfed614-e22c-<span class="number">5e08</span>-<span class="number">85e1</span>-<span class="number">65</span>c5234f0b40]             =&gt; Test</span><br><span class="line">  Reexport [<span class="number">189</span>a3867-<span class="number">3050</span>-<span class="number">52</span>da-a836-e630ba90ab69]         =&gt; Reexport</span><br><span class="line">  Dates [ade2ca70-<span class="number">3891</span>-<span class="number">5945</span>-<span class="number">98</span>fb-dc099432e06a]            =&gt; Dates</span><br><span class="line">  DelimitedFiles [<span class="number">8</span>bb1440f-<span class="number">4735</span>-<span class="number">579</span>b-a4ab-<span class="number">409</span>b98df4dab]   =&gt; DelimitedFiles</span><br><span class="line">  LAME_jll [c1c5ebd0-<span class="number">6772</span>-<span class="number">5130</span>-a774-d5fcae4a789d]         =&gt; LAME_jll</span><br><span class="line">  Missings [e1d29d7a-bbdc-<span class="number">5</span>cf2-<span class="number">9</span>ac0-f12de2c33e28]         =&gt; Missings</span><br><span class="line">  __PackagePrecompilationStatementModule [top-level]      =&gt; __PackagePrecompilationStatementModule</span><br><span class="line">  Opus_jll [<span class="number">91</span>d4177d-<span class="number">7536</span>-<span class="number">5919</span>-b921-<span class="number">800302f37372</span>]         =&gt; Opus_jll</span><br><span class="line">  StatsBase [<span class="number">2913</span>bbd2-ae8a-<span class="number">5f71</span>-<span class="number">8</span>c99-<span class="number">4</span>fb6c76f3a91]        =&gt; StatsBase</span><br><span class="line">  libfdk_aac_jll [f638f0a6-<span class="number">7</span>fb0-<span class="number">5443</span>-<span class="number">88</span>ba-<span class="number">1</span>cc74229b280]   =&gt; libfdk_aac_jll</span><br><span class="line">  libvorbis_jll [f27f6e37-<span class="number">5</span>d2b-<span class="number">51</span>aa-<span class="number">960</span>f-b287f2bc3b7a]    =&gt; libvorbis_jll</span><br><span class="line">  REPL [<span class="number">3</span>fa0cd96-eef1-<span class="number">5676</span>-<span class="number">8</span>a61-b3b8758bbffb]             =&gt; REPL</span><br><span class="line">  x265_jll [dfaa095f-<span class="number">4041</span>-<span class="number">5</span>dcd-<span class="number">9319</span>-<span class="number">2</span>fabd8486b76]         =&gt; x265_jll</span><br><span class="line">  LibGit2 [<span class="number">76f85450</span>-<span class="number">5226</span>-<span class="number">5</span>b5a-<span class="number">8</span>eaa-<span class="number">529</span>ad045b433]          =&gt; LibGit2</span><br><span class="line">  Distributed [<span class="number">8</span>ba89e20-<span class="number">285</span>c-<span class="number">5</span>b6f-<span class="number">9357</span>-<span class="number">94700520</span>ee1b]      =&gt; Distributed</span><br><span class="line">  Plots [<span class="number">91</span>a5bcdd-<span class="number">55</span>d7-<span class="number">5</span>caf-<span class="number">9e0</span>b-<span class="number">520</span>d859cae80]            =&gt; Plots</span><br><span class="line">  LinearAlgebra [<span class="number">37e2</span>e46d-f89d-<span class="number">539</span>d-b4ee-<span class="number">838</span>fcccc9c8e]    =&gt; LinearAlgebra</span><br><span class="line">  ⋮                                                       =&gt; ⋮</span><br><span class="line"></span><br><span class="line">julia&gt; Plots.plot</span><br><span class="line">plot (generic <span class="keyword">function</span> with <span class="number">3</span> methods)</span><br></pre></td></tr></table></figure>
+<h2 id="編譯到預設位置">編譯到預設位置</h2>
+<p>Julia 在系統中有 <a href="http://sys.so" target="_blank" rel="noopener">sys.so</a>，它預設會在 Julia 啟動時載入，我們可以利用預先編譯好的函式庫來取代它，就可以不用參數的情況下自動載入。</p>
+<figure class="highlight julia"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">create_sysimage([:Debugger, :OhMyREPL]; replace_default=<span class="literal">true</span>)</span><br></pre></td></tr></table></figure>
+<p>將 <code>sysimage_path</code> 換成 <code>replace_default=true</code>，來將編譯的函式庫取代 <a href="http://sys.so" target="_blank" rel="noopener">sys.so</a>，它會將原本的 <a href="http://sys.so" target="_blank" rel="noopener">sys.so</a> 備份到 sys.so.backup，並將編譯好的 <a href="http://sys.so" target="_blank" rel="noopener">sys.so</a> 寫入。</p>
+<h2 id="增量編譯（incremental-compilation）">增量編譯（incremental compilation）</h2>
+<p>sysimage 可以進行增量編譯。增量編譯是指既有的函式並不會重新編譯，只會編譯那些新加入的函式。如果已經有 sysimage，那麼下次呼叫 <code>create_sysimage</code> 時，只會編譯新加入的部份，並且用新的函式庫檔案取代舊的。</p>
+<p>如果你想要關閉這個功能，那需要加入 <code>incremental=false</code> 來關閉增量編譯，這樣就會編譯一個全新的函式庫。</p>
+<p>Ref: <a href="https://julialang.github.io/PackageCompiler.jl/dev/sysimages/" target="_blank" rel="noopener">https://julialang.github.io/PackageCompiler.jl/dev/sysimages/</a></p>
+
+                                        
+
+                                </div>
+                            </div>
+                            <div id="post-footer" class="post-footer main-content-wrap">
+                                
+                                        
+                                            <div class="post-actions-wrap">
+    <nav>
+        <ul class="post-actions post-action-nav">
+            <li class="post-action">
+                
+                    
+                    <a class="post-action-btn btn btn--default tooltip--top" href="/2020/04/10/julia-multithread-setup/" data-tooltip="設定 Julia 多執行緒" aria-label="上一篇: 設定 Julia 多執行緒">
+                
+                    <i class="fa fa-angle-left" aria-hidden="true"></i>
+                    <span class="hide-xs hide-sm text-small icon-ml">上一篇</span>
+                </a>
+            </li>
+            <li class="post-action">
+                
+                    
+                    <a class="post-action-btn btn btn--default tooltip--top" href="/2020/04/01/julia-multiple-dispatch/" data-tooltip="Julia 的多重分派" aria-label="下一篇: Julia 的多重分派">
+                
+                    <span class="hide-xs hide-sm text-small icon-mr">下一篇</span>
+                    <i class="fa fa-angle-right" aria-hidden="true"></i>
+                </a>
+            </li>
+        </ul>
+    </nav>
+    <ul class="post-actions post-action-share">
+        <li class="post-action hide-lg hide-md hide-sm">
+            <a class="post-action-btn btn btn--default btn-open-shareoptions" href="#btn-open-shareoptions" aria-label="Share this post">
+                <i class="fa fa-share-alt" aria-hidden="true"></i>
+            </a>
+        </li>
+        
+            
+            
+            <li class="post-action hide-xs">
+                <a class="post-action-btn btn btn--default" target="new" href="https://www.facebook.com/sharer/sharer.php?u=https://yuehhua.github.io/2020/04/10/compile-julia-package/" title="分享到 Facebook">
+                    <i class="fa fa-facebook-official" aria-hidden="true"></i>
+                </a>
+            </li>
+        
+        
+            
+                <li class="post-action">
+                    <a class="post-action-btn btn btn--default" href="#disqus_thread">
+                        <i class="fa fa-comment-o"></i>
+                    </a>
+                </li>
+            
+        
+        <li class="post-action">
+            
+                <a class="post-action-btn btn btn--default" href="#" aria-label="Back to top">
+            
+                <i class="fa fa-list" aria-hidden="true"></i>
+            </a>
+        </li>
+    </ul>
+</div>
+
+
+                                                
+                                                    
+                                                        
+                                                            <div id="disqus_thread">
+    <noscript>Please enable JavaScript to view the <a href="//disqus.com/?ref_noscript" target="_blank" rel="noopener">comments powered by Disqus.</a></noscript>
+</div>
+                                                                
+                                                                            
+                            </div>
+                            
+                                <script src='https://unpkg.com/mermaid@7.1.2/dist/mermaid.min.js'></script>
+                                <script>
+                                    if (window.mermaid) {
+                                        mermaid.initialize({ theme: 'forest' });
+                                    }
+                                </script>
+                                
+    </article>
+
+                <footer id="footer" class="main-content-wrap">
+    <span class="copyrights">
+        Copyrights &copy; 2020 Yueh-Hua Tu. All Rights Reserved.
+    </span>
+</footer>
+
+            </div>
+            
+                <div id="bottom-bar" class="post-bottom-bar" data-behavior="5">
+                    <div class="post-actions-wrap">
+    <nav>
+        <ul class="post-actions post-action-nav">
+            <li class="post-action">
+                
+                    
+                    <a class="post-action-btn btn btn--default tooltip--top" href="/2020/04/10/julia-multithread-setup/" data-tooltip="設定 Julia 多執行緒" aria-label="上一篇: 設定 Julia 多執行緒">
+                
+                    <i class="fa fa-angle-left" aria-hidden="true"></i>
+                    <span class="hide-xs hide-sm text-small icon-ml">上一篇</span>
+                </a>
+            </li>
+            <li class="post-action">
+                
+                    
+                    <a class="post-action-btn btn btn--default tooltip--top" href="/2020/04/01/julia-multiple-dispatch/" data-tooltip="Julia 的多重分派" aria-label="下一篇: Julia 的多重分派">
+                
+                    <span class="hide-xs hide-sm text-small icon-mr">下一篇</span>
+                    <i class="fa fa-angle-right" aria-hidden="true"></i>
+                </a>
+            </li>
+        </ul>
+    </nav>
+    <ul class="post-actions post-action-share">
+        <li class="post-action hide-lg hide-md hide-sm">
+            <a class="post-action-btn btn btn--default btn-open-shareoptions" href="#btn-open-shareoptions" aria-label="Share this post">
+                <i class="fa fa-share-alt" aria-hidden="true"></i>
+            </a>
+        </li>
+        
+            
+            
+            <li class="post-action hide-xs">
+                <a class="post-action-btn btn btn--default" target="new" href="https://www.facebook.com/sharer/sharer.php?u=https://yuehhua.github.io/2020/04/10/compile-julia-package/" title="分享到 Facebook">
+                    <i class="fa fa-facebook-official" aria-hidden="true"></i>
+                </a>
+            </li>
+        
+        
+            
+                <li class="post-action">
+                    <a class="post-action-btn btn btn--default" href="#disqus_thread">
+                        <i class="fa fa-comment-o"></i>
+                    </a>
+                </li>
+            
+        
+        <li class="post-action">
+            
+                <a class="post-action-btn btn btn--default" href="#" aria-label="Back to top">
+            
+                <i class="fa fa-list" aria-hidden="true"></i>
+            </a>
+        </li>
+    </ul>
+</div>
+
+
+                </div>
+                <div id="share-options-bar" class="share-options-bar" data-behavior="5">
+    <i id="btn-close-shareoptions" class="fa fa-close"></i>
+    <ul class="share-options">
+        
+            
+            
+            <li class="share-option">
+                <a class="share-option-btn" target="new" href="https://www.facebook.com/sharer/sharer.php?u=https://yuehhua.github.io/2020/04/10/compile-julia-package/">
+                    <i class="fa fa-facebook-official" aria-hidden="true"></i><span>分享到 Facebook</span>
+                </a>
+            </li>
+        
+    </ul>
+</div>
+
+            
+        </div>
+        
+
+
+<div id="about">
+    <div id="about-card">
+        <div id="about-btn-close">
+            <i class="fa fa-remove"></i>
+        </div>
+        
+            <h4 id="about-card-name">Yueh-Hua Tu</h4>
+        
+            <div id="about-card-bio"><p>目標是計算生物學家！</br>Systems Biology, Computational Biology, Machine Learning</br>Julia Taiwan 發起人</p>
+</div>
+        
+        
+            <div id="about-card-job">
+                <i class="fa fa-briefcase"></i>
+                <br/>
+                <p>研發替代役研究助理</p>
+
+            </div>
+        
+        
+            <div id="about-card-location">
+                <i class="fa fa-map-marker"></i>
+                <br/>
+                Taiwan
+            </div>
+        
+    </div>
+</div>
+
+        
+        
+<div id="cover" style="background-image:url('/assets/images/cover.jpg');"></div>
+        <!--SCRIPTS-->
+
+<script src="/assets/js/script-xzfezjobyekpxrjktw5tz6muvzqfsbmo5n6atk3p5om9ulfptldi3p7cyqd8.min.js"></script>
+
+<!--SCRIPTS END-->
+
+
+<script>
+    var disqus_config = function () {
+        this.page.url = 'https://yuehhua.github.io/2020/04/10/compile-julia-package/';
+                 
+            this.page.identifier = '2020/04/10/compile-julia-package/';
+                 
+             };
+    (function () {
+        var d = document, s = d.createElement('script');
+        var disqus_shortname = 'dream-maker';
+        s.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+
+        s.setAttribute('data-timestamp', +new Date());
+        (d.head || d.body).appendChild(s);
+    })();
+</script><!-- hexo-inject:begin --><!-- Begin: Injected MathJax -->
+<script type="text/x-mathjax-config">
+  MathJax.Hub.Config({"tex2jax":{"inlineMath":[["$","$"],["\\(","\\)"]],"skipTags":["script","noscript","style","textarea","pre","code"],"processEscapes":true},"TeX":{"equationNumbers":{"autoNumber":"AMS"}}});
+</script>
+
+<script type="text/x-mathjax-config">
+  MathJax.Hub.Queue(function() {
+    var all = MathJax.Hub.getAllJax(), i;
+    for(i=0; i < all.length; i += 1) {
+      all[i].SourceElement().parentNode.className += ' has-jax';
+    }
+  });
+</script>
+
+<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.6/latest.js?config=TeX-AMS-MML_HTMLorMML">
+</script>
+<!-- End: Injected MathJax -->
+<!-- hexo-inject:end -->
+
+
+
+    </body>
+</html>
