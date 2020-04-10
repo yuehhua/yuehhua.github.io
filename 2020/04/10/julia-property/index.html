@@ -6,7 +6,7 @@
     <!-- hexo-inject:begin --><!-- hexo-inject:end --><meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="generator" content="Dream Maker">
-    <title>設定 Julia 多執行緒 - Dream Maker</title>
+    <title>讓 Julia 像 Python 一樣擁有物件 property - Dream Maker</title>
     <meta name="author" content="Yueh-Hua Tu">
     
         <meta name="keywords" content="machine learning,deep learning,topology,">
@@ -15,16 +15,16 @@
     
         <link rel="alternate" type="application/atom+xml" title="RSS" href="/atom.xml">
     
-    <script type="application/ld+json">{"@context":"http://schema.org","@type":"BlogPosting","author":{"@type":"Person","name":"Yueh-Hua Tu","sameAs":["https://github.com/yuehhua/","https://www.facebook.com/a504082002","https://www.linkedin.com/in/%E5%B2%B3%E8%8F%AF-%E6%9D%9C-6a3995a0/","mailto:a504082002@gmail.com"],"image":"https://www.gravatar.com/avatar/a565749fba4782b717234da670b273fd"},"articleBody":"Julia 從 v1.3 起支援多執行緒（multithreading）。\n這邊文章要來教大家如何在 Julia 啟動時，自動配置多執行緒。\n\n一般要在 Julia 中使用多執行緒，可以在啟動 Julia 時，以環境變數的形式指定。\n1$ JULIA_NUM_THREADS&#x3D;4 julia\n但不想在每次啟動時都加入，這樣會很麻煩。\n我們可以將這個寫到環境變數當中。像是在 Linux 環境中，可以將以下環境變數寫到 ~/.bashrc 或 ~/.bash_profile 中。\n1export JULIA_NUM_THREADS&#x3D;4\nRef: https://docs.julialang.org/en/v1/manual/environment-variables/index.html\n","dateCreated":"2020-04-10T10:19:55+08:00","dateModified":"2020-04-10T10:19:55+08:00","datePublished":"2020-04-10T10:19:55+08:00","description":"Julia 從 v1.3 起支援多執行緒（multithreading）。\n這邊文章要來教大家如何在 Julia 啟動時，自動配置多執行緒。","headline":"設定 Julia 多執行緒","image":[],"mainEntityOfPage":{"@type":"WebPage","@id":"https://yuehhua.github.io/2020/04/10/julia-multithread-setup/"},"publisher":{"@type":"Organization","name":"Yueh-Hua Tu","sameAs":["https://github.com/yuehhua/","https://www.facebook.com/a504082002","https://www.linkedin.com/in/%E5%B2%B3%E8%8F%AF-%E6%9D%9C-6a3995a0/","mailto:a504082002@gmail.com"],"image":"https://www.gravatar.com/avatar/a565749fba4782b717234da670b273fd","logo":{"@type":"ImageObject","url":"https://www.gravatar.com/avatar/a565749fba4782b717234da670b273fd"}},"url":"https://yuehhua.github.io/2020/04/10/julia-multithread-setup/"}</script>
-    <meta name="description" content="Julia 從 v1.3 起支援多執行緒（multithreading）。 這邊文章要來教大家如何在 Julia 啟動時，自動配置多執行緒。">
+    <script type="application/ld+json">{"@context":"http://schema.org","@type":"BlogPosting","author":{"@type":"Person","name":"Yueh-Hua Tu","sameAs":["https://github.com/yuehhua/","https://www.facebook.com/a504082002","https://www.linkedin.com/in/%E5%B2%B3%E8%8F%AF-%E6%9D%9C-6a3995a0/","mailto:a504082002@gmail.com"],"image":"https://www.gravatar.com/avatar/a565749fba4782b717234da670b273fd"},"articleBody":"Julia 的物件都有屬性，但這需要寫在型別中事先定義。但如果要為沒有任何屬性的型別增加屬性要怎麼做？\nJulia 的屬性存取是來自 Base.getproperty 及 Base.setproperty! 兩個方法。\n\n如果我們這樣定義。\n123julia&gt; struct Foo endjulia&gt; Base.getproperty(::Foo, x::Symbol) = \"$x\"\n來測試不同的 property。\n12345678julia&gt; foo = Foo()Foo()julia&gt; foo.a\"a\"julia&gt; foo.x\"x\"\n以及設定的部份。\n1234567julia&gt; Base.setproperty!(::Foo, x::Symbol, v) = nothingjulia&gt; foo.a = 11julia&gt; foo.b = 11\n不過要注意的是，如果對本身就有屬性的型別增加 Base.getproperty 及 Base.setproperty! 兩個方法，會去更動到原先的屬性存取行為喔！這邊要注意一下。\n","dateCreated":"2020-04-10T10:56:41+08:00","dateModified":"2020-04-10T10:56:41+08:00","datePublished":"2020-04-10T10:56:41+08:00","description":"Julia 的物件都有屬性，但這需要寫在型別中事先定義。但如果要為沒有任何屬性的型別增加屬性要怎麼做？\nJulia 的屬性存取是來自 Base.getproperty 及 Base.setproperty! 兩個方法。","headline":"讓 Julia 像 Python 一樣擁有物件 property","image":[],"mainEntityOfPage":{"@type":"WebPage","@id":"https://yuehhua.github.io/2020/04/10/julia-property/"},"publisher":{"@type":"Organization","name":"Yueh-Hua Tu","sameAs":["https://github.com/yuehhua/","https://www.facebook.com/a504082002","https://www.linkedin.com/in/%E5%B2%B3%E8%8F%AF-%E6%9D%9C-6a3995a0/","mailto:a504082002@gmail.com"],"image":"https://www.gravatar.com/avatar/a565749fba4782b717234da670b273fd","logo":{"@type":"ImageObject","url":"https://www.gravatar.com/avatar/a565749fba4782b717234da670b273fd"}},"url":"https://yuehhua.github.io/2020/04/10/julia-property/"}</script>
+    <meta name="description" content="Julia 的物件都有屬性，但這需要寫在型別中事先定義。但如果要為沒有任何屬性的型別增加屬性要怎麼做？ Julia 的屬性存取是來自 Base.getproperty 及 Base.setproperty! 兩個方法。">
 <meta property="og:type" content="blog">
-<meta property="og:title" content="設定 Julia 多執行緒">
-<meta property="og:url" content="https://yuehhua.github.io/2020/04/10/julia-multithread-setup/index.html">
+<meta property="og:title" content="讓 Julia 像 Python 一樣擁有物件 property">
+<meta property="og:url" content="https://yuehhua.github.io/2020/04/10/julia-property/index.html">
 <meta property="og:site_name" content="Dream Maker">
-<meta property="og:description" content="Julia 從 v1.3 起支援多執行緒（multithreading）。 這邊文章要來教大家如何在 Julia 啟動時，自動配置多執行緒。">
+<meta property="og:description" content="Julia 的物件都有屬性，但這需要寫在型別中事先定義。但如果要為沒有任何屬性的型別增加屬性要怎麼做？ Julia 的屬性存取是來自 Base.getproperty 及 Base.setproperty! 兩個方法。">
 <meta property="og:locale" content="zh_TW">
-<meta property="article:published_time" content="2020-04-10T02:19:55.000Z">
-<meta property="article:modified_time" content="2020-04-10T02:19:55.814Z">
+<meta property="article:published_time" content="2020-04-10T02:56:41.000Z">
+<meta property="article:modified_time" content="2020-04-10T02:56:41.889Z">
 <meta property="article:author" content="Yueh-Hua Tu">
 <meta property="article:tag" content="machine learning">
 <meta property="article:tag" content="deep learning">
@@ -242,12 +242,12 @@
                     <div class="post-header main-content-wrap text-left">
     
         <h1 class="post-title">
-            設定 Julia 多執行緒
+            讓 Julia 像 Python 一樣擁有物件 property
         </h1>
     
     
         <div class="post-meta">
-    <time datetime="2020-04-10T10:19:55+08:00">
+    <time datetime="2020-04-10T10:56:41+08:00">
 	
 		    4月 10, 2020
     	
@@ -267,15 +267,16 @@
                         
                             <div class="post-content markdown">
                                 <div class="main-content-wrap">
-                                    <p>Julia 從 v1.3 起支援多執行緒（multithreading）。</p>
-<p>這邊文章要來教大家如何在 Julia 啟動時，自動配置多執行緒。</p>
+                                    <p>Julia 的物件都有屬性，但這需要寫在型別中事先定義。但如果要為沒有任何屬性的型別增加屬性要怎麼做？</p>
+<p>Julia 的屬性存取是來自 <code>Base.getproperty</code> 及 <code>Base.setproperty!</code> 兩個方法。</p>
 <a id="more"></a>
-<p>一般要在 Julia 中使用多執行緒，可以在啟動 Julia 時，以環境變數的形式指定。</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ JULIA_NUM_THREADS&#x3D;4 julia</span><br></pre></td></tr></table></figure>
-<p>但不想在每次啟動時都加入，這樣會很麻煩。</p>
-<p>我們可以將這個寫到環境變數當中。像是在 Linux 環境中，可以將以下環境變數寫到 ~/.bashrc 或 ~/.bash_profile 中。</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">export JULIA_NUM_THREADS&#x3D;4</span><br></pre></td></tr></table></figure>
-<p>Ref: <a href="https://docs.julialang.org/en/v1/manual/environment-variables/index.html" target="_blank" rel="noopener">https://docs.julialang.org/en/v1/manual/environment-variables/index.html</a></p>
+<p>如果我們這樣定義。</p>
+<figure class="highlight julia"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">julia&gt; <span class="keyword">struct</span> Foo <span class="keyword">end</span></span><br><span class="line"></span><br><span class="line">julia&gt; Base.getproperty(::Foo, x::<span class="built_in">Symbol</span>) = <span class="string">"<span class="variable">$x</span>"</span></span><br></pre></td></tr></table></figure>
+<p>來測試不同的 property。</p>
+<figure class="highlight julia"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">julia&gt; foo = Foo()</span><br><span class="line">Foo()</span><br><span class="line"></span><br><span class="line">julia&gt; foo.a</span><br><span class="line"><span class="string">"a"</span></span><br><span class="line"></span><br><span class="line">julia&gt; foo.x</span><br><span class="line"><span class="string">"x"</span></span><br></pre></td></tr></table></figure>
+<p>以及設定的部份。</p>
+<figure class="highlight julia"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">julia&gt; Base.setproperty!(::Foo, x::<span class="built_in">Symbol</span>, v) = <span class="literal">nothing</span></span><br><span class="line"></span><br><span class="line">julia&gt; foo.a = <span class="number">1</span></span><br><span class="line"><span class="number">1</span></span><br><span class="line"></span><br><span class="line">julia&gt; foo.b = <span class="number">1</span></span><br><span class="line"><span class="number">1</span></span><br></pre></td></tr></table></figure>
+<p>不過要注意的是，如果對本身就有屬性的型別增加 <code>Base.getproperty</code> 及 <code>Base.setproperty!</code> 兩個方法，會去更動到原先的屬性存取行為喔！這邊要注意一下。</p>
 
                                         
 
@@ -289,8 +290,7 @@
         <ul class="post-actions post-action-nav">
             <li class="post-action">
                 
-                    
-                    <a class="post-action-btn btn btn--default tooltip--top" href="/2020/04/10/julia-property/" data-tooltip="讓 Julia 像 Python 一樣擁有物件 property" aria-label="上一篇: 讓 Julia 像 Python 一樣擁有物件 property">
+                    <a class="post-action-btn btn btn--disabled">
                 
                     <i class="fa fa-angle-left" aria-hidden="true"></i>
                     <span class="hide-xs hide-sm text-small icon-ml">上一篇</span>
@@ -299,7 +299,7 @@
             <li class="post-action">
                 
                     
-                    <a class="post-action-btn btn btn--default tooltip--top" href="/2020/04/10/compile-julia-package/" data-tooltip="編譯 Julia 套件來避免過長的載入時間" aria-label="下一篇: 編譯 Julia 套件來避免過長的載入時間">
+                    <a class="post-action-btn btn btn--default tooltip--top" href="/2020/04/10/julia-multithread-setup/" data-tooltip="設定 Julia 多執行緒" aria-label="下一篇: 設定 Julia 多執行緒">
                 
                     <span class="hide-xs hide-sm text-small icon-mr">下一篇</span>
                     <i class="fa fa-angle-right" aria-hidden="true"></i>
@@ -317,7 +317,7 @@
             
             
             <li class="post-action hide-xs">
-                <a class="post-action-btn btn btn--default" target="new" href="https://www.facebook.com/sharer/sharer.php?u=https://yuehhua.github.io/2020/04/10/julia-multithread-setup/" title="分享到 Facebook">
+                <a class="post-action-btn btn btn--default" target="new" href="https://www.facebook.com/sharer/sharer.php?u=https://yuehhua.github.io/2020/04/10/julia-property/" title="分享到 Facebook">
                     <i class="fa fa-facebook-official" aria-hidden="true"></i>
                 </a>
             </li>
@@ -375,8 +375,7 @@
         <ul class="post-actions post-action-nav">
             <li class="post-action">
                 
-                    
-                    <a class="post-action-btn btn btn--default tooltip--top" href="/2020/04/10/julia-property/" data-tooltip="讓 Julia 像 Python 一樣擁有物件 property" aria-label="上一篇: 讓 Julia 像 Python 一樣擁有物件 property">
+                    <a class="post-action-btn btn btn--disabled">
                 
                     <i class="fa fa-angle-left" aria-hidden="true"></i>
                     <span class="hide-xs hide-sm text-small icon-ml">上一篇</span>
@@ -385,7 +384,7 @@
             <li class="post-action">
                 
                     
-                    <a class="post-action-btn btn btn--default tooltip--top" href="/2020/04/10/compile-julia-package/" data-tooltip="編譯 Julia 套件來避免過長的載入時間" aria-label="下一篇: 編譯 Julia 套件來避免過長的載入時間">
+                    <a class="post-action-btn btn btn--default tooltip--top" href="/2020/04/10/julia-multithread-setup/" data-tooltip="設定 Julia 多執行緒" aria-label="下一篇: 設定 Julia 多執行緒">
                 
                     <span class="hide-xs hide-sm text-small icon-mr">下一篇</span>
                     <i class="fa fa-angle-right" aria-hidden="true"></i>
@@ -403,7 +402,7 @@
             
             
             <li class="post-action hide-xs">
-                <a class="post-action-btn btn btn--default" target="new" href="https://www.facebook.com/sharer/sharer.php?u=https://yuehhua.github.io/2020/04/10/julia-multithread-setup/" title="分享到 Facebook">
+                <a class="post-action-btn btn btn--default" target="new" href="https://www.facebook.com/sharer/sharer.php?u=https://yuehhua.github.io/2020/04/10/julia-property/" title="分享到 Facebook">
                     <i class="fa fa-facebook-official" aria-hidden="true"></i>
                 </a>
             </li>
@@ -436,7 +435,7 @@
             
             
             <li class="share-option">
-                <a class="share-option-btn" target="new" href="https://www.facebook.com/sharer/sharer.php?u=https://yuehhua.github.io/2020/04/10/julia-multithread-setup/">
+                <a class="share-option-btn" target="new" href="https://www.facebook.com/sharer/sharer.php?u=https://yuehhua.github.io/2020/04/10/julia-property/">
                     <i class="fa fa-facebook-official" aria-hidden="true"></i><span>分享到 Facebook</span>
                 </a>
             </li>
@@ -490,9 +489,9 @@
 
 <script>
     var disqus_config = function () {
-        this.page.url = 'https://yuehhua.github.io/2020/04/10/julia-multithread-setup/';
+        this.page.url = 'https://yuehhua.github.io/2020/04/10/julia-property/';
                  
-            this.page.identifier = '2020/04/10/julia-multithread-setup/';
+            this.page.identifier = '2020/04/10/julia-property/';
                  
              };
     (function () {

@@ -6,7 +6,7 @@
   <link href="/atom.xml" rel="self"/>
   
   <link href="https://yuehhua.github.io/"/>
-  <updated>2020-04-10T02:19:55.814Z</updated>
+  <updated>2020-04-10T02:56:41.889Z</updated>
   <id>https://yuehhua.github.io/</id>
   
   <author>
@@ -15,6 +15,32 @@
   </author>
   
   <generator uri="https://hexo.io/">Hexo</generator>
+  
+  <entry>
+    <title>讓 Julia 像 Python 一樣擁有物件 property</title>
+    <link href="https://yuehhua.github.io/2020/04/10/julia-property/"/>
+    <id>https://yuehhua.github.io/2020/04/10/julia-property/</id>
+    <published>2020-04-10T02:56:41.000Z</published>
+    <updated>2020-04-10T02:56:41.889Z</updated>
+    
+    <content type="html"><![CDATA[<p>Julia 的物件都有屬性，但這需要寫在型別中事先定義。但如果要為沒有任何屬性的型別增加屬性要怎麼做？</p><p>Julia 的屬性存取是來自 <code>Base.getproperty</code> 及 <code>Base.setproperty!</code> 兩個方法。</p><a id="more"></a><p>如果我們這樣定義。</p><figure class="highlight julia"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">julia&gt; <span class="keyword">struct</span> Foo <span class="keyword">end</span></span><br><span class="line"></span><br><span class="line">julia&gt; Base.getproperty(::Foo, x::<span class="built_in">Symbol</span>) = <span class="string">"<span class="variable">$x</span>"</span></span><br></pre></td></tr></table></figure><p>來測試不同的 property。</p><figure class="highlight julia"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">julia&gt; foo = Foo()</span><br><span class="line">Foo()</span><br><span class="line"></span><br><span class="line">julia&gt; foo.a</span><br><span class="line"><span class="string">"a"</span></span><br><span class="line"></span><br><span class="line">julia&gt; foo.x</span><br><span class="line"><span class="string">"x"</span></span><br></pre></td></tr></table></figure><p>以及設定的部份。</p><figure class="highlight julia"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">julia&gt; Base.setproperty!(::Foo, x::<span class="built_in">Symbol</span>, v) = <span class="literal">nothing</span></span><br><span class="line"></span><br><span class="line">julia&gt; foo.a = <span class="number">1</span></span><br><span class="line"><span class="number">1</span></span><br><span class="line"></span><br><span class="line">julia&gt; foo.b = <span class="number">1</span></span><br><span class="line"><span class="number">1</span></span><br></pre></td></tr></table></figure><p>不過要注意的是，如果對本身就有屬性的型別增加 <code>Base.getproperty</code> 及 <code>Base.setproperty!</code> 兩個方法，會去更動到原先的屬性存取行為喔！這邊要注意一下。</p>]]></content>
+    
+    <summary type="html">
+    
+      &lt;p&gt;Julia 的物件都有屬性，但這需要寫在型別中事先定義。但如果要為沒有任何屬性的型別增加屬性要怎麼做？&lt;/p&gt;
+&lt;p&gt;Julia 的屬性存取是來自 &lt;code&gt;Base.getproperty&lt;/code&gt; 及 &lt;code&gt;Base.setproperty!&lt;/code&gt; 兩個方法。&lt;/p&gt;
+    
+    </summary>
+    
+    
+      <category term="My Style" scheme="https://yuehhua.github.io/categories/My-Style/"/>
+    
+      <category term="Computer Science" scheme="https://yuehhua.github.io/categories/My-Style/Computer-Science/"/>
+    
+      <category term="Julialang" scheme="https://yuehhua.github.io/categories/My-Style/Computer-Science/Julialang/"/>
+    
+    
+  </entry>
   
   <entry>
     <title>設定 Julia 多執行緒</title>
@@ -511,35 +537,6 @@ $$&lt;/p&gt;
 &lt;p&gt;所以我就做了一些測試。&lt;/p&gt;
 &lt;p&gt;在參數化型別中使用值：&lt;/p&gt;
 &lt;figure class=&quot;highlight julia&quot;&gt;&lt;tab
-      
-    
-    </summary>
-    
-    
-      <category term="My Style" scheme="https://yuehhua.github.io/categories/My-Style/"/>
-    
-      <category term="Computer Science" scheme="https://yuehhua.github.io/categories/My-Style/Computer-Science/"/>
-    
-      <category term="Julialang" scheme="https://yuehhua.github.io/categories/My-Style/Computer-Science/Julialang/"/>
-    
-    
-  </entry>
-  
-  <entry>
-    <title>在參數化型別中定義值</title>
-    <link href="https://yuehhua.github.io/2019/02/22/define-values-in-parametric-type/"/>
-    <id>https://yuehhua.github.io/2019/02/22/define-values-in-parametric-type/</id>
-    <published>2019-02-21T17:22:42.000Z</published>
-    <updated>2019-09-06T03:21:46.486Z</updated>
-    
-    <content type="html"><![CDATA[<p>應該不少人看到這個標題會摸不著頭緒到底要做什麼，但是看完 Julia 中常見的程式碼你就會了解了。</p><figure class="highlight julia"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">Array</span>&#123;<span class="built_in">Any</span>, <span class="number">2</span>&#125;</span><br></pre></td></tr></table></figure><p>有沒有曾經納悶過那個數字 2 到底是怎麼進到參數的位置上的呢？</p><p>參數的位置不是只能放型別（type）嗎？</p><p>這同時也是我困惑已久的問題，就搜尋了一下，果不其然被我找到了方法：</p><figure class="highlight julia"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">struct</span> A&#123;T&#125;</span><br><span class="line"><span class="keyword">end</span></span><br></pre></td></tr></table></figure><figure class="highlight julia"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">A&#123;<span class="number">5</span>&#125;()</span><br></pre></td></tr></table></figure><p>原來這麼簡單就可以完成了！語法上並沒有限定一定要是<em>型別</em>，要放型別以外的東西似乎是可以的。</p><p>我目前測試了可以的有：Int64、Float64、Complex、Char、Bool、Symbol，所以估計數字應該都是可以的。</p><p>不行的有：String、Array，估計物件或是陣列都是不行的。</p><h2 id="定義範圍">定義範圍</h2><p>不過使用上並沒有任何限制會有點危險，所以還是定義一下範圍會比較好，像是：</p><figure class="highlight julia"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">struct</span> A&#123;<span class="literal">I</span>&#125;</span><br><span class="line">    <span class="keyword">function</span> A&#123;<span class="literal">I</span>&#125;() <span class="keyword">where</span> &#123;<span class="literal">I</span>&#125;</span><br><span class="line">        <span class="keyword">isa</span>(<span class="literal">I</span>,<span class="built_in">Integer</span>) || error(<span class="string">"bad parameter"</span>)</span><br><span class="line">        new()</span><br><span class="line">    <span class="keyword">end</span></span><br><span class="line"><span class="keyword">end</span></span><br></pre></td></tr></table></figure><p>這樣就可以限制參數要是整數的範圍。</p><h2 id="從參數取值">從參數取值</h2><p>那我們能不能從型別的參數當中取值呢？</p><p>可以。</p><figure class="highlight julia"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">get_value(::A&#123;<span class="literal">I</span>&#125;) <span class="keyword">where</span> A&#123;<span class="literal">I</span>&#125; = <span class="literal">I</span></span><br></pre></td></tr></table></figure><p>如此一來，我們就可以從型別中拿到值了。</p><h2 id="好處？">好處？</h2><p>這麼做有什麼好處？</p><p>當你把值的資訊放到型別當中，型別就多了一些資訊可以提供編譯器處理，這對於要自己設計型別階層可是非常好用的。</p><p>例如像是你可以將陣列的長度資訊儲存到型別上，這樣編譯器就可以處理陣列的長度資訊了。</p><p>這樣的程式風格會跟 dependent type language 有些相似了。</p><p>大家可以玩玩看。</p>]]></content>
-    
-    <summary type="html">
-    
-      
-      
-        &lt;p&gt;應該不少人看到這個標題會摸不著頭緒到底要做什麼，但是看完 Julia 中常見的程式碼你就會了解了。&lt;/p&gt;
-&lt;figure class=&quot;highlight julia&quot;&gt;&lt;table&gt;&lt;tr&gt;&lt;td class=&quot;gutter&quot;&gt;&lt;pre&gt;&lt;span class=&quot;lin
       
     
     </summary>
