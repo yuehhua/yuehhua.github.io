@@ -2,6 +2,13 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   
   <url>
+    <loc>https://yuehhua.github.io/2020/04/11/composable-the-key-feature-in-julia/</loc>
+    
+    <lastmod>2020-04-11T05:43:24.428Z</lastmod>
+    
+  </url>
+  
+  <url>
     <loc>https://yuehhua.github.io/2020/04/10/julia-property/</loc>
     
     <lastmod>2020-04-10T02:56:41.889Z</lastmod>

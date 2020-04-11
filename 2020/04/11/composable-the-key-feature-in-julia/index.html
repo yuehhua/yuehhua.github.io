@@ -6,7 +6,7 @@
     <!-- hexo-inject:begin --><!-- hexo-inject:end --><meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="generator" content="Dream Maker">
-    <title>所有文章: 2020/4 - Dream Maker</title>
+    <title>可組合性（Composable）：Julia 語言的重要特性 - Dream Maker</title>
     <meta name="author" content="Yueh-Hua Tu">
     
         <meta name="keywords" content="machine learning,deep learning,topology,">
@@ -15,12 +15,16 @@
     
         <link rel="alternate" type="application/atom+xml" title="RSS" href="/atom.xml">
     
-    <script type="application/ld+json">{}</script>
-    <meta property="og:type" content="blog">
-<meta property="og:title" content="Dream Maker">
-<meta property="og:url" content="https://yuehhua.github.io/archives/2020/04/index.html">
+    <script type="application/ld+json">{"@context":"http://schema.org","@type":"BlogPosting","author":{"@type":"Person","name":"Yueh-Hua Tu","sameAs":["https://github.com/yuehhua/","https://www.facebook.com/a504082002","https://www.linkedin.com/in/%E5%B2%B3%E8%8F%AF-%E6%9D%9C-6a3995a0/","mailto:a504082002@gmail.com"],"image":"https://www.gravatar.com/avatar/a565749fba4782b717234da670b273fd"},"articleBody":"其實是受到 Julia 核心開發者之一 Lyndon White 的文章的啟發來撰寫本文的。\n文章有 CSDNnews 簡中翻譯。\n本文並非以上文章的繁中版本，而是本人的一些心得及觀察。\n載入套件\n比較深入了解 Julia 的朋友，會了解到這個語言的設計與其他語言的不同，像是 using。\n當我們使用 using 來載入套件的時候，會發現有不少存在在 Base 中的函式是可以使用的。像是 length 可以用來取得陣列的長度，當你載入 DataStructures.jl 時，你同樣可以用 length 來取得 Stack 及 Queue 的長度。\n或者是原文中的例子。使用者可以使用 NamedDims.jl 來為你的陣列的維度命名，而你的陣列需要使用 CuArrays.jl 送到 CUDA，這時候你不需要一個可以為 CUDA array 命名的套件來達成這件事。\n你會發現在 Julia 語言中似乎不存在套件跟套件之間的差別，或是套件跟標準函式庫之間的區別。這是由於在 Julia 中對於命名空間（namespace）的概念較為薄弱，Julia 各模組之間仍然存在著命名空間，但是 Julia 在 using 時會將這些命名空間去除。這在工程上或許不是一個好的典範，因為會造成命名空間的汙染（namespace pollution）。反過來說，它促使人們相互溝通及協調，來提供更好的套件之間的可組合性。\n在其他語言中，常常會告訴你，使用某個套件只需要載入你需要的部份，像是 using Foo: bar, baz，然而 Julia 並不去特別強調這點，using Foo 會載入套件開發者有導出的部份。如果有兩個套件都提供了 predict 來支援他們的模型，這邊借原文的例子再次說明：\n1234567using Foousing Bartraining_data, test_data = ...mbar = BarModel(training_data)mfoo = FooModel(training_data)evaluate(predict(mbar), test_data)evaluate(predict(mfoo), test_data)\n這兩個 predict 分別來自雙方套件的各自定義及實作。\n12Bar.predict(mbar)Foo.predict(mfoo)\n如此使用者便可以無縫地使用同樣一個介面 predict，而功能來自兩個不同的套件。\n這樣的特性大概會有人聯想到介面（interface）。然而，Julia 並不明顯使用介面來規範開發者，Julia 隱含地使用鴨子定型（duck typing）。\n在載入套件之後，Julia 允許使用者不冠上套件名稱來使用這些函式，像 Bar.predict，你可以自由地使用 predict 即可。總是會有套件之間的命名衝突，當衝突發生的時候，就是開發者需要負起責任彼此溝通及協調的時候。不過使用者仍然可以以 Bar.predict 的方式使用套件，只是每次載入套件的時候都會有警告。\n鴨子定型及多重分派\n在原文中提到鴨子定型及多重分派是成就 Julia 成為一個可組合（composable）語言的基石。我個人也認為可組合是 Julia 提供最重要的特性之一，但卻鮮少被人提及。多數人仍然熱衷於語言效能及開發便利性。\n鴨子定型的一個很好的比喻是，當一個東西會呱呱叫的時候，那麼他就是鴨子。當一個 bar(x) 可以呼叫時，我不需要去檢查 x 的型別為何，我就直接使用就是了。這樣會構成一種隱性的介面。\n當我需要提供一個矩陣相乘的功能時，我會寫以下程式碼：\n123456789101112function multiply(A, B)    C = zeros(size(A, 1), size(B, 2))    A = A'    for i = 1:size(C, 1)        for i = 1:size(C, 2)            for k = 1:size(A, 2)                C[i, j] = sum(A[:, k] .* B[:, k])            end        end    end    return Cend\n這可以用在一般的矩陣，但如果今天我有自定義的一個新的矩陣呢？\n123struct NewArray    ...end\n在上述的 multiply 中我只需要檢查 NewArray 是否提供相關的介面即可。像是裡頭用到了 size、A[:, k] 及 sum。我只需要支援這些介面的實作即可，如此，Julia 就可以以鴨子定型的方式，讓 multiply 接受 NewArray 了。\n對於不同的型別需要有不同的行為，這在一般的物件導向語言中稱之為多型。多型在多數物件導向典範中使用的是單一分派（single dispatch），然而 Julia 也支援多型，但是以多重分派（multiple dispatch）的方式支援。因此，廣義而言，Julia 支援物件導向的方式是多重分派，卻不是典型的、語法上的封裝、繼承及（單一分派）多型。\n多重分派，可以在需要更細緻行為定義時幫上忙。當 NewArray 支援 sum：\n1sum(::NewArray) = ...\n這是單一分派的方式，也可以有多重分派的方式。\n1sum(::NewArray, ::Array) = ...\n不過這樣只支援 Array 這個特定型別。或是我們可以乾脆這樣做。\n1sum(::NewArray, ::AbstractArray) = ...\n這樣只要是 AbstractArray 的子型別都可以接受。\n總結\n以上種種的特性成為了可組合性的基石。一個具有可組合性的語言能夠成為各種東西。Julia 的個別的套件都不俱備所有的定義，需要依賴 Julia 語言及標準函式庫的介面及實作。\n例如當 Julia 中載入了深度學習框架，那它，連同語言本身，就是一個完整支援深度學習功能的引擎。當同時載入了資料庫與深度學習相關套件，那它就成為了支援深度學習功能的 DBMS。當載入了科學計算及機器學習套件，那它就會變成一個強大的數值計算引擎。以 Julia 的可組合性出發，來打造各式各樣不同的引擎，就像一個單純的編輯器搭配有豐富的外掛（plug-in）一樣。這樣衍生出的生態帶來了各式各樣不同的可能性，也讓套件的 reusability 提升到最高的境界。\n","dateCreated":"2020-04-11T13:43:24+08:00","dateModified":"2020-04-11T13:43:24+08:00","datePublished":"2020-04-11T13:43:24+08:00","description":"","headline":"可組合性（Composable）：Julia 語言的重要特性","image":[],"mainEntityOfPage":{"@type":"WebPage","@id":"https://yuehhua.github.io/2020/04/11/composable-the-key-feature-in-julia/"},"publisher":{"@type":"Organization","name":"Yueh-Hua Tu","sameAs":["https://github.com/yuehhua/","https://www.facebook.com/a504082002","https://www.linkedin.com/in/%E5%B2%B3%E8%8F%AF-%E6%9D%9C-6a3995a0/","mailto:a504082002@gmail.com"],"image":"https://www.gravatar.com/avatar/a565749fba4782b717234da670b273fd","logo":{"@type":"ImageObject","url":"https://www.gravatar.com/avatar/a565749fba4782b717234da670b273fd"}},"url":"https://yuehhua.github.io/2020/04/11/composable-the-key-feature-in-julia/"}</script>
+    <meta name="description" content="其實是受到 Julia 核心開發者之一 Lyndon White 的文章的啟發來撰寫本文的。 文章有 CSDNnews 簡中翻譯。 本文並非以上文章的繁中版本，而是本人的一些心得及觀察。 載入套件 比較深入了解 Julia 的朋友，會了解到這個語言的設計與其他語言的不同，像是 using。 當我們使用 using 來載入套件的時候，會發現有不少存在在 Base 中的函式是可以使用的。像是 leng">
+<meta property="og:type" content="blog">
+<meta property="og:title" content="可組合性（Composable）：Julia 語言的重要特性">
+<meta property="og:url" content="https://yuehhua.github.io/2020/04/11/composable-the-key-feature-in-julia/index.html">
 <meta property="og:site_name" content="Dream Maker">
+<meta property="og:description" content="其實是受到 Julia 核心開發者之一 Lyndon White 的文章的啟發來撰寫本文的。 文章有 CSDNnews 簡中翻譯。 本文並非以上文章的繁中版本，而是本人的一些心得及觀察。 載入套件 比較深入了解 Julia 的朋友，會了解到這個語言的設計與其他語言的不同，像是 using。 當我們使用 using 來載入套件的時候，會發現有不少存在在 Base 中的函式是可以使用的。像是 leng">
 <meta property="og:locale" content="zh_TW">
+<meta property="article:published_time" content="2020-04-11T05:43:24.000Z">
+<meta property="article:modified_time" content="2020-04-11T05:43:24.428Z">
 <meta property="article:author" content="Yueh-Hua Tu">
 <meta property="article:tag" content="machine learning">
 <meta property="article:tag" content="deep learning">
@@ -62,7 +66,7 @@
 
     
 
-<header id="header" data-behavior="2">
+<header id="header" data-behavior="5">
     <i id="btn-open-sidebar" class="fa fa-lg fa-bars"></i>
     <div class="header-title">
         <a class="header-title-link" href="/%20">Dream Maker</a>
@@ -80,7 +84,7 @@
             <!-- Define author's picture -->
 
 
-<nav id="sidebar" data-behavior="2">
+<nav id="sidebar" data-behavior="5">
     <div class="sidebar-container">
         
         
@@ -227,26 +231,22 @@
 </nav>
 
             
-            <div id="main" data-behavior="2"
+            <div id="main" data-behavior="5"
                  class="
                         hasCoverMetaIn
                         ">
                 
-    <section class="postShorten-group main-content-wrap">
+    <article class="post">
+        
+                
+                    <div class="post-header main-content-wrap text-left">
+    
+        <h1 class="post-title">
+            可組合性（Composable）：Julia 語言的重要特性
+        </h1>
     
     
-    <article class="postShorten postShorten--thumbnailimg-bottom">
-        <div class="postShorten-wrap">
-            
-            <div class="postShorten-header">
-                <h1 class="postShorten-title">
-                    
-                        <a class="link-unstyled" href="/2020/04/11/composable-the-key-feature-in-julia/">
-                            可組合性（Composable）：Julia 語言的重要特性
-                        </a>
-                    
-                </h1>
-                <div class="postShorten-meta">
+        <div class="post-meta">
     <time datetime="2020-04-11T13:43:24+08:00">
 	
 		    4月 11, 2020
@@ -261,10 +261,13 @@
     
 </div>
 
-            </div>
-            
-                <div class="postShorten-content">
-                    <p>其實是受到 Julia 核心開發者之一 Lyndon White 的<a href="https://white.ucc.asn.au/2020/02/09/whycompositionaljulia.html" target="_blank" rel="noopener">文章</a>的啟發來撰寫本文的。</p>
+    
+</div>
+
+                        
+                            <div class="post-content markdown">
+                                <div class="main-content-wrap">
+                                    <p>其實是受到 Julia 核心開發者之一 Lyndon White 的<a href="https://white.ucc.asn.au/2020/02/09/whycompositionaljulia.html" target="_blank" rel="noopener">文章</a>的啟發來撰寫本文的。</p>
 <p>文章有 <a href="https://mp.weixin.qq.com/s/4_Sbi8q5EZDjHj6ouM1Ydg" target="_blank" rel="noopener">CSDNnews 簡中翻譯</a>。</p>
 <p>本文並非以上文章的繁中版本，而是本人的一些心得及觀察。</p>
 <h2 id="載入套件">載入套件</h2>
@@ -299,261 +302,88 @@
 <p>以上種種的特性成為了可組合性的基石。一個具有可組合性的語言能夠成為各種東西。Julia 的個別的套件都不俱備所有的定義，需要依賴 Julia 語言及標準函式庫的介面及實作。</p>
 <p>例如當 Julia 中載入了深度學習框架，那它，連同語言本身，就是一個完整支援深度學習功能的引擎。當同時載入了資料庫與深度學習相關套件，那它就成為了支援深度學習功能的 DBMS。當載入了科學計算及機器學習套件，那它就會變成一個強大的數值計算引擎。以 Julia 的可組合性出發，來打造各式各樣不同的引擎，就像一個單純的編輯器搭配有豐富的外掛（plug-in）一樣。這樣衍生出的生態帶來了各式各樣不同的可能性，也讓套件的 reusability 提升到最高的境界。</p>
 
-                    
-                        
+                                        
 
+                                </div>
+                            </div>
+                            <div id="post-footer" class="post-footer main-content-wrap">
+                                
+                                        
+                                            <div class="post-actions-wrap">
+    <nav>
+        <ul class="post-actions post-action-nav">
+            <li class="post-action">
+                
+                    <a class="post-action-btn btn btn--disabled">
+                
+                    <i class="fa fa-angle-left" aria-hidden="true"></i>
+                    <span class="hide-xs hide-sm text-small icon-ml">上一篇</span>
+                </a>
+            </li>
+            <li class="post-action">
+                
                     
-                    
-                        <p>
-                            <a href="/2020/04/11/composable-the-key-feature-in-julia/#post-footer" class="postShorten-excerpt_link link">
-                                留言與分享
-                            </a>
-                        </p>
-                    
-                </div>
-            
-        </div>
+                    <a class="post-action-btn btn btn--default tooltip--top" href="/2020/04/10/julia-property/" data-tooltip="讓 Julia 像 Python 一樣擁有物件 property" aria-label="下一篇: 讓 Julia 像 Python 一樣擁有物件 property">
+                
+                    <span class="hide-xs hide-sm text-small icon-mr">下一篇</span>
+                    <i class="fa fa-angle-right" aria-hidden="true"></i>
+                </a>
+            </li>
+        </ul>
+    </nav>
+    <ul class="post-actions post-action-share">
+        <li class="post-action hide-lg hide-md hide-sm">
+            <a class="post-action-btn btn btn--default btn-open-shareoptions" href="#btn-open-shareoptions" aria-label="Share this post">
+                <i class="fa fa-share-alt" aria-hidden="true"></i>
+            </a>
+        </li>
         
-    </article>
-    
-    
-    <article class="postShorten postShorten--thumbnailimg-right">
-        <div class="postShorten-wrap">
             
-            <div class="postShorten-header">
-                <h1 class="postShorten-title">
-                    
-                        <a class="link-unstyled" href="/2020/04/10/julia-property/">
-                            讓 Julia 像 Python 一樣擁有物件 property
-                        </a>
-                    
-                </h1>
-                <div class="postShorten-meta">
-    <time datetime="2020-04-10T10:56:41+08:00">
-	
-		    4月 10, 2020
-    	
-    </time>
-    
-        <span>分類 </span>
-        
-    <a class="category-link" href="/categories/My-Style/">My Style</a>, <a class="category-link" href="/categories/My-Style/Computer-Science/">Computer Science</a>, <a class="category-link" href="/categories/My-Style/Computer-Science/Julialang/">Julialang</a>
-
-
-    
-</div>
-
-            </div>
             
-                <div class="postShorten-excerpt">
-                    <p>Julia 的物件都有屬性，但這需要寫在型別中事先定義。但如果要為沒有任何屬性的型別增加屬性要怎麼做？</p>
-<p>Julia 的屬性存取是來自 <code>Base.getproperty</code> 及 <code>Base.setproperty!</code> 兩個方法。</p>
-                    
-                        <a href="/2020/04/10/julia-property/" class="postShorten-excerpt_link link">
-                            繼續閱讀
-                        </a>
-                        
-                    
-                </div>
-            
-        </div>
-        
-    </article>
-    
-    
-    <article class="postShorten postShorten--thumbnailimg-right">
-        <div class="postShorten-wrap">
-            
-            <div class="postShorten-header">
-                <h1 class="postShorten-title">
-                    
-                        <a class="link-unstyled" href="/2020/04/10/julia-multithread-setup/">
-                            設定 Julia 多執行緒
-                        </a>
-                    
-                </h1>
-                <div class="postShorten-meta">
-    <time datetime="2020-04-10T10:19:55+08:00">
-	
-		    4月 10, 2020
-    	
-    </time>
-    
-        <span>分類 </span>
-        
-    <a class="category-link" href="/categories/My-Style/">My Style</a>, <a class="category-link" href="/categories/My-Style/Computer-Science/">Computer Science</a>, <a class="category-link" href="/categories/My-Style/Computer-Science/Julialang/">Julialang</a>
-
-
-    
-</div>
-
-            </div>
-            
-                <div class="postShorten-excerpt">
-                    <p>Julia 從 v1.3 起支援多執行緒（multithreading）。</p>
-<p>這邊文章要來教大家如何在 Julia 啟動時，自動配置多執行緒。</p>
-                    
-                        <a href="/2020/04/10/julia-multithread-setup/" class="postShorten-excerpt_link link">
-                            繼續閱讀
-                        </a>
-                        
-                    
-                </div>
-            
-        </div>
-        
-    </article>
-    
-    
-    <article class="postShorten postShorten--thumbnailimg-right">
-        <div class="postShorten-wrap">
-            
-            <div class="postShorten-header">
-                <h1 class="postShorten-title">
-                    
-                        <a class="link-unstyled" href="/2020/04/10/compile-julia-package/">
-                            編譯 Julia 套件來避免過長的載入時間
-                        </a>
-                    
-                </h1>
-                <div class="postShorten-meta">
-    <time datetime="2020-04-10T10:06:04+08:00">
-	
-		    4月 10, 2020
-    	
-    </time>
-    
-        <span>分類 </span>
-        
-    <a class="category-link" href="/categories/My-Style/">My Style</a>, <a class="category-link" href="/categories/My-Style/Computer-Science/">Computer Science</a>, <a class="category-link" href="/categories/My-Style/Computer-Science/Julialang/">Julialang</a>
-
-
-    
-</div>
-
-            </div>
-            
-                <div class="postShorten-excerpt">
-                    <p>Julia 有優異的效能，但是它的 JIT 讓套件的載入時間（<code>using</code>）過於冗長。</p>
-<p>Julia JIT 會在套件載入時期以及第一次使用函式時期進行編譯，若是有編譯完成的版本，便可以直接使用，避免編譯時間。儘管 Julia 將程式碼進行編譯，得到了絕佳的執行時間，但是套件載入的第一次編譯時間成為了大家的痛點。</p>
-<p>為了解決這樣的痛點，開發者社群做了不少努力，主要是 PackageCompiler.jl 套件，讓套件可以預先進行編譯，而後來也補充了不少 binary package 來支援套件編譯。</p>
-<p>PackageCompiler.jl 套件可以將 Julia 程式碼編譯成可執行檔以及動態函式庫（.so），支援套件編譯成動態函式庫，以及增量編譯（incremental compilation）。</p>
-<p>近期 PackageCompiler.jl 套件正式發佈 v1.0，正式成熟可以使用了！本文將會介紹如何將套件編譯成動態函式庫，並且在啟動時載入，來避免過長的載入及編譯時間。</p>
-                    
-                        <a href="/2020/04/10/compile-julia-package/" class="postShorten-excerpt_link link">
-                            繼續閱讀
-                        </a>
-                        
-                    
-                </div>
-            
-        </div>
-        
-    </article>
-    
-    
-    <article class="postShorten postShorten--thumbnailimg-bottom">
-        <div class="postShorten-wrap">
-            
-            <div class="postShorten-header">
-                <h1 class="postShorten-title">
-                    
-                        <a class="link-unstyled" href="/2020/04/01/julia-multiple-dispatch/">
-                            Julia 的多重分派
-                        </a>
-                    
-                </h1>
-                <div class="postShorten-meta">
-    <time datetime="2020-04-01T23:27:42+08:00">
-	
-		    4月 01, 2020
-    	
-    </time>
-    
-        <span>分類 </span>
-        
-    <a class="category-link" href="/categories/My-Style/">My Style</a>, <a class="category-link" href="/categories/My-Style/Computer-Science/">Computer Science</a>, <a class="category-link" href="/categories/My-Style/Computer-Science/Julialang/">Julialang</a>
-
-
-    
-</div>
-
-            </div>
-            
-                <div class="postShorten-content">
-                    <p>今天來談談 Julia 的多重分派（multiple dispatch）。</p>
-<p>很顯然地，多重分派有別於單一分派（single dispatch），而單一分派是在現今主流的物件導向程式設計中常見的方式。</p>
-<p>在現今的物件導向程式設計當中，我們會將函式歸納到某個類別底下成為其類別的方法，而這個方法就屬於這個類別。</p>
-<h2 id="多重分派-v-s-單一分派">多重分派 v.s. 單一分派</h2>
-<p>這樣的觀點就是單一分派的精神，單一分派是指一個方法的呼叫，要如何決定呼叫的是哪一個方法實作呢？</p>
-<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Foo</span>:</span></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">abc</span><span class="params">(self, x)</span>:</span></span><br><span class="line">        <span class="keyword">return</span> str(x)</span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Bar</span>:</span></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">abc</span><span class="params">(self, x)</span>:</span></span><br><span class="line">        <span class="keyword">return</span> int(x)</span><br><span class="line"></span><br><span class="line">foo = Foo()</span><br><span class="line">bar = Bar()</span><br></pre></td></tr></table></figure>
-<p>像以上的 python 程式碼，<code>foo.abc(x)</code> 就是去呼叫 <code>Foo</code> 的方法，而 <code>bar.abc(x)</code> 則是去呼叫 <code>Bar</code> 的方法。</p>
-<p>也就是說，方法的呼叫是由第一個參數所決定的，這邊要注意的是第一個參數並不是 <code>x</code>，而是 <code>self</code> 喔！也就是物件本身！</p>
-<p>相對於單一分派，多重分派是指他會參考所有的參數型別及其組合來決定到底要呼叫哪一個方法。</p>
-<p>所以我們也有了更細緻的選擇。</p>
-<figure class="highlight julia"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">abc(foo::Foo, x::<span class="built_in">String</span>) = x</span><br><span class="line">abc(foo::Foo, x::<span class="built_in">Int64</span>) = <span class="built_in">String</span>(x)</span><br><span class="line">abc(bar::Bar, x::<span class="built_in">String</span>) = Meta.parse(x)</span><br><span class="line">abc(bar::Bar, x::<span class="built_in">Int64</span>) = x</span><br></pre></td></tr></table></figure>
-<p>當第一個參數型別是 <code>Foo</code> 時，就回傳字串，而當第一個參數型別是 <code>Bar</code> 時，就回傳整數。</p>
-<p>我們可以去區別，當 <code>x</code> 已經是整數或是字串時就不用去處理它，直接回傳即可。若是有不同型別時，個別處理。</p>
-<p>這邊我們並沒有使用到第一個型別的參數，在 Julia 裡可以省略變數本身，只寫型別。</p>
-<figure class="highlight julia"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">abc(::Foo, x::<span class="built_in">String</span>) = x</span><br><span class="line">abc(::Foo, x::<span class="built_in">Int64</span>) = <span class="built_in">String</span>(x)</span><br><span class="line">abc(::Bar, x::<span class="built_in">String</span>) = Meta.parse(x)</span><br><span class="line">abc(::Bar, x::<span class="built_in">Int64</span>) = x</span><br></pre></td></tr></table></figure>
-<h2 id="多重分派的自由與限制">多重分派的自由與限制</h2>
-<p>使用多重分派可以讓語言有更細緻的定義，也有更高的自由度。</p>
-<p>我們可以看看以下的例子，這邊使用了常常被使用的 null pattern：</p>
-<figure class="highlight julia"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">push!(ls::List, obj::NullObject) = ls</span><br><span class="line"></span><br><span class="line">psuh!(ls::List, obj::Object) = push!(ls.array, obj)</span><br></pre></td></tr></table></figure>
-<p>當我要去表示一類物件，我們會實作 <code>Object</code>，但往往我們會想要表示一個為空的物件，這時候我們就會有一個 <code>NullObject</code> 來表達這件事。</p>
-<p>當我們想要將一個 <code>Object</code> 放到 <code>List</code> 中的時候，我們會實作 <code>push!</code>，然而當一個 <code>NullObject</code> 被放入 <code>List</code> 的時候，我們並不需要真的做什麼樣的動作。實作就會如同上面的程式碼。</p>
-<p>相對在 python 或是一般物件導向語言當中，我們就會看到以下的程式碼：</p>
-<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">List</span>:</span></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">append</span><span class="params">(self, obj)</span>:</span></span><br><span class="line">        <span class="keyword">if</span> type(obj) == NullObject:</span><br><span class="line">            <span class="keyword">return</span> self</span><br><span class="line">        <span class="keyword">elif</span> type(obj) == Object:</span><br><span class="line">            self.array.append(obj)</span><br></pre></td></tr></table></figure>
-<p>我們需要自己去判斷接收進來的參數型別，然後進一步做處理。這樣的話會讓我們的程式碼充滿 if-else，當條件一多時，會變得相當難以閱讀及修改。</p>
-<p>使用多重分派並不是只有優點，他也有缺點。多重分派會引入模糊性（ambiguity）。</p>
-<p>考慮以下程式碼：</p>
-<figure class="highlight julia"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">foo(a::A, b) = a</span><br><span class="line">foo(a, b::B) = b</span><br><span class="line"></span><br><span class="line">a = A()</span><br><span class="line">b = B()</span><br></pre></td></tr></table></figure>
-<p>請問 <code>foo(a, b)</code> 該呼叫哪一個方法呢？</p>
-<p>這樣的呼叫在 Julia 會產生錯誤，也就是編譯器不知道該呼叫哪一個方法。</p>
-<p>這時候編譯器會建議修改的方式，就是定義一個更明確的方法：</p>
-<figure class="highlight julia"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">foo(a::A, b::B)</span><br></pre></td></tr></table></figure>
-<h2 id="應用情境">應用情境</h2>
-<p>我們來寫個簡單的剪刀石頭布遊戲！</p>
-<figure class="highlight julia"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">struct</span> Paper <span class="keyword">end</span></span><br><span class="line"><span class="keyword">struct</span> Scissor <span class="keyword">end</span></span><br><span class="line"><span class="keyword">struct</span> Stone <span class="keyword">end</span></span><br></pre></td></tr></table></figure>
-<p>我們分別有三個型別分別代表剪刀石頭布。</p>
-<p>接下來我們定義運算，先定義贏的狀況：</p>
-<figure class="highlight julia"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">play(::Paper, ::Stone) = <span class="number">1</span></span><br><span class="line">play(::Scissor, ::Paper) = <span class="number">1</span></span><br><span class="line">play(::Stone, ::Scissor) = <span class="number">1</span></span><br></pre></td></tr></table></figure>
-<p>當雙方是相同時就平手：</p>
-<figure class="highlight julia"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">play(::T, ::T) <span class="keyword">where</span> &#123;T&#125; = <span class="number">0</span></span><br></pre></td></tr></table></figure>
-<p>這邊我們利用了 Julia 的參數化方法，當兩個有相同的型別時，就回傳 0。</p>
-<p>最後，是輸的狀況：</p>
-<figure class="highlight julia"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">play(a, b) = -<span class="number">1</span></span><br></pre></td></tr></table></figure>
-<p>也就是，如果沒有符合以上的狀況的方法呼叫，就會落到這個狀況來，所以這邊我們允許最廣義的 <code>Any</code> 型別。</p>
-<p>希望大家可以經由這個簡單的例子來理解 Julia 的多重分派有多好用，甚至是搭配上參數化方法根本是逆天阿！</p>
-
-                    
-                        
-
-                    
-                    
-                        <p>
-                            <a href="/2020/04/01/julia-multiple-dispatch/#post-footer" class="postShorten-excerpt_link link">
-                                留言與分享
-                            </a>
-                        </p>
-                    
-                </div>
-            
-        </div>
-        
-    </article>
-    
-    <div class="pagination-bar">
-    <ul class="pagination">
+            <li class="post-action hide-xs">
+                <a class="post-action-btn btn btn--default" target="new" href="https://www.facebook.com/sharer/sharer.php?u=https://yuehhua.github.io/2020/04/11/composable-the-key-feature-in-julia/" title="分享到 Facebook">
+                    <i class="fa fa-facebook-official" aria-hidden="true"></i>
+                </a>
+            </li>
         
         
-        <li class="pagination-number">第 1 頁 共 1 頁</li>
+            
+                <li class="post-action">
+                    <a class="post-action-btn btn btn--default" href="#disqus_thread">
+                        <i class="fa fa-comment-o"></i>
+                    </a>
+                </li>
+            
+        
+        <li class="post-action">
+            
+                <a class="post-action-btn btn btn--default" href="#" aria-label="Back to top">
+            
+                <i class="fa fa-list" aria-hidden="true"></i>
+            </a>
+        </li>
     </ul>
 </div>
 
-</section>
 
-
+                                                
+                                                    
+                                                        
+                                                            <div id="disqus_thread">
+    <noscript>Please enable JavaScript to view the <a href="//disqus.com/?ref_noscript" target="_blank" rel="noopener">comments powered by Disqus.</a></noscript>
+</div>
+                                                                
+                                                                            
+                            </div>
+                            
+                                <script src='https://unpkg.com/mermaid@7.1.2/dist/mermaid.min.js'></script>
+                                <script>
+                                    if (window.mermaid) {
+                                        mermaid.initialize({ theme: 'forest' });
+                                    }
+                                </script>
+                                
+    </article>
 
                 <footer id="footer" class="main-content-wrap">
     <span class="copyrights">
@@ -562,6 +392,81 @@
 </footer>
 
             </div>
+            
+                <div id="bottom-bar" class="post-bottom-bar" data-behavior="5">
+                    <div class="post-actions-wrap">
+    <nav>
+        <ul class="post-actions post-action-nav">
+            <li class="post-action">
+                
+                    <a class="post-action-btn btn btn--disabled">
+                
+                    <i class="fa fa-angle-left" aria-hidden="true"></i>
+                    <span class="hide-xs hide-sm text-small icon-ml">上一篇</span>
+                </a>
+            </li>
+            <li class="post-action">
+                
+                    
+                    <a class="post-action-btn btn btn--default tooltip--top" href="/2020/04/10/julia-property/" data-tooltip="讓 Julia 像 Python 一樣擁有物件 property" aria-label="下一篇: 讓 Julia 像 Python 一樣擁有物件 property">
+                
+                    <span class="hide-xs hide-sm text-small icon-mr">下一篇</span>
+                    <i class="fa fa-angle-right" aria-hidden="true"></i>
+                </a>
+            </li>
+        </ul>
+    </nav>
+    <ul class="post-actions post-action-share">
+        <li class="post-action hide-lg hide-md hide-sm">
+            <a class="post-action-btn btn btn--default btn-open-shareoptions" href="#btn-open-shareoptions" aria-label="Share this post">
+                <i class="fa fa-share-alt" aria-hidden="true"></i>
+            </a>
+        </li>
+        
+            
+            
+            <li class="post-action hide-xs">
+                <a class="post-action-btn btn btn--default" target="new" href="https://www.facebook.com/sharer/sharer.php?u=https://yuehhua.github.io/2020/04/11/composable-the-key-feature-in-julia/" title="分享到 Facebook">
+                    <i class="fa fa-facebook-official" aria-hidden="true"></i>
+                </a>
+            </li>
+        
+        
+            
+                <li class="post-action">
+                    <a class="post-action-btn btn btn--default" href="#disqus_thread">
+                        <i class="fa fa-comment-o"></i>
+                    </a>
+                </li>
+            
+        
+        <li class="post-action">
+            
+                <a class="post-action-btn btn btn--default" href="#" aria-label="Back to top">
+            
+                <i class="fa fa-list" aria-hidden="true"></i>
+            </a>
+        </li>
+    </ul>
+</div>
+
+
+                </div>
+                <div id="share-options-bar" class="share-options-bar" data-behavior="5">
+    <i id="btn-close-shareoptions" class="fa fa-close"></i>
+    <ul class="share-options">
+        
+            
+            
+            <li class="share-option">
+                <a class="share-option-btn" target="new" href="https://www.facebook.com/sharer/sharer.php?u=https://yuehhua.github.io/2020/04/11/composable-the-key-feature-in-julia/">
+                    <i class="fa fa-facebook-official" aria-hidden="true"></i><span>分享到 Facebook</span>
+                </a>
+            </li>
+        
+    </ul>
+</div>
+
             
         </div>
         
@@ -603,7 +508,26 @@
 
 <script src="/assets/js/script-xzfezjobyekpxrjktw5tz6muvzqfsbmo5n6atk3p5om9ulfptldi3p7cyqd8.min.js"></script>
 
-<!--SCRIPTS END--><!-- hexo-inject:begin --><!-- hexo-inject:end -->
+<!--SCRIPTS END-->
+
+
+<script>
+    var disqus_config = function () {
+        this.page.url = 'https://yuehhua.github.io/2020/04/11/composable-the-key-feature-in-julia/';
+                 
+            this.page.identifier = '2020/04/11/composable-the-key-feature-in-julia/';
+                 
+             };
+    (function () {
+        var d = document, s = d.createElement('script');
+        var disqus_shortname = 'dream-maker';
+        s.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+
+        s.setAttribute('data-timestamp', +new Date());
+        (d.head || d.body).appendChild(s);
+    })();
+</script><!-- hexo-inject:begin --><!-- hexo-inject:end -->
+
 
 
     </body>
