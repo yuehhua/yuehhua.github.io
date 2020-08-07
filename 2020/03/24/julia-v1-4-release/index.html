@@ -6,7 +6,7 @@
     <!-- hexo-inject:begin --><!-- hexo-inject:end --><meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="generator" content="Dream Maker">
-    <title>julia v1.4 釋出 - Dream Maker</title>
+    <title>Julia v1.4 釋出 - Dream Maker</title>
     <meta name="author" content="Yueh-Hua Tu">
     
         <meta name="keywords" content="machine learning,deep learning,topology,">
@@ -15,16 +15,16 @@
     
         <link rel="alternate" type="application/atom+xml" title="RSS" href="/atom.xml">
     
-    <script type="application/ld+json">{"@context":"http://schema.org","@type":"BlogPosting","author":{"@type":"Person","name":"Yueh-Hua Tu","sameAs":["https://github.com/yuehhua/","https://www.facebook.com/a504082002","https://www.linkedin.com/in/%E5%B2%B3%E8%8F%AF-%E6%9D%9C-6a3995a0/","mailto:a504082002@gmail.com"],"image":"https://www.gravatar.com/avatar/a565749fba4782b717234da670b273fd"},"articleBody":"Julia v1.4 已經釋出啦！這邊來跟大家介紹一些新功能。\n底下新功能後面會有括弧，附註相關的實作程式碼。\n\n重要功能\n使用者功能\n\nimport 允許符號，例如 import Base.:+。(#33158)\n允許使用 a[begin] 來存取 a 的首位元素。首位元素的索引是由 firstindex(a) 計算得出。(#33946)\n\n12345678julia&gt; x = [1,2,3]3-element Array&#123;Int64,1&#125;: 1 2 3julia&gt; x[begin]1\n\n值可以藉由 $ 內插到 @async 及 @spawn 中，它會將值直接複製一份到閉包（closure）中。(#33119)\n\n開發者功能\n\n結構 struct 當中，所有位元（isbits）或是位元聯集（isbitsunion）的欄位（fields）都會儲存為陣列的元素。(#32448)\n\n以前在 Julia 的結構當中，只有所有欄位都有相同的型別，而且型別都是原始型別時，Julia 底層會將他們封裝到一個陣列中，如此可以加速。在 v1.4 版後放寬了這樣的限制，讓有所有位元欄位都儲存為陣列。\n新功能\n\nIterators 模組中有 accumulate 實作。(#34033)\n\nJeff 頗驚訝，之前怎麼沒有這個功能XD\n12345678910111213julia&gt; x = [1,2,3]3-element Array&#123;Int64,1&#125;: 1 2 3julia&gt; iter = Iterators.accumulate(+, x)Base.Iterators.Accumulate&#123;typeof(+),Array&#123;Int64,1&#125;&#125;(+, [1, 2, 3])julia&gt; foreach(println, iter)136\n功能與 Base.accumulate 雷同，但是屬於 lazy evaluation。\n\nevalpoly 可以用來計算多項式函數，例如 evalpoly(x, (p1, p2, p3))。(#32753)\n\n12julia&gt; evalpoly(5, (10, 3, 1))50\n相當於計算 $p(5) = 10 + 3\\times5 + 1\\times5^2$。\n\n允許複合函數（function composition）∘(f, g, h) = f ∘ g ∘ h，以及解開 ∘(fs...)，當中 fs 可以是 Iterable 的函數集合。(#33568)\n\n1234567891011julia&gt; f(x) = x + 1f (generic function with 1 method)julia&gt; g(x) = 2xg (generic function with 1 method)julia&gt; F = f∘g#64 (generic function with 1 method)julia&gt; F(5)11\n新支援\n\ngcd、lcm 及 gcdx 支援 Rational 型別的參數。(#33910)\nsplitpath 支援任何 AbstractString 型別，然而以前只支援 String 的路徑。(#33012)\nfilter 可以作用在 Tuple 上。(#32968)\n\n","dateCreated":"2020-03-24T12:02:05+08:00","dateModified":"2020-03-24T12:02:05+08:00","datePublished":"2020-03-24T12:02:05+08:00","description":"Julia v1.4 已經釋出啦！這邊來跟大家介紹一些新功能。\n底下新功能後面會有括弧，附註相關的實作程式碼。","headline":"julia v1.4 釋出","image":[],"mainEntityOfPage":{"@type":"WebPage","@id":"https://yuehhua.github.io/2020/03/24/julia-v1-4-release/"},"publisher":{"@type":"Organization","name":"Yueh-Hua Tu","sameAs":["https://github.com/yuehhua/","https://www.facebook.com/a504082002","https://www.linkedin.com/in/%E5%B2%B3%E8%8F%AF-%E6%9D%9C-6a3995a0/","mailto:a504082002@gmail.com"],"image":"https://www.gravatar.com/avatar/a565749fba4782b717234da670b273fd","logo":{"@type":"ImageObject","url":"https://www.gravatar.com/avatar/a565749fba4782b717234da670b273fd"}},"url":"https://yuehhua.github.io/2020/03/24/julia-v1-4-release/"}</script>
+    <script type="application/ld+json">{"@context":"http://schema.org","@type":"BlogPosting","author":{"@type":"Person","name":"Yueh-Hua Tu","sameAs":["https://github.com/yuehhua/","https://www.facebook.com/a504082002","https://www.linkedin.com/in/%E5%B2%B3%E8%8F%AF-%E6%9D%9C-6a3995a0/","mailto:a504082002@gmail.com"],"image":"https://www.gravatar.com/avatar/a565749fba4782b717234da670b273fd"},"articleBody":"Julia v1.4 已經釋出啦！這邊來跟大家介紹一些新功能。\n底下新功能後面會有括弧，附註相關的實作程式碼。\n\n重要功能\n使用者功能\n\nimport 允許符號，例如 import Base.:+。(#33158)\n允許使用 a[begin] 來存取 a 的首位元素。首位元素的索引是由 firstindex(a) 計算得出。(#33946)\n\n12345678julia&gt; x = [1,2,3]3-element Array&#123;Int64,1&#125;: 1 2 3julia&gt; x[begin]1\n\n值可以藉由 $ 內插到 @async 及 @spawn 中，它會將值直接複製一份到閉包（closure）中。(#33119)\n\n開發者功能\n\n結構 struct 當中，所有位元（isbits）或是位元聯集（isbitsunion）的欄位（fields）都會儲存為陣列的元素。(#32448)\n\n以前在 Julia 的結構當中，只有所有欄位都有相同的型別，而且型別都是原始型別時，Julia 底層會將他們封裝到一個陣列中，如此可以加速。在 v1.4 版後放寬了這樣的限制，讓有所有位元欄位都儲存為陣列。\n新功能\n\nIterators 模組中有 accumulate 實作。(#34033)\n\nJeff 頗驚訝，之前怎麼沒有這個功能XD\n12345678910111213julia&gt; x = [1,2,3]3-element Array&#123;Int64,1&#125;: 1 2 3julia&gt; iter = Iterators.accumulate(+, x)Base.Iterators.Accumulate&#123;typeof(+),Array&#123;Int64,1&#125;&#125;(+, [1, 2, 3])julia&gt; foreach(println, iter)136\n功能與 Base.accumulate 雷同，但是屬於 lazy evaluation。\n\nevalpoly 可以用來計算多項式函數，例如 evalpoly(x, (p1, p2, p3))。(#32753)\n\n12julia&gt; evalpoly(5, (10, 3, 1))50\n相當於計算 $p(5) = 10 + 3\\times5 + 1\\times5^2$。\n\n允許複合函數（function composition）∘(f, g, h) = f ∘ g ∘ h，以及解開 ∘(fs...)，當中 fs 可以是 Iterable 的函數集合。(#33568)\n\n1234567891011julia&gt; f(x) = x + 1f (generic function with 1 method)julia&gt; g(x) = 2xg (generic function with 1 method)julia&gt; F = f∘g#64 (generic function with 1 method)julia&gt; F(5)11\n新支援\n\ngcd、lcm 及 gcdx 支援 Rational 型別的參數。(#33910)\nsplitpath 支援任何 AbstractString 型別，然而以前只支援 String 的路徑。(#33012)\nfilter 可以作用在 Tuple 上。(#32968)\n\n","dateCreated":"2020-03-24T12:02:05+08:00","dateModified":"2020-08-07T11:14:28+08:00","datePublished":"2020-03-24T12:02:05+08:00","description":"Julia v1.4 已經釋出啦！這邊來跟大家介紹一些新功能。\n底下新功能後面會有括弧，附註相關的實作程式碼。","headline":"Julia v1.4 釋出","image":[],"mainEntityOfPage":{"@type":"WebPage","@id":"https://yuehhua.github.io/2020/03/24/julia-v1-4-release/"},"publisher":{"@type":"Organization","name":"Yueh-Hua Tu","sameAs":["https://github.com/yuehhua/","https://www.facebook.com/a504082002","https://www.linkedin.com/in/%E5%B2%B3%E8%8F%AF-%E6%9D%9C-6a3995a0/","mailto:a504082002@gmail.com"],"image":"https://www.gravatar.com/avatar/a565749fba4782b717234da670b273fd","logo":{"@type":"ImageObject","url":"https://www.gravatar.com/avatar/a565749fba4782b717234da670b273fd"}},"url":"https://yuehhua.github.io/2020/03/24/julia-v1-4-release/"}</script>
     <meta name="description" content="Julia v1.4 已經釋出啦！這邊來跟大家介紹一些新功能。 底下新功能後面會有括弧，附註相關的實作程式碼。">
 <meta property="og:type" content="blog">
-<meta property="og:title" content="julia v1.4 釋出">
+<meta property="og:title" content="Julia v1.4 釋出">
 <meta property="og:url" content="https://yuehhua.github.io/2020/03/24/julia-v1-4-release/index.html">
 <meta property="og:site_name" content="Dream Maker">
 <meta property="og:description" content="Julia v1.4 已經釋出啦！這邊來跟大家介紹一些新功能。 底下新功能後面會有括弧，附註相關的實作程式碼。">
 <meta property="og:locale" content="zh_TW">
 <meta property="article:published_time" content="2020-03-24T04:02:05.000Z">
-<meta property="article:modified_time" content="2020-03-24T04:02:05.904Z">
+<meta property="article:modified_time" content="2020-08-07T03:14:28.835Z">
 <meta property="article:author" content="Yueh-Hua Tu">
 <meta property="article:tag" content="machine learning">
 <meta property="article:tag" content="deep learning">
@@ -242,7 +242,7 @@
                     <div class="post-header main-content-wrap text-left">
     
         <h1 class="post-title">
-            julia v1.4 釋出
+            Julia v1.4 釋出
         </h1>
     
     
