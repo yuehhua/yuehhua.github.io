@@ -2,6 +2,13 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   
   <url>
+    <loc>https://yuehhua.github.io/2020/08/28/merge-collections-in-julia/</loc>
+    
+    <lastmod>2020-08-28T14:37:43.527Z</lastmod>
+    
+  </url>
+  
+  <url>
     <loc>https://yuehhua.github.io/2019/09/06/inline-functions-in-julia/</loc>
     
     <lastmod>2020-08-28T12:39:45.246Z</lastmod>

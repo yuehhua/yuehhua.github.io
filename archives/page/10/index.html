@@ -241,6 +241,51 @@
             <div class="postShorten-header">
                 <h1 class="postShorten-title">
                     
+                        <a class="link-unstyled" href="/2018/07/21/why-mlp/">
+                            Multi-Layer Preceptron 的意義
+                        </a>
+                    
+                </h1>
+                <div class="postShorten-meta">
+    <time datetime="2018-07-21T22:15:58+08:00">
+	
+		    7月 21, 2018
+    	
+    </time>
+    
+        <span>分類 </span>
+        
+    <a class="category-link" href="/categories/Deep-Learning/">Deep Learning</a>
+
+
+    
+</div>
+
+            </div>
+            
+                <div class="postShorten-excerpt">
+                    <!-- toc -->
+<p>在前一篇講完了 deep learning 的意義之後我們來更具體一點講 multi-layer perceptron (MLP)。</p>
+<p>最簡單的版本莫過於 linear MLP，不過不太會有人去用他，其實只是每層 layer 的 activation function 都是採用 identity。你可以想像他是有很多的線性轉換所疊起來的模型。</p>
+                    
+                        <a href="/2018/07/21/why-mlp/" class="postShorten-excerpt_link link">
+                            繼續閱讀
+                        </a>
+                        
+                    
+                </div>
+            
+        </div>
+        
+    </article>
+    
+    
+    <article class="postShorten postShorten--thumbnailimg-right">
+        <div class="postShorten-wrap">
+            
+            <div class="postShorten-header">
+                <h1 class="postShorten-title">
+                    
                         <a class="link-unstyled" href="/2018/07/21/why-deep-learning/">
                             我們為什麼需要 Deep Learning？
                         </a>
@@ -1067,130 +1112,6 @@ peptide只是零件的雛型而已，需要加以修飾才會變成真正的零�
                     
                         <p>
                             <a href="/2015/07/08/persuasion-and-empathy/#post-footer" class="postShorten-excerpt_link link">
-                                留言與分享
-                            </a>
-                        </p>
-                    
-                </div>
-            
-        </div>
-        
-    </article>
-    
-    
-    <article class="postShorten postShorten--thumbnailimg-bottom">
-        <div class="postShorten-wrap">
-            
-            <div class="postShorten-header">
-                <h1 class="postShorten-title">
-                    
-                        <a class="link-unstyled" href="/2015/04/10/should-i-use-class-abstract-class-or-interface/">
-                            我該用類別, 抽象類別還是介面?
-                        </a>
-                    
-                </h1>
-                <div class="postShorten-meta">
-    <time datetime="2015-04-10T00:46:00+08:00">
-	
-		    4月 10, 2015
-    	
-    </time>
-    
-        <span>分類 </span>
-        
-    <a class="category-link" href="/categories/My-Style/">My Style</a>, <a class="category-link" href="/categories/My-Style/Computer-Science/">Computer Science</a>
-
-
-    
-</div>
-
-            </div>
-            
-                <div class="postShorten-content">
-                    <p>很多初學java的人都會有這樣的疑問：</p>
-<blockquote>
-<p>我該用類別, 抽象類別還是介面?</p>
-</blockquote>
-<p>尤其在學 java 之前沒有碰過物件導向概念的人。<br>
-在多種選擇的情況下，我該用哪一個比較好呢？</p>
-<p>我們可以分幾個觀點來看這個問題</p>
-<h3 id="概念解釋觀點"><strong>概念解釋觀點</strong></h3>
-<p>在物件導向的語言裏面，物件跟類別是被抽象化的概念。<br>
-也得力於這樣的抽象化，我們可以把某些東西<strong>廣義化</strong>應用到不同的層面。<br>
-這樣的抽象化有賴於封裝、繼承、多型的落實。<br>
-封裝可以將<strong>概念相同的程式碼放在一起</strong>，這些程式碼做同一件事，所以他們代表同一個概念。<br>
-同時也比較好維護。<br>
-繼承可以<strong>提高 reusabiity 的機會</strong>，同時也展現了<strong>概念上的相似性</strong>。<br>
-多型就是一種<em>同中求異</em>的概念。<br>
-位於同一個繼承體系之下，可以有不同的行為。</p>
-<p>承續我先前寫過的文章<br>
-繼承是<strong>is-a</strong>的概念，而實作介面是<strong>has-a</strong>的概念。<br>
-這些概念是不相違背的，所以我們可以簡單的把類別、抽象類別、介面分開。<br>
-類別跟抽象類別應該位於繼承體系之下，因為抽象類別也有<strong>is-a</strong>關係。<br>
-但是相對於（具體）類別，抽象類別是不允許被實體化（instantiate）的。</p>
-<p>為什麼？<br>
-舉個例，Cat 跟 Dog 都繼承於 Animal，因為 Cat is an Animal and Dog is an Animal.<br>
-這時我們會把 Animal 寫成抽象類別，因為 Animal 被實體化之後不具任何意義。<br>
-他只是我們在繼承體系上或是概念上的類別，他並不是一個具體的物件，不具屬性跟行為。<br>
-所以 Animal 不應該被寫成（具體）類別。</p>
-<p>那不能被實體化的類別我還需要去定義他的屬性跟方法嗎？<br>
-當然要！<br>
-回到我們的例子，通常只要是 Animal 就會 <code>eat()</code>、<code>move()</code>，或是我想給 Animal <code>id</code> 或是 <code>name</code>。<br>
-這時我們不會把這些東西寫在 Cat 或是 Dog 裏面。<br>
-我們會把他通通寫到 Animal 裏面，如此一來下面的子類別就可以簡單的具有這些屬性跟方法了。</p>
-<p>這時我們來講講介面，就如同我前面提到的。<br>
-介面的實作是<strong>has-a</strong>的關係。<br>
-所以他提供了在一個繼承體系之外的<strong>功能性</strong>。<br>
-他可以讓繼承於 Animal 的 Bird 擁有 <code>fly()</code> 的行為。<br>
-他可以讓繼承於 Animal 的 Turtle 擁有 <code>swim()</code> 的行為。<br>
-這些都是無法從 Animal 繼承過來的東西。</p>
-<p>那無法繼承過來的話，自己寫就好阿，大驚小怪！<br>
-錯！<br>
-這時我們就會看到<br>
-會 <code>fly()</code>（飛）的 Bird（鳥）。<br>
-會 <code>transport()</code>（運輸）的 Airplane（飛機）。<br>
-會 <code>swing()</code>（拍翅膀）的 Swan（天鵝）。<br>
-但是他們想表達的都是<strong>在天上飛</strong>的概念。<br>
-所以介面可以達到統一格式的效果。<br>
-大家都實作同樣的方法來表達同樣的行為。<br>
-或許行為的實際內容不一樣，但是在概念上是相同的。</p>
-<h3 id="軟體工程觀點"><strong>軟體工程觀點</strong></h3>
-<p>在前一個觀點當中提到抽象化。<br>
-抽象化使得同樣的一段程式碼可以提高他使用的頻率。<br>
-也達到**reusability (重複利用性)**的效果。</p>
-<p>我們有了繼承體系來<strong>提高 reusability</strong>。<br>
-在程式碼上，子類別不用重寫同樣的程式碼，只要從父類別繼承來就好。<br>
-相對於同樣的程式碼散落在各個子類別，當要維護的時候就要一個一個修改。<br>
-這樣父類別就控制了子類別的行為。<br>
-如果父類別的方法被修改的話，也會影響到子類別。</p>
-<p>如果你不希望父類別的改變影響到子類別的話，這時請確認兩者是否真的要使用繼承關係。<br>
-如果是繼承關係但又不希望受影響，那就用多型吧！</p>
-<p>我們使用介面來提高系統的<strong>flexibility (靈活性)</strong>。<br>
-當你需要有相同概念的方法時只要實作同樣的介面就可以達到。<br>
-同時規定同樣的介面便於管理維護。<br>
-只要實作同樣的介面就可以簡單地擴充模組。<br>
-這是一個靈活的系統該有的特徵。</p>
-<h3 id="相對於多重繼承-ex-C"><strong>相對於多重繼承 (ex. C++)</strong></h3>
-<p>相對於C++的多重繼承，java 只允許單一繼承。<br>
-在多重繼承當中，可以讓一個類別<strong>擁有很多身份</strong>。<br>
-一個類別可以<strong>是</strong>很多種東西。<br>
-這樣的概念其實可以讓人容易了解這個類別在做些什麼。<br>
-像是Computer is a Machine and Computer is a Calculator.<br>
-這樣我們可以理解電腦是一種會計算的機器。<br>
-但是相對應的他也帶來一些不必要的副作用。<br>
-繼承於多樣的父類別，也同時繼承到了父類別的屬性跟方法，但是並不是所有的屬性跟方法都是有用的，甚至有些屬性或方法根本用不到。<br>
-當你沒有要使用到的時候卻又繼承了太多的東西，這就造成了另一種的設計不良的狀況。<br>
-這會讓別人誤解子類別有擁有父類別的某些方法，但卻不知道那是不應該出現的。<br>
-造成誤用問題就更大了。<br>
-這樣的問題小至程式錯誤，大至系統崩潰，這就成了系統的弱點之一了。</p>
-
-                    
-                        
-
-                    
-                    
-                        <p>
-                            <a href="/2015/04/10/should-i-use-class-abstract-class-or-interface/#post-footer" class="postShorten-excerpt_link link">
                                 留言與分享
                             </a>
                         </p>

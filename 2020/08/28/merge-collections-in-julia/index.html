@@ -6,7 +6,7 @@
     <!-- hexo-inject:begin --><!-- hexo-inject:end --><meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="generator" content="Dream Maker">
-    <title>所有文章: 2020/8 - Dream Maker</title>
+    <title>在 Julia 中如何合併集合容器 - Dream Maker</title>
     <meta name="author" content="Yueh-Hua Tu">
     
         <meta name="keywords" content="machine learning,deep learning,topology,">
@@ -15,12 +15,16 @@
     
         <link rel="alternate" type="application/atom+xml" title="RSS" href="/atom.xml">
     
-    <script type="application/ld+json">{}</script>
-    <meta property="og:type" content="blog">
-<meta property="og:title" content="Dream Maker">
-<meta property="og:url" content="https://yuehhua.github.io/archives/2020/08/index.html">
+    <script type="application/ld+json">{"@context":"http://schema.org","@type":"BlogPosting","author":{"@type":"Person","name":"Yueh-Hua Tu","sameAs":["https://github.com/yuehhua/","https://www.facebook.com/a504082002","https://www.linkedin.com/in/%E5%B2%B3%E8%8F%AF-%E6%9D%9C-6a3995a0/","mailto:a504082002@gmail.com"],"image":"https://www.gravatar.com/avatar/a565749fba4782b717234da670b273fd"},"articleBody":"我們都知道要將兩個 Array 接起來要用 append!，要將兩個 Set 合併起來要用 union!，但要將 Dict 合併起來要用什麼呢？\n答案是 merge！\nmerge\n廢話不多說，我們看範例：\n12345678910111213141516julia&gt; a = Dict(:a =&gt; \"A\", :b =&gt; \"B\")Dict&#123;Symbol,String&#125; with 2 entries:  :a =&gt; \"A\"  :b =&gt; \"B\"julia&gt; b = Dict(:c =&gt; \"C\", :d =&gt; \"D\")Dict&#123;Symbol,String&#125; with 2 entries:  :d =&gt; \"D\"  :c =&gt; \"C\"julia&gt; merge(a, b)Dict&#123;Symbol,String&#125; with 4 entries:  :a =&gt; \"A\"  :b =&gt; \"B\"  :d =&gt; \"D\"  :c =&gt; \"C\"\nmerge 可以將兩個 Dict 合併起來，並且產生一個新的 Dict。\n有另一個函式 merge! 可以支援 in-place 版本的合併。\n12345678910111213141516julia&gt; aDict&#123;Symbol,String&#125; with 2 entries:  :a =&gt; \"A\"  :b =&gt; \"B\"julia&gt; merge!(a, c)Dict&#123;Symbol,String&#125; with 3 entries:  :a =&gt; \"A\"  :b =&gt; \"C\"  :d =&gt; \"D\"julia&gt; aDict&#123;Symbol,String&#125; with 3 entries:  :a =&gt; \"A\"  :b =&gt; \"C\"  :d =&gt; \"D\"\n重複的鍵（key）\n如果要合併的兩個字典當中有重複的鍵出現的話，會發生什麼事呢？\n12345678910julia&gt; c = Dict(:b =&gt; \"C\", :d =&gt; \"D\")Dict&#123;Symbol,String&#125; with 2 entries:  :b =&gt; \"C\"  :d =&gt; \"D\"julia&gt; merge(a, c)Dict&#123;Symbol,String&#125; with 3 entries:  :a =&gt; \"A\"  :b =&gt; \"C\"  :d =&gt; \"D\"\n答案是會被後者蓋掉。\nNamedTuple\nmerge 也可以用在 NamedTuple 上。\n12345678julia&gt; a = (a=\"A\", b=\"B\")(a = \"A\", b = \"B\")julia&gt; b = (c=\"C\", d=\"D\")(c = \"C\", d = \"D\")julia&gt; merge(a, b)(a = \"A\", b = \"B\", c = \"C\", d = \"D\")\nmergewith (require v1.5 and above)\n接下來介紹一個更好用的函式 mergewith。\n上面我們介紹的 merge 遇到相同的鍵，會把彼此蓋掉的行為，但有時候我們希望他們可以合併。\n不囉唆，我們看範例：\n123456789101112131415julia&gt; a = Dict(:a =&gt; 1, :b =&gt; 2)Dict&#123;Symbol,Int64&#125; with 2 entries:  :a =&gt; 1  :b =&gt; 2julia&gt; c = Dict(:b =&gt; 3, :d =&gt; 4)Dict&#123;Symbol,Int64&#125; with 2 entries:  :b =&gt; 3  :d =&gt; 4julia&gt; mergewith(+, a, c)Dict&#123;Symbol,Int64&#125; with 3 entries:  :a =&gt; 1  :b =&gt; 5  :d =&gt; 4\n我們可以指定一個 aggregate function，如果遇到相同的鍵時，就把他們的值相加起來。\n這個 aggregate function 可以是其他的，如此就可以處理多樣的資料。\nmergewith 一樣有 in-place 版本 mergewith!。\ncurry function\n最神奇的是，mergewith 有類似 curry function 的行為。\n12345678julia&gt; mergewith(+)(a, c)Dict&#123;Symbol,Int64&#125; with 3 entries:  :a =&gt; 1  :b =&gt; 5  :d =&gt; 4julia&gt; mergewith(+)#140 (generic function with 1 method)\n你可以先給他一個 aggregate function，他會回傳一個匿名函式。\n你可以拿這個匿名函式用在其他物件上。\n","dateCreated":"2020-08-28T22:37:43+08:00","dateModified":"2020-08-28T22:37:43+08:00","datePublished":"2020-08-28T22:37:43+08:00","description":"","headline":"在 Julia 中如何合併集合容器","image":[],"mainEntityOfPage":{"@type":"WebPage","@id":"https://yuehhua.github.io/2020/08/28/merge-collections-in-julia/"},"publisher":{"@type":"Organization","name":"Yueh-Hua Tu","sameAs":["https://github.com/yuehhua/","https://www.facebook.com/a504082002","https://www.linkedin.com/in/%E5%B2%B3%E8%8F%AF-%E6%9D%9C-6a3995a0/","mailto:a504082002@gmail.com"],"image":"https://www.gravatar.com/avatar/a565749fba4782b717234da670b273fd","logo":{"@type":"ImageObject","url":"https://www.gravatar.com/avatar/a565749fba4782b717234da670b273fd"}},"url":"https://yuehhua.github.io/2020/08/28/merge-collections-in-julia/"}</script>
+    <meta name="description" content="我們都知道要將兩個 Array 接起來要用 append!，要將兩個 Set 合併起來要用 union!，但要將 Dict 合併起來要用什麼呢？ 答案是 merge！ merge 廢話不多說，我們看範例： 12345678910111213141516julia&gt; a &#x3D; Dict(:a &#x3D;&gt; &quot;A&quot;, :b &#x3D;&gt; &quot;B&quot;)Dict&amp;#123;Symbol,String&amp;#125">
+<meta property="og:type" content="blog">
+<meta property="og:title" content="在 Julia 中如何合併集合容器">
+<meta property="og:url" content="https://yuehhua.github.io/2020/08/28/merge-collections-in-julia/index.html">
 <meta property="og:site_name" content="Dream Maker">
+<meta property="og:description" content="我們都知道要將兩個 Array 接起來要用 append!，要將兩個 Set 合併起來要用 union!，但要將 Dict 合併起來要用什麼呢？ 答案是 merge！ merge 廢話不多說，我們看範例： 12345678910111213141516julia&gt; a &#x3D; Dict(:a &#x3D;&gt; &quot;A&quot;, :b &#x3D;&gt; &quot;B&quot;)Dict&amp;#123;Symbol,String&amp;#125">
 <meta property="og:locale" content="zh_TW">
+<meta property="article:published_time" content="2020-08-28T14:37:43.000Z">
+<meta property="article:modified_time" content="2020-08-28T14:37:43.527Z">
 <meta property="article:author" content="Yueh-Hua Tu">
 <meta property="article:tag" content="machine learning">
 <meta property="article:tag" content="deep learning">
@@ -62,7 +66,7 @@
 
     
 
-<header id="header" data-behavior="2">
+<header id="header" data-behavior="5">
     <i id="btn-open-sidebar" class="fa fa-lg fa-bars"></i>
     <div class="header-title">
         <a class="header-title-link" href="/%20">Dream Maker</a>
@@ -80,7 +84,7 @@
             <!-- Define author's picture -->
 
 
-<nav id="sidebar" data-behavior="2">
+<nav id="sidebar" data-behavior="5">
     <div class="sidebar-container">
         
         
@@ -227,26 +231,22 @@
 </nav>
 
             
-            <div id="main" data-behavior="2"
+            <div id="main" data-behavior="5"
                  class="
                         hasCoverMetaIn
                         ">
                 
-    <section class="postShorten-group main-content-wrap">
+    <article class="post">
+        
+                
+                    <div class="post-header main-content-wrap text-left">
+    
+        <h1 class="post-title">
+            在 Julia 中如何合併集合容器
+        </h1>
     
     
-    <article class="postShorten postShorten--thumbnailimg-bottom">
-        <div class="postShorten-wrap">
-            
-            <div class="postShorten-header">
-                <h1 class="postShorten-title">
-                    
-                        <a class="link-unstyled" href="/2020/08/28/merge-collections-in-julia/">
-                            在 Julia 中如何合併集合容器
-                        </a>
-                    
-                </h1>
-                <div class="postShorten-meta">
+        <div class="post-meta">
     <time datetime="2020-08-28T22:37:43+08:00">
 	
 		    8月 28, 2020
@@ -261,10 +261,13 @@
     
 </div>
 
-            </div>
-            
-                <div class="postShorten-content">
-                    <p>我們都知道要將兩個 <code>Array</code> 接起來要用 <code>append!</code>，要將兩個 <code>Set</code> 合併起來要用 <code>union!</code>，但要將 <code>Dict</code> 合併起來要用什麼呢？</p>
+    
+</div>
+
+                        
+                            <div class="post-content markdown">
+                                <div class="main-content-wrap">
+                                    <p>我們都知道要將兩個 <code>Array</code> 接起來要用 <code>append!</code>，要將兩個 <code>Set</code> 合併起來要用 <code>union!</code>，但要將 <code>Dict</code> 合併起來要用什麼呢？</p>
 <p>答案是 <a href="https://docs.julialang.org/en/v1/base/collections/#Base.merge" target="_blank" rel="noopener">merge</a>！</p>
 <h2 id="merge">merge</h2>
 <p>廢話不多說，我們看範例：</p>
@@ -293,77 +296,88 @@
 <p>你可以先給他一個 aggregate function，他會回傳一個匿名函式。</p>
 <p>你可以拿這個匿名函式用在其他物件上。</p>
 
-                    
-                        
+                                        
 
+                                </div>
+                            </div>
+                            <div id="post-footer" class="post-footer main-content-wrap">
+                                
+                                        
+                                            <div class="post-actions-wrap">
+    <nav>
+        <ul class="post-actions post-action-nav">
+            <li class="post-action">
+                
+                    <a class="post-action-btn btn btn--disabled">
+                
+                    <i class="fa fa-angle-left" aria-hidden="true"></i>
+                    <span class="hide-xs hide-sm text-small icon-ml">上一篇</span>
+                </a>
+            </li>
+            <li class="post-action">
+                
                     
-                    
-                        <p>
-                            <a href="/2020/08/28/merge-collections-in-julia/#post-footer" class="postShorten-excerpt_link link">
-                                留言與分享
-                            </a>
-                        </p>
-                    
-                </div>
+                    <a class="post-action-btn btn btn--default tooltip--top" href="/2020/08/07/julia-v1-5-release/" data-tooltip="Julia v1.5 釋出" aria-label="下一篇: Julia v1.5 釋出">
+                
+                    <span class="hide-xs hide-sm text-small icon-mr">下一篇</span>
+                    <i class="fa fa-angle-right" aria-hidden="true"></i>
+                </a>
+            </li>
+        </ul>
+    </nav>
+    <ul class="post-actions post-action-share">
+        <li class="post-action hide-lg hide-md hide-sm">
+            <a class="post-action-btn btn btn--default btn-open-shareoptions" href="#btn-open-shareoptions" aria-label="Share this post">
+                <i class="fa fa-share-alt" aria-hidden="true"></i>
+            </a>
+        </li>
+        
             
-        </div>
-        
-    </article>
-    
-    
-    <article class="postShorten postShorten--thumbnailimg-right">
-        <div class="postShorten-wrap">
             
-            <div class="postShorten-header">
-                <h1 class="postShorten-title">
-                    
-                        <a class="link-unstyled" href="/2020/08/07/julia-v1-5-release/">
-                            Julia v1.5 釋出
-                        </a>
-                    
-                </h1>
-                <div class="postShorten-meta">
-    <time datetime="2020-08-07T11:06:29+08:00">
-	
-		    8月 07, 2020
-    	
-    </time>
-    
-        <span>分類 </span>
+            <li class="post-action hide-xs">
+                <a class="post-action-btn btn btn--default" target="new" href="https://www.facebook.com/sharer/sharer.php?u=https://yuehhua.github.io/2020/08/28/merge-collections-in-julia/" title="分享到 Facebook">
+                    <i class="fa fa-facebook-official" aria-hidden="true"></i>
+                </a>
+            </li>
         
-    <a class="category-link" href="/categories/My-Style/">My Style</a>, <a class="category-link" href="/categories/My-Style/Computer-Science/">Computer Science</a>, <a class="category-link" href="/categories/My-Style/Computer-Science/Julialang/">Julialang</a>
-
-
-    
-</div>
-
-            </div>
+        
             
-                <div class="postShorten-excerpt">
-                    <p>在新的 1.5 版是主要對記憶體的配置方式有改進，有最佳化記憶體布局（memory layout）。</p>
-                    
-                        <a href="/2020/08/07/julia-v1-5-release/" class="postShorten-excerpt_link link">
-                            繼續閱讀
-                        </a>
-                        
-                    
-                </div>
+                <li class="post-action">
+                    <a class="post-action-btn btn btn--default" href="#disqus_thread">
+                        <i class="fa fa-comment-o"></i>
+                    </a>
+                </li>
             
-        </div>
         
-    </article>
-    
-    <div class="pagination-bar">
-    <ul class="pagination">
-        
-        
-        <li class="pagination-number">第 1 頁 共 1 頁</li>
+        <li class="post-action">
+            
+                <a class="post-action-btn btn btn--default" href="#" aria-label="Back to top">
+            
+                <i class="fa fa-list" aria-hidden="true"></i>
+            </a>
+        </li>
     </ul>
 </div>
 
-</section>
 
-
+                                                
+                                                    
+                                                        
+                                                            <div id="disqus_thread">
+    <noscript>Please enable JavaScript to view the <a href="//disqus.com/?ref_noscript" target="_blank" rel="noopener">comments powered by Disqus.</a></noscript>
+</div>
+                                                                
+                                                                            
+                            </div>
+                            
+                                <script src='https://unpkg.com/mermaid@7.1.2/dist/mermaid.min.js'></script>
+                                <script>
+                                    if (window.mermaid) {
+                                        mermaid.initialize({ theme: 'forest' });
+                                    }
+                                </script>
+                                
+    </article>
 
                 <footer id="footer" class="main-content-wrap">
     <span class="copyrights">
@@ -372,6 +386,81 @@
 </footer>
 
             </div>
+            
+                <div id="bottom-bar" class="post-bottom-bar" data-behavior="5">
+                    <div class="post-actions-wrap">
+    <nav>
+        <ul class="post-actions post-action-nav">
+            <li class="post-action">
+                
+                    <a class="post-action-btn btn btn--disabled">
+                
+                    <i class="fa fa-angle-left" aria-hidden="true"></i>
+                    <span class="hide-xs hide-sm text-small icon-ml">上一篇</span>
+                </a>
+            </li>
+            <li class="post-action">
+                
+                    
+                    <a class="post-action-btn btn btn--default tooltip--top" href="/2020/08/07/julia-v1-5-release/" data-tooltip="Julia v1.5 釋出" aria-label="下一篇: Julia v1.5 釋出">
+                
+                    <span class="hide-xs hide-sm text-small icon-mr">下一篇</span>
+                    <i class="fa fa-angle-right" aria-hidden="true"></i>
+                </a>
+            </li>
+        </ul>
+    </nav>
+    <ul class="post-actions post-action-share">
+        <li class="post-action hide-lg hide-md hide-sm">
+            <a class="post-action-btn btn btn--default btn-open-shareoptions" href="#btn-open-shareoptions" aria-label="Share this post">
+                <i class="fa fa-share-alt" aria-hidden="true"></i>
+            </a>
+        </li>
+        
+            
+            
+            <li class="post-action hide-xs">
+                <a class="post-action-btn btn btn--default" target="new" href="https://www.facebook.com/sharer/sharer.php?u=https://yuehhua.github.io/2020/08/28/merge-collections-in-julia/" title="分享到 Facebook">
+                    <i class="fa fa-facebook-official" aria-hidden="true"></i>
+                </a>
+            </li>
+        
+        
+            
+                <li class="post-action">
+                    <a class="post-action-btn btn btn--default" href="#disqus_thread">
+                        <i class="fa fa-comment-o"></i>
+                    </a>
+                </li>
+            
+        
+        <li class="post-action">
+            
+                <a class="post-action-btn btn btn--default" href="#" aria-label="Back to top">
+            
+                <i class="fa fa-list" aria-hidden="true"></i>
+            </a>
+        </li>
+    </ul>
+</div>
+
+
+                </div>
+                <div id="share-options-bar" class="share-options-bar" data-behavior="5">
+    <i id="btn-close-shareoptions" class="fa fa-close"></i>
+    <ul class="share-options">
+        
+            
+            
+            <li class="share-option">
+                <a class="share-option-btn" target="new" href="https://www.facebook.com/sharer/sharer.php?u=https://yuehhua.github.io/2020/08/28/merge-collections-in-julia/">
+                    <i class="fa fa-facebook-official" aria-hidden="true"></i><span>分享到 Facebook</span>
+                </a>
+            </li>
+        
+    </ul>
+</div>
+
             
         </div>
         
@@ -413,7 +502,26 @@
 
 <script src="/assets/js/script-xzfezjobyekpxrjktw5tz6muvzqfsbmo5n6atk3p5om9ulfptldi3p7cyqd8.min.js"></script>
 
-<!--SCRIPTS END--><!-- hexo-inject:begin --><!-- hexo-inject:end -->
+<!--SCRIPTS END-->
+
+
+<script>
+    var disqus_config = function () {
+        this.page.url = 'https://yuehhua.github.io/2020/08/28/merge-collections-in-julia/';
+                 
+            this.page.identifier = '2020/08/28/merge-collections-in-julia/';
+                 
+             };
+    (function () {
+        var d = document, s = d.createElement('script');
+        var disqus_shortname = 'dream-maker';
+        s.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+
+        s.setAttribute('data-timestamp', +new Date());
+        (d.head || d.body).appendChild(s);
+    })();
+</script><!-- hexo-inject:begin --><!-- hexo-inject:end -->
+
 
 
     </body>
