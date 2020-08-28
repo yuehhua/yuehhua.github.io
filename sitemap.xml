@@ -2,6 +2,13 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   
   <url>
+    <loc>https://yuehhua.github.io/2019/09/06/inline-functions-in-julia/</loc>
+    
+    <lastmod>2020-08-28T12:39:45.246Z</lastmod>
+    
+  </url>
+  
+  <url>
     <loc>https://yuehhua.github.io/2020/08/07/julia-v1-5-release/</loc>
     
     <lastmod>2020-08-07T03:14:34.552Z</lastmod>
@@ -194,13 +201,6 @@
     <loc>https://yuehhua.github.io/2019/09/06/inbounds-in-julia/</loc>
     
     <lastmod>2019-09-06T03:17:13.549Z</lastmod>
-    
-  </url>
-  
-  <url>
-    <loc>https://yuehhua.github.io/2019/09/06/inline-functions-in-julia/</loc>
-    
-    <lastmod>2019-09-06T03:16:32.981Z</lastmod>
     
   </url>
   
