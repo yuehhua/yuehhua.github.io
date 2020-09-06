@@ -6,7 +6,7 @@
   <link href="/atom.xml" rel="self"/>
   
   <link href="https://yuehhua.github.io/"/>
-  <updated>2020-08-28T14:37:43.527Z</updated>
+  <updated>2020-09-06T09:23:17.999Z</updated>
   <id>https://yuehhua.github.io/</id>
   
   <author>
@@ -15,6 +15,57 @@
   </author>
   
   <generator uri="https://hexo.io/">Hexo</generator>
+  
+  <entry>
+    <title>Linux 系統降噪</title>
+    <link href="https://yuehhua.github.io/2020/09/06/linux-system-noise-cancellation/"/>
+    <id>https://yuehhua.github.io/2020/09/06/linux-system-noise-cancellation/</id>
+    <published>2020-09-06T09:22:33.000Z</published>
+    <updated>2020-09-06T09:23:17.999Z</updated>
+    
+    <content type="html"><![CDATA[<p>之前在 Linux 上測試麥克風，發現錄製的時候總會把背景雜訊給錄進去，會在有人講話的同時聽到雜音。</p><p>我用的是 OBS 來做桌面錄製，所以自然想用 OBS 來做音訊的降噪。在 OBS 裡有噪音閥及噪音抑制，似乎噪音閥的效果比較明顯，但是講話聲音背後仍有雜音。</p><p>這時候在網路上找了一下，發現可以用系統 pulseaudio 的驅動來做降噪，只是要特別設定開啟，預設是不會開啟的。試了之後效果超好，在這邊紀錄一下。</p><h2 id="步驟">步驟</h2><p>首先，編輯以下檔案</p><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo nano &#x2F;etc&#x2F;pulse&#x2F;default.pa</span><br></pre></td></tr></table></figure><p>把以下這行加到檔案中，建議可以加到有個 Echo Cancellation 的地方：</p><p>load-module module-echo-cancel</p><p>重載 PulseAudio (pulseaudio -k) 就可以囉！</p><p>Ref: <a href="https://askubuntu.com/questions/18958/realtime-noise-removal-with-pulseaudio" target="_blank" rel="noopener">https://askubuntu.com/questions/18958/realtime-noise-removal-with-pulseaudio</a></p>]]></content>
+    
+    <summary type="html">
+    
+      
+      
+        &lt;p&gt;之前在 Linux 上測試麥克風，發現錄製的時候總會把背景雜訊給錄進去，會在有人講話的同時聽到雜音。&lt;/p&gt;
+&lt;p&gt;我用的是 OBS 來做桌面錄製，所以自然想用 OBS 來做音訊的降噪。在 OBS 裡有噪音閥及噪音抑制，似乎噪音閥的效果比較明顯，但是講話聲音背後仍有雜音。&lt;
+      
+    
+    </summary>
+    
+    
+    
+  </entry>
+  
+  <entry>
+    <title>Julia 中的表達問題（Expression problem in Julia）</title>
+    <link href="https://yuehhua.github.io/2020/09/06/expression-problem-in-julia/"/>
+    <id>https://yuehhua.github.io/2020/09/06/expression-problem-in-julia/</id>
+    <published>2020-09-06T09:19:52.000Z</published>
+    <updated>2020-09-06T09:19:54.643Z</updated>
+    
+    <content type="html"><![CDATA[<p>本篇文章是啟發自 <a href="https://eli.thegreenplace.net/2016/the-expression-problem-and-its-solutions" target="_blank" rel="noopener">The Expression Problem and its solutions</a>，當中談論的是在撰寫程式的過程中，所採用的程式典範不同，會在程式表達上遇到不同程度的困難，稱之為表達問題（expression problem）。</p><h2 id="物件導向語言中的表達問題">物件導向語言中的表達問題</h2><p>以原文中的例子，作者想以物件導向語言來撰寫一個簡單的 expression evaluator。基本上採用直譯器模式（<a href="https://en.wikipedia.org/wiki/Interpreter_pattern" target="_blank" rel="noopener">interpreter pattern</a>），這邊我把程式碼以 python 重寫。</p><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Expr</span>:</span></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">tostring</span><span class="params">(self)</span>:</span></span><br><span class="line">        <span class="keyword">return</span> <span class="number">0</span></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">eval</span><span class="params">(self)</span>:</span></span><br><span class="line">        <span class="keyword">return</span> <span class="number">0</span></span><br></pre></td></tr></table></figure><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Constant</span><span class="params">(Expr)</span>:</span></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">__init__</span><span class="params">(self, value)</span>:</span></span><br><span class="line">        self.__value = value</span><br><span class="line">        <span class="keyword">return</span> self</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">tostring</span><span class="params">(self)</span>:</span></span><br><span class="line">        <span class="keyword">return</span> str(self.__value)</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">eval</span><span class="params">(self)</span>:</span></span><br><span class="line">        <span class="keyword">return</span> self.__value</span><br></pre></td></tr></table></figure><p>我們先定義了一個 <code>Expr</code>，我們希望提供 <code>tostring</code> 及 <code>eval</code> 兩種操作。我們後續定義了常數 <code>Constant</code>，也讓常數實作這兩種操作。</p><p>如果我們想要擴充 <code>Expr</code> 或是 <code>Constant</code> 的時候該怎麼做呢？更精確地說，如果我們想要新增新的操作到既有的類別上，我們該怎麼做？一般情況下可能就是直接在原有的類別上加上新的方法。不過這樣其實違反了軟體工程原則，開放封閉原則（open-closed principle），我們應該要對舊有的類別、方法、介面等等程式碼修改保持<em>封閉</em>，也就是不能去修改既有程式碼，我們應該對新增程式碼保持<em>開放</em>，也就是允許新增程式碼。</p><p>我們可以發現在物件導向語言當中，新增類別是容易的，但是新增方法是困難的。這是在物件導向語言中所遇到的表達問題。</p><h2 id="函數式語言中的表達問題">函數式語言中的表達問題</h2><p>以 Haskell 為例，撰寫以上的程式（這邊直接引用原文）。</p><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">data Expr &#x3D; Constant Double</span><br><span class="line">          | BinaryPlus Expr Expr</span><br><span class="line"></span><br><span class="line">stringify :: Expr -&gt; String</span><br><span class="line">stringify(Constant c) &#x3D; show c</span><br><span class="line">stringify(BinaryPlus lhs rhs) &#x3D; stringify lhs</span><br><span class="line">                                ++ &quot; + &quot;</span><br><span class="line">                                ++ stringify rhs</span><br><span class="line"></span><br><span class="line">evaluate :: Expr -&gt; Double</span><br><span class="line">evaluate(Constant c) &#x3D; c</span><br><span class="line">evaluate(BinaryPlus lhs rhs) &#x3D; evaluate lhs + evaluate rhs</span><br></pre></td></tr></table></figure><p>在 Haskell 中，要新增方法是容易的，但是如果要新增型別的話，就得動到 <code>data</code> 的定義。在函數式語言中，新增型別是困難的。這是在函數式語言中所遇到的表達問題。</p><h2 id="Julia-語言中的表達問題？">Julia 語言中的表達問題？</h2><p>文章中有提到 Clojure 採用的是 multi-methods，他可以對應到 Julia 的多重分派（multiple dispatch）。多重分派可以好好地處理表達問題，讓新增型別及方法都是簡單的。</p><p>不過他文末也有提到一個關鍵是 open method，也就是將方法定義在類別之外，如此一來，新增方法就會是簡單的。所以真正解決表達問題的並不是多重分派的機制，而是 open method 的設計。</p>]]></content>
+    
+    <summary type="html">
+    
+      
+      
+        &lt;p&gt;本篇文章是啟發自 &lt;a href=&quot;https://eli.thegreenplace.net/2016/the-expression-problem-and-its-solutions&quot; target=&quot;_blank&quot; rel=&quot;noopener&quot;&gt;The Express
+      
+    
+    </summary>
+    
+    
+      <category term="My Style" scheme="https://yuehhua.github.io/categories/My-Style/"/>
+    
+      <category term="Computer Science" scheme="https://yuehhua.github.io/categories/My-Style/Computer-Science/"/>
+    
+      <category term="Julialang" scheme="https://yuehhua.github.io/categories/My-Style/Computer-Science/Julialang/"/>
+    
+    
+  </entry>
   
   <entry>
     <title>在 Julia 中如何合併集合容器</title>
@@ -497,59 +548,6 @@ $$&lt;/p&gt;
       <category term="My Style" scheme="https://yuehhua.github.io/categories/My-Style/"/>
     
       <category term="Computer Science" scheme="https://yuehhua.github.io/categories/My-Style/Computer-Science/"/>
-    
-    
-  </entry>
-  
-  <entry>
-    <title>運算 Julia 參數型別上的值</title>
-    <link href="https://yuehhua.github.io/2019/05/06/operate-value-in-julia-parametric-type/"/>
-    <id>https://yuehhua.github.io/2019/05/06/operate-value-in-julia-parametric-type/</id>
-    <published>2019-05-06T05:56:52.000Z</published>
-    <updated>2019-09-06T03:19:59.125Z</updated>
-    
-    <content type="html"><![CDATA[<p>之前介紹過將值放在參數型別上。</p><p>今天來介紹一下如何可以做到類似運算的效果。</p><figure class="highlight julia"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">struct</span> A&#123;T&#125;</span><br><span class="line"><span class="keyword">end</span></span><br><span class="line"></span><br><span class="line">a1 = A&#123;<span class="number">5</span>&#125;()</span><br><span class="line">a2 = A&#123;<span class="number">3</span>&#125;()</span><br></pre></td></tr></table></figure><p>在一些應用場景上會希望將參數欄位上的值做運算，例如加總。</p><p>這時候我們可以這樣做：</p><figure class="highlight julia"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> Base:+</span><br><span class="line"></span><br><span class="line"><span class="keyword">function</span> +(::A&#123;T&#125;, ::A&#123;S&#125;) <span class="keyword">where</span> &#123;T, S&#125;</span><br><span class="line">x = T + S</span><br><span class="line"><span class="keyword">return</span> A&#123;x&#125;()</span><br><span class="line"><span class="keyword">end</span></span><br></pre></td></tr></table></figure><p>如此一來，就可以簡單搞定囉！</p><figure class="highlight julia"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">println(a1 + a2)</span><br></pre></td></tr></table></figure><figure class="highlight julia"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">A&#123;<span class="number">8</span>&#125;()</span><br></pre></td></tr></table></figure>]]></content>
-    
-    <summary type="html">
-    
-      
-      
-        &lt;p&gt;之前介紹過將值放在參數型別上。&lt;/p&gt;
-&lt;p&gt;今天來介紹一下如何可以做到類似運算的效果。&lt;/p&gt;
-&lt;figure class=&quot;highlight julia&quot;&gt;&lt;table&gt;&lt;tr&gt;&lt;td class=&quot;gutter&quot;&gt;&lt;pre&gt;&lt;span class=&quot;line&quot;&gt;1&lt;
-      
-    
-    </summary>
-    
-    
-      <category term="My Style" scheme="https://yuehhua.github.io/categories/My-Style/"/>
-    
-      <category term="Computer Science" scheme="https://yuehhua.github.io/categories/My-Style/Computer-Science/"/>
-    
-      <category term="Julialang" scheme="https://yuehhua.github.io/categories/My-Style/Computer-Science/Julialang/"/>
-    
-    
-  </entry>
-  
-  <entry>
-    <title>彰化行</title>
-    <link href="https://yuehhua.github.io/2019/03/11/changhua-with-ning/"/>
-    <id>https://yuehhua.github.io/2019/03/11/changhua-with-ning/</id>
-    <published>2019-03-10T17:19:06.000Z</published>
-    <updated>2019-09-11T12:50:34.574Z</updated>
-    
-    <content type="html"><![CDATA[<div id="hexo-blog-encrypt" data-wpm="Oh, this is an invalid password. Check and try again, please." data-whm="OOPS, these decrypted content may changed, but you can still have a look.">  <div class="hbe-input-container">  <input type="password" id="hbePass" placeholder="" />    <label for="hbePass">Enter password to read the article</label>    <div class="bottom-line"></div>  </div>  <script id="hbeData" type="hbeData" data-hmacdigest="3815e404e28251f2aa216d376639685ed9a8f54150c59eba8f8390c7ce4d096c">999302eb3da7ba0830f0d4430dd24ff4e338e2068524d9e60b85b93fd82eb6496ac5b6e68e9e454804fe0df94e0eec66f38528b520d44e36d91ae62b8c8517268ba45789e4a5831ab98cbd2c8bab4eb3772a0d4f59d8888e75380e3d1a667ba69eb22f0f7c4c328da923eea82afe8cdba2f114a8d409b6d8d709fb555d8fed0b74129534d47165114470049deeaf37ad377430daf9514f69ddb5102a535953b7bff718c5a3a516aa32b10354df91745a234bb6a0b227f13dd085e115f42c735a0dd4773aeabe28c4d2878cc1d8ea89af548368e7723b95eb1ad15ace513cd28a63748c2e4d0bc6d368069ecdbe38ddadb500d0010a1012bdfa174d1b18f103827c8d75a87b8d2004f9c5df1776ecf2efbdfa7d77e9a4ae2ee825f917026ae9bfb185e593e62d7ae895d93e5cf16422499532ddcd28436bc91551d6e5a6779cfb7ef6ad202dccd3b13ddf30e5cece6597e5157646b9b7ae44520d426285fa9d2ae0112d31c4af83dcbfeaf86da38bde7376e9d3a0421913db00a526c1872b7a51a1162b40698189e5af252984244b0ae0a49ba566787c4c29f7a7f8dc3d9e4aca4234ee1abae5fdc0fe51e59f17ba2cf44952fd35537b22bb1bd7e6480ff781672c2f5a53cd515c7e8caac3dfae67f78840ee6961a174519d854a3ab2ea61d1fb4a9986d46f2d7ca8902a2cd5e2b78a70c86973fdcdbc07b99fc7728ecc6780c34b400f4231a3342add16f7ef6453d2fca047f1caffd13b66df4417892f8fa8385c6ac8de32c2028f4fb84ba5cff3dfe46a5f6defe2fe48e832af84d3ae5b0d914c1e0ef3f32e1e0fc1d58f28abbdc00df6b72c7effc376ac9a9fb6eb81d91070f77d7b961a13f125f08c7f2bf671f44660d40cd7784e2e54bf9d1500b0f88c46be209b1c3d774c3e02451092dc3b67be05664cd45ae271fa6f4124074a18a51da797428fca161213e8fe5be6879574b3c7117d318d08ea1845cb600857b61a59727b76b63a114e845e507a929440fa222c27c1f95fd0acac5171a642d2571d044102e4f4c597e8965163e4a13670816b1244686d936521aae807020f6074a4d01893c9441f168e7a8030ff8b232329a28c7cddf3597425832b333cd362829407c8259ab7e09a93a517b45256cdd5a90fdeba31ec8b0b5ece3ead908784a14384170b25fb93e86eabc0b241d5db33282fd1ec1afe3b5c15f83813bb0f3ea1a3338e24fcf28a784c3b71798761ee7ace4fcb4b58fdf918c87c2ff6fe88f1a497a9676229735c88b864b875d5566b5457ec50891630e16af3ad2a6d124dd08b0fa721147a495a52cb57728bfcba558ef7ca3fa1a8e31005a561eddbc607f1adb05826575996a205b2363b0c9307f66e7805acdfdb07937212824b5d3314b370e8e878bf024efe01e1b18a9435ae61dcf756ff7d41683a9c20e0ebec26f051e3a9f7a90315c60d3043211520eeae02036a86eef2d52f50c23db32015fd276f6147686362b08756f02752f2de9d807d053a00aa795509272e20b67642704d1d67904967ed8561e7eaf63bdd07ff4bdddd49e24933b9626509e8b4a676d5452e461a1bef1aa06a190eeb8c3c1a8041140c98ff1227e89d53095774ecabe752c93b194a3be93db8a2695abbc57a5687d3fa4bd90275bf3146667fb248287cbd8297077015b9ba6ddbdb7ec1cbeabc04e8c983fc5a39e5659b45537558a088691ef24d404fe498aeb7d80aeb7495df582527d62a3757658515c05dccf5485ed8f8e0136f5bccd02419a012a4605918ed13efb1976c3bb502eb8ce8e06c4755cad0c358517612cd8c00486cc88d8d57b983151e379859570ee6d86bdec1bcc3ec580d97b4f1ebcaeb1d78ed51913e1a88f242aea91144d02f4b4b58c2d3dca37cf767474a21cb133605eb9366b3c2787aea01afacd8c7d099cf0f46dc39be5b38bc64cff9ef520e33ee0edbd1274b912b3773720848a08aa0f095b6b84d6c5f7c79339ab1395704f7a3d82e376a24f99435eb32d178da743a1fab1bf62fc03843b415c64b8c876dea4fabfbddf13618ce934705af2e58d0e94749c62ce5dfb52c5a7a94a6117638ecee53fbbd5fcf68ea400565966826b60330857ecceeeba4a7e7b86705b572acc1f76764a5fcef4bbf4e7c3bda3e04726cbfccaa268ecfb12ea497fc04a8588bd17d857ef6486890ff20cb4f0e911546aa6b9d1c2ed1bfd31459a53e967e400bc723088a67181c8584fe703700dfeaf08e7c8f07a08096f8ef3fbf26f855a0035744fe7c71ca18b6cb82c79cbc1f5870d132a8fc3631e0716c20e615d512b6f10b5ea44eae5c7c0e1daba48a8d778492dfa25d0122a96865999ec0df3c98a3af82d7b7ae942b6da80a158d74500f1981648e6f921de3d771aa83bb8ac9ff173b007bd6285b1460e41e061b5ecc3ae388a1855459498cc1e80606993904e85f165d4e67382b6b968cb65f6d45d0371c3211791902475c5d4aba5dae375a56b9766d2e0b669f08436fdbe4e4d21810bf9df82add67fd1e6538e912026cbe3308c2853b425ee41fe9e3952d4fdcb99013ac4232273735eec0faa8cdee9f4a330302aee85332ee687df4a05bd0f6f0b1fd903336b7e48b3d3c125e65ff8caa128d57cc54f8a12dc7364b75078ba9348f5a8fefccfa8d9502ae67aaa8ce3cd3537b9450a4016e702b71289f72076141317597dd665a6cd27c898543bd23bac8b860b1f1eff4f8a88c9e006aa521904915557de61b3247e898156eeb5c477ba97db23e3e6f3e3e46c0fc7370a54a006ed3c014d3b26c2d4dd78feb12c1703901874f8c84f2dc148e797e1e0faf2d4a727ad5d477cd7d96a68c5bc861be829352841780a7386e8d50cf424b8f9d3b170bcbc6db98b7da66a041c54b98949a21f746e6bd7016899b55e0977941d49d49969acdc00f7f5240094eb05d2d3f190d05d5f1713d3c6b83951508eb4de23c02d856a66c64ccc71c4d23b348102650c86c66908f20d690d4ccf5a9f9f17689993e11243bb8d1e85427cfa2b7dc7d8c4d7e7509b6c92cacf604994974bdf587d1a3356414196742050cc9c79a983094336b6e3b20e7ed74bf769699416b459eca57d6c069868b1c61c70035a1009ed80c0917f4484c4e0f72ee16af24302e13230665e571366e1aca3b5cc57a997d5951eb3bebefaa971f1fe878aab143ead2329a1bfd65d2f2332864dfebfed2b778311667b527df6497ebd0cf261b08cc8090076d4a758a536d6d3ba2c68b89b77c61d300fd5f7bd22b3b6f7a3f8c1b87c7db796957804cf0ba805cf7b1aac1ddde96c194b76e51bd3e4e77f5589e3b0c9a0229f17f64f914f3219d8c822f72f018205f62222c489d045a5e6c7c0c7cd5fd9821a129a5a0025742ba9c965c1fbbeaedf4d346a671cf259af8debd94e6dd309b4a22bec1b4a4e54b1c71a343d6643b531ff1930d7b52183488aea4ba81bd118435d4f8a02f8cd416877ec662d0973421c9f533d8e265f0c045edc5cfd0c94aa8426370b88ff028058c18bfff30d23f46ee272d4a53da19c20a0ec78fd2aeb7f7e1eb5e01f10b01d1a87b3d70f7dc57029d0844b116f6fc77009bbd8b1ff7b124e0d870f2037acb0f87cdc00f15aa1cc671814bcec30dbbe93aa82401718804772b2e0fab79511c92c26826fc2fca2d96afaf5a31ec8138e9798e3633dff8e802e528d432eb562ad3ea01646c878932b02da36a177854e68d86c8d6ae482248ac55ced934c799278b8561429b9e457901e4fa52eb97fe85180ac386c533bab26dddd5b148cab522dfce77e5c85b21dfbc56b446563671aa7602c1e200e84eceaeb58b9982c20eb8b4d6f5bc8f4ab754a9135bfc55959c6d9ad77f7fadd10e2eb5fc7327074dc891dda751d05dd58f4c5da3fb2c0024400ad5929a4eda88e5e498cebcee9872d8efd01c6f1f95ffa2d69d68d3cbf09ab741652df9559b8ff66774efb16de887470b31947ab18ee20524555fc34e663756766d71aa3d31f45970406fa40ce86e57c86c6504384597334dd3a4fe097cdcf3b6f51cfd7fe043af898361980e7e89e4802ac281eed5c9e13e4b18f2246708c5832d40845cb00d95d830a6d743adffec2248b28fd646c2bffb28f0f1a1c91339d8b8238503a88a65583ed8e2b8f608e85779a5277600a496ae130395d6a6d5e964af1e5c8ebee0daae2e3c7c29be9f368e95e0f8457cd9df85e94056881ccd2d8bcd9ff7e8fd576a8ed14f3d7a42a1f76f5bcc57c426905b8fcce12034edb6f486115b156584dcc004484bf9e2e9dbea3edfae955163a95c1cafbe0a664d760fd5f67804386ed5031278b3b96414ae2240f7b44df5e59537725c97c214997d3c842b781e14cbe16f2fda55b1acb2834b2fd15be5a446f9f211ee039aeaf53591d95a9e7459970dde5f74b2b920b514981ba5ae56213bfb39234a2ebf0baf74693d88bf6dea699bbd44e41a58d36fafde72e46f628b1b34034432053cedbf5c50208618b02ca449312493e4e0866e4c18c21f2495b80cdad58545ca12073d45880369022738eb01cf59db539e48be9554e3596718362b0e8df8296c4fc83a8866e2ea2f4d4f6f0aa530da0bbc1cb2668bcf1d1d598692df869e12f7a354cea568096fe732e5ed6361c62ebc1cb578ad1c31a67d95235596012e68f94f22a6b17b0fd2b11940d5f980351bbe7d4c44971a46ab0066d50d734ffdf5ee6bd6c99cd7e95129dfe3414c32787bb46d3e20b2dcf2b16b1388afe4127da3a11d46d908fb976269c1efda70dddefe9c014da408535fed7efb9f0cfed3386daac91d5f9851391caa6efbc35da868ef1efe304e18f86a3c5bcfe5ff14e5a752b00fdd749c5f4f495d8e987fcb1ead3aa6c0d69dd106eef8439353f6faa0e2af7e295a96fb9b57404f3ef87984411a2a717688a7bd58b657115c3b758f42498eda37601329c974ce537f1b027003b0c54bc43016322ba19bf08c5d661d5e74a57b4f93a7a8e00bcc3bf3ffb4af9b037e009650a56adc87cabeef4f7f809eb00888e091ac65725117a4d83b7cb4a586db62846e47c3b5f188aac65d773090c59f8ebc70242df738c1cdd858606346d7bfa77df0a01b41d01aea497396cda6e5468ef8632db399a31b7b52e730dad45178ef1c7946d4faee311a5a11383490120c58553df4c6a6ff7601aabdcd5a28346ef83fcf7d24b38bd640b521628e9d0483b03f295ee1e0c110db8298c76bf1563f84c3756b80aa212cb3e74b2840e802b790eb20ec571e22e57d480b67df443fbfbe449b2cacbf598b2cc1567229497a329c82fd88dbe4b3fb53127ff227e1167ae8b696daf6f58f99d8ae6b38ff3d23efd6ebc478724cd4896cecad71607d6936641388abe802852eaa32da359becff255d9623b1e176a97ac500a9e1571cef23e9</script></div><script src="/lib/blog-encrypt.js"></script><link href="/css/blog-encrypt.css" rel="stylesheet" type="text/css">]]></content>
-    
-    <summary type="html">
-    
-      Private post
-    
-    </summary>
-    
-    
-      <category term="My Style" scheme="https://yuehhua.github.io/categories/My-Style/"/>
-    
-      <category term="Friends" scheme="https://yuehhua.github.io/categories/My-Style/Friends/"/>
     
     
   </entry>

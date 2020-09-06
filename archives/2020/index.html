@@ -241,6 +241,121 @@
             <div class="postShorten-header">
                 <h1 class="postShorten-title">
                     
+                        <a class="link-unstyled" href="/2020/09/06/linux-system-noise-cancellation/">
+                            Linux 系統降噪
+                        </a>
+                    
+                </h1>
+                <div class="postShorten-meta">
+    <time datetime="2020-09-06T17:22:33+08:00">
+	
+		    9月 06, 2020
+    	
+    </time>
+    
+</div>
+
+            </div>
+            
+                <div class="postShorten-content">
+                    <p>之前在 Linux 上測試麥克風，發現錄製的時候總會把背景雜訊給錄進去，會在有人講話的同時聽到雜音。</p>
+<p>我用的是 OBS 來做桌面錄製，所以自然想用 OBS 來做音訊的降噪。在 OBS 裡有噪音閥及噪音抑制，似乎噪音閥的效果比較明顯，但是講話聲音背後仍有雜音。</p>
+<p>這時候在網路上找了一下，發現可以用系統 pulseaudio 的驅動來做降噪，只是要特別設定開啟，預設是不會開啟的。試了之後效果超好，在這邊紀錄一下。</p>
+<h2 id="步驟">步驟</h2>
+<p>首先，編輯以下檔案</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo nano &#x2F;etc&#x2F;pulse&#x2F;default.pa</span><br></pre></td></tr></table></figure>
+<p>把以下這行加到檔案中，建議可以加到有個 Echo Cancellation 的地方：</p>
+<p>load-module module-echo-cancel</p>
+<p>重載 PulseAudio (pulseaudio -k) 就可以囉！</p>
+<p>Ref: <a href="https://askubuntu.com/questions/18958/realtime-noise-removal-with-pulseaudio" target="_blank" rel="noopener">https://askubuntu.com/questions/18958/realtime-noise-removal-with-pulseaudio</a></p>
+
+                    
+                        
+
+                    
+                    
+                        <p>
+                            <a href="/2020/09/06/linux-system-noise-cancellation/#post-footer" class="postShorten-excerpt_link link">
+                                留言與分享
+                            </a>
+                        </p>
+                    
+                </div>
+            
+        </div>
+        
+    </article>
+    
+    
+    <article class="postShorten postShorten--thumbnailimg-bottom">
+        <div class="postShorten-wrap">
+            
+            <div class="postShorten-header">
+                <h1 class="postShorten-title">
+                    
+                        <a class="link-unstyled" href="/2020/09/06/expression-problem-in-julia/">
+                            Julia 中的表達問題（Expression problem in Julia）
+                        </a>
+                    
+                </h1>
+                <div class="postShorten-meta">
+    <time datetime="2020-09-06T17:19:52+08:00">
+	
+		    9月 06, 2020
+    	
+    </time>
+    
+        <span>分類 </span>
+        
+    <a class="category-link" href="/categories/My-Style/">My Style</a>, <a class="category-link" href="/categories/My-Style/Computer-Science/">Computer Science</a>, <a class="category-link" href="/categories/My-Style/Computer-Science/Julialang/">Julialang</a>
+
+
+    
+</div>
+
+            </div>
+            
+                <div class="postShorten-content">
+                    <p>本篇文章是啟發自 <a href="https://eli.thegreenplace.net/2016/the-expression-problem-and-its-solutions" target="_blank" rel="noopener">The Expression Problem and its solutions</a>，當中談論的是在撰寫程式的過程中，所採用的程式典範不同，會在程式表達上遇到不同程度的困難，稱之為表達問題（expression problem）。</p>
+<h2 id="物件導向語言中的表達問題">物件導向語言中的表達問題</h2>
+<p>以原文中的例子，作者想以物件導向語言來撰寫一個簡單的 expression evaluator。基本上採用直譯器模式（<a href="https://en.wikipedia.org/wiki/Interpreter_pattern" target="_blank" rel="noopener">interpreter pattern</a>），這邊我把程式碼以 python 重寫。</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Expr</span>:</span></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">tostring</span><span class="params">(self)</span>:</span></span><br><span class="line">        <span class="keyword">return</span> <span class="number">0</span></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">eval</span><span class="params">(self)</span>:</span></span><br><span class="line">        <span class="keyword">return</span> <span class="number">0</span></span><br></pre></td></tr></table></figure>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Constant</span><span class="params">(Expr)</span>:</span></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">__init__</span><span class="params">(self, value)</span>:</span></span><br><span class="line">        self.__value = value</span><br><span class="line">        <span class="keyword">return</span> self</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">tostring</span><span class="params">(self)</span>:</span></span><br><span class="line">        <span class="keyword">return</span> str(self.__value)</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">eval</span><span class="params">(self)</span>:</span></span><br><span class="line">        <span class="keyword">return</span> self.__value</span><br></pre></td></tr></table></figure>
+<p>我們先定義了一個 <code>Expr</code>，我們希望提供 <code>tostring</code> 及 <code>eval</code> 兩種操作。我們後續定義了常數 <code>Constant</code>，也讓常數實作這兩種操作。</p>
+<p>如果我們想要擴充 <code>Expr</code> 或是 <code>Constant</code> 的時候該怎麼做呢？更精確地說，如果我們想要新增新的操作到既有的類別上，我們該怎麼做？一般情況下可能就是直接在原有的類別上加上新的方法。不過這樣其實違反了軟體工程原則，開放封閉原則（open-closed principle），我們應該要對舊有的類別、方法、介面等等程式碼修改保持<em>封閉</em>，也就是不能去修改既有程式碼，我們應該對新增程式碼保持<em>開放</em>，也就是允許新增程式碼。</p>
+<p>我們可以發現在物件導向語言當中，新增類別是容易的，但是新增方法是困難的。這是在物件導向語言中所遇到的表達問題。</p>
+<h2 id="函數式語言中的表達問題">函數式語言中的表達問題</h2>
+<p>以 Haskell 為例，撰寫以上的程式（這邊直接引用原文）。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">data Expr &#x3D; Constant Double</span><br><span class="line">          | BinaryPlus Expr Expr</span><br><span class="line"></span><br><span class="line">stringify :: Expr -&gt; String</span><br><span class="line">stringify(Constant c) &#x3D; show c</span><br><span class="line">stringify(BinaryPlus lhs rhs) &#x3D; stringify lhs</span><br><span class="line">                                ++ &quot; + &quot;</span><br><span class="line">                                ++ stringify rhs</span><br><span class="line"></span><br><span class="line">evaluate :: Expr -&gt; Double</span><br><span class="line">evaluate(Constant c) &#x3D; c</span><br><span class="line">evaluate(BinaryPlus lhs rhs) &#x3D; evaluate lhs + evaluate rhs</span><br></pre></td></tr></table></figure>
+<p>在 Haskell 中，要新增方法是容易的，但是如果要新增型別的話，就得動到 <code>data</code> 的定義。在函數式語言中，新增型別是困難的。這是在函數式語言中所遇到的表達問題。</p>
+<h2 id="Julia-語言中的表達問題？">Julia 語言中的表達問題？</h2>
+<p>文章中有提到 Clojure 採用的是 multi-methods，他可以對應到 Julia 的多重分派（multiple dispatch）。多重分派可以好好地處理表達問題，讓新增型別及方法都是簡單的。</p>
+<p>不過他文末也有提到一個關鍵是 open method，也就是將方法定義在類別之外，如此一來，新增方法就會是簡單的。所以真正解決表達問題的並不是多重分派的機制，而是 open method 的設計。</p>
+
+                    
+                        
+
+                    
+                    
+                        <p>
+                            <a href="/2020/09/06/expression-problem-in-julia/#post-footer" class="postShorten-excerpt_link link">
+                                留言與分享
+                            </a>
+                        </p>
+                    
+                </div>
+            
+        </div>
+        
+    </article>
+    
+    
+    <article class="postShorten postShorten--thumbnailimg-bottom">
+        <div class="postShorten-wrap">
+            
+            <div class="postShorten-header">
+                <h1 class="postShorten-title">
+                    
                         <a class="link-unstyled" href="/2020/08/28/merge-collections-in-julia/">
                             在 Julia 中如何合併集合容器
                         </a>
@@ -703,93 +818,6 @@
                                 留言與分享
                             </a>
                         </p>
-                    
-                </div>
-            
-        </div>
-        
-    </article>
-    
-    
-    <article class="postShorten postShorten--thumbnailimg-right">
-        <div class="postShorten-wrap">
-            
-            <div class="postShorten-header">
-                <h1 class="postShorten-title">
-                    
-                        <a class="link-unstyled" href="/2020/03/24/julia-v1-4-release/">
-                            Julia v1.4 釋出
-                        </a>
-                    
-                </h1>
-                <div class="postShorten-meta">
-    <time datetime="2020-03-24T12:02:05+08:00">
-	
-		    3月 24, 2020
-    	
-    </time>
-    
-        <span>分類 </span>
-        
-    <a class="category-link" href="/categories/My-Style/">My Style</a>, <a class="category-link" href="/categories/My-Style/Computer-Science/">Computer Science</a>, <a class="category-link" href="/categories/My-Style/Computer-Science/Julialang/">Julialang</a>
-
-
-    
-</div>
-
-            </div>
-            
-                <div class="postShorten-excerpt">
-                    <p>Julia v1.4 已經釋出啦！這邊來跟大家介紹一些新功能。<br>
-底下新功能後面會有括弧，附註相關的實作程式碼。</p>
-                    
-                        <a href="/2020/03/24/julia-v1-4-release/" class="postShorten-excerpt_link link">
-                            繼續閱讀
-                        </a>
-                        
-                    
-                </div>
-            
-        </div>
-        
-    </article>
-    
-    
-    <article class="postShorten postShorten--thumbnailimg-right">
-        <div class="postShorten-wrap">
-            
-            <div class="postShorten-header">
-                <h1 class="postShorten-title">
-                    
-                        <a class="link-unstyled" href="/2020/03/01/from-iterator-and-generator-to-iterable/">
-                            從 iterator 及 generator 到 iterable
-                        </a>
-                    
-                </h1>
-                <div class="postShorten-meta">
-    <time datetime="2020-03-01T14:31:49+08:00">
-	
-		    3月 01, 2020
-    	
-    </time>
-    
-        <span>分類 </span>
-        
-    <a class="category-link" href="/categories/My-Style/">My Style</a>, <a class="category-link" href="/categories/My-Style/Computer-Science/">Computer Science</a>, <a class="category-link" href="/categories/My-Style/Computer-Science/Julialang/">Julialang</a>
-
-
-    
-</div>
-
-            </div>
-            
-                <div class="postShorten-excerpt">
-                    <p>今天來跟大家介紹 iterator、generator 及 iterable 這三個東西。基本上，大家應該都有用過 for 迴圈，然而很多東西可以放在迴圈的 <code>in</code> 後方，這樣就可以將裡頭的元素一個一個取出來。但是這是怎做到的呢？</p>
-                    
-                        <a href="/2020/03/01/from-iterator-and-generator-to-iterable/" class="postShorten-excerpt_link link">
-                            繼續閱讀
-                        </a>
-                        
                     
                 </div>
             

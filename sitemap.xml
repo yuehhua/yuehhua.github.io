@@ -2,6 +2,20 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   
   <url>
+    <loc>https://yuehhua.github.io/2020/09/06/linux-system-noise-cancellation/</loc>
+    
+    <lastmod>2020-09-06T09:23:17.999Z</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>https://yuehhua.github.io/2020/09/06/expression-problem-in-julia/</loc>
+    
+    <lastmod>2020-09-06T09:19:54.643Z</lastmod>
+    
+  </url>
+  
+  <url>
     <loc>https://yuehhua.github.io/2020/08/28/merge-collections-in-julia/</loc>
     
     <lastmod>2020-08-28T14:37:43.527Z</lastmod>
