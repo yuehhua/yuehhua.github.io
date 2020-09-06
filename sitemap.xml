@@ -2,9 +2,16 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   
   <url>
+    <loc>https://yuehhua.github.io/2020/09/06/expression-problem-in-julia/</loc>
+    
+    <lastmod>2020-09-06T17:26:22.495Z</lastmod>
+    
+  </url>
+  
+  <url>
     <loc>https://yuehhua.github.io/2020/09/06/how-to-use-async-sync-in-julia/</loc>
     
-    <lastmod>2020-09-06T09:43:04.291Z</lastmod>
+    <lastmod>2020-09-06T17:17:47.282Z</lastmod>
     
   </url>
   
@@ -12,13 +19,6 @@
     <loc>https://yuehhua.github.io/2020/09/06/linux-system-noise-cancellation/</loc>
     
     <lastmod>2020-09-06T09:23:17.999Z</lastmod>
-    
-  </url>
-  
-  <url>
-    <loc>https://yuehhua.github.io/2020/09/06/expression-problem-in-julia/</loc>
-    
-    <lastmod>2020-09-06T09:19:54.643Z</lastmod>
     
   </url>
   
