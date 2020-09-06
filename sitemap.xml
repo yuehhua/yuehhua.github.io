@@ -2,6 +2,13 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   
   <url>
+    <loc>https://yuehhua.github.io/2020/09/06/how-to-use-async-sync-in-julia/</loc>
+    
+    <lastmod>2020-09-06T09:43:04.291Z</lastmod>
+    
+  </url>
+  
+  <url>
     <loc>https://yuehhua.github.io/2020/09/06/linux-system-noise-cancellation/</loc>
     
     <lastmod>2020-09-06T09:23:17.999Z</lastmod>

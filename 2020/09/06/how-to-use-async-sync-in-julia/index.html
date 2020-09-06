@@ -6,7 +6,7 @@
     <!-- hexo-inject:begin --><!-- hexo-inject:end --><meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="generator" content="Dream Maker">
-    <title>Linux 系統降噪 - Dream Maker</title>
+    <title>how-to-use-async-sync-in-julia - Dream Maker</title>
     <meta name="author" content="Yueh-Hua Tu">
     
         <meta name="keywords" content="machine learning,deep learning,topology,">
@@ -15,16 +15,16 @@
     
         <link rel="alternate" type="application/atom+xml" title="RSS" href="/atom.xml">
     
-    <script type="application/ld+json">{"@context":"http://schema.org","@type":"BlogPosting","author":{"@type":"Person","name":"Yueh-Hua Tu","sameAs":["https://github.com/yuehhua/","https://www.facebook.com/a504082002","https://www.linkedin.com/in/%E5%B2%B3%E8%8F%AF-%E6%9D%9C-6a3995a0/","mailto:a504082002@gmail.com"],"image":"https://www.gravatar.com/avatar/a565749fba4782b717234da670b273fd"},"articleBody":"之前在 Linux 上測試麥克風，發現錄製的時候總會把背景雜訊給錄進去，會在有人講話的同時聽到雜音。\n我用的是 OBS 來做桌面錄製，所以自然想用 OBS 來做音訊的降噪。在 OBS 裡有噪音閥及噪音抑制，似乎噪音閥的效果比較明顯，但是講話聲音背後仍有雜音。\n這時候在網路上找了一下，發現可以用系統 pulseaudio 的驅動來做降噪，只是要特別設定開啟，預設是不會開啟的。試了之後效果超好，在這邊紀錄一下。\n步驟\n首先，編輯以下檔案\n1sudo nano &#x2F;etc&#x2F;pulse&#x2F;default.pa\n把以下這行加到檔案中，建議可以加到有個 Echo Cancellation 的地方：\nload-module module-echo-cancel\n重載 PulseAudio (pulseaudio -k) 就可以囉！\nRef: https://askubuntu.com/questions/18958/realtime-noise-removal-with-pulseaudio\n","dateCreated":"2020-09-06T17:22:33+08:00","dateModified":"2020-09-06T17:23:17+08:00","datePublished":"2020-09-06T17:22:33+08:00","description":"","headline":"Linux 系統降噪","image":[],"mainEntityOfPage":{"@type":"WebPage","@id":"https://yuehhua.github.io/2020/09/06/linux-system-noise-cancellation/"},"publisher":{"@type":"Organization","name":"Yueh-Hua Tu","sameAs":["https://github.com/yuehhua/","https://www.facebook.com/a504082002","https://www.linkedin.com/in/%E5%B2%B3%E8%8F%AF-%E6%9D%9C-6a3995a0/","mailto:a504082002@gmail.com"],"image":"https://www.gravatar.com/avatar/a565749fba4782b717234da670b273fd","logo":{"@type":"ImageObject","url":"https://www.gravatar.com/avatar/a565749fba4782b717234da670b273fd"}},"url":"https://yuehhua.github.io/2020/09/06/linux-system-noise-cancellation/"}</script>
-    <meta name="description" content="之前在 Linux 上測試麥克風，發現錄製的時候總會把背景雜訊給錄進去，會在有人講話的同時聽到雜音。 我用的是 OBS 來做桌面錄製，所以自然想用 OBS 來做音訊的降噪。在 OBS 裡有噪音閥及噪音抑制，似乎噪音閥的效果比較明顯，但是講話聲音背後仍有雜音。 這時候在網路上找了一下，發現可以用系統 pulseaudio 的驅動來做降噪，只是要特別設定開啟，預設是不會開啟的。試了之後效果超好，在這邊">
+    <script type="application/ld+json">{"@context":"http://schema.org","@type":"BlogPosting","author":{"@type":"Person","name":"Yueh-Hua Tu","sameAs":["https://github.com/yuehhua/","https://www.facebook.com/a504082002","https://www.linkedin.com/in/%E5%B2%B3%E8%8F%AF-%E6%9D%9C-6a3995a0/","mailto:a504082002@gmail.com"],"image":"https://www.gravatar.com/avatar/a565749fba4782b717234da670b273fd"},"articleBody":"這個問題在官方文件中並沒有詳細記載，所以覺得值得紀錄一下。\n查閱 @async 的文件會講說，他會用一個 Task 把後面的表達式包裝起來，並且將他掛到排程器的佇列（queue）中。意思就是將表達式包裝成一個任務，並放到佇列中等待 CPU 核心的資源來執行他。\n然而通常會搭配 @sync 來使用，@sync 的文件中提到，他會等到後面的 @async、@spawn、@spawnat 及 @distributed 都執行完畢。\n使用情境比較像是（修改自1）\n123@sync for (idx, pid) in enumerate(workers())    @async a[idx] = remotecall_fetch(do_something, pid, 2)end\n@sync 會等待這個 block 中的 @async 都執行結束才結束，@async 可以讓你指派一些非同步處理的任務，像是多執行緒或是多行程的平行運算。\n@sync 就比較像 python 當中的 join()。\nReference\n","dateCreated":"2020-09-06T17:43:04+08:00","dateModified":"2020-09-06T17:43:04+08:00","datePublished":"2020-09-06T17:43:04+08:00","description":"","headline":"how-to-use-async-sync-in-julia","image":[],"mainEntityOfPage":{"@type":"WebPage","@id":"https://yuehhua.github.io/2020/09/06/how-to-use-async-sync-in-julia/"},"publisher":{"@type":"Organization","name":"Yueh-Hua Tu","sameAs":["https://github.com/yuehhua/","https://www.facebook.com/a504082002","https://www.linkedin.com/in/%E5%B2%B3%E8%8F%AF-%E6%9D%9C-6a3995a0/","mailto:a504082002@gmail.com"],"image":"https://www.gravatar.com/avatar/a565749fba4782b717234da670b273fd","logo":{"@type":"ImageObject","url":"https://www.gravatar.com/avatar/a565749fba4782b717234da670b273fd"}},"url":"https://yuehhua.github.io/2020/09/06/how-to-use-async-sync-in-julia/"}</script>
+    <meta name="description" content="這個問題在官方文件中並沒有詳細記載，所以覺得值得紀錄一下。 查閱 @async 的文件會講說，他會用一個 Task 把後面的表達式包裝起來，並且將他掛到排程器的佇列（queue）中。意思就是將表達式包裝成一個任務，並放到佇列中等待 CPU 核心的資源來執行他。 然而通常會搭配 @sync 來使用，@sync 的文件中提到，他會等到後面的 @async、@spawn、@spawnat 及 @dist">
 <meta property="og:type" content="blog">
-<meta property="og:title" content="Linux 系統降噪">
-<meta property="og:url" content="https://yuehhua.github.io/2020/09/06/linux-system-noise-cancellation/index.html">
+<meta property="og:title" content="how-to-use-async-sync-in-julia">
+<meta property="og:url" content="https://yuehhua.github.io/2020/09/06/how-to-use-async-sync-in-julia/index.html">
 <meta property="og:site_name" content="Dream Maker">
-<meta property="og:description" content="之前在 Linux 上測試麥克風，發現錄製的時候總會把背景雜訊給錄進去，會在有人講話的同時聽到雜音。 我用的是 OBS 來做桌面錄製，所以自然想用 OBS 來做音訊的降噪。在 OBS 裡有噪音閥及噪音抑制，似乎噪音閥的效果比較明顯，但是講話聲音背後仍有雜音。 這時候在網路上找了一下，發現可以用系統 pulseaudio 的驅動來做降噪，只是要特別設定開啟，預設是不會開啟的。試了之後效果超好，在這邊">
+<meta property="og:description" content="這個問題在官方文件中並沒有詳細記載，所以覺得值得紀錄一下。 查閱 @async 的文件會講說，他會用一個 Task 把後面的表達式包裝起來，並且將他掛到排程器的佇列（queue）中。意思就是將表達式包裝成一個任務，並放到佇列中等待 CPU 核心的資源來執行他。 然而通常會搭配 @sync 來使用，@sync 的文件中提到，他會等到後面的 @async、@spawn、@spawnat 及 @dist">
 <meta property="og:locale" content="zh_TW">
-<meta property="article:published_time" content="2020-09-06T09:22:33.000Z">
-<meta property="article:modified_time" content="2020-09-06T09:23:17.999Z">
+<meta property="article:published_time" content="2020-09-06T09:43:04.000Z">
+<meta property="article:modified_time" content="2020-09-06T09:43:04.291Z">
 <meta property="article:author" content="Yueh-Hua Tu">
 <meta property="article:tag" content="machine learning">
 <meta property="article:tag" content="deep learning">
@@ -242,16 +242,22 @@
                     <div class="post-header main-content-wrap text-left">
     
         <h1 class="post-title">
-            Linux 系統降噪
+            how-to-use-async-sync-in-julia
         </h1>
     
     
         <div class="post-meta">
-    <time datetime="2020-09-06T17:22:33+08:00">
+    <time datetime="2020-09-06T17:43:04+08:00">
 	
 		    9月 06, 2020
     	
     </time>
+    
+        <span>分類 </span>
+        
+    <a class="category-link" href="/categories/My-Style/">My Style</a>, <a class="category-link" href="/categories/My-Style/Computer-Science/">Computer Science</a>, <a class="category-link" href="/categories/My-Style/Computer-Science/Julialang/">Julialang</a>
+
+
     
 </div>
 
@@ -261,16 +267,14 @@
                         
                             <div class="post-content markdown">
                                 <div class="main-content-wrap">
-                                    <p>之前在 Linux 上測試麥克風，發現錄製的時候總會把背景雜訊給錄進去，會在有人講話的同時聽到雜音。</p>
-<p>我用的是 OBS 來做桌面錄製，所以自然想用 OBS 來做音訊的降噪。在 OBS 裡有噪音閥及噪音抑制，似乎噪音閥的效果比較明顯，但是講話聲音背後仍有雜音。</p>
-<p>這時候在網路上找了一下，發現可以用系統 pulseaudio 的驅動來做降噪，只是要特別設定開啟，預設是不會開啟的。試了之後效果超好，在這邊紀錄一下。</p>
-<h2 id="步驟">步驟</h2>
-<p>首先，編輯以下檔案</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo nano &#x2F;etc&#x2F;pulse&#x2F;default.pa</span><br></pre></td></tr></table></figure>
-<p>把以下這行加到檔案中，建議可以加到有個 Echo Cancellation 的地方：</p>
-<p>load-module module-echo-cancel</p>
-<p>重載 PulseAudio (pulseaudio -k) 就可以囉！</p>
-<p>Ref: <a href="https://askubuntu.com/questions/18958/realtime-noise-removal-with-pulseaudio" target="_blank" rel="noopener">https://askubuntu.com/questions/18958/realtime-noise-removal-with-pulseaudio</a></p>
+                                    <p>這個問題在官方文件中並沒有詳細記載，所以覺得值得紀錄一下。</p>
+<p>查閱 <code>@async</code> 的文件會講說，他會用一個 <code>Task</code> 把後面的表達式包裝起來，並且將他掛到排程器的佇列（queue）中。意思就是將表達式包裝成一個任務，並放到佇列中等待 CPU 核心的資源來執行他。</p>
+<p>然而通常會搭配 <code>@sync</code> 來使用，<code>@sync</code> 的文件中提到，他會等到後面的 <code>@async</code>、<code>@spawn</code>、<code>@spawnat</code> 及 <code>@distributed</code> 都執行完畢。</p>
+<p>使用情境比較像是（修改自<a href="https://stackoverflow.com/questions/37287020/how-and-when-to-use-async-and-sync-in-julia" target="_blank" rel="noopener">1</a>）</p>
+<figure class="highlight julia"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@sync</span> <span class="keyword">for</span> (idx, pid) <span class="keyword">in</span> enumerate(workers())</span><br><span class="line">    <span class="meta">@async</span> a[idx] = remotecall_fetch(do_something, pid, <span class="number">2</span>)</span><br><span class="line"><span class="keyword">end</span></span><br></pre></td></tr></table></figure>
+<p><code>@sync</code> 會等待這個 block 中的 <code>@async</code> 都執行結束才結束，<code>@async</code> 可以讓你指派一些非同步處理的任務，像是多執行緒或是多行程的平行運算。</p>
+<p><code>@sync</code> 就比較像 python 當中的 <code>join()</code>。</p>
+<p>Reference</p>
 
                                         
 
@@ -284,8 +288,7 @@
         <ul class="post-actions post-action-nav">
             <li class="post-action">
                 
-                    
-                    <a class="post-action-btn btn btn--default tooltip--top" href="/2020/09/06/how-to-use-async-sync-in-julia/" data-tooltip="how-to-use-async-sync-in-julia" aria-label="上一篇: how-to-use-async-sync-in-julia">
+                    <a class="post-action-btn btn btn--disabled">
                 
                     <i class="fa fa-angle-left" aria-hidden="true"></i>
                     <span class="hide-xs hide-sm text-small icon-ml">上一篇</span>
@@ -294,7 +297,7 @@
             <li class="post-action">
                 
                     
-                    <a class="post-action-btn btn btn--default tooltip--top" href="/2020/09/06/expression-problem-in-julia/" data-tooltip="Julia 中的表達問題（Expression problem in Julia）" aria-label="下一篇: Julia 中的表達問題（Expression problem in Julia）">
+                    <a class="post-action-btn btn btn--default tooltip--top" href="/2020/09/06/linux-system-noise-cancellation/" data-tooltip="Linux 系統降噪" aria-label="下一篇: Linux 系統降噪">
                 
                     <span class="hide-xs hide-sm text-small icon-mr">下一篇</span>
                     <i class="fa fa-angle-right" aria-hidden="true"></i>
@@ -312,7 +315,7 @@
             
             
             <li class="post-action hide-xs">
-                <a class="post-action-btn btn btn--default" target="new" href="https://www.facebook.com/sharer/sharer.php?u=https://yuehhua.github.io/2020/09/06/linux-system-noise-cancellation/" title="分享到 Facebook">
+                <a class="post-action-btn btn btn--default" target="new" href="https://www.facebook.com/sharer/sharer.php?u=https://yuehhua.github.io/2020/09/06/how-to-use-async-sync-in-julia/" title="分享到 Facebook">
                     <i class="fa fa-facebook-official" aria-hidden="true"></i>
                 </a>
             </li>
@@ -370,8 +373,7 @@
         <ul class="post-actions post-action-nav">
             <li class="post-action">
                 
-                    
-                    <a class="post-action-btn btn btn--default tooltip--top" href="/2020/09/06/how-to-use-async-sync-in-julia/" data-tooltip="how-to-use-async-sync-in-julia" aria-label="上一篇: how-to-use-async-sync-in-julia">
+                    <a class="post-action-btn btn btn--disabled">
                 
                     <i class="fa fa-angle-left" aria-hidden="true"></i>
                     <span class="hide-xs hide-sm text-small icon-ml">上一篇</span>
@@ -380,7 +382,7 @@
             <li class="post-action">
                 
                     
-                    <a class="post-action-btn btn btn--default tooltip--top" href="/2020/09/06/expression-problem-in-julia/" data-tooltip="Julia 中的表達問題（Expression problem in Julia）" aria-label="下一篇: Julia 中的表達問題（Expression problem in Julia）">
+                    <a class="post-action-btn btn btn--default tooltip--top" href="/2020/09/06/linux-system-noise-cancellation/" data-tooltip="Linux 系統降噪" aria-label="下一篇: Linux 系統降噪">
                 
                     <span class="hide-xs hide-sm text-small icon-mr">下一篇</span>
                     <i class="fa fa-angle-right" aria-hidden="true"></i>
@@ -398,7 +400,7 @@
             
             
             <li class="post-action hide-xs">
-                <a class="post-action-btn btn btn--default" target="new" href="https://www.facebook.com/sharer/sharer.php?u=https://yuehhua.github.io/2020/09/06/linux-system-noise-cancellation/" title="分享到 Facebook">
+                <a class="post-action-btn btn btn--default" target="new" href="https://www.facebook.com/sharer/sharer.php?u=https://yuehhua.github.io/2020/09/06/how-to-use-async-sync-in-julia/" title="分享到 Facebook">
                     <i class="fa fa-facebook-official" aria-hidden="true"></i>
                 </a>
             </li>
@@ -431,7 +433,7 @@
             
             
             <li class="share-option">
-                <a class="share-option-btn" target="new" href="https://www.facebook.com/sharer/sharer.php?u=https://yuehhua.github.io/2020/09/06/linux-system-noise-cancellation/">
+                <a class="share-option-btn" target="new" href="https://www.facebook.com/sharer/sharer.php?u=https://yuehhua.github.io/2020/09/06/how-to-use-async-sync-in-julia/">
                     <i class="fa fa-facebook-official" aria-hidden="true"></i><span>分享到 Facebook</span>
                 </a>
             </li>
@@ -485,9 +487,9 @@
 
 <script>
     var disqus_config = function () {
-        this.page.url = 'https://yuehhua.github.io/2020/09/06/linux-system-noise-cancellation/';
+        this.page.url = 'https://yuehhua.github.io/2020/09/06/how-to-use-async-sync-in-julia/';
                  
-            this.page.identifier = '2020/09/06/linux-system-noise-cancellation/';
+            this.page.identifier = '2020/09/06/how-to-use-async-sync-in-julia/';
                  
              };
     (function () {

@@ -241,6 +241,62 @@
             <div class="postShorten-header">
                 <h1 class="postShorten-title">
                     
+                        <a class="link-unstyled" href="/2020/09/06/how-to-use-async-sync-in-julia/">
+                            how-to-use-async-sync-in-julia
+                        </a>
+                    
+                </h1>
+                <div class="postShorten-meta">
+    <time datetime="2020-09-06T17:43:04+08:00">
+	
+		    9月 06, 2020
+    	
+    </time>
+    
+        <span>分類 </span>
+        
+    <a class="category-link" href="/categories/My-Style/">My Style</a>, <a class="category-link" href="/categories/My-Style/Computer-Science/">Computer Science</a>, <a class="category-link" href="/categories/My-Style/Computer-Science/Julialang/">Julialang</a>
+
+
+    
+</div>
+
+            </div>
+            
+                <div class="postShorten-content">
+                    <p>這個問題在官方文件中並沒有詳細記載，所以覺得值得紀錄一下。</p>
+<p>查閱 <code>@async</code> 的文件會講說，他會用一個 <code>Task</code> 把後面的表達式包裝起來，並且將他掛到排程器的佇列（queue）中。意思就是將表達式包裝成一個任務，並放到佇列中等待 CPU 核心的資源來執行他。</p>
+<p>然而通常會搭配 <code>@sync</code> 來使用，<code>@sync</code> 的文件中提到，他會等到後面的 <code>@async</code>、<code>@spawn</code>、<code>@spawnat</code> 及 <code>@distributed</code> 都執行完畢。</p>
+<p>使用情境比較像是（修改自<a href="https://stackoverflow.com/questions/37287020/how-and-when-to-use-async-and-sync-in-julia" target="_blank" rel="noopener">1</a>）</p>
+<figure class="highlight julia"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@sync</span> <span class="keyword">for</span> (idx, pid) <span class="keyword">in</span> enumerate(workers())</span><br><span class="line">    <span class="meta">@async</span> a[idx] = remotecall_fetch(do_something, pid, <span class="number">2</span>)</span><br><span class="line"><span class="keyword">end</span></span><br></pre></td></tr></table></figure>
+<p><code>@sync</code> 會等待這個 block 中的 <code>@async</code> 都執行結束才結束，<code>@async</code> 可以讓你指派一些非同步處理的任務，像是多執行緒或是多行程的平行運算。</p>
+<p><code>@sync</code> 就比較像 python 當中的 <code>join()</code>。</p>
+<p>Reference</p>
+
+                    
+                        
+
+                    
+                    
+                        <p>
+                            <a href="/2020/09/06/how-to-use-async-sync-in-julia/#post-footer" class="postShorten-excerpt_link link">
+                                留言與分享
+                            </a>
+                        </p>
+                    
+                </div>
+            
+        </div>
+        
+    </article>
+    
+    
+    <article class="postShorten postShorten--thumbnailimg-bottom">
+        <div class="postShorten-wrap">
+            
+            <div class="postShorten-header">
+                <h1 class="postShorten-title">
+                    
                         <a class="link-unstyled" href="/2020/09/06/expression-problem-in-julia/">
                             Julia 中的表達問題（Expression problem in Julia）
                         </a>
@@ -766,50 +822,6 @@
                                 留言與分享
                             </a>
                         </p>
-                    
-                </div>
-            
-        </div>
-        
-    </article>
-    
-    
-    <article class="postShorten postShorten--thumbnailimg-right">
-        <div class="postShorten-wrap">
-            
-            <div class="postShorten-header">
-                <h1 class="postShorten-title">
-                    
-                        <a class="link-unstyled" href="/2020/03/24/julia-v1-4-release/">
-                            Julia v1.4 釋出
-                        </a>
-                    
-                </h1>
-                <div class="postShorten-meta">
-    <time datetime="2020-03-24T12:02:05+08:00">
-	
-		    3月 24, 2020
-    	
-    </time>
-    
-        <span>分類 </span>
-        
-    <a class="category-link" href="/categories/My-Style/">My Style</a>, <a class="category-link" href="/categories/My-Style/Computer-Science/">Computer Science</a>, <a class="category-link" href="/categories/My-Style/Computer-Science/Julialang/">Julialang</a>
-
-
-    
-</div>
-
-            </div>
-            
-                <div class="postShorten-excerpt">
-                    <p>Julia v1.4 已經釋出啦！這邊來跟大家介紹一些新功能。<br>
-底下新功能後面會有括弧，附註相關的實作程式碼。</p>
-                    
-                        <a href="/2020/03/24/julia-v1-4-release/" class="postShorten-excerpt_link link">
-                            繼續閱讀
-                        </a>
-                        
                     
                 </div>
             
