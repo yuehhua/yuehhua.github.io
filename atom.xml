@@ -6,7 +6,7 @@
   <link href="/atom.xml" rel="self"/>
   
   <link href="https://yuehhua.github.io/"/>
-  <updated>2020-09-06T17:17:47.282Z</updated>
+  <updated>2020-10-11T16:34:30.496Z</updated>
   <id>https://yuehhua.github.io/</id>
   
   <author>
@@ -15,6 +15,30 @@
   </author>
   
   <generator uri="https://hexo.io/">Hexo</generator>
+  
+  <entry>
+    <title>從分享到建議</title>
+    <link href="https://yuehhua.github.io/2020/10/12/from-sharing-to-suggestions/"/>
+    <id>https://yuehhua.github.io/2020/10/12/from-sharing-to-suggestions/</id>
+    <published>2020-10-11T16:29:36.000Z</published>
+    <updated>2020-10-11T16:34:30.496Z</updated>
+    
+    <content type="html"><![CDATA[<p>這幾年，隨著接觸的東西變多，知道的東西變多，個性上也有點變化。</p><p>約莫四五年前，碩班時期接觸到一些很棒的網路技術文章，當時線上課程也非常熱門，很多優秀的大學紛紛把他們的上課內容做成教材釋出。也因為這樣，我自己其實從這些網路資源受惠非常多。當時也是自己在發展自學能力的輝煌時期。</p><a id="more"></a><p>也因為接觸開源文化，所以對於「分享」很有憧憬。覺得能夠分享自己的經驗的人很厲害，除了自己有些東西可以告訴別人，也有這個意願跟熱忱可以將自己所學回饋給社會的感覺。</p><p>後來畢業之後在研發替代役的過程中，一邊練習自己的溝通跟演講技術，一邊弄社群跟開一些小型的短期課程，還成為工研院的機器學習講師。過程當中也很開心可以真正可以把自己身上的東西跟大家分享，有的學員是私下來問我的看法或是建議。</p><p>漸漸地，隨著接觸的東西跟知道的東西變多，會開始知道有些作法或是想法上是有瑕疵或是問題的。一部份也是受到研替時的老闆的影響，老闆是個急性子，也不斷感受到壓力，久了之後心中也對有問題的方法莫名升起一種煩躁感。</p><p>煩躁感的出現，加上有能力表達，也有足夠的知識，變得開始會對身邊的人給建議。</p><p>有可能是談話中朋友表達他的某個想法，我會脫口而出這樣的想法背後可能會有什麼潛在的問題，抑或是我覺得這樣的想法好不好。話題範圍從我的專業領域到日常的電視廣告，只要是我有求證過或是我知道的，很多都會直接給出分析的結果。</p><p>目前正在博士的訓練路途上，博士的訓練是希望有獨立的分析跟研究能力，所以這樣能夠有批判性思考是很重要的能力。</p><p>這樣的分析似乎會困擾我身邊的人，畢竟不是每個人都需要「被建議」，他們或許覺得自己的作法很好，不然就是他就是想要這樣做。雖然我不太介意他是否會採納我的建議，但就是會講出口。有些時候講出口的剎那，對方會有種被否定或是攻擊的感覺，無論我的語氣是用「我覺得」或是「我建議」這種比較不強烈的。</p><p>大多數時候我是覺得我在發表自己的意見，對方也可以有自己的意見，我覺得這樣很公平。不過這些意見有時候是衝突，甚至相反的，有些人就會覺得被否定。的確，被否定的感覺很難受，意見被否定乃至於延伸到人格被否定，有些人是會失去自信的。</p><p>很多文章跟書本都告訴人不要主動給建議，建議只有當別人問的時候才給。或許該學著睜一隻眼閉一隻眼，即便是身邊再親的人也不要輕易給建議。</p><p>事情搞砸就是他的事，與我無關。</p>]]></content>
+    
+    <summary type="html">
+    
+      &lt;p&gt;這幾年，隨著接觸的東西變多，知道的東西變多，個性上也有點變化。&lt;/p&gt;
+&lt;p&gt;約莫四五年前，碩班時期接觸到一些很棒的網路技術文章，當時線上課程也非常熱門，很多優秀的大學紛紛把他們的上課內容做成教材釋出。也因為這樣，我自己其實從這些網路資源受惠非常多。當時也是自己在發展自學能力的輝煌時期。&lt;/p&gt;
+    
+    </summary>
+    
+    
+      <category term="My Style" scheme="https://yuehhua.github.io/categories/My-Style/"/>
+    
+      <category term="Believe。Think。Soul" scheme="https://yuehhua.github.io/categories/My-Style/Believe%E3%80%82Think%E3%80%82Soul/"/>
+    
+    
+  </entry>
   
   <entry>
     <title>在 Julia 怎麼用 async 跟 sync</title>
@@ -508,39 +532,6 @@ $$&lt;/p&gt;
       
         &lt;p&gt;有在做套件開發的開發者們應該不陌生 &lt;code&gt;@inbounds&lt;/code&gt; 這個 macro，在很多現代程式語言中也有。&lt;/p&gt;
 &lt;p&gt;在存取陣列時，為了安全性與正確性的考量，避免存取到陣列範圍以外的記憶體位置，很多語言都設置了邊界檢查（bounds check）。&lt;
-      
-    
-    </summary>
-    
-    
-      <category term="My Style" scheme="https://yuehhua.github.io/categories/My-Style/"/>
-    
-      <category term="Computer Science" scheme="https://yuehhua.github.io/categories/My-Style/Computer-Science/"/>
-    
-      <category term="Julialang" scheme="https://yuehhua.github.io/categories/My-Style/Computer-Science/Julialang/"/>
-    
-    
-      <category term="optimization" scheme="https://yuehhua.github.io/tags/optimization/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>Julia 中的行內函式（inline functions）</title>
-    <link href="https://yuehhua.github.io/2019/09/06/inline-functions-in-julia/"/>
-    <id>https://yuehhua.github.io/2019/09/06/inline-functions-in-julia/</id>
-    <published>2019-09-06T02:34:58.000Z</published>
-    <updated>2020-08-28T12:39:45.246Z</updated>
-    
-    <content type="html"><![CDATA[<p>剛好看到一些跟編譯器相關的議題，所以來紀錄一下。</p><p>在一些語言中會有行內函式（inline function）的設計，使用的話一般會讓程式的效能變好。</p><p>最知名應該是 C 跟 C++ 的 <code>inline</code>。</p><p>Inline function 會在編譯時期直接將函式內容展開到程式碼中，不過展開與否是由編譯器決定的，<code>inline</code> 的標記只是告訴編譯器這個函式可以成為 inline function。</p><p><a href="https://en.wikipedia.org/wiki/Inline_expansion" target="_blank" rel="noopener">Inline expansion</a> 就是編譯時期會由編譯器執行的一個動作，看起來與 macro expansion 相似，但不同的是 macro expansion 是在前處理（preprocessing）時期做的，會直接展開在原始碼裡頭，而 inline expansion 則是在編譯時期做的，會在呼叫位點（call site）直接展開。</p><p>展開後編譯器便可以進行最佳化，執行時，就不需要做函式呼叫，也不會在 function stack 上多配置空間。一般使用在短小的函式上會有好處，在巨大的函式上使用不一定會有好處。然而過多的 inline function 反而可能造成過多的指令快取的消耗，造成反效果。</p><p>在 Julia 中，編譯器會自動偵測哪些函式可以被展開，會自動做 inline expansion。一般短小的函式會自動被編譯器判定要 inline，不過也可以由程式設計師自己指定哪些巨大函式可以 inline，可以參考[文件]](<a href="https://docs.julialang.org/en/v1.2/base/base/#Base.@inline" target="_blank" rel="noopener">https://docs.julialang.org/en/v1.2/base/base/#Base.@inline</a>)。</p><p>除了 <code>@inline</code> 以外，還有 <code>@noinline</code>。為了避免過多的 inline 反而傷害效能，也可以標記一些短小的函式不要 inline。</p><p>範例：</p><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">@inline function bigfunc(x)</span><br><span class="line">    ...</span><br><span class="line">end</span><br></pre></td></tr></table></figure><h2 id="Julia-什麼時候-inline-expansion？">Julia 什麼時候 inline expansion？</h2><p>我們來實驗看看，以下有兩個函式，<code>foo</code> 跟 <code>bar</code>。其中讓 <code>foo</code> 為 inline。</p><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br></pre></td><td class="code"><pre><span class="line">julia&gt; @inline foo(x) &#x3D; 3x</span><br><span class="line">foo (generic function with 1 method)</span><br><span class="line"></span><br><span class="line">julia&gt; bar(x) &#x3D; foo(x)^2</span><br><span class="line">bar (generic function with 1 method)</span><br><span class="line"></span><br><span class="line">julia&gt; bar(5)</span><br><span class="line">225</span><br><span class="line"></span><br><span class="line">julia&gt; @code_lowered bar(5)</span><br><span class="line">CodeInfo(</span><br><span class="line">1 ─ %1 &#x3D; Main.foo(x)</span><br><span class="line">│   %2 &#x3D; Core.apply_type(Base.Val, 2)</span><br><span class="line">│   %3 &#x3D; (%2)()</span><br><span class="line">│   %4 &#x3D; Base.literal_pow(Main.:^, %1, %3)</span><br><span class="line">└──      return %4</span><br><span class="line">)</span><br><span class="line"></span><br><span class="line">julia&gt; @code_typed bar(5)</span><br><span class="line">CodeInfo(</span><br><span class="line">1 ─ %1 &#x3D; Base.mul_int(3, x)::Int64</span><br><span class="line">│   %2 &#x3D; Base.mul_int(%1, %1)::Int64</span><br><span class="line">└──      return %2</span><br><span class="line">) &#x3D;&gt; Int64</span><br></pre></td></tr></table></figure><p>你會發現在 lower 的階段仍保留有 <code>foo</code> 的函式呼叫的過程，但是到了 typed 的階段就已經剩下計算的部份了。</p><p>所以其實在進入 LLVMIR 以前就已經先做完 inline expansion 了。</p><p>相關技術：<a href="https://en.wikipedia.org/wiki/Inline_caching" target="_blank" rel="noopener">Inline caching</a></p>]]></content>
-    
-    <summary type="html">
-    
-      
-      
-        &lt;p&gt;剛好看到一些跟編譯器相關的議題，所以來紀錄一下。&lt;/p&gt;
-&lt;p&gt;在一些語言中會有行內函式（inline function）的設計，使用的話一般會讓程式的效能變好。&lt;/p&gt;
-&lt;p&gt;最知名應該是 C 跟 C++ 的 &lt;code&gt;inline&lt;/code&gt;。&lt;/p&gt;
-&lt;p&gt;Inl
       
     
     </summary>

@@ -6,7 +6,7 @@
     <!-- hexo-inject:begin --><!-- hexo-inject:end --><meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="generator" content="Dream Maker">
-    <title>在 Julia 怎麼用 async 跟 sync - Dream Maker</title>
+    <title>從分享到建議 - Dream Maker</title>
     <meta name="author" content="Yueh-Hua Tu">
     
         <meta name="keywords" content="machine learning,deep learning,topology,">
@@ -15,16 +15,16 @@
     
         <link rel="alternate" type="application/atom+xml" title="RSS" href="/atom.xml">
     
-    <script type="application/ld+json">{"@context":"http://schema.org","@type":"BlogPosting","author":{"@type":"Person","name":"Yueh-Hua Tu","sameAs":["https://github.com/yuehhua/","https://www.facebook.com/a504082002","https://www.linkedin.com/in/%E5%B2%B3%E8%8F%AF-%E6%9D%9C-6a3995a0/","mailto:a504082002@gmail.com"],"image":"https://www.gravatar.com/avatar/a565749fba4782b717234da670b273fd"},"articleBody":"這個問題在官方文件中並沒有詳細記載，所以覺得值得紀錄一下。\n查閱 @async 的文件會講說，他會用一個 Task 把後面的表達式包裝起來，並且將他掛到排程器的佇列（queue）中。意思就是將表達式包裝成一個任務，並放到佇列中等待 CPU 核心的資源來執行他。\n然而通常會搭配 @sync 來使用，@sync 的文件中提到，他會等到後面的 @async、@spawn、@spawnat 及 @distributed 都執行完畢。\n使用情境比較像是（修改自這篇 stackoverflow）\n123@sync for (idx, pid) in enumerate(workers())    @async a[idx] = remotecall_fetch(do_something, pid, 2)end\n@sync 會等待這個 block 中的 @async 都執行結束才結束，@async 可以讓你指派一些非同步處理的任務，像是多執行緒或是多行程的平行運算。\n@sync 就比較像 python 當中的 join()。\n","dateCreated":"2020-09-06T17:43:04+08:00","dateModified":"2020-09-07T01:17:47+08:00","datePublished":"2020-09-06T17:43:04+08:00","description":"","headline":"在 Julia 怎麼用 async 跟 sync","image":[],"mainEntityOfPage":{"@type":"WebPage","@id":"https://yuehhua.github.io/2020/09/06/how-to-use-async-sync-in-julia/"},"publisher":{"@type":"Organization","name":"Yueh-Hua Tu","sameAs":["https://github.com/yuehhua/","https://www.facebook.com/a504082002","https://www.linkedin.com/in/%E5%B2%B3%E8%8F%AF-%E6%9D%9C-6a3995a0/","mailto:a504082002@gmail.com"],"image":"https://www.gravatar.com/avatar/a565749fba4782b717234da670b273fd","logo":{"@type":"ImageObject","url":"https://www.gravatar.com/avatar/a565749fba4782b717234da670b273fd"}},"url":"https://yuehhua.github.io/2020/09/06/how-to-use-async-sync-in-julia/"}</script>
-    <meta name="description" content="這個問題在官方文件中並沒有詳細記載，所以覺得值得紀錄一下。 查閱 @async 的文件會講說，他會用一個 Task 把後面的表達式包裝起來，並且將他掛到排程器的佇列（queue）中。意思就是將表達式包裝成一個任務，並放到佇列中等待 CPU 核心的資源來執行他。 然而通常會搭配 @sync 來使用，@sync 的文件中提到，他會等到後面的 @async、@spawn、@spawnat 及 @dist">
+    <script type="application/ld+json">{"@context":"http://schema.org","@type":"BlogPosting","author":{"@type":"Person","name":"Yueh-Hua Tu","sameAs":["https://github.com/yuehhua/","https://www.facebook.com/a504082002","https://www.linkedin.com/in/%E5%B2%B3%E8%8F%AF-%E6%9D%9C-6a3995a0/","mailto:a504082002@gmail.com"],"image":"https://www.gravatar.com/avatar/a565749fba4782b717234da670b273fd"},"articleBody":"這幾年，隨著接觸的東西變多，知道的東西變多，個性上也有點變化。\n約莫四五年前，碩班時期接觸到一些很棒的網路技術文章，當時線上課程也非常熱門，很多優秀的大學紛紛把他們的上課內容做成教材釋出。也因為這樣，我自己其實從這些網路資源受惠非常多。當時也是自己在發展自學能力的輝煌時期。\n\n也因為接觸開源文化，所以對於「分享」很有憧憬。覺得能夠分享自己的經驗的人很厲害，除了自己有些東西可以告訴別人，也有這個意願跟熱忱可以將自己所學回饋給社會的感覺。\n後來畢業之後在研發替代役的過程中，一邊練習自己的溝通跟演講技術，一邊弄社群跟開一些小型的短期課程，還成為工研院的機器學習講師。過程當中也很開心可以真正可以把自己身上的東西跟大家分享，有的學員是私下來問我的看法或是建議。\n漸漸地，隨著接觸的東西跟知道的東西變多，會開始知道有些作法或是想法上是有瑕疵或是問題的。一部份也是受到研替時的老闆的影響，老闆是個急性子，也不斷感受到壓力，久了之後心中也對有問題的方法莫名升起一種煩躁感。\n煩躁感的出現，加上有能力表達，也有足夠的知識，變得開始會對身邊的人給建議。\n有可能是談話中朋友表達他的某個想法，我會脫口而出這樣的想法背後可能會有什麼潛在的問題，抑或是我覺得這樣的想法好不好。話題範圍從我的專業領域到日常的電視廣告，只要是我有求證過或是我知道的，很多都會直接給出分析的結果。\n目前正在博士的訓練路途上，博士的訓練是希望有獨立的分析跟研究能力，所以這樣能夠有批判性思考是很重要的能力。\n這樣的分析似乎會困擾我身邊的人，畢竟不是每個人都需要「被建議」，他們或許覺得自己的作法很好，不然就是他就是想要這樣做。雖然我不太介意他是否會採納我的建議，但就是會講出口。有些時候講出口的剎那，對方會有種被否定或是攻擊的感覺，無論我的語氣是用「我覺得」或是「我建議」這種比較不強烈的。\n大多數時候我是覺得我在發表自己的意見，對方也可以有自己的意見，我覺得這樣很公平。不過這些意見有時候是衝突，甚至相反的，有些人就會覺得被否定。的確，被否定的感覺很難受，意見被否定乃至於延伸到人格被否定，有些人是會失去自信的。\n很多文章跟書本都告訴人不要主動給建議，建議只有當別人問的時候才給。或許該學著睜一隻眼閉一隻眼，即便是身邊再親的人也不要輕易給建議。\n事情搞砸就是他的事，與我無關。\n","dateCreated":"2020-10-12T00:29:36+08:00","dateModified":"2020-10-12T00:34:30+08:00","datePublished":"2020-10-12T00:29:36+08:00","description":"這幾年，隨著接觸的東西變多，知道的東西變多，個性上也有點變化。\n約莫四五年前，碩班時期接觸到一些很棒的網路技術文章，當時線上課程也非常熱門，很多優秀的大學紛紛把他們的上課內容做成教材釋出。也因為這樣，我自己其實從這些網路資源受惠非常多。當時也是自己在發展自學能力的輝煌時期。","headline":"從分享到建議","image":[],"mainEntityOfPage":{"@type":"WebPage","@id":"https://yuehhua.github.io/2020/10/12/from-sharing-to-suggestions/"},"publisher":{"@type":"Organization","name":"Yueh-Hua Tu","sameAs":["https://github.com/yuehhua/","https://www.facebook.com/a504082002","https://www.linkedin.com/in/%E5%B2%B3%E8%8F%AF-%E6%9D%9C-6a3995a0/","mailto:a504082002@gmail.com"],"image":"https://www.gravatar.com/avatar/a565749fba4782b717234da670b273fd","logo":{"@type":"ImageObject","url":"https://www.gravatar.com/avatar/a565749fba4782b717234da670b273fd"}},"url":"https://yuehhua.github.io/2020/10/12/from-sharing-to-suggestions/"}</script>
+    <meta name="description" content="這幾年，隨著接觸的東西變多，知道的東西變多，個性上也有點變化。 約莫四五年前，碩班時期接觸到一些很棒的網路技術文章，當時線上課程也非常熱門，很多優秀的大學紛紛把他們的上課內容做成教材釋出。也因為這樣，我自己其實從這些網路資源受惠非常多。當時也是自己在發展自學能力的輝煌時期。">
 <meta property="og:type" content="blog">
-<meta property="og:title" content="在 Julia 怎麼用 async 跟 sync">
-<meta property="og:url" content="https://yuehhua.github.io/2020/09/06/how-to-use-async-sync-in-julia/index.html">
+<meta property="og:title" content="從分享到建議">
+<meta property="og:url" content="https://yuehhua.github.io/2020/10/12/from-sharing-to-suggestions/index.html">
 <meta property="og:site_name" content="Dream Maker">
-<meta property="og:description" content="這個問題在官方文件中並沒有詳細記載，所以覺得值得紀錄一下。 查閱 @async 的文件會講說，他會用一個 Task 把後面的表達式包裝起來，並且將他掛到排程器的佇列（queue）中。意思就是將表達式包裝成一個任務，並放到佇列中等待 CPU 核心的資源來執行他。 然而通常會搭配 @sync 來使用，@sync 的文件中提到，他會等到後面的 @async、@spawn、@spawnat 及 @dist">
+<meta property="og:description" content="這幾年，隨著接觸的東西變多，知道的東西變多，個性上也有點變化。 約莫四五年前，碩班時期接觸到一些很棒的網路技術文章，當時線上課程也非常熱門，很多優秀的大學紛紛把他們的上課內容做成教材釋出。也因為這樣，我自己其實從這些網路資源受惠非常多。當時也是自己在發展自學能力的輝煌時期。">
 <meta property="og:locale" content="zh_TW">
-<meta property="article:published_time" content="2020-09-06T09:43:04.000Z">
-<meta property="article:modified_time" content="2020-09-06T17:17:47.282Z">
+<meta property="article:published_time" content="2020-10-11T16:29:36.000Z">
+<meta property="article:modified_time" content="2020-10-11T16:34:30.496Z">
 <meta property="article:author" content="Yueh-Hua Tu">
 <meta property="article:tag" content="machine learning">
 <meta property="article:tag" content="deep learning">
@@ -242,20 +242,20 @@
                     <div class="post-header main-content-wrap text-left">
     
         <h1 class="post-title">
-            在 Julia 怎麼用 async 跟 sync
+            從分享到建議
         </h1>
     
     
         <div class="post-meta">
-    <time datetime="2020-09-06T17:43:04+08:00">
+    <time datetime="2020-10-12T00:29:36+08:00">
 	
-		    9月 06, 2020
+		    10月 12, 2020
     	
     </time>
     
         <span>分類 </span>
         
-    <a class="category-link" href="/categories/My-Style/">My Style</a>, <a class="category-link" href="/categories/My-Style/Computer-Science/">Computer Science</a>, <a class="category-link" href="/categories/My-Style/Computer-Science/Julialang/">Julialang</a>
+    <a class="category-link" href="/categories/My-Style/">My Style</a>, <a class="category-link" href="/categories/My-Style/Believe%E3%80%82Think%E3%80%82Soul/">Believe。Think。Soul</a>
 
 
     
@@ -267,13 +267,19 @@
                         
                             <div class="post-content markdown">
                                 <div class="main-content-wrap">
-                                    <p>這個問題在官方文件中並沒有詳細記載，所以覺得值得紀錄一下。</p>
-<p>查閱 <code>@async</code> 的文件會講說，他會用一個 <code>Task</code> 把後面的表達式包裝起來，並且將他掛到排程器的佇列（queue）中。意思就是將表達式包裝成一個任務，並放到佇列中等待 CPU 核心的資源來執行他。</p>
-<p>然而通常會搭配 <code>@sync</code> 來使用，<code>@sync</code> 的文件中提到，他會等到後面的 <code>@async</code>、<code>@spawn</code>、<code>@spawnat</code> 及 <code>@distributed</code> 都執行完畢。</p>
-<p>使用情境比較像是（修改自<a href="https://stackoverflow.com/questions/37287020/how-and-when-to-use-async-and-sync-in-julia" target="_blank" rel="noopener">這篇 stackoverflow</a>）</p>
-<figure class="highlight julia"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@sync</span> <span class="keyword">for</span> (idx, pid) <span class="keyword">in</span> enumerate(workers())</span><br><span class="line">    <span class="meta">@async</span> a[idx] = remotecall_fetch(do_something, pid, <span class="number">2</span>)</span><br><span class="line"><span class="keyword">end</span></span><br></pre></td></tr></table></figure>
-<p><code>@sync</code> 會等待這個 block 中的 <code>@async</code> 都執行結束才結束，<code>@async</code> 可以讓你指派一些非同步處理的任務，像是多執行緒或是多行程的平行運算。</p>
-<p><code>@sync</code> 就比較像 python 當中的 <code>join()</code>。</p>
+                                    <p>這幾年，隨著接觸的東西變多，知道的東西變多，個性上也有點變化。</p>
+<p>約莫四五年前，碩班時期接觸到一些很棒的網路技術文章，當時線上課程也非常熱門，很多優秀的大學紛紛把他們的上課內容做成教材釋出。也因為這樣，我自己其實從這些網路資源受惠非常多。當時也是自己在發展自學能力的輝煌時期。</p>
+<a id="more"></a>
+<p>也因為接觸開源文化，所以對於「分享」很有憧憬。覺得能夠分享自己的經驗的人很厲害，除了自己有些東西可以告訴別人，也有這個意願跟熱忱可以將自己所學回饋給社會的感覺。</p>
+<p>後來畢業之後在研發替代役的過程中，一邊練習自己的溝通跟演講技術，一邊弄社群跟開一些小型的短期課程，還成為工研院的機器學習講師。過程當中也很開心可以真正可以把自己身上的東西跟大家分享，有的學員是私下來問我的看法或是建議。</p>
+<p>漸漸地，隨著接觸的東西跟知道的東西變多，會開始知道有些作法或是想法上是有瑕疵或是問題的。一部份也是受到研替時的老闆的影響，老闆是個急性子，也不斷感受到壓力，久了之後心中也對有問題的方法莫名升起一種煩躁感。</p>
+<p>煩躁感的出現，加上有能力表達，也有足夠的知識，變得開始會對身邊的人給建議。</p>
+<p>有可能是談話中朋友表達他的某個想法，我會脫口而出這樣的想法背後可能會有什麼潛在的問題，抑或是我覺得這樣的想法好不好。話題範圍從我的專業領域到日常的電視廣告，只要是我有求證過或是我知道的，很多都會直接給出分析的結果。</p>
+<p>目前正在博士的訓練路途上，博士的訓練是希望有獨立的分析跟研究能力，所以這樣能夠有批判性思考是很重要的能力。</p>
+<p>這樣的分析似乎會困擾我身邊的人，畢竟不是每個人都需要「被建議」，他們或許覺得自己的作法很好，不然就是他就是想要這樣做。雖然我不太介意他是否會採納我的建議，但就是會講出口。有些時候講出口的剎那，對方會有種被否定或是攻擊的感覺，無論我的語氣是用「我覺得」或是「我建議」這種比較不強烈的。</p>
+<p>大多數時候我是覺得我在發表自己的意見，對方也可以有自己的意見，我覺得這樣很公平。不過這些意見有時候是衝突，甚至相反的，有些人就會覺得被否定。的確，被否定的感覺很難受，意見被否定乃至於延伸到人格被否定，有些人是會失去自信的。</p>
+<p>很多文章跟書本都告訴人不要主動給建議，建議只有當別人問的時候才給。或許該學著睜一隻眼閉一隻眼，即便是身邊再親的人也不要輕易給建議。</p>
+<p>事情搞砸就是他的事，與我無關。</p>
 
                                         
 
@@ -287,8 +293,7 @@
         <ul class="post-actions post-action-nav">
             <li class="post-action">
                 
-                    
-                    <a class="post-action-btn btn btn--default tooltip--top" href="/2020/10/12/from-sharing-to-suggestions/" data-tooltip="從分享到建議" aria-label="上一篇: 從分享到建議">
+                    <a class="post-action-btn btn btn--disabled">
                 
                     <i class="fa fa-angle-left" aria-hidden="true"></i>
                     <span class="hide-xs hide-sm text-small icon-ml">上一篇</span>
@@ -297,7 +302,7 @@
             <li class="post-action">
                 
                     
-                    <a class="post-action-btn btn btn--default tooltip--top" href="/2020/09/06/linux-system-noise-cancellation/" data-tooltip="Linux 系統降噪" aria-label="下一篇: Linux 系統降噪">
+                    <a class="post-action-btn btn btn--default tooltip--top" href="/2020/09/06/how-to-use-async-sync-in-julia/" data-tooltip="在 Julia 怎麼用 async 跟 sync" aria-label="下一篇: 在 Julia 怎麼用 async 跟 sync">
                 
                     <span class="hide-xs hide-sm text-small icon-mr">下一篇</span>
                     <i class="fa fa-angle-right" aria-hidden="true"></i>
@@ -315,7 +320,7 @@
             
             
             <li class="post-action hide-xs">
-                <a class="post-action-btn btn btn--default" target="new" href="https://www.facebook.com/sharer/sharer.php?u=https://yuehhua.github.io/2020/09/06/how-to-use-async-sync-in-julia/" title="分享到 Facebook">
+                <a class="post-action-btn btn btn--default" target="new" href="https://www.facebook.com/sharer/sharer.php?u=https://yuehhua.github.io/2020/10/12/from-sharing-to-suggestions/" title="分享到 Facebook">
                     <i class="fa fa-facebook-official" aria-hidden="true"></i>
                 </a>
             </li>
@@ -373,8 +378,7 @@
         <ul class="post-actions post-action-nav">
             <li class="post-action">
                 
-                    
-                    <a class="post-action-btn btn btn--default tooltip--top" href="/2020/10/12/from-sharing-to-suggestions/" data-tooltip="從分享到建議" aria-label="上一篇: 從分享到建議">
+                    <a class="post-action-btn btn btn--disabled">
                 
                     <i class="fa fa-angle-left" aria-hidden="true"></i>
                     <span class="hide-xs hide-sm text-small icon-ml">上一篇</span>
@@ -383,7 +387,7 @@
             <li class="post-action">
                 
                     
-                    <a class="post-action-btn btn btn--default tooltip--top" href="/2020/09/06/linux-system-noise-cancellation/" data-tooltip="Linux 系統降噪" aria-label="下一篇: Linux 系統降噪">
+                    <a class="post-action-btn btn btn--default tooltip--top" href="/2020/09/06/how-to-use-async-sync-in-julia/" data-tooltip="在 Julia 怎麼用 async 跟 sync" aria-label="下一篇: 在 Julia 怎麼用 async 跟 sync">
                 
                     <span class="hide-xs hide-sm text-small icon-mr">下一篇</span>
                     <i class="fa fa-angle-right" aria-hidden="true"></i>
@@ -401,7 +405,7 @@
             
             
             <li class="post-action hide-xs">
-                <a class="post-action-btn btn btn--default" target="new" href="https://www.facebook.com/sharer/sharer.php?u=https://yuehhua.github.io/2020/09/06/how-to-use-async-sync-in-julia/" title="分享到 Facebook">
+                <a class="post-action-btn btn btn--default" target="new" href="https://www.facebook.com/sharer/sharer.php?u=https://yuehhua.github.io/2020/10/12/from-sharing-to-suggestions/" title="分享到 Facebook">
                     <i class="fa fa-facebook-official" aria-hidden="true"></i>
                 </a>
             </li>
@@ -434,7 +438,7 @@
             
             
             <li class="share-option">
-                <a class="share-option-btn" target="new" href="https://www.facebook.com/sharer/sharer.php?u=https://yuehhua.github.io/2020/09/06/how-to-use-async-sync-in-julia/">
+                <a class="share-option-btn" target="new" href="https://www.facebook.com/sharer/sharer.php?u=https://yuehhua.github.io/2020/10/12/from-sharing-to-suggestions/">
                     <i class="fa fa-facebook-official" aria-hidden="true"></i><span>分享到 Facebook</span>
                 </a>
             </li>
@@ -488,9 +492,9 @@
 
 <script>
     var disqus_config = function () {
-        this.page.url = 'https://yuehhua.github.io/2020/09/06/how-to-use-async-sync-in-julia/';
+        this.page.url = 'https://yuehhua.github.io/2020/10/12/from-sharing-to-suggestions/';
                  
-            this.page.identifier = '2020/09/06/how-to-use-async-sync-in-julia/';
+            this.page.identifier = '2020/10/12/from-sharing-to-suggestions/';
                  
              };
     (function () {
