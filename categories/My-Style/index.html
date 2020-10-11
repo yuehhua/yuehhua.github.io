@@ -279,7 +279,7 @@
     </article>
     
     
-    <article class="postShorten postShorten--thumbnailimg-bottom">
+    <article class="postShorten postShorten--thumbnailimg-right">
         <div class="postShorten-wrap">
             
             <div class="postShorten-header">
@@ -307,25 +307,14 @@
 
             </div>
             
-                <div class="postShorten-content">
+                <div class="postShorten-excerpt">
                     <p>這個問題在官方文件中並沒有詳細記載，所以覺得值得紀錄一下。</p>
 <p>查閱 <code>@async</code> 的文件會講說，他會用一個 <code>Task</code> 把後面的表達式包裝起來，並且將他掛到排程器的佇列（queue）中。意思就是將表達式包裝成一個任務，並放到佇列中等待 CPU 核心的資源來執行他。</p>
-<p>然而通常會搭配 <code>@sync</code> 來使用，<code>@sync</code> 的文件中提到，他會等到後面的 <code>@async</code>、<code>@spawn</code>、<code>@spawnat</code> 及 <code>@distributed</code> 都執行完畢。</p>
-<p>使用情境比較像是（修改自<a href="https://stackoverflow.com/questions/37287020/how-and-when-to-use-async-and-sync-in-julia" target="_blank" rel="noopener">這篇 stackoverflow</a>）</p>
-<figure class="highlight julia"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@sync</span> <span class="keyword">for</span> (idx, pid) <span class="keyword">in</span> enumerate(workers())</span><br><span class="line">    <span class="meta">@async</span> a[idx] = remotecall_fetch(do_something, pid, <span class="number">2</span>)</span><br><span class="line"><span class="keyword">end</span></span><br></pre></td></tr></table></figure>
-<p><code>@sync</code> 會等待這個 block 中的 <code>@async</code> 都執行結束才結束，<code>@async</code> 可以讓你指派一些非同步處理的任務，像是多執行緒或是多行程的平行運算。</p>
-<p><code>@sync</code> 就比較像 python 當中的 <code>join()</code>。</p>
-
                     
+                        <a href="/2020/09/06/how-to-use-async-sync-in-julia/" class="postShorten-excerpt_link link">
+                            繼續閱讀
+                        </a>
                         
-
-                    
-                    
-                        <p>
-                            <a href="/2020/09/06/how-to-use-async-sync-in-julia/#post-footer" class="postShorten-excerpt_link link">
-                                留言與分享
-                            </a>
-                        </p>
                     
                 </div>
             
@@ -334,7 +323,7 @@
     </article>
     
     
-    <article class="postShorten postShorten--thumbnailimg-bottom">
+    <article class="postShorten postShorten--thumbnailimg-right">
         <div class="postShorten-wrap">
             
             <div class="postShorten-header">
@@ -362,34 +351,13 @@
 
             </div>
             
-                <div class="postShorten-content">
+                <div class="postShorten-excerpt">
                     <p>本篇文章是啟發自 <a href="https://eli.thegreenplace.net/2016/the-expression-problem-and-its-solutions" target="_blank" rel="noopener">The Expression Problem and its solutions</a>，當中談論的是在撰寫程式的過程中，所採用的程式典範不同，會在程式表達上遇到不同程度的困難，稱之為表達問題（expression problem）。</p>
-<h2 id="物件導向語言中的表達問題">物件導向語言中的表達問題</h2>
-<p>以原文中的例子，作者想以物件導向語言來撰寫一個簡單的 expression evaluator。基本上採用直譯器模式（<a href="https://en.wikipedia.org/wiki/Interpreter_pattern" target="_blank" rel="noopener">interpreter pattern</a>），這邊我把程式碼以 python 重寫。</p>
-<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Expr</span>:</span></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">tostring</span><span class="params">(self)</span>:</span></span><br><span class="line">        <span class="keyword">return</span> <span class="number">0</span></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">eval</span><span class="params">(self)</span>:</span></span><br><span class="line">        <span class="keyword">return</span> <span class="number">0</span></span><br></pre></td></tr></table></figure>
-<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Constant</span><span class="params">(Expr)</span>:</span></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">__init__</span><span class="params">(self, value)</span>:</span></span><br><span class="line">        self.__value = value</span><br><span class="line">        <span class="keyword">return</span> self</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">tostring</span><span class="params">(self)</span>:</span></span><br><span class="line">        <span class="keyword">return</span> str(self.__value)</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">eval</span><span class="params">(self)</span>:</span></span><br><span class="line">        <span class="keyword">return</span> self.__value</span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">BinaryPlus</span><span class="params">(Expr)</span>:</span></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">__init__</span><span class="params">(self, lhs, rhs)</span>:</span></span><br><span class="line">        self.__lhs = lhs</span><br><span class="line">        self.__rhs = rhs</span><br><span class="line">        <span class="keyword">return</span> self</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">tostring</span><span class="params">(self)</span>:</span></span><br><span class="line">        <span class="keyword">return</span> self.__lhs.tostring() + <span class="string">" + "</span> + self.__rhs.tostring()</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">eval</span><span class="params">(self)</span>:</span></span><br><span class="line">        <span class="keyword">return</span> self.__lhs.eval() + self.__rhs.eval()</span><br></pre></td></tr></table></figure>
-<p>我們先定義了一個 <code>Expr</code>，我們希望提供 <code>tostring</code> 及 <code>eval</code> 兩種操作。我們後續定義了常數 <code>Constant</code>，也讓常數實作這兩種操作。</p>
-<p>如果我們想要擴充 <code>Expr</code> 或是 <code>Constant</code> 的時候該怎麼做呢？更精確地說，如果我們想要新增新的操作到既有的類別上，我們該怎麼做？一般情況下可能就是直接在原有的類別上加上新的方法。不過這樣其實違反了軟體工程原則，開放封閉原則（open-closed principle），我們應該要對舊有的類別、方法、介面等等程式碼修改保持<em>封閉</em>，也就是不能去修改既有程式碼，我們應該對新增程式碼保持<em>開放</em>，也就是允許新增程式碼。</p>
-<p>我們可以發現在物件導向語言當中，新增類別是容易的，但是新增方法是困難的。這是在物件導向語言中所遇到的表達問題。</p>
-<h2 id="函數式語言中的表達問題">函數式語言中的表達問題</h2>
-<p>以 Haskell 為例，撰寫以上的程式（這邊直接引用原文）。</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">data Expr &#x3D; Constant Double</span><br><span class="line">          | BinaryPlus Expr Expr</span><br><span class="line"></span><br><span class="line">stringify :: Expr -&gt; String</span><br><span class="line">stringify(Constant c) &#x3D; show c</span><br><span class="line">stringify(BinaryPlus lhs rhs) &#x3D; stringify lhs</span><br><span class="line">                                ++ &quot; + &quot;</span><br><span class="line">                                ++ stringify rhs</span><br><span class="line"></span><br><span class="line">evaluate :: Expr -&gt; Double</span><br><span class="line">evaluate(Constant c) &#x3D; c</span><br><span class="line">evaluate(BinaryPlus lhs rhs) &#x3D; evaluate lhs + evaluate rhs</span><br></pre></td></tr></table></figure>
-<p>在 Haskell 中，要新增方法是容易的，但是如果要新增型別的話，就得動到 <code>data</code> 的定義。在函數式語言中，新增型別是困難的。這是在函數式語言中所遇到的表達問題。</p>
-<h2 id="Julia-語言中的表達問題？">Julia 語言中的表達問題？</h2>
-<p>文章中有提到 Clojure 採用的是 multi-methods，他可以對應到 Julia 的多重分派（multiple dispatch）。多重分派可以好好地處理表達問題，讓新增型別及方法都是簡單的。</p>
-<figure class="highlight julia"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">abstract type</span> <span class="built_in">Expr</span> <span class="keyword">end</span></span><br><span class="line"></span><br><span class="line">tostring(::<span class="built_in">Expr</span>) = <span class="number">0</span></span><br><span class="line">eval(::<span class="built_in">Expr</span>) = <span class="number">0</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">struct</span> Constant&#123;T&#125;</span><br><span class="line">    value::T</span><br><span class="line"><span class="keyword">end</span></span><br><span class="line"></span><br><span class="line">tostring(::Constant) = <span class="built_in">String</span>(c.value)</span><br><span class="line">eval(c::Constant) = c.value</span><br><span class="line"></span><br><span class="line"><span class="keyword">struct</span> BinaryPlus</span><br><span class="line">    lhs::<span class="built_in">Expr</span></span><br><span class="line">    rhs::<span class="built_in">Expr</span></span><br><span class="line"><span class="keyword">end</span></span><br><span class="line"></span><br><span class="line">tostring(b::BinaryPlus) = tostring(b.lhs) * <span class="string">" + "</span> * tostring(b.rhs)</span><br><span class="line">eval(b::BinaryPlus) = eval(b.lhs) + eval(b.rhs)</span><br></pre></td></tr></table></figure>
-<p>不過他文末也有提到一個關鍵是 open method，也就是將方法定義在類別之外，如此一來，新增方法就會是簡單的。所以真正解決表達問題的並不是多重分派的機制，而是 open method 的設計。</p>
-
                     
+                        <a href="/2020/09/06/expression-problem-in-julia/" class="postShorten-excerpt_link link">
+                            繼續閱讀
+                        </a>
                         
-
-                    
-                    
-                        <p>
-                            <a href="/2020/09/06/expression-problem-in-julia/#post-footer" class="postShorten-excerpt_link link">
-                                留言與分享
-                            </a>
-                        </p>
                     
                 </div>
             
