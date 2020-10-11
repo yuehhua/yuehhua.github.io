@@ -6,7 +6,7 @@
   <link href="/atom.xml" rel="self"/>
   
   <link href="https://yuehhua.github.io/"/>
-  <updated>2020-10-11T16:34:30.496Z</updated>
+  <updated>2020-10-11T17:21:50.309Z</updated>
   <id>https://yuehhua.github.io/</id>
   
   <author>
@@ -15,6 +15,27 @@
   </author>
   
   <generator uri="https://hexo.io/">Hexo</generator>
+  
+  <entry>
+    <title>Linear Regression with Maximum Likelihood Estimation</title>
+    <link href="https://yuehhua.github.io/2020/10/12/linear-regression-with-mle/"/>
+    <id>https://yuehhua.github.io/2020/10/12/linear-regression-with-mle/</id>
+    <published>2020-10-11T17:20:57.000Z</published>
+    <updated>2020-10-11T17:21:50.309Z</updated>
+    
+    <content type="html"><![CDATA[<p>Maximum likelihood estimation is an essential approach to estimate parameters in statistics. It requires statistical assumptions on error pattern. I will introduce this technique with really simple statistical model - linear regression.</p><a id="more"></a><p>We usually want to infer the relationship between input and output. They can be cause and effect of a physical phenomena or some indirect relationship in social science. We always want to realize the truth about our interest. Statistical tools are the tools to help you. The relationship between input and output are formulated as a mathematical function as follow:</p><p>$$<br>y = f(x)<br>$$</p><p>A linear model is assumed in linear regression. The relationship between $x$ and $y$ is assumed to be linear and $w$ and $b$ are introduced as unknown parameters into the model. $w$ denotes the extent of $x$ contributing to $y$ while $b$ denotes an inherent bias in $y$.</p><p>$$<br>y = wx + b<br>$$</p><p>On the other side, data are collected in pair of $(x^i, y^i)$. The superscript $n$ denotes the index for each sample.</p><p>$$<br>\mathcal{D} = {(x^1, y^1), (x^2, y^2), \cdots, (x^n, y^n)}<br>$$</p><p>The maximum likelihood estimation starts from the likelihood function. A likelihood function quantified the likelihood of data generation from the model we specified. That is, how likely the sample $(x_i, y_i)$ are generated from the model. All parameters are reduced into $\theta$. Precisely, $\mathcal{L}(\theta \mid \mathcal{D})$ represents the likelihood of model with parameter $\theta$ given data $\mathcal{D}$. Notably, data is fixed here. Thus, we want the most likely model that fits our samples. The model with maximum likelihood is estimated.</p><p>$$<br>\begin{aligned}<br>\mathcal{L}(\theta \mid \mathcal{D}) &amp;= f(\mathcal{D} \mid \theta) \\<br>&amp;= p((x^1, y^1), (x^2, y^2), \cdots, (x^n, y^n) \mid \theta)<br>\end{aligned}<br>$$</p><p>A probability distribution is used to estimate the likelihood of model $\theta$. The interpretation here is the probability of data generation from the model $\theta$.</p><p>$$<br>\begin{aligned}<br>\mathcal{L}(\theta \mid \mathcal{D}) &amp;= p((x^1, y^1), (x^2, y^2), \cdots, (x^n, y^n) \mid \theta) \\<br>&amp;= p((x^1, y^1) \mid \theta) \cdot p((x^2, y^2) \mid \theta) \cdots p((x^n, y^n) \mid \theta)<br>\end{aligned}<br>$$</p><p>It is formed from the joint probability distributions. A critical statistical assumption is introduced here. Samples $(x^i, y^i)$ are generated <em>independently</em> such that the joint probability can be splitted into multiplcation of probabilities. Further, samples are generated from the same population/model $\theta$. So, we call that data are <em>independently, identically distributed</em>, or <em>iid</em>, generated from some model.</p><p>$$<br>\begin{aligned}<br>\mathcal{L}(\theta \mid \mathcal{D}) &amp;= p((x^1, y^1) \mid \theta) \cdot p((x^2, y^2) \mid \theta) \cdots p((x^n, y^n) \mid \theta) \\<br>&amp;= \prod_{i=1}^n p((x^i, y^i) \mid \theta)<br>\end{aligned}<br>$$</p><p>Normal distribution is used as error pattern in linear regression model. A linear regression model always infers the mean value of $y$ given $x$. The uncertainty of $y$ can be described by normal distribution. We add an error term after the linear regression model.</p><p>$$<br>y = wx + b + \epsilon<br>$$</p><p>$$<br>\epsilon = y - wx - b = \mathcal{N}(z \mid \mu = 0, \sigma^2)<br>$$</p><p>Or we can rewrite it into</p><p>$$<br>\epsilon = \mathcal{N}(y - wx - b \mid \mu = 0, \sigma^2)<br>$$</p><p>where $\mathcal{N}(x \mid \mu, \sigma^2) = \frac{1}{\sigma \sqrt{2 \pi}} exp(-\frac{1}{2} (\frac{x-\mu}{\sigma})^2)$.</p><p>Likelihood function would be</p><p>$$<br>\begin{aligned}<br>\mathcal{L}(\theta \mid \mathcal{D}) &amp;= \prod_{i=1}^n p((x^i, y^i) \mid \theta) \\<br>&amp;= \prod_{i=1}^n \mathcal{N}(y^i - wx^i - b \mid \mu = 0, \sigma^2)<br>\end{aligned}<br>$$.</p><p>Negative log likelihood would be</p><p>$$<br>\begin{aligned}<br>\mathcal{l}(\theta \mid \mathcal{D}) &amp;= - ln \mathcal{L}(\theta \mid \mathcal{D}) \\<br>&amp;= - ln \prod_{i=1}^n \mathcal{N}(y^i - wx^i - b \mid \mu = 0, \sigma^2) \\<br>&amp;= - ln \prod_{i=1}^n \mathcal{N}(y^i - wx^i - b \mid \mu = 0, \sigma^2) \\<br>&amp;= - \sum_{i=1}^n ln \mathcal{N}(y^i - wx^i - b \mid \mu = 0, \sigma^2) \\<br>&amp;= - \sum_{i=1}^n - \frac{1}{2} (\frac{y^i - wx^i - b - 0}{\sigma})^2 - ln(\sigma \sqrt{2 \pi}) \\<br>&amp;= \sum_{i=1}^n \frac{1}{2} (\frac{y^i - wx^i - b}{\sigma})^2 + ln(\sigma) + ln(\sqrt{2 \pi})<br>\end{aligned}<br>$$</p><p>The primal goal is to maximize likelihood function $\arg\max_{\theta} \mathcal{L}(\theta \mid \mathcal{D})$, while we have to minimize the negative log likelihood (NLL) function</p><p>$$<br>\arg\min_{\theta} \mathcal{l}(\theta \mid \mathcal{D})<br>$$.</p><p>To solve this problem, we need to calculate the first-order derivative of NLL. The minimum value happens while $\frac{\partial \mathcal{l}}{\partial w} = 0$ and $\frac{\partial \mathcal{l}}{\partial b} = 0$ are satisfied.</p><p>$$<br>\begin{aligned}<br>\frac{\partial \mathcal{l}}{\partial w} &amp;= \frac{\partial}{\partial w} \sum_{i=1}^n \frac{1}{2} (\frac{y^i - wx^i - b}{\sigma})^2 + ln(\sigma) + ln(\sqrt{2 \pi}) \\<br>&amp;= \sum_{i=1}^n \frac{y^i - wx^i - b}{\sigma} \cdot \frac{\partial}{\partial w} \frac{y^i - wx^i - b}{\sigma} \\<br>&amp;= \sum_{i=1}^n \frac{y^i - wx^i - b}{\sigma} \frac{-x^i}{\sigma} \\<br>&amp;= \frac{-1}{\sigma^2} \sum_{i=1}^n x^i (y^i - wx^i - b) \\<br>&amp;= 0<br>\end{aligned}<br>$$</p><p>$$<br>\begin{aligned}<br>\frac{-1}{\sigma^2} \sum_{i=1}^n x^i (y^i - wx^i - b) &amp;= 0 \\<br>\sum_{i=1}^n x^i (y^i - wx^i - b) &amp;= 0 \\<br>\sum_{i=1}^n{x^i y^i} - w \sum_{i=1}^n{(x^i)^2} - b \sum_{i=1}^n{x^i} &amp;= 0<br>\end{aligned}<br>$$</p><p>The same way we can have</p><p>$$<br>\sum_{i=1}^n{y^i} - w \sum_{i=1}^n{x^i} - b = 0<br>$$</p><p>derived from $\frac{\partial \mathcal{l}}{\partial b} = 0$.</p><p>Finally, we can estimate the parameters from the following two equations:</p><p>$$<br>\begin{cases}<br>(\sum_{i=1}^n{(x^i)^2}) w + (\sum_{i=1}^n{x^i}) b = \sum_{i=1}^n{x^i y^i} \\<br>(\sum_{i=1}^n{x^i}) w + b = \sum_{i=1}^n{y^i}<br>\end{cases}<br>$$</p><p>$$<br>\begin{cases}<br>w = ? \\<br>b = ?<br>\end{cases}<br>$$</p>]]></content>
+    
+    <summary type="html">
+    
+      &lt;p&gt;Maximum likelihood estimation is an essential approach to estimate parameters in statistics. It requires statistical assumptions on error pattern. I will introduce this technique with really simple statistical model - linear regression.&lt;/p&gt;
+    
+    </summary>
+    
+    
+      <category term="Statistics" scheme="https://yuehhua.github.io/categories/Statistics/"/>
+    
+    
+  </entry>
   
   <entry>
     <title>從分享到建議</title>
@@ -495,37 +516,6 @@ $$&lt;/p&gt;
       
         &lt;p&gt;很多人在寫程式的時候會有些壞習慣，如：&lt;/p&gt;
 &lt;figure class=&quot;highlight plain&quot;&gt;&lt;table&gt;&lt;tr&gt;&lt;td class=&quot;gutter&quot;&gt;&lt;pre&gt;&lt;span class=&quot;line&quot;&gt;1&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;li
-      
-    
-    </summary>
-    
-    
-      <category term="My Style" scheme="https://yuehhua.github.io/categories/My-Style/"/>
-    
-      <category term="Computer Science" scheme="https://yuehhua.github.io/categories/My-Style/Computer-Science/"/>
-    
-      <category term="Julialang" scheme="https://yuehhua.github.io/categories/My-Style/Computer-Science/Julialang/"/>
-    
-    
-      <category term="optimization" scheme="https://yuehhua.github.io/tags/optimization/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>Julia 的 inbounds</title>
-    <link href="https://yuehhua.github.io/2019/09/06/inbounds-in-julia/"/>
-    <id>https://yuehhua.github.io/2019/09/06/inbounds-in-julia/</id>
-    <published>2019-09-06T03:17:13.000Z</published>
-    <updated>2019-09-06T03:17:13.549Z</updated>
-    
-    <content type="html"><![CDATA[<p>有在做套件開發的開發者們應該不陌生 <code>@inbounds</code> 這個 macro，在很多現代程式語言中也有。</p><p>在存取陣列時，為了安全性與正確性的考量，避免存取到陣列範圍以外的記憶體位置，很多語言都設置了邊界檢查（bounds check）。</p><p>邊界檢查會檢查所存取的索引值是否在陣列的範圍內，但是這樣的檢查會有些微的效能損耗，尤其在迴圈內的情況更有可能被累積而放大，關於 Julia 的 邊界檢查可以參考官方文件 <a href="https://docs.julialang.org/en/v1/devdocs/boundscheck/index.html" target="_blank" rel="noopener">Bounds checking</a>。</p><p>如果可以確定所存取的索引值一定在範圍內，我們就可以把邊界檢查給移除，以加速陣列的存取。如以下範例：</p><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">A &#x3D; rand(3, 4)</span><br><span class="line">@inbounds for i &#x3D; 1:size(A, 1)</span><br><span class="line">    println(A[i, :])</span><br><span class="line">end</span><br></pre></td></tr></table></figure><p>或是</p><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">A &#x3D; rand(3, 4)</span><br><span class="line">for i &#x3D; 1:size(A, 1)</span><br><span class="line">    @inbounds println(A[i, :])</span><br><span class="line">end</span><br></pre></td></tr></table></figure><p><code>@inbounds</code> 會將程式碼區塊中的邊界檢查給移除，可以參考 <code>@inbounds</code> 的<a href="https://docs.julialang.org/en/latest/base/base/#Base.@inbounds" target="_blank" rel="noopener">官方文件</a>。使用時必須注意存取的索引值，否則小則存取的值錯誤，大則可能導致程式崩潰。</p><p>先養成好的索引習慣，再考慮將效能提升，加入 <code>@inbounds</code>。相關的資訊也紀錄在官方的<a href="https://docs.julialang.org/en/latest/manual/performance-tips/#man-performance-annotations-1" target="_blank" rel="noopener">效能建議</a>中。</p>]]></content>
-    
-    <summary type="html">
-    
-      
-      
-        &lt;p&gt;有在做套件開發的開發者們應該不陌生 &lt;code&gt;@inbounds&lt;/code&gt; 這個 macro，在很多現代程式語言中也有。&lt;/p&gt;
-&lt;p&gt;在存取陣列時，為了安全性與正確性的考量，避免存取到陣列範圍以外的記憶體位置，很多語言都設置了邊界檢查（bounds check）。&lt;
       
     
     </summary>

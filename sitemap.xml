@@ -2,6 +2,13 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   
   <url>
+    <loc>https://yuehhua.github.io/2020/10/12/linear-regression-with-mle/</loc>
+    
+    <lastmod>2020-10-11T17:21:50.309Z</lastmod>
+    
+  </url>
+  
+  <url>
     <loc>https://yuehhua.github.io/2020/09/06/how-to-use-async-sync-in-julia/</loc>
     
     <lastmod>2020-10-11T16:36:42.590Z</lastmod>
