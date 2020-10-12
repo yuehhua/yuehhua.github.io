@@ -2,6 +2,13 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   
   <url>
+    <loc>https://yuehhua.github.io/2020/10/12/julia-setproperty-setfield/</loc>
+    
+    <lastmod>2020-10-12T03:50:07.665Z</lastmod>
+    
+  </url>
+  
+  <url>
     <loc>https://yuehhua.github.io/2020/10/12/linear-regression-with-mle/</loc>
     
     <lastmod>2020-10-11T17:21:50.309Z</lastmod>

@@ -235,6 +235,70 @@
     <section class="postShorten-group main-content-wrap">
     
     
+    <article class="postShorten postShorten--thumbnailimg-bottom">
+        <div class="postShorten-wrap">
+            
+            <div class="postShorten-header">
+                <h1 class="postShorten-title">
+                    
+                        <a class="link-unstyled" href="/2020/10/12/julia-setproperty-setfield/">
+                            在 Julia 對設定物件欄位增加檢查 - setproperty 與 setfield
+                        </a>
+                    
+                </h1>
+                <div class="postShorten-meta">
+    <time datetime="2020-10-12T11:50:07+08:00">
+	
+		    10月 12, 2020
+    	
+    </time>
+    
+        <span>分類 </span>
+        
+    <a class="category-link" href="/categories/My-Style/">My Style</a>, <a class="category-link" href="/categories/My-Style/Computer-Science/">Computer Science</a>, <a class="category-link" href="/categories/My-Style/Computer-Science/Julialang/">Julialang</a>
+
+
+    
+</div>
+
+            </div>
+            
+                <div class="postShorten-content">
+                    <p>在 Julia 中存取物件的欄位的時候，設計者會想要對於存取的過程中加上一些檢查，這個想法是來自於傳統物件導向 getter/setter 的概念。</p>
+<p>例如，在自己設計的物件當中有兩個矩陣，這兩個矩陣可以讓使用者隨意更新，但是需要保證這兩個矩陣的維度是一致的。這個時候就需要在使用者更新矩陣的時候加入檢查，以確保兩個矩陣之間的維度是一致的，如果檢查不通過，可能會跳例外或者是不讓矩陣被更新。</p>
+<p>那如果要在 Julia 中，存取物件時加入檢查的程式碼，要怎麼辦呢？</p>
+<p>Julia 提供了兩個 setter 來提供設定物件的欄位：<code>setproperty!</code> 跟 <code>setfield!</code></p>
+<p><code>setfield!</code> 是屬於內部的 API，這個不能覆寫，所以我們要用的是 <code>setproperty!</code>。</p>
+<p><code>setproperty!</code> 的 API 可以藉由查詢文件得知：</p>
+<figure class="highlight julia"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">setproperty!(value, name::<span class="built_in">Symbol</span>, x)</span><br></pre></td></tr></table></figure>
+<p>也就是當你在呼叫 <code>a.b = c</code> 其實就會去呼叫 <code>setproperty!(a, :b, c)</code>。</p>
+<p>依據上述的例子，我們可以示範以下程式碼：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br></pre></td><td class="code"><pre><span class="line">mutable struct Foo</span><br><span class="line">    A::Matrix</span><br><span class="line">    B::Matrix</span><br><span class="line">end</span><br><span class="line"></span><br><span class="line">function setproperty!(obj::Foo, name::Symbol, x)</span><br><span class="line">    if name &#x3D;&#x3D; :A</span><br><span class="line">        if size(obj.B) &#x3D;&#x3D; size(x)</span><br><span class="line">            setfield!(obj, name, x)</span><br><span class="line">        else</span><br><span class="line">            throw(DimensionMismatch())</span><br><span class="line">        end</span><br><span class="line">    elseif name &#x3D;&#x3D; :B</span><br><span class="line">        if size(obj.A) &#x3D;&#x3D; size(x)</span><br><span class="line">            setfield!(obj, name, x)</span><br><span class="line">        else</span><br><span class="line">            throw(DimensionMismatch())</span><br><span class="line">        end</span><br><span class="line">    else</span><br><span class="line">        setfield!(obj, name, x)</span><br><span class="line">    end</span><br><span class="line">end</span><br></pre></td></tr></table></figure>
+<p>這邊有幾點需要特別注意，第一是語言中的 <code>setproperty!</code> 第一個參數是 <code>Any</code> 型別，所以第一個參數一定要指定自己的型別是什麼，不然會跟語言本身的衝突。</p>
+<p>第二個參數吃進來的是 <code>Symbol</code> 型別，這個也要指定，不然會發生 ambiguous 的狀況。</p>
+<p>第三個參數為了廣義，所以是 <code>Any</code> 型別。</p>
+<p>函式裡頭要區分開不同的欄位，這邊用 if-else 處理。想要用多重分派的機制處理的也是可以，但會比較麻煩，而且用到 <code>Val()</code> 會有效能降低的現象。</p>
+<p>通過檢查後，要真正設定物件欄位，這邊用 <code>setfield!(obj, name, x)</code> 是比較好的作法。如果呼叫 <code>obj.A = x</code>，則會去呼叫 <code>setproperty!(obj, :A, x)</code>，就會變成無限遞迴呼叫了，所以 <code>=</code> 跟 <code>setproperty!</code> 在這邊都沒辦法用。</p>
+<p>最後，我們把要檢查的欄位都處理好之後，我們不想要動到其他的欄位設定的行為，那就讓其他的欄位都用 <code>setfield!(obj, name, x)</code> 處理掉吧！</p>
+
+                    
+                        
+
+                    
+                    
+                        <p>
+                            <a href="/2020/10/12/julia-setproperty-setfield/#post-footer" class="postShorten-excerpt_link link">
+                                留言與分享
+                            </a>
+                        </p>
+                    
+                </div>
+            
+        </div>
+        
+    </article>
+    
+    
     <article class="postShorten postShorten--thumbnailimg-right">
         <div class="postShorten-wrap">
             
@@ -743,50 +807,6 @@
                                 留言與分享
                             </a>
                         </p>
-                    
-                </div>
-            
-        </div>
-        
-    </article>
-    
-    
-    <article class="postShorten postShorten--thumbnailimg-right">
-        <div class="postShorten-wrap">
-            
-            <div class="postShorten-header">
-                <h1 class="postShorten-title">
-                    
-                        <a class="link-unstyled" href="/2020/03/24/julia-v1-4-release/">
-                            Julia v1.4 釋出
-                        </a>
-                    
-                </h1>
-                <div class="postShorten-meta">
-    <time datetime="2020-03-24T12:02:05+08:00">
-	
-		    3月 24, 2020
-    	
-    </time>
-    
-        <span>分類 </span>
-        
-    <a class="category-link" href="/categories/My-Style/">My Style</a>, <a class="category-link" href="/categories/My-Style/Computer-Science/">Computer Science</a>, <a class="category-link" href="/categories/My-Style/Computer-Science/Julialang/">Julialang</a>
-
-
-    
-</div>
-
-            </div>
-            
-                <div class="postShorten-excerpt">
-                    <p>Julia v1.4 已經釋出啦！這邊來跟大家介紹一些新功能。<br>
-底下新功能後面會有括弧，附註相關的實作程式碼。</p>
-                    
-                        <a href="/2020/03/24/julia-v1-4-release/" class="postShorten-excerpt_link link">
-                            繼續閱讀
-                        </a>
-                        
                     
                 </div>
             

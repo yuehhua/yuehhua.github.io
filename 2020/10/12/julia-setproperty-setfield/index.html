@@ -6,7 +6,7 @@
     <!-- hexo-inject:begin --><!-- hexo-inject:end --><meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="generator" content="Dream Maker">
-    <title>所有文章: 2020/10 - Dream Maker</title>
+    <title>在 Julia 對設定物件欄位增加檢查 - setproperty 與 setfield - Dream Maker</title>
     <meta name="author" content="Yueh-Hua Tu">
     
         <meta name="keywords" content="machine learning,deep learning,topology,">
@@ -15,12 +15,16 @@
     
         <link rel="alternate" type="application/atom+xml" title="RSS" href="/atom.xml">
     
-    <script type="application/ld+json">{}</script>
-    <meta property="og:type" content="blog">
-<meta property="og:title" content="Dream Maker">
-<meta property="og:url" content="https://yuehhua.github.io/archives/2020/10/index.html">
+    <script type="application/ld+json">{"@context":"http://schema.org","@type":"BlogPosting","author":{"@type":"Person","name":"Yueh-Hua Tu","sameAs":["https://github.com/yuehhua/","https://www.facebook.com/a504082002","https://www.linkedin.com/in/%E5%B2%B3%E8%8F%AF-%E6%9D%9C-6a3995a0/","mailto:a504082002@gmail.com"],"image":"https://www.gravatar.com/avatar/a565749fba4782b717234da670b273fd"},"articleBody":"在 Julia 中存取物件的欄位的時候，設計者會想要對於存取的過程中加上一些檢查，這個想法是來自於傳統物件導向 getter/setter 的概念。\n例如，在自己設計的物件當中有兩個矩陣，這兩個矩陣可以讓使用者隨意更新，但是需要保證這兩個矩陣的維度是一致的。這個時候就需要在使用者更新矩陣的時候加入檢查，以確保兩個矩陣之間的維度是一致的，如果檢查不通過，可能會跳例外或者是不讓矩陣被更新。\n那如果要在 Julia 中，存取物件時加入檢查的程式碼，要怎麼辦呢？\nJulia 提供了兩個 setter 來提供設定物件的欄位：setproperty! 跟 setfield!\nsetfield! 是屬於內部的 API，這個不能覆寫，所以我們要用的是 setproperty!。\nsetproperty! 的 API 可以藉由查詢文件得知：\n1setproperty!(value, name::Symbol, x)\n也就是當你在呼叫 a.b = c 其實就會去呼叫 setproperty!(a, :b, c)。\n依據上述的例子，我們可以示範以下程式碼：\n12345678910111213141516171819202122mutable struct Foo    A::Matrix    B::Matrixendfunction setproperty!(obj::Foo, name::Symbol, x)    if name &#x3D;&#x3D; :A        if size(obj.B) &#x3D;&#x3D; size(x)            setfield!(obj, name, x)        else            throw(DimensionMismatch())        end    elseif name &#x3D;&#x3D; :B        if size(obj.A) &#x3D;&#x3D; size(x)            setfield!(obj, name, x)        else            throw(DimensionMismatch())        end    else        setfield!(obj, name, x)    endend\n這邊有幾點需要特別注意，第一是語言中的 setproperty! 第一個參數是 Any 型別，所以第一個參數一定要指定自己的型別是什麼，不然會跟語言本身的衝突。\n第二個參數吃進來的是 Symbol 型別，這個也要指定，不然會發生 ambiguous 的狀況。\n第三個參數為了廣義，所以是 Any 型別。\n函式裡頭要區分開不同的欄位，這邊用 if-else 處理。想要用多重分派的機制處理的也是可以，但會比較麻煩，而且用到 Val() 會有效能降低的現象。\n通過檢查後，要真正設定物件欄位，這邊用 setfield!(obj, name, x) 是比較好的作法。如果呼叫 obj.A = x，則會去呼叫 setproperty!(obj, :A, x)，就會變成無限遞迴呼叫了，所以 = 跟 setproperty! 在這邊都沒辦法用。\n最後，我們把要檢查的欄位都處理好之後，我們不想要動到其他的欄位設定的行為，那就讓其他的欄位都用 setfield!(obj, name, x) 處理掉吧！\n","dateCreated":"2020-10-12T11:50:07+08:00","dateModified":"2020-10-12T11:50:07+08:00","datePublished":"2020-10-12T11:50:07+08:00","description":"","headline":"在 Julia 對設定物件欄位增加檢查 - setproperty 與 setfield","image":[],"mainEntityOfPage":{"@type":"WebPage","@id":"https://yuehhua.github.io/2020/10/12/julia-setproperty-setfield/"},"publisher":{"@type":"Organization","name":"Yueh-Hua Tu","sameAs":["https://github.com/yuehhua/","https://www.facebook.com/a504082002","https://www.linkedin.com/in/%E5%B2%B3%E8%8F%AF-%E6%9D%9C-6a3995a0/","mailto:a504082002@gmail.com"],"image":"https://www.gravatar.com/avatar/a565749fba4782b717234da670b273fd","logo":{"@type":"ImageObject","url":"https://www.gravatar.com/avatar/a565749fba4782b717234da670b273fd"}},"url":"https://yuehhua.github.io/2020/10/12/julia-setproperty-setfield/"}</script>
+    <meta name="description" content="在 Julia 中存取物件的欄位的時候，設計者會想要對於存取的過程中加上一些檢查，這個想法是來自於傳統物件導向 getter&#x2F;setter 的概念。 例如，在自己設計的物件當中有兩個矩陣，這兩個矩陣可以讓使用者隨意更新，但是需要保證這兩個矩陣的維度是一致的。這個時候就需要在使用者更新矩陣的時候加入檢查，以確保兩個矩陣之間的維度是一致的，如果檢查不通過，可能會跳例外或者是不讓矩陣被更新。 那如果要在">
+<meta property="og:type" content="blog">
+<meta property="og:title" content="在 Julia 對設定物件欄位增加檢查 - setproperty 與 setfield">
+<meta property="og:url" content="https://yuehhua.github.io/2020/10/12/julia-setproperty-setfield/index.html">
 <meta property="og:site_name" content="Dream Maker">
+<meta property="og:description" content="在 Julia 中存取物件的欄位的時候，設計者會想要對於存取的過程中加上一些檢查，這個想法是來自於傳統物件導向 getter&#x2F;setter 的概念。 例如，在自己設計的物件當中有兩個矩陣，這兩個矩陣可以讓使用者隨意更新，但是需要保證這兩個矩陣的維度是一致的。這個時候就需要在使用者更新矩陣的時候加入檢查，以確保兩個矩陣之間的維度是一致的，如果檢查不通過，可能會跳例外或者是不讓矩陣被更新。 那如果要在">
 <meta property="og:locale" content="zh_TW">
+<meta property="article:published_time" content="2020-10-12T03:50:07.000Z">
+<meta property="article:modified_time" content="2020-10-12T03:50:07.665Z">
 <meta property="article:author" content="Yueh-Hua Tu">
 <meta property="article:tag" content="machine learning">
 <meta property="article:tag" content="deep learning">
@@ -62,7 +66,7 @@
 
     
 
-<header id="header" data-behavior="2">
+<header id="header" data-behavior="5">
     <i id="btn-open-sidebar" class="fa fa-lg fa-bars"></i>
     <div class="header-title">
         <a class="header-title-link" href="/%20">Dream Maker</a>
@@ -80,7 +84,7 @@
             <!-- Define author's picture -->
 
 
-<nav id="sidebar" data-behavior="2">
+<nav id="sidebar" data-behavior="5">
     <div class="sidebar-container">
         
         
@@ -227,26 +231,22 @@
 </nav>
 
             
-            <div id="main" data-behavior="2"
+            <div id="main" data-behavior="5"
                  class="
                         hasCoverMetaIn
                         ">
                 
-    <section class="postShorten-group main-content-wrap">
+    <article class="post">
+        
+                
+                    <div class="post-header main-content-wrap text-left">
+    
+        <h1 class="post-title">
+            在 Julia 對設定物件欄位增加檢查 - setproperty 與 setfield
+        </h1>
     
     
-    <article class="postShorten postShorten--thumbnailimg-bottom">
-        <div class="postShorten-wrap">
-            
-            <div class="postShorten-header">
-                <h1 class="postShorten-title">
-                    
-                        <a class="link-unstyled" href="/2020/10/12/julia-setproperty-setfield/">
-                            在 Julia 對設定物件欄位增加檢查 - setproperty 與 setfield
-                        </a>
-                    
-                </h1>
-                <div class="postShorten-meta">
+        <div class="post-meta">
     <time datetime="2020-10-12T11:50:07+08:00">
 	
 		    10月 12, 2020
@@ -261,10 +261,13 @@
     
 </div>
 
-            </div>
-            
-                <div class="postShorten-content">
-                    <p>在 Julia 中存取物件的欄位的時候，設計者會想要對於存取的過程中加上一些檢查，這個想法是來自於傳統物件導向 getter/setter 的概念。</p>
+    
+</div>
+
+                        
+                            <div class="post-content markdown">
+                                <div class="main-content-wrap">
+                                    <p>在 Julia 中存取物件的欄位的時候，設計者會想要對於存取的過程中加上一些檢查，這個想法是來自於傳統物件導向 getter/setter 的概念。</p>
 <p>例如，在自己設計的物件當中有兩個矩陣，這兩個矩陣可以讓使用者隨意更新，但是需要保證這兩個矩陣的維度是一致的。這個時候就需要在使用者更新矩陣的時候加入檢查，以確保兩個矩陣之間的維度是一致的，如果檢查不通過，可能會跳例外或者是不讓矩陣被更新。</p>
 <p>那如果要在 Julia 中，存取物件時加入檢查的程式碼，要怎麼辦呢？</p>
 <p>Julia 提供了兩個 setter 來提供設定物件的欄位：<code>setproperty!</code> 跟 <code>setfield!</code></p>
@@ -281,121 +284,88 @@
 <p>通過檢查後，要真正設定物件欄位，這邊用 <code>setfield!(obj, name, x)</code> 是比較好的作法。如果呼叫 <code>obj.A = x</code>，則會去呼叫 <code>setproperty!(obj, :A, x)</code>，就會變成無限遞迴呼叫了，所以 <code>=</code> 跟 <code>setproperty!</code> 在這邊都沒辦法用。</p>
 <p>最後，我們把要檢查的欄位都處理好之後，我們不想要動到其他的欄位設定的行為，那就讓其他的欄位都用 <code>setfield!(obj, name, x)</code> 處理掉吧！</p>
 
-                    
-                        
+                                        
 
+                                </div>
+                            </div>
+                            <div id="post-footer" class="post-footer main-content-wrap">
+                                
+                                        
+                                            <div class="post-actions-wrap">
+    <nav>
+        <ul class="post-actions post-action-nav">
+            <li class="post-action">
+                
+                    <a class="post-action-btn btn btn--disabled">
+                
+                    <i class="fa fa-angle-left" aria-hidden="true"></i>
+                    <span class="hide-xs hide-sm text-small icon-ml">上一篇</span>
+                </a>
+            </li>
+            <li class="post-action">
+                
                     
-                    
-                        <p>
-                            <a href="/2020/10/12/julia-setproperty-setfield/#post-footer" class="postShorten-excerpt_link link">
-                                留言與分享
-                            </a>
-                        </p>
-                    
-                </div>
-            
-        </div>
+                    <a class="post-action-btn btn btn--default tooltip--top" href="/2020/10/12/linear-regression-with-mle/" data-tooltip="Linear Regression with Maximum Likelihood Estimation" aria-label="下一篇: Linear Regression with Maximum Likelihood Estimation">
+                
+                    <span class="hide-xs hide-sm text-small icon-mr">下一篇</span>
+                    <i class="fa fa-angle-right" aria-hidden="true"></i>
+                </a>
+            </li>
+        </ul>
+    </nav>
+    <ul class="post-actions post-action-share">
+        <li class="post-action hide-lg hide-md hide-sm">
+            <a class="post-action-btn btn btn--default btn-open-shareoptions" href="#btn-open-shareoptions" aria-label="Share this post">
+                <i class="fa fa-share-alt" aria-hidden="true"></i>
+            </a>
+        </li>
         
-    </article>
-    
-    
-    <article class="postShorten postShorten--thumbnailimg-right">
-        <div class="postShorten-wrap">
             
-            <div class="postShorten-header">
-                <h1 class="postShorten-title">
-                    
-                        <a class="link-unstyled" href="/2020/10/12/linear-regression-with-mle/">
-                            Linear Regression with Maximum Likelihood Estimation
-                        </a>
-                    
-                </h1>
-                <div class="postShorten-meta">
-    <time datetime="2020-10-12T01:20:57+08:00">
-	
-		    10月 12, 2020
-    	
-    </time>
-    
-        <span>分類 </span>
-        
-    <a class="category-link" href="/categories/Statistics/">Statistics</a>
-
-
-    
-</div>
-
-            </div>
             
-                <div class="postShorten-excerpt">
-                    <p>Maximum likelihood estimation is an essential approach to estimate parameters in statistics. It requires statistical assumptions on error pattern. I will introduce this technique with really simple statistical model - linear regression.</p>
-                    
-                        <a href="/2020/10/12/linear-regression-with-mle/" class="postShorten-excerpt_link link">
-                            繼續閱讀
-                        </a>
-                        
-                    
-                </div>
-            
-        </div>
-        
-    </article>
-    
-    
-    <article class="postShorten postShorten--thumbnailimg-right">
-        <div class="postShorten-wrap">
-            
-            <div class="postShorten-header">
-                <h1 class="postShorten-title">
-                    
-                        <a class="link-unstyled" href="/2020/10/12/from-sharing-to-suggestions/">
-                            從分享到建議
-                        </a>
-                    
-                </h1>
-                <div class="postShorten-meta">
-    <time datetime="2020-10-12T00:29:36+08:00">
-	
-		    10月 12, 2020
-    	
-    </time>
-    
-        <span>分類 </span>
-        
-    <a class="category-link" href="/categories/My-Style/">My Style</a>, <a class="category-link" href="/categories/My-Style/Believe%E3%80%82Think%E3%80%82Soul/">Believe。Think。Soul</a>
-
-
-    
-</div>
-
-            </div>
-            
-                <div class="postShorten-excerpt">
-                    <p>這幾年，隨著接觸的東西變多，知道的東西變多，個性上也有點變化。</p>
-<p>約莫四五年前，碩班時期接觸到一些很棒的網路技術文章，當時線上課程也非常熱門，很多優秀的大學紛紛把他們的上課內容做成教材釋出。也因為這樣，我自己其實從這些網路資源受惠非常多。當時也是自己在發展自學能力的輝煌時期。</p>
-                    
-                        <a href="/2020/10/12/from-sharing-to-suggestions/" class="postShorten-excerpt_link link">
-                            繼續閱讀
-                        </a>
-                        
-                    
-                </div>
-            
-        </div>
-        
-    </article>
-    
-    <div class="pagination-bar">
-    <ul class="pagination">
+            <li class="post-action hide-xs">
+                <a class="post-action-btn btn btn--default" target="new" href="https://www.facebook.com/sharer/sharer.php?u=https://yuehhua.github.io/2020/10/12/julia-setproperty-setfield/" title="分享到 Facebook">
+                    <i class="fa fa-facebook-official" aria-hidden="true"></i>
+                </a>
+            </li>
         
         
-        <li class="pagination-number">第 1 頁 共 1 頁</li>
+            
+                <li class="post-action">
+                    <a class="post-action-btn btn btn--default" href="#disqus_thread">
+                        <i class="fa fa-comment-o"></i>
+                    </a>
+                </li>
+            
+        
+        <li class="post-action">
+            
+                <a class="post-action-btn btn btn--default" href="#" aria-label="Back to top">
+            
+                <i class="fa fa-list" aria-hidden="true"></i>
+            </a>
+        </li>
     </ul>
 </div>
 
-</section>
 
-
+                                                
+                                                    
+                                                        
+                                                            <div id="disqus_thread">
+    <noscript>Please enable JavaScript to view the <a href="//disqus.com/?ref_noscript" target="_blank" rel="noopener">comments powered by Disqus.</a></noscript>
+</div>
+                                                                
+                                                                            
+                            </div>
+                            
+                                <script src='https://unpkg.com/mermaid@7.1.2/dist/mermaid.min.js'></script>
+                                <script>
+                                    if (window.mermaid) {
+                                        mermaid.initialize({ theme: 'forest' });
+                                    }
+                                </script>
+                                
+    </article>
 
                 <footer id="footer" class="main-content-wrap">
     <span class="copyrights">
@@ -404,6 +374,81 @@
 </footer>
 
             </div>
+            
+                <div id="bottom-bar" class="post-bottom-bar" data-behavior="5">
+                    <div class="post-actions-wrap">
+    <nav>
+        <ul class="post-actions post-action-nav">
+            <li class="post-action">
+                
+                    <a class="post-action-btn btn btn--disabled">
+                
+                    <i class="fa fa-angle-left" aria-hidden="true"></i>
+                    <span class="hide-xs hide-sm text-small icon-ml">上一篇</span>
+                </a>
+            </li>
+            <li class="post-action">
+                
+                    
+                    <a class="post-action-btn btn btn--default tooltip--top" href="/2020/10/12/linear-regression-with-mle/" data-tooltip="Linear Regression with Maximum Likelihood Estimation" aria-label="下一篇: Linear Regression with Maximum Likelihood Estimation">
+                
+                    <span class="hide-xs hide-sm text-small icon-mr">下一篇</span>
+                    <i class="fa fa-angle-right" aria-hidden="true"></i>
+                </a>
+            </li>
+        </ul>
+    </nav>
+    <ul class="post-actions post-action-share">
+        <li class="post-action hide-lg hide-md hide-sm">
+            <a class="post-action-btn btn btn--default btn-open-shareoptions" href="#btn-open-shareoptions" aria-label="Share this post">
+                <i class="fa fa-share-alt" aria-hidden="true"></i>
+            </a>
+        </li>
+        
+            
+            
+            <li class="post-action hide-xs">
+                <a class="post-action-btn btn btn--default" target="new" href="https://www.facebook.com/sharer/sharer.php?u=https://yuehhua.github.io/2020/10/12/julia-setproperty-setfield/" title="分享到 Facebook">
+                    <i class="fa fa-facebook-official" aria-hidden="true"></i>
+                </a>
+            </li>
+        
+        
+            
+                <li class="post-action">
+                    <a class="post-action-btn btn btn--default" href="#disqus_thread">
+                        <i class="fa fa-comment-o"></i>
+                    </a>
+                </li>
+            
+        
+        <li class="post-action">
+            
+                <a class="post-action-btn btn btn--default" href="#" aria-label="Back to top">
+            
+                <i class="fa fa-list" aria-hidden="true"></i>
+            </a>
+        </li>
+    </ul>
+</div>
+
+
+                </div>
+                <div id="share-options-bar" class="share-options-bar" data-behavior="5">
+    <i id="btn-close-shareoptions" class="fa fa-close"></i>
+    <ul class="share-options">
+        
+            
+            
+            <li class="share-option">
+                <a class="share-option-btn" target="new" href="https://www.facebook.com/sharer/sharer.php?u=https://yuehhua.github.io/2020/10/12/julia-setproperty-setfield/">
+                    <i class="fa fa-facebook-official" aria-hidden="true"></i><span>分享到 Facebook</span>
+                </a>
+            </li>
+        
+    </ul>
+</div>
+
             
         </div>
         
@@ -445,7 +490,26 @@
 
 <script src="/assets/js/script-xzfezjobyekpxrjktw5tz6muvzqfsbmo5n6atk3p5om9ulfptldi3p7cyqd8.min.js"></script>
 
-<!--SCRIPTS END--><!-- hexo-inject:begin --><!-- hexo-inject:end -->
+<!--SCRIPTS END-->
+
+
+<script>
+    var disqus_config = function () {
+        this.page.url = 'https://yuehhua.github.io/2020/10/12/julia-setproperty-setfield/';
+                 
+            this.page.identifier = '2020/10/12/julia-setproperty-setfield/';
+                 
+             };
+    (function () {
+        var d = document, s = d.createElement('script');
+        var disqus_shortname = 'dream-maker';
+        s.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+
+        s.setAttribute('data-timestamp', +new Date());
+        (d.head || d.body).appendChild(s);
+    })();
+</script><!-- hexo-inject:begin --><!-- hexo-inject:end -->
+
 
 
     </body>
