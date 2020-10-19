@@ -6,7 +6,7 @@
   <link href="/atom.xml" rel="self"/>
   
   <link href="https://yuehhua.github.io/"/>
-  <updated>2020-10-19T02:27:25.409Z</updated>
+  <updated>2020-10-19T02:34:12.711Z</updated>
   <id>https://yuehhua.github.io/</id>
   
   <author>
@@ -21,7 +21,7 @@
     <link href="https://yuehhua.github.io/2020/10/19/use-threads-lock-in-julia/"/>
     <id>https://yuehhua.github.io/2020/10/19/use-threads-lock-in-julia/</id>
     <published>2020-10-19T02:27:25.000Z</published>
-    <updated>2020-10-19T02:27:25.409Z</updated>
+    <updated>2020-10-19T02:34:12.711Z</updated>
     
     <content type="html"><![CDATA[<p>基本上在 Julia 上跑多執行緒不太困難，在環境中先設定好執行緒的數量，或是在執行 Julia 時增加執行緒數目。</p><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">julia --threads 4</span><br></pre></td></tr></table></figure><a id="more"></a><p>如果既有的程式碼是 for 迴圈，基本上不難改。</p><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">Threads.@threads for i &#x3D; 1:1000_000</span><br><span class="line">    do something()</span><br><span class="line">end</span><br></pre></td></tr></table></figure><p>但是終究會遇到要存取同一個物件的時候，這個時候就會有 race condition。</p><p>要避免 race condition 的方式就是使用 lock。</p><figure class="highlight julia"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">results = []</span><br><span class="line">splock = Threads.SpinLock()</span><br><span class="line"></span><br><span class="line">Threads.<span class="meta">@threads</span> <span class="keyword">for</span> i = <span class="number">1</span>:<span class="number">1000_000</span></span><br><span class="line">    y = do_something()</span><br><span class="line"></span><br><span class="line">    lock(splock)</span><br><span class="line">    <span class="keyword">try</span></span><br><span class="line">        push!(results, y)</span><br><span class="line">    <span class="keyword">finally</span></span><br><span class="line">        unlock(splock)</span><br><span class="line">    <span class="keyword">end</span></span><br><span class="line"><span class="keyword">end</span></span><br></pre></td></tr></table></figure><p>在迴圈中計算 <code>do_something</code>，我們想要把計算結果儲存下來，我們將他儲存在 <code>results</code> 中。<br>這時候我們必須用一個 lock 來把要存取的資源鎖住，一開始會產生一個 <code>SpinLock</code>，當程式執行到 <code>lock(splock)</code> 的時候，如果這個 lock 可以被取用，那這個執行緒就會拿這個 lock 並且進到後續的程式區塊中。如果前面有人拿了 lock，那目前這個想拿 lock 的執行緒就得等到 lock 被釋放才可以。<br>當程式執行完，<code>unlock(splock)</code> 會將 lock 給釋放掉，這個時候其他的執行緒就可以拿這個 lock 進到程式區塊中。<br>如此可以保證每次操作 <code>results</code> 物件的只能有一個執行緒，可以避免 race condition。</p>]]></content>
     
@@ -32,6 +32,12 @@
     
     </summary>
     
+    
+      <category term="My Style" scheme="https://yuehhua.github.io/categories/My-Style/"/>
+    
+      <category term="Computer Science" scheme="https://yuehhua.github.io/categories/My-Style/Computer-Science/"/>
+    
+      <category term="Julialang" scheme="https://yuehhua.github.io/categories/My-Style/Computer-Science/Julialang/"/>
     
     
   </entry>
