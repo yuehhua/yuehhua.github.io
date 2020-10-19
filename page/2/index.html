@@ -234,6 +234,89 @@
                 <section class="postShorten-group main-content-wrap">
     
     
+    <article class="postShorten postShorten--thumbnailimg-bottom">
+        <div class="postShorten-wrap">
+            
+            <div class="postShorten-header">
+                <h1 class="postShorten-title">
+                    
+                        <a class="link-unstyled" href="/2020/04/11/composable-the-key-feature-in-julia/">
+                            可組合性（Composable）：Julia 語言的重要特性
+                        </a>
+                    
+                </h1>
+                <div class="postShorten-meta">
+    <time datetime="2020-04-11T13:43:24+08:00">
+	
+		    4月 11, 2020
+    	
+    </time>
+    
+        <span>分類 </span>
+        
+    <a class="category-link" href="/categories/My-Style/">My Style</a>, <a class="category-link" href="/categories/My-Style/Computer-Science/">Computer Science</a>, <a class="category-link" href="/categories/My-Style/Computer-Science/Julialang/">Julialang</a>
+
+
+    
+</div>
+
+            </div>
+            
+                <div class="postShorten-content">
+                    <p>其實是受到 Julia 核心開發者之一 Lyndon White 的<a href="https://white.ucc.asn.au/2020/02/09/whycompositionaljulia.html" target="_blank" rel="noopener">文章</a>的啟發來撰寫本文的。</p>
+<p>文章有 <a href="https://mp.weixin.qq.com/s/4_Sbi8q5EZDjHj6ouM1Ydg" target="_blank" rel="noopener">CSDNnews 簡中翻譯</a>。</p>
+<p>本文並非以上文章的繁中版本，而是本人的一些心得及觀察。</p>
+<h2 id="載入套件">載入套件</h2>
+<p>比較深入了解 Julia 的朋友，會了解到這個語言的設計與其他語言的不同，像是 <code>using</code>。</p>
+<p>當我們使用 <code>using</code> 來載入套件的時候，會發現有不少存在在 <code>Base</code> 中的函式是可以使用的。像是 <code>length</code> 可以用來取得陣列的長度，當你載入 DataStructures.jl 時，你同樣可以用 <code>length</code> 來取得 <code>Stack</code> 及 <code>Queue</code> 的長度。</p>
+<p>或者是原文中的例子。使用者可以使用 <a href="https://github.com/invenia/NamedDims.jl" target="_blank" rel="noopener">NamedDims.jl</a> 來為你的陣列的維度命名，而你的陣列需要使用 <a href="https://github.com/JuliaGPU/CuArrays.jl" target="_blank" rel="noopener">CuArrays.jl</a> 送到 CUDA，這時候你不需要一個可以為 CUDA array 命名的套件來達成這件事。</p>
+<p>你會發現在 Julia 語言中似乎不存在套件跟套件之間的差別，或是套件跟標準函式庫之間的區別。這是由於在 Julia 中對於命名空間（namespace）的概念較為薄弱，Julia 各模組之間仍然存在著命名空間，但是 Julia 在 <code>using</code> 時會將這些命名空間去除。這在工程上或許不是一個好的典範，因為會造成命名空間的汙染（namespace pollution）。反過來說，它促使人們相互溝通及協調，來提供更好的套件之間的可組合性。</p>
+<p>在其他語言中，常常會告訴你，使用某個套件只需要載入你需要的部份，像是 <code>using Foo: bar, baz</code>，然而 Julia 並不去特別強調這點，<code>using Foo</code> 會載入套件開發者有導出的部份。如果有兩個套件都提供了 <code>predict</code> 來支援他們的模型，這邊借原文的例子再次說明：</p>
+<figure class="highlight julia"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">using</span> Foo</span><br><span class="line"><span class="keyword">using</span> Bar</span><br><span class="line">training_data, test_data = ...</span><br><span class="line">mbar = BarModel(training_data)</span><br><span class="line">mfoo = FooModel(training_data)</span><br><span class="line">evaluate(predict(mbar), test_data)</span><br><span class="line">evaluate(predict(mfoo), test_data)</span><br></pre></td></tr></table></figure>
+<p>這兩個 <code>predict</code> 分別來自雙方套件的各自定義及實作。</p>
+<figure class="highlight julia"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">Bar.predict(mbar)</span><br><span class="line">Foo.predict(mfoo)</span><br></pre></td></tr></table></figure>
+<p>如此使用者便可以無縫地使用同樣一個介面 <code>predict</code>，而功能來自兩個不同的套件。</p>
+<p>這樣的特性大概會有人聯想到介面（interface）。然而，Julia 並不明顯使用介面來規範開發者，Julia 隱含地使用鴨子定型（duck typing）。</p>
+<p>在載入套件之後，Julia 允許使用者不冠上套件名稱來使用這些函式，像 <code>Bar.predict</code>，你可以自由地使用 <code>predict</code> 即可。總是會有套件之間的命名衝突，當衝突發生的時候，就是開發者需要負起責任彼此溝通及協調的時候。不過使用者仍然可以以 <code>Bar.predict</code> 的方式使用套件，只是每次載入套件的時候都會有警告。</p>
+<figure class="highlight julia"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">julia&gt; <span class="keyword">using</span> Plots</span><br><span class="line"></span><br><span class="line">julia&gt; <span class="keyword">using</span> Gadfly</span><br><span class="line"></span><br><span class="line">julia&gt; plot</span><br><span class="line">WARNING: both Gadfly and Plots <span class="keyword">export</span> <span class="string">"plot"</span>; uses of it <span class="keyword">in</span> <span class="keyword">module</span> Main must be qualified</span><br><span class="line">ERROR: <span class="built_in">UndefVarError</span>: plot not defined</span><br></pre></td></tr></table></figure>
+<h2 id="鴨子定型及多重分派">鴨子定型及多重分派</h2>
+<p>在原文中提到鴨子定型及多重分派是成就 Julia 成為一個可組合（composable）語言的基石。我個人也認為可組合是 Julia 提供最重要的特性之一，但卻鮮少被人提及。多數人仍然熱衷於語言效能及開發便利性。</p>
+<p>鴨子定型的一個很好的比喻是，當一個東西會呱呱叫的時候，那麼他就是鴨子。當一個 <code>bar(x)</code> 可以呼叫時，我不需要去檢查 <code>x</code> 的型別為何，我就直接使用就是了。這樣會構成一種隱性的介面。</p>
+<p>當我需要提供一個矩陣相乘的功能時，我會寫以下程式碼：</p>
+<figure class="highlight julia"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">function</span> multiply(A, B)</span><br><span class="line">    C = zeros(size(A, <span class="number">1</span>), size(B, <span class="number">2</span>))</span><br><span class="line">    A = A'</span><br><span class="line">    <span class="keyword">for</span> i = <span class="number">1</span>:size(C, <span class="number">1</span>)</span><br><span class="line">        <span class="keyword">for</span> i = <span class="number">1</span>:size(C, <span class="number">2</span>)</span><br><span class="line">            <span class="keyword">for</span> k = <span class="number">1</span>:size(A, <span class="number">2</span>)</span><br><span class="line">                C[i, j] = sum(A[:, k] .* B[:, k])</span><br><span class="line">            <span class="keyword">end</span></span><br><span class="line">        <span class="keyword">end</span></span><br><span class="line">    <span class="keyword">end</span></span><br><span class="line">    <span class="keyword">return</span> C</span><br><span class="line"><span class="keyword">end</span></span><br></pre></td></tr></table></figure>
+<p>這可以用在一般的矩陣，但如果今天我有自定義的一個新的矩陣呢？</p>
+<figure class="highlight julia"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">struct</span> NewArray</span><br><span class="line">    ...</span><br><span class="line"><span class="keyword">end</span></span><br></pre></td></tr></table></figure>
+<p>在上述的 <code>multiply</code> 中我只需要檢查 <code>NewArray</code> 是否提供相關的介面即可。像是裡頭用到了 <code>size</code>、<code>A[:, k]</code> 及 <code>sum</code>。我只需要支援這些介面的實作即可，如此，Julia 就可以以鴨子定型的方式，讓 <code>multiply</code> 接受 <code>NewArray</code> 了。</p>
+<p>對於不同的型別需要有不同的行為，這在一般的物件導向語言中稱之為多型。多型在多數物件導向典範中使用的是單一分派（single dispatch），然而 Julia 也支援多型，但是以多重分派（multiple dispatch）的方式支援。因此，廣義而言，Julia 支援物件導向的方式是多重分派，卻不是典型的、語法上的封裝、繼承及（單一分派）多型。</p>
+<p>多重分派，可以在需要更細緻行為定義時幫上忙。當 <code>NewArray</code> 支援 <code>sum</code>：</p>
+<figure class="highlight julia"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sum(::NewArray) = ...</span><br></pre></td></tr></table></figure>
+<p>這是單一分派的方式，也可以有多重分派的方式。</p>
+<figure class="highlight julia"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sum(::NewArray, ::<span class="built_in">Array</span>) = ...</span><br></pre></td></tr></table></figure>
+<p>不過這樣只支援 <code>Array</code> 這個特定型別。或是我們可以乾脆這樣做。</p>
+<figure class="highlight julia"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sum(::NewArray, ::<span class="built_in">AbstractArray</span>) = ...</span><br></pre></td></tr></table></figure>
+<p>這樣只要是 <code>AbstractArray</code> 的子型別都可以接受。</p>
+<h2 id="總結">總結</h2>
+<p>以上種種的特性成為了可組合性的基石。一個具有可組合性的語言能夠成為各種東西。Julia 的個別的套件都不俱備所有的定義，需要依賴 Julia 語言及標準函式庫的介面及實作。</p>
+<p>例如當 Julia 中載入了深度學習框架，那它，連同語言本身，就是一個完整支援深度學習功能的引擎。當同時載入了資料庫與深度學習相關套件，那它就成為了支援深度學習功能的 DBMS。當載入了科學計算及機器學習套件，那它就會變成一個強大的數值計算引擎。以 Julia 的可組合性出發，來打造各式各樣不同的引擎，就像一個單純的編輯器搭配有豐富的外掛（plug-in）一樣。這樣衍生出的生態帶來了各式各樣不同的可能性，也讓套件的 reusability 提升到最高的境界。</p>
+
+                    
+                        
+
+                    
+                    
+                        <p>
+                            <a href="/2020/04/11/composable-the-key-feature-in-julia/#post-footer" class="postShorten-excerpt_link link">
+                                留言與分享
+                            </a>
+                        </p>
+                    
+                </div>
+            
+        </div>
+        
+    </article>
+    
+    
     <article class="postShorten postShorten--thumbnailimg-right">
         <div class="postShorten-wrap">
             
@@ -729,50 +812,6 @@ $$</p>
                                 留言與分享
                             </a>
                         </p>
-                    
-                </div>
-            
-        </div>
-        
-    </article>
-    
-    
-    <article class="postShorten postShorten--thumbnailimg-right">
-        <div class="postShorten-wrap">
-            
-            <div class="postShorten-header">
-                <h1 class="postShorten-title">
-                    
-                        <a class="link-unstyled" href="/2019/12/01/name-binding-and-dispatch/">
-                            Name binding 與 dispatch
-                        </a>
-                    
-                </h1>
-                <div class="postShorten-meta">
-    <time datetime="2019-12-01T10:49:40+08:00">
-	
-		    12月 01, 2019
-    	
-    </time>
-    
-        <span>分類 </span>
-        
-    <a class="category-link" href="/categories/My-Style/">My Style</a>, <a class="category-link" href="/categories/My-Style/Computer-Science/">Computer Science</a>, <a class="category-link" href="/categories/My-Style/Computer-Science/Compiler/">Compiler</a>
-
-
-    
-</div>
-
-            </div>
-            
-                <div class="postShorten-excerpt">
-                    <p>Name binding 是一個將資料或是程式碼綁定（binding）到識別符（identifiers）的一個過程。一個識別符綁定到一個物件代表這個識別符會參考（reference）某個物件。</p>
-<p>Name binding 在程式語言中式相當重要而複雜的一個議題，而它牽涉到作用域（scope）的問題，物件存在於程式碼的位置（語意）及物件的生命周期（時間）。</p>
-                    
-                        <a href="/2019/12/01/name-binding-and-dispatch/" class="postShorten-excerpt_link link">
-                            繼續閱讀
-                        </a>
-                        
                     
                 </div>
             

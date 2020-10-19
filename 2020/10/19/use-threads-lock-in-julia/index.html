@@ -6,7 +6,7 @@
     <!-- hexo-inject:begin --><!-- hexo-inject:end --><meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="generator" content="Dream Maker">
-    <title>在 Julia 對設定物件欄位增加檢查 - setproperty 與 setfield - Dream Maker</title>
+    <title>在 Julia 使用多執行緒跑平行運算 - threads 及 lock 的使用 - Dream Maker</title>
     <meta name="author" content="Yueh-Hua Tu">
     
         <meta name="keywords" content="machine learning,deep learning,topology,">
@@ -15,16 +15,16 @@
     
         <link rel="alternate" type="application/atom+xml" title="RSS" href="/atom.xml">
     
-    <script type="application/ld+json">{"@context":"http://schema.org","@type":"BlogPosting","author":{"@type":"Person","name":"Yueh-Hua Tu","sameAs":["https://github.com/yuehhua/","https://www.facebook.com/a504082002","https://www.linkedin.com/in/%E5%B2%B3%E8%8F%AF-%E6%9D%9C-6a3995a0/","mailto:a504082002@gmail.com"],"image":"https://www.gravatar.com/avatar/a565749fba4782b717234da670b273fd"},"articleBody":"在 Julia 中存取物件的欄位的時候，設計者會想要對於存取的過程中加上一些檢查，這個想法是來自於傳統物件導向 getter/setter 的概念。\n例如，在自己設計的物件當中有兩個矩陣，這兩個矩陣可以讓使用者隨意更新，但是需要保證這兩個矩陣的維度是一致的。這個時候就需要在使用者更新矩陣的時候加入檢查，以確保兩個矩陣之間的維度是一致的，如果檢查不通過，可能會跳例外或者是不讓矩陣被更新。\n\n那如果要在 Julia 中，存取物件時加入檢查的程式碼，要怎麼辦呢？\nJulia 提供了兩個 setter 來提供設定物件的欄位：setproperty! 跟 setfield!\nsetfield! 是屬於內部的 API，這個不能覆寫，所以我們要用的是 setproperty!。\nsetproperty! 的 API 可以藉由查詢文件得知：\n1setproperty!(value, name::Symbol, x)\n也就是當你在呼叫 a.b = c 其實就會去呼叫 setproperty!(a, :b, c)。\n依據上述的例子，我們可以示範以下程式碼：\n12345678910111213141516171819202122mutable struct Foo    A::Matrix    B::Matrixendfunction setproperty!(obj::Foo, name::Symbol, x)    if name &#x3D;&#x3D; :A        if size(obj.B) &#x3D;&#x3D; size(x)            setfield!(obj, name, x)        else            throw(DimensionMismatch())        end    elseif name &#x3D;&#x3D; :B        if size(obj.A) &#x3D;&#x3D; size(x)            setfield!(obj, name, x)        else            throw(DimensionMismatch())        end    else        setfield!(obj, name, x)    endend\n這邊有幾點需要特別注意，第一是語言中的 setproperty! 第一個參數是 Any 型別，所以第一個參數一定要指定自己的型別是什麼，不然會跟語言本身的衝突。\n第二個參數吃進來的是 Symbol 型別，這個也要指定，不然會發生 ambiguous 的狀況。\n第三個參數為了廣義，所以是 Any 型別。\n函式裡頭要區分開不同的欄位，這邊用 if-else 處理。想要用多重分派的機制處理的也是可以，但會比較麻煩，而且用到 Val() 會有效能降低的現象。\n通過檢查後，要真正設定物件欄位，這邊用 setfield!(obj, name, x) 是比較好的作法。如果呼叫 obj.A = x，則會去呼叫 setproperty!(obj, :A, x)，就會變成無限遞迴呼叫了，所以 = 跟 setproperty! 在這邊都沒辦法用。\n最後，我們把要檢查的欄位都處理好之後，我們不想要動到其他的欄位設定的行為，那就讓其他的欄位都用 setfield!(obj, name, x) 處理掉吧！\n","dateCreated":"2020-10-12T11:50:07+08:00","dateModified":"2020-10-12T11:52:42+08:00","datePublished":"2020-10-12T11:50:07+08:00","description":"在 Julia 中存取物件的欄位的時候，設計者會想要對於存取的過程中加上一些檢查，這個想法是來自於傳統物件導向 getter/setter 的概念。\n例如，在自己設計的物件當中有兩個矩陣，這兩個矩陣可以讓使用者隨意更新，但是需要保證這兩個矩陣的維度是一致的。這個時候就需要在使用者更新矩陣的時候加入檢查，以確保兩個矩陣之間的維度是一致的，如果檢查不通過，可能會跳例外或者是不讓矩陣被更新。","headline":"在 Julia 對設定物件欄位增加檢查 - setproperty 與 setfield","image":[],"mainEntityOfPage":{"@type":"WebPage","@id":"https://yuehhua.github.io/2020/10/12/julia-setproperty-setfield/"},"publisher":{"@type":"Organization","name":"Yueh-Hua Tu","sameAs":["https://github.com/yuehhua/","https://www.facebook.com/a504082002","https://www.linkedin.com/in/%E5%B2%B3%E8%8F%AF-%E6%9D%9C-6a3995a0/","mailto:a504082002@gmail.com"],"image":"https://www.gravatar.com/avatar/a565749fba4782b717234da670b273fd","logo":{"@type":"ImageObject","url":"https://www.gravatar.com/avatar/a565749fba4782b717234da670b273fd"}},"url":"https://yuehhua.github.io/2020/10/12/julia-setproperty-setfield/"}</script>
-    <meta name="description" content="在 Julia 中存取物件的欄位的時候，設計者會想要對於存取的過程中加上一些檢查，這個想法是來自於傳統物件導向 getter&#x2F;setter 的概念。 例如，在自己設計的物件當中有兩個矩陣，這兩個矩陣可以讓使用者隨意更新，但是需要保證這兩個矩陣的維度是一致的。這個時候就需要在使用者更新矩陣的時候加入檢查，以確保兩個矩陣之間的維度是一致的，如果檢查不通過，可能會跳例外或者是不讓矩陣被更新。">
+    <script type="application/ld+json">{"@context":"http://schema.org","@type":"BlogPosting","author":{"@type":"Person","name":"Yueh-Hua Tu","sameAs":["https://github.com/yuehhua/","https://www.facebook.com/a504082002","https://www.linkedin.com/in/%E5%B2%B3%E8%8F%AF-%E6%9D%9C-6a3995a0/","mailto:a504082002@gmail.com"],"image":"https://www.gravatar.com/avatar/a565749fba4782b717234da670b273fd"},"articleBody":"基本上在 Julia 上跑多執行緒不太困難，在環境中先設定好執行緒的數量，或是在執行 Julia 時增加執行緒數目。\n1julia --threads 4\n\n如果既有的程式碼是 for 迴圈，基本上不難改。\n123Threads.@threads for i &#x3D; 1:1000_000    do something()end\n但是終究會遇到要存取同一個物件的時候，這個時候就會有 race condition。\n要避免 race condition 的方式就是使用 lock。\n12345678910111213results = []splock = Threads.SpinLock()Threads.@threads for i = 1:1000_000    y = do_something()    lock(splock)    try        push!(results, y)    finally        unlock(splock)    endend\n在迴圈中計算 do_something，我們想要把計算結果儲存下來，我們將他儲存在 results 中。\n這時候我們必須用一個 lock 來把要存取的資源鎖住，一開始會產生一個 SpinLock，當程式執行到 lock(splock) 的時候，如果這個 lock 可以被取用，那這個執行緒就會拿這個 lock 並且進到後續的程式區塊中。如果前面有人拿了 lock，那目前這個想拿 lock 的執行緒就得等到 lock 被釋放才可以。\n當程式執行完，unlock(splock) 會將 lock 給釋放掉，這個時候其他的執行緒就可以拿這個 lock 進到程式區塊中。\n如此可以保證每次操作 results 物件的只能有一個執行緒，可以避免 race condition。\n","dateCreated":"2020-10-19T10:27:25+08:00","dateModified":"2020-10-19T10:27:25+08:00","datePublished":"2020-10-19T10:27:25+08:00","description":"基本上在 Julia 上跑多執行緒不太困難，在環境中先設定好執行緒的數量，或是在執行 Julia 時增加執行緒數目。\n1julia --threads 4","headline":"在 Julia 使用多執行緒跑平行運算 - threads 及 lock 的使用","image":[],"mainEntityOfPage":{"@type":"WebPage","@id":"https://yuehhua.github.io/2020/10/19/use-threads-lock-in-julia/"},"publisher":{"@type":"Organization","name":"Yueh-Hua Tu","sameAs":["https://github.com/yuehhua/","https://www.facebook.com/a504082002","https://www.linkedin.com/in/%E5%B2%B3%E8%8F%AF-%E6%9D%9C-6a3995a0/","mailto:a504082002@gmail.com"],"image":"https://www.gravatar.com/avatar/a565749fba4782b717234da670b273fd","logo":{"@type":"ImageObject","url":"https://www.gravatar.com/avatar/a565749fba4782b717234da670b273fd"}},"url":"https://yuehhua.github.io/2020/10/19/use-threads-lock-in-julia/"}</script>
+    <meta name="description" content="基本上在 Julia 上跑多執行緒不太困難，在環境中先設定好執行緒的數量，或是在執行 Julia 時增加執行緒數目。 1julia --threads 4">
 <meta property="og:type" content="blog">
-<meta property="og:title" content="在 Julia 對設定物件欄位增加檢查 - setproperty 與 setfield">
-<meta property="og:url" content="https://yuehhua.github.io/2020/10/12/julia-setproperty-setfield/index.html">
+<meta property="og:title" content="在 Julia 使用多執行緒跑平行運算 - threads 及 lock 的使用">
+<meta property="og:url" content="https://yuehhua.github.io/2020/10/19/use-threads-lock-in-julia/index.html">
 <meta property="og:site_name" content="Dream Maker">
-<meta property="og:description" content="在 Julia 中存取物件的欄位的時候，設計者會想要對於存取的過程中加上一些檢查，這個想法是來自於傳統物件導向 getter&#x2F;setter 的概念。 例如，在自己設計的物件當中有兩個矩陣，這兩個矩陣可以讓使用者隨意更新，但是需要保證這兩個矩陣的維度是一致的。這個時候就需要在使用者更新矩陣的時候加入檢查，以確保兩個矩陣之間的維度是一致的，如果檢查不通過，可能會跳例外或者是不讓矩陣被更新。">
+<meta property="og:description" content="基本上在 Julia 上跑多執行緒不太困難，在環境中先設定好執行緒的數量，或是在執行 Julia 時增加執行緒數目。 1julia --threads 4">
 <meta property="og:locale" content="zh_TW">
-<meta property="article:published_time" content="2020-10-12T03:50:07.000Z">
-<meta property="article:modified_time" content="2020-10-12T03:52:42.354Z">
+<meta property="article:published_time" content="2020-10-19T02:27:25.000Z">
+<meta property="article:modified_time" content="2020-10-19T02:27:25.409Z">
 <meta property="article:author" content="Yueh-Hua Tu">
 <meta property="article:tag" content="machine learning">
 <meta property="article:tag" content="deep learning">
@@ -242,22 +242,16 @@
                     <div class="post-header main-content-wrap text-left">
     
         <h1 class="post-title">
-            在 Julia 對設定物件欄位增加檢查 - setproperty 與 setfield
+            在 Julia 使用多執行緒跑平行運算 - threads 及 lock 的使用
         </h1>
     
     
         <div class="post-meta">
-    <time datetime="2020-10-12T11:50:07+08:00">
+    <time datetime="2020-10-19T10:27:25+08:00">
 	
-		    10月 12, 2020
+		    10月 19, 2020
     	
     </time>
-    
-        <span>分類 </span>
-        
-    <a class="category-link" href="/categories/My-Style/">My Style</a>, <a class="category-link" href="/categories/My-Style/Computer-Science/">Computer Science</a>, <a class="category-link" href="/categories/My-Style/Computer-Science/Julialang/">Julialang</a>
-
-
     
 </div>
 
@@ -267,23 +261,18 @@
                         
                             <div class="post-content markdown">
                                 <div class="main-content-wrap">
-                                    <p>在 Julia 中存取物件的欄位的時候，設計者會想要對於存取的過程中加上一些檢查，這個想法是來自於傳統物件導向 getter/setter 的概念。</p>
-<p>例如，在自己設計的物件當中有兩個矩陣，這兩個矩陣可以讓使用者隨意更新，但是需要保證這兩個矩陣的維度是一致的。這個時候就需要在使用者更新矩陣的時候加入檢查，以確保兩個矩陣之間的維度是一致的，如果檢查不通過，可能會跳例外或者是不讓矩陣被更新。</p>
+                                    <p>基本上在 Julia 上跑多執行緒不太困難，在環境中先設定好執行緒的數量，或是在執行 Julia 時增加執行緒數目。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">julia --threads 4</span><br></pre></td></tr></table></figure>
 <a id="more"></a>
-<p>那如果要在 Julia 中，存取物件時加入檢查的程式碼，要怎麼辦呢？</p>
-<p>Julia 提供了兩個 setter 來提供設定物件的欄位：<code>setproperty!</code> 跟 <code>setfield!</code></p>
-<p><code>setfield!</code> 是屬於內部的 API，這個不能覆寫，所以我們要用的是 <code>setproperty!</code>。</p>
-<p><code>setproperty!</code> 的 API 可以藉由查詢文件得知：</p>
-<figure class="highlight julia"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">setproperty!(value, name::<span class="built_in">Symbol</span>, x)</span><br></pre></td></tr></table></figure>
-<p>也就是當你在呼叫 <code>a.b = c</code> 其實就會去呼叫 <code>setproperty!(a, :b, c)</code>。</p>
-<p>依據上述的例子，我們可以示範以下程式碼：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br></pre></td><td class="code"><pre><span class="line">mutable struct Foo</span><br><span class="line">    A::Matrix</span><br><span class="line">    B::Matrix</span><br><span class="line">end</span><br><span class="line"></span><br><span class="line">function setproperty!(obj::Foo, name::Symbol, x)</span><br><span class="line">    if name &#x3D;&#x3D; :A</span><br><span class="line">        if size(obj.B) &#x3D;&#x3D; size(x)</span><br><span class="line">            setfield!(obj, name, x)</span><br><span class="line">        else</span><br><span class="line">            throw(DimensionMismatch())</span><br><span class="line">        end</span><br><span class="line">    elseif name &#x3D;&#x3D; :B</span><br><span class="line">        if size(obj.A) &#x3D;&#x3D; size(x)</span><br><span class="line">            setfield!(obj, name, x)</span><br><span class="line">        else</span><br><span class="line">            throw(DimensionMismatch())</span><br><span class="line">        end</span><br><span class="line">    else</span><br><span class="line">        setfield!(obj, name, x)</span><br><span class="line">    end</span><br><span class="line">end</span><br></pre></td></tr></table></figure>
-<p>這邊有幾點需要特別注意，第一是語言中的 <code>setproperty!</code> 第一個參數是 <code>Any</code> 型別，所以第一個參數一定要指定自己的型別是什麼，不然會跟語言本身的衝突。</p>
-<p>第二個參數吃進來的是 <code>Symbol</code> 型別，這個也要指定，不然會發生 ambiguous 的狀況。</p>
-<p>第三個參數為了廣義，所以是 <code>Any</code> 型別。</p>
-<p>函式裡頭要區分開不同的欄位，這邊用 if-else 處理。想要用多重分派的機制處理的也是可以，但會比較麻煩，而且用到 <code>Val()</code> 會有效能降低的現象。</p>
-<p>通過檢查後，要真正設定物件欄位，這邊用 <code>setfield!(obj, name, x)</code> 是比較好的作法。如果呼叫 <code>obj.A = x</code>，則會去呼叫 <code>setproperty!(obj, :A, x)</code>，就會變成無限遞迴呼叫了，所以 <code>=</code> 跟 <code>setproperty!</code> 在這邊都沒辦法用。</p>
-<p>最後，我們把要檢查的欄位都處理好之後，我們不想要動到其他的欄位設定的行為，那就讓其他的欄位都用 <code>setfield!(obj, name, x)</code> 處理掉吧！</p>
+<p>如果既有的程式碼是 for 迴圈，基本上不難改。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">Threads.@threads for i &#x3D; 1:1000_000</span><br><span class="line">    do something()</span><br><span class="line">end</span><br></pre></td></tr></table></figure>
+<p>但是終究會遇到要存取同一個物件的時候，這個時候就會有 race condition。</p>
+<p>要避免 race condition 的方式就是使用 lock。</p>
+<figure class="highlight julia"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">results = []</span><br><span class="line">splock = Threads.SpinLock()</span><br><span class="line"></span><br><span class="line">Threads.<span class="meta">@threads</span> <span class="keyword">for</span> i = <span class="number">1</span>:<span class="number">1000_000</span></span><br><span class="line">    y = do_something()</span><br><span class="line"></span><br><span class="line">    lock(splock)</span><br><span class="line">    <span class="keyword">try</span></span><br><span class="line">        push!(results, y)</span><br><span class="line">    <span class="keyword">finally</span></span><br><span class="line">        unlock(splock)</span><br><span class="line">    <span class="keyword">end</span></span><br><span class="line"><span class="keyword">end</span></span><br></pre></td></tr></table></figure>
+<p>在迴圈中計算 <code>do_something</code>，我們想要把計算結果儲存下來，我們將他儲存在 <code>results</code> 中。<br>
+這時候我們必須用一個 lock 來把要存取的資源鎖住，一開始會產生一個 <code>SpinLock</code>，當程式執行到 <code>lock(splock)</code> 的時候，如果這個 lock 可以被取用，那這個執行緒就會拿這個 lock 並且進到後續的程式區塊中。如果前面有人拿了 lock，那目前這個想拿 lock 的執行緒就得等到 lock 被釋放才可以。<br>
+當程式執行完，<code>unlock(splock)</code> 會將 lock 給釋放掉，這個時候其他的執行緒就可以拿這個 lock 進到程式區塊中。<br>
+如此可以保證每次操作 <code>results</code> 物件的只能有一個執行緒，可以避免 race condition。</p>
 
                                         
 
@@ -297,8 +286,7 @@
         <ul class="post-actions post-action-nav">
             <li class="post-action">
                 
-                    
-                    <a class="post-action-btn btn btn--default tooltip--top" href="/2020/10/19/use-threads-lock-in-julia/" data-tooltip="在 Julia 使用多執行緒跑平行運算 - threads 及 lock 的使用" aria-label="上一篇: 在 Julia 使用多執行緒跑平行運算 - threads 及 lock 的使用">
+                    <a class="post-action-btn btn btn--disabled">
                 
                     <i class="fa fa-angle-left" aria-hidden="true"></i>
                     <span class="hide-xs hide-sm text-small icon-ml">上一篇</span>
@@ -307,7 +295,7 @@
             <li class="post-action">
                 
                     
-                    <a class="post-action-btn btn btn--default tooltip--top" href="/2020/10/12/linear-regression-with-mle/" data-tooltip="Linear Regression with Maximum Likelihood Estimation" aria-label="下一篇: Linear Regression with Maximum Likelihood Estimation">
+                    <a class="post-action-btn btn btn--default tooltip--top" href="/2020/10/12/julia-setproperty-setfield/" data-tooltip="在 Julia 對設定物件欄位增加檢查 - setproperty 與 setfield" aria-label="下一篇: 在 Julia 對設定物件欄位增加檢查 - setproperty 與 setfield">
                 
                     <span class="hide-xs hide-sm text-small icon-mr">下一篇</span>
                     <i class="fa fa-angle-right" aria-hidden="true"></i>
@@ -325,7 +313,7 @@
             
             
             <li class="post-action hide-xs">
-                <a class="post-action-btn btn btn--default" target="new" href="https://www.facebook.com/sharer/sharer.php?u=https://yuehhua.github.io/2020/10/12/julia-setproperty-setfield/" title="分享到 Facebook">
+                <a class="post-action-btn btn btn--default" target="new" href="https://www.facebook.com/sharer/sharer.php?u=https://yuehhua.github.io/2020/10/19/use-threads-lock-in-julia/" title="分享到 Facebook">
                     <i class="fa fa-facebook-official" aria-hidden="true"></i>
                 </a>
             </li>
@@ -383,8 +371,7 @@
         <ul class="post-actions post-action-nav">
             <li class="post-action">
                 
-                    
-                    <a class="post-action-btn btn btn--default tooltip--top" href="/2020/10/19/use-threads-lock-in-julia/" data-tooltip="在 Julia 使用多執行緒跑平行運算 - threads 及 lock 的使用" aria-label="上一篇: 在 Julia 使用多執行緒跑平行運算 - threads 及 lock 的使用">
+                    <a class="post-action-btn btn btn--disabled">
                 
                     <i class="fa fa-angle-left" aria-hidden="true"></i>
                     <span class="hide-xs hide-sm text-small icon-ml">上一篇</span>
@@ -393,7 +380,7 @@
             <li class="post-action">
                 
                     
-                    <a class="post-action-btn btn btn--default tooltip--top" href="/2020/10/12/linear-regression-with-mle/" data-tooltip="Linear Regression with Maximum Likelihood Estimation" aria-label="下一篇: Linear Regression with Maximum Likelihood Estimation">
+                    <a class="post-action-btn btn btn--default tooltip--top" href="/2020/10/12/julia-setproperty-setfield/" data-tooltip="在 Julia 對設定物件欄位增加檢查 - setproperty 與 setfield" aria-label="下一篇: 在 Julia 對設定物件欄位增加檢查 - setproperty 與 setfield">
                 
                     <span class="hide-xs hide-sm text-small icon-mr">下一篇</span>
                     <i class="fa fa-angle-right" aria-hidden="true"></i>
@@ -411,7 +398,7 @@
             
             
             <li class="post-action hide-xs">
-                <a class="post-action-btn btn btn--default" target="new" href="https://www.facebook.com/sharer/sharer.php?u=https://yuehhua.github.io/2020/10/12/julia-setproperty-setfield/" title="分享到 Facebook">
+                <a class="post-action-btn btn btn--default" target="new" href="https://www.facebook.com/sharer/sharer.php?u=https://yuehhua.github.io/2020/10/19/use-threads-lock-in-julia/" title="分享到 Facebook">
                     <i class="fa fa-facebook-official" aria-hidden="true"></i>
                 </a>
             </li>
@@ -444,7 +431,7 @@
             
             
             <li class="share-option">
-                <a class="share-option-btn" target="new" href="https://www.facebook.com/sharer/sharer.php?u=https://yuehhua.github.io/2020/10/12/julia-setproperty-setfield/">
+                <a class="share-option-btn" target="new" href="https://www.facebook.com/sharer/sharer.php?u=https://yuehhua.github.io/2020/10/19/use-threads-lock-in-julia/">
                     <i class="fa fa-facebook-official" aria-hidden="true"></i><span>分享到 Facebook</span>
                 </a>
             </li>
@@ -498,9 +485,9 @@
 
 <script>
     var disqus_config = function () {
-        this.page.url = 'https://yuehhua.github.io/2020/10/12/julia-setproperty-setfield/';
+        this.page.url = 'https://yuehhua.github.io/2020/10/19/use-threads-lock-in-julia/';
                  
-            this.page.identifier = '2020/10/12/julia-setproperty-setfield/';
+            this.page.identifier = '2020/10/19/use-threads-lock-in-julia/';
                  
              };
     (function () {

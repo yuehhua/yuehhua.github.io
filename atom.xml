@@ -6,7 +6,7 @@
   <link href="/atom.xml" rel="self"/>
   
   <link href="https://yuehhua.github.io/"/>
-  <updated>2020-10-12T03:52:42.354Z</updated>
+  <updated>2020-10-19T02:27:25.409Z</updated>
   <id>https://yuehhua.github.io/</id>
   
   <author>
@@ -15,6 +15,26 @@
   </author>
   
   <generator uri="https://hexo.io/">Hexo</generator>
+  
+  <entry>
+    <title>在 Julia 使用多執行緒跑平行運算 - threads 及 lock 的使用</title>
+    <link href="https://yuehhua.github.io/2020/10/19/use-threads-lock-in-julia/"/>
+    <id>https://yuehhua.github.io/2020/10/19/use-threads-lock-in-julia/</id>
+    <published>2020-10-19T02:27:25.000Z</published>
+    <updated>2020-10-19T02:27:25.409Z</updated>
+    
+    <content type="html"><![CDATA[<p>基本上在 Julia 上跑多執行緒不太困難，在環境中先設定好執行緒的數量，或是在執行 Julia 時增加執行緒數目。</p><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">julia --threads 4</span><br></pre></td></tr></table></figure><a id="more"></a><p>如果既有的程式碼是 for 迴圈，基本上不難改。</p><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">Threads.@threads for i &#x3D; 1:1000_000</span><br><span class="line">    do something()</span><br><span class="line">end</span><br></pre></td></tr></table></figure><p>但是終究會遇到要存取同一個物件的時候，這個時候就會有 race condition。</p><p>要避免 race condition 的方式就是使用 lock。</p><figure class="highlight julia"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">results = []</span><br><span class="line">splock = Threads.SpinLock()</span><br><span class="line"></span><br><span class="line">Threads.<span class="meta">@threads</span> <span class="keyword">for</span> i = <span class="number">1</span>:<span class="number">1000_000</span></span><br><span class="line">    y = do_something()</span><br><span class="line"></span><br><span class="line">    lock(splock)</span><br><span class="line">    <span class="keyword">try</span></span><br><span class="line">        push!(results, y)</span><br><span class="line">    <span class="keyword">finally</span></span><br><span class="line">        unlock(splock)</span><br><span class="line">    <span class="keyword">end</span></span><br><span class="line"><span class="keyword">end</span></span><br></pre></td></tr></table></figure><p>在迴圈中計算 <code>do_something</code>，我們想要把計算結果儲存下來，我們將他儲存在 <code>results</code> 中。<br>這時候我們必須用一個 lock 來把要存取的資源鎖住，一開始會產生一個 <code>SpinLock</code>，當程式執行到 <code>lock(splock)</code> 的時候，如果這個 lock 可以被取用，那這個執行緒就會拿這個 lock 並且進到後續的程式區塊中。如果前面有人拿了 lock，那目前這個想拿 lock 的執行緒就得等到 lock 被釋放才可以。<br>當程式執行完，<code>unlock(splock)</code> 會將 lock 給釋放掉，這個時候其他的執行緒就可以拿這個 lock 進到程式區塊中。<br>如此可以保證每次操作 <code>results</code> 物件的只能有一個執行緒，可以避免 race condition。</p>]]></content>
+    
+    <summary type="html">
+    
+      &lt;p&gt;基本上在 Julia 上跑多執行緒不太困難，在環境中先設定好執行緒的數量，或是在執行 Julia 時增加執行緒數目。&lt;/p&gt;
+&lt;figure class=&quot;highlight plain&quot;&gt;&lt;table&gt;&lt;tr&gt;&lt;td class=&quot;gutter&quot;&gt;&lt;pre&gt;&lt;span class=&quot;line&quot;&gt;1&lt;/span&gt;&lt;br&gt;&lt;/pre&gt;&lt;/td&gt;&lt;td class=&quot;code&quot;&gt;&lt;pre&gt;&lt;span class=&quot;line&quot;&gt;julia --threads 4&lt;/span&gt;&lt;br&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;&lt;/figure&gt;
+    
+    </summary>
+    
+    
+    
+  </entry>
   
   <entry>
     <title>在 Julia 對設定物件欄位增加檢查 - setproperty 與 setfield</title>
@@ -497,32 +517,6 @@ $$&lt;/p&gt;
     
     </summary>
     
-    
-    
-  </entry>
-  
-  <entry>
-    <title>Name binding 與 dispatch</title>
-    <link href="https://yuehhua.github.io/2019/12/01/name-binding-and-dispatch/"/>
-    <id>https://yuehhua.github.io/2019/12/01/name-binding-and-dispatch/</id>
-    <published>2019-12-01T02:49:40.000Z</published>
-    <updated>2019-12-01T02:49:40.195Z</updated>
-    
-    <content type="html"><![CDATA[<p>Name binding 是一個將資料或是程式碼綁定（binding）到識別符（identifiers）的一個過程。一個識別符綁定到一個物件代表這個識別符會參考（reference）某個物件。</p><p>Name binding 在程式語言中式相當重要而複雜的一個議題，而它牽涉到作用域（scope）的問題，物件存在於程式碼的位置（語意）及物件的生命周期（時間）。</p><a id="more"></a><p>一般而言，當物件被去除綁定，那物件將會被垃圾回收（garbage collection）機制給處理掉。</p><p>Name binding 依據時間分為：</p><ul><li>Static binding (or early binding)：在編譯時期（compile time）進行綁定</li><li>Dynamic binding (or late binding)：在執行時期（runtime）進行綁定</li></ul><p>Static binding 的一個經典例子是 C 的函式呼叫，它在編譯時期就將函式內容綁定到識別符上，而無法在執行時期變更。</p><p>Dynamic binding 的一個相對應的例子則是 C++ 的虛擬方法呼叫，由於多型的機制，物件的型別無法在編譯時期得知，所以綁定會在執行時期處理。</p><p>在執行時期，如果識別符變更參考到其他的物件，我們稱為重新綁定（rebinding）。如果是變更識別符指向的物件本身，那麼我們稱為突變（mutation）。</p><p>在這邊提到多型的機制，就不得不去提 dispatch 的機制。一般在物件導向語言中以 dynamic dispatch 為主，表示在多型機制下，方法的選定是由第一個參數的型別來決定。</p><p>Dispatch 是個選擇的問題，而 binding 是個綁定的問題。選擇一定要發生在綁定後。</p><p>Dynamic dispatch 可以是 static binding 也可以是 dynamic binding，但是 dynamic binding 就只能在執行時間做 dispatch 了。</p><p>Dynamic dispatch 一般指 single dispatch，也就是由第一個參數的型別來決定要呼叫哪一個方法。相對也有 multiple dispatch，就會利用所有的參數型的排列組合來決定要呼叫哪一個方法。</p>]]></content>
-    
-    <summary type="html">
-    
-      &lt;p&gt;Name binding 是一個將資料或是程式碼綁定（binding）到識別符（identifiers）的一個過程。一個識別符綁定到一個物件代表這個識別符會參考（reference）某個物件。&lt;/p&gt;
-&lt;p&gt;Name binding 在程式語言中式相當重要而複雜的一個議題，而它牽涉到作用域（scope）的問題，物件存在於程式碼的位置（語意）及物件的生命周期（時間）。&lt;/p&gt;
-    
-    </summary>
-    
-    
-      <category term="My Style" scheme="https://yuehhua.github.io/categories/My-Style/"/>
-    
-      <category term="Computer Science" scheme="https://yuehhua.github.io/categories/My-Style/Computer-Science/"/>
-    
-      <category term="Compiler" scheme="https://yuehhua.github.io/categories/My-Style/Computer-Science/Compiler/"/>
     
     
   </entry>
