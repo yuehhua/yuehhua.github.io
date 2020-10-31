@@ -235,6 +235,68 @@
     <section class="postShorten-group main-content-wrap">
     
     
+    <article class="postShorten postShorten--thumbnailimg-bottom">
+        <div class="postShorten-wrap">
+            
+            <div class="postShorten-header">
+                <h1 class="postShorten-title">
+                    
+                        <a class="link-unstyled" href="/2020/10/31/vscode-with-julia/">
+                            如何在 VS code 上設定 Julia
+                        </a>
+                    
+                </h1>
+                <div class="postShorten-meta">
+    <time datetime="2020-10-31T22:52:57+08:00">
+	
+		    10月 31, 2020
+    	
+    </time>
+    
+        <span>分類 </span>
+        
+    <a class="category-link" href="/categories/My-Style/">My Style</a>, <a class="category-link" href="/categories/My-Style/Computer-Science/">Computer Science</a>, <a class="category-link" href="/categories/My-Style/Computer-Science/Julialang/">Julialang</a>
+
+
+    
+</div>
+
+            </div>
+            
+                <div class="postShorten-content">
+                    <h2 id="安裝-Julia">安裝 Julia</h2>
+<p>首先先確保電腦上已經有安裝 Julia 語言，沒有安裝的話可以到<a href="https://julialang.org/downloads/" target="_blank" rel="noopener">官網</a>下載安裝。</p>
+<h2 id="設定環境變數">設定環境變數</h2>
+<p>在 Windows 環境下要將 Julia 的執行檔位置設定到環境變數 PATH 下，可以參考<a href="https://julialang.org/downloads/platform/#adding_julia_to_path_on_windows_10" target="_blank" rel="noopener">這邊</a>。一般執行檔的路徑會在 <code>C:\Users\你的使用者帳號\AppData\Local\Programs\Julia 1.5.2\bin</code> 下。</p>
+<p>我自己是 Linux 系統，所以我會建立一個捷徑到 <code>/usr/bin</code> 下。</p>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">ln -s /opt/julia-1.5.2/bin/julia /usr/bin/</span><br></pre></td></tr></table></figure>
+<h2 id="在-VS-code-上安裝-extensions">在 VS code 上安裝 extensions</h2>
+<p>正式進到安裝 VS code extensions 的環節了。主要要安裝的是這個 Julia language support。</p>
+<p><img src="/images/julia-ext.png" alt=""></p>
+<p>然後這個 Markdown Julia 可以幫你在 Julia 程式碼含有 markdown 的地方標色。</p>
+<p><img src="/images/julia-markdown.png" alt=""></p>
+<p>Julia Formatter 可以幫你的程式碼變整齊漂亮。</p>
+<p><img src="/images/julia-formatter.png" alt=""></p>
+<p>裝完之後應該是可以用了。</p>
+
+                    
+                        
+
+                    
+                    
+                        <p>
+                            <a href="/2020/10/31/vscode-with-julia/#post-footer" class="postShorten-excerpt_link link">
+                                留言與分享
+                            </a>
+                        </p>
+                    
+                </div>
+            
+        </div>
+        
+    </article>
+    
+    
     <article class="postShorten postShorten--thumbnailimg-right">
         <div class="postShorten-wrap">
             
@@ -702,50 +764,6 @@
         
     </article>
     
-    
-    <article class="postShorten postShorten--thumbnailimg-right">
-        <div class="postShorten-wrap">
-            
-            <div class="postShorten-header">
-                <h1 class="postShorten-title">
-                    
-                        <a class="link-unstyled" href="/2020/04/10/julia-property/">
-                            讓 Julia 像 Python 一樣擁有物件 property
-                        </a>
-                    
-                </h1>
-                <div class="postShorten-meta">
-    <time datetime="2020-04-10T10:56:41+08:00">
-	
-		    4月 10, 2020
-    	
-    </time>
-    
-        <span>分類 </span>
-        
-    <a class="category-link" href="/categories/My-Style/">My Style</a>, <a class="category-link" href="/categories/My-Style/Computer-Science/">Computer Science</a>, <a class="category-link" href="/categories/My-Style/Computer-Science/Julialang/">Julialang</a>
-
-
-    
-</div>
-
-            </div>
-            
-                <div class="postShorten-excerpt">
-                    <p>Julia 的物件都有屬性，但這需要寫在型別中事先定義。但如果要為沒有任何屬性的型別增加屬性要怎麼做？</p>
-<p>Julia 的屬性存取是來自 <code>Base.getproperty</code> 及 <code>Base.setproperty!</code> 兩個方法。</p>
-                    
-                        <a href="/2020/04/10/julia-property/" class="postShorten-excerpt_link link">
-                            繼續閱讀
-                        </a>
-                        
-                    
-                </div>
-            
-        </div>
-        
-    </article>
-    
     <div class="pagination-bar">
     <ul class="pagination">
         
@@ -757,7 +775,7 @@
             </a>
           </li>
         
-        <li class="pagination-number">第 1 頁 共 4 頁</li>
+        <li class="pagination-number">第 1 頁 共 5 頁</li>
     </ul>
 </div>
 

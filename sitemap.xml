@@ -2,6 +2,13 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   
   <url>
+    <loc>https://yuehhua.github.io/2020/10/31/vscode-with-julia/</loc>
+    
+    <lastmod>2020-10-31T14:52:57.841Z</lastmod>
+    
+  </url>
+  
+  <url>
     <loc>https://yuehhua.github.io/2020/10/19/use-threads-lock-in-julia/</loc>
     
     <lastmod>2020-10-19T02:34:12.711Z</lastmod>

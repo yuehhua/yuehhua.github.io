@@ -6,7 +6,7 @@
   <link href="/atom.xml" rel="self"/>
   
   <link href="https://yuehhua.github.io/"/>
-  <updated>2020-10-19T02:34:12.711Z</updated>
+  <updated>2020-10-31T14:52:57.841Z</updated>
   <id>https://yuehhua.github.io/</id>
   
   <author>
@@ -15,6 +15,35 @@
   </author>
   
   <generator uri="https://hexo.io/">Hexo</generator>
+  
+  <entry>
+    <title>如何在 VS code 上設定 Julia</title>
+    <link href="https://yuehhua.github.io/2020/10/31/vscode-with-julia/"/>
+    <id>https://yuehhua.github.io/2020/10/31/vscode-with-julia/</id>
+    <published>2020-10-31T14:52:57.000Z</published>
+    <updated>2020-10-31T14:52:57.841Z</updated>
+    
+    <content type="html"><![CDATA[<h2 id="安裝-Julia">安裝 Julia</h2><p>首先先確保電腦上已經有安裝 Julia 語言，沒有安裝的話可以到<a href="https://julialang.org/downloads/" target="_blank" rel="noopener">官網</a>下載安裝。</p><h2 id="設定環境變數">設定環境變數</h2><p>在 Windows 環境下要將 Julia 的執行檔位置設定到環境變數 PATH 下，可以參考<a href="https://julialang.org/downloads/platform/#adding_julia_to_path_on_windows_10" target="_blank" rel="noopener">這邊</a>。一般執行檔的路徑會在 <code>C:\Users\你的使用者帳號\AppData\Local\Programs\Julia 1.5.2\bin</code> 下。</p><p>我自己是 Linux 系統，所以我會建立一個捷徑到 <code>/usr/bin</code> 下。</p><figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">ln -s /opt/julia-1.5.2/bin/julia /usr/bin/</span><br></pre></td></tr></table></figure><h2 id="在-VS-code-上安裝-extensions">在 VS code 上安裝 extensions</h2><p>正式進到安裝 VS code extensions 的環節了。主要要安裝的是這個 Julia language support。</p><p><img src="/images/julia-ext.png" alt=""></p><p>然後這個 Markdown Julia 可以幫你在 Julia 程式碼含有 markdown 的地方標色。</p><p><img src="/images/julia-markdown.png" alt=""></p><p>Julia Formatter 可以幫你的程式碼變整齊漂亮。</p><p><img src="/images/julia-formatter.png" alt=""></p><p>裝完之後應該是可以用了。</p>]]></content>
+    
+    <summary type="html">
+    
+      
+      
+        &lt;h2 id=&quot;安裝-Julia&quot;&gt;安裝 Julia&lt;/h2&gt;
+&lt;p&gt;首先先確保電腦上已經有安裝 Julia 語言，沒有安裝的話可以到&lt;a href=&quot;https://julialang.org/downloads/&quot; target=&quot;_blank&quot; rel=&quot;noopener&quot;
+      
+    
+    </summary>
+    
+    
+      <category term="My Style" scheme="https://yuehhua.github.io/categories/My-Style/"/>
+    
+      <category term="Computer Science" scheme="https://yuehhua.github.io/categories/My-Style/Computer-Science/"/>
+    
+      <category term="Julialang" scheme="https://yuehhua.github.io/categories/My-Style/Computer-Science/Julialang/"/>
+    
+    
+  </entry>
   
   <entry>
     <title>在 Julia 使用多執行緒跑平行運算 - threads 及 lock 的使用</title>
@@ -501,28 +530,6 @@ $$&lt;/p&gt;
     
     
       <category term="Statistics" scheme="https://yuehhua.github.io/categories/Statistics/"/>
-    
-    
-  </entry>
-  
-  <entry>
-    <title>程式設計師勝任程度</title>
-    <link href="https://yuehhua.github.io/2019/12/11/programmer-competency/"/>
-    <id>https://yuehhua.github.io/2019/12/11/programmer-competency/</id>
-    <published>2019-12-11T07:08:58.000Z</published>
-    <updated>2019-12-11T07:08:58.297Z</updated>
-    
-    <content type="html"><![CDATA[<p>先前看到了 <a href="http://sijinjoseph.com/programmer-competency-matrix/" target="_blank" rel="noopener">Programmer Competency Matrix</a>，所以就自己幫自己評比一下。</p><ul><li>Computer Science<ul><li>data structures: level 3</li><li>algorithms: level 3</li><li>systems programming: level 2</li></ul></li><li>Software Engineering<ul><li>source code version control: level 3</li><li>build automation: level 2</li><li>automated testing: level 2</li></ul></li><li>Programming<ul><li>problem decomposition: level 3</li><li>systems decomposition: level 2</li><li>communication: level 3</li><li>code organization within a file: level 2</li><li>code organization across files: level 2</li><li>source tree organization: level 3</li><li>code readability: level 3</li><li>defensive coding: level 2</li><li>error handling: level 1</li><li>IDE: level 2</li><li>API: level 1</li><li>frameworks: level 3</li><li>requirements: level 2</li><li>scripting: level 2</li><li>database: level 2</li></ul></li><li>Experience<ul><li>languages with professional experience: level 1~2 (familiar with OO language with functional patterns)</li><li>platforms with professional experience: level 2</li><li>years of professional experience: level 2</li><li>domain knowledge: level 2</li></ul></li><li>Knowledge<ul><li>tool knowledge: level 2</li><li>languages exposed to: level 2~3 (used Prolog before)</li><li>codebase knowledge: level 3 (I started a project before)</li><li>knowledge of upcoming technologies: level 2</li><li>platform internals: level 1~2 (not sure)</li><li>books: level 2 (actually used and read books)</li><li>blogs: level 3 (but not regularly update blog posts)</li></ul></li></ul>]]></content>
-    
-    <summary type="html">
-    
-      
-      
-        &lt;p&gt;先前看到了 &lt;a href=&quot;http://sijinjoseph.com/programmer-competency-matrix/&quot; target=&quot;_blank&quot; rel=&quot;noopener&quot;&gt;Programmer Competency Matrix&lt;/a&gt;，所以就自
-      
-    
-    </summary>
-    
     
     
   </entry>
