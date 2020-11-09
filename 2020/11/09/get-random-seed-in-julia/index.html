@@ -6,7 +6,7 @@
     <!-- hexo-inject:begin --><!-- hexo-inject:end --><meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="generator" content="Dream Maker">
-    <title>如何在 VS code 上設定 Julia - Dream Maker</title>
+    <title>在 Julia 取得目前的 random seed - Dream Maker</title>
     <meta name="author" content="Yueh-Hua Tu">
     
         <meta name="keywords" content="machine learning,deep learning,topology,">
@@ -15,25 +15,21 @@
     
         <link rel="alternate" type="application/atom+xml" title="RSS" href="/atom.xml">
     
-    <script type="application/ld+json">{"@context":"http://schema.org","@type":"BlogPosting","author":{"@type":"Person","name":"Yueh-Hua Tu","sameAs":["https://github.com/yuehhua/","https://www.facebook.com/a504082002","https://www.linkedin.com/in/%E5%B2%B3%E8%8F%AF-%E6%9D%9C-6a3995a0/","mailto:a504082002@gmail.com"],"image":"https://www.gravatar.com/avatar/a565749fba4782b717234da670b273fd"},"articleBody":"安裝 Julia\n首先先確保電腦上已經有安裝 Julia 語言，沒有安裝的話可以到官網下載安裝。\n設定環境變數\n在 Windows 環境下要將 Julia 的執行檔位置設定到環境變數 PATH 下，可以參考這邊。一般執行檔的路徑會在 C:\\Users\\你的使用者帳號\\AppData\\Local\\Programs\\Julia 1.5.2\\bin 下。\n我自己是 Linux 系統，所以我會建立一個捷徑到 /usr/bin 下。\n1ln -s /opt/julia-1.5.2/bin/julia /usr/bin/\n在 VS code 上安裝 extensions\n正式進到安裝 VS code extensions 的環節了。主要要安裝的是這個 Julia language support。\n\n然後這個 Markdown Julia 可以幫你在 Julia 程式碼含有 markdown 的地方標色。\n\nJulia Formatter 可以幫你的程式碼變整齊漂亮。\n\n裝完之後應該是可以用了。\n","dateCreated":"2020-10-31T22:52:57+08:00","dateModified":"2020-10-31T22:52:57+08:00","datePublished":"2020-10-31T22:52:57+08:00","description":"","headline":"如何在 VS code 上設定 Julia","image":[],"mainEntityOfPage":{"@type":"WebPage","@id":"https://yuehhua.github.io/2020/10/31/vscode-with-julia/"},"publisher":{"@type":"Organization","name":"Yueh-Hua Tu","sameAs":["https://github.com/yuehhua/","https://www.facebook.com/a504082002","https://www.linkedin.com/in/%E5%B2%B3%E8%8F%AF-%E6%9D%9C-6a3995a0/","mailto:a504082002@gmail.com"],"image":"https://www.gravatar.com/avatar/a565749fba4782b717234da670b273fd","logo":{"@type":"ImageObject","url":"https://www.gravatar.com/avatar/a565749fba4782b717234da670b273fd"}},"url":"https://yuehhua.github.io/2020/10/31/vscode-with-julia/"}</script>
-    <meta name="description" content="安裝 Julia 首先先確保電腦上已經有安裝 Julia 語言，沒有安裝的話可以到官網下載安裝。 設定環境變數 在 Windows 環境下要將 Julia 的執行檔位置設定到環境變數 PATH 下，可以參考這邊。一般執行檔的路徑會在 C:\Users\你的使用者帳號\AppData\Local\Programs\Julia 1.5.2\bin 下。 我自己是 Linux 系統，所以我會建立一個捷徑">
+    <script type="application/ld+json">{"@context":"http://schema.org","@type":"BlogPosting","author":{"@type":"Person","name":"Yueh-Hua Tu","sameAs":["https://github.com/yuehhua/","https://www.facebook.com/a504082002","https://www.linkedin.com/in/%E5%B2%B3%E8%8F%AF-%E6%9D%9C-6a3995a0/","mailto:a504082002@gmail.com"],"image":"https://www.gravatar.com/avatar/a565749fba4782b717234da670b273fd"},"articleBody":"12using RandomRandom.default_rng()\nRef. How to get the current “random” seed?\n","dateCreated":"2020-11-09T23:52:17+08:00","dateModified":"2020-11-09T23:52:17+08:00","datePublished":"2020-11-09T23:52:17+08:00","description":"","headline":"在 Julia 取得目前的 random seed","image":[],"mainEntityOfPage":{"@type":"WebPage","@id":"https://yuehhua.github.io/2020/11/09/get-random-seed-in-julia/"},"publisher":{"@type":"Organization","name":"Yueh-Hua Tu","sameAs":["https://github.com/yuehhua/","https://www.facebook.com/a504082002","https://www.linkedin.com/in/%E5%B2%B3%E8%8F%AF-%E6%9D%9C-6a3995a0/","mailto:a504082002@gmail.com"],"image":"https://www.gravatar.com/avatar/a565749fba4782b717234da670b273fd","logo":{"@type":"ImageObject","url":"https://www.gravatar.com/avatar/a565749fba4782b717234da670b273fd"}},"url":"https://yuehhua.github.io/2020/11/09/get-random-seed-in-julia/"}</script>
+    <meta name="description" content="12using RandomRandom.default_rng() Ref. How to get the current “random” seed?">
 <meta property="og:type" content="blog">
-<meta property="og:title" content="如何在 VS code 上設定 Julia">
-<meta property="og:url" content="https://yuehhua.github.io/2020/10/31/vscode-with-julia/index.html">
+<meta property="og:title" content="在 Julia 取得目前的 random seed">
+<meta property="og:url" content="https://yuehhua.github.io/2020/11/09/get-random-seed-in-julia/index.html">
 <meta property="og:site_name" content="Dream Maker">
-<meta property="og:description" content="安裝 Julia 首先先確保電腦上已經有安裝 Julia 語言，沒有安裝的話可以到官網下載安裝。 設定環境變數 在 Windows 環境下要將 Julia 的執行檔位置設定到環境變數 PATH 下，可以參考這邊。一般執行檔的路徑會在 C:\Users\你的使用者帳號\AppData\Local\Programs\Julia 1.5.2\bin 下。 我自己是 Linux 系統，所以我會建立一個捷徑">
+<meta property="og:description" content="12using RandomRandom.default_rng() Ref. How to get the current “random” seed?">
 <meta property="og:locale" content="zh_TW">
-<meta property="og:image" content="https://yuehhua.github.io/images/julia-ext.png">
-<meta property="og:image" content="https://yuehhua.github.io/images/julia-markdown.png">
-<meta property="og:image" content="https://yuehhua.github.io/images/julia-formatter.png">
-<meta property="article:published_time" content="2020-10-31T14:52:57.000Z">
-<meta property="article:modified_time" content="2020-10-31T14:52:57.841Z">
+<meta property="article:published_time" content="2020-11-09T15:52:17.000Z">
+<meta property="article:modified_time" content="2020-11-09T15:52:17.514Z">
 <meta property="article:author" content="Yueh-Hua Tu">
 <meta property="article:tag" content="machine learning">
 <meta property="article:tag" content="deep learning">
 <meta property="article:tag" content="topology">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:image" content="https://yuehhua.github.io/images/julia-ext.png">
     
     
         
@@ -246,22 +242,16 @@
                     <div class="post-header main-content-wrap text-left">
     
         <h1 class="post-title">
-            如何在 VS code 上設定 Julia
+            在 Julia 取得目前的 random seed
         </h1>
     
     
         <div class="post-meta">
-    <time datetime="2020-10-31T22:52:57+08:00">
+    <time datetime="2020-11-09T23:52:17+08:00">
 	
-		    10月 31, 2020
+		    11月 09, 2020
     	
     </time>
-    
-        <span>分類 </span>
-        
-    <a class="category-link" href="/categories/My-Style/">My Style</a>, <a class="category-link" href="/categories/My-Style/Computer-Science/">Computer Science</a>, <a class="category-link" href="/categories/My-Style/Computer-Science/Julialang/">Julialang</a>
-
-
     
 </div>
 
@@ -271,20 +261,8 @@
                         
                             <div class="post-content markdown">
                                 <div class="main-content-wrap">
-                                    <h2 id="安裝-Julia">安裝 Julia</h2>
-<p>首先先確保電腦上已經有安裝 Julia 語言，沒有安裝的話可以到<a href="https://julialang.org/downloads/" target="_blank" rel="noopener">官網</a>下載安裝。</p>
-<h2 id="設定環境變數">設定環境變數</h2>
-<p>在 Windows 環境下要將 Julia 的執行檔位置設定到環境變數 PATH 下，可以參考<a href="https://julialang.org/downloads/platform/#adding_julia_to_path_on_windows_10" target="_blank" rel="noopener">這邊</a>。一般執行檔的路徑會在 <code>C:\Users\你的使用者帳號\AppData\Local\Programs\Julia 1.5.2\bin</code> 下。</p>
-<p>我自己是 Linux 系統，所以我會建立一個捷徑到 <code>/usr/bin</code> 下。</p>
-<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">ln -s /opt/julia-1.5.2/bin/julia /usr/bin/</span><br></pre></td></tr></table></figure>
-<h2 id="在-VS-code-上安裝-extensions">在 VS code 上安裝 extensions</h2>
-<p>正式進到安裝 VS code extensions 的環節了。主要要安裝的是這個 Julia language support。</p>
-<p><img src="/images/julia-ext.png" alt=""></p>
-<p>然後這個 Markdown Julia 可以幫你在 Julia 程式碼含有 markdown 的地方標色。</p>
-<p><img src="/images/julia-markdown.png" alt=""></p>
-<p>Julia Formatter 可以幫你的程式碼變整齊漂亮。</p>
-<p><img src="/images/julia-formatter.png" alt=""></p>
-<p>裝完之後應該是可以用了。</p>
+                                    <figure class="highlight julia"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">using</span> Random</span><br><span class="line">Random.default_rng()</span><br></pre></td></tr></table></figure>
+<p>Ref. <a href="https://discourse.julialang.org/t/how-to-get-the-current-random-seed/31640/3" target="_blank" rel="noopener">How to get the current “random” seed?</a></p>
 
                                         
 
@@ -298,8 +276,7 @@
         <ul class="post-actions post-action-nav">
             <li class="post-action">
                 
-                    
-                    <a class="post-action-btn btn btn--default tooltip--top" href="/2020/11/09/get-random-seed-in-julia/" data-tooltip="在 Julia 取得目前的 random seed" aria-label="上一篇: 在 Julia 取得目前的 random seed">
+                    <a class="post-action-btn btn btn--disabled">
                 
                     <i class="fa fa-angle-left" aria-hidden="true"></i>
                     <span class="hide-xs hide-sm text-small icon-ml">上一篇</span>
@@ -308,7 +285,7 @@
             <li class="post-action">
                 
                     
-                    <a class="post-action-btn btn btn--default tooltip--top" href="/2020/10/19/use-threads-lock-in-julia/" data-tooltip="在 Julia 使用多執行緒跑平行運算 - threads 及 lock 的使用" aria-label="下一篇: 在 Julia 使用多執行緒跑平行運算 - threads 及 lock 的使用">
+                    <a class="post-action-btn btn btn--default tooltip--top" href="/2020/10/31/vscode-with-julia/" data-tooltip="如何在 VS code 上設定 Julia" aria-label="下一篇: 如何在 VS code 上設定 Julia">
                 
                     <span class="hide-xs hide-sm text-small icon-mr">下一篇</span>
                     <i class="fa fa-angle-right" aria-hidden="true"></i>
@@ -326,7 +303,7 @@
             
             
             <li class="post-action hide-xs">
-                <a class="post-action-btn btn btn--default" target="new" href="https://www.facebook.com/sharer/sharer.php?u=https://yuehhua.github.io/2020/10/31/vscode-with-julia/" title="分享到 Facebook">
+                <a class="post-action-btn btn btn--default" target="new" href="https://www.facebook.com/sharer/sharer.php?u=https://yuehhua.github.io/2020/11/09/get-random-seed-in-julia/" title="分享到 Facebook">
                     <i class="fa fa-facebook-official" aria-hidden="true"></i>
                 </a>
             </li>
@@ -384,8 +361,7 @@
         <ul class="post-actions post-action-nav">
             <li class="post-action">
                 
-                    
-                    <a class="post-action-btn btn btn--default tooltip--top" href="/2020/11/09/get-random-seed-in-julia/" data-tooltip="在 Julia 取得目前的 random seed" aria-label="上一篇: 在 Julia 取得目前的 random seed">
+                    <a class="post-action-btn btn btn--disabled">
                 
                     <i class="fa fa-angle-left" aria-hidden="true"></i>
                     <span class="hide-xs hide-sm text-small icon-ml">上一篇</span>
@@ -394,7 +370,7 @@
             <li class="post-action">
                 
                     
-                    <a class="post-action-btn btn btn--default tooltip--top" href="/2020/10/19/use-threads-lock-in-julia/" data-tooltip="在 Julia 使用多執行緒跑平行運算 - threads 及 lock 的使用" aria-label="下一篇: 在 Julia 使用多執行緒跑平行運算 - threads 及 lock 的使用">
+                    <a class="post-action-btn btn btn--default tooltip--top" href="/2020/10/31/vscode-with-julia/" data-tooltip="如何在 VS code 上設定 Julia" aria-label="下一篇: 如何在 VS code 上設定 Julia">
                 
                     <span class="hide-xs hide-sm text-small icon-mr">下一篇</span>
                     <i class="fa fa-angle-right" aria-hidden="true"></i>
@@ -412,7 +388,7 @@
             
             
             <li class="post-action hide-xs">
-                <a class="post-action-btn btn btn--default" target="new" href="https://www.facebook.com/sharer/sharer.php?u=https://yuehhua.github.io/2020/10/31/vscode-with-julia/" title="分享到 Facebook">
+                <a class="post-action-btn btn btn--default" target="new" href="https://www.facebook.com/sharer/sharer.php?u=https://yuehhua.github.io/2020/11/09/get-random-seed-in-julia/" title="分享到 Facebook">
                     <i class="fa fa-facebook-official" aria-hidden="true"></i>
                 </a>
             </li>
@@ -445,7 +421,7 @@
             
             
             <li class="share-option">
-                <a class="share-option-btn" target="new" href="https://www.facebook.com/sharer/sharer.php?u=https://yuehhua.github.io/2020/10/31/vscode-with-julia/">
+                <a class="share-option-btn" target="new" href="https://www.facebook.com/sharer/sharer.php?u=https://yuehhua.github.io/2020/11/09/get-random-seed-in-julia/">
                     <i class="fa fa-facebook-official" aria-hidden="true"></i><span>分享到 Facebook</span>
                 </a>
             </li>
@@ -499,9 +475,9 @@
 
 <script>
     var disqus_config = function () {
-        this.page.url = 'https://yuehhua.github.io/2020/10/31/vscode-with-julia/';
+        this.page.url = 'https://yuehhua.github.io/2020/11/09/get-random-seed-in-julia/';
                  
-            this.page.identifier = '2020/10/31/vscode-with-julia/';
+            this.page.identifier = '2020/11/09/get-random-seed-in-julia/';
                  
              };
     (function () {

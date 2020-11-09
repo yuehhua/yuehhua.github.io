@@ -6,7 +6,7 @@
   <link href="/atom.xml" rel="self"/>
   
   <link href="https://yuehhua.github.io/"/>
-  <updated>2020-10-31T14:52:57.841Z</updated>
+  <updated>2020-11-09T15:52:17.514Z</updated>
   <id>https://yuehhua.github.io/</id>
   
   <author>
@@ -15,6 +15,28 @@
   </author>
   
   <generator uri="https://hexo.io/">Hexo</generator>
+  
+  <entry>
+    <title>在 Julia 取得目前的 random seed</title>
+    <link href="https://yuehhua.github.io/2020/11/09/get-random-seed-in-julia/"/>
+    <id>https://yuehhua.github.io/2020/11/09/get-random-seed-in-julia/</id>
+    <published>2020-11-09T15:52:17.000Z</published>
+    <updated>2020-11-09T15:52:17.514Z</updated>
+    
+    <content type="html"><![CDATA[<figure class="highlight julia"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">using</span> Random</span><br><span class="line">Random.default_rng()</span><br></pre></td></tr></table></figure><p>Ref. <a href="https://discourse.julialang.org/t/how-to-get-the-current-random-seed/31640/3" target="_blank" rel="noopener">How to get the current “random” seed?</a></p>]]></content>
+    
+    <summary type="html">
+    
+      
+      
+        &lt;figure class=&quot;highlight julia&quot;&gt;&lt;table&gt;&lt;tr&gt;&lt;td class=&quot;gutter&quot;&gt;&lt;pre&gt;&lt;span class=&quot;line&quot;&gt;1&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;2&lt;/span&gt;&lt;br&gt;&lt;/pre&gt;&lt;/td&gt;
+      
+    
+    </summary>
+    
+    
+    
+  </entry>
   
   <entry>
     <title>如何在 VS code 上設定 Julia</title>
@@ -498,33 +520,6 @@
     <summary type="html">
     
       &lt;p&gt;&lt;strong&gt;An&lt;/strong&gt;alysis &lt;strong&gt;o&lt;/strong&gt;f &lt;strong&gt;va&lt;/strong&gt;riance (ANOVA) starts from the analysis of variance which is caught by the model or not. If the variance is modeled, then the variance must be explained by the model, I mean of which is “caught” by the model. If it is not, variance is left unexplained as noises. These two concepts forms &lt;strong&gt;explained variance&lt;/strong&gt; (or &lt;strong&gt;between-group variance&lt;/strong&gt; in categorical factor) and &lt;strong&gt;unexplained variance&lt;/strong&gt; (or &lt;strong&gt;within-group variance&lt;/strong&gt; in categorical factor).&lt;/p&gt;
-    
-    </summary>
-    
-    
-      <category term="Statistics" scheme="https://yuehhua.github.io/categories/Statistics/"/>
-    
-    
-  </entry>
-  
-  <entry>
-    <title>Relationship between variance and pairwise distance</title>
-    <link href="https://yuehhua.github.io/2020/02/09/relationship-between-variance-and-pairwise-distance/"/>
-    <id>https://yuehhua.github.io/2020/02/09/relationship-between-variance-and-pairwise-distance/</id>
-    <published>2020-02-09T14:28:52.000Z</published>
-    <updated>2020-03-06T07:55:43.094Z</updated>
-    
-    <content type="html"><![CDATA[<p>Random variable $X$, we have the variance</p><p>$$<br>\begin{align}<br>Var[X] &amp;= \mathbb{E}[(X - \mu)^2] \\<br>&amp;= \frac{1}{n} \sum_{i=1}^n (x_i - \mu)^2<br>\end{align}<br>$$</p><a id="more"></a><p>Pairwise (squared Euclidean) distance will be<br>Andrew Gerrand<br>$$<br>\begin{align}<br>\sum_{i \ne j} d(x_i, x_j) &amp;= \sum_{i=1}^n \sum_{j=i+1}^n (x_i - x_j)^2 \\<br>&amp;= \sum_{i=1}^n \sum_{j=i+1}^n ((x_i - \mu) - (x_j - \mu))^2 \\<br>&amp;= n \sum_{i=1}^n (x_i - \mu)^2 \\<br>&amp;= n^2 \mathbb{E}[(X - \mu)^2] \\<br>&amp;= n^2 Var[X]<br>\end{align}<br>$$</p>]]></content>
-    
-    <summary type="html">
-    
-      &lt;p&gt;Random variable $X$, we have the variance&lt;/p&gt;
-&lt;p&gt;$$&lt;br&gt;
-\begin{align}&lt;br&gt;
-Var[X] &amp;amp;= \mathbb{E}[(X - \mu)^2] \\&lt;br&gt;
-&amp;amp;= \frac{1}{n} \sum_{i=1}^n (x_i - \mu)^2&lt;br&gt;
-\end{align}&lt;br&gt;
-$$&lt;/p&gt;
     
     </summary>
     
