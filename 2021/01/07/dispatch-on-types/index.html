@@ -1,0 +1,535 @@
+
+<!DOCTYPE html>
+<html lang="zh-tw,en,default">
+    
+<head>
+    <!-- hexo-inject:begin --><!-- hexo-inject:end --><meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="generator" content="Dream Maker">
+    <title>依型別分派（dispatch on types） - Dream Maker</title>
+    <meta name="author" content="Yueh-Hua Tu">
+    
+        <meta name="keywords" content="machine learning,deep learning,topology,">
+    
+    
+    
+        <link rel="alternate" type="application/atom+xml" title="RSS" href="/atom.xml">
+    
+    <script type="application/ld+json">{"@context":"http://schema.org","@type":"BlogPosting","author":{"@type":"Person","name":"Yueh-Hua Tu","sameAs":["https://github.com/yuehhua/","https://www.facebook.com/a504082002","https://www.linkedin.com/in/%E5%B2%B3%E8%8F%AF-%E6%9D%9C-6a3995a0/","mailto:a504082002@gmail.com"],"image":"https://www.gravatar.com/avatar/a565749fba4782b717234da670b273fd"},"articleBody":"依型別分派（dispatch on types）算是在 Julia 語言中相當常見的一個技巧，它依賴 Julia 的多重分派機制（multiple dispatch），可以依據不同的型別有不一樣的行為。\n依據不同的型別有不同的行為，而不是實體。直觀上看起來會有點像傳統物件導向當中的 class method，不過在 Julia 當中還有更多用途。\nConvert\n在 Julia 的 Base 中有許多應用到這樣技巧的例子，這邊就舉 convert 為例。\nconvert 是一個轉換函式，它可以將特定物件轉換成特定的型別，所以物件跟型別就分別是它的參數。\n1convert(AbstractFloat, 10)\n這樣可以將 10 轉換成一個浮點數的型別。\n1convert(Array&#123;Float64&#125;, Any[1 2 3; 4 5 6])\n或是一個將裝有 Any 型別元素的矩陣，轉成 Float64 型別元素的矩陣。\n以上的實作大概會類似：\n123function convert(T::Type&#123;&lt;:AbstractFloat&#125;, val)    T(val)end\n基本上會試圖呼叫該型別的建構子，而第一個參數上也會加上 Type{...} 的型別。\nRead\n或是我們也可以在讀取二進制資料當中發現這樣的模式。\n12io = IOBuffer(\"JuliaLang is the best.\")read(io, Char)\n在讀取 IOBuffer 的二進制資料當中，可以將資料解析成 Char 的型別。\n1read(io, String)\n或是解析成 String 的型別。\n在這邊我們看到的都是將型別作為參數給進函式中，函式可以藉由得到的型別做不同的事情。\n其中一個目的是依據型別做分派（dispatch），也就是不同的型別會對應到不同的方法實作上。\nread(io, Char) 跟 read(io, String) 的實作方式是截然不同的，畢竟要解析成不同的型別，方法會是不同的。\n也有可能會像是 convert 一樣，再度利用給進來的參數。由於 Julia 的型別本身也是一個物件，呼叫型別本身也等同於呼叫型別的建構子，所以我們可以看到在 convert(T::Type{&lt;:AbstractFloat}, val) 中，呼叫 T 作為建構子的方式來轉換物件的型別。\nPoker card\n在撲克牌中，有不同的花色或是數字。我們可以這樣定花色及數字：\n12345abstract type Suit endstruct Spades &lt;: Suit endstruct Heart &lt;: Suit endstruct Diamonds &lt;: Suit endstruct Club &lt;: Suit end\n1234567891011121314abstract type Rank endstruct Ace &lt;: Rank endstruct Two &lt;: Rank endstruct Three &lt;: Rank endstruct Four &lt;: Rank endstruct Five &lt;: Rank endstruct Six &lt;: Rank endstruct Seven &lt;: Rank endstruct Eight &lt;: Rank endstruct Night &lt;: Rank endstruct Ten &lt;: Rank endstruct Jack &lt;: Rank endstruct Queen &lt;: Rank endstruct King &lt;: Rank end\n其中，只有 Jack、Queen 跟 King 是有人物圖案的牌（face card）。\n如果我們要寫個函式可以判斷是否為人物圖案的牌，可以寫成以下的方式：\n1234is_face_card(::Type&#123;Jack&#125;, ::Type&#123;&lt;:Suit&#125;) = trueis_face_card(::Type&#123;Queen&#125;, ::Type&#123;&lt;:Suit&#125;) = trueis_face_card(::Type&#123;King&#125;, ::Type&#123;&lt;:Suit&#125;) = trueis_face_card(::Type&#123;&lt;:Rank&#125;, ::Type&#123;&lt;:Suit&#125;) = false\n如此一來，當我們給定 is_face_card(Jack, Spades) 的時候，就可以利用型別自動作分派，自行判斷其是否為人物圖案的牌了。\n我們可以發現到使用多重分派所帶來的一些好處。如果是在單一分派（single dispatch），也就是一般物件導向的語言中，他只能依據第一個參數做分派。然而，多重分派就可以考慮參數型別的排列組合去做分派，當然參數是型別也是可行的。\n類似這樣的機制，也可以對應到在物件導向中的 strategy pattern，strategy pattern 是根據不同的演算法種類來做分派的，我們可以寫成像這樣：\n12sort(BubbleSort, xs)sort(Heapsort, xs)\n如此一來，就是一個完整的 strategy pattern 了。\n最後，整篇文章介紹了如何利用多重分派的機制，來依據不同的型別做分派，並且做到不同的應用。\n","dateCreated":"2021-01-07T23:43:49+08:00","dateModified":"2021-01-07T23:44:14+08:00","datePublished":"2021-01-07T23:43:49+08:00","description":"","headline":"依型別分派（dispatch on types）","image":[],"mainEntityOfPage":{"@type":"WebPage","@id":"https://yuehhua.github.io/2021/01/07/dispatch-on-types/"},"publisher":{"@type":"Organization","name":"Yueh-Hua Tu","sameAs":["https://github.com/yuehhua/","https://www.facebook.com/a504082002","https://www.linkedin.com/in/%E5%B2%B3%E8%8F%AF-%E6%9D%9C-6a3995a0/","mailto:a504082002@gmail.com"],"image":"https://www.gravatar.com/avatar/a565749fba4782b717234da670b273fd","logo":{"@type":"ImageObject","url":"https://www.gravatar.com/avatar/a565749fba4782b717234da670b273fd"}},"url":"https://yuehhua.github.io/2021/01/07/dispatch-on-types/"}</script>
+    <meta name="description" content="依型別分派（dispatch on types）算是在 Julia 語言中相當常見的一個技巧，它依賴 Julia 的多重分派機制（multiple dispatch），可以依據不同的型別有不一樣的行為。 依據不同的型別有不同的行為，而不是實體。直觀上看起來會有點像傳統物件導向當中的 class method，不過在 Julia 當中還有更多用途。 Convert 在 Julia 的 Base 中有">
+<meta property="og:type" content="blog">
+<meta property="og:title" content="依型別分派（dispatch on types）">
+<meta property="og:url" content="https://yuehhua.github.io/2021/01/07/dispatch-on-types/index.html">
+<meta property="og:site_name" content="Dream Maker">
+<meta property="og:description" content="依型別分派（dispatch on types）算是在 Julia 語言中相當常見的一個技巧，它依賴 Julia 的多重分派機制（multiple dispatch），可以依據不同的型別有不一樣的行為。 依據不同的型別有不同的行為，而不是實體。直觀上看起來會有點像傳統物件導向當中的 class method，不過在 Julia 當中還有更多用途。 Convert 在 Julia 的 Base 中有">
+<meta property="og:locale" content="zh_TW">
+<meta property="article:published_time" content="2021-01-07T15:43:49.000Z">
+<meta property="article:modified_time" content="2021-01-07T15:44:14.770Z">
+<meta property="article:author" content="Yueh-Hua Tu">
+<meta property="article:tag" content="machine learning">
+<meta property="article:tag" content="deep learning">
+<meta property="article:tag" content="topology">
+<meta name="twitter:card" content="summary">
+    
+    
+        
+    
+    
+    
+    
+    
+    <!--STYLES-->
+    
+<link rel="stylesheet" href="/assets/css/style-3frockyt2j28isvdztjchy5nhkz8tjki9ermufc1ckptmvjdftux94m2ahub.min.css">
+
+    <!--STYLES END-->
+    
+    <script type="text/javascript">
+        (function (i, s, o, g, r, a, m) {
+        i['GoogleAnalyticsObject'] = r; i[r] = i[r] || function () {
+            (i[r].q = i[r].q || []).push(arguments)
+        }, i[r].l = 1 * new Date(); a = s.createElement(o),
+            m = s.getElementsByTagName(o)[0]; a.async = 1; a.src = g; m.parentNode.insertBefore(a, m)
+        })(window, document, 'script', '//www.google-analytics.com/analytics.js', 'ga');
+
+        ga('create', 'UA-119690895-1', 'auto');
+        ga('send', 'pageview');
+    </script><!-- hexo-inject:begin --><!-- hexo-inject:end -->
+    
+    
+</head>
+
+    <body>
+        <!-- hexo-inject:begin --><!-- hexo-inject:end --><div id="blog">
+            <!-- Define author's picture -->
+
+
+    
+
+<header id="header" data-behavior="5">
+    <i id="btn-open-sidebar" class="fa fa-lg fa-bars"></i>
+    <div class="header-title">
+        <a class="header-title-link" href="/%20">Dream Maker</a>
+    </div>
+    
+        
+            <a  class="header-right-picture "
+                href="#about">
+        
+        
+        </a>
+    
+</header>
+
+            <!-- Define author's picture -->
+
+
+<nav id="sidebar" data-behavior="5">
+    <div class="sidebar-container">
+        
+        
+            <ul class="sidebar-buttons">
+            
+                <li class="sidebar-button">
+                    
+                        <a  class="sidebar-button-link "
+                             href="/%20"
+                            
+                            title="首頁"
+                        >
+                    
+                        <i class="sidebar-button-icon fa fa-home" aria-hidden="true"></i>
+                        <span class="sidebar-button-desc">首頁</span>
+                    </a>
+            </li>
+            
+                <li class="sidebar-button">
+                    
+                        <a  class="sidebar-button-link "
+                             href="/all-categories"
+                            
+                            title="分類"
+                        >
+                    
+                        <i class="sidebar-button-icon fa fa-bookmark" aria-hidden="true"></i>
+                        <span class="sidebar-button-desc">分類</span>
+                    </a>
+            </li>
+            
+                <li class="sidebar-button">
+                    
+                        <a  class="sidebar-button-link "
+                             href="/all-tags"
+                            
+                            title="標籤"
+                        >
+                    
+                        <i class="sidebar-button-icon fa fa-tags" aria-hidden="true"></i>
+                        <span class="sidebar-button-desc">標籤</span>
+                    </a>
+            </li>
+            
+                <li class="sidebar-button">
+                    
+                        <a  class="sidebar-button-link "
+                             href="/all-archives"
+                            
+                            title="所有文章"
+                        >
+                    
+                        <i class="sidebar-button-icon fa fa-archive" aria-hidden="true"></i>
+                        <span class="sidebar-button-desc">所有文章</span>
+                    </a>
+            </li>
+            
+                <li class="sidebar-button">
+                    
+                        <a  class="sidebar-button-link open-algolia-search"
+                             href="#search"
+                            
+                            title="搜尋"
+                        >
+                    
+                        <i class="sidebar-button-icon fa fa-search" aria-hidden="true"></i>
+                        <span class="sidebar-button-desc">搜尋</span>
+                    </a>
+            </li>
+            
+                <li class="sidebar-button">
+                    
+                        <a  class="sidebar-button-link "
+                             href="#about"
+                            
+                            title="關於"
+                        >
+                    
+                        <i class="sidebar-button-icon fa fa-question" aria-hidden="true"></i>
+                        <span class="sidebar-button-desc">關於</span>
+                    </a>
+            </li>
+            
+        </ul>
+        
+            <ul class="sidebar-buttons">
+            
+                <li class="sidebar-button">
+                    
+                        <a  class="sidebar-button-link " href="https://github.com/yuehhua/" target="_blank" rel="noopener" title="GitHub">
+                    
+                        <i class="sidebar-button-icon fab fa-github" aria-hidden="true"></i>
+                        <span class="sidebar-button-desc">GitHub</span>
+                    </a>
+            </li>
+            
+                <li class="sidebar-button">
+                    
+                        <a  class="sidebar-button-link " href="https://www.facebook.com/a504082002" target="_blank" rel="noopener" title="Facebook">
+                    
+                        <i class="sidebar-button-icon fab fa-facebook" aria-hidden="true"></i>
+                        <span class="sidebar-button-desc">Facebook</span>
+                    </a>
+            </li>
+            
+                <li class="sidebar-button">
+                    
+                        <a  class="sidebar-button-link " href="https://www.linkedin.com/in/%E5%B2%B3%E8%8F%AF-%E6%9D%9C-6a3995a0/" target="_blank" rel="noopener" title="LinkedIn">
+                    
+                        <i class="sidebar-button-icon fab fa-linkedin" aria-hidden="true"></i>
+                        <span class="sidebar-button-desc">LinkedIn</span>
+                    </a>
+            </li>
+            
+                <li class="sidebar-button">
+                    
+                        <a  class="sidebar-button-link " href="mailto:a504082002@gmail.com" target="_blank" rel="noopener" title="Email">
+                    
+                        <i class="sidebar-button-icon fab fa-envelope" aria-hidden="true"></i>
+                        <span class="sidebar-button-desc">Email</span>
+                    </a>
+            </li>
+            
+        </ul>
+        
+            <ul class="sidebar-buttons">
+            
+                <li class="sidebar-button">
+                    
+                        <a  class="sidebar-button-link "
+                             href="/atom.xml"
+                            
+                            title="Atom"
+                        >
+                    
+                        <i class="sidebar-button-icon fa fa-rss" aria-hidden="true"></i>
+                        <span class="sidebar-button-desc">Atom</span>
+                    </a>
+            </li>
+            
+        </ul>
+        
+    </div>
+</nav>
+
+            
+            <div id="main" data-behavior="5"
+                 class="
+                        hasCoverMetaIn
+                        ">
+                
+    <article class="post">
+        
+                
+                    <div class="post-header main-content-wrap text-left">
+    
+        <h1 class="post-title">
+            依型別分派（dispatch on types）
+        </h1>
+    
+    
+        <div class="post-meta">
+    <time datetime="2021-01-07T23:43:49+08:00">
+	
+		    1月 07, 2021
+    	
+    </time>
+    
+        <span>分類 </span>
+        
+    <a class="category-link" href="/categories/My-Style/">My Style</a>, <a class="category-link" href="/categories/My-Style/Computer-Science/">Computer Science</a>, <a class="category-link" href="/categories/My-Style/Computer-Science/Julialang/">Julialang</a>
+
+
+    
+</div>
+
+    
+</div>
+
+                        
+                            <div class="post-content markdown">
+                                <div class="main-content-wrap">
+                                    <p>依型別分派（dispatch on types）算是在 Julia 語言中相當常見的一個技巧，它依賴 Julia 的多重分派機制（multiple dispatch），可以依據不同的型別有不一樣的行為。</p>
+<p>依據不同的型別有不同的行為，而不是實體。直觀上看起來會有點像傳統物件導向當中的 class method，不過在 Julia 當中還有更多用途。</p>
+<h2 id="Convert">Convert</h2>
+<p>在 Julia 的 Base 中有許多應用到這樣技巧的例子，這邊就舉 <code>convert</code> 為例。</p>
+<p><code>convert</code> 是一個轉換函式，它可以將特定物件轉換成特定的型別，所以物件跟型別就分別是它的參數。</p>
+<figure class="highlight julia"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">convert(<span class="built_in">AbstractFloat</span>, <span class="number">10</span>)</span><br></pre></td></tr></table></figure>
+<p>這樣可以將 <code>10</code> 轉換成一個浮點數的型別。</p>
+<figure class="highlight julia"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">convert(<span class="built_in">Array</span>&#123;<span class="built_in">Float64</span>&#125;, <span class="built_in">Any</span>[<span class="number">1</span> <span class="number">2</span> <span class="number">3</span>; <span class="number">4</span> <span class="number">5</span> <span class="number">6</span>])</span><br></pre></td></tr></table></figure>
+<p>或是一個將裝有 <code>Any</code> 型別元素的矩陣，轉成 <code>Float64</code> 型別元素的矩陣。</p>
+<p>以上的實作大概會類似：</p>
+<figure class="highlight julia"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">function</span> convert(T::<span class="built_in">Type</span>&#123;&lt;:<span class="built_in">AbstractFloat</span>&#125;, val)</span><br><span class="line">    T(val)</span><br><span class="line"><span class="keyword">end</span></span><br></pre></td></tr></table></figure>
+<p>基本上會試圖呼叫該型別的建構子，而第一個參數上也會加上 <code>Type{...}</code> 的型別。</p>
+<h2 id="Read">Read</h2>
+<p>或是我們也可以在讀取二進制資料當中發現這樣的模式。</p>
+<figure class="highlight julia"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">io = <span class="built_in">IOBuffer</span>(<span class="string">"JuliaLang is the best."</span>)</span><br><span class="line">read(io, <span class="built_in">Char</span>)</span><br></pre></td></tr></table></figure>
+<p>在讀取 <code>IOBuffer</code> 的二進制資料當中，可以將資料解析成 <code>Char</code> 的型別。</p>
+<figure class="highlight julia"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">read(io, <span class="built_in">String</span>)</span><br></pre></td></tr></table></figure>
+<p>或是解析成 <code>String</code> 的型別。</p>
+<p>在這邊我們看到的都是將型別作為參數給進函式中，函式可以藉由得到的型別做不同的事情。</p>
+<p>其中一個目的是依據型別做分派（dispatch），也就是不同的型別會對應到不同的方法實作上。</p>
+<p><code>read(io, Char)</code> 跟 <code>read(io, String)</code> 的實作方式是截然不同的，畢竟要解析成不同的型別，方法會是不同的。</p>
+<p>也有可能會像是 <code>convert</code> 一樣，再度利用給進來的參數。由於 Julia 的型別本身也是一個物件，呼叫型別本身也等同於呼叫型別的建構子，所以我們可以看到在 <code>convert(T::Type{&lt;:AbstractFloat}, val)</code> 中，呼叫 <code>T</code> 作為建構子的方式來轉換物件的型別。</p>
+<h2 id="Poker-card">Poker card</h2>
+<p>在撲克牌中，有不同的花色或是數字。我們可以這樣定花色及數字：</p>
+<figure class="highlight julia"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">abstract type</span> Suit <span class="keyword">end</span></span><br><span class="line"><span class="keyword">struct</span> Spades &lt;: Suit <span class="keyword">end</span></span><br><span class="line"><span class="keyword">struct</span> Heart &lt;: Suit <span class="keyword">end</span></span><br><span class="line"><span class="keyword">struct</span> Diamonds &lt;: Suit <span class="keyword">end</span></span><br><span class="line"><span class="keyword">struct</span> Club &lt;: Suit <span class="keyword">end</span></span><br></pre></td></tr></table></figure>
+<figure class="highlight julia"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">abstract type</span> Rank <span class="keyword">end</span></span><br><span class="line"><span class="keyword">struct</span> Ace &lt;: Rank <span class="keyword">end</span></span><br><span class="line"><span class="keyword">struct</span> Two &lt;: Rank <span class="keyword">end</span></span><br><span class="line"><span class="keyword">struct</span> Three &lt;: Rank <span class="keyword">end</span></span><br><span class="line"><span class="keyword">struct</span> Four &lt;: Rank <span class="keyword">end</span></span><br><span class="line"><span class="keyword">struct</span> Five &lt;: Rank <span class="keyword">end</span></span><br><span class="line"><span class="keyword">struct</span> Six &lt;: Rank <span class="keyword">end</span></span><br><span class="line"><span class="keyword">struct</span> Seven &lt;: Rank <span class="keyword">end</span></span><br><span class="line"><span class="keyword">struct</span> Eight &lt;: Rank <span class="keyword">end</span></span><br><span class="line"><span class="keyword">struct</span> Night &lt;: Rank <span class="keyword">end</span></span><br><span class="line"><span class="keyword">struct</span> Ten &lt;: Rank <span class="keyword">end</span></span><br><span class="line"><span class="keyword">struct</span> Jack &lt;: Rank <span class="keyword">end</span></span><br><span class="line"><span class="keyword">struct</span> Queen &lt;: Rank <span class="keyword">end</span></span><br><span class="line"><span class="keyword">struct</span> King &lt;: Rank <span class="keyword">end</span></span><br></pre></td></tr></table></figure>
+<p>其中，只有 <code>Jack</code>、<code>Queen</code> 跟 <code>King</code> 是有人物圖案的牌（face card）。</p>
+<p>如果我們要寫個函式可以判斷是否為人物圖案的牌，可以寫成以下的方式：</p>
+<figure class="highlight julia"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">is_face_card(::<span class="built_in">Type</span>&#123;Jack&#125;, ::<span class="built_in">Type</span>&#123;&lt;:Suit&#125;) = <span class="literal">true</span></span><br><span class="line">is_face_card(::<span class="built_in">Type</span>&#123;Queen&#125;, ::<span class="built_in">Type</span>&#123;&lt;:Suit&#125;) = <span class="literal">true</span></span><br><span class="line">is_face_card(::<span class="built_in">Type</span>&#123;King&#125;, ::<span class="built_in">Type</span>&#123;&lt;:Suit&#125;) = <span class="literal">true</span></span><br><span class="line">is_face_card(::<span class="built_in">Type</span>&#123;&lt;:Rank&#125;, ::<span class="built_in">Type</span>&#123;&lt;:Suit&#125;) = <span class="literal">false</span></span><br></pre></td></tr></table></figure>
+<p>如此一來，當我們給定 <code>is_face_card(Jack, Spades)</code> 的時候，就可以利用型別自動作分派，自行判斷其是否為人物圖案的牌了。</p>
+<p>我們可以發現到使用多重分派所帶來的一些好處。如果是在單一分派（single dispatch），也就是一般物件導向的語言中，他只能依據第一個參數做分派。然而，多重分派就可以考慮參數型別的排列組合去做分派，當然參數是型別也是可行的。</p>
+<p>類似這樣的機制，也可以對應到在物件導向中的 strategy pattern，strategy pattern 是根據不同的演算法種類來做分派的，我們可以寫成像這樣：</p>
+<figure class="highlight julia"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">sort(BubbleSort, xs)</span><br><span class="line">sort(Heapsort, xs)</span><br></pre></td></tr></table></figure>
+<p>如此一來，就是一個完整的 strategy pattern 了。</p>
+<p>最後，整篇文章介紹了如何利用多重分派的機制，來依據不同的型別做分派，並且做到不同的應用。</p>
+
+                                        
+
+                                </div>
+                            </div>
+                            <div id="post-footer" class="post-footer main-content-wrap">
+                                
+                                        
+                                            <div class="post-actions-wrap">
+    <nav>
+        <ul class="post-actions post-action-nav">
+            <li class="post-action">
+                
+                    <a class="post-action-btn btn btn--disabled">
+                
+                    <i class="fa fa-angle-left" aria-hidden="true"></i>
+                    <span class="hide-xs hide-sm text-small icon-ml">上一篇</span>
+                </a>
+            </li>
+            <li class="post-action">
+                
+                    
+                    <a class="post-action-btn btn btn--default tooltip--top" href="/2020/11/09/get-random-seed-in-julia/" data-tooltip="在 Julia 取得目前的 random seed" aria-label="下一篇: 在 Julia 取得目前的 random seed">
+                
+                    <span class="hide-xs hide-sm text-small icon-mr">下一篇</span>
+                    <i class="fa fa-angle-right" aria-hidden="true"></i>
+                </a>
+            </li>
+        </ul>
+    </nav>
+    <ul class="post-actions post-action-share">
+        <li class="post-action hide-lg hide-md hide-sm">
+            <a class="post-action-btn btn btn--default btn-open-shareoptions" href="#btn-open-shareoptions" aria-label="Share this post">
+                <i class="fa fa-share-alt" aria-hidden="true"></i>
+            </a>
+        </li>
+        
+            
+            
+            <li class="post-action hide-xs">
+                <a class="post-action-btn btn btn--default" target="new" href="https://www.facebook.com/sharer/sharer.php?u=https://yuehhua.github.io/2021/01/07/dispatch-on-types/" title="分享到 Facebook">
+                    <i class="fa fa-facebook-official" aria-hidden="true"></i>
+                </a>
+            </li>
+        
+        
+            
+                <li class="post-action">
+                    <a class="post-action-btn btn btn--default" href="#disqus_thread">
+                        <i class="fa fa-comment-o"></i>
+                    </a>
+                </li>
+            
+        
+        <li class="post-action">
+            
+                <a class="post-action-btn btn btn--default" href="#" aria-label="Back to top">
+            
+                <i class="fa fa-list" aria-hidden="true"></i>
+            </a>
+        </li>
+    </ul>
+</div>
+
+
+                                                
+                                                    
+                                                        
+                                                            <div id="disqus_thread">
+    <noscript>Please enable JavaScript to view the <a href="//disqus.com/?ref_noscript" target="_blank" rel="noopener">comments powered by Disqus.</a></noscript>
+</div>
+                                                                
+                                                                            
+                            </div>
+                            
+                                <script src='https://unpkg.com/mermaid@7.1.2/dist/mermaid.min.js'></script>
+                                <script>
+                                    if (window.mermaid) {
+                                        mermaid.initialize({ theme: 'forest' });
+                                    }
+                                </script>
+                                
+    </article>
+
+                <footer id="footer" class="main-content-wrap">
+    <span class="copyrights">
+        Copyrights &copy; 2021 Yueh-Hua Tu. All Rights Reserved.
+    </span>
+</footer>
+
+            </div>
+            
+                <div id="bottom-bar" class="post-bottom-bar" data-behavior="5">
+                    <div class="post-actions-wrap">
+    <nav>
+        <ul class="post-actions post-action-nav">
+            <li class="post-action">
+                
+                    <a class="post-action-btn btn btn--disabled">
+                
+                    <i class="fa fa-angle-left" aria-hidden="true"></i>
+                    <span class="hide-xs hide-sm text-small icon-ml">上一篇</span>
+                </a>
+            </li>
+            <li class="post-action">
+                
+                    
+                    <a class="post-action-btn btn btn--default tooltip--top" href="/2020/11/09/get-random-seed-in-julia/" data-tooltip="在 Julia 取得目前的 random seed" aria-label="下一篇: 在 Julia 取得目前的 random seed">
+                
+                    <span class="hide-xs hide-sm text-small icon-mr">下一篇</span>
+                    <i class="fa fa-angle-right" aria-hidden="true"></i>
+                </a>
+            </li>
+        </ul>
+    </nav>
+    <ul class="post-actions post-action-share">
+        <li class="post-action hide-lg hide-md hide-sm">
+            <a class="post-action-btn btn btn--default btn-open-shareoptions" href="#btn-open-shareoptions" aria-label="Share this post">
+                <i class="fa fa-share-alt" aria-hidden="true"></i>
+            </a>
+        </li>
+        
+            
+            
+            <li class="post-action hide-xs">
+                <a class="post-action-btn btn btn--default" target="new" href="https://www.facebook.com/sharer/sharer.php?u=https://yuehhua.github.io/2021/01/07/dispatch-on-types/" title="分享到 Facebook">
+                    <i class="fa fa-facebook-official" aria-hidden="true"></i>
+                </a>
+            </li>
+        
+        
+            
+                <li class="post-action">
+                    <a class="post-action-btn btn btn--default" href="#disqus_thread">
+                        <i class="fa fa-comment-o"></i>
+                    </a>
+                </li>
+            
+        
+        <li class="post-action">
+            
+                <a class="post-action-btn btn btn--default" href="#" aria-label="Back to top">
+            
+                <i class="fa fa-list" aria-hidden="true"></i>
+            </a>
+        </li>
+    </ul>
+</div>
+
+
+                </div>
+                <div id="share-options-bar" class="share-options-bar" data-behavior="5">
+    <i id="btn-close-shareoptions" class="fa fa-close"></i>
+    <ul class="share-options">
+        
+            
+            
+            <li class="share-option">
+                <a class="share-option-btn" target="new" href="https://www.facebook.com/sharer/sharer.php?u=https://yuehhua.github.io/2021/01/07/dispatch-on-types/">
+                    <i class="fa fa-facebook-official" aria-hidden="true"></i><span>分享到 Facebook</span>
+                </a>
+            </li>
+        
+    </ul>
+</div>
+
+            
+        </div>
+        
+
+
+<div id="about">
+    <div id="about-card">
+        <div id="about-btn-close">
+            <i class="fa fa-remove"></i>
+        </div>
+        
+            <h4 id="about-card-name">Yueh-Hua Tu</h4>
+        
+            <div id="about-card-bio"><p>目標是計算生物學家！</br>Systems Biology, Computational Biology, Machine Learning</br>Julia Taiwan 發起人</p>
+</div>
+        
+        
+            <div id="about-card-job">
+                <i class="fa fa-briefcase"></i>
+                <br/>
+                <p>研發替代役研究助理</p>
+
+            </div>
+        
+        
+            <div id="about-card-location">
+                <i class="fa fa-map-marker"></i>
+                <br/>
+                Taiwan
+            </div>
+        
+    </div>
+</div>
+
+        
+        
+<div id="cover" style="background-image:url('/assets/images/cover.jpg');"></div>
+        <!--SCRIPTS-->
+
+<script src="/assets/js/script-xzfezjobyekpxrjktw5tz6muvzqfsbmo5n6atk3p5om9ulfptldi3p7cyqd8.min.js"></script>
+
+<!--SCRIPTS END-->
+
+
+<script>
+    var disqus_config = function () {
+        this.page.url = 'https://yuehhua.github.io/2021/01/07/dispatch-on-types/';
+                 
+            this.page.identifier = '2021/01/07/dispatch-on-types/';
+                 
+             };
+    (function () {
+        var d = document, s = d.createElement('script');
+        var disqus_shortname = 'dream-maker';
+        s.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+
+        s.setAttribute('data-timestamp', +new Date());
+        (d.head || d.body).appendChild(s);
+    })();
+</script><!-- hexo-inject:begin --><!-- hexo-inject:end -->
+
+
+
+    </body>
+</html>

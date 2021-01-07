@@ -2,6 +2,13 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   
   <url>
+    <loc>https://yuehhua.github.io/2021/01/07/dispatch-on-types/</loc>
+    
+    <lastmod>2021-01-07T15:44:14.770Z</lastmod>
+    
+  </url>
+  
+  <url>
     <loc>https://yuehhua.github.io/2020/11/09/get-random-seed-in-julia/</loc>
     
     <lastmod>2020-11-09T15:54:19.011Z</lastmod>
