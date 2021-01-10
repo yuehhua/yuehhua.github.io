@@ -235,7 +235,55 @@
     <section class="postShorten-group main-content-wrap">
     
     
-    <article class="postShorten postShorten--thumbnailimg-bottom">
+    <article class="postShorten postShorten--thumbnailimg-right">
+        <div class="postShorten-wrap">
+            
+            <div class="postShorten-header">
+                <h1 class="postShorten-title">
+                    
+                        <a class="link-unstyled" href="/2021/01/09/dispatch-on-function/">
+                            依函式分派（dispatch on function）
+                        </a>
+                    
+                </h1>
+                <div class="postShorten-meta">
+    <time datetime="2021-01-09T11:51:45+08:00">
+	
+		    1月 09, 2021
+    	
+    </time>
+    
+        <span>分類 </span>
+        
+    <a class="category-link" href="/categories/My-Style/">My Style</a>, <a class="category-link" href="/categories/My-Style/Computer-Science/">Computer Science</a>, <a class="category-link" href="/categories/My-Style/Computer-Science/Julialang/">Julialang</a>
+
+
+    
+</div>
+
+            </div>
+            
+                <div class="postShorten-excerpt">
+                    <p>依函式分派（dispatch on function）算是在 Julia 語言中相當常見的一個技巧，它依賴 Julia 的多重分派機制（multiple dispatch），可以依據不同的函式有不一樣的行為。</p>
+<h2 id="舉例">舉例</h2>
+<p>在資料分析或是資料庫分析中，常常會需要對資料欄位進行聚合運算，像是加總的 <code>sum</code>、平均的 <code>avg</code> 或是計數的 <code>count</code>。他們都是用同一個欄位的資料，聚合成一個值輸出。當我們需要將資料相加時，我們會寫出以下的程式碼：</p>
+<figure class="highlight julia"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">a = [<span class="number">1</span>,<span class="number">2</span>,<span class="number">3</span>,<span class="number">4</span>,<span class="number">5</span>]</span><br><span class="line">sum(a)</span><br></pre></td></tr></table></figure>
+<p>這看起來很直觀，但往往在資料庫的設計當中，只會設計一些常用到的聚合函式（aggregate function）。</p>
+<p>那麼有沒有一個方式可以得到一個比較廣義的聚合函式呢？</p>
+                    
+                        <a href="/2021/01/09/dispatch-on-function/" class="postShorten-excerpt_link link">
+                            繼續閱讀
+                        </a>
+                        
+                    
+                </div>
+            
+        </div>
+        
+    </article>
+    
+    
+    <article class="postShorten postShorten--thumbnailimg-right">
         <div class="postShorten-wrap">
             
             <div class="postShorten-header">
@@ -263,53 +311,14 @@
 
             </div>
             
-                <div class="postShorten-content">
+                <div class="postShorten-excerpt">
                     <p>依型別分派（dispatch on types）算是在 Julia 語言中相當常見的一個技巧，它依賴 Julia 的多重分派機制（multiple dispatch），可以依據不同的型別有不一樣的行為。</p>
 <p>依據不同的型別有不同的行為，而不是實體。直觀上看起來會有點像傳統物件導向當中的 class method，不過在 Julia 當中還有更多用途。</p>
-<h2 id="Convert">Convert</h2>
-<p>在 Julia 的 Base 中有許多應用到這樣技巧的例子，這邊就舉 <code>convert</code> 為例。</p>
-<p><code>convert</code> 是一個轉換函式，它可以將特定物件轉換成特定的型別，所以物件跟型別就分別是它的參數。</p>
-<figure class="highlight julia"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">convert(<span class="built_in">AbstractFloat</span>, <span class="number">10</span>)</span><br></pre></td></tr></table></figure>
-<p>這樣可以將 <code>10</code> 轉換成一個浮點數的型別。</p>
-<figure class="highlight julia"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">convert(<span class="built_in">Array</span>&#123;<span class="built_in">Float64</span>&#125;, <span class="built_in">Any</span>[<span class="number">1</span> <span class="number">2</span> <span class="number">3</span>; <span class="number">4</span> <span class="number">5</span> <span class="number">6</span>])</span><br></pre></td></tr></table></figure>
-<p>或是一個將裝有 <code>Any</code> 型別元素的矩陣，轉成 <code>Float64</code> 型別元素的矩陣。</p>
-<p>以上的實作大概會類似：</p>
-<figure class="highlight julia"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">function</span> convert(T::<span class="built_in">Type</span>&#123;&lt;:<span class="built_in">AbstractFloat</span>&#125;, val)</span><br><span class="line">    T(val)</span><br><span class="line"><span class="keyword">end</span></span><br></pre></td></tr></table></figure>
-<p>基本上會試圖呼叫該型別的建構子，而第一個參數上也會加上 <code>Type{...}</code> 的型別。</p>
-<h2 id="Read">Read</h2>
-<p>或是我們也可以在讀取二進制資料當中發現這樣的模式。</p>
-<figure class="highlight julia"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">io = <span class="built_in">IOBuffer</span>(<span class="string">"JuliaLang is the best."</span>)</span><br><span class="line">read(io, <span class="built_in">Char</span>)</span><br></pre></td></tr></table></figure>
-<p>在讀取 <code>IOBuffer</code> 的二進制資料當中，可以將資料解析成 <code>Char</code> 的型別。</p>
-<figure class="highlight julia"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">read(io, <span class="built_in">String</span>)</span><br></pre></td></tr></table></figure>
-<p>或是解析成 <code>String</code> 的型別。</p>
-<p>在這邊我們看到的都是將型別作為參數給進函式中，函式可以藉由得到的型別做不同的事情。</p>
-<p>其中一個目的是依據型別做分派（dispatch），也就是不同的型別會對應到不同的方法實作上。</p>
-<p><code>read(io, Char)</code> 跟 <code>read(io, String)</code> 的實作方式是截然不同的，畢竟要解析成不同的型別，方法會是不同的。</p>
-<p>也有可能會像是 <code>convert</code> 一樣，再度利用給進來的參數。由於 Julia 的型別本身也是一個物件，呼叫型別本身也等同於呼叫型別的建構子，所以我們可以看到在 <code>convert(T::Type{&lt;:AbstractFloat}, val)</code> 中，呼叫 <code>T</code> 作為建構子的方式來轉換物件的型別。</p>
-<h2 id="Poker-card">Poker card</h2>
-<p>在撲克牌中，有不同的花色或是數字。我們可以這樣定花色及數字：</p>
-<figure class="highlight julia"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">abstract type</span> Suit <span class="keyword">end</span></span><br><span class="line"><span class="keyword">struct</span> Spades &lt;: Suit <span class="keyword">end</span></span><br><span class="line"><span class="keyword">struct</span> Heart &lt;: Suit <span class="keyword">end</span></span><br><span class="line"><span class="keyword">struct</span> Diamonds &lt;: Suit <span class="keyword">end</span></span><br><span class="line"><span class="keyword">struct</span> Club &lt;: Suit <span class="keyword">end</span></span><br></pre></td></tr></table></figure>
-<figure class="highlight julia"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">abstract type</span> Rank <span class="keyword">end</span></span><br><span class="line"><span class="keyword">struct</span> Ace &lt;: Rank <span class="keyword">end</span></span><br><span class="line"><span class="keyword">struct</span> Two &lt;: Rank <span class="keyword">end</span></span><br><span class="line"><span class="keyword">struct</span> Three &lt;: Rank <span class="keyword">end</span></span><br><span class="line"><span class="keyword">struct</span> Four &lt;: Rank <span class="keyword">end</span></span><br><span class="line"><span class="keyword">struct</span> Five &lt;: Rank <span class="keyword">end</span></span><br><span class="line"><span class="keyword">struct</span> Six &lt;: Rank <span class="keyword">end</span></span><br><span class="line"><span class="keyword">struct</span> Seven &lt;: Rank <span class="keyword">end</span></span><br><span class="line"><span class="keyword">struct</span> Eight &lt;: Rank <span class="keyword">end</span></span><br><span class="line"><span class="keyword">struct</span> Night &lt;: Rank <span class="keyword">end</span></span><br><span class="line"><span class="keyword">struct</span> Ten &lt;: Rank <span class="keyword">end</span></span><br><span class="line"><span class="keyword">struct</span> Jack &lt;: Rank <span class="keyword">end</span></span><br><span class="line"><span class="keyword">struct</span> Queen &lt;: Rank <span class="keyword">end</span></span><br><span class="line"><span class="keyword">struct</span> King &lt;: Rank <span class="keyword">end</span></span><br></pre></td></tr></table></figure>
-<p>其中，只有 <code>Jack</code>、<code>Queen</code> 跟 <code>King</code> 是有人物圖案的牌（face card）。</p>
-<p>如果我們要寫個函式可以判斷是否為人物圖案的牌，可以寫成以下的方式：</p>
-<figure class="highlight julia"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">is_face_card(::<span class="built_in">Type</span>&#123;Jack&#125;, ::<span class="built_in">Type</span>&#123;&lt;:Suit&#125;) = <span class="literal">true</span></span><br><span class="line">is_face_card(::<span class="built_in">Type</span>&#123;Queen&#125;, ::<span class="built_in">Type</span>&#123;&lt;:Suit&#125;) = <span class="literal">true</span></span><br><span class="line">is_face_card(::<span class="built_in">Type</span>&#123;King&#125;, ::<span class="built_in">Type</span>&#123;&lt;:Suit&#125;) = <span class="literal">true</span></span><br><span class="line">is_face_card(::<span class="built_in">Type</span>&#123;&lt;:Rank&#125;, ::<span class="built_in">Type</span>&#123;&lt;:Suit&#125;) = <span class="literal">false</span></span><br></pre></td></tr></table></figure>
-<p>如此一來，當我們給定 <code>is_face_card(Jack, Spades)</code> 的時候，就可以利用型別自動作分派，自行判斷其是否為人物圖案的牌了。</p>
-<p>我們可以發現到使用多重分派所帶來的一些好處。如果是在單一分派（single dispatch），也就是一般物件導向的語言中，他只能依據第一個參數做分派。然而，多重分派就可以考慮參數型別的排列組合去做分派，當然參數是型別也是可行的。</p>
-<p>類似這樣的機制，也可以對應到在物件導向中的 strategy pattern，strategy pattern 是根據不同的演算法種類來做分派的，我們可以寫成像這樣：</p>
-<figure class="highlight julia"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">sort(BubbleSort, xs)</span><br><span class="line">sort(Heapsort, xs)</span><br></pre></td></tr></table></figure>
-<p>如此一來，就是一個完整的 strategy pattern 了。</p>
-<p>最後，整篇文章介紹了如何利用多重分派的機制，來依據不同的型別做分派，並且做到不同的應用。</p>
-
                     
+                        <a href="/2021/01/07/dispatch-on-types/" class="postShorten-excerpt_link link">
+                            繼續閱讀
+                        </a>
                         
-
-                    
-                    
-                        <p>
-                            <a href="/2021/01/07/dispatch-on-types/#post-footer" class="postShorten-excerpt_link link">
-                                留言與分享
-                            </a>
-                        </p>
                     
                 </div>
             
@@ -716,89 +725,6 @@
                             繼續閱讀
                         </a>
                         
-                    
-                </div>
-            
-        </div>
-        
-    </article>
-    
-    
-    <article class="postShorten postShorten--thumbnailimg-bottom">
-        <div class="postShorten-wrap">
-            
-            <div class="postShorten-header">
-                <h1 class="postShorten-title">
-                    
-                        <a class="link-unstyled" href="/2020/04/11/composable-the-key-feature-in-julia/">
-                            可組合性（Composable）：Julia 語言的重要特性
-                        </a>
-                    
-                </h1>
-                <div class="postShorten-meta">
-    <time datetime="2020-04-11T13:43:24+08:00">
-	
-		    4月 11, 2020
-    	
-    </time>
-    
-        <span>分類 </span>
-        
-    <a class="category-link" href="/categories/My-Style/">My Style</a>, <a class="category-link" href="/categories/My-Style/Computer-Science/">Computer Science</a>, <a class="category-link" href="/categories/My-Style/Computer-Science/Julialang/">Julialang</a>
-
-
-    
-</div>
-
-            </div>
-            
-                <div class="postShorten-content">
-                    <p>其實是受到 Julia 核心開發者之一 Lyndon White 的<a href="https://white.ucc.asn.au/2020/02/09/whycompositionaljulia.html" target="_blank" rel="noopener">文章</a>的啟發來撰寫本文的。</p>
-<p>文章有 <a href="https://mp.weixin.qq.com/s/4_Sbi8q5EZDjHj6ouM1Ydg" target="_blank" rel="noopener">CSDNnews 簡中翻譯</a>。</p>
-<p>本文並非以上文章的繁中版本，而是本人的一些心得及觀察。</p>
-<h2 id="載入套件">載入套件</h2>
-<p>比較深入了解 Julia 的朋友，會了解到這個語言的設計與其他語言的不同，像是 <code>using</code>。</p>
-<p>當我們使用 <code>using</code> 來載入套件的時候，會發現有不少存在在 <code>Base</code> 中的函式是可以使用的。像是 <code>length</code> 可以用來取得陣列的長度，當你載入 DataStructures.jl 時，你同樣可以用 <code>length</code> 來取得 <code>Stack</code> 及 <code>Queue</code> 的長度。</p>
-<p>或者是原文中的例子。使用者可以使用 <a href="https://github.com/invenia/NamedDims.jl" target="_blank" rel="noopener">NamedDims.jl</a> 來為你的陣列的維度命名，而你的陣列需要使用 <a href="https://github.com/JuliaGPU/CuArrays.jl" target="_blank" rel="noopener">CuArrays.jl</a> 送到 CUDA，這時候你不需要一個可以為 CUDA array 命名的套件來達成這件事。</p>
-<p>你會發現在 Julia 語言中似乎不存在套件跟套件之間的差別，或是套件跟標準函式庫之間的區別。這是由於在 Julia 中對於命名空間（namespace）的概念較為薄弱，Julia 各模組之間仍然存在著命名空間，但是 Julia 在 <code>using</code> 時會將這些命名空間去除。這在工程上或許不是一個好的典範，因為會造成命名空間的汙染（namespace pollution）。反過來說，它促使人們相互溝通及協調，來提供更好的套件之間的可組合性。</p>
-<p>在其他語言中，常常會告訴你，使用某個套件只需要載入你需要的部份，像是 <code>using Foo: bar, baz</code>，然而 Julia 並不去特別強調這點，<code>using Foo</code> 會載入套件開發者有導出的部份。如果有兩個套件都提供了 <code>predict</code> 來支援他們的模型，這邊借原文的例子再次說明：</p>
-<figure class="highlight julia"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">using</span> Foo</span><br><span class="line"><span class="keyword">using</span> Bar</span><br><span class="line">training_data, test_data = ...</span><br><span class="line">mbar = BarModel(training_data)</span><br><span class="line">mfoo = FooModel(training_data)</span><br><span class="line">evaluate(predict(mbar), test_data)</span><br><span class="line">evaluate(predict(mfoo), test_data)</span><br></pre></td></tr></table></figure>
-<p>這兩個 <code>predict</code> 分別來自雙方套件的各自定義及實作。</p>
-<figure class="highlight julia"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">Bar.predict(mbar)</span><br><span class="line">Foo.predict(mfoo)</span><br></pre></td></tr></table></figure>
-<p>如此使用者便可以無縫地使用同樣一個介面 <code>predict</code>，而功能來自兩個不同的套件。</p>
-<p>這樣的特性大概會有人聯想到介面（interface）。然而，Julia 並不明顯使用介面來規範開發者，Julia 隱含地使用鴨子定型（duck typing）。</p>
-<p>在載入套件之後，Julia 允許使用者不冠上套件名稱來使用這些函式，像 <code>Bar.predict</code>，你可以自由地使用 <code>predict</code> 即可。總是會有套件之間的命名衝突，當衝突發生的時候，就是開發者需要負起責任彼此溝通及協調的時候。不過使用者仍然可以以 <code>Bar.predict</code> 的方式使用套件，只是每次載入套件的時候都會有警告。</p>
-<figure class="highlight julia"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">julia&gt; <span class="keyword">using</span> Plots</span><br><span class="line"></span><br><span class="line">julia&gt; <span class="keyword">using</span> Gadfly</span><br><span class="line"></span><br><span class="line">julia&gt; plot</span><br><span class="line">WARNING: both Gadfly and Plots <span class="keyword">export</span> <span class="string">"plot"</span>; uses of it <span class="keyword">in</span> <span class="keyword">module</span> Main must be qualified</span><br><span class="line">ERROR: <span class="built_in">UndefVarError</span>: plot not defined</span><br></pre></td></tr></table></figure>
-<h2 id="鴨子定型及多重分派">鴨子定型及多重分派</h2>
-<p>在原文中提到鴨子定型及多重分派是成就 Julia 成為一個可組合（composable）語言的基石。我個人也認為可組合是 Julia 提供最重要的特性之一，但卻鮮少被人提及。多數人仍然熱衷於語言效能及開發便利性。</p>
-<p>鴨子定型的一個很好的比喻是，當一個東西會呱呱叫的時候，那麼他就是鴨子。當一個 <code>bar(x)</code> 可以呼叫時，我不需要去檢查 <code>x</code> 的型別為何，我就直接使用就是了。這樣會構成一種隱性的介面。</p>
-<p>當我需要提供一個矩陣相乘的功能時，我會寫以下程式碼：</p>
-<figure class="highlight julia"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">function</span> multiply(A, B)</span><br><span class="line">    C = zeros(size(A, <span class="number">1</span>), size(B, <span class="number">2</span>))</span><br><span class="line">    A = A'</span><br><span class="line">    <span class="keyword">for</span> i = <span class="number">1</span>:size(C, <span class="number">1</span>)</span><br><span class="line">        <span class="keyword">for</span> i = <span class="number">1</span>:size(C, <span class="number">2</span>)</span><br><span class="line">            <span class="keyword">for</span> k = <span class="number">1</span>:size(A, <span class="number">2</span>)</span><br><span class="line">                C[i, j] = sum(A[:, k] .* B[:, k])</span><br><span class="line">            <span class="keyword">end</span></span><br><span class="line">        <span class="keyword">end</span></span><br><span class="line">    <span class="keyword">end</span></span><br><span class="line">    <span class="keyword">return</span> C</span><br><span class="line"><span class="keyword">end</span></span><br></pre></td></tr></table></figure>
-<p>這可以用在一般的矩陣，但如果今天我有自定義的一個新的矩陣呢？</p>
-<figure class="highlight julia"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">struct</span> NewArray</span><br><span class="line">    ...</span><br><span class="line"><span class="keyword">end</span></span><br></pre></td></tr></table></figure>
-<p>在上述的 <code>multiply</code> 中我只需要檢查 <code>NewArray</code> 是否提供相關的介面即可。像是裡頭用到了 <code>size</code>、<code>A[:, k]</code> 及 <code>sum</code>。我只需要支援這些介面的實作即可，如此，Julia 就可以以鴨子定型的方式，讓 <code>multiply</code> 接受 <code>NewArray</code> 了。</p>
-<p>對於不同的型別需要有不同的行為，這在一般的物件導向語言中稱之為多型。多型在多數物件導向典範中使用的是單一分派（single dispatch），然而 Julia 也支援多型，但是以多重分派（multiple dispatch）的方式支援。因此，廣義而言，Julia 支援物件導向的方式是多重分派，卻不是典型的、語法上的封裝、繼承及（單一分派）多型。</p>
-<p>多重分派，可以在需要更細緻行為定義時幫上忙。當 <code>NewArray</code> 支援 <code>sum</code>：</p>
-<figure class="highlight julia"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sum(::NewArray) = ...</span><br></pre></td></tr></table></figure>
-<p>這是單一分派的方式，也可以有多重分派的方式。</p>
-<figure class="highlight julia"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sum(::NewArray, ::<span class="built_in">Array</span>) = ...</span><br></pre></td></tr></table></figure>
-<p>不過這樣只支援 <code>Array</code> 這個特定型別。或是我們可以乾脆這樣做。</p>
-<figure class="highlight julia"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sum(::NewArray, ::<span class="built_in">AbstractArray</span>) = ...</span><br></pre></td></tr></table></figure>
-<p>這樣只要是 <code>AbstractArray</code> 的子型別都可以接受。</p>
-<h2 id="總結">總結</h2>
-<p>以上種種的特性成為了可組合性的基石。一個具有可組合性的語言能夠成為各種東西。Julia 的個別的套件都不俱備所有的定義，需要依賴 Julia 語言及標準函式庫的介面及實作。</p>
-<p>例如當 Julia 中載入了深度學習框架，那它，連同語言本身，就是一個完整支援深度學習功能的引擎。當同時載入了資料庫與深度學習相關套件，那它就成為了支援深度學習功能的 DBMS。當載入了科學計算及機器學習套件，那它就會變成一個強大的數值計算引擎。以 Julia 的可組合性出發，來打造各式各樣不同的引擎，就像一個單純的編輯器搭配有豐富的外掛（plug-in）一樣。這樣衍生出的生態帶來了各式各樣不同的可能性，也讓套件的 reusability 提升到最高的境界。</p>
-
-                    
-                        
-
-                    
-                    
-                        <p>
-                            <a href="/2020/04/11/composable-the-key-feature-in-julia/#post-footer" class="postShorten-excerpt_link link">
-                                留言與分享
-                            </a>
-                        </p>
                     
                 </div>
             
