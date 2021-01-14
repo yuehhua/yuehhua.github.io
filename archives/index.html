@@ -241,6 +241,50 @@
             <div class="postShorten-header">
                 <h1 class="postShorten-title">
                     
+                        <a class="link-unstyled" href="/2021/01/14/julia-module-code-loading/">
+                            Julia冷知識-你知道模組中的程式碼是何時被執行的嗎
+                        </a>
+                    
+                </h1>
+                <div class="postShorten-meta">
+    <time datetime="2021-01-14T11:50:26+08:00">
+	
+		    1月 14, 2021
+    	
+    </time>
+    
+        <span>分類 </span>
+        
+    <a class="category-link" href="/categories/My-Style/">My Style</a>, <a class="category-link" href="/categories/My-Style/Computer-Science/">Computer Science</a>, <a class="category-link" href="/categories/My-Style/Computer-Science/Julialang/">Julialang</a>
+
+
+    
+</div>
+
+            </div>
+            
+                <div class="postShorten-excerpt">
+                    <figure class="highlight julia"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">module</span> Foo</span><br><span class="line"></span><br><span class="line"><span class="comment"># Some code here</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">function</span> __init__()</span><br><span class="line">    <span class="comment"># Some code here too</span></span><br><span class="line"><span class="keyword">end</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">end</span></span><br></pre></td></tr></table></figure>
+<p>是否曾經疑惑過寫在 module 中的程式碼會在何時被載入呢？</p>
+                    
+                        <a href="/2021/01/14/julia-module-code-loading/" class="postShorten-excerpt_link link">
+                            繼續閱讀
+                        </a>
+                        
+                    
+                </div>
+            
+        </div>
+        
+    </article>
+    
+    
+    <article class="postShorten postShorten--thumbnailimg-right">
+        <div class="postShorten-wrap">
+            
+            <div class="postShorten-header">
+                <h1 class="postShorten-title">
+                    
                         <a class="link-unstyled" href="/2021/01/09/dispatch-on-function/">
                             依函式分派（dispatch on function）
                         </a>
@@ -650,58 +694,6 @@
                             繼續閱讀
                         </a>
                         
-                    
-                </div>
-            
-        </div>
-        
-    </article>
-    
-    
-    <article class="postShorten postShorten--thumbnailimg-bottom">
-        <div class="postShorten-wrap">
-            
-            <div class="postShorten-header">
-                <h1 class="postShorten-title">
-                    
-                        <a class="link-unstyled" href="/2020/09/06/linux-system-noise-cancellation/">
-                            Linux 系統降噪
-                        </a>
-                    
-                </h1>
-                <div class="postShorten-meta">
-    <time datetime="2020-09-06T17:22:33+08:00">
-	
-		    9月 06, 2020
-    	
-    </time>
-    
-</div>
-
-            </div>
-            
-                <div class="postShorten-content">
-                    <p>之前在 Linux 上測試麥克風，發現錄製的時候總會把背景雜訊給錄進去，會在有人講話的同時聽到雜音。</p>
-<p>我用的是 OBS 來做桌面錄製，所以自然想用 OBS 來做音訊的降噪。在 OBS 裡有噪音閥及噪音抑制，似乎噪音閥的效果比較明顯，但是講話聲音背後仍有雜音。</p>
-<p>這時候在網路上找了一下，發現可以用系統 pulseaudio 的驅動來做降噪，只是要特別設定開啟，預設是不會開啟的。試了之後效果超好，在這邊紀錄一下。</p>
-<h2 id="步驟">步驟</h2>
-<p>首先，編輯以下檔案</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo nano &#x2F;etc&#x2F;pulse&#x2F;default.pa</span><br></pre></td></tr></table></figure>
-<p>把以下這行加到檔案中，建議可以加到有個 Echo Cancellation 的地方：</p>
-<p>load-module module-echo-cancel</p>
-<p>重載 PulseAudio (pulseaudio -k) 就可以囉！</p>
-<p>Ref: <a href="https://askubuntu.com/questions/18958/realtime-noise-removal-with-pulseaudio" target="_blank" rel="noopener">https://askubuntu.com/questions/18958/realtime-noise-removal-with-pulseaudio</a></p>
-
-                    
-                        
-
-                    
-                    
-                        <p>
-                            <a href="/2020/09/06/linux-system-noise-cancellation/#post-footer" class="postShorten-excerpt_link link">
-                                留言與分享
-                            </a>
-                        </p>
                     
                 </div>
             

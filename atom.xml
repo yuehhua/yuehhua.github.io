@@ -6,7 +6,7 @@
   <link href="/atom.xml" rel="self"/>
   
   <link href="https://yuehhua.github.io/"/>
-  <updated>2021-01-09T03:52:59.820Z</updated>
+  <updated>2021-01-14T03:50:26.514Z</updated>
   <id>https://yuehhua.github.io/</id>
   
   <author>
@@ -15,6 +15,32 @@
   </author>
   
   <generator uri="https://hexo.io/">Hexo</generator>
+  
+  <entry>
+    <title>Julia冷知識-你知道模組中的程式碼是何時被執行的嗎</title>
+    <link href="https://yuehhua.github.io/2021/01/14/julia-module-code-loading/"/>
+    <id>https://yuehhua.github.io/2021/01/14/julia-module-code-loading/</id>
+    <published>2021-01-14T03:50:26.000Z</published>
+    <updated>2021-01-14T03:50:26.514Z</updated>
+    
+    <content type="html"><![CDATA[<figure class="highlight julia"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">module</span> Foo</span><br><span class="line"></span><br><span class="line"><span class="comment"># Some code here</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">function</span> __init__()</span><br><span class="line">    <span class="comment"># Some code here too</span></span><br><span class="line"><span class="keyword">end</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">end</span></span><br></pre></td></tr></table></figure><p>是否曾經疑惑過寫在 module 中的程式碼會在何時被載入呢？</p><a id="more"></a><p>事實上，解答如下囉！</p><figure class="highlight julia"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">module</span> Foo</span><br><span class="line"></span><br><span class="line">println(<span class="string">"code here will be printed when you build this module"</span>)</span><br><span class="line"></span><br><span class="line"><span class="keyword">function</span> __init__()</span><br><span class="line">    println(<span class="string">"code here will be printed when you using this module"</span>)</span><br><span class="line"><span class="keyword">end</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">end</span></span><br></pre></td></tr></table></figure>]]></content>
+    
+    <summary type="html">
+    
+      &lt;figure class=&quot;highlight julia&quot;&gt;&lt;table&gt;&lt;tr&gt;&lt;td class=&quot;gutter&quot;&gt;&lt;pre&gt;&lt;span class=&quot;line&quot;&gt;1&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;2&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;3&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;4&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;5&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;6&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;7&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;8&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;9&lt;/span&gt;&lt;br&gt;&lt;/pre&gt;&lt;/td&gt;&lt;td class=&quot;code&quot;&gt;&lt;pre&gt;&lt;span class=&quot;line&quot;&gt;&lt;span class=&quot;keyword&quot;&gt;module&lt;/span&gt; Foo&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;&lt;span class=&quot;comment&quot;&gt;# Some code here&lt;/span&gt;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;&lt;span class=&quot;keyword&quot;&gt;function&lt;/span&gt; __init__()&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;    &lt;span class=&quot;comment&quot;&gt;# Some code here too&lt;/span&gt;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;&lt;span class=&quot;keyword&quot;&gt;end&lt;/span&gt;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;&lt;span class=&quot;keyword&quot;&gt;end&lt;/span&gt;&lt;/span&gt;&lt;br&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;&lt;/figure&gt;
+&lt;p&gt;是否曾經疑惑過寫在 module 中的程式碼會在何時被載入呢？&lt;/p&gt;
+    
+    </summary>
+    
+    
+      <category term="My Style" scheme="https://yuehhua.github.io/categories/My-Style/"/>
+    
+      <category term="Computer Science" scheme="https://yuehhua.github.io/categories/My-Style/Computer-Science/"/>
+    
+      <category term="Julialang" scheme="https://yuehhua.github.io/categories/My-Style/Computer-Science/Julialang/"/>
+    
+    
+  </entry>
   
   <entry>
     <title>依函式分派（dispatch on function）</title>
@@ -506,32 +532,6 @@
 &lt;p&gt;很顯然地，多重分派有別於單一分派（single dispatch），而單一分派是在現今主流的物件導向程式設計中常見的方式。&lt;/p&gt;
 &lt;p&gt;在現今的物件導向程式設計當中，我們會將函式歸納
       
-    
-    </summary>
-    
-    
-      <category term="My Style" scheme="https://yuehhua.github.io/categories/My-Style/"/>
-    
-      <category term="Computer Science" scheme="https://yuehhua.github.io/categories/My-Style/Computer-Science/"/>
-    
-      <category term="Julialang" scheme="https://yuehhua.github.io/categories/My-Style/Computer-Science/Julialang/"/>
-    
-    
-  </entry>
-  
-  <entry>
-    <title>Julia v1.4 釋出</title>
-    <link href="https://yuehhua.github.io/2020/03/24/julia-v1-4-release/"/>
-    <id>https://yuehhua.github.io/2020/03/24/julia-v1-4-release/</id>
-    <published>2020-03-24T04:02:05.000Z</published>
-    <updated>2020-08-07T03:14:28.835Z</updated>
-    
-    <content type="html"><![CDATA[<p>Julia v1.4 已經釋出啦！這邊來跟大家介紹一些新功能。<br>底下新功能後面會有括弧，附註相關的實作程式碼。</p><a id="more"></a><h2 id="重要功能">重要功能</h2><h3 id="使用者功能">使用者功能</h3><ul><li><code>import</code> 允許符號，例如 <code>import Base.:+</code>。(#33158)</li><li>允許使用 <code>a[begin]</code> 來存取 <code>a</code> 的首位元素。首位元素的索引是由 <code>firstindex(a)</code> 計算得出。(#33946)</li></ul><figure class="highlight julia"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">julia&gt; x = [<span class="number">1</span>,<span class="number">2</span>,<span class="number">3</span>]</span><br><span class="line"><span class="number">3</span>-element <span class="built_in">Array</span>&#123;<span class="built_in">Int64</span>,<span class="number">1</span>&#125;:</span><br><span class="line"> <span class="number">1</span></span><br><span class="line"> <span class="number">2</span></span><br><span class="line"> <span class="number">3</span></span><br><span class="line"></span><br><span class="line">julia&gt; x[<span class="keyword">begin</span>]</span><br><span class="line"><span class="number">1</span></span><br></pre></td></tr></table></figure><ul><li>值可以藉由 <code>$</code> 內插到 <code>@async</code> 及 <code>@spawn</code> 中，它會將值直接複製一份到閉包（closure）中。(#33119)</li></ul><h3 id="開發者功能">開發者功能</h3><ul><li>結構 <code>struct</code> 當中，所有位元（isbits）或是位元聯集（isbitsunion）的欄位（fields）都會儲存為陣列的元素。(#32448)</li></ul><p>以前在 Julia 的結構當中，只有所有欄位都有相同的型別，而且型別都是原始型別時，Julia 底層會將他們封裝到一個陣列中，如此可以加速。在 v1.4 版後放寬了這樣的限制，讓有所有位元欄位都儲存為陣列。</p><h2 id="新功能">新功能</h2><ul><li>Iterators 模組中有 <code>accumulate</code> 實作。(#34033)</li></ul><p>Jeff 頗驚訝，之前怎麼沒有這個功能XD</p><figure class="highlight julia"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">julia&gt; x = [<span class="number">1</span>,<span class="number">2</span>,<span class="number">3</span>]</span><br><span class="line"><span class="number">3</span>-element <span class="built_in">Array</span>&#123;<span class="built_in">Int64</span>,<span class="number">1</span>&#125;:</span><br><span class="line"> <span class="number">1</span></span><br><span class="line"> <span class="number">2</span></span><br><span class="line"> <span class="number">3</span></span><br><span class="line"></span><br><span class="line">julia&gt; iter = Iterators.accumulate(+, x)</span><br><span class="line">Base.Iterators.Accumulate&#123;typeof(+),<span class="built_in">Array</span>&#123;<span class="built_in">Int64</span>,<span class="number">1</span>&#125;&#125;(+, [<span class="number">1</span>, <span class="number">2</span>, <span class="number">3</span>])</span><br><span class="line"></span><br><span class="line">julia&gt; foreach(println, iter)</span><br><span class="line"><span class="number">1</span></span><br><span class="line"><span class="number">3</span></span><br><span class="line"><span class="number">6</span></span><br></pre></td></tr></table></figure><p>功能與 <code>Base.accumulate</code> 雷同，但是屬於 lazy evaluation。</p><ul><li><code>evalpoly</code> 可以用來計算多項式函數，例如 <code>evalpoly(x, (p1, p2, p3))</code>。(#32753)</li></ul><figure class="highlight julia"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">julia&gt; evalpoly(<span class="number">5</span>, (<span class="number">10</span>, <span class="number">3</span>, <span class="number">1</span>))</span><br><span class="line"><span class="number">50</span></span><br></pre></td></tr></table></figure><p>相當於計算 $p(5) = 10 + 3\times5 + 1\times5^2$。</p><ul><li>允許複合函數（function composition）<code>∘(f, g, h) = f ∘ g ∘ h</code>，以及解開 <code>∘(fs...)</code>，當中 <code>fs</code> 可以是 Iterable 的函數集合。(#33568)</li></ul><figure class="highlight julia"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">julia&gt; f(x) = x + <span class="number">1</span></span><br><span class="line">f (generic <span class="keyword">function</span> with <span class="number">1</span> method)</span><br><span class="line"></span><br><span class="line">julia&gt; g(x) = <span class="number">2</span>x</span><br><span class="line">g (generic <span class="keyword">function</span> with <span class="number">1</span> method)</span><br><span class="line"></span><br><span class="line">julia&gt; F = f∘g</span><br><span class="line"><span class="comment">#64 (generic function with 1 method)</span></span><br><span class="line"></span><br><span class="line">julia&gt; F(<span class="number">5</span>)</span><br><span class="line"><span class="number">11</span></span><br></pre></td></tr></table></figure><h2 id="新支援">新支援</h2><ul><li><code>gcd</code>、<code>lcm</code> 及 <code>gcdx</code> 支援 <code>Rational</code> 型別的參數。(#33910)</li><li><code>splitpath</code> 支援任何 <code>AbstractString</code> 型別，然而以前只支援 <code>String</code> 的路徑。(#33012)</li><li><code>filter</code> 可以作用在 <code>Tuple</code> 上。(#32968)</li></ul>]]></content>
-    
-    <summary type="html">
-    
-      &lt;p&gt;Julia v1.4 已經釋出啦！這邊來跟大家介紹一些新功能。&lt;br&gt;
-底下新功能後面會有括弧，附註相關的實作程式碼。&lt;/p&gt;
     
     </summary>
     

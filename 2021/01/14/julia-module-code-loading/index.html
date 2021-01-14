@@ -6,7 +6,7 @@
     <!-- hexo-inject:begin --><!-- hexo-inject:end --><meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="generator" content="Dream Maker">
-    <title>依函式分派（dispatch on function） - Dream Maker</title>
+    <title>Julia冷知識-你知道模組中的程式碼是何時被執行的嗎 - Dream Maker</title>
     <meta name="author" content="Yueh-Hua Tu">
     
         <meta name="keywords" content="machine learning,deep learning,topology,">
@@ -15,16 +15,16 @@
     
         <link rel="alternate" type="application/atom+xml" title="RSS" href="/atom.xml">
     
-    <script type="application/ld+json">{"@context":"http://schema.org","@type":"BlogPosting","author":{"@type":"Person","name":"Yueh-Hua Tu","sameAs":["https://github.com/yuehhua/","https://www.facebook.com/a504082002","https://www.linkedin.com/in/%E5%B2%B3%E8%8F%AF-%E6%9D%9C-6a3995a0/","mailto:a504082002@gmail.com"],"image":"https://www.gravatar.com/avatar/a565749fba4782b717234da670b273fd"},"articleBody":"依函式分派（dispatch on function）算是在 Julia 語言中相當常見的一個技巧，它依賴 Julia 的多重分派機制（multiple dispatch），可以依據不同的函式有不一樣的行為。\n舉例\n在資料分析或是資料庫分析中，常常會需要對資料欄位進行聚合運算，像是加總的 sum、平均的 avg 或是計數的 count。他們都是用同一個欄位的資料，聚合成一個值輸出。當我們需要將資料相加時，我們會寫出以下的程式碼：\n12a = [1,2,3,4,5]sum(a)\n這看起來很直觀，但往往在資料庫的設計當中，只會設計一些常用到的聚合函式（aggregate function）。\n那麼有沒有一個方式可以得到一個比較廣義的聚合函式呢？\n\n假設我們想要定一個函式叫作 aggregate，其實 sum 就是利用加法（+）來做聚合，所以我們可以寫成這樣：\n1234567function aggregate(op, data)    y = data[1]    for i in 2:length(data)        y = op(y, data[i])    end    yend\n如此一來，下面兩者的結果會一樣。\n1aggregate(+, a) == sum(a)\n那如果我們需要一個將所有資料相乘（*）的聚合方式，那我們只需要改寫成以下的方式。\n1aggregate(*, a) == prod(a)\n這樣感覺超棒的！\n不過這是一般函數式程式設計的寫法，這跟 reduce(*, data) 沒什麼兩樣。\n用分派來處理特例\n接著，再來實作一個簡單的 aggregate(count, data)，如果你直接呼叫 aggregate(count, a) 是會出錯的。\n然而 count 的計算其實是需要重新實作的，所以就不能再走上面的方式了。\n要依據參數的不同，執行不同的方法就是多型（polymorphism）的真諦。\n1234567function aggregate(op::typeof(count), data)    y = 1    for i in 2:length(data)        y += 1    end    yend\n或是直接取資料的長度也可以。\n1aggregate(op::typeof(count), data) = length(data)\n統計常用函式\n這時候如果我們要實作的是一些統計上常用的函式，像是平均、中位數或眾數，就遇到困難了。這邊示範平均的聚合函式，如果像以下的方式寫會發生錯誤：\n1aggregate(mean, a) != mean(a)\n因為在這樣的計算之下，它會變成第一項先跟第二項取平均，再跟第三項取平均，再跟第四項取平均，以此類推。\n這時候就要將 mean 的實作分開定義。\n由於 mean 的行為可以想成是先將資料加總，然後除以資料的數量，所以我們可以計算 aggregate(+, data) 及 aggregate(count, data)，並且將他們兩者相除。\n123function aggregate(op::typeof(mean), data)    aggregate(+, data) / aggregate(count, data)end\n如此一來，就可以依據不同的函式名稱來做分派了！\n原理\n由於在 Julia 中萬物都是物件，即使是函式也如同物件一樣是有型別的，可以取 typeof，而函式 foo 的型別就是 typeof(foo)。\n因此，可以將函式 foo 視為實體，函式型別 typeof(foo) 視為型別。\n利用一般的多重分派就可以達成 aggregate(op::typeof(mean), data) 囉！\n","dateCreated":"2021-01-09T11:51:45+08:00","dateModified":"2021-01-09T11:52:59+08:00","datePublished":"2021-01-09T11:51:45+08:00","description":"依函式分派（dispatch on function）算是在 Julia 語言中相當常見的一個技巧，它依賴 Julia 的多重分派機制（multiple dispatch），可以依據不同的函式有不一樣的行為。\n舉例\n在資料分析或是資料庫分析中，常常會需要對資料欄位進行聚合運算，像是加總的 sum、平均的 avg 或是計數的 count。他們都是用同一個欄位的資料，聚合成一個值輸出。當我們需要將資料相加時，我們會寫出以下的程式碼：\n12a = [1,2,3,4,5]sum(a)\n這看起來很直觀，但往往在資料庫的設計當中，只會設計一些常用到的聚合函式（aggregate function）。\n那麼有沒有一個方式可以得到一個比較廣義的聚合函式呢？","headline":"依函式分派（dispatch on function）","image":[],"mainEntityOfPage":{"@type":"WebPage","@id":"https://yuehhua.github.io/2021/01/09/dispatch-on-function/"},"publisher":{"@type":"Organization","name":"Yueh-Hua Tu","sameAs":["https://github.com/yuehhua/","https://www.facebook.com/a504082002","https://www.linkedin.com/in/%E5%B2%B3%E8%8F%AF-%E6%9D%9C-6a3995a0/","mailto:a504082002@gmail.com"],"image":"https://www.gravatar.com/avatar/a565749fba4782b717234da670b273fd","logo":{"@type":"ImageObject","url":"https://www.gravatar.com/avatar/a565749fba4782b717234da670b273fd"}},"url":"https://yuehhua.github.io/2021/01/09/dispatch-on-function/"}</script>
-    <meta name="description" content="依函式分派（dispatch on function）算是在 Julia 語言中相當常見的一個技巧，它依賴 Julia 的多重分派機制（multiple dispatch），可以依據不同的函式有不一樣的行為。 舉例 在資料分析或是資料庫分析中，常常會需要對資料欄位進行聚合運算，像是加總的 sum、平均的 avg 或是計數的 count。他們都是用同一個欄位的資料，聚合成一個值輸出。當我們需要將資料">
+    <script type="application/ld+json">{"@context":"http://schema.org","@type":"BlogPosting","author":{"@type":"Person","name":"Yueh-Hua Tu","sameAs":["https://github.com/yuehhua/","https://www.facebook.com/a504082002","https://www.linkedin.com/in/%E5%B2%B3%E8%8F%AF-%E6%9D%9C-6a3995a0/","mailto:a504082002@gmail.com"],"image":"https://www.gravatar.com/avatar/a565749fba4782b717234da670b273fd"},"articleBody":"123456789module Foo# Some code herefunction __init__()    # Some code here tooendend\n是否曾經疑惑過寫在 module 中的程式碼會在何時被載入呢？\n\n事實上，解答如下囉！\n123456789module Fooprintln(\"code here will be printed when you build this module\")function __init__()    println(\"code here will be printed when you using this module\")endend\n","dateCreated":"2021-01-14T11:50:26+08:00","dateModified":"2021-01-14T11:50:26+08:00","datePublished":"2021-01-14T11:50:26+08:00","description":"123456789module Foo# Some code herefunction __init__()    # Some code here tooendend\n是否曾經疑惑過寫在 module 中的程式碼會在何時被載入呢？","headline":"Julia冷知識-你知道模組中的程式碼是何時被執行的嗎","image":[],"mainEntityOfPage":{"@type":"WebPage","@id":"https://yuehhua.github.io/2021/01/14/julia-module-code-loading/"},"publisher":{"@type":"Organization","name":"Yueh-Hua Tu","sameAs":["https://github.com/yuehhua/","https://www.facebook.com/a504082002","https://www.linkedin.com/in/%E5%B2%B3%E8%8F%AF-%E6%9D%9C-6a3995a0/","mailto:a504082002@gmail.com"],"image":"https://www.gravatar.com/avatar/a565749fba4782b717234da670b273fd","logo":{"@type":"ImageObject","url":"https://www.gravatar.com/avatar/a565749fba4782b717234da670b273fd"}},"url":"https://yuehhua.github.io/2021/01/14/julia-module-code-loading/"}</script>
+    <meta name="description" content="123456789module Foo# Some code herefunction __init__()    # Some code here tooendend 是否曾經疑惑過寫在 module 中的程式碼會在何時被載入呢？">
 <meta property="og:type" content="blog">
-<meta property="og:title" content="依函式分派（dispatch on function）">
-<meta property="og:url" content="https://yuehhua.github.io/2021/01/09/dispatch-on-function/index.html">
+<meta property="og:title" content="Julia冷知識-你知道模組中的程式碼是何時被執行的嗎">
+<meta property="og:url" content="https://yuehhua.github.io/2021/01/14/julia-module-code-loading/index.html">
 <meta property="og:site_name" content="Dream Maker">
-<meta property="og:description" content="依函式分派（dispatch on function）算是在 Julia 語言中相當常見的一個技巧，它依賴 Julia 的多重分派機制（multiple dispatch），可以依據不同的函式有不一樣的行為。 舉例 在資料分析或是資料庫分析中，常常會需要對資料欄位進行聚合運算，像是加總的 sum、平均的 avg 或是計數的 count。他們都是用同一個欄位的資料，聚合成一個值輸出。當我們需要將資料">
+<meta property="og:description" content="123456789module Foo# Some code herefunction __init__()    # Some code here tooendend 是否曾經疑惑過寫在 module 中的程式碼會在何時被載入呢？">
 <meta property="og:locale" content="zh_TW">
-<meta property="article:published_time" content="2021-01-09T03:51:45.000Z">
-<meta property="article:modified_time" content="2021-01-09T03:52:59.820Z">
+<meta property="article:published_time" content="2021-01-14T03:50:26.000Z">
+<meta property="article:modified_time" content="2021-01-14T03:50:26.514Z">
 <meta property="article:author" content="Yueh-Hua Tu">
 <meta property="article:tag" content="machine learning">
 <meta property="article:tag" content="deep learning">
@@ -242,14 +242,14 @@
                     <div class="post-header main-content-wrap text-left">
     
         <h1 class="post-title">
-            依函式分派（dispatch on function）
+            Julia冷知識-你知道模組中的程式碼是何時被執行的嗎
         </h1>
     
     
         <div class="post-meta">
-    <time datetime="2021-01-09T11:51:45+08:00">
+    <time datetime="2021-01-14T11:50:26+08:00">
 	
-		    1月 09, 2021
+		    1月 14, 2021
     	
     </time>
     
@@ -267,40 +267,11 @@
                         
                             <div class="post-content markdown">
                                 <div class="main-content-wrap">
-                                    <p>依函式分派（dispatch on function）算是在 Julia 語言中相當常見的一個技巧，它依賴 Julia 的多重分派機制（multiple dispatch），可以依據不同的函式有不一樣的行為。</p>
-<h2 id="舉例">舉例</h2>
-<p>在資料分析或是資料庫分析中，常常會需要對資料欄位進行聚合運算，像是加總的 <code>sum</code>、平均的 <code>avg</code> 或是計數的 <code>count</code>。他們都是用同一個欄位的資料，聚合成一個值輸出。當我們需要將資料相加時，我們會寫出以下的程式碼：</p>
-<figure class="highlight julia"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">a = [<span class="number">1</span>,<span class="number">2</span>,<span class="number">3</span>,<span class="number">4</span>,<span class="number">5</span>]</span><br><span class="line">sum(a)</span><br></pre></td></tr></table></figure>
-<p>這看起來很直觀，但往往在資料庫的設計當中，只會設計一些常用到的聚合函式（aggregate function）。</p>
-<p>那麼有沒有一個方式可以得到一個比較廣義的聚合函式呢？</p>
+                                    <figure class="highlight julia"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">module</span> Foo</span><br><span class="line"></span><br><span class="line"><span class="comment"># Some code here</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">function</span> __init__()</span><br><span class="line">    <span class="comment"># Some code here too</span></span><br><span class="line"><span class="keyword">end</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">end</span></span><br></pre></td></tr></table></figure>
+<p>是否曾經疑惑過寫在 module 中的程式碼會在何時被載入呢？</p>
 <a id="more"></a>
-<p>假設我們想要定一個函式叫作 <code>aggregate</code>，其實 <code>sum</code> 就是利用加法（<code>+</code>）來做聚合，所以我們可以寫成這樣：</p>
-<figure class="highlight julia"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">function</span> aggregate(op, data)</span><br><span class="line">    y = data[<span class="number">1</span>]</span><br><span class="line">    <span class="keyword">for</span> i <span class="keyword">in</span> <span class="number">2</span>:length(data)</span><br><span class="line">        y = op(y, data[i])</span><br><span class="line">    <span class="keyword">end</span></span><br><span class="line">    y</span><br><span class="line"><span class="keyword">end</span></span><br></pre></td></tr></table></figure>
-<p>如此一來，下面兩者的結果會一樣。</p>
-<figure class="highlight julia"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">aggregate(+, a) == sum(a)</span><br></pre></td></tr></table></figure>
-<p>那如果我們需要一個將所有資料相乘（<code>*</code>）的聚合方式，那我們只需要改寫成以下的方式。</p>
-<figure class="highlight julia"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">aggregate(*, a) == prod(a)</span><br></pre></td></tr></table></figure>
-<p>這樣感覺超棒的！</p>
-<p>不過這是一般函數式程式設計的寫法，這跟 <code>reduce(*, data)</code> 沒什麼兩樣。</p>
-<h2 id="用分派來處理特例">用分派來處理特例</h2>
-<p>接著，再來實作一個簡單的 <code>aggregate(count, data)</code>，如果你直接呼叫 <code>aggregate(count, a)</code> 是會出錯的。</p>
-<p>然而 <code>count</code> 的計算其實是需要重新實作的，所以就不能再走上面的方式了。</p>
-<p>要依據參數的不同，執行不同的方法就是多型（polymorphism）的真諦。</p>
-<figure class="highlight julia"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">function</span> aggregate(op::typeof(count), data)</span><br><span class="line">    y = <span class="number">1</span></span><br><span class="line">    <span class="keyword">for</span> i <span class="keyword">in</span> <span class="number">2</span>:length(data)</span><br><span class="line">        y += <span class="number">1</span></span><br><span class="line">    <span class="keyword">end</span></span><br><span class="line">    y</span><br><span class="line"><span class="keyword">end</span></span><br></pre></td></tr></table></figure>
-<p>或是直接取資料的長度也可以。</p>
-<figure class="highlight julia"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">aggregate(op::typeof(count), data) = length(data)</span><br></pre></td></tr></table></figure>
-<h2 id="統計常用函式">統計常用函式</h2>
-<p>這時候如果我們要實作的是一些統計上常用的函式，像是平均、中位數或眾數，就遇到困難了。這邊示範平均的聚合函式，如果像以下的方式寫會發生錯誤：</p>
-<figure class="highlight julia"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">aggregate(mean, a) != mean(a)</span><br></pre></td></tr></table></figure>
-<p>因為在這樣的計算之下，它會變成第一項先跟第二項取平均，再跟第三項取平均，再跟第四項取平均，以此類推。</p>
-<p>這時候就要將 <code>mean</code> 的實作分開定義。</p>
-<p>由於 <code>mean</code> 的行為可以想成是先將資料加總，然後除以資料的數量，所以我們可以計算 <code>aggregate(+, data)</code> 及 <code>aggregate(count, data)</code>，並且將他們兩者相除。</p>
-<figure class="highlight julia"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">function</span> aggregate(op::typeof(mean), data)</span><br><span class="line">    aggregate(+, data) / aggregate(count, data)</span><br><span class="line"><span class="keyword">end</span></span><br></pre></td></tr></table></figure>
-<p>如此一來，就可以依據不同的函式名稱來做分派了！</p>
-<h2 id="原理">原理</h2>
-<p>由於在 Julia 中萬物都是物件，即使是函式也如同物件一樣是有型別的，可以取 <code>typeof</code>，而函式 <code>foo</code> 的型別就是 <code>typeof(foo)</code>。</p>
-<p>因此，可以將函式 <code>foo</code> 視為實體，函式型別 <code>typeof(foo)</code> 視為型別。</p>
-<p>利用一般的多重分派就可以達成 <code>aggregate(op::typeof(mean), data)</code> 囉！</p>
+<p>事實上，解答如下囉！</p>
+<figure class="highlight julia"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">module</span> Foo</span><br><span class="line"></span><br><span class="line">println(<span class="string">"code here will be printed when you build this module"</span>)</span><br><span class="line"></span><br><span class="line"><span class="keyword">function</span> __init__()</span><br><span class="line">    println(<span class="string">"code here will be printed when you using this module"</span>)</span><br><span class="line"><span class="keyword">end</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">end</span></span><br></pre></td></tr></table></figure>
 
                                         
 
@@ -314,8 +285,7 @@
         <ul class="post-actions post-action-nav">
             <li class="post-action">
                 
-                    
-                    <a class="post-action-btn btn btn--default tooltip--top" href="/2021/01/14/julia-module-code-loading/" data-tooltip="Julia冷知識-你知道模組中的程式碼是何時被執行的嗎" aria-label="上一篇: Julia冷知識-你知道模組中的程式碼是何時被執行的嗎">
+                    <a class="post-action-btn btn btn--disabled">
                 
                     <i class="fa fa-angle-left" aria-hidden="true"></i>
                     <span class="hide-xs hide-sm text-small icon-ml">上一篇</span>
@@ -324,7 +294,7 @@
             <li class="post-action">
                 
                     
-                    <a class="post-action-btn btn btn--default tooltip--top" href="/2021/01/07/dispatch-on-types/" data-tooltip="依型別分派（dispatch on types）" aria-label="下一篇: 依型別分派（dispatch on types）">
+                    <a class="post-action-btn btn btn--default tooltip--top" href="/2021/01/09/dispatch-on-function/" data-tooltip="依函式分派（dispatch on function）" aria-label="下一篇: 依函式分派（dispatch on function）">
                 
                     <span class="hide-xs hide-sm text-small icon-mr">下一篇</span>
                     <i class="fa fa-angle-right" aria-hidden="true"></i>
@@ -342,7 +312,7 @@
             
             
             <li class="post-action hide-xs">
-                <a class="post-action-btn btn btn--default" target="new" href="https://www.facebook.com/sharer/sharer.php?u=https://yuehhua.github.io/2021/01/09/dispatch-on-function/" title="分享到 Facebook">
+                <a class="post-action-btn btn btn--default" target="new" href="https://www.facebook.com/sharer/sharer.php?u=https://yuehhua.github.io/2021/01/14/julia-module-code-loading/" title="分享到 Facebook">
                     <i class="fa fa-facebook-official" aria-hidden="true"></i>
                 </a>
             </li>
@@ -400,8 +370,7 @@
         <ul class="post-actions post-action-nav">
             <li class="post-action">
                 
-                    
-                    <a class="post-action-btn btn btn--default tooltip--top" href="/2021/01/14/julia-module-code-loading/" data-tooltip="Julia冷知識-你知道模組中的程式碼是何時被執行的嗎" aria-label="上一篇: Julia冷知識-你知道模組中的程式碼是何時被執行的嗎">
+                    <a class="post-action-btn btn btn--disabled">
                 
                     <i class="fa fa-angle-left" aria-hidden="true"></i>
                     <span class="hide-xs hide-sm text-small icon-ml">上一篇</span>
@@ -410,7 +379,7 @@
             <li class="post-action">
                 
                     
-                    <a class="post-action-btn btn btn--default tooltip--top" href="/2021/01/07/dispatch-on-types/" data-tooltip="依型別分派（dispatch on types）" aria-label="下一篇: 依型別分派（dispatch on types）">
+                    <a class="post-action-btn btn btn--default tooltip--top" href="/2021/01/09/dispatch-on-function/" data-tooltip="依函式分派（dispatch on function）" aria-label="下一篇: 依函式分派（dispatch on function）">
                 
                     <span class="hide-xs hide-sm text-small icon-mr">下一篇</span>
                     <i class="fa fa-angle-right" aria-hidden="true"></i>
@@ -428,7 +397,7 @@
             
             
             <li class="post-action hide-xs">
-                <a class="post-action-btn btn btn--default" target="new" href="https://www.facebook.com/sharer/sharer.php?u=https://yuehhua.github.io/2021/01/09/dispatch-on-function/" title="分享到 Facebook">
+                <a class="post-action-btn btn btn--default" target="new" href="https://www.facebook.com/sharer/sharer.php?u=https://yuehhua.github.io/2021/01/14/julia-module-code-loading/" title="分享到 Facebook">
                     <i class="fa fa-facebook-official" aria-hidden="true"></i>
                 </a>
             </li>
@@ -461,7 +430,7 @@
             
             
             <li class="share-option">
-                <a class="share-option-btn" target="new" href="https://www.facebook.com/sharer/sharer.php?u=https://yuehhua.github.io/2021/01/09/dispatch-on-function/">
+                <a class="share-option-btn" target="new" href="https://www.facebook.com/sharer/sharer.php?u=https://yuehhua.github.io/2021/01/14/julia-module-code-loading/">
                     <i class="fa fa-facebook-official" aria-hidden="true"></i><span>分享到 Facebook</span>
                 </a>
             </li>
@@ -515,9 +484,9 @@
 
 <script>
     var disqus_config = function () {
-        this.page.url = 'https://yuehhua.github.io/2021/01/09/dispatch-on-function/';
+        this.page.url = 'https://yuehhua.github.io/2021/01/14/julia-module-code-loading/';
                  
-            this.page.identifier = '2021/01/09/dispatch-on-function/';
+            this.page.identifier = '2021/01/14/julia-module-code-loading/';
                  
              };
     (function () {

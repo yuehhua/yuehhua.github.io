@@ -2,6 +2,13 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   
   <url>
+    <loc>https://yuehhua.github.io/2021/01/14/julia-module-code-loading/</loc>
+    
+    <lastmod>2021-01-14T03:50:26.514Z</lastmod>
+    
+  </url>
+  
+  <url>
     <loc>https://yuehhua.github.io/2021/01/07/dispatch-on-types/</loc>
     
     <lastmod>2021-01-10T17:35:32.416Z</lastmod>
