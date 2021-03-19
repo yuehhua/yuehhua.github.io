@@ -234,6 +234,444 @@
                 <section class="postShorten-group main-content-wrap">
     
     
+    <article class="postShorten postShorten--thumbnailimg-bottom">
+        <div class="postShorten-wrap">
+            
+            <div class="postShorten-header">
+                <h1 class="postShorten-title">
+                    
+                        <a class="link-unstyled" href="/2021/03/19/use-of-numerical-type-in-parametric-functions-in-julia/">
+                            在 Julia 的 parametric methods 使用數值型別（numerical type）
+                        </a>
+                    
+                </h1>
+                <div class="postShorten-meta">
+    <time datetime="2021-03-19T14:21:30+08:00">
+	
+		    3月 19, 2021
+    	
+    </time>
+    
+        <span>分類 </span>
+        
+    <a class="category-link" href="/categories/My-Style/">My Style</a>, <a class="category-link" href="/categories/My-Style/Computer-Science/">Computer Science</a>, <a class="category-link" href="/categories/My-Style/Computer-Science/Julialang/">Julialang</a>
+
+
+    
+</div>
+
+            </div>
+            
+                <div class="postShorten-content">
+                    <p>對於 Julia 比較不熟悉的使用者或開發者，要怎麼定函式的參數型別是一個大學問。</p>
+<figure class="highlight julia"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">function</span> average(xs)</span><br><span class="line">    <span class="keyword">return</span> sum(xs)/length(xs)</span><br><span class="line"><span class="keyword">end</span></span><br></pre></td></tr></table></figure>
+<p>例如以上的 <code>average</code> 函式，<code>xs</code> 要定成什麼樣的型別比較好？</p>
+<p>可能有人會以他所測試的情境去定：</p>
+<figure class="highlight julia"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line">julia&gt; xs = rand(<span class="number">10</span>)</span><br><span class="line"><span class="number">10</span>-element <span class="built_in">Array</span>&#123;<span class="built_in">Float64</span>,<span class="number">1</span>&#125;:</span><br><span class="line"> <span class="number">0.8261912048684596</span></span><br><span class="line"> <span class="number">0.4466692353358077</span></span><br><span class="line"> <span class="number">0.6337754306737924</span></span><br><span class="line"> <span class="number">0.1297961522759261</span></span><br><span class="line"> <span class="number">0.4699412442087936</span></span><br><span class="line"> <span class="number">0.6194816490253636</span></span><br><span class="line"> <span class="number">0.8258926319092839</span></span><br><span class="line"> <span class="number">0.05094839501664228</span></span><br><span class="line"> <span class="number">0.21008570113108194</span></span><br><span class="line"> <span class="number">0.16250331333741275</span></span><br><span class="line"></span><br><span class="line">julia&gt; <span class="keyword">function</span> average(xs::<span class="built_in">Array</span>&#123;<span class="built_in">Float64</span>,<span class="number">1</span>&#125;)</span><br><span class="line">           <span class="keyword">return</span> sum(xs)/length(xs)</span><br><span class="line">       <span class="keyword">end</span></span><br><span class="line">average (generic <span class="keyword">function</span> with <span class="number">1</span> method)</span><br><span class="line"></span><br><span class="line">julia&gt; average(xs)</span><br><span class="line"><span class="number">0.4375284957782564</span></span><br></pre></td></tr></table></figure>
+<p>這樣當然是沒有錯，但是會過於狹隘。這樣定出來只有一維矩陣可以適用，而且裡頭的元素還必須是 <code>Float64</code> 型別。</p>
+<h2 id="思考廣義化">思考廣義化</h2>
+<p>我們能不能讓所有的陣列都適用？那就可以改成這樣：</p>
+<figure class="highlight julia"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">function</span> average(xs::<span class="built_in">AbstractArray</span>&#123;<span class="built_in">Float64</span>&#125;)</span><br><span class="line">    <span class="keyword">return</span> sum(xs)/length(xs)</span><br><span class="line"><span class="keyword">end</span></span><br></pre></td></tr></table></figure>
+<p>可是這樣又限制了元素的型別，像是 <code>Float32</code> 或是無理數 <code>Irrational</code> 就不適用。</p>
+<p>如果我們要將他廣義化到所有的整數跟浮點數都適用，也支援無理數。</p>
+<p>那麼我們可以考慮支援實數 <code>Real</code>，可以寫成以下的樣子：</p>
+<figure class="highlight julia"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">function</span> average(xs::<span class="built_in">AbstractArray</span>&#123;&lt;:<span class="built_in">Real</span>&#125;)</span><br><span class="line">    <span class="keyword">return</span> sum(xs)/length(xs)</span><br><span class="line"><span class="keyword">end</span></span><br></pre></td></tr></table></figure>
+<p>或是也可以考慮將他參數化：</p>
+<figure class="highlight julia"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">function</span> average(xs::<span class="built_in">AbstractArray</span>&#123;T&#125;) <span class="keyword">where</span> &#123;T&lt;:<span class="built_in">Real</span>&#125;</span><br><span class="line">    <span class="keyword">return</span> sum(xs)/length(xs)</span><br><span class="line"><span class="keyword">end</span></span><br></pre></td></tr></table></figure>
+<p>這兩種寫法所編譯出來的 method instance 是一樣的。</p>
+<p>這兩種寫法差異在於，如果將他參數化，開發者有機會將參數型別 <code>T</code> 取出來使用。</p>
+<h2 id="建議">建議</h2>
+<p>為了避免大家寫出來的函式太過於狹義，所以在這邊給出一些建議。</p>
+<p>如果要支援的型別是所有整數，那麼可以考慮使用 <code>Integer</code>，它可以支援 <code>Bool</code>、<code>Int64</code>、<code>UInt8</code> 之類的型別。</p>
+<p>如果要支援的型別是所有的整數以及浮點數等等的，那麼可以考慮使用 <code>Real</code>，它可以支援 <code>Float64</code>、<code>Irrational</code> 等等的型別。</p>
+<p>如果還想要支援複數 <code>Complex</code>，那麼就直接使用數字 <code>Number</code> 吧！</p>
+<h2 id="思考點">思考點</h2>
+<p>那至於要支援什麼樣的型別以及他的範疇，這是個很好的問題。</p>
+<p>那就要問在你的函式當中所用到的函式支援哪些型別？</p>
+<p>例如在 <code>average</code> 中有 <code>sum</code> 以及 <code>length</code> 函式。</p>
+<p><code>sum</code> 支援包含 <code>AbstractArray</code>、iterable，甚至是 <code>AbstractRange</code>。</p>
+<p><code>length</code> 則支援所有的陣列 <code>AbstractArray</code>、集合 <code>Set</code>、字典 <code>Dict</code>、所有字串 <code>AbstractString</code> 等等的。</p>
+<p>接下來要思考 <code>average</code> 所要提供的功能是什麼？他的語義是什麼？</p>
+<p>就字面上的意義而言，他要提供的是「某個集合體的平均」。這時候就可以去定義要支援什麼樣的集合體，以及支援集合體中的元素範疇是什麼。</p>
+<p>最後就可以決定這個函式的型別參數應該是什麼了。</p>
+<h2 id="自定義型別">自定義型別</h2>
+<p>如果有人想要自行設計自己的型別，並且這個型別支援 <code>sum</code> 及 <code>length</code>，那理論上，這個型別就自動支援 <code>average</code>。</p>
+<p>要讓其他人去自行定義型別，並且自動支援 <code>average</code>，為了避免將這個函式綁得太死，那就乾脆不定義型別。</p>
+<figure class="highlight julia"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">function</span> average(xs)</span><br><span class="line">    <span class="keyword">return</span> sum(xs)/length(xs)</span><br><span class="line"><span class="keyword">end</span></span><br></pre></td></tr></table></figure>
+<p>這樣是可以的。</p>
+<p>有沒有發現，與其加一堆型別將函式綁死（加法設計），不如把型別拿掉還來的更好（減法設計）。</p>
+
+                    
+                        
+
+                    
+                    
+                        <p>
+                            <a href="/2021/03/19/use-of-numerical-type-in-parametric-functions-in-julia/#post-footer" class="postShorten-excerpt_link link">
+                                留言與分享
+                            </a>
+                        </p>
+                    
+                </div>
+            
+        </div>
+        
+    </article>
+    
+    
+    <article class="postShorten postShorten--thumbnailimg-bottom">
+        <div class="postShorten-wrap">
+            
+            <div class="postShorten-header">
+                <h1 class="postShorten-title">
+                    
+                        <a class="link-unstyled" href="/2021/03/15/test/">
+                            test
+                        </a>
+                    
+                </h1>
+                <div class="postShorten-meta">
+    <time datetime="2021-03-15T11:24:51+08:00">
+	
+		    3月 15, 2021
+    	
+    </time>
+    
+</div>
+
+            </div>
+            
+                <div class="postShorten-content">
+                    <a data-fancybox href="https://www.youtube.com/watch?v=_sI_Ps7JSEk" target="_blank" rel="noopener">
+    YouTube video
+</a>
+<img data-fancybox src="/images/pickachu.png">
+
+                    
+                        
+
+                    
+                    
+                        <p>
+                            <a href="/2021/03/15/test/#post-footer" class="postShorten-excerpt_link link">
+                                留言與分享
+                            </a>
+                        </p>
+                    
+                </div>
+            
+        </div>
+        
+    </article>
+    
+    
+    <article class="postShorten postShorten--thumbnailimg-bottom">
+        <div class="postShorten-wrap">
+            
+            <div class="postShorten-header">
+                <h1 class="postShorten-title">
+                    
+                        <a class="link-unstyled" href="/2021/02/15/julia-v1-6-release/">
+                            julia-v1.6-release
+                        </a>
+                    
+                </h1>
+                <div class="postShorten-meta">
+    <time datetime="2021-02-15T19:29:33+08:00">
+	
+		    2月 15, 2021
+    	
+    </time>
+    
+</div>
+
+            </div>
+            
+                <div class="postShorten-content">
+                    <h1>Julia v1.6 Release Notes</h1>
+<h2 id="New-language-features">New language features</h2>
+<ul>
+<li>Types written with <code>where</code> syntax can now be used to define constructors, e.g.<br>
+<code>(Foo{T} where T)(x) = ...</code>.</li>
+<li><code>&lt;--</code> and <code>&lt;--&gt;</code> are now available as infix operators, with the same precedence<br>
+and associativity as other arrow-like operators ([#36666]).</li>
+<li>Compilation and type inference can now be enabled or disabled at the module level<br>
+using the experimental macro <code>Base.Experimental.@compiler_options</code> ([#37041]).</li>
+<li>The library name passed to <code>ccall</code> or <code>@ccall</code> can now be an expression involving<br>
+global variables and function calls. The expression will be evaluated the first<br>
+time the <code>ccall</code> executes ([#36458]).</li>
+<li><code>ꜛ</code> (U+A71B), <code>ꜜ</code> (U+A71C) and <code>ꜝ</code> (U+A71D) can now also be used as operator<br>
+suffixes. They can be tab-completed from <code>\^uparrow</code>, <code>\^downarrow</code> and <code>\^!</code> in the REPL<br>
+([#37542]).</li>
+<li>Standalone “dotted” operators now get parsed as <code>Expr(:., :op)</code>, which gets lowered to<br>
+<code>Base.BroadcastFunction(op)</code>. This means <code>.op</code> is functionally equivalent to<br>
+<code>(x...) -&gt; (op).(x...)</code>, which can be useful for passing the broadcasted version of an<br>
+operator to higher-order functions, for example <code>map(.*, A, B)</code> for an elementwise<br>
+product of two arrays of arrays ([#37583]).</li>
+<li>The syntax <code>import A as B</code> (plus <code>import A: x as y</code>, <code>import A.x as y</code>, and <code>using A: x as y</code>)<br>
+can now be used to rename imported modules and identifiers ([#1255]).</li>
+<li>Unsigned literals (starting with <code>0x</code>) which are too big to fit in a <code>UInt128</code> object<br>
+are now interpreted as <code>BigInt</code> ([#23546]).</li>
+<li>It is now possible to use <code>...</code> on the left-hand side of assignments for taking any<br>
+number of items from the front of an iterable collection, while also collecting the rest,<br>
+for example <code>a, b... = [1, 2, 3]</code>. This syntax is implemented using <code>Base.rest</code>,<br>
+which can be overloaded to customize its behavior for different collection types<br>
+([#37410]).</li>
+</ul>
+<h2 id="Language-changes">Language changes</h2>
+<ul>
+<li>The postfix conjugate transpose operator <code>'</code> now accepts Unicode modifiers as<br>
+suffixes, so e.g. <code>a'ᵀ</code> is parsed as <code>var&quot;'ᵀ&quot;(a)</code>, which can be defined by the<br>
+user. <code>a'ᵀ</code> parsed as <code>a' * ᵀ</code> before, so this is a minor breaking change ([#37247]).</li>
+<li>Macros that return <code>:quote</code> expressions (e.g. via <code>Expr(:quote, ...)</code>) were previously<br>
+able to work without escaping (<code>esc(...)</code>) their output when needed. This has been<br>
+corrected, and now <code>esc</code> must be used in these macros as it is in other macros ([#37540]).</li>
+<li>The <code>--&gt;</code> operator now lowers to a <code>:call</code> expression, so it can be defined as<br>
+a function like other operators. The dotted version <code>.--&gt;</code> is now parsed as well.<br>
+For backwards compatibility, <code>--&gt;</code> still parses using its own expression head<br>
+instead of <code>:call</code>.</li>
+<li>The <code>a[begin, k]</code> syntax now calls <code>firstindex(a, 1)</code> rather than <code>first(axes(a, 1))</code> ([#35779]),<br>
+but the former now defaults to the latter for any <code>a</code> ([#38742]).</li>
+<li><code>⌿</code> (U+233F) and <code>¦</code> (U+00A6) are now infix operators with times-like and plus-like precedence,<br>
+respectively. Previously they were parsed as identifier characters ([#37973]).</li>
+</ul>
+<h2 id="Compiler-Runtime-improvements">Compiler/Runtime improvements</h2>
+<ul>
+<li>All platforms can now use <code>@executable_path</code> within <code>jl_load_dynamic_library()</code>.<br>
+This allows executable-relative paths to be embedded within executables on all<br>
+platforms, not just MacOS, which the syntax is borrowed from ([#35627]).</li>
+<li>Constant propagation now occurs through keyword arguments ([#35976]).</li>
+<li>The precompilation cache is now created atomically ([#36416]). Invoking <em>n</em><br>
+Julia processes simultaneously may create <em>n</em> temporary caches.</li>
+</ul>
+<h2 id="Command-line-option-changes">Command-line option changes</h2>
+<ul>
+<li>There is no longer a concept of “home project”: starting <code>julia --project=dir</code><br>
+is now exactly equivalent to starting <code>julia</code> and then doing <code>pkg&gt; activate $dir</code> and <code>julia --project</code> is exactly equivalent to doing that where<br>
+<code>dir = Base.current_project()</code>. In particular, this means that if you do<br>
+<code>pkg&gt; activate</code> after starting <code>julia</code> with the <code>--project</code> option (or with<br>
+<code>JULIA_PROJECT</code> set) it will take you to the default active project, which is<br>
+<code>@v1.6</code> unless you have modified <code>LOAD_PATH</code> ([#36434]).</li>
+</ul>
+<h2 id="Multi-threading-changes">Multi-threading changes</h2>
+<ul>
+<li>Locks now automatically inhibit finalizers from running, to avoid deadlock ([#38487]).</li>
+<li>New function <code>Base.Threads.foreach(f, channel::Channel)</code> for multithreaded <code>Channel</code> consumption ([#34543]).</li>
+<li>There is no longer a restriction on the number of threads ([#36778]).</li>
+</ul>
+<h2 id="Build-system-changes">Build system changes</h2>
+<ul>
+<li>Windows Installer now has the option to ‘Add Julia to Path’. To unselect this option<br>
+from the commandline simply remove the tasks you do not want to be installed: e.g.<br>
+<code>./julia-installer.exe /TASKS=&quot;desktopicon,startmenu,addtopath&quot;</code>, adds a desktop<br>
+icon, a startmenu group icon, and adds Julia to system PATH.</li>
+</ul>
+<h2 id="New-library-functions">New library functions</h2>
+<ul>
+<li>New function <code>Base.kron!</code> and corresponding overloads for various matrix types for performing Kronecker<br>
+product in-place ([#31069]).</li>
+<li>New function <code>Base.readeach(io, T)</code> for iteratively performing <code>read(io, T)</code> ([#36150]).</li>
+<li><code>Iterators.map</code> is added. It provides another syntax <code>Iterators.map(f, iterators...)</code><br>
+for writing <code>(f(args...) for args in zip(iterators...))</code>, i.e. a lazy <code>map</code> ([#34352]).</li>
+<li>New function <code>sincospi</code> for simultaneously computing <code>sinpi(x)</code> and <code>cospi(x)</code> more<br>
+efficiently ([#35816]).</li>
+<li>New function <code>cispi(x)</code> for more accurately computing <code>cis(pi * x)</code> ([#38449]).</li>
+<li>New function <code>addenv</code> for adding environment mappings into a <code>Cmd</code> object, returning the new <code>Cmd</code> object.</li>
+<li>New function <code>insorted</code> for determining whether an element is in a sorted collection or not ([#37490]).</li>
+<li>New function <code>Base.rest</code> for taking the rest of a collection, starting from a specific<br>
+iteration state, in a generic way ([#37410]).</li>
+</ul>
+<h2 id="New-library-features">New library features</h2>
+<ul>
+<li>The <code>redirect_*</code> functions now accept <code>devnull</code> to discard all output redirected to it, and as an empty<br>
+input ([#36146]).</li>
+<li>The <code>redirect_*</code> functions can now be called on <code>IOContext</code> objects ([#36688]).</li>
+<li><code>findfirst</code>, <code>findnext</code>, <code>findlast</code>, and <code>findall</code> now support <code>AbstractVector{&lt;:Union{Int8,UInt8}}</code><br>
+(pattern, array) arguments ([#37283]).</li>
+<li>New constructor <code>NamedTuple(iterator)</code> that constructs a named tuple from a key-value pair iterator.</li>
+<li>A new <code>reinterpret(reshape, T, a::AbstractArray{S})</code> reinterprets <code>a</code> to have eltype <code>T</code> while potentially<br>
+inserting or consuming the first dimension depending on the ratio of <code>sizeof(T)</code> and <code>sizeof(S)</code>.</li>
+<li>New <code>append!(vector, collections...)</code> and <code>prepend!(vector, collections...)</code> methods accept multiple<br>
+collections to be appended or prepended ([#36227]).</li>
+<li>The postfix operator <code>'ᵀ</code> can now be used as an alias for <code>transpose</code> ([#38062]).</li>
+<li><code>keys(io::IO)</code> has been added, which returns all keys of <code>io</code> if <code>io</code> is an <code>IOContext</code> and an empty<br>
+<code>Base.KeySet</code> otherwise ([#37753]).</li>
+<li><code>count</code> now accepts an optional <code>init</code> argument to control the accumulation type ([#37461]).</li>
+<li>New method <code>occursin(haystack)</code> that returns a function that checks whether its argument occurs in<br>
+<code>haystack</code> ([#38475]).</li>
+<li>New methods <code>∉(collection)</code>, <code>∋(item)</code>, and <code>∌(item)</code> returning corresponding containment-testing<br>
+functions ([#38475]).</li>
+<li>The <code>nextprod</code> function now accepts tuples and other array types for its first argument ([#35791]).</li>
+<li>The <code>reverse(A; dims)</code> function for multidimensional <code>A</code> can now reverse multiple dimensions at once<br>
+by passing a tuple for <code>dims</code>, and defaults to reversing all dimensions; there is also a multidimensional<br>
+in-place <code>reverse!(A; dims)</code> ([#37367]).</li>
+<li>The function <code>isapprox(x,y)</code> now accepts the <code>norm</code> keyword argument also for numeric (i.e., non-array)<br>
+arguments <code>x</code> and <code>y</code> ([#35883]).</li>
+<li><code>ispow2(x)</code> now supports non-<code>Integer</code> arguments <code>x</code> ([#37635]).</li>
+<li><code>view</code>, <code>@view</code>, and <code>@views</code> now work on <code>AbstractString</code>s, returning a <code>SubString</code> when appropriate ([#35879]).</li>
+<li>All <code>AbstractUnitRange{&lt;:Integer}</code>s now work with <code>SubString</code>, <code>view</code>, <code>@view</code> and <code>@views</code> on strings ([#35879]).</li>
+<li><code>sum</code>, <code>prod</code>, <code>maximum</code>, and <code>minimum</code> now support <code>init</code> keyword argument ([#36188], [#35839]).</li>
+<li><code>unique(f, itr; seen=Set{T}())</code> now allows you to declare the container type used for<br>
+keeping track of values returned by <code>f</code> on elements of <code>itr</code> ([#36280]).</li>
+<li><code>first</code> and <code>last</code> functions now accept an integer as second argument to get that many<br>
+leading or trailing elements of any iterable ([#34868]).</li>
+<li><code>CartesianIndices</code> now supports step different from <code>1</code>. It can also be constructed from three<br>
+<code>CartesianIndex</code>es <code>I</code>, <code>S</code>, <code>J</code> using <code>I:S:J</code>. <code>step</code> for <code>CartesianIndices</code> now returns a<br>
+<code>CartesianIndex</code> ([#37829]).</li>
+<li><code>RegexMatch</code> objects can now be probed for whether a named capture group exists within it through <code>haskey()</code> ([#36717]).</li>
+<li>For consistency <code>haskey(r::RegexMatch, i::Integer)</code> has also been added and returns if the capture group<br>
+for <code>i</code> exists ([#37300]).</li>
+</ul>
+<h2 id="Standard-library-changes">Standard library changes</h2>
+<ul>
+<li>A new standard library <code>TOML</code> has been added for parsing and printing <a href="https://toml.io" target="_blank" rel="noopener">TOML files</a> ([#37034]).</li>
+<li>A new standard library <code>Downloads</code> has been added, which replaces the old <code>Base.download</code> function with<br>
+<code>Downloads.download</code>, providing cross-platform, multi-protocol, in-process download functionality implemented<br>
+with <a href="https://curl.haxx.se/libcurl/" target="_blank" rel="noopener">libcurl</a> ([#37340]).</li>
+<li><code>Libdl</code> has been moved to <code>Base.Libc.Libdl</code>, however it is still accessible as an stdlib ([#35628]).</li>
+<li>To download artifacts lazily, <code>LazyArtifacts</code> now must be explicitly listed as a dependency, to avoid needing the<br>
+support machinery to be available when it is not commonly needed ([#37844]).</li>
+<li>It is no longer possible to create a <code>LinRange</code>, <code>StepRange</code>, or <code>StepRangeLen</code> with a <code>&lt;: Integer</code> eltype but<br>
+non-integer step ([#32439]).</li>
+<li><code>intersect</code> on <code>CartesianIndices</code> now returns <code>CartesianIndices</code> instead of <code>Vector{&lt;:CartesianIndex}</code> ([#36643]).</li>
+<li><code>push!(c::Channel, v)</code> now returns channel <code>c</code>. Previously, it returned the pushed value <code>v</code> ([#34202]).</li>
+<li>The composition operator <code>∘</code> now returns a <code>Base.ComposedFunction</code> instead of an anonymous function ([#37517]).</li>
+<li>Logging (such as <code>@warn</code>) no longer catches exceptions in the logger itself ([#36600]).</li>
+<li><code>@time</code> now reports if the time presented included any compilation time, which is shown as a percentage ([#37678]).</li>
+<li><code>@varinfo</code> can now report non-exported objects within modules, look recursively into submodules, and return a sorted<br>
+results table ([#38042]).</li>
+<li><code>@testset</code> now supports the option <code>verbose</code> to show the test result summary<br>
+of the children even if they all pass ([#33755]).</li>
+</ul>
+<h4 id="Package-Manager">Package Manager</h4>
+<ul>
+<li><code>pkg&gt; precompile</code> is now parallelized through depth-first precompilation of dependencies. Errors will only throw for<br>
+direct dependencies listed in the <code>Project.toml</code>.</li>
+<li><code>pkg&gt; precompile</code> is now automatically triggered whenever Pkg changes the active manifest. Auto-precompilation will<br>
+remember if a package has errored within the given environment and will not retry until it changes.<br>
+Auto-precompilation can be gracefully interrupted with a <code>ctrl-c</code> and disabled by setting the environment variable<br>
+<code>JULIA_PKG_PRECOMPILE_AUTO=0</code>.</li>
+<li>The <code>Pkg.BinaryPlatforms</code> module has been moved into <code>Base</code> as <code>Base.BinaryPlatforms</code> and heavily reworked.<br>
+Applications that want to be compatible with the old API should continue to import <code>Pkg.BinaryPlatforms</code>,<br>
+however new users should use <code>Base.BinaryPlatforms</code> directly ([#37320]).</li>
+<li>The <code>Pkg.Artifacts</code> module has been imported as a separate standard library.  It is still available as<br>
+<code>Pkg.Artifacts</code>, however starting from Julia v1.6+, packages may import simply <code>Artifacts</code> without importing<br>
+all of <code>Pkg</code> alongside ([#37320]).</li>
+</ul>
+<h4 id="LinearAlgebra">LinearAlgebra</h4>
+<ul>
+<li>New method <code>LinearAlgebra.issuccess(::CholeskyPivoted)</code> for checking whether pivoted Cholesky factorization was<br>
+successful ([#36002]).</li>
+<li><code>UniformScaling</code> can now be indexed into using ranges to return dense matrices and vectors ([#24359]).</li>
+<li>New function <code>LinearAlgebra.BLAS.get_num_threads()</code> for getting the number of BLAS threads ([#36360]).</li>
+<li><code>(+)(::UniformScaling)</code> is now defined, making <code>+I</code> a valid unary operation ([#36784]).</li>
+<li>Instances of <code>UniformScaling</code> are no longer <code>isequal</code> to matrices. Previous<br>
+behaviour violated the rule that <code>isequal(x, y)</code> implies <code>hash(x) == hash(y)</code>.</li>
+<li>Transposing <code>*Triangular</code> matrices now returns matrices of the opposite triangular type, consistently<br>
+with <code>adjoint!(::*Triangular)</code> and <code>transpose!(::*Triangular)</code>. Packages containing methods with, e.g.,<br>
+<code>Adjoint{&lt;:Any,&lt;:LowerTriangular{&lt;:Any,&lt;:OwnMatrixType}}</code> should replace that by<br>
+<code>UpperTriangular{&lt;:Any,&lt;:Adjoint{&lt;:Any,&lt;:OwnMatrixType}}</code> in the method signature ([#38168]).</li>
+</ul>
+<h4 id="Printf">Printf</h4>
+<ul>
+<li>Complete overhaul of internal code to use the ryu float printing algorithms (from Julia 1.4); leads to<br>
+consistent 2-5x performance improvements.</li>
+<li>New <code>Printf.tofloat</code> function allowing custom float types to more easily integrate with Printf formatting<br>
+by converting their type to <code>Float16</code>, <code>Float32</code>, <code>Float64</code>, or <code>BigFloat</code>.</li>
+<li>New <code>Printf.format&quot;...&quot;</code> and <code>Printf.Format(...)</code> functions that allow creating <code>Printf.Format</code> objects<br>
+that can be passed to <code>Printf.format</code> for easier dynamic printf formatting.</li>
+<li><code>Printf.format(f::Printf.Format, args...)</code> as a non-macro function that applies a printf format <code>f</code> to<br>
+provided <code>args</code>.</li>
+</ul>
+<h4 id="REPL">REPL</h4>
+<ul>
+<li>
+<p>The <code>AbstractMenu</code> extension interface of <code>REPL.TerminalMenus</code> has been extensively<br>
+overhauled. The new interface does not rely on global configuration variables, is more<br>
+consistent in delegating printing of the navigation/selection markers, and provides<br>
+improved support for dynamic menus.  These changes are compatible with the previous<br>
+(deprecated) interface, so are non-breaking.</p>
+<p>The new API offers several enhancements:</p>
+<ul>
+<li>Menus are configured in their constructors via keyword arguments.</li>
+<li>For custom menu types, the new <code>Config</code> and <code>MultiSelectConfig</code> replace the global <code>CONFIG</code> <code>Dict</code>.</li>
+<li><code>request(menu; cursor=1)</code> allows you to control the initial cursor position in the menu (defaults to first item).</li>
+<li><code>MultiSelectMenu</code> allows you to pass a list of initially-selected items with the <code>selected</code> keyword argument.</li>
+<li><code>writeLine</code> was deprecated to <code>writeline</code>, and <code>writeline</code> methods are not expected to print the cursor indicator.<br>
+The old <code>writeLine</code> continues to work, and any of its method extensions should print the cursor indicator as before.</li>
+<li><code>printMenu</code> has been deprecated to <code>printmenu</code>, and it both accepts a state input and returns a state output<br>
+that controls the number of terminal lines erased when the menu is next refreshed. This plus related changes<br>
+makes <code>printmenu</code> work properly when the number of menu items might change depending on user choices.</li>
+<li><code>numoptions</code>, returning the number of items in the menu, has been added as an alternative to implementing <code>options</code>.</li>
+<li><code>suppress_output</code> (primarily a testing option) has been added as a keyword argument to <code>request</code>,<br>
+rather than a configuration option.</li>
+</ul>
+</li>
+<li>
+<p>Tab completion now supports runs of consecutive sub/superscript characters,<br>
+e.g. <code>\^(3)</code> tab-completes to <code>⁽³⁾</code> ([#38649]).</p>
+</li>
+<li>
+<p>Windows REPL now supports 24-bit colors, by correctly interpreting virtual terminal escapes.</p>
+</li>
+</ul>
+<h4 id="SparseArrays">SparseArrays</h4>
+<ul>
+<li>Display large sparse matrices with a Unicode “spy” plot of their nonzero patterns,<br>
+and display small sparse matrices by an <code>Matrix</code>-like 2d layout of their contents ([#33821]).</li>
+<li>New convenient <code>spdiagm([m, n,] v::AbstractVector)</code> methods which call<br>
+<code>spdiagm([m, n,] 0 =&gt; v)</code>, consistently with their dense <code>diagm</code> counterparts ([#37684]).</li>
+</ul>
+<h4 id="Dates">Dates</h4>
+<ul>
+<li><code>Quarter</code> period is defined ([#35519]).</li>
+<li><code>canonicalize</code> can now take <code>Period</code> as an input ([#37391]).</li>
+<li>Zero-valued <code>FixedPeriod</code>s and <code>OtherPeriod</code>s now compare equal, e.g.,<br>
+<code>Year(0) == Day(0)</code>. The behavior of non-zero <code>Period</code>s is not changed ([#37486]).</li>
+</ul>
+<h4 id="Distributed">Distributed</h4>
+<ul>
+<li>Now supports invoking Windows workers via ssh (via new keyword argument <code>shell=:wincmd</code> in <code>addprocs</code>) ([#30614]).</li>
+<li>Other new keyword arguments in <code>addprocs</code>: <code>ssh</code> to specify the ssh client path, <code>env</code> to pass environment<br>
+variables to workers, and <code>cmdline_cookie</code> to work around an ssh problem with Windows workers that run older<br>
+(pre-ConPTY) versions of Windows, Julia or OpenSSH ([#30614]).</li>
+</ul>
+<h4 id="UUIDs">UUIDs</h4>
+<ul>
+<li>Change <code>uuid1</code> and <code>uuid4</code> to use <code>Random.RandomDevice()</code> as default random number generator ([#35872]).</li>
+<li>Added <code>parse(::Type{UUID}, ::AbstractString)</code> method.</li>
+</ul>
+<h4 id="Mmap">Mmap</h4>
+<ul>
+<li>On Unix systems, the <code>Mmap.madvise!</code> function (along with OS-specific <code>Mmap.MADV_*</code><br>
+constants) has been added to give advice on handling of memory-mapped arrays ([#37369]).</li>
+</ul>
+<h2 id="Deprecated-or-removed">Deprecated or removed</h2>
+<ul>
+<li>The <code>Base.download</code> function has been deprecated (silently, by default) in favor of the new <code>Downloads.download</code><br>
+standard library function ([#37340]).</li>
+<li>The <code>Base.Grisu</code> code has been officially removed (float printing was switched to the ryu algorithm code in 1.4).<br>
+The code is available from <a href="https://github.com/JuliaAttic/Grisu.jl" target="_blank" rel="noopener">JuliaAttic</a> if needed.</li>
+</ul>
+
+                    
+                        
+
+                    
+                    
+                        <p>
+                            <a href="/2021/02/15/julia-v1-6-release/#post-footer" class="postShorten-excerpt_link link">
+                                留言與分享
+                            </a>
+                        </p>
+                    
+                </div>
+            
+        </div>
+        
+    </article>
+    
+    
     <article class="postShorten postShorten--thumbnailimg-right">
         <div class="postShorten-wrap">
             
@@ -569,137 +1007,6 @@
         
     </article>
     
-    
-    <article class="postShorten postShorten--thumbnailimg-right">
-        <div class="postShorten-wrap">
-            
-            <div class="postShorten-header">
-                <h1 class="postShorten-title">
-                    
-                        <a class="link-unstyled" href="/2020/10/12/linear-regression-with-mle/">
-                            Linear Regression with Maximum Likelihood Estimation
-                        </a>
-                    
-                </h1>
-                <div class="postShorten-meta">
-    <time datetime="2020-10-12T01:20:57+08:00">
-	
-		    10月 12, 2020
-    	
-    </time>
-    
-        <span>分類 </span>
-        
-    <a class="category-link" href="/categories/Statistics/">Statistics</a>
-
-
-    
-</div>
-
-            </div>
-            
-                <div class="postShorten-excerpt">
-                    <p>Maximum likelihood estimation is an essential approach to estimate parameters in statistics. It requires statistical assumptions on error pattern. I will introduce this technique with really simple statistical model - linear regression.</p>
-                    
-                        <a href="/2020/10/12/linear-regression-with-mle/" class="postShorten-excerpt_link link">
-                            繼續閱讀
-                        </a>
-                        
-                    
-                </div>
-            
-        </div>
-        
-    </article>
-    
-    
-    <article class="postShorten postShorten--thumbnailimg-right">
-        <div class="postShorten-wrap">
-            
-            <div class="postShorten-header">
-                <h1 class="postShorten-title">
-                    
-                        <a class="link-unstyled" href="/2020/10/12/from-sharing-to-suggestions/">
-                            從分享到建議
-                        </a>
-                    
-                </h1>
-                <div class="postShorten-meta">
-    <time datetime="2020-10-12T00:29:36+08:00">
-	
-		    10月 12, 2020
-    	
-    </time>
-    
-        <span>分類 </span>
-        
-    <a class="category-link" href="/categories/My-Style/">My Style</a>, <a class="category-link" href="/categories/My-Style/Believe%E3%80%82Think%E3%80%82Soul/">Believe。Think。Soul</a>
-
-
-    
-</div>
-
-            </div>
-            
-                <div class="postShorten-excerpt">
-                    <p>這幾年，隨著接觸的東西變多，知道的東西變多，個性上也有點變化。</p>
-<p>約莫四五年前，碩班時期接觸到一些很棒的網路技術文章，當時線上課程也非常熱門，很多優秀的大學紛紛把他們的上課內容做成教材釋出。也因為這樣，我自己其實從這些網路資源受惠非常多。當時也是自己在發展自學能力的輝煌時期。</p>
-                    
-                        <a href="/2020/10/12/from-sharing-to-suggestions/" class="postShorten-excerpt_link link">
-                            繼續閱讀
-                        </a>
-                        
-                    
-                </div>
-            
-        </div>
-        
-    </article>
-    
-    
-    <article class="postShorten postShorten--thumbnailimg-right">
-        <div class="postShorten-wrap">
-            
-            <div class="postShorten-header">
-                <h1 class="postShorten-title">
-                    
-                        <a class="link-unstyled" href="/2020/09/06/how-to-use-async-sync-in-julia/">
-                            在 Julia 怎麼用 async 跟 sync
-                        </a>
-                    
-                </h1>
-                <div class="postShorten-meta">
-    <time datetime="2020-09-06T17:43:04+08:00">
-	
-		    9月 06, 2020
-    	
-    </time>
-    
-        <span>分類 </span>
-        
-    <a class="category-link" href="/categories/My-Style/">My Style</a>, <a class="category-link" href="/categories/My-Style/Computer-Science/">Computer Science</a>, <a class="category-link" href="/categories/My-Style/Computer-Science/Julialang/">Julialang</a>
-
-
-    
-</div>
-
-            </div>
-            
-                <div class="postShorten-excerpt">
-                    <p>這個問題在官方文件中並沒有詳細記載，所以覺得值得紀錄一下。</p>
-<p>查閱 <code>@async</code> 的文件會講說，他會用一個 <code>Task</code> 把後面的表達式包裝起來，並且將他掛到排程器的佇列（queue）中。意思就是將表達式包裝成一個任務，並放到佇列中等待 CPU 核心的資源來執行他。</p>
-                    
-                        <a href="/2020/09/06/how-to-use-async-sync-in-julia/" class="postShorten-excerpt_link link">
-                            繼續閱讀
-                        </a>
-                        
-                    
-                </div>
-            
-        </div>
-        
-    </article>
-    
     <div class="pagination-bar">
     <ul class="pagination">
         
@@ -711,7 +1018,7 @@
             </a>
           </li>
         
-        <li class="pagination-number">第 1 頁 共 12 頁</li>
+        <li class="pagination-number">第 1 頁 共 13 頁</li>
     </ul>
 </div>
 

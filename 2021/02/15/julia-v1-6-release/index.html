@@ -6,7 +6,7 @@
     <!-- hexo-inject:begin --><!-- hexo-inject:end --><meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="generator" content="Dream Maker">
-    <title>所有文章: 2021 - Dream Maker</title>
+    <title>julia-v1.6-release - Dream Maker</title>
     <meta name="author" content="Yueh-Hua Tu">
     
         <meta name="keywords" content="machine learning,deep learning,topology,">
@@ -15,12 +15,16 @@
     
         <link rel="alternate" type="application/atom+xml" title="RSS" href="/atom.xml">
     
-    <script type="application/ld+json">{}</script>
-    <meta property="og:type" content="blog">
-<meta property="og:title" content="Dream Maker">
-<meta property="og:url" content="https://yuehhua.github.io/archives/2021/index.html">
+    <script type="application/ld+json">{"@context":"http://schema.org","@type":"BlogPosting","author":{"@type":"Person","name":"Yueh-Hua Tu","sameAs":["https://github.com/yuehhua/","https://www.facebook.com/a504082002","https://www.linkedin.com/in/%E5%B2%B3%E8%8F%AF-%E6%9D%9C-6a3995a0/","mailto:a504082002@gmail.com"],"image":"https://www.gravatar.com/avatar/a565749fba4782b717234da670b273fd"},"articleBody":"Julia v1.6 Release Notes\nNew language features\n\nTypes written with where syntax can now be used to define constructors, e.g.\n(Foo{T} where T)(x) = ....\n&lt;-- and &lt;--&gt; are now available as infix operators, with the same precedence\nand associativity as other arrow-like operators ([#36666]).\nCompilation and type inference can now be enabled or disabled at the module level\nusing the experimental macro Base.Experimental.@compiler_options ([#37041]).\nThe library name passed to ccall or @ccall can now be an expression involving\nglobal variables and function calls. The expression will be evaluated the first\ntime the ccall executes ([#36458]).\nꜛ (U+A71B), ꜜ (U+A71C) and ꜝ (U+A71D) can now also be used as operator\nsuffixes. They can be tab-completed from \\^uparrow, \\^downarrow and \\^! in the REPL\n([#37542]).\nStandalone “dotted” operators now get parsed as Expr(:., :op), which gets lowered to\nBase.BroadcastFunction(op). This means .op is functionally equivalent to\n(x...) -&gt; (op).(x...), which can be useful for passing the broadcasted version of an\noperator to higher-order functions, for example map(.*, A, B) for an elementwise\nproduct of two arrays of arrays ([#37583]).\nThe syntax import A as B (plus import A: x as y, import A.x as y, and using A: x as y)\ncan now be used to rename imported modules and identifiers ([#1255]).\nUnsigned literals (starting with 0x) which are too big to fit in a UInt128 object\nare now interpreted as BigInt ([#23546]).\nIt is now possible to use ... on the left-hand side of assignments for taking any\nnumber of items from the front of an iterable collection, while also collecting the rest,\nfor example a, b... = [1, 2, 3]. This syntax is implemented using Base.rest,\nwhich can be overloaded to customize its behavior for different collection types\n([#37410]).\n\nLanguage changes\n\nThe postfix conjugate transpose operator ' now accepts Unicode modifiers as\nsuffixes, so e.g. a'ᵀ is parsed as var&quot;'ᵀ&quot;(a), which can be defined by the\nuser. a'ᵀ parsed as a' * ᵀ before, so this is a minor breaking change ([#37247]).\nMacros that return :quote expressions (e.g. via Expr(:quote, ...)) were previously\nable to work without escaping (esc(...)) their output when needed. This has been\ncorrected, and now esc must be used in these macros as it is in other macros ([#37540]).\nThe --&gt; operator now lowers to a :call expression, so it can be defined as\na function like other operators. The dotted version .--&gt; is now parsed as well.\nFor backwards compatibility, --&gt; still parses using its own expression head\ninstead of :call.\nThe a[begin, k] syntax now calls firstindex(a, 1) rather than first(axes(a, 1)) ([#35779]),\nbut the former now defaults to the latter for any a ([#38742]).\n⌿ (U+233F) and ¦ (U+00A6) are now infix operators with times-like and plus-like precedence,\nrespectively. Previously they were parsed as identifier characters ([#37973]).\n\nCompiler/Runtime improvements\n\nAll platforms can now use @executable_path within jl_load_dynamic_library().\nThis allows executable-relative paths to be embedded within executables on all\nplatforms, not just MacOS, which the syntax is borrowed from ([#35627]).\nConstant propagation now occurs through keyword arguments ([#35976]).\nThe precompilation cache is now created atomically ([#36416]). Invoking n\nJulia processes simultaneously may create n temporary caches.\n\nCommand-line option changes\n\nThere is no longer a concept of “home project”: starting julia --project=dir\nis now exactly equivalent to starting julia and then doing pkg&gt; activate $dir and julia --project is exactly equivalent to doing that where\ndir = Base.current_project(). In particular, this means that if you do\npkg&gt; activate after starting julia with the --project option (or with\nJULIA_PROJECT set) it will take you to the default active project, which is\n@v1.6 unless you have modified LOAD_PATH ([#36434]).\n\nMulti-threading changes\n\nLocks now automatically inhibit finalizers from running, to avoid deadlock ([#38487]).\nNew function Base.Threads.foreach(f, channel::Channel) for multithreaded Channel consumption ([#34543]).\nThere is no longer a restriction on the number of threads ([#36778]).\n\nBuild system changes\n\nWindows Installer now has the option to ‘Add Julia to Path’. To unselect this option\nfrom the commandline simply remove the tasks you do not want to be installed: e.g.\n./julia-installer.exe /TASKS=&quot;desktopicon,startmenu,addtopath&quot;, adds a desktop\nicon, a startmenu group icon, and adds Julia to system PATH.\n\nNew library functions\n\nNew function Base.kron! and corresponding overloads for various matrix types for performing Kronecker\nproduct in-place ([#31069]).\nNew function Base.readeach(io, T) for iteratively performing read(io, T) ([#36150]).\nIterators.map is added. It provides another syntax Iterators.map(f, iterators...)\nfor writing (f(args...) for args in zip(iterators...)), i.e. a lazy map ([#34352]).\nNew function sincospi for simultaneously computing sinpi(x) and cospi(x) more\nefficiently ([#35816]).\nNew function cispi(x) for more accurately computing cis(pi * x) ([#38449]).\nNew function addenv for adding environment mappings into a Cmd object, returning the new Cmd object.\nNew function insorted for determining whether an element is in a sorted collection or not ([#37490]).\nNew function Base.rest for taking the rest of a collection, starting from a specific\niteration state, in a generic way ([#37410]).\n\nNew library features\n\nThe redirect_* functions now accept devnull to discard all output redirected to it, and as an empty\ninput ([#36146]).\nThe redirect_* functions can now be called on IOContext objects ([#36688]).\nfindfirst, findnext, findlast, and findall now support AbstractVector{&lt;:Union{Int8,UInt8}}\n(pattern, array) arguments ([#37283]).\nNew constructor NamedTuple(iterator) that constructs a named tuple from a key-value pair iterator.\nA new reinterpret(reshape, T, a::AbstractArray{S}) reinterprets a to have eltype T while potentially\ninserting or consuming the first dimension depending on the ratio of sizeof(T) and sizeof(S).\nNew append!(vector, collections...) and prepend!(vector, collections...) methods accept multiple\ncollections to be appended or prepended ([#36227]).\nThe postfix operator 'ᵀ can now be used as an alias for transpose ([#38062]).\nkeys(io::IO) has been added, which returns all keys of io if io is an IOContext and an empty\nBase.KeySet otherwise ([#37753]).\ncount now accepts an optional init argument to control the accumulation type ([#37461]).\nNew method occursin(haystack) that returns a function that checks whether its argument occurs in\nhaystack ([#38475]).\nNew methods ∉(collection), ∋(item), and ∌(item) returning corresponding containment-testing\nfunctions ([#38475]).\nThe nextprod function now accepts tuples and other array types for its first argument ([#35791]).\nThe reverse(A; dims) function for multidimensional A can now reverse multiple dimensions at once\nby passing a tuple for dims, and defaults to reversing all dimensions; there is also a multidimensional\nin-place reverse!(A; dims) ([#37367]).\nThe function isapprox(x,y) now accepts the norm keyword argument also for numeric (i.e., non-array)\narguments x and y ([#35883]).\nispow2(x) now supports non-Integer arguments x ([#37635]).\nview, @view, and @views now work on AbstractStrings, returning a SubString when appropriate ([#35879]).\nAll AbstractUnitRange{&lt;:Integer}s now work with SubString, view, @view and @views on strings ([#35879]).\nsum, prod, maximum, and minimum now support init keyword argument ([#36188], [#35839]).\nunique(f, itr; seen=Set{T}()) now allows you to declare the container type used for\nkeeping track of values returned by f on elements of itr ([#36280]).\nfirst and last functions now accept an integer as second argument to get that many\nleading or trailing elements of any iterable ([#34868]).\nCartesianIndices now supports step different from 1. It can also be constructed from three\nCartesianIndexes I, S, J using I:S:J. step for CartesianIndices now returns a\nCartesianIndex ([#37829]).\nRegexMatch objects can now be probed for whether a named capture group exists within it through haskey() ([#36717]).\nFor consistency haskey(r::RegexMatch, i::Integer) has also been added and returns if the capture group\nfor i exists ([#37300]).\n\nStandard library changes\n\nA new standard library TOML has been added for parsing and printing TOML files ([#37034]).\nA new standard library Downloads has been added, which replaces the old Base.download function with\nDownloads.download, providing cross-platform, multi-protocol, in-process download functionality implemented\nwith libcurl ([#37340]).\nLibdl has been moved to Base.Libc.Libdl, however it is still accessible as an stdlib ([#35628]).\nTo download artifacts lazily, LazyArtifacts now must be explicitly listed as a dependency, to avoid needing the\nsupport machinery to be available when it is not commonly needed ([#37844]).\nIt is no longer possible to create a LinRange, StepRange, or StepRangeLen with a &lt;: Integer eltype but\nnon-integer step ([#32439]).\nintersect on CartesianIndices now returns CartesianIndices instead of Vector{&lt;:CartesianIndex} ([#36643]).\npush!(c::Channel, v) now returns channel c. Previously, it returned the pushed value v ([#34202]).\nThe composition operator ∘ now returns a Base.ComposedFunction instead of an anonymous function ([#37517]).\nLogging (such as @warn) no longer catches exceptions in the logger itself ([#36600]).\n@time now reports if the time presented included any compilation time, which is shown as a percentage ([#37678]).\n@varinfo can now report non-exported objects within modules, look recursively into submodules, and return a sorted\nresults table ([#38042]).\n@testset now supports the option verbose to show the test result summary\nof the children even if they all pass ([#33755]).\n\nPackage Manager\n\npkg&gt; precompile is now parallelized through depth-first precompilation of dependencies. Errors will only throw for\ndirect dependencies listed in the Project.toml.\npkg&gt; precompile is now automatically triggered whenever Pkg changes the active manifest. Auto-precompilation will\nremember if a package has errored within the given environment and will not retry until it changes.\nAuto-precompilation can be gracefully interrupted with a ctrl-c and disabled by setting the environment variable\nJULIA_PKG_PRECOMPILE_AUTO=0.\nThe Pkg.BinaryPlatforms module has been moved into Base as Base.BinaryPlatforms and heavily reworked.\nApplications that want to be compatible with the old API should continue to import Pkg.BinaryPlatforms,\nhowever new users should use Base.BinaryPlatforms directly ([#37320]).\nThe Pkg.Artifacts module has been imported as a separate standard library.  It is still available as\nPkg.Artifacts, however starting from Julia v1.6+, packages may import simply Artifacts without importing\nall of Pkg alongside ([#37320]).\n\nLinearAlgebra\n\nNew method LinearAlgebra.issuccess(::CholeskyPivoted) for checking whether pivoted Cholesky factorization was\nsuccessful ([#36002]).\nUniformScaling can now be indexed into using ranges to return dense matrices and vectors ([#24359]).\nNew function LinearAlgebra.BLAS.get_num_threads() for getting the number of BLAS threads ([#36360]).\n(+)(::UniformScaling) is now defined, making +I a valid unary operation ([#36784]).\nInstances of UniformScaling are no longer isequal to matrices. Previous\nbehaviour violated the rule that isequal(x, y) implies hash(x) == hash(y).\nTransposing *Triangular matrices now returns matrices of the opposite triangular type, consistently\nwith adjoint!(::*Triangular) and transpose!(::*Triangular). Packages containing methods with, e.g.,\nAdjoint{&lt;:Any,&lt;:LowerTriangular{&lt;:Any,&lt;:OwnMatrixType}} should replace that by\nUpperTriangular{&lt;:Any,&lt;:Adjoint{&lt;:Any,&lt;:OwnMatrixType}} in the method signature ([#38168]).\n\nPrintf\n\nComplete overhaul of internal code to use the ryu float printing algorithms (from Julia 1.4); leads to\nconsistent 2-5x performance improvements.\nNew Printf.tofloat function allowing custom float types to more easily integrate with Printf formatting\nby converting their type to Float16, Float32, Float64, or BigFloat.\nNew Printf.format&quot;...&quot; and Printf.Format(...) functions that allow creating Printf.Format objects\nthat can be passed to Printf.format for easier dynamic printf formatting.\nPrintf.format(f::Printf.Format, args...) as a non-macro function that applies a printf format f to\nprovided args.\n\nREPL\n\n\nThe AbstractMenu extension interface of REPL.TerminalMenus has been extensively\noverhauled. The new interface does not rely on global configuration variables, is more\nconsistent in delegating printing of the navigation/selection markers, and provides\nimproved support for dynamic menus.  These changes are compatible with the previous\n(deprecated) interface, so are non-breaking.\nThe new API offers several enhancements:\n\nMenus are configured in their constructors via keyword arguments.\nFor custom menu types, the new Config and MultiSelectConfig replace the global CONFIG Dict.\nrequest(menu; cursor=1) allows you to control the initial cursor position in the menu (defaults to first item).\nMultiSelectMenu allows you to pass a list of initially-selected items with the selected keyword argument.\nwriteLine was deprecated to writeline, and writeline methods are not expected to print the cursor indicator.\nThe old writeLine continues to work, and any of its method extensions should print the cursor indicator as before.\nprintMenu has been deprecated to printmenu, and it both accepts a state input and returns a state output\nthat controls the number of terminal lines erased when the menu is next refreshed. This plus related changes\nmakes printmenu work properly when the number of menu items might change depending on user choices.\nnumoptions, returning the number of items in the menu, has been added as an alternative to implementing options.\nsuppress_output (primarily a testing option) has been added as a keyword argument to request,\nrather than a configuration option.\n\n\n\nTab completion now supports runs of consecutive sub/superscript characters,\ne.g. \\^(3) tab-completes to ⁽³⁾ ([#38649]).\n\n\nWindows REPL now supports 24-bit colors, by correctly interpreting virtual terminal escapes.\n\n\nSparseArrays\n\nDisplay large sparse matrices with a Unicode “spy” plot of their nonzero patterns,\nand display small sparse matrices by an Matrix-like 2d layout of their contents ([#33821]).\nNew convenient spdiagm([m, n,] v::AbstractVector) methods which call\nspdiagm([m, n,] 0 =&gt; v), consistently with their dense diagm counterparts ([#37684]).\n\nDates\n\nQuarter period is defined ([#35519]).\ncanonicalize can now take Period as an input ([#37391]).\nZero-valued FixedPeriods and OtherPeriods now compare equal, e.g.,\nYear(0) == Day(0). The behavior of non-zero Periods is not changed ([#37486]).\n\nDistributed\n\nNow supports invoking Windows workers via ssh (via new keyword argument shell=:wincmd in addprocs) ([#30614]).\nOther new keyword arguments in addprocs: ssh to specify the ssh client path, env to pass environment\nvariables to workers, and cmdline_cookie to work around an ssh problem with Windows workers that run older\n(pre-ConPTY) versions of Windows, Julia or OpenSSH ([#30614]).\n\nUUIDs\n\nChange uuid1 and uuid4 to use Random.RandomDevice() as default random number generator ([#35872]).\nAdded parse(::Type{UUID}, ::AbstractString) method.\n\nMmap\n\nOn Unix systems, the Mmap.madvise! function (along with OS-specific Mmap.MADV_*\nconstants) has been added to give advice on handling of memory-mapped arrays ([#37369]).\n\nDeprecated or removed\n\nThe Base.download function has been deprecated (silently, by default) in favor of the new Downloads.download\nstandard library function ([#37340]).\nThe Base.Grisu code has been officially removed (float printing was switched to the ryu algorithm code in 1.4).\nThe code is available from JuliaAttic if needed.\n\n","dateCreated":"2021-02-15T19:29:33+08:00","dateModified":"2021-02-15T19:30:33+08:00","datePublished":"2021-02-15T19:29:33+08:00","description":"","headline":"julia-v1.6-release","image":[],"mainEntityOfPage":{"@type":"WebPage","@id":"https://yuehhua.github.io/2021/02/15/julia-v1-6-release/"},"publisher":{"@type":"Organization","name":"Yueh-Hua Tu","sameAs":["https://github.com/yuehhua/","https://www.facebook.com/a504082002","https://www.linkedin.com/in/%E5%B2%B3%E8%8F%AF-%E6%9D%9C-6a3995a0/","mailto:a504082002@gmail.com"],"image":"https://www.gravatar.com/avatar/a565749fba4782b717234da670b273fd","logo":{"@type":"ImageObject","url":"https://www.gravatar.com/avatar/a565749fba4782b717234da670b273fd"}},"url":"https://yuehhua.github.io/2021/02/15/julia-v1-6-release/"}</script>
+    <meta name="description" content="Julia v1.6 Release Notes New language features  Types written with where syntax can now be used to define constructors, e.g. (Foo{T} where T)(x) &#x3D; .... &lt;-- and &lt;--&gt; are now available as infix">
+<meta property="og:type" content="blog">
+<meta property="og:title" content="julia-v1.6-release">
+<meta property="og:url" content="https://yuehhua.github.io/2021/02/15/julia-v1-6-release/index.html">
 <meta property="og:site_name" content="Dream Maker">
+<meta property="og:description" content="Julia v1.6 Release Notes New language features  Types written with where syntax can now be used to define constructors, e.g. (Foo{T} where T)(x) &#x3D; .... &lt;-- and &lt;--&gt; are now available as infix">
 <meta property="og:locale" content="zh_TW">
+<meta property="article:published_time" content="2021-02-15T11:29:33.000Z">
+<meta property="article:modified_time" content="2021-02-15T11:30:33.485Z">
 <meta property="article:author" content="Yueh-Hua Tu">
 <meta property="article:tag" content="machine learning">
 <meta property="article:tag" content="deep learning">
@@ -62,7 +66,7 @@
 
     
 
-<header id="header" data-behavior="2">
+<header id="header" data-behavior="5">
     <i id="btn-open-sidebar" class="fa fa-lg fa-bars"></i>
     <div class="header-title">
         <a class="header-title-link" href="/%20">Dream Maker</a>
@@ -80,7 +84,7 @@
             <!-- Define author's picture -->
 
 
-<nav id="sidebar" data-behavior="2">
+<nav id="sidebar" data-behavior="5">
     <div class="sidebar-container">
         
         
@@ -227,157 +231,22 @@
 </nav>
 
             
-            <div id="main" data-behavior="2"
+            <div id="main" data-behavior="5"
                  class="
                         hasCoverMetaIn
                         ">
                 
-    <section class="postShorten-group main-content-wrap">
-    
-    
-    <article class="postShorten postShorten--thumbnailimg-bottom">
-        <div class="postShorten-wrap">
-            
-            <div class="postShorten-header">
-                <h1 class="postShorten-title">
-                    
-                        <a class="link-unstyled" href="/2021/03/19/use-of-numerical-type-in-parametric-functions-in-julia/">
-                            在 Julia 的 parametric methods 使用數值型別（numerical type）
-                        </a>
-                    
-                </h1>
-                <div class="postShorten-meta">
-    <time datetime="2021-03-19T14:21:30+08:00">
-	
-		    3月 19, 2021
-    	
-    </time>
-    
-        <span>分類 </span>
+    <article class="post">
         
-    <a class="category-link" href="/categories/My-Style/">My Style</a>, <a class="category-link" href="/categories/My-Style/Computer-Science/">Computer Science</a>, <a class="category-link" href="/categories/My-Style/Computer-Science/Julialang/">Julialang</a>
-
-
+                
+                    <div class="post-header main-content-wrap text-left">
     
-</div>
-
-            </div>
-            
-                <div class="postShorten-content">
-                    <p>對於 Julia 比較不熟悉的使用者或開發者，要怎麼定函式的參數型別是一個大學問。</p>
-<figure class="highlight julia"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">function</span> average(xs)</span><br><span class="line">    <span class="keyword">return</span> sum(xs)/length(xs)</span><br><span class="line"><span class="keyword">end</span></span><br></pre></td></tr></table></figure>
-<p>例如以上的 <code>average</code> 函式，<code>xs</code> 要定成什麼樣的型別比較好？</p>
-<p>可能有人會以他所測試的情境去定：</p>
-<figure class="highlight julia"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line">julia&gt; xs = rand(<span class="number">10</span>)</span><br><span class="line"><span class="number">10</span>-element <span class="built_in">Array</span>&#123;<span class="built_in">Float64</span>,<span class="number">1</span>&#125;:</span><br><span class="line"> <span class="number">0.8261912048684596</span></span><br><span class="line"> <span class="number">0.4466692353358077</span></span><br><span class="line"> <span class="number">0.6337754306737924</span></span><br><span class="line"> <span class="number">0.1297961522759261</span></span><br><span class="line"> <span class="number">0.4699412442087936</span></span><br><span class="line"> <span class="number">0.6194816490253636</span></span><br><span class="line"> <span class="number">0.8258926319092839</span></span><br><span class="line"> <span class="number">0.05094839501664228</span></span><br><span class="line"> <span class="number">0.21008570113108194</span></span><br><span class="line"> <span class="number">0.16250331333741275</span></span><br><span class="line"></span><br><span class="line">julia&gt; <span class="keyword">function</span> average(xs::<span class="built_in">Array</span>&#123;<span class="built_in">Float64</span>,<span class="number">1</span>&#125;)</span><br><span class="line">           <span class="keyword">return</span> sum(xs)/length(xs)</span><br><span class="line">       <span class="keyword">end</span></span><br><span class="line">average (generic <span class="keyword">function</span> with <span class="number">1</span> method)</span><br><span class="line"></span><br><span class="line">julia&gt; average(xs)</span><br><span class="line"><span class="number">0.4375284957782564</span></span><br></pre></td></tr></table></figure>
-<p>這樣當然是沒有錯，但是會過於狹隘。這樣定出來只有一維矩陣可以適用，而且裡頭的元素還必須是 <code>Float64</code> 型別。</p>
-<h2 id="思考廣義化">思考廣義化</h2>
-<p>我們能不能讓所有的陣列都適用？那就可以改成這樣：</p>
-<figure class="highlight julia"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">function</span> average(xs::<span class="built_in">AbstractArray</span>&#123;<span class="built_in">Float64</span>&#125;)</span><br><span class="line">    <span class="keyword">return</span> sum(xs)/length(xs)</span><br><span class="line"><span class="keyword">end</span></span><br></pre></td></tr></table></figure>
-<p>可是這樣又限制了元素的型別，像是 <code>Float32</code> 或是無理數 <code>Irrational</code> 就不適用。</p>
-<p>如果我們要將他廣義化到所有的整數跟浮點數都適用，也支援無理數。</p>
-<p>那麼我們可以考慮支援實數 <code>Real</code>，可以寫成以下的樣子：</p>
-<figure class="highlight julia"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">function</span> average(xs::<span class="built_in">AbstractArray</span>&#123;&lt;:<span class="built_in">Real</span>&#125;)</span><br><span class="line">    <span class="keyword">return</span> sum(xs)/length(xs)</span><br><span class="line"><span class="keyword">end</span></span><br></pre></td></tr></table></figure>
-<p>或是也可以考慮將他參數化：</p>
-<figure class="highlight julia"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">function</span> average(xs::<span class="built_in">AbstractArray</span>&#123;T&#125;) <span class="keyword">where</span> &#123;T&lt;:<span class="built_in">Real</span>&#125;</span><br><span class="line">    <span class="keyword">return</span> sum(xs)/length(xs)</span><br><span class="line"><span class="keyword">end</span></span><br></pre></td></tr></table></figure>
-<p>這兩種寫法所編譯出來的 method instance 是一樣的。</p>
-<p>這兩種寫法差異在於，如果將他參數化，開發者有機會將參數型別 <code>T</code> 取出來使用。</p>
-<h2 id="建議">建議</h2>
-<p>為了避免大家寫出來的函式太過於狹義，所以在這邊給出一些建議。</p>
-<p>如果要支援的型別是所有整數，那麼可以考慮使用 <code>Integer</code>，它可以支援 <code>Bool</code>、<code>Int64</code>、<code>UInt8</code> 之類的型別。</p>
-<p>如果要支援的型別是所有的整數以及浮點數等等的，那麼可以考慮使用 <code>Real</code>，它可以支援 <code>Float64</code>、<code>Irrational</code> 等等的型別。</p>
-<p>如果還想要支援複數 <code>Complex</code>，那麼就直接使用數字 <code>Number</code> 吧！</p>
-<h2 id="思考點">思考點</h2>
-<p>那至於要支援什麼樣的型別以及他的範疇，這是個很好的問題。</p>
-<p>那就要問在你的函式當中所用到的函式支援哪些型別？</p>
-<p>例如在 <code>average</code> 中有 <code>sum</code> 以及 <code>length</code> 函式。</p>
-<p><code>sum</code> 支援包含 <code>AbstractArray</code>、iterable，甚至是 <code>AbstractRange</code>。</p>
-<p><code>length</code> 則支援所有的陣列 <code>AbstractArray</code>、集合 <code>Set</code>、字典 <code>Dict</code>、所有字串 <code>AbstractString</code> 等等的。</p>
-<p>接下來要思考 <code>average</code> 所要提供的功能是什麼？他的語義是什麼？</p>
-<p>就字面上的意義而言，他要提供的是「某個集合體的平均」。這時候就可以去定義要支援什麼樣的集合體，以及支援集合體中的元素範疇是什麼。</p>
-<p>最後就可以決定這個函式的型別參數應該是什麼了。</p>
-<h2 id="自定義型別">自定義型別</h2>
-<p>如果有人想要自行設計自己的型別，並且這個型別支援 <code>sum</code> 及 <code>length</code>，那理論上，這個型別就自動支援 <code>average</code>。</p>
-<p>要讓其他人去自行定義型別，並且自動支援 <code>average</code>，為了避免將這個函式綁得太死，那就乾脆不定義型別。</p>
-<figure class="highlight julia"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">function</span> average(xs)</span><br><span class="line">    <span class="keyword">return</span> sum(xs)/length(xs)</span><br><span class="line"><span class="keyword">end</span></span><br></pre></td></tr></table></figure>
-<p>這樣是可以的。</p>
-<p>有沒有發現，與其加一堆型別將函式綁死（加法設計），不如把型別拿掉還來的更好（減法設計）。</p>
-
-                    
-                        
-
-                    
-                    
-                        <p>
-                            <a href="/2021/03/19/use-of-numerical-type-in-parametric-functions-in-julia/#post-footer" class="postShorten-excerpt_link link">
-                                留言與分享
-                            </a>
-                        </p>
-                    
-                </div>
-            
-        </div>
-        
-    </article>
+        <h1 class="post-title">
+            julia-v1.6-release
+        </h1>
     
     
-    <article class="postShorten postShorten--thumbnailimg-bottom">
-        <div class="postShorten-wrap">
-            
-            <div class="postShorten-header">
-                <h1 class="postShorten-title">
-                    
-                        <a class="link-unstyled" href="/2021/03/15/test/">
-                            test
-                        </a>
-                    
-                </h1>
-                <div class="postShorten-meta">
-    <time datetime="2021-03-15T11:24:51+08:00">
-	
-		    3月 15, 2021
-    	
-    </time>
-    
-</div>
-
-            </div>
-            
-                <div class="postShorten-content">
-                    <a data-fancybox href="https://www.youtube.com/watch?v=_sI_Ps7JSEk" target="_blank" rel="noopener">
-    YouTube video
-</a>
-<img data-fancybox src="/images/pickachu.png">
-
-                    
-                        
-
-                    
-                    
-                        <p>
-                            <a href="/2021/03/15/test/#post-footer" class="postShorten-excerpt_link link">
-                                留言與分享
-                            </a>
-                        </p>
-                    
-                </div>
-            
-        </div>
-        
-    </article>
-    
-    
-    <article class="postShorten postShorten--thumbnailimg-bottom">
-        <div class="postShorten-wrap">
-            
-            <div class="postShorten-header">
-                <h1 class="postShorten-title">
-                    
-                        <a class="link-unstyled" href="/2021/02/15/julia-v1-6-release/">
-                            julia-v1.6-release
-                        </a>
-                    
-                </h1>
-                <div class="postShorten-meta">
+        <div class="post-meta">
     <time datetime="2021-02-15T19:29:33+08:00">
 	
 		    2月 15, 2021
@@ -386,10 +255,13 @@
     
 </div>
 
-            </div>
-            
-                <div class="postShorten-content">
-                    <h1>Julia v1.6 Release Notes</h1>
+    
+</div>
+
+                        
+                            <div class="post-content markdown">
+                                <div class="main-content-wrap">
+                                    <h1>Julia v1.6 Release Notes</h1>
 <h2 id="New-language-features">New language features</h2>
 <ul>
 <li>Types written with <code>where</code> syntax can now be used to define constructors, e.g.<br>
@@ -655,170 +527,89 @@ standard library function ([#37340]).</li>
 The code is available from <a href="https://github.com/JuliaAttic/Grisu.jl" target="_blank" rel="noopener">JuliaAttic</a> if needed.</li>
 </ul>
 
-                    
-                        
+                                        
 
+                                </div>
+                            </div>
+                            <div id="post-footer" class="post-footer main-content-wrap">
+                                
+                                        
+                                            <div class="post-actions-wrap">
+    <nav>
+        <ul class="post-actions post-action-nav">
+            <li class="post-action">
+                
                     
+                    <a class="post-action-btn btn btn--default tooltip--top" href="/2021/03/15/test/" data-tooltip="test" aria-label="上一篇: test">
+                
+                    <i class="fa fa-angle-left" aria-hidden="true"></i>
+                    <span class="hide-xs hide-sm text-small icon-ml">上一篇</span>
+                </a>
+            </li>
+            <li class="post-action">
+                
                     
-                        <p>
-                            <a href="/2021/02/15/julia-v1-6-release/#post-footer" class="postShorten-excerpt_link link">
-                                留言與分享
-                            </a>
-                        </p>
-                    
-                </div>
-            
-        </div>
+                    <a class="post-action-btn btn btn--default tooltip--top" href="/2021/01/14/julia-module-code-loading/" data-tooltip="Julia冷知識-你知道模組中的程式碼是何時被執行的嗎" aria-label="下一篇: Julia冷知識-你知道模組中的程式碼是何時被執行的嗎">
+                
+                    <span class="hide-xs hide-sm text-small icon-mr">下一篇</span>
+                    <i class="fa fa-angle-right" aria-hidden="true"></i>
+                </a>
+            </li>
+        </ul>
+    </nav>
+    <ul class="post-actions post-action-share">
+        <li class="post-action hide-lg hide-md hide-sm">
+            <a class="post-action-btn btn btn--default btn-open-shareoptions" href="#btn-open-shareoptions" aria-label="Share this post">
+                <i class="fa fa-share-alt" aria-hidden="true"></i>
+            </a>
+        </li>
         
-    </article>
-    
-    
-    <article class="postShorten postShorten--thumbnailimg-right">
-        <div class="postShorten-wrap">
             
-            <div class="postShorten-header">
-                <h1 class="postShorten-title">
-                    
-                        <a class="link-unstyled" href="/2021/01/14/julia-module-code-loading/">
-                            Julia冷知識-你知道模組中的程式碼是何時被執行的嗎
-                        </a>
-                    
-                </h1>
-                <div class="postShorten-meta">
-    <time datetime="2021-01-14T11:50:26+08:00">
-	
-		    1月 14, 2021
-    	
-    </time>
-    
-        <span>分類 </span>
-        
-    <a class="category-link" href="/categories/My-Style/">My Style</a>, <a class="category-link" href="/categories/My-Style/Computer-Science/">Computer Science</a>, <a class="category-link" href="/categories/My-Style/Computer-Science/Julialang/">Julialang</a>
-
-
-    
-</div>
-
-            </div>
             
-                <div class="postShorten-excerpt">
-                    <figure class="highlight julia"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">module</span> Foo</span><br><span class="line"></span><br><span class="line"><span class="comment"># Some code here</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">function</span> __init__()</span><br><span class="line">    <span class="comment"># Some code here too</span></span><br><span class="line"><span class="keyword">end</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">end</span></span><br></pre></td></tr></table></figure>
-<p>是否曾經疑惑過寫在 module 中的程式碼會在何時被載入呢？</p>
-                    
-                        <a href="/2021/01/14/julia-module-code-loading/" class="postShorten-excerpt_link link">
-                            繼續閱讀
-                        </a>
-                        
-                    
-                </div>
-            
-        </div>
-        
-    </article>
-    
-    
-    <article class="postShorten postShorten--thumbnailimg-right">
-        <div class="postShorten-wrap">
-            
-            <div class="postShorten-header">
-                <h1 class="postShorten-title">
-                    
-                        <a class="link-unstyled" href="/2021/01/09/dispatch-on-function/">
-                            依函式分派（dispatch on function）
-                        </a>
-                    
-                </h1>
-                <div class="postShorten-meta">
-    <time datetime="2021-01-09T11:51:45+08:00">
-	
-		    1月 09, 2021
-    	
-    </time>
-    
-        <span>分類 </span>
-        
-    <a class="category-link" href="/categories/My-Style/">My Style</a>, <a class="category-link" href="/categories/My-Style/Computer-Science/">Computer Science</a>, <a class="category-link" href="/categories/My-Style/Computer-Science/Julialang/">Julialang</a>
-
-
-    
-</div>
-
-            </div>
-            
-                <div class="postShorten-excerpt">
-                    <p>依函式分派（dispatch on function）算是在 Julia 語言中相當常見的一個技巧，它依賴 Julia 的多重分派機制（multiple dispatch），可以依據不同的函式有不一樣的行為。</p>
-<h2 id="舉例">舉例</h2>
-<p>在資料分析或是資料庫分析中，常常會需要對資料欄位進行聚合運算，像是加總的 <code>sum</code>、平均的 <code>avg</code> 或是計數的 <code>count</code>。他們都是用同一個欄位的資料，聚合成一個值輸出。當我們需要將資料相加時，我們會寫出以下的程式碼：</p>
-<figure class="highlight julia"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">a = [<span class="number">1</span>,<span class="number">2</span>,<span class="number">3</span>,<span class="number">4</span>,<span class="number">5</span>]</span><br><span class="line">sum(a)</span><br></pre></td></tr></table></figure>
-<p>這看起來很直觀，但往往在資料庫的設計當中，只會設計一些常用到的聚合函式（aggregate function）。</p>
-<p>那麼有沒有一個方式可以得到一個比較廣義的聚合函式呢？</p>
-                    
-                        <a href="/2021/01/09/dispatch-on-function/" class="postShorten-excerpt_link link">
-                            繼續閱讀
-                        </a>
-                        
-                    
-                </div>
-            
-        </div>
-        
-    </article>
-    
-    
-    <article class="postShorten postShorten--thumbnailimg-right">
-        <div class="postShorten-wrap">
-            
-            <div class="postShorten-header">
-                <h1 class="postShorten-title">
-                    
-                        <a class="link-unstyled" href="/2021/01/07/dispatch-on-types/">
-                            依型別分派（dispatch on types）
-                        </a>
-                    
-                </h1>
-                <div class="postShorten-meta">
-    <time datetime="2021-01-07T23:43:49+08:00">
-	
-		    1月 07, 2021
-    	
-    </time>
-    
-        <span>分類 </span>
-        
-    <a class="category-link" href="/categories/My-Style/">My Style</a>, <a class="category-link" href="/categories/My-Style/Computer-Science/">Computer Science</a>, <a class="category-link" href="/categories/My-Style/Computer-Science/Julialang/">Julialang</a>
-
-
-    
-</div>
-
-            </div>
-            
-                <div class="postShorten-excerpt">
-                    <p>依型別分派（dispatch on types）算是在 Julia 語言中相當常見的一個技巧，它依賴 Julia 的多重分派機制（multiple dispatch），可以依據不同的型別有不一樣的行為。</p>
-<p>依據不同的型別有不同的行為，而不是實體。直觀上看起來會有點像傳統物件導向當中的 class method，不過在 Julia 當中還有更多用途。</p>
-                    
-                        <a href="/2021/01/07/dispatch-on-types/" class="postShorten-excerpt_link link">
-                            繼續閱讀
-                        </a>
-                        
-                    
-                </div>
-            
-        </div>
-        
-    </article>
-    
-    <div class="pagination-bar">
-    <ul class="pagination">
+            <li class="post-action hide-xs">
+                <a class="post-action-btn btn btn--default" target="new" href="https://www.facebook.com/sharer/sharer.php?u=https://yuehhua.github.io/2021/02/15/julia-v1-6-release/" title="分享到 Facebook">
+                    <i class="fa fa-facebook-official" aria-hidden="true"></i>
+                </a>
+            </li>
         
         
-        <li class="pagination-number">第 1 頁 共 1 頁</li>
+            
+                <li class="post-action">
+                    <a class="post-action-btn btn btn--default" href="#disqus_thread">
+                        <i class="fa fa-comment-o"></i>
+                    </a>
+                </li>
+            
+        
+        <li class="post-action">
+            
+                <a class="post-action-btn btn btn--default" href="#" aria-label="Back to top">
+            
+                <i class="fa fa-list" aria-hidden="true"></i>
+            </a>
+        </li>
     </ul>
 </div>
 
-</section>
 
-
+                                                
+                                                    
+                                                        
+                                                            <div id="disqus_thread">
+    <noscript>Please enable JavaScript to view the <a href="//disqus.com/?ref_noscript" target="_blank" rel="noopener">comments powered by Disqus.</a></noscript>
+</div>
+                                                                
+                                                                            
+                            </div>
+                            
+                                <script src='https://unpkg.com/mermaid@7.1.2/dist/mermaid.min.js'></script>
+                                <script>
+                                    if (window.mermaid) {
+                                        mermaid.initialize({ theme: 'forest' });
+                                    }
+                                </script>
+                                
+    </article>
 
                 <footer id="footer" class="main-content-wrap">
     <span class="copyrights">
@@ -827,6 +618,82 @@ The code is available from <a href="https://github.com/JuliaAttic/Grisu.jl" targ
 </footer>
 
             </div>
+            
+                <div id="bottom-bar" class="post-bottom-bar" data-behavior="5">
+                    <div class="post-actions-wrap">
+    <nav>
+        <ul class="post-actions post-action-nav">
+            <li class="post-action">
+                
+                    
+                    <a class="post-action-btn btn btn--default tooltip--top" href="/2021/03/15/test/" data-tooltip="test" aria-label="上一篇: test">
+                
+                    <i class="fa fa-angle-left" aria-hidden="true"></i>
+                    <span class="hide-xs hide-sm text-small icon-ml">上一篇</span>
+                </a>
+            </li>
+            <li class="post-action">
+                
+                    
+                    <a class="post-action-btn btn btn--default tooltip--top" href="/2021/01/14/julia-module-code-loading/" data-tooltip="Julia冷知識-你知道模組中的程式碼是何時被執行的嗎" aria-label="下一篇: Julia冷知識-你知道模組中的程式碼是何時被執行的嗎">
+                
+                    <span class="hide-xs hide-sm text-small icon-mr">下一篇</span>
+                    <i class="fa fa-angle-right" aria-hidden="true"></i>
+                </a>
+            </li>
+        </ul>
+    </nav>
+    <ul class="post-actions post-action-share">
+        <li class="post-action hide-lg hide-md hide-sm">
+            <a class="post-action-btn btn btn--default btn-open-shareoptions" href="#btn-open-shareoptions" aria-label="Share this post">
+                <i class="fa fa-share-alt" aria-hidden="true"></i>
+            </a>
+        </li>
+        
+            
+            
+            <li class="post-action hide-xs">
+                <a class="post-action-btn btn btn--default" target="new" href="https://www.facebook.com/sharer/sharer.php?u=https://yuehhua.github.io/2021/02/15/julia-v1-6-release/" title="分享到 Facebook">
+                    <i class="fa fa-facebook-official" aria-hidden="true"></i>
+                </a>
+            </li>
+        
+        
+            
+                <li class="post-action">
+                    <a class="post-action-btn btn btn--default" href="#disqus_thread">
+                        <i class="fa fa-comment-o"></i>
+                    </a>
+                </li>
+            
+        
+        <li class="post-action">
+            
+                <a class="post-action-btn btn btn--default" href="#" aria-label="Back to top">
+            
+                <i class="fa fa-list" aria-hidden="true"></i>
+            </a>
+        </li>
+    </ul>
+</div>
+
+
+                </div>
+                <div id="share-options-bar" class="share-options-bar" data-behavior="5">
+    <i id="btn-close-shareoptions" class="fa fa-close"></i>
+    <ul class="share-options">
+        
+            
+            
+            <li class="share-option">
+                <a class="share-option-btn" target="new" href="https://www.facebook.com/sharer/sharer.php?u=https://yuehhua.github.io/2021/02/15/julia-v1-6-release/">
+                    <i class="fa fa-facebook-official" aria-hidden="true"></i><span>分享到 Facebook</span>
+                </a>
+            </li>
+        
+    </ul>
+</div>
+
             
         </div>
         
@@ -868,7 +735,43 @@ The code is available from <a href="https://github.com/JuliaAttic/Grisu.jl" targ
 
 <script src="/assets/js/script-xzfezjobyekpxrjktw5tz6muvzqfsbmo5n6atk3p5om9ulfptldi3p7cyqd8.min.js"></script>
 
-<!--SCRIPTS END--><!-- hexo-inject:begin --><!-- hexo-inject:end -->
+<!--SCRIPTS END-->
+
+
+<script>
+    var disqus_config = function () {
+        this.page.url = 'https://yuehhua.github.io/2021/02/15/julia-v1-6-release/';
+                 
+            this.page.identifier = '2021/02/15/julia-v1-6-release/';
+                 
+             };
+    (function () {
+        var d = document, s = d.createElement('script');
+        var disqus_shortname = 'dream-maker';
+        s.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+
+        s.setAttribute('data-timestamp', +new Date());
+        (d.head || d.body).appendChild(s);
+    })();
+</script><!-- hexo-inject:begin --><!-- Begin: Injected MathJax -->
+<script type="text/x-mathjax-config">
+  MathJax.Hub.Config({"tex2jax":{"inlineMath":[["$","$"],["\\(","\\)"]],"skipTags":["script","noscript","style","textarea","pre","code"],"processEscapes":true},"TeX":{"equationNumbers":{"autoNumber":"AMS"}}});
+</script>
+
+<script type="text/x-mathjax-config">
+  MathJax.Hub.Queue(function() {
+    var all = MathJax.Hub.getAllJax(), i;
+    for(i=0; i < all.length; i += 1) {
+      all[i].SourceElement().parentNode.className += ' has-jax';
+    }
+  });
+</script>
+
+<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.6/latest.js?config=TeX-AMS-MML_HTMLorMML">
+</script>
+<!-- End: Injected MathJax -->
+<!-- hexo-inject:end -->
+
 
 
     </body>

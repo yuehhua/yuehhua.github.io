@@ -1,0 +1,537 @@
+
+<!DOCTYPE html>
+<html lang="zh-tw,en,default">
+    
+<head>
+    <!-- hexo-inject:begin --><!-- hexo-inject:end --><meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="generator" content="Dream Maker">
+    <title>在 Julia 的 parametric methods 使用數值型別（numerical type） - Dream Maker</title>
+    <meta name="author" content="Yueh-Hua Tu">
+    
+        <meta name="keywords" content="machine learning,deep learning,topology,">
+    
+    
+    
+        <link rel="alternate" type="application/atom+xml" title="RSS" href="/atom.xml">
+    
+    <script type="application/ld+json">{"@context":"http://schema.org","@type":"BlogPosting","author":{"@type":"Person","name":"Yueh-Hua Tu","sameAs":["https://github.com/yuehhua/","https://www.facebook.com/a504082002","https://www.linkedin.com/in/%E5%B2%B3%E8%8F%AF-%E6%9D%9C-6a3995a0/","mailto:a504082002@gmail.com"],"image":"https://www.gravatar.com/avatar/a565749fba4782b717234da670b273fd"},"articleBody":"對於 Julia 比較不熟悉的使用者或開發者，要怎麼定函式的參數型別是一個大學問。\n123function average(xs)    return sum(xs)/length(xs)end\n例如以上的 average 函式，xs 要定成什麼樣的型別比較好？\n可能有人會以他所測試的情境去定：\n1234567891011121314151617181920julia&gt; xs = rand(10)10-element Array&#123;Float64,1&#125;: 0.8261912048684596 0.4466692353358077 0.6337754306737924 0.1297961522759261 0.4699412442087936 0.6194816490253636 0.8258926319092839 0.05094839501664228 0.21008570113108194 0.16250331333741275julia&gt; function average(xs::Array&#123;Float64,1&#125;)           return sum(xs)/length(xs)       endaverage (generic function with 1 method)julia&gt; average(xs)0.4375284957782564\n這樣當然是沒有錯，但是會過於狹隘。這樣定出來只有一維矩陣可以適用，而且裡頭的元素還必須是 Float64 型別。\n思考廣義化\n我們能不能讓所有的陣列都適用？那就可以改成這樣：\n123function average(xs::AbstractArray&#123;Float64&#125;)    return sum(xs)/length(xs)end\n可是這樣又限制了元素的型別，像是 Float32 或是無理數 Irrational 就不適用。\n如果我們要將他廣義化到所有的整數跟浮點數都適用，也支援無理數。\n那麼我們可以考慮支援實數 Real，可以寫成以下的樣子：\n123function average(xs::AbstractArray&#123;&lt;:Real&#125;)    return sum(xs)/length(xs)end\n或是也可以考慮將他參數化：\n123function average(xs::AbstractArray&#123;T&#125;) where &#123;T&lt;:Real&#125;    return sum(xs)/length(xs)end\n這兩種寫法所編譯出來的 method instance 是一樣的。\n這兩種寫法差異在於，如果將他參數化，開發者有機會將參數型別 T 取出來使用。\n建議\n為了避免大家寫出來的函式太過於狹義，所以在這邊給出一些建議。\n如果要支援的型別是所有整數，那麼可以考慮使用 Integer，它可以支援 Bool、Int64、UInt8 之類的型別。\n如果要支援的型別是所有的整數以及浮點數等等的，那麼可以考慮使用 Real，它可以支援 Float64、Irrational 等等的型別。\n如果還想要支援複數 Complex，那麼就直接使用數字 Number 吧！\n思考點\n那至於要支援什麼樣的型別以及他的範疇，這是個很好的問題。\n那就要問在你的函式當中所用到的函式支援哪些型別？\n例如在 average 中有 sum 以及 length 函式。\nsum 支援包含 AbstractArray、iterable，甚至是 AbstractRange。\nlength 則支援所有的陣列 AbstractArray、集合 Set、字典 Dict、所有字串 AbstractString 等等的。\n接下來要思考 average 所要提供的功能是什麼？他的語義是什麼？\n就字面上的意義而言，他要提供的是「某個集合體的平均」。這時候就可以去定義要支援什麼樣的集合體，以及支援集合體中的元素範疇是什麼。\n最後就可以決定這個函式的型別參數應該是什麼了。\n自定義型別\n如果有人想要自行設計自己的型別，並且這個型別支援 sum 及 length，那理論上，這個型別就自動支援 average。\n要讓其他人去自行定義型別，並且自動支援 average，為了避免將這個函式綁得太死，那就乾脆不定義型別。\n123function average(xs)    return sum(xs)/length(xs)end\n這樣是可以的。\n有沒有發現，與其加一堆型別將函式綁死（加法設計），不如把型別拿掉還來的更好（減法設計）。\n","dateCreated":"2021-03-19T14:21:30+08:00","dateModified":"2021-03-19T14:31:04+08:00","datePublished":"2021-03-19T14:21:30+08:00","description":"","headline":"在 Julia 的 parametric methods 使用數值型別（numerical type）","image":[],"mainEntityOfPage":{"@type":"WebPage","@id":"https://yuehhua.github.io/2021/03/19/use-of-numerical-type-in-parametric-functions-in-julia/"},"publisher":{"@type":"Organization","name":"Yueh-Hua Tu","sameAs":["https://github.com/yuehhua/","https://www.facebook.com/a504082002","https://www.linkedin.com/in/%E5%B2%B3%E8%8F%AF-%E6%9D%9C-6a3995a0/","mailto:a504082002@gmail.com"],"image":"https://www.gravatar.com/avatar/a565749fba4782b717234da670b273fd","logo":{"@type":"ImageObject","url":"https://www.gravatar.com/avatar/a565749fba4782b717234da670b273fd"}},"url":"https://yuehhua.github.io/2021/03/19/use-of-numerical-type-in-parametric-functions-in-julia/"}</script>
+    <meta name="description" content="對於 Julia 比較不熟悉的使用者或開發者，要怎麼定函式的參數型別是一個大學問。 123function average(xs)    return sum(xs)&#x2F;length(xs)end 例如以上的 average 函式，xs 要定成什麼樣的型別比較好？ 可能有人會以他所測試的情境去定： 1234567891011121314151617181920julia&gt; xs &#x3D; rand(">
+<meta property="og:type" content="blog">
+<meta property="og:title" content="在 Julia 的 parametric methods 使用數值型別（numerical type）">
+<meta property="og:url" content="https://yuehhua.github.io/2021/03/19/use-of-numerical-type-in-parametric-functions-in-julia/index.html">
+<meta property="og:site_name" content="Dream Maker">
+<meta property="og:description" content="對於 Julia 比較不熟悉的使用者或開發者，要怎麼定函式的參數型別是一個大學問。 123function average(xs)    return sum(xs)&#x2F;length(xs)end 例如以上的 average 函式，xs 要定成什麼樣的型別比較好？ 可能有人會以他所測試的情境去定： 1234567891011121314151617181920julia&gt; xs &#x3D; rand(">
+<meta property="og:locale" content="zh_TW">
+<meta property="article:published_time" content="2021-03-19T06:21:30.000Z">
+<meta property="article:modified_time" content="2021-03-19T06:31:04.488Z">
+<meta property="article:author" content="Yueh-Hua Tu">
+<meta property="article:tag" content="machine learning">
+<meta property="article:tag" content="deep learning">
+<meta property="article:tag" content="topology">
+<meta name="twitter:card" content="summary">
+    
+    
+        
+    
+    
+    
+    
+    
+    <!--STYLES-->
+    
+<link rel="stylesheet" href="/assets/css/style-3frockyt2j28isvdztjchy5nhkz8tjki9ermufc1ckptmvjdftux94m2ahub.min.css">
+
+    <!--STYLES END-->
+    
+    <script type="text/javascript">
+        (function (i, s, o, g, r, a, m) {
+        i['GoogleAnalyticsObject'] = r; i[r] = i[r] || function () {
+            (i[r].q = i[r].q || []).push(arguments)
+        }, i[r].l = 1 * new Date(); a = s.createElement(o),
+            m = s.getElementsByTagName(o)[0]; a.async = 1; a.src = g; m.parentNode.insertBefore(a, m)
+        })(window, document, 'script', '//www.google-analytics.com/analytics.js', 'ga');
+
+        ga('create', 'UA-119690895-1', 'auto');
+        ga('send', 'pageview');
+    </script><!-- hexo-inject:begin --><!-- hexo-inject:end -->
+    
+    
+</head>
+
+    <body>
+        <!-- hexo-inject:begin --><!-- hexo-inject:end --><div id="blog">
+            <!-- Define author's picture -->
+
+
+    
+
+<header id="header" data-behavior="5">
+    <i id="btn-open-sidebar" class="fa fa-lg fa-bars"></i>
+    <div class="header-title">
+        <a class="header-title-link" href="/%20">Dream Maker</a>
+    </div>
+    
+        
+            <a  class="header-right-picture "
+                href="#about">
+        
+        
+        </a>
+    
+</header>
+
+            <!-- Define author's picture -->
+
+
+<nav id="sidebar" data-behavior="5">
+    <div class="sidebar-container">
+        
+        
+            <ul class="sidebar-buttons">
+            
+                <li class="sidebar-button">
+                    
+                        <a  class="sidebar-button-link "
+                             href="/%20"
+                            
+                            title="首頁"
+                        >
+                    
+                        <i class="sidebar-button-icon fa fa-home" aria-hidden="true"></i>
+                        <span class="sidebar-button-desc">首頁</span>
+                    </a>
+            </li>
+            
+                <li class="sidebar-button">
+                    
+                        <a  class="sidebar-button-link "
+                             href="/all-categories"
+                            
+                            title="分類"
+                        >
+                    
+                        <i class="sidebar-button-icon fa fa-bookmark" aria-hidden="true"></i>
+                        <span class="sidebar-button-desc">分類</span>
+                    </a>
+            </li>
+            
+                <li class="sidebar-button">
+                    
+                        <a  class="sidebar-button-link "
+                             href="/all-tags"
+                            
+                            title="標籤"
+                        >
+                    
+                        <i class="sidebar-button-icon fa fa-tags" aria-hidden="true"></i>
+                        <span class="sidebar-button-desc">標籤</span>
+                    </a>
+            </li>
+            
+                <li class="sidebar-button">
+                    
+                        <a  class="sidebar-button-link "
+                             href="/all-archives"
+                            
+                            title="所有文章"
+                        >
+                    
+                        <i class="sidebar-button-icon fa fa-archive" aria-hidden="true"></i>
+                        <span class="sidebar-button-desc">所有文章</span>
+                    </a>
+            </li>
+            
+                <li class="sidebar-button">
+                    
+                        <a  class="sidebar-button-link open-algolia-search"
+                             href="#search"
+                            
+                            title="搜尋"
+                        >
+                    
+                        <i class="sidebar-button-icon fa fa-search" aria-hidden="true"></i>
+                        <span class="sidebar-button-desc">搜尋</span>
+                    </a>
+            </li>
+            
+                <li class="sidebar-button">
+                    
+                        <a  class="sidebar-button-link "
+                             href="#about"
+                            
+                            title="關於"
+                        >
+                    
+                        <i class="sidebar-button-icon fa fa-question" aria-hidden="true"></i>
+                        <span class="sidebar-button-desc">關於</span>
+                    </a>
+            </li>
+            
+        </ul>
+        
+            <ul class="sidebar-buttons">
+            
+                <li class="sidebar-button">
+                    
+                        <a  class="sidebar-button-link " href="https://github.com/yuehhua/" target="_blank" rel="noopener" title="GitHub">
+                    
+                        <i class="sidebar-button-icon fab fa-github" aria-hidden="true"></i>
+                        <span class="sidebar-button-desc">GitHub</span>
+                    </a>
+            </li>
+            
+                <li class="sidebar-button">
+                    
+                        <a  class="sidebar-button-link " href="https://www.facebook.com/a504082002" target="_blank" rel="noopener" title="Facebook">
+                    
+                        <i class="sidebar-button-icon fab fa-facebook" aria-hidden="true"></i>
+                        <span class="sidebar-button-desc">Facebook</span>
+                    </a>
+            </li>
+            
+                <li class="sidebar-button">
+                    
+                        <a  class="sidebar-button-link " href="https://www.linkedin.com/in/%E5%B2%B3%E8%8F%AF-%E6%9D%9C-6a3995a0/" target="_blank" rel="noopener" title="LinkedIn">
+                    
+                        <i class="sidebar-button-icon fab fa-linkedin" aria-hidden="true"></i>
+                        <span class="sidebar-button-desc">LinkedIn</span>
+                    </a>
+            </li>
+            
+                <li class="sidebar-button">
+                    
+                        <a  class="sidebar-button-link " href="mailto:a504082002@gmail.com" target="_blank" rel="noopener" title="Email">
+                    
+                        <i class="sidebar-button-icon fab fa-envelope" aria-hidden="true"></i>
+                        <span class="sidebar-button-desc">Email</span>
+                    </a>
+            </li>
+            
+        </ul>
+        
+            <ul class="sidebar-buttons">
+            
+                <li class="sidebar-button">
+                    
+                        <a  class="sidebar-button-link "
+                             href="/atom.xml"
+                            
+                            title="Atom"
+                        >
+                    
+                        <i class="sidebar-button-icon fa fa-rss" aria-hidden="true"></i>
+                        <span class="sidebar-button-desc">Atom</span>
+                    </a>
+            </li>
+            
+        </ul>
+        
+    </div>
+</nav>
+
+            
+            <div id="main" data-behavior="5"
+                 class="
+                        hasCoverMetaIn
+                        ">
+                
+    <article class="post">
+        
+                
+                    <div class="post-header main-content-wrap text-left">
+    
+        <h1 class="post-title">
+            在 Julia 的 parametric methods 使用數值型別（numerical type）
+        </h1>
+    
+    
+        <div class="post-meta">
+    <time datetime="2021-03-19T14:21:30+08:00">
+	
+		    3月 19, 2021
+    	
+    </time>
+    
+        <span>分類 </span>
+        
+    <a class="category-link" href="/categories/My-Style/">My Style</a>, <a class="category-link" href="/categories/My-Style/Computer-Science/">Computer Science</a>, <a class="category-link" href="/categories/My-Style/Computer-Science/Julialang/">Julialang</a>
+
+
+    
+</div>
+
+    
+</div>
+
+                        
+                            <div class="post-content markdown">
+                                <div class="main-content-wrap">
+                                    <p>對於 Julia 比較不熟悉的使用者或開發者，要怎麼定函式的參數型別是一個大學問。</p>
+<figure class="highlight julia"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">function</span> average(xs)</span><br><span class="line">    <span class="keyword">return</span> sum(xs)/length(xs)</span><br><span class="line"><span class="keyword">end</span></span><br></pre></td></tr></table></figure>
+<p>例如以上的 <code>average</code> 函式，<code>xs</code> 要定成什麼樣的型別比較好？</p>
+<p>可能有人會以他所測試的情境去定：</p>
+<figure class="highlight julia"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line">julia&gt; xs = rand(<span class="number">10</span>)</span><br><span class="line"><span class="number">10</span>-element <span class="built_in">Array</span>&#123;<span class="built_in">Float64</span>,<span class="number">1</span>&#125;:</span><br><span class="line"> <span class="number">0.8261912048684596</span></span><br><span class="line"> <span class="number">0.4466692353358077</span></span><br><span class="line"> <span class="number">0.6337754306737924</span></span><br><span class="line"> <span class="number">0.1297961522759261</span></span><br><span class="line"> <span class="number">0.4699412442087936</span></span><br><span class="line"> <span class="number">0.6194816490253636</span></span><br><span class="line"> <span class="number">0.8258926319092839</span></span><br><span class="line"> <span class="number">0.05094839501664228</span></span><br><span class="line"> <span class="number">0.21008570113108194</span></span><br><span class="line"> <span class="number">0.16250331333741275</span></span><br><span class="line"></span><br><span class="line">julia&gt; <span class="keyword">function</span> average(xs::<span class="built_in">Array</span>&#123;<span class="built_in">Float64</span>,<span class="number">1</span>&#125;)</span><br><span class="line">           <span class="keyword">return</span> sum(xs)/length(xs)</span><br><span class="line">       <span class="keyword">end</span></span><br><span class="line">average (generic <span class="keyword">function</span> with <span class="number">1</span> method)</span><br><span class="line"></span><br><span class="line">julia&gt; average(xs)</span><br><span class="line"><span class="number">0.4375284957782564</span></span><br></pre></td></tr></table></figure>
+<p>這樣當然是沒有錯，但是會過於狹隘。這樣定出來只有一維矩陣可以適用，而且裡頭的元素還必須是 <code>Float64</code> 型別。</p>
+<h2 id="思考廣義化">思考廣義化</h2>
+<p>我們能不能讓所有的陣列都適用？那就可以改成這樣：</p>
+<figure class="highlight julia"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">function</span> average(xs::<span class="built_in">AbstractArray</span>&#123;<span class="built_in">Float64</span>&#125;)</span><br><span class="line">    <span class="keyword">return</span> sum(xs)/length(xs)</span><br><span class="line"><span class="keyword">end</span></span><br></pre></td></tr></table></figure>
+<p>可是這樣又限制了元素的型別，像是 <code>Float32</code> 或是無理數 <code>Irrational</code> 就不適用。</p>
+<p>如果我們要將他廣義化到所有的整數跟浮點數都適用，也支援無理數。</p>
+<p>那麼我們可以考慮支援實數 <code>Real</code>，可以寫成以下的樣子：</p>
+<figure class="highlight julia"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">function</span> average(xs::<span class="built_in">AbstractArray</span>&#123;&lt;:<span class="built_in">Real</span>&#125;)</span><br><span class="line">    <span class="keyword">return</span> sum(xs)/length(xs)</span><br><span class="line"><span class="keyword">end</span></span><br></pre></td></tr></table></figure>
+<p>或是也可以考慮將他參數化：</p>
+<figure class="highlight julia"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">function</span> average(xs::<span class="built_in">AbstractArray</span>&#123;T&#125;) <span class="keyword">where</span> &#123;T&lt;:<span class="built_in">Real</span>&#125;</span><br><span class="line">    <span class="keyword">return</span> sum(xs)/length(xs)</span><br><span class="line"><span class="keyword">end</span></span><br></pre></td></tr></table></figure>
+<p>這兩種寫法所編譯出來的 method instance 是一樣的。</p>
+<p>這兩種寫法差異在於，如果將他參數化，開發者有機會將參數型別 <code>T</code> 取出來使用。</p>
+<h2 id="建議">建議</h2>
+<p>為了避免大家寫出來的函式太過於狹義，所以在這邊給出一些建議。</p>
+<p>如果要支援的型別是所有整數，那麼可以考慮使用 <code>Integer</code>，它可以支援 <code>Bool</code>、<code>Int64</code>、<code>UInt8</code> 之類的型別。</p>
+<p>如果要支援的型別是所有的整數以及浮點數等等的，那麼可以考慮使用 <code>Real</code>，它可以支援 <code>Float64</code>、<code>Irrational</code> 等等的型別。</p>
+<p>如果還想要支援複數 <code>Complex</code>，那麼就直接使用數字 <code>Number</code> 吧！</p>
+<h2 id="思考點">思考點</h2>
+<p>那至於要支援什麼樣的型別以及他的範疇，這是個很好的問題。</p>
+<p>那就要問在你的函式當中所用到的函式支援哪些型別？</p>
+<p>例如在 <code>average</code> 中有 <code>sum</code> 以及 <code>length</code> 函式。</p>
+<p><code>sum</code> 支援包含 <code>AbstractArray</code>、iterable，甚至是 <code>AbstractRange</code>。</p>
+<p><code>length</code> 則支援所有的陣列 <code>AbstractArray</code>、集合 <code>Set</code>、字典 <code>Dict</code>、所有字串 <code>AbstractString</code> 等等的。</p>
+<p>接下來要思考 <code>average</code> 所要提供的功能是什麼？他的語義是什麼？</p>
+<p>就字面上的意義而言，他要提供的是「某個集合體的平均」。這時候就可以去定義要支援什麼樣的集合體，以及支援集合體中的元素範疇是什麼。</p>
+<p>最後就可以決定這個函式的型別參數應該是什麼了。</p>
+<h2 id="自定義型別">自定義型別</h2>
+<p>如果有人想要自行設計自己的型別，並且這個型別支援 <code>sum</code> 及 <code>length</code>，那理論上，這個型別就自動支援 <code>average</code>。</p>
+<p>要讓其他人去自行定義型別，並且自動支援 <code>average</code>，為了避免將這個函式綁得太死，那就乾脆不定義型別。</p>
+<figure class="highlight julia"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">function</span> average(xs)</span><br><span class="line">    <span class="keyword">return</span> sum(xs)/length(xs)</span><br><span class="line"><span class="keyword">end</span></span><br></pre></td></tr></table></figure>
+<p>這樣是可以的。</p>
+<p>有沒有發現，與其加一堆型別將函式綁死（加法設計），不如把型別拿掉還來的更好（減法設計）。</p>
+
+                                        
+
+                                </div>
+                            </div>
+                            <div id="post-footer" class="post-footer main-content-wrap">
+                                
+                                        
+                                            <div class="post-actions-wrap">
+    <nav>
+        <ul class="post-actions post-action-nav">
+            <li class="post-action">
+                
+                    <a class="post-action-btn btn btn--disabled">
+                
+                    <i class="fa fa-angle-left" aria-hidden="true"></i>
+                    <span class="hide-xs hide-sm text-small icon-ml">上一篇</span>
+                </a>
+            </li>
+            <li class="post-action">
+                
+                    
+                    <a class="post-action-btn btn btn--default tooltip--top" href="/2021/03/15/test/" data-tooltip="test" aria-label="下一篇: test">
+                
+                    <span class="hide-xs hide-sm text-small icon-mr">下一篇</span>
+                    <i class="fa fa-angle-right" aria-hidden="true"></i>
+                </a>
+            </li>
+        </ul>
+    </nav>
+    <ul class="post-actions post-action-share">
+        <li class="post-action hide-lg hide-md hide-sm">
+            <a class="post-action-btn btn btn--default btn-open-shareoptions" href="#btn-open-shareoptions" aria-label="Share this post">
+                <i class="fa fa-share-alt" aria-hidden="true"></i>
+            </a>
+        </li>
+        
+            
+            
+            <li class="post-action hide-xs">
+                <a class="post-action-btn btn btn--default" target="new" href="https://www.facebook.com/sharer/sharer.php?u=https://yuehhua.github.io/2021/03/19/use-of-numerical-type-in-parametric-functions-in-julia/" title="分享到 Facebook">
+                    <i class="fa fa-facebook-official" aria-hidden="true"></i>
+                </a>
+            </li>
+        
+        
+            
+                <li class="post-action">
+                    <a class="post-action-btn btn btn--default" href="#disqus_thread">
+                        <i class="fa fa-comment-o"></i>
+                    </a>
+                </li>
+            
+        
+        <li class="post-action">
+            
+                <a class="post-action-btn btn btn--default" href="#" aria-label="Back to top">
+            
+                <i class="fa fa-list" aria-hidden="true"></i>
+            </a>
+        </li>
+    </ul>
+</div>
+
+
+                                                
+                                                    
+                                                        
+                                                            <div id="disqus_thread">
+    <noscript>Please enable JavaScript to view the <a href="//disqus.com/?ref_noscript" target="_blank" rel="noopener">comments powered by Disqus.</a></noscript>
+</div>
+                                                                
+                                                                            
+                            </div>
+                            
+                                <script src='https://unpkg.com/mermaid@7.1.2/dist/mermaid.min.js'></script>
+                                <script>
+                                    if (window.mermaid) {
+                                        mermaid.initialize({ theme: 'forest' });
+                                    }
+                                </script>
+                                
+    </article>
+
+                <footer id="footer" class="main-content-wrap">
+    <span class="copyrights">
+        Copyrights &copy; 2021 Yueh-Hua Tu. All Rights Reserved.
+    </span>
+</footer>
+
+            </div>
+            
+                <div id="bottom-bar" class="post-bottom-bar" data-behavior="5">
+                    <div class="post-actions-wrap">
+    <nav>
+        <ul class="post-actions post-action-nav">
+            <li class="post-action">
+                
+                    <a class="post-action-btn btn btn--disabled">
+                
+                    <i class="fa fa-angle-left" aria-hidden="true"></i>
+                    <span class="hide-xs hide-sm text-small icon-ml">上一篇</span>
+                </a>
+            </li>
+            <li class="post-action">
+                
+                    
+                    <a class="post-action-btn btn btn--default tooltip--top" href="/2021/03/15/test/" data-tooltip="test" aria-label="下一篇: test">
+                
+                    <span class="hide-xs hide-sm text-small icon-mr">下一篇</span>
+                    <i class="fa fa-angle-right" aria-hidden="true"></i>
+                </a>
+            </li>
+        </ul>
+    </nav>
+    <ul class="post-actions post-action-share">
+        <li class="post-action hide-lg hide-md hide-sm">
+            <a class="post-action-btn btn btn--default btn-open-shareoptions" href="#btn-open-shareoptions" aria-label="Share this post">
+                <i class="fa fa-share-alt" aria-hidden="true"></i>
+            </a>
+        </li>
+        
+            
+            
+            <li class="post-action hide-xs">
+                <a class="post-action-btn btn btn--default" target="new" href="https://www.facebook.com/sharer/sharer.php?u=https://yuehhua.github.io/2021/03/19/use-of-numerical-type-in-parametric-functions-in-julia/" title="分享到 Facebook">
+                    <i class="fa fa-facebook-official" aria-hidden="true"></i>
+                </a>
+            </li>
+        
+        
+            
+                <li class="post-action">
+                    <a class="post-action-btn btn btn--default" href="#disqus_thread">
+                        <i class="fa fa-comment-o"></i>
+                    </a>
+                </li>
+            
+        
+        <li class="post-action">
+            
+                <a class="post-action-btn btn btn--default" href="#" aria-label="Back to top">
+            
+                <i class="fa fa-list" aria-hidden="true"></i>
+            </a>
+        </li>
+    </ul>
+</div>
+
+
+                </div>
+                <div id="share-options-bar" class="share-options-bar" data-behavior="5">
+    <i id="btn-close-shareoptions" class="fa fa-close"></i>
+    <ul class="share-options">
+        
+            
+            
+            <li class="share-option">
+                <a class="share-option-btn" target="new" href="https://www.facebook.com/sharer/sharer.php?u=https://yuehhua.github.io/2021/03/19/use-of-numerical-type-in-parametric-functions-in-julia/">
+                    <i class="fa fa-facebook-official" aria-hidden="true"></i><span>分享到 Facebook</span>
+                </a>
+            </li>
+        
+    </ul>
+</div>
+
+            
+        </div>
+        
+
+
+<div id="about">
+    <div id="about-card">
+        <div id="about-btn-close">
+            <i class="fa fa-remove"></i>
+        </div>
+        
+            <h4 id="about-card-name">Yueh-Hua Tu</h4>
+        
+            <div id="about-card-bio"><p>目標是計算生物學家！</br>Systems Biology, Computational Biology, Machine Learning</br>Julia Taiwan 發起人</p>
+</div>
+        
+        
+            <div id="about-card-job">
+                <i class="fa fa-briefcase"></i>
+                <br/>
+                <p>研發替代役研究助理</p>
+
+            </div>
+        
+        
+            <div id="about-card-location">
+                <i class="fa fa-map-marker"></i>
+                <br/>
+                Taiwan
+            </div>
+        
+    </div>
+</div>
+
+        
+        
+<div id="cover" style="background-image:url('/assets/images/cover.jpg');"></div>
+        <!--SCRIPTS-->
+
+<script src="/assets/js/script-xzfezjobyekpxrjktw5tz6muvzqfsbmo5n6atk3p5om9ulfptldi3p7cyqd8.min.js"></script>
+
+<!--SCRIPTS END-->
+
+
+<script>
+    var disqus_config = function () {
+        this.page.url = 'https://yuehhua.github.io/2021/03/19/use-of-numerical-type-in-parametric-functions-in-julia/';
+                 
+            this.page.identifier = '2021/03/19/use-of-numerical-type-in-parametric-functions-in-julia/';
+                 
+             };
+    (function () {
+        var d = document, s = d.createElement('script');
+        var disqus_shortname = 'dream-maker';
+        s.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+
+        s.setAttribute('data-timestamp', +new Date());
+        (d.head || d.body).appendChild(s);
+    })();
+</script><!-- hexo-inject:begin --><!-- hexo-inject:end -->
+
+
+
+    </body>
+</html>
