@@ -2,23 +2,37 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   
   <url>
-    <loc>https://yuehhua.github.io/2021/03/19/use-of-numerical-type-in-parametric-functions-in-julia/</loc>
-    
-    <lastmod>2021-03-19</lastmod>
-    
-  </url>
-  
-  <url>
-    <loc>https://yuehhua.github.io/2021/03/15/test/</loc>
-    
-    <lastmod>2021-03-15</lastmod>
-    
-  </url>
-  
-  <url>
     <loc>https://yuehhua.github.io/2021/02/15/julia-v1-6-release/</loc>
     
-    <lastmod>2021-02-15</lastmod>
+    <lastmod>2021-03-28</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>https://yuehhua.github.io/2021/03/28/the-future-of-julialang/</loc>
+    
+    <lastmod>2021-03-28</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>https://yuehhua.github.io/2020/08/07/julia-v1-5-release/</loc>
+    
+    <lastmod>2021-03-28</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>https://yuehhua.github.io/2020/10/31/vscode-with-julia/</loc>
+    
+    <lastmod>2021-03-28</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>https://yuehhua.github.io/2021/03/19/use-of-numerical-type-in-parametric-functions-in-julia/</loc>
+    
+    <lastmod>2021-03-28</lastmod>
     
   </url>
   
@@ -47,13 +61,6 @@
     <loc>https://yuehhua.github.io/2020/11/09/get-random-seed-in-julia/</loc>
     
     <lastmod>2020-11-09</lastmod>
-    
-  </url>
-  
-  <url>
-    <loc>https://yuehhua.github.io/2020/10/31/vscode-with-julia/</loc>
-    
-    <lastmod>2020-10-31</lastmod>
     
   </url>
   
@@ -117,13 +124,6 @@
     <loc>https://yuehhua.github.io/2019/09/06/inline-functions-in-julia/</loc>
     
     <lastmod>2020-08-28</lastmod>
-    
-  </url>
-  
-  <url>
-    <loc>https://yuehhua.github.io/2020/08/07/julia-v1-5-release/</loc>
-    
-    <lastmod>2020-08-07</lastmod>
     
   </url>
   
@@ -879,7 +879,7 @@
 
   <url>
     <loc>https://yuehhua.github.io/</loc>
-    <lastmod>2021-03-19</lastmod>
+    <lastmod>2021-03-28</lastmod>
     <changefreq>daily</changefreq>
     <priority>1.0</priority>
   </url>
@@ -887,7 +887,7 @@
   
   <url>
     <loc>https://yuehhua.github.io/tags/optimization/</loc>
-    <lastmod>2021-03-19</lastmod>
+    <lastmod>2021-03-28</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.6</priority>
   </url>
@@ -896,147 +896,147 @@
   
   <url>
     <loc>https://yuehhua.github.io/categories/Topology/</loc>
-    <lastmod>2021-03-19</lastmod>
+    <lastmod>2021-03-28</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.6</priority>
   </url>
   
   <url>
     <loc>https://yuehhua.github.io/categories/My-Style/</loc>
-    <lastmod>2021-03-19</lastmod>
+    <lastmod>2021-03-28</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.6</priority>
   </url>
   
   <url>
     <loc>https://yuehhua.github.io/categories/My-Style/Computer-Science/</loc>
-    <lastmod>2021-03-19</lastmod>
+    <lastmod>2021-03-28</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.6</priority>
   </url>
   
   <url>
     <loc>https://yuehhua.github.io/categories/My-Style/Computer-Science/Julialang/</loc>
-    <lastmod>2021-03-19</lastmod>
+    <lastmod>2021-03-28</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.6</priority>
   </url>
   
   <url>
     <loc>https://yuehhua.github.io/categories/My-Style/Believe%E3%80%82Think%E3%80%82Soul/</loc>
-    <lastmod>2021-03-19</lastmod>
+    <lastmod>2021-03-28</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.6</priority>
   </url>
   
   <url>
     <loc>https://yuehhua.github.io/categories/Statistics/</loc>
-    <lastmod>2021-03-19</lastmod>
+    <lastmod>2021-03-28</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.6</priority>
   </url>
   
   <url>
     <loc>https://yuehhua.github.io/categories/Deep-Learning/</loc>
-    <lastmod>2021-03-19</lastmod>
+    <lastmod>2021-03-28</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.6</priority>
   </url>
   
   <url>
     <loc>https://yuehhua.github.io/categories/Docker/</loc>
-    <lastmod>2021-03-19</lastmod>
+    <lastmod>2021-03-28</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.6</priority>
   </url>
   
   <url>
     <loc>https://yuehhua.github.io/categories/Machine-Learning/</loc>
-    <lastmod>2021-03-19</lastmod>
+    <lastmod>2021-03-28</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.6</priority>
   </url>
   
   <url>
     <loc>https://yuehhua.github.io/categories/Machine-Learning/%E6%A9%9F%E5%99%A8%E5%AD%B8%E7%BF%92%E6%A8%A1%E5%9E%8B%E5%9C%96%E6%9B%B8%E9%A4%A8%EF%BC%9A%E5%BE%9E%E5%82%B3%E7%B5%B1%E6%A8%A1%E5%9E%8B%E5%88%B0%E6%B7%B1%E5%BA%A6%E5%AD%B8%E7%BF%92/</loc>
-    <lastmod>2021-03-19</lastmod>
+    <lastmod>2021-03-28</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.6</priority>
   </url>
   
   <url>
     <loc>https://yuehhua.github.io/categories/Math/</loc>
-    <lastmod>2021-03-19</lastmod>
+    <lastmod>2021-03-28</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.6</priority>
   </url>
   
   <url>
     <loc>https://yuehhua.github.io/categories/My-Style/Friends/</loc>
-    <lastmod>2021-03-19</lastmod>
+    <lastmod>2021-03-28</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.6</priority>
   </url>
   
   <url>
     <loc>https://yuehhua.github.io/categories/Computer-Science/</loc>
-    <lastmod>2021-03-19</lastmod>
+    <lastmod>2021-03-28</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.6</priority>
   </url>
   
   <url>
     <loc>https://yuehhua.github.io/categories/Book/</loc>
-    <lastmod>2021-03-19</lastmod>
+    <lastmod>2021-03-28</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.6</priority>
   </url>
   
   <url>
     <loc>https://yuehhua.github.io/categories/My-Style/Science/</loc>
-    <lastmod>2021-03-19</lastmod>
+    <lastmod>2021-03-28</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.6</priority>
   </url>
   
   <url>
     <loc>https://yuehhua.github.io/categories/My-Style/Computer-Science/Compiler/</loc>
-    <lastmod>2021-03-19</lastmod>
+    <lastmod>2021-03-28</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.6</priority>
   </url>
   
   <url>
     <loc>https://yuehhua.github.io/categories/Master-in-NYMU/</loc>
-    <lastmod>2021-03-19</lastmod>
+    <lastmod>2021-03-28</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.6</priority>
   </url>
   
   <url>
     <loc>https://yuehhua.github.io/categories/Psychology/</loc>
-    <lastmod>2021-03-19</lastmod>
+    <lastmod>2021-03-28</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.6</priority>
   </url>
   
   <url>
     <loc>https://yuehhua.github.io/categories/Master-in-NYMU/Life/</loc>
-    <lastmod>2021-03-19</lastmod>
+    <lastmod>2021-03-28</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.6</priority>
   </url>
   
   <url>
     <loc>https://yuehhua.github.io/categories/Psychology/Book/</loc>
-    <lastmod>2021-03-19</lastmod>
+    <lastmod>2021-03-28</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.6</priority>
   </url>
   
   <url>
     <loc>https://yuehhua.github.io/categories/Physics/</loc>
-    <lastmod>2021-03-19</lastmod>
+    <lastmod>2021-03-28</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.6</priority>
   </url>

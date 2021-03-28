@@ -235,7 +235,55 @@
     <section class="postShorten-group main-content-wrap">
     
     
-    <article class="postShorten postShorten--thumbnailimg-bottom">
+    <article class="postShorten postShorten--thumbnailimg-right">
+        <div class="postShorten-wrap">
+            
+            <div class="postShorten-header">
+                <h1 class="postShorten-title">
+                    
+                        <a class="link-unstyled" href="/2021/03/28/the-future-of-julialang/">
+                            Julia 語言的未來性
+                        </a>
+                    
+                </h1>
+                <div class="postShorten-meta">
+    <time datetime="2021-03-28T22:51:51+08:00">
+	
+		    3月 28, 2021
+    	
+    </time>
+    
+        <span>分類 </span>
+        
+    <a class="category-link" href="/categories/My-Style/">My Style</a>, <a class="category-link" href="/categories/My-Style/Computer-Science/">Computer Science</a>, <a class="category-link" href="/categories/My-Style/Computer-Science/Julialang/">Julialang</a>
+
+
+    
+</div>
+
+            </div>
+            
+                <div class="postShorten-excerpt">
+                    <a data-fancybox data-src="/images/covers/Nyvq2juw4_o-unsplash.jpg">
+	<img src="/images/covers/Nyvq2juw4_o-unsplash.jpg" alt="" />
+</a>
+<!-- toc -->
+<p>Julia 作為一個新興的語言，他有眾多的優點，他不僅執行快速，而且像 python 一樣，是動態語言非常容易上手好寫。Julia 本身的套件管理系統也具有足夠高的再現性（reproducible），並且自動安裝內含編譯過的函式庫檔案。作為一個泛用性以及開源的程式語言，這些特色帶來許多優點。</p>
+<p>隨著今日科學社群不斷的擴大，科學計算與數值計算相關的軟體也不斷的發展，Julia 作為一個以科學計算為目的的語言，不僅融合了現代的科學計算工具、新穎的演算法、優異的性能，以及平易近人的語法。由於 Julia 優異的語法設計，搭配多重分派以及型別系統，讓獨到的即時編譯（just-in-time compilation）變得自然，型別推斷讓 Julia 的速度得以提升。</p>
+                    
+                        <a href="/2021/03/28/the-future-of-julialang/" class="postShorten-excerpt_link link">
+                            繼續閱讀
+                        </a>
+                        
+                    
+                </div>
+            
+        </div>
+        
+    </article>
+    
+    
+    <article class="postShorten postShorten--thumbnailimg-right">
         <div class="postShorten-wrap">
             
             <div class="postShorten-header">
@@ -263,101 +311,17 @@
 
             </div>
             
-                <div class="postShorten-content">
+                <div class="postShorten-excerpt">
                     <p>對於 Julia 比較不熟悉的使用者或開發者，要怎麼定函式的參數型別是一個大學問。</p>
 <figure class="highlight julia"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">function</span> average(xs)</span><br><span class="line">    <span class="keyword">return</span> sum(xs)/length(xs)</span><br><span class="line"><span class="keyword">end</span></span><br></pre></td></tr></table></figure>
 <p>例如以上的 <code>average</code> 函式，<code>xs</code> 要定成什麼樣的型別比較好？</p>
 <p>可能有人會以他所測試的情境去定：</p>
 <figure class="highlight julia"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line">julia&gt; xs = rand(<span class="number">10</span>)</span><br><span class="line"><span class="number">10</span>-element <span class="built_in">Array</span>&#123;<span class="built_in">Float64</span>,<span class="number">1</span>&#125;:</span><br><span class="line"> <span class="number">0.8261912048684596</span></span><br><span class="line"> <span class="number">0.4466692353358077</span></span><br><span class="line"> <span class="number">0.6337754306737924</span></span><br><span class="line"> <span class="number">0.1297961522759261</span></span><br><span class="line"> <span class="number">0.4699412442087936</span></span><br><span class="line"> <span class="number">0.6194816490253636</span></span><br><span class="line"> <span class="number">0.8258926319092839</span></span><br><span class="line"> <span class="number">0.05094839501664228</span></span><br><span class="line"> <span class="number">0.21008570113108194</span></span><br><span class="line"> <span class="number">0.16250331333741275</span></span><br><span class="line"></span><br><span class="line">julia&gt; <span class="keyword">function</span> average(xs::<span class="built_in">Array</span>&#123;<span class="built_in">Float64</span>,<span class="number">1</span>&#125;)</span><br><span class="line">           <span class="keyword">return</span> sum(xs)/length(xs)</span><br><span class="line">       <span class="keyword">end</span></span><br><span class="line">average (generic <span class="keyword">function</span> with <span class="number">1</span> method)</span><br><span class="line"></span><br><span class="line">julia&gt; average(xs)</span><br><span class="line"><span class="number">0.4375284957782564</span></span><br></pre></td></tr></table></figure>
-<p>這樣當然是沒有錯，但是會過於狹隘。這樣定出來只有一維矩陣可以適用，而且裡頭的元素還必須是 <code>Float64</code> 型別。</p>
-<h2 id="思考廣義化">思考廣義化</h2>
-<p>我們能不能讓所有的陣列都適用？那就可以改成這樣：</p>
-<figure class="highlight julia"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">function</span> average(xs::<span class="built_in">AbstractArray</span>&#123;<span class="built_in">Float64</span>&#125;)</span><br><span class="line">    <span class="keyword">return</span> sum(xs)/length(xs)</span><br><span class="line"><span class="keyword">end</span></span><br></pre></td></tr></table></figure>
-<p>可是這樣又限制了元素的型別，像是 <code>Float32</code> 或是無理數 <code>Irrational</code> 就不適用。</p>
-<p>如果我們要將他廣義化到所有的整數跟浮點數都適用，也支援無理數。</p>
-<p>那麼我們可以考慮支援實數 <code>Real</code>，可以寫成以下的樣子：</p>
-<figure class="highlight julia"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">function</span> average(xs::<span class="built_in">AbstractArray</span>&#123;&lt;:<span class="built_in">Real</span>&#125;)</span><br><span class="line">    <span class="keyword">return</span> sum(xs)/length(xs)</span><br><span class="line"><span class="keyword">end</span></span><br></pre></td></tr></table></figure>
-<p>或是也可以考慮將他參數化：</p>
-<figure class="highlight julia"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">function</span> average(xs::<span class="built_in">AbstractArray</span>&#123;T&#125;) <span class="keyword">where</span> &#123;T&lt;:<span class="built_in">Real</span>&#125;</span><br><span class="line">    <span class="keyword">return</span> sum(xs)/length(xs)</span><br><span class="line"><span class="keyword">end</span></span><br></pre></td></tr></table></figure>
-<p>這兩種寫法所編譯出來的 method instance 是一樣的。</p>
-<p>這兩種寫法差異在於，如果將他參數化，開發者有機會將參數型別 <code>T</code> 取出來使用。</p>
-<h2 id="建議">建議</h2>
-<p>為了避免大家寫出來的函式太過於狹義，所以在這邊給出一些建議。</p>
-<p>如果要支援的型別是所有整數，那麼可以考慮使用 <code>Integer</code>，它可以支援 <code>Bool</code>、<code>Int64</code>、<code>UInt8</code> 之類的型別。</p>
-<p>如果要支援的型別是所有的整數以及浮點數等等的，那麼可以考慮使用 <code>Real</code>，它可以支援 <code>Float64</code>、<code>Irrational</code> 等等的型別。</p>
-<p>如果還想要支援複數 <code>Complex</code>，那麼就直接使用數字 <code>Number</code> 吧！</p>
-<h2 id="思考點">思考點</h2>
-<p>那至於要支援什麼樣的型別以及他的範疇，這是個很好的問題。</p>
-<p>那就要問在你的函式當中所用到的函式支援哪些型別？</p>
-<p>例如在 <code>average</code> 中有 <code>sum</code> 以及 <code>length</code> 函式。</p>
-<p><code>sum</code> 支援包含 <code>AbstractArray</code>、iterable，甚至是 <code>AbstractRange</code>。</p>
-<p><code>length</code> 則支援所有的陣列 <code>AbstractArray</code>、集合 <code>Set</code>、字典 <code>Dict</code>、所有字串 <code>AbstractString</code> 等等的。</p>
-<p>接下來要思考 <code>average</code> 所要提供的功能是什麼？他的語義是什麼？</p>
-<p>就字面上的意義而言，他要提供的是「某個集合體的平均」。這時候就可以去定義要支援什麼樣的集合體，以及支援集合體中的元素範疇是什麼。</p>
-<p>最後就可以決定這個函式的型別參數應該是什麼了。</p>
-<h2 id="自定義型別">自定義型別</h2>
-<p>如果有人想要自行設計自己的型別，並且這個型別支援 <code>sum</code> 及 <code>length</code>，那理論上，這個型別就自動支援 <code>average</code>。</p>
-<p>要讓其他人去自行定義型別，並且自動支援 <code>average</code>，為了避免將這個函式綁得太死，那就乾脆不定義型別。</p>
-<figure class="highlight julia"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">function</span> average(xs)</span><br><span class="line">    <span class="keyword">return</span> sum(xs)/length(xs)</span><br><span class="line"><span class="keyword">end</span></span><br></pre></td></tr></table></figure>
-<p>這樣是可以的。</p>
-<p>有沒有發現，與其加一堆型別將函式綁死（加法設計），不如把型別拿掉還來的更好（減法設計）。</p>
-
                     
-                        
-
-                    
-                    
-                        <p>
-                            <a href="/2021/03/19/use-of-numerical-type-in-parametric-functions-in-julia/#post-footer" class="postShorten-excerpt_link link">
-                                留言與分享
-                            </a>
-                        </p>
-                    
-                </div>
-            
-        </div>
-        
-    </article>
-    
-    
-    <article class="postShorten postShorten--thumbnailimg-bottom">
-        <div class="postShorten-wrap">
-            
-            <div class="postShorten-header">
-                <h1 class="postShorten-title">
-                    
-                        <a class="link-unstyled" href="/2021/03/15/test/">
-                            test
+                        <a href="/2021/03/19/use-of-numerical-type-in-parametric-functions-in-julia/" class="postShorten-excerpt_link link">
+                            繼續閱讀
                         </a>
-                    
-                </h1>
-                <div class="postShorten-meta">
-    <time datetime="2021-03-15T11:24:51+08:00">
-	
-		    3月 15, 2021
-    	
-    </time>
-    
-</div>
-
-            </div>
-            
-                <div class="postShorten-content">
-                    <a data-fancybox href="https://www.youtube.com/watch?v=_sI_Ps7JSEk" target="_blank" rel="noopener">
-    YouTube video
-</a>
-<img data-fancybox src="/images/pickachu.png">
-
-                    
                         
-
-                    
-                    
-                        <p>
-                            <a href="/2021/03/15/test/#post-footer" class="postShorten-excerpt_link link">
-                                留言與分享
-                            </a>
-                        </p>
                     
                 </div>
             
