@@ -336,50 +336,6 @@
             <div class="postShorten-header">
                 <h1 class="postShorten-title">
                     
-                        <a class="link-unstyled" href="/2021/02/15/julia-v1-6-release/">
-                            julia-v1.6-release
-                        </a>
-                    
-                </h1>
-                <div class="postShorten-meta">
-    <time datetime="2021-02-15T19:29:33+08:00">
-	
-		    2月 15, 2021
-    	
-    </time>
-    
-        <span>分類 </span>
-        
-    <a class="category-link" href="/categories/My-Style/">My Style</a>, <a class="category-link" href="/categories/My-Style/Computer-Science/">Computer Science</a>, <a class="category-link" href="/categories/My-Style/Computer-Science/Julialang/">Julialang</a>
-
-
-    
-</div>
-
-            </div>
-            
-                <div class="postShorten-excerpt">
-                    <!-- toc -->
-<p>在 v1.6 版中，Julia 有大幅度的效能提昇，效能提昇的部份著重在於預編譯（precompilation）以及編譯的效能改進，而 v1.6 版將成為下一個長期支援（long-term support, LTS）的版本。</p>
-                    
-                        <a href="/2021/02/15/julia-v1-6-release/" class="postShorten-excerpt_link link">
-                            繼續閱讀
-                        </a>
-                        
-                    
-                </div>
-            
-        </div>
-        
-    </article>
-    
-    
-    <article class="postShorten postShorten--thumbnailimg-right">
-        <div class="postShorten-wrap">
-            
-            <div class="postShorten-header">
-                <h1 class="postShorten-title">
-                    
                         <a class="link-unstyled" href="/2021/01/14/julia-module-code-loading/">
                             Julia冷知識-你知道模組中的程式碼是何時被執行的嗎
                         </a>
@@ -681,6 +637,50 @@
 <p>例如，在自己設計的物件當中有兩個矩陣，這兩個矩陣可以讓使用者隨意更新，但是需要保證這兩個矩陣的維度是一致的。這個時候就需要在使用者更新矩陣的時候加入檢查，以確保兩個矩陣之間的維度是一致的，如果檢查不通過，可能會跳例外或者是不讓矩陣被更新。</p>
                     
                         <a href="/2020/10/12/julia-setproperty-setfield/" class="postShorten-excerpt_link link">
+                            繼續閱讀
+                        </a>
+                        
+                    
+                </div>
+            
+        </div>
+        
+    </article>
+    
+    
+    <article class="postShorten postShorten--thumbnailimg-right">
+        <div class="postShorten-wrap">
+            
+            <div class="postShorten-header">
+                <h1 class="postShorten-title">
+                    
+                        <a class="link-unstyled" href="/2020/09/06/how-to-use-async-sync-in-julia/">
+                            在 Julia 怎麼用 async 跟 sync
+                        </a>
+                    
+                </h1>
+                <div class="postShorten-meta">
+    <time datetime="2020-09-06T17:43:04+08:00">
+	
+		    9月 06, 2020
+    	
+    </time>
+    
+        <span>分類 </span>
+        
+    <a class="category-link" href="/categories/My-Style/">My Style</a>, <a class="category-link" href="/categories/My-Style/Computer-Science/">Computer Science</a>, <a class="category-link" href="/categories/My-Style/Computer-Science/Julialang/">Julialang</a>
+
+
+    
+</div>
+
+            </div>
+            
+                <div class="postShorten-excerpt">
+                    <p>這個問題在官方文件中並沒有詳細記載，所以覺得值得紀錄一下。</p>
+<p>查閱 <code>@async</code> 的文件會講說，他會用一個 <code>Task</code> 把後面的表達式包裝起來，並且將他掛到排程器的佇列（queue）中。意思就是將表達式包裝成一個任務，並放到佇列中等待 CPU 核心的資源來執行他。</p>
+                    
+                        <a href="/2020/09/06/how-to-use-async-sync-in-julia/" class="postShorten-excerpt_link link">
                             繼續閱讀
                         </a>
                         
