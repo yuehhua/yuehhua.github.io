@@ -1,0 +1,513 @@
+
+<!DOCTYPE html>
+<html lang="zh-tw,en,default">
+    
+<head>
+    <!-- hexo-inject:begin --><!-- hexo-inject:end --><meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="generator" content="Dream Maker">
+    <title>Julia 的版本與套件版本 - Dream Maker</title>
+    <meta name="author" content="Yueh-Hua Tu">
+    
+        <meta name="keywords" content="machine learning,deep learning,topology,">
+    
+    
+    
+        <link rel="alternate" type="application/atom+xml" title="RSS" href="/atom.xml">
+    
+    <script type="application/ld+json">{"@context":"http://schema.org","@type":"BlogPosting","author":{"@type":"Person","name":"Yueh-Hua Tu","sameAs":["https://github.com/yuehhua/","https://www.facebook.com/a504082002","https://www.linkedin.com/in/%E5%B2%B3%E8%8F%AF-%E6%9D%9C-6a3995a0/","mailto:a504082002@gmail.com"],"image":"https://www.gravatar.com/avatar/a565749fba4782b717234da670b273fd"},"articleBody":"常常開發者會需要在，使用者使用不同的語言版本或是套件版本，做不同的處置，有可能是安裝不同的函式庫，或是設定不同的參數。這時候要在程式中自動取得目前的語言版本或是特定套件的版本就很重要。Julia 語言本身就有內建版本字串可以使用，它可以用來比較版本的差異或是大小。\n\nJulia 語言版本\n如果要取得目前 Julia 語言版本相當地簡單，有個全域變數 VERSION，它直接提供給你目前的語言版本資訊。\n12345julia&gt; VERSIONv\"1.6.0\"julia&gt; VERSION ≥ v\"1.5.0\"true\n套件版本\n目前官方並沒有提供一個方便查詢套件版本的方式給大家。像 python 有 __version__ 可以使用。\n123&gt;&gt;&gt; import numpy&gt;&gt;&gt; numpy.__version__'1.20.0'\n目前在 Julia 不依賴套件的方法是到 Pkg.dependencies() 去找尋，他會回傳給你目前所有套件的相依樹（dependency tree），key 是每個套件的 UUID，而 value 則是其相依的套件資訊。\n1234567891011121314151617181920julia&gt; Pkg.dependencies()Dict&#123;Base.UUID, Pkg.Types.PackageInfo&#125; with 584 entries:  UUID(\"fb77eaff-e24c-56d4-86b1-d163f2edb164\") =&gt; PackageInfo(\"Sundials_jll\", v\"5.2.0+1\", \"013ff4504fc1d475aa80c63b455b6b3a58767db2\", false, false, false, false, true, noth…  UUID(\"4d4711f2-db25-561a-b6b3-d35e7d4047d3\") =&gt; PackageInfo(\"MatrixMarket\", v\"0.3.1\", \"54d39ccb57d29aefa666418bca8ca5598ebd8225\", true, false, false, false, true, nothing…  UUID(\"708ec375-b3d6-5a57-a7ce-8257bf98657a\") =&gt; PackageInfo(\"Gumbo\", v\"0.8.0\", \"e711d08d896018037d6ff0ad4ebe675ca67119d4\", false, false, false, false, true, nothing, noth…  UUID(\"9bbee03b-0db5-5f46-924f-b5c9c21b8c60\") =&gt; PackageInfo(\"NaiveBayes\", v\"0.4.0\", \"296d27a455ae074d3cb27f7edeff8e6532865f87\", true, false, false, false, true, nothing, …  UUID(\"c73af94c-d91f-53ed-93a7-00f77d67a9d7\") =&gt; PackageInfo(\"ImageMagick_jll\", v\"6.9.10-12+3\", \"1c0a2295cca535fabaf2029062912591e9b61987\", false, false, false, false, tru…  UUID(\"b99e7846-7c00-51b0-8f62-c81ae34c0232\") =&gt; PackageInfo(\"BinaryProvider\", v\"0.5.10\", \"ecdec412a9abc8db54c0efc5548c64dfce072058\", false, false, false, false, true, not…  UUID(\"cc61e674-0454-545c-8b26-ed2c68acab7a\") =&gt; PackageInfo(\"Xorg_libxkbfile_jll\", v\"1.1.0+4\", \"926af861744212db0eb001d9e40b5d16292080b2\", false, false, false, false, tru…  UUID(\"112f6efa-9a02-5b7d-90c0-432ed331239a\") =&gt; PackageInfo(\"VegaLite\", v\"2.4.1\", \"eb937ff65666c83f6c4db40d07d2fecfedeaff7e\", true, false, false, false, true, nothing, no…  UUID(\"7876af07-990d-54b4-ab0e-23690620f79a\") =&gt; PackageInfo(\"Example\", v\"0.5.3\", \"46e44e869b4d90b96bd8ed1fdcf32244fddfb6cc\", true, false, false, false, true, nothing, not…  UUID(\"c84ed2f1-dad5-54f0-aa8e-dbefe2724439\") =&gt; PackageInfo(\"Ratios\", v\"0.4.0\", \"37d210f612d70f3f7d57d488cb3b6eff56ad4e41\", false, false, false, false, true, nothing, not…  UUID(\"88cd18e8-d9cc-4ea6-8889-5259c0d15c8b\") =&gt; PackageInfo(\"ConsoleProgressMonitor\", v\"0.1.2\", \"3ab7b2136722890b9af903859afcf457fa3059e8\", false, false, false, false, tr…  UUID(\"37e2e46d-f89d-539d-b4ee-838fcccc9c8e\") =&gt; PackageInfo(\"LinearAlgebra\", nothing, nothing, false, false, false, false, true, nothing, nothing, \"/usr/share/julia/stdli…  UUID(\"31c24e10-a181-5473-b8eb-7969acd0382f\") =&gt; PackageInfo(\"Distributions\", v\"0.23.8\", \"9c41285c57c6e0d73a21ed4b65f6eec34805f937\", true, false, false, false, true, nothi…  UUID(\"1bc83da4-3b8d-516f-aca4-4fe02f6d838f\") =&gt; PackageInfo(\"SafeTestsets\", v\"0.0.1\", \"36ebc5622c82eb9324005cc75e7e2cc51181d181\", false, false, false, false, true, nothin…  UUID(\"42fd0dbc-a981-5370-80f2-aaf504508153\") =&gt; PackageInfo(\"IterativeSolvers\", v\"0.8.5\", \"704eee044a41b0e7e8417f7dd2a6b6b5361afd5f\", false, false, false, false, true, no…  UUID(\"01680d73-4ee2-5a08-a1aa-533608c188bb\") =&gt; PackageInfo(\"GenericSVD\", v\"0.3.0\", \"62909c3eda8a25b5673a367d1ad2392ebb265211\", false, false, false, false, true, nothing,…  UUID(\"9a3f8284-a2c9-5f02-9a11-845980a1fd5c\") =&gt; PackageInfo(\"Random\", nothing, nothing, true, false, false, false, true, nothing, nothing, \"/usr/share/julia/stdlib/v1.6/R…  ...\n這種方法會比較辛苦一點，在當中找到特定的套件版本。\n如果是用套件的方法則是，安裝 PkgVersion 這個套件，並且使用 PkgVersion.Version 這個函式來取得已載入的套件版本資訊。\n123456julia&gt; using PkgVersionjulia&gt; using DataFramesjulia&gt; PkgVersion.Version(DataFrames)v\"0.21.8\"\n","dateCreated":"2021-04-04T01:20:56+08:00","dateModified":"2021-04-04T01:20:52+08:00","datePublished":"2021-04-04T01:20:56+08:00","description":"常常開發者會需要在，使用者使用不同的語言版本或是套件版本，做不同的處置，有可能是安裝不同的函式庫，或是設定不同的參數。這時候要在程式中自動取得目前的語言版本或是特定套件的版本就很重要。Julia 語言本身就有內建版本字串可以使用，它可以用來比較版本的差異或是大小。","headline":"Julia 的版本與套件版本","image":[],"mainEntityOfPage":{"@type":"WebPage","@id":"https://yuehhua.github.io/2021/04/04/julia-package-version/"},"publisher":{"@type":"Organization","name":"Yueh-Hua Tu","sameAs":["https://github.com/yuehhua/","https://www.facebook.com/a504082002","https://www.linkedin.com/in/%E5%B2%B3%E8%8F%AF-%E6%9D%9C-6a3995a0/","mailto:a504082002@gmail.com"],"image":"https://www.gravatar.com/avatar/a565749fba4782b717234da670b273fd","logo":{"@type":"ImageObject","url":"https://www.gravatar.com/avatar/a565749fba4782b717234da670b273fd"}},"url":"https://yuehhua.github.io/2021/04/04/julia-package-version/"}</script>
+    <meta name="description" content="常常開發者會需要在，使用者使用不同的語言版本或是套件版本，做不同的處置，有可能是安裝不同的函式庫，或是設定不同的參數。這時候要在程式中自動取得目前的語言版本或是特定套件的版本就很重要。Julia 語言本身就有內建版本字串可以使用，它可以用來比較版本的差異或是大小。">
+<meta property="og:type" content="blog">
+<meta property="og:title" content="Julia 的版本與套件版本">
+<meta property="og:url" content="https://yuehhua.github.io/2021/04/04/julia-package-version/index.html">
+<meta property="og:site_name" content="Dream Maker">
+<meta property="og:description" content="常常開發者會需要在，使用者使用不同的語言版本或是套件版本，做不同的處置，有可能是安裝不同的函式庫，或是設定不同的參數。這時候要在程式中自動取得目前的語言版本或是特定套件的版本就很重要。Julia 語言本身就有內建版本字串可以使用，它可以用來比較版本的差異或是大小。">
+<meta property="og:locale" content="zh_TW">
+<meta property="article:published_time" content="2021-04-03T17:20:56.000Z">
+<meta property="article:modified_time" content="2021-04-03T17:20:52.054Z">
+<meta property="article:author" content="Yueh-Hua Tu">
+<meta property="article:tag" content="machine learning">
+<meta property="article:tag" content="deep learning">
+<meta property="article:tag" content="topology">
+<meta name="twitter:card" content="summary">
+    
+    
+        
+    
+    
+    
+    
+    
+    <!--STYLES-->
+    
+<link rel="stylesheet" href="/assets/css/style-3frockyt2j28isvdztjchy5nhkz8tjki9ermufc1ckptmvjdftux94m2ahub.min.css">
+
+    <!--STYLES END-->
+    
+    <script type="text/javascript">
+        (function (i, s, o, g, r, a, m) {
+        i['GoogleAnalyticsObject'] = r; i[r] = i[r] || function () {
+            (i[r].q = i[r].q || []).push(arguments)
+        }, i[r].l = 1 * new Date(); a = s.createElement(o),
+            m = s.getElementsByTagName(o)[0]; a.async = 1; a.src = g; m.parentNode.insertBefore(a, m)
+        })(window, document, 'script', '//www.google-analytics.com/analytics.js', 'ga');
+
+        ga('create', 'UA-119690895-1', 'auto');
+        ga('send', 'pageview');
+    </script><!-- hexo-inject:begin --><!-- hexo-inject:end -->
+    
+    
+</head>
+
+    <body>
+        <!-- hexo-inject:begin --><!-- hexo-inject:end --><div id="blog">
+            <!-- Define author's picture -->
+
+
+    
+
+<header id="header" data-behavior="5">
+    <i id="btn-open-sidebar" class="fa fa-lg fa-bars"></i>
+    <div class="header-title">
+        <a class="header-title-link" href="/%20">Dream Maker</a>
+    </div>
+    
+        
+            <a  class="header-right-picture "
+                href="#about">
+        
+        
+        </a>
+    
+</header>
+
+            <!-- Define author's picture -->
+
+
+<nav id="sidebar" data-behavior="5">
+    <div class="sidebar-container">
+        
+        
+            <ul class="sidebar-buttons">
+            
+                <li class="sidebar-button">
+                    
+                        <a  class="sidebar-button-link "
+                             href="/%20"
+                            
+                            title="首頁"
+                        >
+                    
+                        <i class="sidebar-button-icon fa fa-home" aria-hidden="true"></i>
+                        <span class="sidebar-button-desc">首頁</span>
+                    </a>
+            </li>
+            
+                <li class="sidebar-button">
+                    
+                        <a  class="sidebar-button-link "
+                             href="/all-categories"
+                            
+                            title="分類"
+                        >
+                    
+                        <i class="sidebar-button-icon fa fa-bookmark" aria-hidden="true"></i>
+                        <span class="sidebar-button-desc">分類</span>
+                    </a>
+            </li>
+            
+                <li class="sidebar-button">
+                    
+                        <a  class="sidebar-button-link "
+                             href="/all-tags"
+                            
+                            title="標籤"
+                        >
+                    
+                        <i class="sidebar-button-icon fa fa-tags" aria-hidden="true"></i>
+                        <span class="sidebar-button-desc">標籤</span>
+                    </a>
+            </li>
+            
+                <li class="sidebar-button">
+                    
+                        <a  class="sidebar-button-link "
+                             href="/all-archives"
+                            
+                            title="所有文章"
+                        >
+                    
+                        <i class="sidebar-button-icon fa fa-archive" aria-hidden="true"></i>
+                        <span class="sidebar-button-desc">所有文章</span>
+                    </a>
+            </li>
+            
+                <li class="sidebar-button">
+                    
+                        <a  class="sidebar-button-link open-algolia-search"
+                             href="#search"
+                            
+                            title="搜尋"
+                        >
+                    
+                        <i class="sidebar-button-icon fa fa-search" aria-hidden="true"></i>
+                        <span class="sidebar-button-desc">搜尋</span>
+                    </a>
+            </li>
+            
+                <li class="sidebar-button">
+                    
+                        <a  class="sidebar-button-link "
+                             href="#about"
+                            
+                            title="關於"
+                        >
+                    
+                        <i class="sidebar-button-icon fa fa-question" aria-hidden="true"></i>
+                        <span class="sidebar-button-desc">關於</span>
+                    </a>
+            </li>
+            
+        </ul>
+        
+            <ul class="sidebar-buttons">
+            
+                <li class="sidebar-button">
+                    
+                        <a  class="sidebar-button-link " href="https://github.com/yuehhua/" target="_blank" rel="noopener" title="GitHub">
+                    
+                        <i class="sidebar-button-icon fab fa-github" aria-hidden="true"></i>
+                        <span class="sidebar-button-desc">GitHub</span>
+                    </a>
+            </li>
+            
+                <li class="sidebar-button">
+                    
+                        <a  class="sidebar-button-link " href="https://www.facebook.com/a504082002" target="_blank" rel="noopener" title="Facebook">
+                    
+                        <i class="sidebar-button-icon fab fa-facebook" aria-hidden="true"></i>
+                        <span class="sidebar-button-desc">Facebook</span>
+                    </a>
+            </li>
+            
+                <li class="sidebar-button">
+                    
+                        <a  class="sidebar-button-link " href="https://www.linkedin.com/in/%E5%B2%B3%E8%8F%AF-%E6%9D%9C-6a3995a0/" target="_blank" rel="noopener" title="LinkedIn">
+                    
+                        <i class="sidebar-button-icon fab fa-linkedin" aria-hidden="true"></i>
+                        <span class="sidebar-button-desc">LinkedIn</span>
+                    </a>
+            </li>
+            
+                <li class="sidebar-button">
+                    
+                        <a  class="sidebar-button-link " href="mailto:a504082002@gmail.com" target="_blank" rel="noopener" title="Email">
+                    
+                        <i class="sidebar-button-icon fab fa-envelope" aria-hidden="true"></i>
+                        <span class="sidebar-button-desc">Email</span>
+                    </a>
+            </li>
+            
+        </ul>
+        
+            <ul class="sidebar-buttons">
+            
+                <li class="sidebar-button">
+                    
+                        <a  class="sidebar-button-link "
+                             href="/atom.xml"
+                            
+                            title="Atom"
+                        >
+                    
+                        <i class="sidebar-button-icon fa fa-rss" aria-hidden="true"></i>
+                        <span class="sidebar-button-desc">Atom</span>
+                    </a>
+            </li>
+            
+        </ul>
+        
+    </div>
+</nav>
+
+            
+            <div id="main" data-behavior="5"
+                 class="
+                        hasCoverMetaIn
+                        ">
+                
+    <article class="post">
+        
+                
+                    <div class="post-header main-content-wrap text-left">
+    
+        <h1 class="post-title">
+            Julia 的版本與套件版本
+        </h1>
+    
+    
+        <div class="post-meta">
+    <time datetime="2021-04-04T01:20:56+08:00">
+	
+		    4月 04, 2021
+    	
+    </time>
+    
+        <span>分類 </span>
+        
+    <a class="category-link" href="/categories/My-Style/">My Style</a>, <a class="category-link" href="/categories/My-Style/Computer-Science/">Computer Science</a>, <a class="category-link" href="/categories/My-Style/Computer-Science/Julialang/">Julialang</a>
+
+
+    
+</div>
+
+    
+</div>
+
+                        
+                            <div class="post-content markdown">
+                                <div class="main-content-wrap">
+                                    <p>常常開發者會需要在，使用者使用不同的語言版本或是套件版本，做不同的處置，有可能是安裝不同的函式庫，或是設定不同的參數。這時候要在程式中自動取得目前的語言版本或是特定套件的版本就很重要。Julia 語言本身就有內建版本字串可以使用，它可以用來比較版本的差異或是大小。</p>
+<a id="more"></a>
+<h2 id="Julia-語言版本">Julia 語言版本</h2>
+<p>如果要取得目前 Julia 語言版本相當地簡單，有個全域變數 <code>VERSION</code>，它直接提供給你目前的語言版本資訊。</p>
+<figure class="highlight julia"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">julia&gt; <span class="literal">VERSION</span></span><br><span class="line"><span class="string">v"1.6.0"</span></span><br><span class="line"></span><br><span class="line">julia&gt; <span class="literal">VERSION</span> ≥ <span class="string">v"1.5.0"</span></span><br><span class="line"><span class="literal">true</span></span><br></pre></td></tr></table></figure>
+<h2 id="套件版本">套件版本</h2>
+<p>目前官方並沒有提供一個方便查詢套件版本的方式給大家。像 python 有 <code>__version__</code> 可以使用。</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&gt;&gt;&gt; </span><span class="keyword">import</span> numpy</span><br><span class="line"><span class="meta">&gt;&gt;&gt; </span>numpy.__version__</span><br><span class="line"><span class="string">'1.20.0'</span></span><br></pre></td></tr></table></figure>
+<p>目前在 Julia 不依賴套件的方法是到 <code>Pkg.dependencies()</code> 去找尋，他會回傳給你目前所有套件的相依樹（dependency tree），key 是每個套件的 UUID，而 value 則是其相依的套件資訊。</p>
+<figure class="highlight julia"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line">julia&gt; Pkg.dependencies()</span><br><span class="line"><span class="built_in">Dict</span>&#123;Base.UUID, Pkg.Types.PackageInfo&#125; with <span class="number">584</span> entries:</span><br><span class="line">  UUID(<span class="string">"fb77eaff-e24c-56d4-86b1-d163f2edb164"</span>) =&gt; PackageInfo(<span class="string">"Sundials_jll"</span>, <span class="string">v"5.2.0+1"</span>, <span class="string">"013ff4504fc1d475aa80c63b455b6b3a58767db2"</span>, <span class="literal">false</span>, <span class="literal">false</span>, <span class="literal">false</span>, <span class="literal">false</span>, <span class="literal">true</span>, noth…</span><br><span class="line">  UUID(<span class="string">"4d4711f2-db25-561a-b6b3-d35e7d4047d3"</span>) =&gt; PackageInfo(<span class="string">"MatrixMarket"</span>, <span class="string">v"0.3.1"</span>, <span class="string">"54d39ccb57d29aefa666418bca8ca5598ebd8225"</span>, <span class="literal">true</span>, <span class="literal">false</span>, <span class="literal">false</span>, <span class="literal">false</span>, <span class="literal">true</span>, nothing…</span><br><span class="line">  UUID(<span class="string">"708ec375-b3d6-5a57-a7ce-8257bf98657a"</span>) =&gt; PackageInfo(<span class="string">"Gumbo"</span>, <span class="string">v"0.8.0"</span>, <span class="string">"e711d08d896018037d6ff0ad4ebe675ca67119d4"</span>, <span class="literal">false</span>, <span class="literal">false</span>, <span class="literal">false</span>, <span class="literal">false</span>, <span class="literal">true</span>, <span class="literal">nothing</span>, noth…</span><br><span class="line">  UUID(<span class="string">"9bbee03b-0db5-5f46-924f-b5c9c21b8c60"</span>) =&gt; PackageInfo(<span class="string">"NaiveBayes"</span>, <span class="string">v"0.4.0"</span>, <span class="string">"296d27a455ae074d3cb27f7edeff8e6532865f87"</span>, <span class="literal">true</span>, <span class="literal">false</span>, <span class="literal">false</span>, <span class="literal">false</span>, <span class="literal">true</span>, <span class="literal">nothing</span>, …</span><br><span class="line">  UUID(<span class="string">"c73af94c-d91f-53ed-93a7-00f77d67a9d7"</span>) =&gt; PackageInfo(<span class="string">"ImageMagick_jll"</span>, <span class="string">v"6.9.10-12+3"</span>, <span class="string">"1c0a2295cca535fabaf2029062912591e9b61987"</span>, <span class="literal">false</span>, <span class="literal">false</span>, <span class="literal">false</span>, <span class="literal">false</span>, tru…</span><br><span class="line">  UUID(<span class="string">"b99e7846-7c00-51b0-8f62-c81ae34c0232"</span>) =&gt; PackageInfo(<span class="string">"BinaryProvider"</span>, <span class="string">v"0.5.10"</span>, <span class="string">"ecdec412a9abc8db54c0efc5548c64dfce072058"</span>, <span class="literal">false</span>, <span class="literal">false</span>, <span class="literal">false</span>, <span class="literal">false</span>, <span class="literal">true</span>, not…</span><br><span class="line">  UUID(<span class="string">"cc61e674-0454-545c-8b26-ed2c68acab7a"</span>) =&gt; PackageInfo(<span class="string">"Xorg_libxkbfile_jll"</span>, <span class="string">v"1.1.0+4"</span>, <span class="string">"926af861744212db0eb001d9e40b5d16292080b2"</span>, <span class="literal">false</span>, <span class="literal">false</span>, <span class="literal">false</span>, <span class="literal">false</span>, tru…</span><br><span class="line">  UUID(<span class="string">"112f6efa-9a02-5b7d-90c0-432ed331239a"</span>) =&gt; PackageInfo(<span class="string">"VegaLite"</span>, <span class="string">v"2.4.1"</span>, <span class="string">"eb937ff65666c83f6c4db40d07d2fecfedeaff7e"</span>, <span class="literal">true</span>, <span class="literal">false</span>, <span class="literal">false</span>, <span class="literal">false</span>, <span class="literal">true</span>, <span class="literal">nothing</span>, no…</span><br><span class="line">  UUID(<span class="string">"7876af07-990d-54b4-ab0e-23690620f79a"</span>) =&gt; PackageInfo(<span class="string">"Example"</span>, <span class="string">v"0.5.3"</span>, <span class="string">"46e44e869b4d90b96bd8ed1fdcf32244fddfb6cc"</span>, <span class="literal">true</span>, <span class="literal">false</span>, <span class="literal">false</span>, <span class="literal">false</span>, <span class="literal">true</span>, <span class="literal">nothing</span>, not…</span><br><span class="line">  UUID(<span class="string">"c84ed2f1-dad5-54f0-aa8e-dbefe2724439"</span>) =&gt; PackageInfo(<span class="string">"Ratios"</span>, <span class="string">v"0.4.0"</span>, <span class="string">"37d210f612d70f3f7d57d488cb3b6eff56ad4e41"</span>, <span class="literal">false</span>, <span class="literal">false</span>, <span class="literal">false</span>, <span class="literal">false</span>, <span class="literal">true</span>, <span class="literal">nothing</span>, not…</span><br><span class="line">  UUID(<span class="string">"88cd18e8-d9cc-4ea6-8889-5259c0d15c8b"</span>) =&gt; PackageInfo(<span class="string">"ConsoleProgressMonitor"</span>, <span class="string">v"0.1.2"</span>, <span class="string">"3ab7b2136722890b9af903859afcf457fa3059e8"</span>, <span class="literal">false</span>, <span class="literal">false</span>, <span class="literal">false</span>, <span class="literal">false</span>, tr…</span><br><span class="line">  UUID(<span class="string">"37e2e46d-f89d-539d-b4ee-838fcccc9c8e"</span>) =&gt; PackageInfo(<span class="string">"LinearAlgebra"</span>, <span class="literal">nothing</span>, <span class="literal">nothing</span>, <span class="literal">false</span>, <span class="literal">false</span>, <span class="literal">false</span>, <span class="literal">false</span>, <span class="literal">true</span>, <span class="literal">nothing</span>, <span class="literal">nothing</span>, <span class="string">"/usr/share/julia/stdli…</span></span><br><span class="line"><span class="string">  UUID("31c24e10</span>-a181-<span class="number">5473</span>-b8eb-<span class="number">7969</span><span class="string">acd0382f") =&gt; PackageInfo("Distributions</span><span class="string">", v"0</span><span class="number">.23</span><span class="number">.8</span><span class="string">", "9c41285c57c6e0d73a21ed4b65f6eec34805f937</span><span class="string">", true, false, false, false, true, nothi…</span></span><br><span class="line"><span class="string">  UUID("1bc83da4</span>-<span class="number">3</span>b8d-<span class="number">516</span>f-aca4-<span class="number">4</span><span class="string">fe02f6d838f") =&gt; PackageInfo("SafeTestsets</span><span class="string">", v"0</span><span class="number">.0</span><span class="number">.1</span><span class="string">", "36ebc5622c82eb9324005cc75e7e2cc51181d181</span><span class="string">", false, false, false, false, true, nothin…</span></span><br><span class="line"><span class="string">  UUID("42fd0dbc</span>-a981-<span class="number">5370</span>-<span class="number">80f2</span>-<span class="string">aaf504508153") =&gt; PackageInfo("IterativeSolvers</span><span class="string">", v"0</span><span class="number">.8</span><span class="number">.5</span><span class="string">", "704eee044a41b0e7e8417f7dd2a6b6b5361afd5f</span><span class="string">", false, false, false, false, true, no…</span></span><br><span class="line"><span class="string">  UUID("01680d73</span>-<span class="number">4</span>ee2-<span class="number">5</span>a08-a1aa-<span class="number">533608</span><span class="string">c188bb") =&gt; PackageInfo("GenericSVD</span><span class="string">", v"0</span><span class="number">.3</span><span class="number">.0</span><span class="string">", "62909c3eda8a25b5673a367d1ad2392ebb265211</span><span class="string">", false, false, false, false, true, nothing,…</span></span><br><span class="line"><span class="string">  UUID("9a3f8284</span>-a2c9-<span class="number">5f02</span>-<span class="number">9</span>a11-<span class="number">845980</span><span class="string">a1fd5c") =&gt; PackageInfo("Random</span><span class="string">", nothing, nothing, true, false, false, false, true, nothing, nothing, "</span>/usr/share/julia/stdlib/v1<span class="number">.6</span>/R…</span><br><span class="line">  ...</span><br></pre></td></tr></table></figure>
+<p>這種方法會比較辛苦一點，在當中找到特定的套件版本。</p>
+<p>如果是用套件的方法則是，安裝 PkgVersion 這個套件，並且使用 <code>PkgVersion.Version</code> 這個函式來取得已載入的套件版本資訊。</p>
+<figure class="highlight julia"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">julia&gt; <span class="keyword">using</span> PkgVersion</span><br><span class="line"></span><br><span class="line">julia&gt; <span class="keyword">using</span> DataFrames</span><br><span class="line"></span><br><span class="line">julia&gt; PkgVersion.Version(DataFrames)</span><br><span class="line"><span class="string">v"0.21.8"</span></span><br></pre></td></tr></table></figure>
+
+                                        
+
+                                </div>
+                            </div>
+                            <div id="post-footer" class="post-footer main-content-wrap">
+                                
+                                        
+                                            <div class="post-actions-wrap">
+    <nav>
+        <ul class="post-actions post-action-nav">
+            <li class="post-action">
+                
+                    <a class="post-action-btn btn btn--disabled">
+                
+                    <i class="fa fa-angle-left" aria-hidden="true"></i>
+                    <span class="hide-xs hide-sm text-small icon-ml">上一篇</span>
+                </a>
+            </li>
+            <li class="post-action">
+                
+                    
+                    <a class="post-action-btn btn btn--default tooltip--top" href="/2021/04/04/julia-v1-6-release/" data-tooltip="Julia v1.6 釋出！新功能介紹！" aria-label="下一篇: Julia v1.6 釋出！新功能介紹！">
+                
+                    <span class="hide-xs hide-sm text-small icon-mr">下一篇</span>
+                    <i class="fa fa-angle-right" aria-hidden="true"></i>
+                </a>
+            </li>
+        </ul>
+    </nav>
+    <ul class="post-actions post-action-share">
+        <li class="post-action hide-lg hide-md hide-sm">
+            <a class="post-action-btn btn btn--default btn-open-shareoptions" href="#btn-open-shareoptions" aria-label="Share this post">
+                <i class="fa fa-share-alt" aria-hidden="true"></i>
+            </a>
+        </li>
+        
+            
+            
+            <li class="post-action hide-xs">
+                <a class="post-action-btn btn btn--default" target="new" href="https://www.facebook.com/sharer/sharer.php?u=https://yuehhua.github.io/2021/04/04/julia-package-version/" title="分享到 Facebook">
+                    <i class="fa fa-facebook-official" aria-hidden="true"></i>
+                </a>
+            </li>
+        
+        
+            
+                <li class="post-action">
+                    <a class="post-action-btn btn btn--default" href="#disqus_thread">
+                        <i class="fa fa-comment-o"></i>
+                    </a>
+                </li>
+            
+        
+        <li class="post-action">
+            
+                <a class="post-action-btn btn btn--default" href="#" aria-label="Back to top">
+            
+                <i class="fa fa-list" aria-hidden="true"></i>
+            </a>
+        </li>
+    </ul>
+</div>
+
+
+                                                
+                                                    
+                                                        
+                                                            <div id="disqus_thread">
+    <noscript>Please enable JavaScript to view the <a href="//disqus.com/?ref_noscript" target="_blank" rel="noopener">comments powered by Disqus.</a></noscript>
+</div>
+                                                                
+                                                                            
+                            </div>
+                            
+                                <script src='https://unpkg.com/mermaid@7.1.2/dist/mermaid.min.js'></script>
+                                <script>
+                                    if (window.mermaid) {
+                                        mermaid.initialize({ theme: 'forest' });
+                                    }
+                                </script>
+                                
+    </article>
+
+                <footer id="footer" class="main-content-wrap">
+    <span class="copyrights">
+        Copyrights &copy; 2021 Yueh-Hua Tu. All Rights Reserved.
+    </span>
+</footer>
+
+            </div>
+            
+                <div id="bottom-bar" class="post-bottom-bar" data-behavior="5">
+                    <div class="post-actions-wrap">
+    <nav>
+        <ul class="post-actions post-action-nav">
+            <li class="post-action">
+                
+                    <a class="post-action-btn btn btn--disabled">
+                
+                    <i class="fa fa-angle-left" aria-hidden="true"></i>
+                    <span class="hide-xs hide-sm text-small icon-ml">上一篇</span>
+                </a>
+            </li>
+            <li class="post-action">
+                
+                    
+                    <a class="post-action-btn btn btn--default tooltip--top" href="/2021/04/04/julia-v1-6-release/" data-tooltip="Julia v1.6 釋出！新功能介紹！" aria-label="下一篇: Julia v1.6 釋出！新功能介紹！">
+                
+                    <span class="hide-xs hide-sm text-small icon-mr">下一篇</span>
+                    <i class="fa fa-angle-right" aria-hidden="true"></i>
+                </a>
+            </li>
+        </ul>
+    </nav>
+    <ul class="post-actions post-action-share">
+        <li class="post-action hide-lg hide-md hide-sm">
+            <a class="post-action-btn btn btn--default btn-open-shareoptions" href="#btn-open-shareoptions" aria-label="Share this post">
+                <i class="fa fa-share-alt" aria-hidden="true"></i>
+            </a>
+        </li>
+        
+            
+            
+            <li class="post-action hide-xs">
+                <a class="post-action-btn btn btn--default" target="new" href="https://www.facebook.com/sharer/sharer.php?u=https://yuehhua.github.io/2021/04/04/julia-package-version/" title="分享到 Facebook">
+                    <i class="fa fa-facebook-official" aria-hidden="true"></i>
+                </a>
+            </li>
+        
+        
+            
+                <li class="post-action">
+                    <a class="post-action-btn btn btn--default" href="#disqus_thread">
+                        <i class="fa fa-comment-o"></i>
+                    </a>
+                </li>
+            
+        
+        <li class="post-action">
+            
+                <a class="post-action-btn btn btn--default" href="#" aria-label="Back to top">
+            
+                <i class="fa fa-list" aria-hidden="true"></i>
+            </a>
+        </li>
+    </ul>
+</div>
+
+
+                </div>
+                <div id="share-options-bar" class="share-options-bar" data-behavior="5">
+    <i id="btn-close-shareoptions" class="fa fa-close"></i>
+    <ul class="share-options">
+        
+            
+            
+            <li class="share-option">
+                <a class="share-option-btn" target="new" href="https://www.facebook.com/sharer/sharer.php?u=https://yuehhua.github.io/2021/04/04/julia-package-version/">
+                    <i class="fa fa-facebook-official" aria-hidden="true"></i><span>分享到 Facebook</span>
+                </a>
+            </li>
+        
+    </ul>
+</div>
+
+            
+        </div>
+        
+
+
+<div id="about">
+    <div id="about-card">
+        <div id="about-btn-close">
+            <i class="fa fa-remove"></i>
+        </div>
+        
+            <h4 id="about-card-name">Yueh-Hua Tu</h4>
+        
+            <div id="about-card-bio"><p>目標是計算生物學家！</br>Systems Biology, Computational Biology, Machine Learning</br>Julia Taiwan 發起人</p>
+</div>
+        
+        
+            <div id="about-card-job">
+                <i class="fa fa-briefcase"></i>
+                <br/>
+                <p>研發替代役研究助理</p>
+
+            </div>
+        
+        
+            <div id="about-card-location">
+                <i class="fa fa-map-marker"></i>
+                <br/>
+                Taiwan
+            </div>
+        
+    </div>
+</div>
+
+        
+        
+<div id="cover" style="background-image:url('/assets/images/cover.jpg');"></div>
+        <!--SCRIPTS-->
+
+<script src="/assets/js/script-xzfezjobyekpxrjktw5tz6muvzqfsbmo5n6atk3p5om9ulfptldi3p7cyqd8.min.js"></script>
+
+<!--SCRIPTS END-->
+
+
+<script>
+    var disqus_config = function () {
+        this.page.url = 'https://yuehhua.github.io/2021/04/04/julia-package-version/';
+                 
+            this.page.identifier = '2021/04/04/julia-package-version/';
+                 
+             };
+    (function () {
+        var d = document, s = d.createElement('script');
+        var disqus_shortname = 'dream-maker';
+        s.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+
+        s.setAttribute('data-timestamp', +new Date());
+        (d.head || d.body).appendChild(s);
+    })();
+</script><!-- hexo-inject:begin --><!-- hexo-inject:end -->
+
+
+
+    </body>
+</html>

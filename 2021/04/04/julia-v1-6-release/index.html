@@ -1,0 +1,615 @@
+
+<!DOCTYPE html>
+<html lang="zh-tw,en,default">
+    
+<head>
+    <!-- hexo-inject:begin --><!-- hexo-inject:end --><meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="generator" content="Dream Maker">
+    <title>Julia v1.6 釋出！新功能介紹！ - Dream Maker</title>
+    <meta name="author" content="Yueh-Hua Tu">
+    
+        <meta name="keywords" content="machine learning,deep learning,topology,">
+    
+    
+    
+        <link rel="alternate" type="application/atom+xml" title="RSS" href="/atom.xml">
+    
+    <script type="application/ld+json">{"@context":"http://schema.org","@type":"BlogPosting","author":{"@type":"Person","name":"Yueh-Hua Tu","sameAs":["https://github.com/yuehhua/","https://www.facebook.com/a504082002","https://www.linkedin.com/in/%E5%B2%B3%E8%8F%AF-%E6%9D%9C-6a3995a0/","mailto:a504082002@gmail.com"],"image":"https://www.gravatar.com/avatar/a565749fba4782b717234da670b273fd"},"articleBody":"\n在 v1.6 版中，Julia 有大幅度的效能提昇，效能提昇的部份著重在於預編譯（precompilation）以及編譯的效能改進，而 v1.6 版將成為下一個長期支援（long-term support, LTS）的版本。\n根據官方部落格，本次版本更新引進了眾多新的技術，包含 parallel precompilation、消除重複編譯、降低編譯器的 latency、加速二進位檔案的載入，以及改善 stacktrace 的格式等等重大的功能。那我們就來詳細看看有哪些更新吧！\n\n重要功能\n平行預編譯\n使用者在 using/import 某些套件的時候，總是需要等待長久的預編譯時間，但在 v1.6 版引進了平行預編譯（parallel precompilation）技術來降低套件的載入時間。pkg&gt; precompile 會啟動平行預編譯，並且以深度優先的方式，預編譯其套件下的所有相依套件。只有直接相依的套件（列於 Project.toml 中）會丟出錯誤訊息。平行預編譯會在 manifest 被更新之後自動啟動。平行預編譯也支援多套件同時編譯，它會使用多行程（multi-processed）的方式編譯。Julia 會預設地產生最大 CPU 核心數的預編譯任務並且執行平行預編譯。自動預編譯會記住在特定環境下所發生的錯誤，並且會在環境改變時再次嘗試。自動預編譯可以使用 ctrl-c 中斷，或是設定環境變數 JULIA_PKG_PRECOMPILE_AUTO=0 來關閉。\n在 v1.5 版載入 DifferentialEquations.jl。\n12345(v1.5) pkg&gt; add DifferentialEquations...julia&gt; @time using DifferentialEquations[ Info: Precompiling DifferentialEquations [0c46a032-eb83-5123-abaf-570d42b7fbaa]  474.288251 seconds …\n在 v1.6 版載入 DifferentialEquations.jl。\n12345678(v1.6) pkg&gt; add DifferentialEquations...Precompiling project...  Progress [========================================&gt;]  112/112112 dependencies successfully precompiled in 72 secondsjulia&gt; @time using DifferentialEquations  4.995477 seconds …\n程式碼取自官方部落格。\n避免重複編譯\n延展性（extensibility）是 Julia 的重要功能之一，你可以對既有的 function 增加新的 method。有的時候，這些更動會讓 Julia 重新編譯程式碼。Julia 會讓「過期」的程式碼被標記，並且編譯新的程式碼。在 v1.6 版中，標記「過期」的程式碼的方式被改進，變得更為精準，如此可以避免重複編譯的問題。\n使用者功能\n語法\n\nTypes written with where syntax can now be used to define constructors, e.g.\n(Foo{T} where T)(x) = ....\n\n增加新的語法 import ... as ...\n新增新語法 import A as B，也包含import A: x as y、import A.x as y 和 using A: x as y，可以對載入的模組跟辨識子重新命名。（#1255）\n1234567julia&gt; import DataFrames as DFjulia&gt; using DataFrames as DFERROR: syntax: invalid syntax \"using DataFrames as ...\"Stacktrace: [1] top-level scope   @ none:1\n注意，using 是不支援 as 的喔！\n可以使用 ... 來指定解構的變數\n12345678910111213141516171819202122232425262728293031julia&gt; a, b... = [1,2,3]3-element Vector&#123;Int64&#125;: 1 2 3julia&gt; a1julia&gt; b2-element Vector&#123;Int64&#125;: 2 3julia&gt; a, b... = (1,2,3)(1, 2, 3)julia&gt; b(2, 3)julia&gt; a, b, c... = [1,2,3,4]4-element Vector&#123;Int64&#125;: 1 2 3 4julia&gt; c2-element Vector&#123;Int64&#125;: 3 4\n陣列與集合\n支援 init 關鍵字參數\nsum、prod、maximum、minimum，以及 count 現在支援 init 關鍵字參數。（#36188, #35839, #37461）\n集合容器支援更多運算子\n集合容器現在也支援 ∉(collection)、∋(item)、∌(item) 這些方法。（#38475）\n12345678julia&gt; 1 ∉ [2,3,4]truejulia&gt; [2,3,4] ∋ 1falsejulia&gt; [2,3,4] ∌ 1true\n新的 NamedTuple 建構子\nNamedTuple 有新的建構子，可以用 NamedTuple(iterator) 的方式來支援從 key-value 配對的集合容器中建構 named tuple。\n123456789101112131415julia&gt; d = Dict(:a =&gt; 1, :b =&gt; 2)Dict&#123;Symbol, Int64&#125; with 2 entries:  :a =&gt; 1  :b =&gt; 2julia&gt; NamedTuple(d)(a = 1, b = 2)julia&gt; a = [:a =&gt; 1, :b =&gt; 2]2-element Vector&#123;Pair&#123;Symbol, Int64&#125;&#125;: :a =&gt; 1 :b =&gt; 2julia&gt; NamedTuple(a)(a = 1, b = 2)\n點運算子可以被用於高階函式\n1234567julia&gt; map(.*, collect(1:5), collect(6:10))5-element Vector&#123;Int64&#125;:  6 14 24 36 50\nRange 支援非整數型別\n1234567891011julia&gt; 1.0:0.1:10.01.0:0.1:10.0julia&gt; typeof(1.0:0.1:10.0)StepRangeLen&#123;Float64, Base.TwicePrecision&#123;Float64&#125;, Base.TwicePrecision&#123;Float64&#125;&#125;julia&gt; 1.0:10.01.0:1.0:10.0julia&gt; typeof(1.0:10.0)StepRangeLen&#123;Float64, Base.TwicePrecision&#123;Float64&#125;, Base.TwicePrecision&#123;Float64&#125;&#125;\n要指定 x:y 以前都需要是整數型別 &lt;: Integer 才行，現在 LinRange、StepRange 和 StepRangeLen 都支援非整數型別。（#32439）\n訊息與呈現\n@code_XXX 的格式更新\n@code_llvm 及 @code_native 變成彩色的了！\n\n稀疏矩陣的顯示格式更新\n稀疏矩陣的顯示變得更直覺了！他自動隱藏非零值。（#33821）\n123456julia&gt; sprand(4, 4, 0.5)4×4 SparseMatrixCSC&#123;Float64, Int64&#125; with 9 stored entries: 0.883381  0.990356   ⋅         ⋅  0.344935  0.238646   ⋅        0.218795 0.583395   ⋅        0.674894   ⋅  0.892346   ⋅         ⋅        0.53169\nUUID 用裝置亂數作為亂數產生器\n變更 uuid1 和 uuid4 去使用 Random.RandomDevice() 作為預設的亂數產生器。（#35872）\n開發者功能\n開發\n以後不再有 home project 的概念了！執行 julia --project=dir 等同於執行 julia、pkg&gt; activate $dir 以及 julia --project 一系列命令。julia --project 等同於指定了 dir = Base.current_project()。（#36434）\n編譯與型別推斷現在可以在模組中被啟用或是關閉，使用 Base.Experimental.@compiler_options 可以達到。（#37041）\n二進位檔與函式庫\nPkg.Artifacts 模組目前可以被作為一個獨立的套件（Artifacts）使用，當然 Pkg.Artifacts 也可以。（#37320）\nPkg.BinaryPlatforms 被移動至 Base 成為 Base.BinaryPlatforms。（#37320）\n如果要延遲下載 artifacts，LazyArtifacts 一定要被列在相依套件中。（#37844）\n測試\n\n@testset 支援新的選項 verbose 來呈現測試結果。（#33755）\n\n效能調校\n字串支援 view\n現在所有字串（AbstractString）都支援 view 囉！ 也包含 @view 以及 @views，他們會回傳 SubString。（#35879）\n12345678julia&gt; s = \"ABCDabcd\"\"ABCDabcd\"julia&gt; @view s[2:4]\"BCD\"julia&gt; typeof(@view s[2:4])SubString&#123;String&#125;\n@time 增加編譯時間比例\n在執行 @time 時，增加了顯示時間中有多少比例的編譯時間（compile time），@timev 則有更詳盡的資料（#37678）。\n12345678910111213141516171819202122232425262728293031323334353637julia&gt; A = rand(5, 5)5×5 Matrix&#123;Float64&#125;: 0.457416  0.437818   0.562112  0.406917  0.447958 0.332568  0.947091   0.936427  0.514941  0.692013 0.590303  0.0198501  0.729961  0.603581  0.333894 0.380095  0.879258   0.957336  0.640208  0.744337 0.313589  0.866007   0.207502  0.480253  0.700147julia&gt; @time A*A  0.493280 seconds (2.37 M allocations: 127.468 MiB, 7.62% gc time, 97.77% compilation time)5×5 Matrix&#123;Float64&#125;: 0.981792  1.3718   1.55993  1.22651  1.31208 1.4326    2.11323  2.39394  1.85024  1.98484 1.04164   1.11159  1.53036  1.23779  1.20494 1.50815   2.22566  2.50318  1.9526   2.09605 0.956036  1.9902   1.74374  1.3425   1.65672julia&gt; @time A*A  0.000007 seconds (1 allocation: 288 bytes)5×5 Matrix&#123;Float64&#125;: 0.981792  1.3718   1.55993  1.22651  1.31208 1.4326    2.11323  2.39394  1.85024  1.98484 1.04164   1.11159  1.53036  1.23779  1.20494 1.50815   2.22566  2.50318  1.9526   2.09605 0.956036  1.9902   1.74374  1.3425   1.65672julia&gt; @timev A*A  0.000044 seconds (1 allocation: 288 bytes)elapsed time (ns): 44371bytes allocated:   288pool allocs:       15×5 Matrix&#123;Float64&#125;: 0.981792  1.3718   1.55993  1.22651  1.31208 1.4326    2.11323  2.39394  1.85024  1.98484 1.04164   1.11159  1.53036  1.23779  1.20494 1.50815   2.22566  2.50318  1.9526   2.09605 0.956036  1.9902   1.74374  1.3425   1.65672\n\n編譯器最佳化的常數傳遞（constant propagation）支援關鍵字參數（keyword arguments）。（#35976）\n\n新功能\n新增標準函式庫\n在 v1.6 中，新增了兩個標準函式庫：TOML、Downloads。TOML 可以被用來解析 .toml 檔案。Downloads 提供了跨平台、多協定、行程內的下載功能，並使用 libcurl。它取代了原先的 Base.download，並提供 Downloads.download 介面。\n陣列與其他集合\n新功能 spdiagm([m, n,] v::AbstractVector) 支援由 v 作為對角線來生成稀疏矩陣的對角矩陣，其呼叫 spdiagm([m, n,] 0 =&gt; v)，與稠密矩陣的 diagm 有對等的功能。（#37684）\n新增 Iterators.map，也新增了 Iterators.map(f, iterators...) 的語法，簡化了 (f(args...) for args in zip(iterators...))。（#34352）\n新功能 insorted 來確定一個集合容器中的元素是否是已經排序的。（#37490）\n數值計算\n現在 isapprox(x,y) 支援 norm 這個關鍵字參數，來計算兩者的範數（norm）是否接近，也支援非陣列的 x 跟 y 參數。（#35883）\n新功能 LinearAlgebra.BLAS.get_num_threads() 可以取得 BLAS 的執行緒數量。（#36360）\n平行運算\n新功能 Base.Threads.foreach(f, channel::Channel) 支援多執行緒的 Channel 消耗。（#34543）\n其他\n新增 parse(::Type{UUID}, ::AbstractString) 方法。\n新支援\n陣列與其他集合\n現在 append!(vector, collections...) 及 prepend!(vector, collections...) 方法都支援多個集合容器（collections）。（#36227）\n123456789101112131415julia&gt; a = rand(10);julia&gt; b = [rand(10), rand(20)]2-element Vector&#123;Vector&#123;Float64&#125;&#125;: [0.4274732922161779, 0.10937373891763369, 0.5654187553795427, 0.9906034331313402, 0.013972810993100104, 0.9124867642867496, 0.7026800717485269, 0.6919261624138788, 0.6637048817292697, 0.6751652383396913] [0.2195233748657055, 0.8611811964575287, 0.5207507597979009, 0.8922624660959817, 0.6598412164100307, 0.5197210219304949, 0.6657337471786067, 0.20595020263413644, 0.9792308729299666, 0.20457512725986682, 0.3964379369245947, 0.9492425568657055, 0.4298200055489003, 0.38595130501514974, 0.9106291942539788, 0.9979619358373388, 0.05452976209666782, 0.7036395889179883, 0.5909806544881551, 0.26667970632080373]julia&gt; append!(a, b...)40-element Vector&#123;Float64&#125;: 0.5841916683652206 0.054243862919656216 0.5576101120027053 0.3870928566144738 0.1998130659845283 ...\n轉置（adjoint!(::*Triangular)、transpose!(::*Triangular)）一個上（下）三角矩陣 *Triangular 會回傳相反的三角矩陣。套件中含有方法，像是 Adjoint{&lt;:Any,&lt;:LowerTriangular{&lt;:Any,&lt;:OwnMatrixType}} 需要被改為 UpperTriangular{&lt;:Any,&lt;:Adjoint{&lt;:Any,&lt;:OwnMatrixType}}。（#38168）\nunique(f, itr; seen=Set{T}()) 現在容許你宣告容器的型別。（#36280）\nI/O\nredirect_* 函式現在接受 devnull 來拋棄所有輸出的資料，或是作為一個空的輸入來源。（#36146）\nredirect_* 函式現在可以呼叫 IOContext 物件。（#36688）\n","dateCreated":"2021-04-04T01:04:33+08:00","dateModified":"2021-04-04T01:04:19+08:00","datePublished":"2021-04-04T01:04:33+08:00","description":"\n在 v1.6 版中，Julia 有大幅度的效能提昇，效能提昇的部份著重在於預編譯（precompilation）以及編譯的效能改進，而 v1.6 版將成為下一個長期支援（long-term support, LTS）的版本。\n根據官方部落格，本次版本更新引進了眾多新的技術，包含 parallel precompilation、消除重複編譯、降低編譯器的 latency、加速二進位檔案的載入，以及改善 stacktrace 的格式等等重大的功能。那我們就來詳細看看有哪些更新吧！","headline":"Julia v1.6 釋出！新功能介紹！","image":[],"mainEntityOfPage":{"@type":"WebPage","@id":"https://yuehhua.github.io/2021/04/04/julia-v1-6-release/"},"publisher":{"@type":"Organization","name":"Yueh-Hua Tu","sameAs":["https://github.com/yuehhua/","https://www.facebook.com/a504082002","https://www.linkedin.com/in/%E5%B2%B3%E8%8F%AF-%E6%9D%9C-6a3995a0/","mailto:a504082002@gmail.com"],"image":"https://www.gravatar.com/avatar/a565749fba4782b717234da670b273fd","logo":{"@type":"ImageObject","url":"https://www.gravatar.com/avatar/a565749fba4782b717234da670b273fd"}},"url":"https://yuehhua.github.io/2021/04/04/julia-v1-6-release/"}</script>
+    <meta name="description" content="在 v1.6 版中，Julia 有大幅度的效能提昇，效能提昇的部份著重在於預編譯（precompilation）以及編譯的效能改進，而 v1.6 版將成為下一個長期支援（long-term support, LTS）的版本。 根據官方部落格，本次版本更新引進了眾多新的技術，包含 parallel precompilation、消除重複編譯、降低編譯器的 latency、加速二進位檔案的載入，以及">
+<meta property="og:type" content="blog">
+<meta property="og:title" content="Julia v1.6 釋出！新功能介紹！">
+<meta property="og:url" content="https://yuehhua.github.io/2021/04/04/julia-v1-6-release/index.html">
+<meta property="og:site_name" content="Dream Maker">
+<meta property="og:description" content="在 v1.6 版中，Julia 有大幅度的效能提昇，效能提昇的部份著重在於預編譯（precompilation）以及編譯的效能改進，而 v1.6 版將成為下一個長期支援（long-term support, LTS）的版本。 根據官方部落格，本次版本更新引進了眾多新的技術，包含 parallel precompilation、消除重複編譯、降低編譯器的 latency、加速二進位檔案的載入，以及">
+<meta property="og:locale" content="zh_TW">
+<meta property="og:image" content="https://yuehhua.github.io/images/code_native_1.6.png">
+<meta property="article:published_time" content="2021-04-03T17:04:33.000Z">
+<meta property="article:modified_time" content="2021-04-03T17:04:19.009Z">
+<meta property="article:author" content="Yueh-Hua Tu">
+<meta property="article:tag" content="machine learning">
+<meta property="article:tag" content="deep learning">
+<meta property="article:tag" content="topology">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://yuehhua.github.io/images/code_native_1.6.png">
+    
+    
+        
+    
+    
+    
+    
+    
+    <!--STYLES-->
+    
+<link rel="stylesheet" href="/assets/css/style-3frockyt2j28isvdztjchy5nhkz8tjki9ermufc1ckptmvjdftux94m2ahub.min.css">
+
+    <!--STYLES END-->
+    
+    <script type="text/javascript">
+        (function (i, s, o, g, r, a, m) {
+        i['GoogleAnalyticsObject'] = r; i[r] = i[r] || function () {
+            (i[r].q = i[r].q || []).push(arguments)
+        }, i[r].l = 1 * new Date(); a = s.createElement(o),
+            m = s.getElementsByTagName(o)[0]; a.async = 1; a.src = g; m.parentNode.insertBefore(a, m)
+        })(window, document, 'script', '//www.google-analytics.com/analytics.js', 'ga');
+
+        ga('create', 'UA-119690895-1', 'auto');
+        ga('send', 'pageview');
+    </script><!-- hexo-inject:begin --><!-- hexo-inject:end -->
+    
+    
+</head>
+
+    <body>
+        <!-- hexo-inject:begin --><!-- hexo-inject:end --><div id="blog">
+            <!-- Define author's picture -->
+
+
+    
+
+<header id="header" data-behavior="5">
+    <i id="btn-open-sidebar" class="fa fa-lg fa-bars"></i>
+    <div class="header-title">
+        <a class="header-title-link" href="/%20">Dream Maker</a>
+    </div>
+    
+        
+            <a  class="header-right-picture "
+                href="#about">
+        
+        
+        </a>
+    
+</header>
+
+            <!-- Define author's picture -->
+
+
+<nav id="sidebar" data-behavior="5">
+    <div class="sidebar-container">
+        
+        
+            <ul class="sidebar-buttons">
+            
+                <li class="sidebar-button">
+                    
+                        <a  class="sidebar-button-link "
+                             href="/%20"
+                            
+                            title="首頁"
+                        >
+                    
+                        <i class="sidebar-button-icon fa fa-home" aria-hidden="true"></i>
+                        <span class="sidebar-button-desc">首頁</span>
+                    </a>
+            </li>
+            
+                <li class="sidebar-button">
+                    
+                        <a  class="sidebar-button-link "
+                             href="/all-categories"
+                            
+                            title="分類"
+                        >
+                    
+                        <i class="sidebar-button-icon fa fa-bookmark" aria-hidden="true"></i>
+                        <span class="sidebar-button-desc">分類</span>
+                    </a>
+            </li>
+            
+                <li class="sidebar-button">
+                    
+                        <a  class="sidebar-button-link "
+                             href="/all-tags"
+                            
+                            title="標籤"
+                        >
+                    
+                        <i class="sidebar-button-icon fa fa-tags" aria-hidden="true"></i>
+                        <span class="sidebar-button-desc">標籤</span>
+                    </a>
+            </li>
+            
+                <li class="sidebar-button">
+                    
+                        <a  class="sidebar-button-link "
+                             href="/all-archives"
+                            
+                            title="所有文章"
+                        >
+                    
+                        <i class="sidebar-button-icon fa fa-archive" aria-hidden="true"></i>
+                        <span class="sidebar-button-desc">所有文章</span>
+                    </a>
+            </li>
+            
+                <li class="sidebar-button">
+                    
+                        <a  class="sidebar-button-link open-algolia-search"
+                             href="#search"
+                            
+                            title="搜尋"
+                        >
+                    
+                        <i class="sidebar-button-icon fa fa-search" aria-hidden="true"></i>
+                        <span class="sidebar-button-desc">搜尋</span>
+                    </a>
+            </li>
+            
+                <li class="sidebar-button">
+                    
+                        <a  class="sidebar-button-link "
+                             href="#about"
+                            
+                            title="關於"
+                        >
+                    
+                        <i class="sidebar-button-icon fa fa-question" aria-hidden="true"></i>
+                        <span class="sidebar-button-desc">關於</span>
+                    </a>
+            </li>
+            
+        </ul>
+        
+            <ul class="sidebar-buttons">
+            
+                <li class="sidebar-button">
+                    
+                        <a  class="sidebar-button-link " href="https://github.com/yuehhua/" target="_blank" rel="noopener" title="GitHub">
+                    
+                        <i class="sidebar-button-icon fab fa-github" aria-hidden="true"></i>
+                        <span class="sidebar-button-desc">GitHub</span>
+                    </a>
+            </li>
+            
+                <li class="sidebar-button">
+                    
+                        <a  class="sidebar-button-link " href="https://www.facebook.com/a504082002" target="_blank" rel="noopener" title="Facebook">
+                    
+                        <i class="sidebar-button-icon fab fa-facebook" aria-hidden="true"></i>
+                        <span class="sidebar-button-desc">Facebook</span>
+                    </a>
+            </li>
+            
+                <li class="sidebar-button">
+                    
+                        <a  class="sidebar-button-link " href="https://www.linkedin.com/in/%E5%B2%B3%E8%8F%AF-%E6%9D%9C-6a3995a0/" target="_blank" rel="noopener" title="LinkedIn">
+                    
+                        <i class="sidebar-button-icon fab fa-linkedin" aria-hidden="true"></i>
+                        <span class="sidebar-button-desc">LinkedIn</span>
+                    </a>
+            </li>
+            
+                <li class="sidebar-button">
+                    
+                        <a  class="sidebar-button-link " href="mailto:a504082002@gmail.com" target="_blank" rel="noopener" title="Email">
+                    
+                        <i class="sidebar-button-icon fab fa-envelope" aria-hidden="true"></i>
+                        <span class="sidebar-button-desc">Email</span>
+                    </a>
+            </li>
+            
+        </ul>
+        
+            <ul class="sidebar-buttons">
+            
+                <li class="sidebar-button">
+                    
+                        <a  class="sidebar-button-link "
+                             href="/atom.xml"
+                            
+                            title="Atom"
+                        >
+                    
+                        <i class="sidebar-button-icon fa fa-rss" aria-hidden="true"></i>
+                        <span class="sidebar-button-desc">Atom</span>
+                    </a>
+            </li>
+            
+        </ul>
+        
+    </div>
+</nav>
+
+            
+            <div id="main" data-behavior="5"
+                 class="
+                        hasCoverMetaIn
+                        ">
+                
+    <article class="post">
+        
+                
+                    <div class="post-header main-content-wrap text-left">
+    
+        <h1 class="post-title">
+            Julia v1.6 釋出！新功能介紹！
+        </h1>
+    
+    
+        <div class="post-meta">
+    <time datetime="2021-04-04T01:04:33+08:00">
+	
+		    4月 04, 2021
+    	
+    </time>
+    
+        <span>分類 </span>
+        
+    <a class="category-link" href="/categories/My-Style/">My Style</a>, <a class="category-link" href="/categories/My-Style/Computer-Science/">Computer Science</a>, <a class="category-link" href="/categories/My-Style/Computer-Science/Julialang/">Julialang</a>
+
+
+    
+</div>
+
+    
+</div>
+
+                        
+                            <div class="post-content markdown">
+                                <div class="main-content-wrap">
+                                    <h1 id="table-of-contents">目錄</h1><ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#重要功能"><span class="toc-text">重要功能</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#平行預編譯"><span class="toc-text">平行預編譯</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#避免重複編譯"><span class="toc-text">避免重複編譯</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#使用者功能"><span class="toc-text">使用者功能</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#語法"><span class="toc-text">語法</span></a><ol class="toc-child"><li class="toc-item toc-level-5"><a class="toc-link" href="#增加新的語法-import-as"><span class="toc-text">增加新的語法 import ... as ...</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#可以使用-來指定解構的變數"><span class="toc-text">可以使用 ... 來指定解構的變數</span></a></li></ol></li><li class="toc-item toc-level-4"><a class="toc-link" href="#陣列與集合"><span class="toc-text">陣列與集合</span></a><ol class="toc-child"><li class="toc-item toc-level-5"><a class="toc-link" href="#支援-init-關鍵字參數"><span class="toc-text">支援 init 關鍵字參數</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#集合容器支援更多運算子"><span class="toc-text">集合容器支援更多運算子</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#新的-NamedTuple-建構子"><span class="toc-text">新的 NamedTuple 建構子</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#點運算子可以被用於高階函式"><span class="toc-text">點運算子可以被用於高階函式</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#Range-支援非整數型別"><span class="toc-text">Range 支援非整數型別</span></a></li></ol></li><li class="toc-item toc-level-4"><a class="toc-link" href="#訊息與呈現"><span class="toc-text">訊息與呈現</span></a><ol class="toc-child"><li class="toc-item toc-level-5"><a class="toc-link" href="#code-XXX-的格式更新"><span class="toc-text">@code_XXX 的格式更新</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#稀疏矩陣的顯示格式更新"><span class="toc-text">稀疏矩陣的顯示格式更新</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#UUID-用裝置亂數作為亂數產生器"><span class="toc-text">UUID 用裝置亂數作為亂數產生器</span></a></li></ol></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#開發者功能"><span class="toc-text">開發者功能</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#開發"><span class="toc-text">開發</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#二進位檔與函式庫"><span class="toc-text">二進位檔與函式庫</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#測試"><span class="toc-text">測試</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#效能調校"><span class="toc-text">效能調校</span></a><ol class="toc-child"><li class="toc-item toc-level-5"><a class="toc-link" href="#字串支援-view"><span class="toc-text">字串支援 view</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#time-增加編譯時間比例"><span class="toc-text">@time 增加編譯時間比例</span></a></li></ol></li></ol></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#新功能"><span class="toc-text">新功能</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#新增標準函式庫"><span class="toc-text">新增標準函式庫</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#陣列與其他集合"><span class="toc-text">陣列與其他集合</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#數值計算"><span class="toc-text">數值計算</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#平行運算"><span class="toc-text">平行運算</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#其他"><span class="toc-text">其他</span></a></li></ol></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#新支援"><span class="toc-text">新支援</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#陣列與其他集合-2"><span class="toc-text">陣列與其他集合</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#I-O"><span class="toc-text">I&#x2F;O</span></a></li></ol></li></ol>
+<p>在 v1.6 版中，Julia 有大幅度的效能提昇，效能提昇的部份著重在於預編譯（precompilation）以及編譯的效能改進，而 v1.6 版將成為下一個長期支援（long-term support, LTS）的版本。</p>
+<p>根據<a href="https://julialang.org/blog/2021/03/julia-1.6-highlights/" target="_blank" rel="noopener">官方部落格</a>，本次版本更新引進了眾多新的技術，包含 parallel precompilation、消除重複編譯、降低編譯器的 latency、加速二進位檔案的載入，以及改善 stacktrace 的格式等等重大的功能。那我們就來詳細看看有哪些更新吧！</p>
+<a id="more"></a>
+<h2 id="重要功能">重要功能</h2>
+<h3 id="平行預編譯">平行預編譯</h3>
+<p>使用者在 using/import 某些套件的時候，總是需要等待長久的預編譯時間，但在 v1.6 版引進了平行預編譯（parallel precompilation）技術來降低套件的載入時間。<code>pkg&gt; precompile</code> 會啟動平行預編譯，並且以深度優先的方式，預編譯其套件下的所有相依套件。只有直接相依的套件（列於 <code>Project.toml</code> 中）會丟出錯誤訊息。平行預編譯會在 manifest 被更新之後自動啟動。平行預編譯也支援多套件同時編譯，它會使用多行程（multi-processed）的方式編譯。Julia 會預設地產生最大 CPU 核心數的預編譯任務並且執行平行預編譯。自動預編譯會記住在特定環境下所發生的錯誤，並且會在環境改變時再次嘗試。自動預編譯可以使用 <code>ctrl-c</code> 中斷，或是設定環境變數 <code>JULIA_PKG_PRECOMPILE_AUTO=0</code> 來關閉。</p>
+<p>在 v1.5 版載入 DifferentialEquations.jl。</p>
+<figure class="highlight julia"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">(v1<span class="number">.5</span>) pkg&gt; add DifferentialEquations</span><br><span class="line">...</span><br><span class="line">julia&gt; <span class="meta">@time</span> <span class="keyword">using</span> DifferentialEquations</span><br><span class="line">[ Info: Precompiling DifferentialEquations [<span class="number">0</span>c46a032-eb83-<span class="number">5123</span>-abaf-<span class="number">570</span>d42b7fbaa]</span><br><span class="line">  <span class="number">474.288251</span> seconds …</span><br></pre></td></tr></table></figure>
+<p>在 v1.6 版載入 DifferentialEquations.jl。</p>
+<figure class="highlight julia"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">(v1<span class="number">.6</span>) pkg&gt; add DifferentialEquations</span><br><span class="line">...</span><br><span class="line">Precompiling project...</span><br><span class="line">  Progress [========================================&gt;]  <span class="number">112</span>/<span class="number">112</span></span><br><span class="line"><span class="number">112</span> dependencies successfully precompiled <span class="keyword">in</span> <span class="number">72</span> seconds</span><br><span class="line"></span><br><span class="line">julia&gt; <span class="meta">@time</span> <span class="keyword">using</span> DifferentialEquations</span><br><span class="line">  <span class="number">4.995477</span> seconds …</span><br></pre></td></tr></table></figure>
+<p>程式碼取自官方部落格。</p>
+<h3 id="避免重複編譯">避免重複編譯</h3>
+<p>延展性（extensibility）是 Julia 的重要功能之一，你可以對既有的 function 增加新的 method。有的時候，這些更動會讓 Julia 重新編譯程式碼。Julia 會讓「過期」的程式碼被標記，並且編譯新的程式碼。在 v1.6 版中，標記「過期」的程式碼的方式被改進，變得更為精準，如此可以避免重複編譯的問題。</p>
+<h3 id="使用者功能">使用者功能</h3>
+<h4 id="語法">語法</h4>
+<ul>
+<li>Types written with <code>where</code> syntax can now be used to define constructors, e.g.<br>
+<code>(Foo{T} where T)(x) = ...</code>.</li>
+</ul>
+<h5 id="增加新的語法-import-as">增加新的語法 <code>import ... as ...</code></h5>
+<p>新增新語法 <code>import A as B</code>，也包含<code>import A: x as y</code>、<code>import A.x as y</code> 和 <code>using A: x as y</code>，可以對載入的模組跟辨識子重新命名。（#1255）</p>
+<figure class="highlight julia"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">julia&gt; <span class="keyword">import</span> DataFrames as DF</span><br><span class="line"></span><br><span class="line">julia&gt; <span class="keyword">using</span> DataFrames as DF</span><br><span class="line">ERROR: syntax: invalid syntax <span class="string">"using DataFrames as ..."</span></span><br><span class="line">Stacktrace:</span><br><span class="line"> [<span class="number">1</span>] top-level scope</span><br><span class="line">   @ none:<span class="number">1</span></span><br></pre></td></tr></table></figure>
+<p>注意，<code>using</code> 是不支援 <code>as</code> 的喔！</p>
+<h5 id="可以使用-來指定解構的變數">可以使用 <code>...</code> 來指定解構的變數</h5>
+<figure class="highlight julia"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br></pre></td><td class="code"><pre><span class="line">julia&gt; a, b... = [<span class="number">1</span>,<span class="number">2</span>,<span class="number">3</span>]</span><br><span class="line"><span class="number">3</span>-element <span class="built_in">Vector</span>&#123;<span class="built_in">Int64</span>&#125;:</span><br><span class="line"> <span class="number">1</span></span><br><span class="line"> <span class="number">2</span></span><br><span class="line"> <span class="number">3</span></span><br><span class="line"></span><br><span class="line">julia&gt; a</span><br><span class="line"><span class="number">1</span></span><br><span class="line"></span><br><span class="line">julia&gt; b</span><br><span class="line"><span class="number">2</span>-element <span class="built_in">Vector</span>&#123;<span class="built_in">Int64</span>&#125;:</span><br><span class="line"> <span class="number">2</span></span><br><span class="line"> <span class="number">3</span></span><br><span class="line"></span><br><span class="line">julia&gt; a, b... = (<span class="number">1</span>,<span class="number">2</span>,<span class="number">3</span>)</span><br><span class="line">(<span class="number">1</span>, <span class="number">2</span>, <span class="number">3</span>)</span><br><span class="line"></span><br><span class="line">julia&gt; b</span><br><span class="line">(<span class="number">2</span>, <span class="number">3</span>)</span><br><span class="line"></span><br><span class="line">julia&gt; a, b, c... = [<span class="number">1</span>,<span class="number">2</span>,<span class="number">3</span>,<span class="number">4</span>]</span><br><span class="line"><span class="number">4</span>-element <span class="built_in">Vector</span>&#123;<span class="built_in">Int64</span>&#125;:</span><br><span class="line"> <span class="number">1</span></span><br><span class="line"> <span class="number">2</span></span><br><span class="line"> <span class="number">3</span></span><br><span class="line"> <span class="number">4</span></span><br><span class="line"></span><br><span class="line">julia&gt; c</span><br><span class="line"><span class="number">2</span>-element <span class="built_in">Vector</span>&#123;<span class="built_in">Int64</span>&#125;:</span><br><span class="line"> <span class="number">3</span></span><br><span class="line"> <span class="number">4</span></span><br></pre></td></tr></table></figure>
+<h4 id="陣列與集合">陣列與集合</h4>
+<h5 id="支援-init-關鍵字參數">支援 <code>init</code> 關鍵字參數</h5>
+<p><code>sum</code>、<code>prod</code>、<code>maximum</code>、<code>minimum</code>，以及 <code>count</code> 現在支援 <code>init</code> 關鍵字參數。（#36188, #35839, #37461）</p>
+<h5 id="集合容器支援更多運算子">集合容器支援更多運算子</h5>
+<p>集合容器現在也支援 <code>∉(collection)</code>、<code>∋(item)</code>、<code>∌(item)</code> 這些方法。（#38475）</p>
+<figure class="highlight julia"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">julia&gt; <span class="number">1</span> ∉ [<span class="number">2</span>,<span class="number">3</span>,<span class="number">4</span>]</span><br><span class="line"><span class="literal">true</span></span><br><span class="line"></span><br><span class="line">julia&gt; [<span class="number">2</span>,<span class="number">3</span>,<span class="number">4</span>] ∋ <span class="number">1</span></span><br><span class="line"><span class="literal">false</span></span><br><span class="line"></span><br><span class="line">julia&gt; [<span class="number">2</span>,<span class="number">3</span>,<span class="number">4</span>] ∌ <span class="number">1</span></span><br><span class="line"><span class="literal">true</span></span><br></pre></td></tr></table></figure>
+<h5 id="新的-NamedTuple-建構子">新的 <code>NamedTuple</code> 建構子</h5>
+<p><code>NamedTuple</code> 有新的建構子，可以用 <code>NamedTuple(iterator)</code> 的方式來支援從 key-value 配對的集合容器中建構 named tuple。</p>
+<figure class="highlight julia"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line">julia&gt; d = <span class="built_in">Dict</span>(:a =&gt; <span class="number">1</span>, :b =&gt; <span class="number">2</span>)</span><br><span class="line"><span class="built_in">Dict</span>&#123;<span class="built_in">Symbol</span>, <span class="built_in">Int64</span>&#125; with <span class="number">2</span> entries:</span><br><span class="line">  :a =&gt; <span class="number">1</span></span><br><span class="line">  :b =&gt; <span class="number">2</span></span><br><span class="line"></span><br><span class="line">julia&gt; NamedTuple(d)</span><br><span class="line">(a = <span class="number">1</span>, b = <span class="number">2</span>)</span><br><span class="line"></span><br><span class="line">julia&gt; a = [:a =&gt; <span class="number">1</span>, :b =&gt; <span class="number">2</span>]</span><br><span class="line"><span class="number">2</span>-element <span class="built_in">Vector</span>&#123;<span class="built_in">Pair</span>&#123;<span class="built_in">Symbol</span>, <span class="built_in">Int64</span>&#125;&#125;:</span><br><span class="line"> :a =&gt; <span class="number">1</span></span><br><span class="line"> :b =&gt; <span class="number">2</span></span><br><span class="line"></span><br><span class="line">julia&gt; NamedTuple(a)</span><br><span class="line">(a = <span class="number">1</span>, b = <span class="number">2</span>)</span><br></pre></td></tr></table></figure>
+<h5 id="點運算子可以被用於高階函式">點運算子可以被用於高階函式</h5>
+<figure class="highlight julia"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">julia&gt; map(.*, collect(<span class="number">1</span>:<span class="number">5</span>), collect(<span class="number">6</span>:<span class="number">10</span>))</span><br><span class="line"><span class="number">5</span>-element <span class="built_in">Vector</span>&#123;<span class="built_in">Int64</span>&#125;:</span><br><span class="line">  <span class="number">6</span></span><br><span class="line"> <span class="number">14</span></span><br><span class="line"> <span class="number">24</span></span><br><span class="line"> <span class="number">36</span></span><br><span class="line"> <span class="number">50</span></span><br></pre></td></tr></table></figure>
+<h5 id="Range-支援非整數型別"><code>Range</code> 支援非整數型別</h5>
+<figure class="highlight julia"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">julia&gt; <span class="number">1.0</span>:<span class="number">0.1</span>:<span class="number">10.0</span></span><br><span class="line"><span class="number">1.0</span>:<span class="number">0.1</span>:<span class="number">10.0</span></span><br><span class="line"></span><br><span class="line">julia&gt; typeof(<span class="number">1.0</span>:<span class="number">0.1</span>:<span class="number">10.0</span>)</span><br><span class="line"><span class="built_in">StepRangeLen</span>&#123;<span class="built_in">Float64</span>, Base.TwicePrecision&#123;<span class="built_in">Float64</span>&#125;, Base.TwicePrecision&#123;<span class="built_in">Float64</span>&#125;&#125;</span><br><span class="line"></span><br><span class="line">julia&gt; <span class="number">1.0</span>:<span class="number">10.0</span></span><br><span class="line"><span class="number">1.0</span>:<span class="number">1.0</span>:<span class="number">10.0</span></span><br><span class="line"></span><br><span class="line">julia&gt; typeof(<span class="number">1.0</span>:<span class="number">10.0</span>)</span><br><span class="line"><span class="built_in">StepRangeLen</span>&#123;<span class="built_in">Float64</span>, Base.TwicePrecision&#123;<span class="built_in">Float64</span>&#125;, Base.TwicePrecision&#123;<span class="built_in">Float64</span>&#125;&#125;</span><br></pre></td></tr></table></figure>
+<p>要指定 <code>x:y</code> 以前都需要是整數型別 <code>&lt;: Integer</code> 才行，現在 <code>LinRange</code>、<code>StepRange</code> 和 <code>StepRangeLen</code> 都支援非整數型別。（#32439）</p>
+<h4 id="訊息與呈現">訊息與呈現</h4>
+<h5 id="code-XXX-的格式更新"><code>@code_XXX</code> 的格式更新</h5>
+<p><code>@code_llvm</code> 及 <code>@code_native</code> 變成彩色的了！</p>
+<p><img src="/images/code_native_1.6.png" alt=""></p>
+<h5 id="稀疏矩陣的顯示格式更新">稀疏矩陣的顯示格式更新</h5>
+<p>稀疏矩陣的顯示變得更直覺了！他自動隱藏非零值。（#33821）</p>
+<figure class="highlight julia"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">julia&gt; sprand(<span class="number">4</span>, <span class="number">4</span>, <span class="number">0.5</span>)</span><br><span class="line"><span class="number">4</span>×<span class="number">4</span> <span class="built_in">SparseMatrixCSC</span>&#123;<span class="built_in">Float64</span>, <span class="built_in">Int64</span>&#125; with <span class="number">9</span> stored entries:</span><br><span class="line"> <span class="number">0.883381</span>  <span class="number">0.990356</span>   ⋅         ⋅ </span><br><span class="line"> <span class="number">0.344935</span>  <span class="number">0.238646</span>   ⋅        <span class="number">0.218795</span></span><br><span class="line"> <span class="number">0.583395</span>   ⋅        <span class="number">0.674894</span>   ⋅ </span><br><span class="line"> <span class="number">0.892346</span>   ⋅         ⋅        <span class="number">0.53169</span></span><br></pre></td></tr></table></figure>
+<h5 id="UUID-用裝置亂數作為亂數產生器">UUID 用裝置亂數作為亂數產生器</h5>
+<p>變更 <code>uuid1</code> 和 <code>uuid4</code> 去使用 <code>Random.RandomDevice()</code> 作為預設的亂數產生器。（#35872）</p>
+<h3 id="開發者功能">開發者功能</h3>
+<h4 id="開發">開發</h4>
+<p>以後不再有 home project 的概念了！執行 <code>julia --project=dir</code> 等同於執行 <code>julia</code>、<code>pkg&gt; activate $dir</code> 以及 <code>julia --project</code> 一系列命令。<code>julia --project</code> 等同於指定了 <code>dir = Base.current_project()</code>。（#36434）</p>
+<p>編譯與型別推斷現在可以在模組中被啟用或是關閉，使用 <code>Base.Experimental.@compiler_options</code> 可以達到。（#37041）</p>
+<h4 id="二進位檔與函式庫">二進位檔與函式庫</h4>
+<p><code>Pkg.Artifacts</code> 模組目前可以被作為一個獨立的套件（<code>Artifacts</code>）使用，當然 <code>Pkg.Artifacts</code> 也可以。（#37320）</p>
+<p><code>Pkg.BinaryPlatforms</code> 被移動至 <code>Base</code> 成為 <code>Base.BinaryPlatforms</code>。（#37320）</p>
+<p>如果要延遲下載 artifacts，<code>LazyArtifacts</code> 一定要被列在相依套件中。（#37844）</p>
+<h4 id="測試">測試</h4>
+<ul>
+<li><code>@testset</code> 支援新的選項 <code>verbose</code> 來呈現測試結果。（#33755）</li>
+</ul>
+<h4 id="效能調校">效能調校</h4>
+<h5 id="字串支援-view">字串支援 view</h5>
+<p>現在所有字串（<code>AbstractString</code>）都支援 <code>view</code> 囉！ 也包含 <code>@view</code> 以及 <code>@views</code>，他們會回傳 <code>SubString</code>。（#35879）</p>
+<figure class="highlight julia"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">julia&gt; s = <span class="string">"ABCDabcd"</span></span><br><span class="line"><span class="string">"ABCDabcd"</span></span><br><span class="line"></span><br><span class="line">julia&gt; <span class="meta">@view</span> s[<span class="number">2</span>:<span class="number">4</span>]</span><br><span class="line"><span class="string">"BCD"</span></span><br><span class="line"></span><br><span class="line">julia&gt; typeof(<span class="meta">@view</span> s[<span class="number">2</span>:<span class="number">4</span>])</span><br><span class="line"><span class="built_in">SubString</span>&#123;<span class="built_in">String</span>&#125;</span><br></pre></td></tr></table></figure>
+<h5 id="time-增加編譯時間比例"><code>@time</code> 增加編譯時間比例</h5>
+<p>在執行 <code>@time</code> 時，增加了顯示時間中有多少比例的編譯時間（compile time），<code>@timev</code> 則有更詳盡的資料（#37678）。</p>
+<figure class="highlight julia"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br></pre></td><td class="code"><pre><span class="line">julia&gt; A = rand(<span class="number">5</span>, <span class="number">5</span>)</span><br><span class="line"><span class="number">5</span>×<span class="number">5</span> <span class="built_in">Matrix</span>&#123;<span class="built_in">Float64</span>&#125;:</span><br><span class="line"> <span class="number">0.457416</span>  <span class="number">0.437818</span>   <span class="number">0.562112</span>  <span class="number">0.406917</span>  <span class="number">0.447958</span></span><br><span class="line"> <span class="number">0.332568</span>  <span class="number">0.947091</span>   <span class="number">0.936427</span>  <span class="number">0.514941</span>  <span class="number">0.692013</span></span><br><span class="line"> <span class="number">0.590303</span>  <span class="number">0.0198501</span>  <span class="number">0.729961</span>  <span class="number">0.603581</span>  <span class="number">0.333894</span></span><br><span class="line"> <span class="number">0.380095</span>  <span class="number">0.879258</span>   <span class="number">0.957336</span>  <span class="number">0.640208</span>  <span class="number">0.744337</span></span><br><span class="line"> <span class="number">0.313589</span>  <span class="number">0.866007</span>   <span class="number">0.207502</span>  <span class="number">0.480253</span>  <span class="number">0.700147</span></span><br><span class="line"></span><br><span class="line">julia&gt; <span class="meta">@time</span> A*A</span><br><span class="line">  <span class="number">0.493280</span> seconds (<span class="number">2.37</span> M allocations: <span class="number">127.468</span> MiB, <span class="number">7.62</span>% gc time, <span class="number">97.77</span>% compilation time)</span><br><span class="line"><span class="number">5</span>×<span class="number">5</span> <span class="built_in">Matrix</span>&#123;<span class="built_in">Float64</span>&#125;:</span><br><span class="line"> <span class="number">0.981792</span>  <span class="number">1.3718</span>   <span class="number">1.55993</span>  <span class="number">1.22651</span>  <span class="number">1.31208</span></span><br><span class="line"> <span class="number">1.4326</span>    <span class="number">2.11323</span>  <span class="number">2.39394</span>  <span class="number">1.85024</span>  <span class="number">1.98484</span></span><br><span class="line"> <span class="number">1.04164</span>   <span class="number">1.11159</span>  <span class="number">1.53036</span>  <span class="number">1.23779</span>  <span class="number">1.20494</span></span><br><span class="line"> <span class="number">1.50815</span>   <span class="number">2.22566</span>  <span class="number">2.50318</span>  <span class="number">1.9526</span>   <span class="number">2.09605</span></span><br><span class="line"> <span class="number">0.956036</span>  <span class="number">1.9902</span>   <span class="number">1.74374</span>  <span class="number">1.3425</span>   <span class="number">1.65672</span></span><br><span class="line"></span><br><span class="line">julia&gt; <span class="meta">@time</span> A*A</span><br><span class="line">  <span class="number">0.000007</span> seconds (<span class="number">1</span> allocation: <span class="number">288</span> bytes)</span><br><span class="line"><span class="number">5</span>×<span class="number">5</span> <span class="built_in">Matrix</span>&#123;<span class="built_in">Float64</span>&#125;:</span><br><span class="line"> <span class="number">0.981792</span>  <span class="number">1.3718</span>   <span class="number">1.55993</span>  <span class="number">1.22651</span>  <span class="number">1.31208</span></span><br><span class="line"> <span class="number">1.4326</span>    <span class="number">2.11323</span>  <span class="number">2.39394</span>  <span class="number">1.85024</span>  <span class="number">1.98484</span></span><br><span class="line"> <span class="number">1.04164</span>   <span class="number">1.11159</span>  <span class="number">1.53036</span>  <span class="number">1.23779</span>  <span class="number">1.20494</span></span><br><span class="line"> <span class="number">1.50815</span>   <span class="number">2.22566</span>  <span class="number">2.50318</span>  <span class="number">1.9526</span>   <span class="number">2.09605</span></span><br><span class="line"> <span class="number">0.956036</span>  <span class="number">1.9902</span>   <span class="number">1.74374</span>  <span class="number">1.3425</span>   <span class="number">1.65672</span></span><br><span class="line"></span><br><span class="line">julia&gt; <span class="meta">@timev</span> A*A</span><br><span class="line">  <span class="number">0.000044</span> seconds (<span class="number">1</span> allocation: <span class="number">288</span> bytes)</span><br><span class="line">elapsed time (ns): <span class="number">44371</span></span><br><span class="line">bytes allocated:   <span class="number">288</span></span><br><span class="line">pool allocs:       <span class="number">1</span></span><br><span class="line"><span class="number">5</span>×<span class="number">5</span> <span class="built_in">Matrix</span>&#123;<span class="built_in">Float64</span>&#125;:</span><br><span class="line"> <span class="number">0.981792</span>  <span class="number">1.3718</span>   <span class="number">1.55993</span>  <span class="number">1.22651</span>  <span class="number">1.31208</span></span><br><span class="line"> <span class="number">1.4326</span>    <span class="number">2.11323</span>  <span class="number">2.39394</span>  <span class="number">1.85024</span>  <span class="number">1.98484</span></span><br><span class="line"> <span class="number">1.04164</span>   <span class="number">1.11159</span>  <span class="number">1.53036</span>  <span class="number">1.23779</span>  <span class="number">1.20494</span></span><br><span class="line"> <span class="number">1.50815</span>   <span class="number">2.22566</span>  <span class="number">2.50318</span>  <span class="number">1.9526</span>   <span class="number">2.09605</span></span><br><span class="line"> <span class="number">0.956036</span>  <span class="number">1.9902</span>   <span class="number">1.74374</span>  <span class="number">1.3425</span>   <span class="number">1.65672</span></span><br></pre></td></tr></table></figure>
+<ul>
+<li>編譯器最佳化的常數傳遞（constant propagation）支援關鍵字參數（keyword arguments）。（#35976）</li>
+</ul>
+<h2 id="新功能">新功能</h2>
+<h3 id="新增標準函式庫">新增標準函式庫</h3>
+<p>在 v1.6 中，新增了兩個標準函式庫：TOML、Downloads。TOML 可以被用來解析 <code>.toml</code> 檔案。Downloads 提供了跨平台、多協定、行程內的下載功能，並使用 libcurl。它取代了原先的 <code>Base.download</code>，並提供 <code>Downloads.download</code> 介面。</p>
+<h3 id="陣列與其他集合">陣列與其他集合</h3>
+<p>新功能 <code>spdiagm([m, n,] v::AbstractVector)</code> 支援由 <code>v</code> 作為對角線來生成稀疏矩陣的對角矩陣，其呼叫 <code>spdiagm([m, n,] 0 =&gt; v)</code>，與稠密矩陣的 <code>diagm</code> 有對等的功能。（#37684）</p>
+<p>新增 <code>Iterators.map</code>，也新增了 <code>Iterators.map(f, iterators...)</code> 的語法，簡化了 <code>(f(args...) for args in zip(iterators...))</code>。（#34352）</p>
+<p>新功能 <code>insorted</code> 來確定一個集合容器中的元素是否是已經排序的。（#37490）</p>
+<h3 id="數值計算">數值計算</h3>
+<p>現在 <code>isapprox(x,y)</code> 支援 <code>norm</code> 這個關鍵字參數，來計算兩者的範數（norm）是否接近，也支援非陣列的 <code>x</code> 跟 <code>y</code> 參數。（#35883）</p>
+<p>新功能 <code>LinearAlgebra.BLAS.get_num_threads()</code> 可以取得 BLAS 的執行緒數量。（#36360）</p>
+<h4 id="平行運算">平行運算</h4>
+<p>新功能 <code>Base.Threads.foreach(f, channel::Channel)</code> 支援多執行緒的 <code>Channel</code> 消耗。（#34543）</p>
+<h4 id="其他">其他</h4>
+<p>新增 <code>parse(::Type{UUID}, ::AbstractString)</code> 方法。</p>
+<h2 id="新支援">新支援</h2>
+<h3 id="陣列與其他集合-2">陣列與其他集合</h3>
+<p>現在 <code>append!(vector, collections...)</code> 及 <code>prepend!(vector, collections...)</code> 方法都支援多個集合容器（collections）。（#36227）</p>
+<figure class="highlight julia"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line">julia&gt; a = rand(<span class="number">10</span>);</span><br><span class="line"></span><br><span class="line">julia&gt; b = [rand(<span class="number">10</span>), rand(<span class="number">20</span>)]</span><br><span class="line"><span class="number">2</span>-element <span class="built_in">Vector</span>&#123;<span class="built_in">Vector</span>&#123;<span class="built_in">Float64</span>&#125;&#125;:</span><br><span class="line"> [<span class="number">0.4274732922161779</span>, <span class="number">0.10937373891763369</span>, <span class="number">0.5654187553795427</span>, <span class="number">0.9906034331313402</span>, <span class="number">0.013972810993100104</span>, <span class="number">0.9124867642867496</span>, <span class="number">0.7026800717485269</span>, <span class="number">0.6919261624138788</span>, <span class="number">0.6637048817292697</span>, <span class="number">0.6751652383396913</span>]</span><br><span class="line"> [<span class="number">0.2195233748657055</span>, <span class="number">0.8611811964575287</span>, <span class="number">0.5207507597979009</span>, <span class="number">0.8922624660959817</span>, <span class="number">0.6598412164100307</span>, <span class="number">0.5197210219304949</span>, <span class="number">0.6657337471786067</span>, <span class="number">0.20595020263413644</span>, <span class="number">0.9792308729299666</span>, <span class="number">0.20457512725986682</span>, <span class="number">0.3964379369245947</span>, <span class="number">0.9492425568657055</span>, <span class="number">0.4298200055489003</span>, <span class="number">0.38595130501514974</span>, <span class="number">0.9106291942539788</span>, <span class="number">0.9979619358373388</span>, <span class="number">0.05452976209666782</span>, <span class="number">0.7036395889179883</span>, <span class="number">0.5909806544881551</span>, <span class="number">0.26667970632080373</span>]</span><br><span class="line"></span><br><span class="line">julia&gt; append!(a, b...)</span><br><span class="line"><span class="number">40</span>-element <span class="built_in">Vector</span>&#123;<span class="built_in">Float64</span>&#125;:</span><br><span class="line"> <span class="number">0.5841916683652206</span></span><br><span class="line"> <span class="number">0.054243862919656216</span></span><br><span class="line"> <span class="number">0.5576101120027053</span></span><br><span class="line"> <span class="number">0.3870928566144738</span></span><br><span class="line"> <span class="number">0.1998130659845283</span></span><br><span class="line"> ...</span><br></pre></td></tr></table></figure>
+<p>轉置（<code>adjoint!(::*Triangular)</code>、<code>transpose!(::*Triangular)</code>）一個上（下）三角矩陣 <code>*Triangular</code> 會回傳相反的三角矩陣。套件中含有方法，像是 <code>Adjoint{&lt;:Any,&lt;:LowerTriangular{&lt;:Any,&lt;:OwnMatrixType}}</code> 需要被改為 <code>UpperTriangular{&lt;:Any,&lt;:Adjoint{&lt;:Any,&lt;:OwnMatrixType}}</code>。（#38168）</p>
+<p><code>unique(f, itr; seen=Set{T}())</code> 現在容許你宣告容器的型別。（#36280）</p>
+<h3 id="I-O">I/O</h3>
+<p><code>redirect_*</code> 函式現在接受 <code>devnull</code> 來拋棄所有輸出的資料，或是作為一個空的輸入來源。（#36146）</p>
+<p><code>redirect_*</code> 函式現在可以呼叫 <code>IOContext</code> 物件。（#36688）</p>
+
+                                        
+
+                                </div>
+                            </div>
+                            <div id="post-footer" class="post-footer main-content-wrap">
+                                
+                                        
+                                            <div class="post-actions-wrap">
+    <nav>
+        <ul class="post-actions post-action-nav">
+            <li class="post-action">
+                
+                    
+                    <a class="post-action-btn btn btn--default tooltip--top" href="/2021/04/04/julia-package-version/" data-tooltip="Julia 的版本與套件版本" aria-label="上一篇: Julia 的版本與套件版本">
+                
+                    <i class="fa fa-angle-left" aria-hidden="true"></i>
+                    <span class="hide-xs hide-sm text-small icon-ml">上一篇</span>
+                </a>
+            </li>
+            <li class="post-action">
+                
+                    
+                    <a class="post-action-btn btn btn--default tooltip--top" href="/2021/03/28/the-future-of-julialang/" data-tooltip="Julia 語言的未來性" aria-label="下一篇: Julia 語言的未來性">
+                
+                    <span class="hide-xs hide-sm text-small icon-mr">下一篇</span>
+                    <i class="fa fa-angle-right" aria-hidden="true"></i>
+                </a>
+            </li>
+        </ul>
+    </nav>
+    <ul class="post-actions post-action-share">
+        <li class="post-action hide-lg hide-md hide-sm">
+            <a class="post-action-btn btn btn--default btn-open-shareoptions" href="#btn-open-shareoptions" aria-label="Share this post">
+                <i class="fa fa-share-alt" aria-hidden="true"></i>
+            </a>
+        </li>
+        
+            
+            
+            <li class="post-action hide-xs">
+                <a class="post-action-btn btn btn--default" target="new" href="https://www.facebook.com/sharer/sharer.php?u=https://yuehhua.github.io/2021/04/04/julia-v1-6-release/" title="分享到 Facebook">
+                    <i class="fa fa-facebook-official" aria-hidden="true"></i>
+                </a>
+            </li>
+        
+        
+            
+                <li class="post-action">
+                    <a class="post-action-btn btn btn--default" href="#disqus_thread">
+                        <i class="fa fa-comment-o"></i>
+                    </a>
+                </li>
+            
+        
+        <li class="post-action">
+            
+                <a class="post-action-btn btn btn--default" href="#table-of-contents" aria-label="目錄">
+            
+                <i class="fa fa-list" aria-hidden="true"></i>
+            </a>
+        </li>
+    </ul>
+</div>
+
+
+                                                
+                                                    
+                                                        
+                                                            <div id="disqus_thread">
+    <noscript>Please enable JavaScript to view the <a href="//disqus.com/?ref_noscript" target="_blank" rel="noopener">comments powered by Disqus.</a></noscript>
+</div>
+                                                                
+                                                                            
+                            </div>
+                            
+                                <script src='https://unpkg.com/mermaid@7.1.2/dist/mermaid.min.js'></script>
+                                <script>
+                                    if (window.mermaid) {
+                                        mermaid.initialize({ theme: 'forest' });
+                                    }
+                                </script>
+                                
+    </article>
+
+                <footer id="footer" class="main-content-wrap">
+    <span class="copyrights">
+        Copyrights &copy; 2021 Yueh-Hua Tu. All Rights Reserved.
+    </span>
+</footer>
+
+            </div>
+            
+                <div id="bottom-bar" class="post-bottom-bar" data-behavior="5">
+                    <div class="post-actions-wrap">
+    <nav>
+        <ul class="post-actions post-action-nav">
+            <li class="post-action">
+                
+                    
+                    <a class="post-action-btn btn btn--default tooltip--top" href="/2021/04/04/julia-package-version/" data-tooltip="Julia 的版本與套件版本" aria-label="上一篇: Julia 的版本與套件版本">
+                
+                    <i class="fa fa-angle-left" aria-hidden="true"></i>
+                    <span class="hide-xs hide-sm text-small icon-ml">上一篇</span>
+                </a>
+            </li>
+            <li class="post-action">
+                
+                    
+                    <a class="post-action-btn btn btn--default tooltip--top" href="/2021/03/28/the-future-of-julialang/" data-tooltip="Julia 語言的未來性" aria-label="下一篇: Julia 語言的未來性">
+                
+                    <span class="hide-xs hide-sm text-small icon-mr">下一篇</span>
+                    <i class="fa fa-angle-right" aria-hidden="true"></i>
+                </a>
+            </li>
+        </ul>
+    </nav>
+    <ul class="post-actions post-action-share">
+        <li class="post-action hide-lg hide-md hide-sm">
+            <a class="post-action-btn btn btn--default btn-open-shareoptions" href="#btn-open-shareoptions" aria-label="Share this post">
+                <i class="fa fa-share-alt" aria-hidden="true"></i>
+            </a>
+        </li>
+        
+            
+            
+            <li class="post-action hide-xs">
+                <a class="post-action-btn btn btn--default" target="new" href="https://www.facebook.com/sharer/sharer.php?u=https://yuehhua.github.io/2021/04/04/julia-v1-6-release/" title="分享到 Facebook">
+                    <i class="fa fa-facebook-official" aria-hidden="true"></i>
+                </a>
+            </li>
+        
+        
+            
+                <li class="post-action">
+                    <a class="post-action-btn btn btn--default" href="#disqus_thread">
+                        <i class="fa fa-comment-o"></i>
+                    </a>
+                </li>
+            
+        
+        <li class="post-action">
+            
+                <a class="post-action-btn btn btn--default" href="#table-of-contents" aria-label="目錄">
+            
+                <i class="fa fa-list" aria-hidden="true"></i>
+            </a>
+        </li>
+    </ul>
+</div>
+
+
+                </div>
+                <div id="share-options-bar" class="share-options-bar" data-behavior="5">
+    <i id="btn-close-shareoptions" class="fa fa-close"></i>
+    <ul class="share-options">
+        
+            
+            
+            <li class="share-option">
+                <a class="share-option-btn" target="new" href="https://www.facebook.com/sharer/sharer.php?u=https://yuehhua.github.io/2021/04/04/julia-v1-6-release/">
+                    <i class="fa fa-facebook-official" aria-hidden="true"></i><span>分享到 Facebook</span>
+                </a>
+            </li>
+        
+    </ul>
+</div>
+
+            
+        </div>
+        
+
+
+<div id="about">
+    <div id="about-card">
+        <div id="about-btn-close">
+            <i class="fa fa-remove"></i>
+        </div>
+        
+            <h4 id="about-card-name">Yueh-Hua Tu</h4>
+        
+            <div id="about-card-bio"><p>目標是計算生物學家！</br>Systems Biology, Computational Biology, Machine Learning</br>Julia Taiwan 發起人</p>
+</div>
+        
+        
+            <div id="about-card-job">
+                <i class="fa fa-briefcase"></i>
+                <br/>
+                <p>研發替代役研究助理</p>
+
+            </div>
+        
+        
+            <div id="about-card-location">
+                <i class="fa fa-map-marker"></i>
+                <br/>
+                Taiwan
+            </div>
+        
+    </div>
+</div>
+
+        
+        
+<div id="cover" style="background-image:url('/assets/images/cover.jpg');"></div>
+        <!--SCRIPTS-->
+
+<script src="/assets/js/script-xzfezjobyekpxrjktw5tz6muvzqfsbmo5n6atk3p5om9ulfptldi3p7cyqd8.min.js"></script>
+
+<!--SCRIPTS END-->
+
+
+<script>
+    var disqus_config = function () {
+        this.page.url = 'https://yuehhua.github.io/2021/04/04/julia-v1-6-release/';
+                 
+            this.page.identifier = '2021/04/04/julia-v1-6-release/';
+                 
+             };
+    (function () {
+        var d = document, s = d.createElement('script');
+        var disqus_shortname = 'dream-maker';
+        s.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+
+        s.setAttribute('data-timestamp', +new Date());
+        (d.head || d.body).appendChild(s);
+    })();
+</script><!-- hexo-inject:begin --><!-- Begin: Injected MathJax -->
+<script type="text/x-mathjax-config">
+  MathJax.Hub.Config({"tex2jax":{"inlineMath":[["$","$"],["\\(","\\)"]],"skipTags":["script","noscript","style","textarea","pre","code"],"processEscapes":true},"TeX":{"equationNumbers":{"autoNumber":"AMS"}}});
+</script>
+
+<script type="text/x-mathjax-config">
+  MathJax.Hub.Queue(function() {
+    var all = MathJax.Hub.getAllJax(), i;
+    for(i=0; i < all.length; i += 1) {
+      all[i].SourceElement().parentNode.className += ' has-jax';
+    }
+  });
+</script>
+
+<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.6/latest.js?config=TeX-AMS-MML_HTMLorMML">
+</script>
+<!-- End: Injected MathJax -->
+<!-- hexo-inject:end -->
+
+
+
+    </body>
+</html>
