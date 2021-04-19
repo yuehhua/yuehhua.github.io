@@ -235,6 +235,125 @@
     <section class="postShorten-group main-content-wrap">
     
     
+    <article class="postShorten postShorten--thumbnailimg-bottom">
+        <div class="postShorten-wrap">
+            
+            <div class="postShorten-header">
+                <h1 class="postShorten-title">
+                    
+                        <a class="link-unstyled" href="/2021/04/19/corresponding-packages-in-julia-and-python/">
+                            Python 與 Julia 相對應的套件
+                        </a>
+                    
+                </h1>
+                <div class="postShorten-meta">
+    <time datetime="2021-04-19T11:16:56+08:00">
+	
+		    4月 19, 2021
+    	
+    </time>
+    
+</div>
+
+            </div>
+            
+                <div class="postShorten-content">
+                    <p>最近有遇到業界的工程師對 Julia 有點好奇，提了一些問題。</p>
+<p>在 Python 到 Julia 的轉換路上，常常不知道原本在 Python 用慣的套件，在 Julia 中要去哪裡找？</p>
+<h2 id="Python-的效能優化套件">Python 的效能優化套件</h2>
+<p>例如，在 Python 都用 numba 來提升效能，那麼 Julia 有相對應的套件可以用嗎？</p>
+<p>簡單地回答是「Julia 除了解決 two language problem 以外，他也是直接有 numba 的效能，內建 numpy 跟一部分 scipy」。</p>
+<p>也就是，「Julia = numpy + part of scipy + numba」。</p>
+<p>比較複雜的回答則是，Julia 的重點擺在他強大的編譯器跟語言設計上，因為語言設計的緣故，所以他可以在 jit 蒐集各種型別的資訊。</p>
+<p>以往動態語言的效能不高，最大的問題在於一個變數一直要到執行時期才有辦法決定他的型別，這導致了編譯器無法事先對他做最佳化，這我們也稱為 type unstable。然而，Julia 的突破就在於這點，他的語言設計及有效的型別推斷，讓他被編譯成 LLVM IR 的時候擁有跟 C 這類靜態語言一樣充足的型別資訊，所以他可以有靜態語言的效能，有完整型別資訊的 LLVM IR 編譯出來的機器碼，就跟用 C 寫沒什麼兩樣了。</p>
+<p>另一邊，numba 的本身也是利用編譯最佳化的技術讓效能可以上去，這個本身可以被視為半個編譯器，但是他本身也會有所限制。像是他不能處理巢狀結構的最佳化，當有陣列中含有其他陣列的時候就沒有辦法。相對 Julia 本身就是語言編譯器，所以他本來就可以對這些巢狀結構做最佳化，並且 Julia 的型別本身直接對應 C 的 struct，甚至 alignment 也是一致的，所以也就是 C 的效能了。總結，Julia 編譯器對陣列的行為最佳化產出的成果就是 numba 或 Cython 本身。</p>
+<p>那這點不只用在陣列上，歐洲有新創公司在做資料庫引擎，他們利用 Julia 加上他們自家開發的套件，把 Julia 編譯器當成他們引擎的最佳化器，那他們的資料庫引擎就有等同於 C 寫出來的一樣，他們甚至將機器學習套件結合到他們的資料庫中，就等同於可以在資料端訓練模型的引擎。</p>
+<h2 id="Python-與-Julia-相對應的套件">Python 與 Julia 相對應的套件</h2>
+<p>既然有這樣的疑問，所以我整理了一系列 Python 套件與 Julia 套件的對應表。</p>
+<h3 id="numpy-numba-Julia">numpy + numba -&gt; Julia</h3>
+<p>numpy 是 Python 底下的矩陣運算加速套件，其最重要的特色就是他底下使用了 C 實作套件，所以當你使用了 numpy 就等於是使用了 C 的陣列，以及其速度。對於陣列以外的資料結構，則會使用 numba 來做加速。</p>
+<p>Julia 在語言設計上也支援陣列，並且在型別的結構上有跟 C struct 有一樣的 alignment。所以使用 Julia 本來就是 Python 中的 numpy + numba + cython。</p>
+<p>你不用在 Python 中寫 C-like 的語法啦！</p>
+<h3 id="scipy">scipy</h3>
+<p>scipy 是 Python 底下相當知名的科學運算套件，最重要的特色就是他直接整合 numpy，所以科學運算就有了 C 陣列的速度。但由於 scipy 包山包海，沒有一個套件可以直接對應 scipy，不過 Julia 中有對於不同的功能直接對應的套件。以下列出這些套件：</p>
+<ul>
+<li>線性代數 Linear algebra (scipy.linalg): Julia 內建標準函式庫 <a href="https://docs.julialang.org/en/v1/stdlib/LinearAlgebra/" target="_blank" rel="noopener"><code>LinearAlgebra</code></a></li>
+<li>稀疏矩陣 Sparse arrays (scipy.sparse.csgraph): Julia 內建標準函式庫 <a href="https://docs.julialang.org/en/v1/stdlib/SparseArrays/" target="_blank" rel="noopener"><code>SparseArrays</code></a> 以及 <a href="https://docs.julialang.org/en/v1/stdlib/SuiteSparse/" target="_blank" rel="noopener"><code>SuiteSparse</code></a></li>
+<li>特徵分解套件 ARPACK: Julia 官方直接支援的 <a href="https://julialinearalgebra.github.io/Arpack.jl/stable/" target="_blank" rel="noopener"><code>Arpack.jl</code></a></li>
+<li>特殊函式 Special functions (scipy.special): <a href="https://github.com/JuliaMath/SpecialFunctions.jl" target="_blank" rel="noopener"><code>SpecialFunctions.jl</code></a></li>
+<li>快速傅立葉轉換 Fourier Transforms (scipy.fft): <a href="https://github.com/JuliaMath/FFTW.jl" target="_blank" rel="noopener"><code>FFTW.jl</code></a></li>
+<li>最佳化 Optimization (scipy.optimize): <a href="https://jump.dev/" target="_blank" rel="noopener"><code>JuMP</code></a></li>
+<li>數值積分 Integration (scipy.integrate)
+<ul>
+<li>一維的積分 <a href="https://github.com/JuliaMath/QuadGK.jl" target="_blank" rel="noopener"><code>QuadGK.jl</code></a></li>
+<li>高維度的積分 <a href="https://github.com/JuliaMath/HCubature.jl" target="_blank" rel="noopener"><code>HCubature.jl</code></a> 或是 <a href="https://github.com/pabloferz/NIntegration.jl" target="_blank" rel="noopener"><code>NIntegration.jl</code></a></li>
+<li><a href="https://github.com/JuliaMath/Calculus.jl" target="_blank" rel="noopener"><code>Calculus.jl</code></a></li>
+<li><a href="https://github.com/hwborchers/NumericalMath.jl" target="_blank" rel="noopener"><code>NumericalMath.jl</code></a></li>
+<li>教學可以參考<a href="https://juliahub.com/docs/CalculusWithJulia/AZHbv/0.0.5/" target="_blank" rel="noopener">這篇文章</a></li>
+<li><a href="https://github.com/JuliaApproximation" target="_blank" rel="noopener">github org JuliaApproximation</a></li>
+</ul>
+</li>
+<li>內插 Interpolation (scipy.interpolate): <a href="https://github.com/JuliaMath/Interpolations.jl" target="_blank" rel="noopener"><code>Interpolations.jl</code></a></li>
+<li>統計 Statistics (scipy.stats): <a href="https://github.com/JuliaStats/Distributions.jl" target="_blank" rel="noopener"><code>Distributions.jl</code></a></li>
+<li>訊號處理 Signal Processing (scipy.signal)
+<ul>
+<li><a href="https://github.com/JuliaDSP/DSP.jl" target="_blank" rel="noopener"><code>DSP.jl</code></a></li>
+<li><a href="https://github.com/haberdashPI/SignalOperators.jl" target="_blank" rel="noopener"><code>SignalOperators.jl</code></a></li>
+<li>教學可以參考<a href="https://juliahub.com/docs/SignalAnalysis/7Vz2N/0.4.0/" target="_blank" rel="noopener">這裡</a></li>
+<li><a href="https://github.com/JuliaDSP/Wavelets.jl" target="_blank" rel="noopener"><code>Wavelets.jl</code></a></li>
+<li><a href="https://github.com/JuliaDSP/Deconvolution.jl" target="_blank" rel="noopener"><code>Deconvolution.jl</code></a></li>
+<li><a href="https://github.com/JuliaDSP" target="_blank" rel="noopener">github org JuliaDSP</a></li>
+</ul>
+</li>
+<li>空間資料結構 Spatial data structures and algorithms (scipy.spatial): <a href="https://github.com/KristofferC/NearestNeighbors.jl" target="_blank" rel="noopener"><code>NearestNeighbors.jl</code></a></li>
+<li>影像處理 Multidimensional image processing (scipy.ndimage): <a href="https://juliaimages.org/stable/" target="_blank" rel="noopener">JuliaImages</a></li>
+</ul>
+<h3 id="matplotlib">matplotlib</h3>
+<p>繪圖套件可以參考以下：</p>
+<ul>
+<li><a href="https://github.com/JuliaPlots/Plots.jl" target="_blank" rel="noopener"><code>Plots.jl</code></a></li>
+<li><a href="https://github.com/GiovineItalia/Gadfly.jl" target="_blank" rel="noopener"><code>Gadfly.jl</code></a></li>
+<li>GPU 繪圖套件 <a href="https://github.com/JuliaPlots/Makie.jl" target="_blank" rel="noopener"><code>Makie.jl</code></a></li>
+</ul>
+<h3 id="sympy">sympy</h3>
+<p><a href="https://github.com/JuliaSymbolics/Symbolics.jl" target="_blank" rel="noopener"><code>Symbolics.jl</code></a> 是近期推出相當熱門的符號操作套件，他支援的現代的快速電腦代數系統，足以媲美 MATLAB。</p>
+<h3 id="pandas">pandas</h3>
+<p><a href="https://github.com/JuliaData/DataFrames.jl" target="_blank" rel="noopener"><code>DataFrames.jl</code></a> 提供了表格類資料的資料結構與運算，實作直接是 Julia 陣列，運算的部份支援絕大多數 pandas 的運算，以及支援類資料庫操作。讀寫檔的操作可以使用 <a href="https://github.com/JuliaData/CSV.jl" target="_blank" rel="noopener"><code>CSV.jl</code></a> 來讀寫 csv, tsv 類檔案。<a href="https://github.com/JuliaData/Tables.jl" target="_blank" rel="noopener"><code>Tables.jl</code></a> 是以上套件與資料庫銜接的介面，可以搭配 <a href="https://github.com/JuliaData/TableOperations.jl" target="_blank" rel="noopener"><code>TableOperations.jl</code></a> 的串流運算，可以串到 <a href="https://github.com/JuliaDatabases/ODBC.jl" target="_blank" rel="noopener"><code>ODBC.jl</code></a>、<a href="https://github.com/invenia/LibPQ.jl" target="_blank" rel="noopener"><code>LibPQ.jl</code></a>、<a href="https://github.com/JuliaDatabases/MySQL.jl" target="_blank" rel="noopener"><code>MySQL.jl</code></a>、<a href="https://github.com/JuliaDatabases/SQLite.jl" target="_blank" rel="noopener"><code>SQLite.jl</code></a> 和 <a href="https://github.com/JuliaDatabases/Hive.jl" target="_blank" rel="noopener"><code>Hive.jl</code></a> 等等資料庫。</p>
+<h3 id="statsmodels">statsmodels</h3>
+<ul>
+<li><a href="https://github.com/JuliaStats/HypothesisTests.jl" target="_blank" rel="noopener"><code>HypothesisTests.jl</code></a></li>
+<li><a href="https://github.com/JuliaStats/GLM.jl" target="_blank" rel="noopener"><code>GLM.jl</code></a></li>
+<li><a href="https://github.com/JuliaStats/MixedModels.jl" target="_blank" rel="noopener"><code>MixedModels.jl</code></a></li>
+<li><a href="https://github.com/JuliaStats/TimeSeries.jl" target="_blank" rel="noopener"><code>TimeSeries.jl</code></a></li>
+</ul>
+<h3 id="scikit-learn">scikit-learn</h3>
+<p><a href="https://github.com/alan-turing-institute/MLJ.jl" target="_blank" rel="noopener"><code>MLJ.jl</code></a> 提供了超過 150 種經典機器學習模型，包含了知名的 libsvm、xgboost、scikit-learn 等等套件，這個套件是由知名的 Alan Turing Institute 的團隊所維護。</p>
+<h3 id="Deep-learning">Deep learning</h3>
+<p>在 Python 有兩大知名深度學習套件：pytorch 及 tensorflow，Julia 則有 <a href="https://github.com/FluxML/Flux.jl" target="_blank" rel="noopener"><code>Flux.jl</code></a> 和 <a href="https://github.com/denizyuret/Knet.jl" target="_blank" rel="noopener"><code>Knet.jl</code></a>。</p>
+<h2 id="使用-Julia-的好處">使用 Julia 的好處</h2>
+<p>對比 Python 現有的套件與生態系，Julia 可能都有對應的套件可以使用。不過使用 Julia 有什麼特別的優勢嗎？可能是 code 可以寫得更好維運？統一風格？更好閱讀或更精簡？Python 用上述函式庫有時候就是各自一套 DSL，像是在寫多種不同語言的感覺。</p>
+<p>Julia 主要解決所謂的 two language problem 是指，開發的時候需要一個好寫好改的語言，可以快速開發，快速做驗證。在產品上線的時候需要效能，但往往需要另外一個語言的重新實作，但是用 Julia 就可以直接在同一個語言直接開發，並且逐步調整效能，不用重寫。</p>
+<p>使用 Julia 在程式碼風格上統一，在開發期間所用的語言就是上線的語言，不會有要上線的語言要將 python/matlab/R 轉換成 C/C++ 這種狀況發生。更有甚者，我個人認為 Julia 在語言設計上，可以讓工程師在寫 code 的時候，code 寫得更為精簡。</p>
+<p>相對，DSL 的部分就不會是因為不同的函式庫而有有不同 DSL，而是因為有不同的應用場景 (統計、ML、DL)，因為不同領域的人有不同的習慣或是使用情境去設計適合他們的 DSL。</p>
+
+                    
+                        
+
+                    
+                    
+                        <p>
+                            <a href="/2021/04/19/corresponding-packages-in-julia-and-python/#post-footer" class="postShorten-excerpt_link link">
+                                留言與分享
+                            </a>
+                        </p>
+                    
+                </div>
+            
+        </div>
+        
+    </article>
+    
+    
     <article class="postShorten postShorten--thumbnailimg-right">
         <div class="postShorten-wrap">
             

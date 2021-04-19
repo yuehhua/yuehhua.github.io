@@ -6,7 +6,7 @@
     <!-- hexo-inject:begin --><!-- hexo-inject:end --><meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="generator" content="Dream Maker">
-    <title>所有文章: 2021 - Dream Maker</title>
+    <title>Python 與 Julia 相對應的套件 - Dream Maker</title>
     <meta name="author" content="Yueh-Hua Tu">
     
         <meta name="keywords" content="machine learning,deep learning,topology,">
@@ -15,12 +15,16 @@
     
         <link rel="alternate" type="application/atom+xml" title="RSS" href="/atom.xml">
     
-    <script type="application/ld+json">{}</script>
-    <meta property="og:type" content="blog">
-<meta property="og:title" content="Dream Maker">
-<meta property="og:url" content="https://yuehhua.github.io/archives/2021/index.html">
+    <script type="application/ld+json">{"@context":"http://schema.org","@type":"BlogPosting","author":{"@type":"Person","name":"Yueh-Hua Tu","sameAs":["https://github.com/yuehhua/","https://www.facebook.com/a504082002","https://www.linkedin.com/in/%E5%B2%B3%E8%8F%AF-%E6%9D%9C-6a3995a0/","mailto:a504082002@gmail.com"],"image":"https://www.gravatar.com/avatar/a565749fba4782b717234da670b273fd"},"articleBody":"最近有遇到業界的工程師對 Julia 有點好奇，提了一些問題。\n在 Python 到 Julia 的轉換路上，常常不知道原本在 Python 用慣的套件，在 Julia 中要去哪裡找？\nPython 的效能優化套件\n例如，在 Python 都用 numba 來提升效能，那麼 Julia 有相對應的套件可以用嗎？\n簡單地回答是「Julia 除了解決 two language problem 以外，他也是直接有 numba 的效能，內建 numpy 跟一部分 scipy」。\n也就是，「Julia = numpy + part of scipy + numba」。\n比較複雜的回答則是，Julia 的重點擺在他強大的編譯器跟語言設計上，因為語言設計的緣故，所以他可以在 jit 蒐集各種型別的資訊。\n以往動態語言的效能不高，最大的問題在於一個變數一直要到執行時期才有辦法決定他的型別，這導致了編譯器無法事先對他做最佳化，這我們也稱為 type unstable。然而，Julia 的突破就在於這點，他的語言設計及有效的型別推斷，讓他被編譯成 LLVM IR 的時候擁有跟 C 這類靜態語言一樣充足的型別資訊，所以他可以有靜態語言的效能，有完整型別資訊的 LLVM IR 編譯出來的機器碼，就跟用 C 寫沒什麼兩樣了。\n另一邊，numba 的本身也是利用編譯最佳化的技術讓效能可以上去，這個本身可以被視為半個編譯器，但是他本身也會有所限制。像是他不能處理巢狀結構的最佳化，當有陣列中含有其他陣列的時候就沒有辦法。相對 Julia 本身就是語言編譯器，所以他本來就可以對這些巢狀結構做最佳化，並且 Julia 的型別本身直接對應 C 的 struct，甚至 alignment 也是一致的，所以也就是 C 的效能了。總結，Julia 編譯器對陣列的行為最佳化產出的成果就是 numba 或 Cython 本身。\n那這點不只用在陣列上，歐洲有新創公司在做資料庫引擎，他們利用 Julia 加上他們自家開發的套件，把 Julia 編譯器當成他們引擎的最佳化器，那他們的資料庫引擎就有等同於 C 寫出來的一樣，他們甚至將機器學習套件結合到他們的資料庫中，就等同於可以在資料端訓練模型的引擎。\nPython 與 Julia 相對應的套件\n既然有這樣的疑問，所以我整理了一系列 Python 套件與 Julia 套件的對應表。\nnumpy + numba -&gt; Julia\nnumpy 是 Python 底下的矩陣運算加速套件，其最重要的特色就是他底下使用了 C 實作套件，所以當你使用了 numpy 就等於是使用了 C 的陣列，以及其速度。對於陣列以外的資料結構，則會使用 numba 來做加速。\nJulia 在語言設計上也支援陣列，並且在型別的結構上有跟 C struct 有一樣的 alignment。所以使用 Julia 本來就是 Python 中的 numpy + numba + cython。\n你不用在 Python 中寫 C-like 的語法啦！\nscipy\nscipy 是 Python 底下相當知名的科學運算套件，最重要的特色就是他直接整合 numpy，所以科學運算就有了 C 陣列的速度。但由於 scipy 包山包海，沒有一個套件可以直接對應 scipy，不過 Julia 中有對於不同的功能直接對應的套件。以下列出這些套件：\n\n線性代數 Linear algebra (scipy.linalg): Julia 內建標準函式庫 LinearAlgebra\n稀疏矩陣 Sparse arrays (scipy.sparse.csgraph): Julia 內建標準函式庫 SparseArrays 以及 SuiteSparse\n特徵分解套件 ARPACK: Julia 官方直接支援的 Arpack.jl\n特殊函式 Special functions (scipy.special): SpecialFunctions.jl\n快速傅立葉轉換 Fourier Transforms (scipy.fft): FFTW.jl\n最佳化 Optimization (scipy.optimize): JuMP\n數值積分 Integration (scipy.integrate)\n\n一維的積分 QuadGK.jl\n高維度的積分 HCubature.jl 或是 NIntegration.jl\nCalculus.jl\nNumericalMath.jl\n教學可以參考這篇文章\ngithub org JuliaApproximation\n\n\n內插 Interpolation (scipy.interpolate): Interpolations.jl\n統計 Statistics (scipy.stats): Distributions.jl\n訊號處理 Signal Processing (scipy.signal)\n\nDSP.jl\nSignalOperators.jl\n教學可以參考這裡\nWavelets.jl\nDeconvolution.jl\ngithub org JuliaDSP\n\n\n空間資料結構 Spatial data structures and algorithms (scipy.spatial): NearestNeighbors.jl\n影像處理 Multidimensional image processing (scipy.ndimage): JuliaImages\n\nmatplotlib\n繪圖套件可以參考以下：\n\nPlots.jl\nGadfly.jl\nGPU 繪圖套件 Makie.jl\n\nsympy\nSymbolics.jl 是近期推出相當熱門的符號操作套件，他支援的現代的快速電腦代數系統，足以媲美 MATLAB。\npandas\nDataFrames.jl 提供了表格類資料的資料結構與運算，實作直接是 Julia 陣列，運算的部份支援絕大多數 pandas 的運算，以及支援類資料庫操作。讀寫檔的操作可以使用 CSV.jl 來讀寫 csv, tsv 類檔案。Tables.jl 是以上套件與資料庫銜接的介面，可以搭配 TableOperations.jl 的串流運算，可以串到 ODBC.jl、LibPQ.jl、MySQL.jl、SQLite.jl 和 Hive.jl 等等資料庫。\nstatsmodels\n\nHypothesisTests.jl\nGLM.jl\nMixedModels.jl\nTimeSeries.jl\n\nscikit-learn\nMLJ.jl 提供了超過 150 種經典機器學習模型，包含了知名的 libsvm、xgboost、scikit-learn 等等套件，這個套件是由知名的 Alan Turing Institute 的團隊所維護。\nDeep learning\n在 Python 有兩大知名深度學習套件：pytorch 及 tensorflow，Julia 則有 Flux.jl 和 Knet.jl。\n使用 Julia 的好處\n對比 Python 現有的套件與生態系，Julia 可能都有對應的套件可以使用。不過使用 Julia 有什麼特別的優勢嗎？可能是 code 可以寫得更好維運？統一風格？更好閱讀或更精簡？Python 用上述函式庫有時候就是各自一套 DSL，像是在寫多種不同語言的感覺。\nJulia 主要解決所謂的 two language problem 是指，開發的時候需要一個好寫好改的語言，可以快速開發，快速做驗證。在產品上線的時候需要效能，但往往需要另外一個語言的重新實作，但是用 Julia 就可以直接在同一個語言直接開發，並且逐步調整效能，不用重寫。\n使用 Julia 在程式碼風格上統一，在開發期間所用的語言就是上線的語言，不會有要上線的語言要將 python/matlab/R 轉換成 C/C++ 這種狀況發生。更有甚者，我個人認為 Julia 在語言設計上，可以讓工程師在寫 code 的時候，code 寫得更為精簡。\n相對，DSL 的部分就不會是因為不同的函式庫而有有不同 DSL，而是因為有不同的應用場景 (統計、ML、DL)，因為不同領域的人有不同的習慣或是使用情境去設計適合他們的 DSL。\n","dateCreated":"2021-04-19T11:16:56+08:00","dateModified":"2021-04-19T11:16:34+08:00","datePublished":"2021-04-19T11:16:56+08:00","description":"","headline":"Python 與 Julia 相對應的套件","image":[],"mainEntityOfPage":{"@type":"WebPage","@id":"https://yuehhua.github.io/2021/04/19/corresponding-packages-in-julia-and-python/"},"publisher":{"@type":"Organization","name":"Yueh-Hua Tu","sameAs":["https://github.com/yuehhua/","https://www.facebook.com/a504082002","https://www.linkedin.com/in/%E5%B2%B3%E8%8F%AF-%E6%9D%9C-6a3995a0/","mailto:a504082002@gmail.com"],"image":"https://www.gravatar.com/avatar/a565749fba4782b717234da670b273fd","logo":{"@type":"ImageObject","url":"https://www.gravatar.com/avatar/a565749fba4782b717234da670b273fd"}},"url":"https://yuehhua.github.io/2021/04/19/corresponding-packages-in-julia-and-python/"}</script>
+    <meta name="description" content="最近有遇到業界的工程師對 Julia 有點好奇，提了一些問題。 在 Python 到 Julia 的轉換路上，常常不知道原本在 Python 用慣的套件，在 Julia 中要去哪裡找？ Python 的效能優化套件 例如，在 Python 都用 numba 來提升效能，那麼 Julia 有相對應的套件可以用嗎？ 簡單地回答是「Julia 除了解決 two language problem 以外，他">
+<meta property="og:type" content="blog">
+<meta property="og:title" content="Python 與 Julia 相對應的套件">
+<meta property="og:url" content="https://yuehhua.github.io/2021/04/19/corresponding-packages-in-julia-and-python/index.html">
 <meta property="og:site_name" content="Dream Maker">
+<meta property="og:description" content="最近有遇到業界的工程師對 Julia 有點好奇，提了一些問題。 在 Python 到 Julia 的轉換路上，常常不知道原本在 Python 用慣的套件，在 Julia 中要去哪裡找？ Python 的效能優化套件 例如，在 Python 都用 numba 來提升效能，那麼 Julia 有相對應的套件可以用嗎？ 簡單地回答是「Julia 除了解決 two language problem 以外，他">
 <meta property="og:locale" content="zh_TW">
+<meta property="article:published_time" content="2021-04-19T03:16:56.000Z">
+<meta property="article:modified_time" content="2021-04-19T03:16:34.577Z">
 <meta property="article:author" content="Yueh-Hua Tu">
 <meta property="article:tag" content="machine learning">
 <meta property="article:tag" content="deep learning">
@@ -62,7 +66,7 @@
 
     
 
-<header id="header" data-behavior="2">
+<header id="header" data-behavior="5">
     <i id="btn-open-sidebar" class="fa fa-lg fa-bars"></i>
     <div class="header-title">
         <a class="header-title-link" href="/%20">Dream Maker</a>
@@ -80,7 +84,7 @@
             <!-- Define author's picture -->
 
 
-<nav id="sidebar" data-behavior="2">
+<nav id="sidebar" data-behavior="5">
     <div class="sidebar-container">
         
         
@@ -227,26 +231,22 @@
 </nav>
 
             
-            <div id="main" data-behavior="2"
+            <div id="main" data-behavior="5"
                  class="
                         hasCoverMetaIn
                         ">
                 
-    <section class="postShorten-group main-content-wrap">
+    <article class="post">
+        
+                
+                    <div class="post-header main-content-wrap text-left">
+    
+        <h1 class="post-title">
+            Python 與 Julia 相對應的套件
+        </h1>
     
     
-    <article class="postShorten postShorten--thumbnailimg-bottom">
-        <div class="postShorten-wrap">
-            
-            <div class="postShorten-header">
-                <h1 class="postShorten-title">
-                    
-                        <a class="link-unstyled" href="/2021/04/19/corresponding-packages-in-julia-and-python/">
-                            Python 與 Julia 相對應的套件
-                        </a>
-                    
-                </h1>
-                <div class="postShorten-meta">
+        <div class="post-meta">
     <time datetime="2021-04-19T11:16:56+08:00">
 	
 		    4月 19, 2021
@@ -255,10 +255,13 @@
     
 </div>
 
-            </div>
-            
-                <div class="postShorten-content">
-                    <p>最近有遇到業界的工程師對 Julia 有點好奇，提了一些問題。</p>
+    
+</div>
+
+                        
+                            <div class="post-content markdown">
+                                <div class="main-content-wrap">
+                                    <p>最近有遇到業界的工程師對 Julia 有點好奇，提了一些問題。</p>
 <p>在 Python 到 Julia 的轉換路上，常常不知道原本在 Python 用慣的套件，在 Julia 中要去哪裡找？</p>
 <h2 id="Python-的效能優化套件">Python 的效能優化套件</h2>
 <p>例如，在 Python 都用 numba 來提升效能，那麼 Julia 有相對應的套件可以用嗎？</p>
@@ -336,353 +339,88 @@
 <p>使用 Julia 在程式碼風格上統一，在開發期間所用的語言就是上線的語言，不會有要上線的語言要將 python/matlab/R 轉換成 C/C++ 這種狀況發生。更有甚者，我個人認為 Julia 在語言設計上，可以讓工程師在寫 code 的時候，code 寫得更為精簡。</p>
 <p>相對，DSL 的部分就不會是因為不同的函式庫而有有不同 DSL，而是因為有不同的應用場景 (統計、ML、DL)，因為不同領域的人有不同的習慣或是使用情境去設計適合他們的 DSL。</p>
 
-                    
-                        
+                                        
 
+                                </div>
+                            </div>
+                            <div id="post-footer" class="post-footer main-content-wrap">
+                                
+                                        
+                                            <div class="post-actions-wrap">
+    <nav>
+        <ul class="post-actions post-action-nav">
+            <li class="post-action">
+                
+                    <a class="post-action-btn btn btn--disabled">
+                
+                    <i class="fa fa-angle-left" aria-hidden="true"></i>
+                    <span class="hide-xs hide-sm text-small icon-ml">上一篇</span>
+                </a>
+            </li>
+            <li class="post-action">
+                
                     
-                    
-                        <p>
-                            <a href="/2021/04/19/corresponding-packages-in-julia-and-python/#post-footer" class="postShorten-excerpt_link link">
-                                留言與分享
-                            </a>
-                        </p>
-                    
-                </div>
-            
-        </div>
+                    <a class="post-action-btn btn btn--default tooltip--top" href="/2021/04/04/julia-package-version/" data-tooltip="Julia 的版本與套件版本" aria-label="下一篇: Julia 的版本與套件版本">
+                
+                    <span class="hide-xs hide-sm text-small icon-mr">下一篇</span>
+                    <i class="fa fa-angle-right" aria-hidden="true"></i>
+                </a>
+            </li>
+        </ul>
+    </nav>
+    <ul class="post-actions post-action-share">
+        <li class="post-action hide-lg hide-md hide-sm">
+            <a class="post-action-btn btn btn--default btn-open-shareoptions" href="#btn-open-shareoptions" aria-label="Share this post">
+                <i class="fa fa-share-alt" aria-hidden="true"></i>
+            </a>
+        </li>
         
-    </article>
-    
-    
-    <article class="postShorten postShorten--thumbnailimg-right">
-        <div class="postShorten-wrap">
             
-            <div class="postShorten-header">
-                <h1 class="postShorten-title">
-                    
-                        <a class="link-unstyled" href="/2021/04/04/julia-package-version/">
-                            Julia 的版本與套件版本
-                        </a>
-                    
-                </h1>
-                <div class="postShorten-meta">
-    <time datetime="2021-04-04T01:20:56+08:00">
-	
-		    4月 04, 2021
-    	
-    </time>
-    
-        <span>分類 </span>
-        
-    <a class="category-link" href="/categories/My-Style/">My Style</a>, <a class="category-link" href="/categories/My-Style/Computer-Science/">Computer Science</a>, <a class="category-link" href="/categories/My-Style/Computer-Science/Julialang/">Julialang</a>
-
-
-    
-</div>
-
-            </div>
             
-                <div class="postShorten-excerpt">
-                    <p>常常開發者會需要在，使用者使用不同的語言版本或是套件版本，做不同的處置，有可能是安裝不同的函式庫，或是設定不同的參數。這時候要在程式中自動取得目前的語言版本或是特定套件的版本就很重要。Julia 語言本身就有內建版本字串可以使用，它可以用來比較版本的差異或是大小。</p>
-                    
-                        <a href="/2021/04/04/julia-package-version/" class="postShorten-excerpt_link link">
-                            繼續閱讀
-                        </a>
-                        
-                    
-                </div>
-            
-        </div>
-        
-    </article>
-    
-    
-    <article class="postShorten postShorten--thumbnailimg-right">
-        <div class="postShorten-wrap">
-            
-            <div class="postShorten-header">
-                <h1 class="postShorten-title">
-                    
-                        <a class="link-unstyled" href="/2021/04/04/julia-v1-6-release/">
-                            Julia v1.6 釋出！新功能介紹！
-                        </a>
-                    
-                </h1>
-                <div class="postShorten-meta">
-    <time datetime="2021-04-04T01:04:33+08:00">
-	
-		    4月 04, 2021
-    	
-    </time>
-    
-        <span>分類 </span>
-        
-    <a class="category-link" href="/categories/My-Style/">My Style</a>, <a class="category-link" href="/categories/My-Style/Computer-Science/">Computer Science</a>, <a class="category-link" href="/categories/My-Style/Computer-Science/Julialang/">Julialang</a>
-
-
-    
-</div>
-
-            </div>
-            
-                <div class="postShorten-excerpt">
-                    <!-- toc -->
-<p>在 v1.6 版中，Julia 有大幅度的效能提昇，效能提昇的部份著重在於預編譯（precompilation）以及編譯的效能改進，而 v1.6 版將成為下一個長期支援（long-term support, LTS）的版本。</p>
-<p>根據<a href="https://julialang.org/blog/2021/03/julia-1.6-highlights/" target="_blank" rel="noopener">官方部落格</a>，本次版本更新引進了眾多新的技術，包含 parallel precompilation、消除重複編譯、降低編譯器的 latency、加速二進位檔案的載入，以及改善 stacktrace 的格式等等重大的功能。那我們就來詳細看看有哪些更新吧！</p>
-                    
-                        <a href="/2021/04/04/julia-v1-6-release/" class="postShorten-excerpt_link link">
-                            繼續閱讀
-                        </a>
-                        
-                    
-                </div>
-            
-        </div>
-        
-    </article>
-    
-    
-    <article class="postShorten postShorten--thumbnailimg-right">
-        <div class="postShorten-wrap">
-            
-            <div class="postShorten-header">
-                <h1 class="postShorten-title">
-                    
-                        <a class="link-unstyled" href="/2021/03/28/the-future-of-julialang/">
-                            Julia 語言的未來性
-                        </a>
-                    
-                </h1>
-                <div class="postShorten-meta">
-    <time datetime="2021-03-28T22:51:51+08:00">
-	
-		    3月 28, 2021
-    	
-    </time>
-    
-        <span>分類 </span>
-        
-    <a class="category-link" href="/categories/My-Style/">My Style</a>, <a class="category-link" href="/categories/My-Style/Computer-Science/">Computer Science</a>, <a class="category-link" href="/categories/My-Style/Computer-Science/Julialang/">Julialang</a>
-
-
-    
-</div>
-
-            </div>
-            
-                <div class="postShorten-excerpt">
-                    <a data-fancybox data-src="/images/covers/Nyvq2juw4_o-unsplash.jpg">
-	<img src="/images/covers/Nyvq2juw4_o-unsplash.jpg" alt="" />
-</a>
-<!-- toc -->
-<p>Julia 作為一個新興的語言，他有眾多的優點，他不僅執行快速，而且像 python 一樣，是動態語言非常容易上手好寫。Julia 本身的套件管理系統也具有足夠高的再現性（reproducible），並且自動安裝內含編譯過的函式庫檔案。作為一個泛用性以及開源的程式語言，這些特色帶來許多優點。</p>
-<p>隨著今日科學社群不斷的擴大，科學計算與數值計算相關的軟體也不斷的發展，Julia 作為一個以科學計算為目的的語言，不僅融合了現代的科學計算工具、新穎的演算法、優異的性能，以及平易近人的語法。由於 Julia 優異的語法設計，搭配多重分派以及型別系統，讓獨到的即時編譯（just-in-time compilation）變得自然，型別推斷讓 Julia 的速度得以提升。</p>
-                    
-                        <a href="/2021/03/28/the-future-of-julialang/" class="postShorten-excerpt_link link">
-                            繼續閱讀
-                        </a>
-                        
-                    
-                </div>
-            
-        </div>
-        
-    </article>
-    
-    
-    <article class="postShorten postShorten--thumbnailimg-right">
-        <div class="postShorten-wrap">
-            
-            <div class="postShorten-header">
-                <h1 class="postShorten-title">
-                    
-                        <a class="link-unstyled" href="/2021/03/19/use-of-numerical-type-in-parametric-functions-in-julia/">
-                            在 Julia 的 parametric methods 使用數值型別（numerical type）
-                        </a>
-                    
-                </h1>
-                <div class="postShorten-meta">
-    <time datetime="2021-03-19T14:21:30+08:00">
-	
-		    3月 19, 2021
-    	
-    </time>
-    
-        <span>分類 </span>
-        
-    <a class="category-link" href="/categories/My-Style/">My Style</a>, <a class="category-link" href="/categories/My-Style/Computer-Science/">Computer Science</a>, <a class="category-link" href="/categories/My-Style/Computer-Science/Julialang/">Julialang</a>
-
-
-    
-</div>
-
-            </div>
-            
-                <div class="postShorten-excerpt">
-                    <p>對於 Julia 比較不熟悉的使用者或開發者，要怎麼定函式的參數型別是一個大學問。</p>
-<figure class="highlight julia"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">function</span> average(xs)</span><br><span class="line">    <span class="keyword">return</span> sum(xs)/length(xs)</span><br><span class="line"><span class="keyword">end</span></span><br></pre></td></tr></table></figure>
-<p>例如以上的 <code>average</code> 函式，<code>xs</code> 要定成什麼樣的型別比較好？</p>
-<p>可能有人會以他所測試的情境去定：</p>
-<figure class="highlight julia"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line">julia&gt; xs = rand(<span class="number">10</span>)</span><br><span class="line"><span class="number">10</span>-element <span class="built_in">Array</span>&#123;<span class="built_in">Float64</span>,<span class="number">1</span>&#125;:</span><br><span class="line"> <span class="number">0.8261912048684596</span></span><br><span class="line"> <span class="number">0.4466692353358077</span></span><br><span class="line"> <span class="number">0.6337754306737924</span></span><br><span class="line"> <span class="number">0.1297961522759261</span></span><br><span class="line"> <span class="number">0.4699412442087936</span></span><br><span class="line"> <span class="number">0.6194816490253636</span></span><br><span class="line"> <span class="number">0.8258926319092839</span></span><br><span class="line"> <span class="number">0.05094839501664228</span></span><br><span class="line"> <span class="number">0.21008570113108194</span></span><br><span class="line"> <span class="number">0.16250331333741275</span></span><br><span class="line"></span><br><span class="line">julia&gt; <span class="keyword">function</span> average(xs::<span class="built_in">Array</span>&#123;<span class="built_in">Float64</span>,<span class="number">1</span>&#125;)</span><br><span class="line">           <span class="keyword">return</span> sum(xs)/length(xs)</span><br><span class="line">       <span class="keyword">end</span></span><br><span class="line">average (generic <span class="keyword">function</span> with <span class="number">1</span> method)</span><br><span class="line"></span><br><span class="line">julia&gt; average(xs)</span><br><span class="line"><span class="number">0.4375284957782564</span></span><br></pre></td></tr></table></figure>
-                    
-                        <a href="/2021/03/19/use-of-numerical-type-in-parametric-functions-in-julia/" class="postShorten-excerpt_link link">
-                            繼續閱讀
-                        </a>
-                        
-                    
-                </div>
-            
-        </div>
-        
-    </article>
-    
-    
-    <article class="postShorten postShorten--thumbnailimg-right">
-        <div class="postShorten-wrap">
-            
-            <div class="postShorten-header">
-                <h1 class="postShorten-title">
-                    
-                        <a class="link-unstyled" href="/2021/01/14/julia-module-code-loading/">
-                            Julia冷知識-你知道模組中的程式碼是何時被執行的嗎
-                        </a>
-                    
-                </h1>
-                <div class="postShorten-meta">
-    <time datetime="2021-01-14T11:50:26+08:00">
-	
-		    1月 14, 2021
-    	
-    </time>
-    
-        <span>分類 </span>
-        
-    <a class="category-link" href="/categories/My-Style/">My Style</a>, <a class="category-link" href="/categories/My-Style/Computer-Science/">Computer Science</a>, <a class="category-link" href="/categories/My-Style/Computer-Science/Julialang/">Julialang</a>
-
-
-    
-</div>
-
-            </div>
-            
-                <div class="postShorten-excerpt">
-                    <figure class="highlight julia"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">module</span> Foo</span><br><span class="line"></span><br><span class="line"><span class="comment"># Some code here</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">function</span> __init__()</span><br><span class="line">    <span class="comment"># Some code here too</span></span><br><span class="line"><span class="keyword">end</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">end</span></span><br></pre></td></tr></table></figure>
-<p>是否曾經疑惑過寫在 module 中的程式碼會在何時被載入呢？</p>
-                    
-                        <a href="/2021/01/14/julia-module-code-loading/" class="postShorten-excerpt_link link">
-                            繼續閱讀
-                        </a>
-                        
-                    
-                </div>
-            
-        </div>
-        
-    </article>
-    
-    
-    <article class="postShorten postShorten--thumbnailimg-right">
-        <div class="postShorten-wrap">
-            
-            <div class="postShorten-header">
-                <h1 class="postShorten-title">
-                    
-                        <a class="link-unstyled" href="/2021/01/09/dispatch-on-function/">
-                            依函式分派（dispatch on function）
-                        </a>
-                    
-                </h1>
-                <div class="postShorten-meta">
-    <time datetime="2021-01-09T11:51:45+08:00">
-	
-		    1月 09, 2021
-    	
-    </time>
-    
-        <span>分類 </span>
-        
-    <a class="category-link" href="/categories/My-Style/">My Style</a>, <a class="category-link" href="/categories/My-Style/Computer-Science/">Computer Science</a>, <a class="category-link" href="/categories/My-Style/Computer-Science/Julialang/">Julialang</a>
-
-
-    
-</div>
-
-            </div>
-            
-                <div class="postShorten-excerpt">
-                    <p>依函式分派（dispatch on function）算是在 Julia 語言中相當常見的一個技巧，它依賴 Julia 的多重分派機制（multiple dispatch），可以依據不同的函式有不一樣的行為。</p>
-<h2 id="舉例">舉例</h2>
-<p>在資料分析或是資料庫分析中，常常會需要對資料欄位進行聚合運算，像是加總的 <code>sum</code>、平均的 <code>avg</code> 或是計數的 <code>count</code>。他們都是用同一個欄位的資料，聚合成一個值輸出。當我們需要將資料相加時，我們會寫出以下的程式碼：</p>
-<figure class="highlight julia"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">a = [<span class="number">1</span>,<span class="number">2</span>,<span class="number">3</span>,<span class="number">4</span>,<span class="number">5</span>]</span><br><span class="line">sum(a)</span><br></pre></td></tr></table></figure>
-<p>這看起來很直觀，但往往在資料庫的設計當中，只會設計一些常用到的聚合函式（aggregate function）。</p>
-<p>那麼有沒有一個方式可以得到一個比較廣義的聚合函式呢？</p>
-                    
-                        <a href="/2021/01/09/dispatch-on-function/" class="postShorten-excerpt_link link">
-                            繼續閱讀
-                        </a>
-                        
-                    
-                </div>
-            
-        </div>
-        
-    </article>
-    
-    
-    <article class="postShorten postShorten--thumbnailimg-right">
-        <div class="postShorten-wrap">
-            
-            <div class="postShorten-header">
-                <h1 class="postShorten-title">
-                    
-                        <a class="link-unstyled" href="/2021/01/07/dispatch-on-types/">
-                            依型別分派（dispatch on types）
-                        </a>
-                    
-                </h1>
-                <div class="postShorten-meta">
-    <time datetime="2021-01-07T23:43:49+08:00">
-	
-		    1月 07, 2021
-    	
-    </time>
-    
-        <span>分類 </span>
-        
-    <a class="category-link" href="/categories/My-Style/">My Style</a>, <a class="category-link" href="/categories/My-Style/Computer-Science/">Computer Science</a>, <a class="category-link" href="/categories/My-Style/Computer-Science/Julialang/">Julialang</a>
-
-
-    
-</div>
-
-            </div>
-            
-                <div class="postShorten-excerpt">
-                    <p>依型別分派（dispatch on types）算是在 Julia 語言中相當常見的一個技巧，它依賴 Julia 的多重分派機制（multiple dispatch），可以依據不同的型別有不一樣的行為。</p>
-<p>依據不同的型別有不同的行為，而不是實體。直觀上看起來會有點像傳統物件導向當中的 class method，不過在 Julia 當中還有更多用途。</p>
-                    
-                        <a href="/2021/01/07/dispatch-on-types/" class="postShorten-excerpt_link link">
-                            繼續閱讀
-                        </a>
-                        
-                    
-                </div>
-            
-        </div>
-        
-    </article>
-    
-    <div class="pagination-bar">
-    <ul class="pagination">
+            <li class="post-action hide-xs">
+                <a class="post-action-btn btn btn--default" target="new" href="https://www.facebook.com/sharer/sharer.php?u=https://yuehhua.github.io/2021/04/19/corresponding-packages-in-julia-and-python/" title="分享到 Facebook">
+                    <i class="fa fa-facebook-official" aria-hidden="true"></i>
+                </a>
+            </li>
         
         
-        <li class="pagination-number">第 1 頁 共 1 頁</li>
+            
+                <li class="post-action">
+                    <a class="post-action-btn btn btn--default" href="#disqus_thread">
+                        <i class="fa fa-comment-o"></i>
+                    </a>
+                </li>
+            
+        
+        <li class="post-action">
+            
+                <a class="post-action-btn btn btn--default" href="#" aria-label="Back to top">
+            
+                <i class="fa fa-list" aria-hidden="true"></i>
+            </a>
+        </li>
     </ul>
 </div>
 
-</section>
 
-
+                                                
+                                                    
+                                                        
+                                                            <div id="disqus_thread">
+    <noscript>Please enable JavaScript to view the <a href="//disqus.com/?ref_noscript" target="_blank" rel="noopener">comments powered by Disqus.</a></noscript>
+</div>
+                                                                
+                                                                            
+                            </div>
+                            
+                                <script src='https://unpkg.com/mermaid@7.1.2/dist/mermaid.min.js'></script>
+                                <script>
+                                    if (window.mermaid) {
+                                        mermaid.initialize({ theme: 'forest' });
+                                    }
+                                </script>
+                                
+    </article>
 
                 <footer id="footer" class="main-content-wrap">
     <span class="copyrights">
@@ -691,6 +429,81 @@
 </footer>
 
             </div>
+            
+                <div id="bottom-bar" class="post-bottom-bar" data-behavior="5">
+                    <div class="post-actions-wrap">
+    <nav>
+        <ul class="post-actions post-action-nav">
+            <li class="post-action">
+                
+                    <a class="post-action-btn btn btn--disabled">
+                
+                    <i class="fa fa-angle-left" aria-hidden="true"></i>
+                    <span class="hide-xs hide-sm text-small icon-ml">上一篇</span>
+                </a>
+            </li>
+            <li class="post-action">
+                
+                    
+                    <a class="post-action-btn btn btn--default tooltip--top" href="/2021/04/04/julia-package-version/" data-tooltip="Julia 的版本與套件版本" aria-label="下一篇: Julia 的版本與套件版本">
+                
+                    <span class="hide-xs hide-sm text-small icon-mr">下一篇</span>
+                    <i class="fa fa-angle-right" aria-hidden="true"></i>
+                </a>
+            </li>
+        </ul>
+    </nav>
+    <ul class="post-actions post-action-share">
+        <li class="post-action hide-lg hide-md hide-sm">
+            <a class="post-action-btn btn btn--default btn-open-shareoptions" href="#btn-open-shareoptions" aria-label="Share this post">
+                <i class="fa fa-share-alt" aria-hidden="true"></i>
+            </a>
+        </li>
+        
+            
+            
+            <li class="post-action hide-xs">
+                <a class="post-action-btn btn btn--default" target="new" href="https://www.facebook.com/sharer/sharer.php?u=https://yuehhua.github.io/2021/04/19/corresponding-packages-in-julia-and-python/" title="分享到 Facebook">
+                    <i class="fa fa-facebook-official" aria-hidden="true"></i>
+                </a>
+            </li>
+        
+        
+            
+                <li class="post-action">
+                    <a class="post-action-btn btn btn--default" href="#disqus_thread">
+                        <i class="fa fa-comment-o"></i>
+                    </a>
+                </li>
+            
+        
+        <li class="post-action">
+            
+                <a class="post-action-btn btn btn--default" href="#" aria-label="Back to top">
+            
+                <i class="fa fa-list" aria-hidden="true"></i>
+            </a>
+        </li>
+    </ul>
+</div>
+
+
+                </div>
+                <div id="share-options-bar" class="share-options-bar" data-behavior="5">
+    <i id="btn-close-shareoptions" class="fa fa-close"></i>
+    <ul class="share-options">
+        
+            
+            
+            <li class="share-option">
+                <a class="share-option-btn" target="new" href="https://www.facebook.com/sharer/sharer.php?u=https://yuehhua.github.io/2021/04/19/corresponding-packages-in-julia-and-python/">
+                    <i class="fa fa-facebook-official" aria-hidden="true"></i><span>分享到 Facebook</span>
+                </a>
+            </li>
+        
+    </ul>
+</div>
+
             
         </div>
         
@@ -732,7 +545,26 @@
 
 <script src="/assets/js/script-xzfezjobyekpxrjktw5tz6muvzqfsbmo5n6atk3p5om9ulfptldi3p7cyqd8.min.js"></script>
 
-<!--SCRIPTS END--><!-- hexo-inject:begin --><!-- hexo-inject:end -->
+<!--SCRIPTS END-->
+
+
+<script>
+    var disqus_config = function () {
+        this.page.url = 'https://yuehhua.github.io/2021/04/19/corresponding-packages-in-julia-and-python/';
+                 
+            this.page.identifier = '2021/04/19/corresponding-packages-in-julia-and-python/';
+                 
+             };
+    (function () {
+        var d = document, s = d.createElement('script');
+        var disqus_shortname = 'dream-maker';
+        s.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+
+        s.setAttribute('data-timestamp', +new Date());
+        (d.head || d.body).appendChild(s);
+    })();
+</script><!-- hexo-inject:begin --><!-- hexo-inject:end -->
+
 
 
     </body>
