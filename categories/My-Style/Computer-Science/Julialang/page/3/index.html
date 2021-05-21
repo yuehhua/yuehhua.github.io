@@ -235,6 +235,53 @@
     <section class="postShorten-group main-content-wrap">
     
     
+    <article class="postShorten postShorten--thumbnailimg-right">
+        <div class="postShorten-wrap">
+            
+            <div class="postShorten-header">
+                <h1 class="postShorten-title">
+                    
+                        <a class="link-unstyled" href="/2020/04/10/compile-julia-package/">
+                            編譯 Julia 套件來避免過長的載入時間
+                        </a>
+                    
+                </h1>
+                <div class="postShorten-meta">
+    <time datetime="2020-04-10T10:06:04+08:00">
+	
+		    4月 10, 2020
+    	
+    </time>
+    
+        <span>分類 </span>
+        
+    <a class="category-link" href="/categories/My-Style/">My Style</a>, <a class="category-link" href="/categories/My-Style/Computer-Science/">Computer Science</a>, <a class="category-link" href="/categories/My-Style/Computer-Science/Julialang/">Julialang</a>
+
+
+    
+</div>
+
+            </div>
+            
+                <div class="postShorten-excerpt">
+                    <p>Julia 有優異的效能，但是它的 JIT 讓套件的載入時間（<code>using</code>）過於冗長。</p>
+<p>Julia JIT 會在套件載入時期以及第一次使用函式時期進行編譯，若是有編譯完成的版本，便可以直接使用，避免編譯時間。儘管 Julia 將程式碼進行編譯，得到了絕佳的執行時間，但是套件載入的第一次編譯時間成為了大家的痛點。</p>
+<p>為了解決這樣的痛點，開發者社群做了不少努力，主要是 PackageCompiler.jl 套件，讓套件可以預先進行編譯，而後來也補充了不少 binary package 來支援套件編譯。</p>
+<p>PackageCompiler.jl 套件可以將 Julia 程式碼編譯成可執行檔以及動態函式庫（.so），支援套件編譯成動態函式庫，以及增量編譯（incremental compilation）。</p>
+<p>近期 PackageCompiler.jl 套件正式發佈 v1.0，正式成熟可以使用了！本文將會介紹如何將套件編譯成動態函式庫，並且在啟動時載入，來避免過長的載入及編譯時間。</p>
+                    
+                        <a href="/2020/04/10/compile-julia-package/" class="postShorten-excerpt_link link">
+                            繼續閱讀
+                        </a>
+                        
+                    
+                </div>
+            
+        </div>
+        
+    </article>
+    
+    
     <article class="postShorten postShorten--thumbnailimg-bottom">
         <div class="postShorten-wrap">
             
@@ -816,134 +863,6 @@
         
     </article>
     
-    
-    <article class="postShorten postShorten--thumbnailimg-bottom">
-        <div class="postShorten-wrap">
-            
-            <div class="postShorten-header">
-                <h1 class="postShorten-title">
-                    
-                        <a class="link-unstyled" href="/2017/06/05/state-centered-behavior-centered-oop/">
-                            狀態為中心與行為為中心的物件導向（State-centered and behavior-centered OOP）
-                        </a>
-                    
-                </h1>
-                <div class="postShorten-meta">
-    <time datetime="2017-06-05T00:33:00+08:00">
-	
-		    6月 05, 2017
-    	
-    </time>
-    
-        <span>分類 </span>
-        
-    <a class="category-link" href="/categories/My-Style/">My Style</a>, <a class="category-link" href="/categories/My-Style/Computer-Science/">Computer Science</a>, <a class="category-link" href="/categories/My-Style/Computer-Science/Julialang/">Julialang</a>
-
-
-    
-</div>
-
-            </div>
-            
-                <div class="postShorten-content">
-                    <h1>Julia 的物件導向</h1>
-<p>今天特別要來談談Julia這個語言的物件導向模型。</p>
-<p>我已經聽到有些人跟我說「Julia才沒有物件導向」或是「我不承認這是物件導向」等等這類的話。</p>
-<p>不過我得要跟大家說，物件導向不是只有大家看到的C++或是Java那個樣子的物件導向模型。</p>
-<h1>介紹 Julia 的物件導向模型</h1>
-<p>如果你的背景是C++, Java, Python, Ruby等等語言的話，那你應該非常熟悉物件導向的幾個要素：</p>
-<ol>
-<li>封裝</li>
-<li>繼承</li>
-<li>多型</li>
-</ol>
-<p>談到封裝，Julia幾乎沒有封裝的概念。</p>
-<p>是的，Julia不封裝！</p>
-<p>Julia宣告的是型別，不是類別；型別他只宣告了有哪些欄位，他也不會把方法宣告在型別裡頭。</p>
-<p>所以Julia的型別感覺上會比較像是C的<code>struct</code>，只存資料或狀態，不帶任何的方法。</p>
-<p>那方法怎麼辦？</p>
-<p>方法會由 Julia 的多重分派（multiple dispatch）引入。</p>
-<p>也就是說，我只要去設計任何函式，這個函式他所用到的參數型別，那這個函式就是<strong>這些參數</strong>的方法。</p>
-<p>Julia會視函式呼叫的參數型別組合，來決定到底要執行哪一種方法。</p>
-<p>看完之後應該會很傻眼，既然沒有封裝，然後又不帶方法，那這樣要怎麼實現物件導向呢？</p>
-<h2 id="Julia-的型別系統">Julia 的型別系統</h2>
-<p>概念上來說，Julia會藉由兩種型別來建立型別階層（type hierarchy）：抽象型別跟複合型別</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">abstract type Number end</span><br><span class="line">abstract type Complex &lt;: Number end</span><br><span class="line">abstract type Real &lt;: Number end</span><br><span class="line"></span><br><span class="line">struct Integer &lt;: Real</span><br><span class="line">    x</span><br><span class="line">end</span><br></pre></td></tr></table></figure>
-<p>以上宣告了 3 個抽象型別以及一個複合型別。</p>
-<p>抽象型別只有一行宣告，也就是說明這代表什麼樣的概念，他不具有欄位。</p>
-<p><code>&lt;:</code> 代表的是 <strong>is subtype of</strong>，<code>abstract type Complex &lt;: Number end</code>代表的是<code>Complex</code>是<code>Number</code>的子型別。</p>
-<p>複合型別就像<code>Integer</code>，他有一個field <code>x</code>，他是<code>Real</code>的子型別。</p>
-<p>子型別可以是抽象型別或是複合型別，但相反的是，父型別只能是抽象型別。</p>
-<p>以上我們描繪了一個型別階層，位於最頂端的是<code>Number</code>，所有人都是<code>Number</code>的子型別。</p>
-<p>而複合型別只能位於這棵型別階層的末端的位置。</p>
-<p>在Julia中，所有的型別都是<code>Any</code>的子型別，相反，所有型別的子型別則是<code>Union{}</code>。</p>
-<p>這樣的階層完全不俱備傳統物件導向的繼承概念，雖然觀念上也滿足<strong>is-a</strong>的關係，但是他並沒有從父型別上繼承任何東西，也沒有東西可以被繼承。</p>
-<p>你可能會問：那這樣的型別階層有什麼用呢？</p>
-<p>這就要配合多重分派來用拉~~</p>
-<h2 id="Julia-的多重分派">Julia 的多重分派</h2>
-<p>大家比較熟悉的應該是single dispatch，也就是區別<code>foo.method()</code>與<code>bar.method()</code>的不同。</p>
-<p>傳統的物件導向當他呼叫<code>foo.method()</code>與<code>bar.method()</code>這兩者時，同樣都是呼叫<code>method()</code>這個函式，可是到底要呼叫誰的實作呢？</p>
-<p>Single dispatch會告訴你：去找擁有這個函式的人，也就是<code>.</code>前面的那個傢伙。</p>
-<p>但是Julia的設計理念是：函式並不屬於任何人，也就是不會有人<strong>擁有</strong>函式。</p>
-<p>所以Julia裡的函式會是<code>method(foo)</code>跟<code>method(bar)</code>這樣的形式。</p>
-<p>Julia設計上很聰明，他會告訴函式去執行擁有跟參數型別相同排列組合的那個實作。</p>
-<p>這也就是多重分派了，他不依賴單一的型別去判斷，而是所有的參數型別的組合！</p>
-<p>所以當你宣告了一個像這樣的函式：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">function foo(a, b, c)</span><br><span class="line">    ....</span><br><span class="line">end</span><br></pre></td></tr></table></figure>
-<p>他會接受<em>任意的3個參數</em>，當沒宣告參數型別時就自動是<code>Any</code>。</p>
-<p>那以下這個狀況：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">function foo(a::Int64, b)</span><br><span class="line">    ....</span><br><span class="line">end</span><br></pre></td></tr></table></figure>
-<p>就只接受<em>第一個參數型別是<code>Int64</code></em>，而輸入<em>兩個參數</em>的情況了。</p>
-<h2 id="OOP-in-Julia">OOP in Julia</h2>
-<p>以這樣的type system以及多重分派作為建構物件導向的核心機制。</p>
-<p>我們不能在以傳統的思維去想物件導向。</p>
-<p>我們需要思考的是物件導向的核心是什麼？</p>
-<p>物件導向的引入主要幫助我們去塑造一個物件概念，並且幫助我們減少重複的程式碼，提高程式碼的再利用（reuse）。</p>
-<p>我們訴求的是高內聚，低耦合的程式碼。</p>
-<p>在Julia中，複合型別提供了一個類似物件、結構的角色，由於沒有繼承關係，也不會有過高的內聚。</p>
-<p>繼承所需要的元素可以由合成（composition）來達成，但相對犧牲了部份的欄位再利用的可能性。</p>
-<p>方法的部份還原成了最初始的函式的樣貌，而函式本身是更加自由的。</p>
-<p>藉由多重分派可以更加<strong>細緻地</strong>定義函式的行為，可以在不同的參數型別上提供多樣的語意。</p>
-<p>例如，<code>*(Int64, Int64)</code>的含意是數字的乘法，<code>*(String, String)</code>則是字串的串接，同樣的運算子或是函數名稱，可以提供不同context下，不同的語意，這不是很像人類的語言習慣嗎？</p>
-<p>在Julia的精神中，我們關注的是context跟行為，去定義不同context下的函式以及語意（行為）是重要的。</p>
-<p>這方面Julia提供了絕佳的多型（polymorphism），但完全不支援繼承與封裝，對資訊的存取權更是無法控制。</p>
-<p>但他更強調的是readability！如果設計者考慮到context，那讀程式碼的人就更能進入這個context去思考。</p>
-<p>在函式的使用上更是毋庸置疑的靈活而鬆耦合，所以在程式碼的撰寫上，可以自然的達成<strong>高內聚，低耦合</strong>，更可以提升readability，最後的再利用就端看設計者最佳化的功力拉！</p>
-<p>Julia是一個達成物件導向精神的語言！</p>
-<h1>State-centered and behavior-centered OOP</h1>
-<h2 id="The-state-centered-OOP">The state-centered OOP</h2>
-<p>傳統大家認知的物件導向，大多都由一個<strong>概念</strong>或是<strong>實體</strong>所構成。</p>
-<p>大家在做程式設計的時候，大家所關注的大多是一個變數的<em>值是如何變化</em>或是一個物件的<em>狀態如何變化</em>。</p>
-<p>所以很自然的會從一個實體或是概念著手，進而去設計他應該有怎樣的properties或是做什麼事情。</p>
-<p>會慢慢凝聚出一個概念，並且把這個概念化成一個個的class，並把這個class描繪清楚。</p>
-<p>class描繪仔細了以後，就去關注class跟class之間的互動關係，進而完成整個演算法或是架構。</p>
-<h2 id="The-behavior-centered-OOP">The behavior-centered OOP</h2>
-<p>在Julia的物件導向則是敘述<strong>關係</strong>或是<strong>行為</strong>。</p>
-<p>Julia會以函式的角度出發，Julia中的物件導向指的是<strong>design a set of methods</strong>這回事。</p>
-<p>Julia會使你關注在參數之間的關係，他們應該如何一起完成工作？參數如何被dispatch？函式跟函式之間會不會衝突？</p>
-<p>型別應該會有什麼樣的行為？<code>*</code>用在數字上跟用在字串上的語意有沒有一樣？</p>
-<p>方法其實是在圈定一群型別，他們會一起作用，就是這麼簡單。</p>
-<p>所以Julia的物件導向觀點都會圍繞在設計方法上面，而這樣的觀點又可以讓Julia很自然的融入functional programming當中。</p>
-<p>這讓Julia可以花比較少力氣在斤斤計較欄位的設計上，也花比較少力氣在思考繼承關係上。</p>
-<p>相對花比較多力氣在這個方法被宣告、進入整個語言系統當中的運作情形，也就是對整個系統的影響上。</p>
-
-                    
-                        
-
-                    
-                    
-                        <p>
-                            <a href="/2017/06/05/state-centered-behavior-centered-oop/#post-footer" class="postShorten-excerpt_link link">
-                                留言與分享
-                            </a>
-                        </p>
-                    
-                </div>
-            
-        </div>
-        
-    </article>
-    
     <div class="pagination-bar">
     <ul class="pagination">
         
@@ -955,7 +874,14 @@
           </li>
         
         
-        <li class="pagination-number">第 3 頁 共 3 頁</li>
+          <li class="pagination-next">
+            <a class="btn btn--default btn--small" href="/categories/My-Style/Computer-Science/Julialang/page/4/">
+              <span>下一頁</span>
+              <i class="fa fa-angle-right text-base icon-ml"></i>
+            </a>
+          </li>
+        
+        <li class="pagination-number">第 3 頁 共 4 頁</li>
     </ul>
 </div>
 
