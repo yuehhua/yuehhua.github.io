@@ -1,0 +1,572 @@
+
+<!DOCTYPE html>
+<html lang="zh-tw,en,default">
+    
+<head>
+    <!-- hexo-inject:begin --><!-- hexo-inject:end --><meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="generator" content="Dream Maker">
+    <title>要怎麼用 Julia debugger？ - Dream Maker</title>
+    <meta name="author" content="Yueh-Hua Tu">
+    
+        <meta name="keywords" content="machine learning,deep learning,topology,">
+    
+    
+    
+        <link rel="alternate" type="application/atom+xml" title="RSS" href="/atom.xml">
+    
+    <script type="application/ld+json">{"@context":"http://schema.org","@type":"BlogPosting","author":{"@type":"Person","name":"Yueh-Hua Tu","sameAs":["https://github.com/yuehhua/","https://www.facebook.com/a504082002","https://www.linkedin.com/in/%E5%B2%B3%E8%8F%AF-%E6%9D%9C-6a3995a0/","mailto:a504082002@gmail.com"],"image":"https://www.gravatar.com/avatar/a565749fba4782b717234da670b273fd"},"articleBody":"有鑑於 Debugger.jl 的說明文件有點難懂，就自己來寫一篇教學。\nDebugger.jl 是在 Julia 上，由官方開發及維護的除錯器（debugger），debugger 如同其他語言的 debugger 一樣，可以預先設定斷點（breakpoint）、在丟出例外（exception）時停下來、逐行執行及檢查變數等等功能。這篇文章會示範最基礎的 debugger 的用法。\n\n安裝 Debugger\n安裝 Julia 套件都是差不多的方式，切換到套件模式，並且 add PACKAGE。\n1]add Debugger\n等他跑好就把 Debugger 安裝好了。\n在 REPL 執行 Debugger\n基本上，Debugger 是一種直譯器，所以比較好的執行環境是在 REPL 中。\n當然在 VS code 也有內建，但是我個人嘗試過，他跑得蠻慢的，不知道為什麼。= =&quot;\n所以以下的示範都是在 REPL 上。\n逐行執行\n為了示範，所以就先定義兩個函式。\n1234567891011julia&gt; using Debuggerjulia&gt; function foo(x, y)           z = x + 2           y = y*(y + z)           return y       endfoo (generic function with 1 method)julia&gt; bar(x) = foo(x, 5)bar (generic function with 1 method)\n逐步執行\nDebugger 都會有個進入點，進入點需要在前面標記 @enter，後面可以接著一個表示式。\n12345678910111213141516171819julia&gt; @enter bar(3)In bar(x) at REPL[2]:1&gt;1  bar(x) = foo(x, 5)About to run: (foo)(3, 5)1|debug&gt; sIn foo(x, y) at REPL[1]:1 1  function foo(x, y)&gt;2      z = x + 2 3      y = y*(y + z) 4      return y 5  endAbout to run: _J31|debug&gt; sIn +(x, y) at int.jl:87&gt;87  (+)(x::T, y::T) where &#123;T&lt;:BitInteger&#125; = add_int(x, y)About to run: (Core.Intrinsics.add_int)(3, 2)\n以上進入了 bar(3) 這個函式呼叫。剛進入的時候，他會停在函式呼叫的第一步：(foo)(3, 5)。\n接著，他會進入除錯（debug）模式，在這個模式下，就可以藉由指令來操作這個 debugger。\n如果輸入 s，他會逐步執行程式碼，所以可以看到他進入到 foo 函式中，並且指標指到第二行的 z = x + 2。\n如果再輸入一次 s，讓他執行下一步，這時候加法就會被執行，所以就會進到 (Core.Intrinsics.add_int)(3, 2) 的執行。\n逐行執行\n如果我們希望他可以逐行執行，可以用 n。\n123456789101112julia&gt; @enter bar(3)In bar(x) at REPL[2]:1&gt;1  bar(x) = foo(x, 5)About to run: (foo)(3, 5)1|debug&gt; nIn bar(x) at REPL[2]:1&gt;1  bar(x) = foo(x, 5)About to run: return %J11|debug&gt; n50\n如果輸入 n 之後，debugger 會直接計算該行的計算結果，foo(x, 5) 就會被執行，並回傳 50。\n執行到丟出例外\n比較實用的是讓他執行直到一個例外被拋出。這時我們需要修改一下函式：\n123456function foo(x, y)    z = x + 2    throw(ErrorException(\"This is an error.\"))    y = y*(y + z)    return yend\n在第二行中插入一條拋出 ErrorException 例外的表示式。\n要執行到直到丟出例外，並且停下，有幾種方法。\n在除錯模式，例外前插入斷點法\n12345678910111213141516171819202122232425julia&gt; @enter bar(3)In bar(x) at REPL[2]:1&gt;1  bar(x) = foo(x, 5)About to run: (foo)(3, 5)1|debug&gt; bp on throwBreaking on throw1|debug&gt; cBreaking for error:ERROR: This is an error.Stacktrace: [1] foo(x::Int64, y::Int64)   @ Main REPL[10]:3 [2] bar(x::Int64)   @ Main REPL[2]:1In foo(x, y) at REPL[10]:1 1  function foo(x, y) 2      z = x + 2&gt;3      throw(ErrorException(\"This is an error.\")) 4      y = y*(y + z) 5      return y 6  endAbout to run: (throw)(ErrorException(\"This is an error.\"))\n一樣是利用 @enter 來製造進入點，接著利用 bp on throw 來設定斷點，他的意思是在拋出例外時設定斷點。\n相對，這個斷點是可以關閉的，用 bp off throw。\n接著，可以輸入 c 讓程式持續執行，最後他就會停在斷點處。\n在 REPL 模式，例外前插入斷點法\n1234567891011121314151617181920julia&gt; break_on(:error)julia&gt; @run bar(3)Breaking for error:ERROR: This is an error.Stacktrace: [1] foo(x::Int64, y::Int64)   @ Main REPL[10]:3 [2] bar(x::Int64)   @ Main REPL[2]:1In foo(x, y) at REPL[10]:1 1  function foo(x, y) 2      z = x + 2&gt;3      throw(ErrorException(\"This is an error.\")) 4      y = y*(y + z) 5      return y 6      endAbout to run: (throw)(ErrorException(\"This is an error.\"))\n跟前面的想法差不多，只是這次是在 REPL 下操作。\n這次就不用急著進入除錯模式，可以直接在 REPL 下設定在拋出例外前的斷點，可以用 break_on(:error)。\n@run 這個 macro 就等同於 @enter + c，所以他會執行直到斷點發生。\n查看變數的值\n我們停在斷點之後可以做什麼事情呢？除錯就是要在執行環境中去檢查執行時期的變數是不是符合預期。\n這時候我們可以把 backtrace 給列出來。\n12345671|debug&gt; bt[1] foo(x, y) at REPL[10]:3  | x::Int64 = 3  | y::Int64 = 5  | z::Int64 = 5[2] bar(x) at REPL[2]:1  | x::Int64 = 3\n輸入 bt 可以列出停在目前的斷點，在 foo 及 bar 函式中存有的區域變數以及他的值有哪些。\n我們可以發現我們首先呼叫 bar，bar 會去呼叫 foo。我們知道函式呼叫會在堆疊（stack）中，推入一個新的呼叫框（frame），呼叫框中包含著函式呼叫的引數（arguments）、區域變數等等資訊。\nfoo 的呼叫會在整個堆疊的最上面，也就是第一個 frame，所以看到他標示 [1]，而 bar 的呼叫就是位於第二個 frame。\n叫出指定 frame 中的變數\n我們可以叫出指定的 frame 的區域變數，只要在除錯模式中輸入 fr [i::Int]，i 則是指定第幾個 frame。\n123451|debug&gt; fr 1[1] foo(x, y) at REPL[10]:1  | x::Int64 = 3  | y::Int64 = 5  | z::Int64 = 5\n我們就可以看到在這個階段第一個 frame 的 x、y 跟 z 變數的值各是多少。\n我們可以再試試看第二個 frame 的內容。\n1231|debug&gt; fr 2[2] bar(x) at REPL[2]:1  | x::Int64 = 3\n切換目前的 frame\n剛進入斷點的話，我們都會是位於第一個 frame 中。有時候我們會想要知道在其他 frame 的狀況，這時候我們就需要切換 frame 的位置。\n這時候只要輸入 f [i::Int] 就可以切換不同的 frame，例如，想要切換到第二個 frame 就可以輸入 f 2。\n1234561|debug&gt; f 2In bar(x) at REPL[2]:1&gt;1  bar(x) = foo(x, 5)About to run: (foo)(3, 5)2|debug&gt;\n還可以發現在除錯模式的 prompt 2|debug&gt;，最開頭的數字改變了，一開始是 1，後來變成 2。\n這就表示目前所在第幾個 frame。\n切換成 Julia REPL 模式\n在除錯模式輸入 `（鍵盤左上），就可以切換到 Julia REPL 模式，並且存取變數。\n123456789101|debug&gt; fr 2[2] bar(x) at REPL[2]:1  | x::Int64 = 31|debug&gt; f 2In bar(x) at REPL[2]:1&gt;1  bar(x) = foo(x, 5)About to run: (foo)(3, 5)2|julia&gt; x3\n切換之後，你會看到 2|debug&gt; 切換成 2|julia，並且可以直接存取該變數 x。如果要切換回除錯模式，只要按 backspace 鍵，把 ` 刪除即可。\n122|julia&gt; x3\n也可以對該變數做運算。\n122|julia&gt; x + 25\n但是沒辦法存新的變數。\n123456782|julia&gt; y = x + 252|julia&gt; yERROR: UndefVarError: y not definedStacktrace: [1] top-level scope   @ none:1\n結論\n我們有了這些工具跟方法，可以讓我們在不同的 frame 之間做跳躍，去看在上層或是下層的 frame 中變數的數值各是多少。\n同時，也可以測試你自己寫的函式是否正常執行。\n我們就可以用這些方法來除錯程式碼。\n","dateCreated":"2021-05-24T16:42:28+08:00","dateModified":"2021-05-25T16:26:21+08:00","datePublished":"2021-05-24T16:42:28+08:00","description":"有鑑於 Debugger.jl 的說明文件有點難懂，就自己來寫一篇教學。\nDebugger.jl 是在 Julia 上，由官方開發及維護的除錯器（debugger），debugger 如同其他語言的 debugger 一樣，可以預先設定斷點（breakpoint）、在丟出例外（exception）時停下來、逐行執行及檢查變數等等功能。這篇文章會示範最基礎的 debugger 的用法。","headline":"要怎麼用 Julia debugger？","image":[],"mainEntityOfPage":{"@type":"WebPage","@id":"https://yuehhua.github.io/2021/05/24/how-to-use-julia-debugger/"},"publisher":{"@type":"Organization","name":"Yueh-Hua Tu","sameAs":["https://github.com/yuehhua/","https://www.facebook.com/a504082002","https://www.linkedin.com/in/%E5%B2%B3%E8%8F%AF-%E6%9D%9C-6a3995a0/","mailto:a504082002@gmail.com"],"image":"https://www.gravatar.com/avatar/a565749fba4782b717234da670b273fd","logo":{"@type":"ImageObject","url":"https://www.gravatar.com/avatar/a565749fba4782b717234da670b273fd"}},"url":"https://yuehhua.github.io/2021/05/24/how-to-use-julia-debugger/"}</script>
+    <meta name="description" content="有鑑於 Debugger.jl 的說明文件有點難懂，就自己來寫一篇教學。 Debugger.jl 是在 Julia 上，由官方開發及維護的除錯器（debugger），debugger 如同其他語言的 debugger 一樣，可以預先設定斷點（breakpoint）、在丟出例外（exception）時停下來、逐行執行及檢查變數等等功能。這篇文章會示範最基礎的 debugger 的用法。">
+<meta property="og:type" content="blog">
+<meta property="og:title" content="要怎麼用 Julia debugger？">
+<meta property="og:url" content="https://yuehhua.github.io/2021/05/24/how-to-use-julia-debugger/index.html">
+<meta property="og:site_name" content="Dream Maker">
+<meta property="og:description" content="有鑑於 Debugger.jl 的說明文件有點難懂，就自己來寫一篇教學。 Debugger.jl 是在 Julia 上，由官方開發及維護的除錯器（debugger），debugger 如同其他語言的 debugger 一樣，可以預先設定斷點（breakpoint）、在丟出例外（exception）時停下來、逐行執行及檢查變數等等功能。這篇文章會示範最基礎的 debugger 的用法。">
+<meta property="og:locale" content="zh_TW">
+<meta property="article:published_time" content="2021-05-24T08:42:28.000Z">
+<meta property="article:modified_time" content="2021-05-25T08:26:21.402Z">
+<meta property="article:author" content="Yueh-Hua Tu">
+<meta property="article:tag" content="machine learning">
+<meta property="article:tag" content="deep learning">
+<meta property="article:tag" content="topology">
+<meta name="twitter:card" content="summary">
+    
+    
+        
+    
+    
+    
+    
+    
+    <!--STYLES-->
+    
+<link rel="stylesheet" href="/assets/css/style-3frockyt2j28isvdztjchy5nhkz8tjki9ermufc1ckptmvjdftux94m2ahub.min.css">
+
+    <!--STYLES END-->
+    
+    <script type="text/javascript">
+        (function (i, s, o, g, r, a, m) {
+        i['GoogleAnalyticsObject'] = r; i[r] = i[r] || function () {
+            (i[r].q = i[r].q || []).push(arguments)
+        }, i[r].l = 1 * new Date(); a = s.createElement(o),
+            m = s.getElementsByTagName(o)[0]; a.async = 1; a.src = g; m.parentNode.insertBefore(a, m)
+        })(window, document, 'script', '//www.google-analytics.com/analytics.js', 'ga');
+
+        ga('create', 'UA-119690895-1', 'auto');
+        ga('send', 'pageview');
+    </script><!-- hexo-inject:begin --><!-- hexo-inject:end -->
+    
+    
+</head>
+
+    <body>
+        <!-- hexo-inject:begin --><!-- hexo-inject:end --><div id="blog">
+            <!-- Define author's picture -->
+
+
+    
+
+<header id="header" data-behavior="5">
+    <i id="btn-open-sidebar" class="fa fa-lg fa-bars"></i>
+    <div class="header-title">
+        <a class="header-title-link" href="/%20">Dream Maker</a>
+    </div>
+    
+        
+            <a  class="header-right-picture "
+                href="#about">
+        
+        
+        </a>
+    
+</header>
+
+            <!-- Define author's picture -->
+
+
+<nav id="sidebar" data-behavior="5">
+    <div class="sidebar-container">
+        
+        
+            <ul class="sidebar-buttons">
+            
+                <li class="sidebar-button">
+                    
+                        <a  class="sidebar-button-link "
+                             href="/%20"
+                            
+                            title="首頁"
+                        >
+                    
+                        <i class="sidebar-button-icon fa fa-home" aria-hidden="true"></i>
+                        <span class="sidebar-button-desc">首頁</span>
+                    </a>
+            </li>
+            
+                <li class="sidebar-button">
+                    
+                        <a  class="sidebar-button-link "
+                             href="/all-categories"
+                            
+                            title="分類"
+                        >
+                    
+                        <i class="sidebar-button-icon fa fa-bookmark" aria-hidden="true"></i>
+                        <span class="sidebar-button-desc">分類</span>
+                    </a>
+            </li>
+            
+                <li class="sidebar-button">
+                    
+                        <a  class="sidebar-button-link "
+                             href="/all-tags"
+                            
+                            title="標籤"
+                        >
+                    
+                        <i class="sidebar-button-icon fa fa-tags" aria-hidden="true"></i>
+                        <span class="sidebar-button-desc">標籤</span>
+                    </a>
+            </li>
+            
+                <li class="sidebar-button">
+                    
+                        <a  class="sidebar-button-link "
+                             href="/all-archives"
+                            
+                            title="所有文章"
+                        >
+                    
+                        <i class="sidebar-button-icon fa fa-archive" aria-hidden="true"></i>
+                        <span class="sidebar-button-desc">所有文章</span>
+                    </a>
+            </li>
+            
+                <li class="sidebar-button">
+                    
+                        <a  class="sidebar-button-link open-algolia-search"
+                             href="#search"
+                            
+                            title="搜尋"
+                        >
+                    
+                        <i class="sidebar-button-icon fa fa-search" aria-hidden="true"></i>
+                        <span class="sidebar-button-desc">搜尋</span>
+                    </a>
+            </li>
+            
+                <li class="sidebar-button">
+                    
+                        <a  class="sidebar-button-link "
+                             href="#about"
+                            
+                            title="關於"
+                        >
+                    
+                        <i class="sidebar-button-icon fa fa-question" aria-hidden="true"></i>
+                        <span class="sidebar-button-desc">關於</span>
+                    </a>
+            </li>
+            
+        </ul>
+        
+            <ul class="sidebar-buttons">
+            
+                <li class="sidebar-button">
+                    
+                        <a  class="sidebar-button-link " href="https://github.com/yuehhua/" target="_blank" rel="noopener" title="GitHub">
+                    
+                        <i class="sidebar-button-icon fab fa-github" aria-hidden="true"></i>
+                        <span class="sidebar-button-desc">GitHub</span>
+                    </a>
+            </li>
+            
+                <li class="sidebar-button">
+                    
+                        <a  class="sidebar-button-link " href="https://www.facebook.com/a504082002" target="_blank" rel="noopener" title="Facebook">
+                    
+                        <i class="sidebar-button-icon fab fa-facebook" aria-hidden="true"></i>
+                        <span class="sidebar-button-desc">Facebook</span>
+                    </a>
+            </li>
+            
+                <li class="sidebar-button">
+                    
+                        <a  class="sidebar-button-link " href="https://www.linkedin.com/in/%E5%B2%B3%E8%8F%AF-%E6%9D%9C-6a3995a0/" target="_blank" rel="noopener" title="LinkedIn">
+                    
+                        <i class="sidebar-button-icon fab fa-linkedin" aria-hidden="true"></i>
+                        <span class="sidebar-button-desc">LinkedIn</span>
+                    </a>
+            </li>
+            
+                <li class="sidebar-button">
+                    
+                        <a  class="sidebar-button-link " href="mailto:a504082002@gmail.com" target="_blank" rel="noopener" title="Email">
+                    
+                        <i class="sidebar-button-icon fab fa-envelope" aria-hidden="true"></i>
+                        <span class="sidebar-button-desc">Email</span>
+                    </a>
+            </li>
+            
+        </ul>
+        
+            <ul class="sidebar-buttons">
+            
+                <li class="sidebar-button">
+                    
+                        <a  class="sidebar-button-link "
+                             href="/atom.xml"
+                            
+                            title="Atom"
+                        >
+                    
+                        <i class="sidebar-button-icon fa fa-rss" aria-hidden="true"></i>
+                        <span class="sidebar-button-desc">Atom</span>
+                    </a>
+            </li>
+            
+        </ul>
+        
+    </div>
+</nav>
+
+            
+            <div id="main" data-behavior="5"
+                 class="
+                        hasCoverMetaIn
+                        ">
+                
+    <article class="post">
+        
+                
+                    <div class="post-header main-content-wrap text-left">
+    
+        <h1 class="post-title">
+            要怎麼用 Julia debugger？
+        </h1>
+    
+    
+        <div class="post-meta">
+    <time datetime="2021-05-24T16:42:28+08:00">
+	
+		    5月 24, 2021
+    	
+    </time>
+    
+        <span>分類 </span>
+        
+    <a class="category-link" href="/categories/My-Style/">My Style</a>, <a class="category-link" href="/categories/My-Style/Computer-Science/">Computer Science</a>, <a class="category-link" href="/categories/My-Style/Computer-Science/Julialang/">Julialang</a>
+
+
+    
+</div>
+
+    
+</div>
+
+                        
+                            <div class="post-content markdown">
+                                <div class="main-content-wrap">
+                                    <p>有鑑於 Debugger.jl 的說明文件有點難懂，就自己來寫一篇教學。</p>
+<p>Debugger.jl 是在 Julia 上，由官方開發及維護的除錯器（debugger），debugger 如同其他語言的 debugger 一樣，可以預先設定斷點（breakpoint）、在丟出例外（exception）時停下來、逐行執行及檢查變數等等功能。這篇文章會示範最基礎的 debugger 的用法。</p>
+<a id="more"></a>
+<h2 id="安裝-Debugger">安裝 Debugger</h2>
+<p>安裝 Julia 套件都是差不多的方式，切換到套件模式，並且 <code>add PACKAGE</code>。</p>
+<figure class="highlight julia"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">]add Debugger</span><br></pre></td></tr></table></figure>
+<p>等他跑好就把 <code>Debugger</code> 安裝好了。</p>
+<h2 id="在-REPL-執行-Debugger">在 REPL 執行 Debugger</h2>
+<p>基本上，<code>Debugger</code> 是一種直譯器，所以比較好的執行環境是在 REPL 中。</p>
+<p>當然在 VS code 也有內建，但是我個人嘗試過，他跑得蠻慢的，不知道為什麼。= =&quot;</p>
+<p>所以以下的示範都是在 REPL 上。</p>
+<h2 id="逐行執行">逐行執行</h2>
+<p>為了示範，所以就先定義兩個函式。</p>
+<figure class="highlight julia"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">julia&gt; <span class="keyword">using</span> Debugger</span><br><span class="line"></span><br><span class="line">julia&gt; <span class="keyword">function</span> foo(x, y)</span><br><span class="line">           z = x + <span class="number">2</span></span><br><span class="line">           y = y*(y + z)</span><br><span class="line">           <span class="keyword">return</span> y</span><br><span class="line">       <span class="keyword">end</span></span><br><span class="line">foo (generic <span class="keyword">function</span> with <span class="number">1</span> method)</span><br><span class="line"></span><br><span class="line">julia&gt; bar(x) = foo(x, <span class="number">5</span>)</span><br><span class="line">bar (generic <span class="keyword">function</span> with <span class="number">1</span> method)</span><br></pre></td></tr></table></figure>
+<h3 id="逐步執行">逐步執行</h3>
+<p>Debugger 都會有個進入點，進入點需要在前面標記 <code>@enter</code>，後面可以接著一個表示式。</p>
+<figure class="highlight julia"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line">julia&gt; <span class="meta">@enter</span> bar(<span class="number">3</span>)</span><br><span class="line">In bar(x) at REPL[<span class="number">2</span>]:<span class="number">1</span></span><br><span class="line">&gt;<span class="number">1</span>  bar(x) = foo(x, <span class="number">5</span>)</span><br><span class="line"></span><br><span class="line">About to run: (foo)(<span class="number">3</span>, <span class="number">5</span>)</span><br><span class="line"><span class="number">1</span>|debug&gt; s</span><br><span class="line">In foo(x, y) at REPL[<span class="number">1</span>]:<span class="number">1</span></span><br><span class="line"> <span class="number">1</span>  <span class="keyword">function</span> foo(x, y)</span><br><span class="line">&gt;<span class="number">2</span>      z = x + <span class="number">2</span></span><br><span class="line"> <span class="number">3</span>      y = y*(y + z)</span><br><span class="line"> <span class="number">4</span>      <span class="keyword">return</span> y</span><br><span class="line"> <span class="number">5</span>  <span class="keyword">end</span></span><br><span class="line"></span><br><span class="line">About to run: _J3</span><br><span class="line"><span class="number">1</span>|debug&gt; s</span><br><span class="line">In +(x, y) at int.jl:<span class="number">87</span></span><br><span class="line">&gt;<span class="number">87</span>  (+)(x::T, y::T) <span class="keyword">where</span> &#123;T&lt;:BitInteger&#125; = add_int(x, y)</span><br><span class="line"></span><br><span class="line">About to run: (Core.Intrinsics.add_int)(<span class="number">3</span>, <span class="number">2</span>)</span><br></pre></td></tr></table></figure>
+<p>以上進入了 <code>bar(3)</code> 這個函式呼叫。剛進入的時候，他會停在函式呼叫的第一步：<code>(foo)(3, 5)</code>。</p>
+<p>接著，他會進入除錯（debug）模式，在這個模式下，就可以藉由指令來操作這個 debugger。</p>
+<p>如果輸入 <code>s</code>，他會逐步執行程式碼，所以可以看到他進入到 <code>foo</code> 函式中，並且指標指到第二行的 <code>z = x + 2</code>。</p>
+<p>如果再輸入一次 <code>s</code>，讓他執行下一步，這時候加法就會被執行，所以就會進到 <code>(Core.Intrinsics.add_int)(3, 2)</code> 的執行。</p>
+<h3 id="逐行執行-2">逐行執行</h3>
+<p>如果我們希望他可以逐行執行，可以用 <code>n</code>。</p>
+<figure class="highlight julia"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">julia&gt; <span class="meta">@enter</span> bar(<span class="number">3</span>)</span><br><span class="line">In bar(x) at REPL[<span class="number">2</span>]:<span class="number">1</span></span><br><span class="line">&gt;<span class="number">1</span>  bar(x) = foo(x, <span class="number">5</span>)</span><br><span class="line"></span><br><span class="line">About to run: (foo)(<span class="number">3</span>, <span class="number">5</span>)</span><br><span class="line"><span class="number">1</span>|debug&gt; n</span><br><span class="line">In bar(x) at REPL[<span class="number">2</span>]:<span class="number">1</span></span><br><span class="line">&gt;<span class="number">1</span>  bar(x) = foo(x, <span class="number">5</span>)</span><br><span class="line"></span><br><span class="line">About to run: <span class="keyword">return</span> %J1</span><br><span class="line"><span class="number">1</span>|debug&gt; n</span><br><span class="line"><span class="number">50</span></span><br></pre></td></tr></table></figure>
+<p>如果輸入 <code>n</code> 之後，debugger 會直接計算該行的計算結果，<code>foo(x, 5)</code> 就會被執行，並回傳 <code>50</code>。</p>
+<h2 id="執行到丟出例外">執行到丟出例外</h2>
+<p>比較實用的是讓他執行直到一個例外被拋出。這時我們需要修改一下函式：</p>
+<figure class="highlight julia"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">function</span> foo(x, y)</span><br><span class="line">    z = x + <span class="number">2</span></span><br><span class="line">    throw(<span class="built_in">ErrorException</span>(<span class="string">"This is an error."</span>))</span><br><span class="line">    y = y*(y + z)</span><br><span class="line">    <span class="keyword">return</span> y</span><br><span class="line"><span class="keyword">end</span></span><br></pre></td></tr></table></figure>
+<p>在第二行中插入一條拋出 <code>ErrorException</code> 例外的表示式。</p>
+<p>要執行到直到丟出例外，並且停下，有幾種方法。</p>
+<h3 id="在除錯模式，例外前插入斷點法">在除錯模式，例外前插入斷點法</h3>
+<figure class="highlight julia"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br></pre></td><td class="code"><pre><span class="line">julia&gt; <span class="meta">@enter</span> bar(<span class="number">3</span>)</span><br><span class="line">In bar(x) at REPL[<span class="number">2</span>]:<span class="number">1</span></span><br><span class="line">&gt;<span class="number">1</span>  bar(x) = foo(x, <span class="number">5</span>)</span><br><span class="line"></span><br><span class="line">About to run: (foo)(<span class="number">3</span>, <span class="number">5</span>)</span><br><span class="line"><span class="number">1</span>|debug&gt; bp on throw</span><br><span class="line">Breaking on throw</span><br><span class="line"><span class="number">1</span>|debug&gt; c</span><br><span class="line">Breaking <span class="keyword">for</span> error:</span><br><span class="line">ERROR: This is an error.</span><br><span class="line">Stacktrace:</span><br><span class="line"> [<span class="number">1</span>] foo(x::<span class="built_in">Int64</span>, y::<span class="built_in">Int64</span>)</span><br><span class="line">   @ Main REPL[<span class="number">10</span>]:<span class="number">3</span></span><br><span class="line"> [<span class="number">2</span>] bar(x::<span class="built_in">Int64</span>)</span><br><span class="line">   @ Main REPL[<span class="number">2</span>]:<span class="number">1</span></span><br><span class="line"></span><br><span class="line">In foo(x, y) at REPL[<span class="number">10</span>]:<span class="number">1</span></span><br><span class="line"> <span class="number">1</span>  <span class="keyword">function</span> foo(x, y)</span><br><span class="line"> <span class="number">2</span>      z = x + <span class="number">2</span></span><br><span class="line">&gt;<span class="number">3</span>      throw(<span class="built_in">ErrorException</span>(<span class="string">"This is an error."</span>))</span><br><span class="line"> <span class="number">4</span>      y = y*(y + z)</span><br><span class="line"> <span class="number">5</span>      <span class="keyword">return</span> y</span><br><span class="line"> <span class="number">6</span>  <span class="keyword">end</span></span><br><span class="line"></span><br><span class="line">About to run: (throw)(<span class="built_in">ErrorException</span>(<span class="string">"This is an error."</span>))</span><br></pre></td></tr></table></figure>
+<p>一樣是利用 <code>@enter</code> 來製造進入點，接著利用 <code>bp on throw</code> 來設定斷點，他的意思是在拋出例外時設定斷點。</p>
+<p>相對，這個斷點是可以關閉的，用 <code>bp off throw</code>。</p>
+<p>接著，可以輸入 <code>c</code> 讓程式持續執行，最後他就會停在斷點處。</p>
+<h3 id="在-REPL-模式，例外前插入斷點法">在 REPL 模式，例外前插入斷點法</h3>
+<figure class="highlight julia"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line">julia&gt; break_on(:error)</span><br><span class="line"></span><br><span class="line">julia&gt; <span class="meta">@run</span> bar(<span class="number">3</span>)</span><br><span class="line">Breaking <span class="keyword">for</span> error:</span><br><span class="line">ERROR: This is an error.</span><br><span class="line">Stacktrace:</span><br><span class="line"> [<span class="number">1</span>] foo(x::<span class="built_in">Int64</span>, y::<span class="built_in">Int64</span>)</span><br><span class="line">   @ Main REPL[<span class="number">10</span>]:<span class="number">3</span></span><br><span class="line"> [<span class="number">2</span>] bar(x::<span class="built_in">Int64</span>)</span><br><span class="line">   @ Main REPL[<span class="number">2</span>]:<span class="number">1</span></span><br><span class="line"></span><br><span class="line">In foo(x, y) at REPL[<span class="number">10</span>]:<span class="number">1</span></span><br><span class="line"> <span class="number">1</span>  <span class="keyword">function</span> foo(x, y)</span><br><span class="line"> <span class="number">2</span>      z = x + <span class="number">2</span></span><br><span class="line">&gt;<span class="number">3</span>      throw(<span class="built_in">ErrorException</span>(<span class="string">"This is an error."</span>))</span><br><span class="line"> <span class="number">4</span>      y = y*(y + z)</span><br><span class="line"> <span class="number">5</span>      <span class="keyword">return</span> y</span><br><span class="line"> <span class="number">6</span>      <span class="keyword">end</span></span><br><span class="line"></span><br><span class="line">About to run: (throw)(<span class="built_in">ErrorException</span>(<span class="string">"This is an error."</span>))</span><br></pre></td></tr></table></figure>
+<p>跟前面的想法差不多，只是這次是在 REPL 下操作。</p>
+<p>這次就不用急著進入除錯模式，可以直接在 REPL 下設定在拋出例外前的斷點，可以用 <code>break_on(:error)</code>。</p>
+<p><code>@run</code> 這個 macro 就等同於 <code>@enter</code> + <code>c</code>，所以他會執行直到斷點發生。</p>
+<h2 id="查看變數的值">查看變數的值</h2>
+<p>我們停在斷點之後可以做什麼事情呢？除錯就是要在執行環境中去檢查執行時期的變數是不是符合預期。</p>
+<p>這時候我們可以把 backtrace 給列出來。</p>
+<figure class="highlight julia"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="number">1</span>|debug&gt; bt</span><br><span class="line">[<span class="number">1</span>] foo(x, y) at REPL[<span class="number">10</span>]:<span class="number">3</span></span><br><span class="line">  | x::<span class="built_in">Int64</span> = <span class="number">3</span></span><br><span class="line">  | y::<span class="built_in">Int64</span> = <span class="number">5</span></span><br><span class="line">  | z::<span class="built_in">Int64</span> = <span class="number">5</span></span><br><span class="line">[<span class="number">2</span>] bar(x) at REPL[<span class="number">2</span>]:<span class="number">1</span></span><br><span class="line">  | x::<span class="built_in">Int64</span> = <span class="number">3</span></span><br></pre></td></tr></table></figure>
+<p>輸入 <code>bt</code> 可以列出停在目前的斷點，在 <code>foo</code> 及 <code>bar</code> 函式中存有的區域變數以及他的值有哪些。</p>
+<p>我們可以發現我們首先呼叫 <code>bar</code>，<code>bar</code> 會去呼叫 <code>foo</code>。我們知道函式呼叫會在堆疊（stack）中，推入一個新的呼叫框（frame），呼叫框中包含著函式呼叫的引數（arguments）、區域變數等等資訊。</p>
+<p><code>foo</code> 的呼叫會在整個堆疊的最上面，也就是第一個 frame，所以看到他標示 <code>[1]</code>，而 <code>bar</code> 的呼叫就是位於第二個 frame。</p>
+<h3 id="叫出指定-frame-中的變數">叫出指定 frame 中的變數</h3>
+<p>我們可以叫出指定的 frame 的區域變數，只要在除錯模式中輸入 <code>fr [i::Int]</code>，<code>i</code> 則是指定第幾個 frame。</p>
+<figure class="highlight julia"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="number">1</span>|debug&gt; fr <span class="number">1</span></span><br><span class="line">[<span class="number">1</span>] foo(x, y) at REPL[<span class="number">10</span>]:<span class="number">1</span></span><br><span class="line">  | x::<span class="built_in">Int64</span> = <span class="number">3</span></span><br><span class="line">  | y::<span class="built_in">Int64</span> = <span class="number">5</span></span><br><span class="line">  | z::<span class="built_in">Int64</span> = <span class="number">5</span></span><br></pre></td></tr></table></figure>
+<p>我們就可以看到在這個階段第一個 frame 的 <code>x</code>、<code>y</code> 跟 <code>z</code> 變數的值各是多少。</p>
+<p>我們可以再試試看第二個 frame 的內容。</p>
+<figure class="highlight julia"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="number">1</span>|debug&gt; fr <span class="number">2</span></span><br><span class="line">[<span class="number">2</span>] bar(x) at REPL[<span class="number">2</span>]:<span class="number">1</span></span><br><span class="line">  | x::<span class="built_in">Int64</span> = <span class="number">3</span></span><br></pre></td></tr></table></figure>
+<h3 id="切換目前的-frame">切換目前的 frame</h3>
+<p>剛進入斷點的話，我們都會是位於第一個 frame 中。有時候我們會想要知道在其他 frame 的狀況，這時候我們就需要切換 frame 的位置。</p>
+<p>這時候只要輸入 <code>f [i::Int]</code> 就可以切換不同的 frame，例如，想要切換到第二個 frame 就可以輸入 <code>f 2</code>。</p>
+<figure class="highlight julia"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="number">1</span>|debug&gt; f <span class="number">2</span></span><br><span class="line">In bar(x) at REPL[<span class="number">2</span>]:<span class="number">1</span></span><br><span class="line">&gt;<span class="number">1</span>  bar(x) = foo(x, <span class="number">5</span>)</span><br><span class="line"></span><br><span class="line">About to run: (foo)(<span class="number">3</span>, <span class="number">5</span>)</span><br><span class="line"><span class="number">2</span>|debug&gt;</span><br></pre></td></tr></table></figure>
+<p>還可以發現在除錯模式的 prompt <code>2|debug&gt;</code>，最開頭的數字改變了，一開始是 <code>1</code>，後來變成 <code>2</code>。</p>
+<p>這就表示目前所在第幾個 frame。</p>
+<h3 id="切換成-Julia-REPL-模式">切換成 Julia REPL 模式</h3>
+<p>在除錯模式輸入 `（鍵盤左上），就可以切換到 Julia REPL 模式，並且存取變數。</p>
+<figure class="highlight julia"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="number">1</span>|debug&gt; fr <span class="number">2</span></span><br><span class="line">[<span class="number">2</span>] bar(x) at REPL[<span class="number">2</span>]:<span class="number">1</span></span><br><span class="line">  | x::<span class="built_in">Int64</span> = <span class="number">3</span></span><br><span class="line"><span class="number">1</span>|debug&gt; f <span class="number">2</span></span><br><span class="line">In bar(x) at REPL[<span class="number">2</span>]:<span class="number">1</span></span><br><span class="line">&gt;<span class="number">1</span>  bar(x) = foo(x, <span class="number">5</span>)</span><br><span class="line"></span><br><span class="line">About to run: (foo)(<span class="number">3</span>, <span class="number">5</span>)</span><br><span class="line"><span class="number">2</span>|julia&gt; x</span><br><span class="line"><span class="number">3</span></span><br></pre></td></tr></table></figure>
+<p>切換之後，你會看到 <code>2|debug&gt;</code> 切換成 <code>2|julia</code>，並且可以直接存取該變數 <code>x</code>。如果要切換回除錯模式，只要按 backspace 鍵，把 ` 刪除即可。</p>
+<figure class="highlight julia"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="number">2</span>|julia&gt; x</span><br><span class="line"><span class="number">3</span></span><br></pre></td></tr></table></figure>
+<p>也可以對該變數做運算。</p>
+<figure class="highlight julia"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="number">2</span>|julia&gt; x + <span class="number">2</span></span><br><span class="line"><span class="number">5</span></span><br></pre></td></tr></table></figure>
+<p>但是沒辦法存新的變數。</p>
+<figure class="highlight julia"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="number">2</span>|julia&gt; y = x + <span class="number">2</span></span><br><span class="line"><span class="number">5</span></span><br><span class="line"></span><br><span class="line"><span class="number">2</span>|julia&gt; y</span><br><span class="line">ERROR: <span class="built_in">UndefVarError</span>: y not defined</span><br><span class="line">Stacktrace:</span><br><span class="line"> [<span class="number">1</span>] top-level scope</span><br><span class="line">   @ none:<span class="number">1</span></span><br></pre></td></tr></table></figure>
+<h2 id="結論">結論</h2>
+<p>我們有了這些工具跟方法，可以讓我們在不同的 frame 之間做跳躍，去看在上層或是下層的 frame 中變數的數值各是多少。</p>
+<p>同時，也可以測試你自己寫的函式是否正常執行。</p>
+<p>我們就可以用這些方法來除錯程式碼。</p>
+
+                                        
+
+                                </div>
+                            </div>
+                            <div id="post-footer" class="post-footer main-content-wrap">
+                                
+                                        
+                                            <div class="post-actions-wrap">
+    <nav>
+        <ul class="post-actions post-action-nav">
+            <li class="post-action">
+                
+                    <a class="post-action-btn btn btn--disabled">
+                
+                    <i class="fa fa-angle-left" aria-hidden="true"></i>
+                    <span class="hide-xs hide-sm text-small icon-ml">上一篇</span>
+                </a>
+            </li>
+            <li class="post-action">
+                
+                    
+                    <a class="post-action-btn btn btn--default tooltip--top" href="/2021/05/22/namespace-in-julia/" data-tooltip="Julia 的命名空間" aria-label="下一篇: Julia 的命名空間">
+                
+                    <span class="hide-xs hide-sm text-small icon-mr">下一篇</span>
+                    <i class="fa fa-angle-right" aria-hidden="true"></i>
+                </a>
+            </li>
+        </ul>
+    </nav>
+    <ul class="post-actions post-action-share">
+        <li class="post-action hide-lg hide-md hide-sm">
+            <a class="post-action-btn btn btn--default btn-open-shareoptions" href="#btn-open-shareoptions" aria-label="Share this post">
+                <i class="fa fa-share-alt" aria-hidden="true"></i>
+            </a>
+        </li>
+        
+            
+            
+            <li class="post-action hide-xs">
+                <a class="post-action-btn btn btn--default" target="new" href="https://www.facebook.com/sharer/sharer.php?u=https://yuehhua.github.io/2021/05/24/how-to-use-julia-debugger/" title="分享到 Facebook">
+                    <i class="fa fa-facebook-official" aria-hidden="true"></i>
+                </a>
+            </li>
+        
+        
+            
+                <li class="post-action">
+                    <a class="post-action-btn btn btn--default" href="#disqus_thread">
+                        <i class="fa fa-comment-o"></i>
+                    </a>
+                </li>
+            
+        
+        <li class="post-action">
+            
+                <a class="post-action-btn btn btn--default" href="#" aria-label="Back to top">
+            
+                <i class="fa fa-list" aria-hidden="true"></i>
+            </a>
+        </li>
+    </ul>
+</div>
+
+
+                                                
+                                                    
+                                                        
+                                                            <div id="disqus_thread">
+    <noscript>Please enable JavaScript to view the <a href="//disqus.com/?ref_noscript" target="_blank" rel="noopener">comments powered by Disqus.</a></noscript>
+</div>
+                                                                
+                                                                            
+                            </div>
+                            
+                                <script src='https://unpkg.com/mermaid@7.1.2/dist/mermaid.min.js'></script>
+                                <script>
+                                    if (window.mermaid) {
+                                        mermaid.initialize({ theme: 'forest' });
+                                    }
+                                </script>
+                                
+    </article>
+
+                <footer id="footer" class="main-content-wrap">
+    <span class="copyrights">
+        Copyrights &copy; 2021 Yueh-Hua Tu. All Rights Reserved.
+    </span>
+</footer>
+
+            </div>
+            
+                <div id="bottom-bar" class="post-bottom-bar" data-behavior="5">
+                    <div class="post-actions-wrap">
+    <nav>
+        <ul class="post-actions post-action-nav">
+            <li class="post-action">
+                
+                    <a class="post-action-btn btn btn--disabled">
+                
+                    <i class="fa fa-angle-left" aria-hidden="true"></i>
+                    <span class="hide-xs hide-sm text-small icon-ml">上一篇</span>
+                </a>
+            </li>
+            <li class="post-action">
+                
+                    
+                    <a class="post-action-btn btn btn--default tooltip--top" href="/2021/05/22/namespace-in-julia/" data-tooltip="Julia 的命名空間" aria-label="下一篇: Julia 的命名空間">
+                
+                    <span class="hide-xs hide-sm text-small icon-mr">下一篇</span>
+                    <i class="fa fa-angle-right" aria-hidden="true"></i>
+                </a>
+            </li>
+        </ul>
+    </nav>
+    <ul class="post-actions post-action-share">
+        <li class="post-action hide-lg hide-md hide-sm">
+            <a class="post-action-btn btn btn--default btn-open-shareoptions" href="#btn-open-shareoptions" aria-label="Share this post">
+                <i class="fa fa-share-alt" aria-hidden="true"></i>
+            </a>
+        </li>
+        
+            
+            
+            <li class="post-action hide-xs">
+                <a class="post-action-btn btn btn--default" target="new" href="https://www.facebook.com/sharer/sharer.php?u=https://yuehhua.github.io/2021/05/24/how-to-use-julia-debugger/" title="分享到 Facebook">
+                    <i class="fa fa-facebook-official" aria-hidden="true"></i>
+                </a>
+            </li>
+        
+        
+            
+                <li class="post-action">
+                    <a class="post-action-btn btn btn--default" href="#disqus_thread">
+                        <i class="fa fa-comment-o"></i>
+                    </a>
+                </li>
+            
+        
+        <li class="post-action">
+            
+                <a class="post-action-btn btn btn--default" href="#" aria-label="Back to top">
+            
+                <i class="fa fa-list" aria-hidden="true"></i>
+            </a>
+        </li>
+    </ul>
+</div>
+
+
+                </div>
+                <div id="share-options-bar" class="share-options-bar" data-behavior="5">
+    <i id="btn-close-shareoptions" class="fa fa-close"></i>
+    <ul class="share-options">
+        
+            
+            
+            <li class="share-option">
+                <a class="share-option-btn" target="new" href="https://www.facebook.com/sharer/sharer.php?u=https://yuehhua.github.io/2021/05/24/how-to-use-julia-debugger/">
+                    <i class="fa fa-facebook-official" aria-hidden="true"></i><span>分享到 Facebook</span>
+                </a>
+            </li>
+        
+    </ul>
+</div>
+
+            
+        </div>
+        
+
+
+<div id="about">
+    <div id="about-card">
+        <div id="about-btn-close">
+            <i class="fa fa-remove"></i>
+        </div>
+        
+            <h4 id="about-card-name">Yueh-Hua Tu</h4>
+        
+            <div id="about-card-bio"><p>目標是計算生物學家！</br>Systems Biology, Computational Biology, Machine Learning</br>Julia Taiwan 發起人</p>
+</div>
+        
+        
+            <div id="about-card-job">
+                <i class="fa fa-briefcase"></i>
+                <br/>
+                <p>研發替代役研究助理</p>
+
+            </div>
+        
+        
+            <div id="about-card-location">
+                <i class="fa fa-map-marker"></i>
+                <br/>
+                Taiwan
+            </div>
+        
+    </div>
+</div>
+
+        
+        
+<div id="cover" style="background-image:url('/assets/images/cover.jpg');"></div>
+        <!--SCRIPTS-->
+
+<script src="/assets/js/script-xzfezjobyekpxrjktw5tz6muvzqfsbmo5n6atk3p5om9ulfptldi3p7cyqd8.min.js"></script>
+
+<!--SCRIPTS END-->
+
+
+<script>
+    var disqus_config = function () {
+        this.page.url = 'https://yuehhua.github.io/2021/05/24/how-to-use-julia-debugger/';
+                 
+            this.page.identifier = '2021/05/24/how-to-use-julia-debugger/';
+                 
+             };
+    (function () {
+        var d = document, s = d.createElement('script');
+        var disqus_shortname = 'dream-maker';
+        s.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+
+        s.setAttribute('data-timestamp', +new Date());
+        (d.head || d.body).appendChild(s);
+    })();
+</script><!-- hexo-inject:begin --><!-- hexo-inject:end -->
+
+
+
+    </body>
+</html>
