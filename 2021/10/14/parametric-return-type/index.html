@@ -15,7 +15,7 @@
     
         <link rel="alternate" type="application/atom+xml" title="RSS" href="/atom.xml">
     
-    <script type="application/ld+json">{"@context":"http://schema.org","@type":"BlogPosting","author":{"@type":"Person","name":"Yueh-Hua Tu","sameAs":["https://github.com/yuehhua/","https://www.facebook.com/a504082002","https://www.linkedin.com/in/%E5%B2%B3%E8%8F%AF-%E6%9D%9C-6a3995a0/","mailto:a504082002@gmail.com"],"image":"https://www.gravatar.com/avatar/a565749fba4782b717234da670b273fd"},"articleBody":"一般我們會在函式的引數上加上參數，這樣可以讓函式去推論引數的型別，這樣有多種用途，其中之一當然是增進效能。\n12345julia&gt; foo(a::T) where &#123;T&#125; = zero(T)foo (generic function with 1 method)julia&gt; foo(5)0\n那我們有沒有辦法對回傳值的型別做參數化呢？\n有的，可以這樣做。\n12345julia&gt; (foo(a::T)::T) where &#123;T&#125; = zero(T)foo (generic function with 1 method)julia&gt; foo(5)0\n","dateCreated":"2021-10-14T09:30:50+08:00","dateModified":"2021-10-14T09:38:20+08:00","datePublished":"2021-10-14T09:30:50+08:00","description":"","headline":"參數化回傳值","image":[],"mainEntityOfPage":{"@type":"WebPage","@id":"https://yuehhua.github.io/2021/10/14/parametric-return-type/"},"publisher":{"@type":"Organization","name":"Yueh-Hua Tu","sameAs":["https://github.com/yuehhua/","https://www.facebook.com/a504082002","https://www.linkedin.com/in/%E5%B2%B3%E8%8F%AF-%E6%9D%9C-6a3995a0/","mailto:a504082002@gmail.com"],"image":"https://www.gravatar.com/avatar/a565749fba4782b717234da670b273fd","logo":{"@type":"ImageObject","url":"https://www.gravatar.com/avatar/a565749fba4782b717234da670b273fd"}},"url":"https://yuehhua.github.io/2021/10/14/parametric-return-type/"}</script>
+    <script type="application/ld+json">{"@context":"http://schema.org","@type":"BlogPosting","author":{"@type":"Person","name":"Yueh-Hua Tu","sameAs":["https://github.com/yuehhua/","https://www.facebook.com/a504082002","https://www.linkedin.com/in/%E5%B2%B3%E8%8F%AF-%E6%9D%9C-6a3995a0/","mailto:a504082002@gmail.com"],"image":"https://www.gravatar.com/avatar/a565749fba4782b717234da670b273fd"},"articleBody":"一般我們會在函式的引數上加上參數，這樣可以讓函式去推論引數的型別，這樣有多種用途，其中之一當然是增進效能。\n12345julia&gt; foo(a::T) where &#123;T&#125; = zero(T)foo (generic function with 1 method)julia&gt; foo(5)0\n那我們有沒有辦法對回傳值的型別做參數化呢？\n有的，可以這樣做。\n12345julia&gt; (foo(a::T)::T) where &#123;T&#125; = zero(T)foo (generic function with 1 method)julia&gt; foo(5)0\n一般要標記回傳值的型別，要寫在整個 function signature 的後面，也就是\n1foo(a)::Int\n如果要將他標記為參數，那就需要寫成\n1(foo(a)::T) where &#123;T&#125;\n這樣就寫出來啦！！\n","dateCreated":"2021-10-14T09:30:50+08:00","dateModified":"2021-10-14T09:46:28+08:00","datePublished":"2021-10-14T09:30:50+08:00","description":"","headline":"參數化回傳值","image":[],"mainEntityOfPage":{"@type":"WebPage","@id":"https://yuehhua.github.io/2021/10/14/parametric-return-type/"},"publisher":{"@type":"Organization","name":"Yueh-Hua Tu","sameAs":["https://github.com/yuehhua/","https://www.facebook.com/a504082002","https://www.linkedin.com/in/%E5%B2%B3%E8%8F%AF-%E6%9D%9C-6a3995a0/","mailto:a504082002@gmail.com"],"image":"https://www.gravatar.com/avatar/a565749fba4782b717234da670b273fd","logo":{"@type":"ImageObject","url":"https://www.gravatar.com/avatar/a565749fba4782b717234da670b273fd"}},"url":"https://yuehhua.github.io/2021/10/14/parametric-return-type/"}</script>
     <meta name="description" content="一般我們會在函式的引數上加上參數，這樣可以讓函式去推論引數的型別，這樣有多種用途，其中之一當然是增進效能。 12345julia&gt; foo(a::T) where &amp;#123;T&amp;#125; &#x3D; zero(T)foo (generic function with 1 method)julia&gt; foo(5)0 那我們有沒有辦法對回傳值的型別做參數化呢？ 有的，可以這樣做。 12345j">
 <meta property="og:type" content="blog">
 <meta property="og:title" content="參數化回傳值">
@@ -24,7 +24,7 @@
 <meta property="og:description" content="一般我們會在函式的引數上加上參數，這樣可以讓函式去推論引數的型別，這樣有多種用途，其中之一當然是增進效能。 12345julia&gt; foo(a::T) where &amp;#123;T&amp;#125; &#x3D; zero(T)foo (generic function with 1 method)julia&gt; foo(5)0 那我們有沒有辦法對回傳值的型別做參數化呢？ 有的，可以這樣做。 12345j">
 <meta property="og:locale" content="zh_TW">
 <meta property="article:published_time" content="2021-10-14T01:30:50.000Z">
-<meta property="article:modified_time" content="2021-10-14T01:38:20.285Z">
+<meta property="article:modified_time" content="2021-10-14T01:46:28.843Z">
 <meta property="article:author" content="Yueh-Hua Tu">
 <meta property="article:tag" content="machine learning">
 <meta property="article:tag" content="deep learning">
@@ -272,6 +272,11 @@
 <p>那我們有沒有辦法對回傳值的型別做參數化呢？</p>
 <p>有的，可以這樣做。</p>
 <figure class="highlight julia"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">julia&gt; (foo(a::T)::T) <span class="keyword">where</span> &#123;T&#125; = zero(T)</span><br><span class="line">foo (generic <span class="keyword">function</span> with <span class="number">1</span> method)</span><br><span class="line"></span><br><span class="line">julia&gt; foo(<span class="number">5</span>)</span><br><span class="line"><span class="number">0</span></span><br></pre></td></tr></table></figure>
+<p>一般要標記回傳值的型別，要寫在整個 function signature 的後面，也就是</p>
+<figure class="highlight julia"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">foo(a)::<span class="built_in">Int</span></span><br></pre></td></tr></table></figure>
+<p>如果要將他標記為參數，那就需要寫成</p>
+<figure class="highlight julia"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">(foo(a)::T) <span class="keyword">where</span> &#123;T&#125;</span><br></pre></td></tr></table></figure>
+<p>這樣就寫出來啦！！</p>
 
                                         
 
