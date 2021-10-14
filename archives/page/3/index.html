@@ -235,6 +235,82 @@
     <section class="postShorten-group main-content-wrap">
     
     
+    <article class="postShorten postShorten--thumbnailimg-bottom">
+        <div class="postShorten-wrap">
+            
+            <div class="postShorten-header">
+                <h1 class="postShorten-title">
+                    
+                        <a class="link-unstyled" href="/2020/08/28/merge-collections-in-julia/">
+                            在 Julia 中如何合併集合容器
+                        </a>
+                    
+                </h1>
+                <div class="postShorten-meta">
+    <time datetime="2020-08-28T22:37:43+08:00">
+	
+		    8月 28, 2020
+    	
+    </time>
+    
+        <span>分類 </span>
+        
+    <a class="category-link" href="/categories/My-Style/">My Style</a>, <a class="category-link" href="/categories/My-Style/Computer-Science/">Computer Science</a>, <a class="category-link" href="/categories/My-Style/Computer-Science/Julialang/">Julialang</a>
+
+
+    
+</div>
+
+            </div>
+            
+                <div class="postShorten-content">
+                    <p>我們都知道要將兩個 <code>Array</code> 接起來要用 <code>append!</code>，要將兩個 <code>Set</code> 合併起來要用 <code>union!</code>，但要將 <code>Dict</code> 合併起來要用什麼呢？</p>
+<p>答案是 <a href="https://docs.julialang.org/en/v1/base/collections/#Base.merge" target="_blank" rel="noopener">merge</a>！</p>
+<h2 id="merge">merge</h2>
+<p>廢話不多說，我們看範例：</p>
+<figure class="highlight julia"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line">julia&gt; a = <span class="built_in">Dict</span>(:a =&gt; <span class="string">"A"</span>, :b =&gt; <span class="string">"B"</span>)</span><br><span class="line"><span class="built_in">Dict</span>&#123;<span class="built_in">Symbol</span>,<span class="built_in">String</span>&#125; with <span class="number">2</span> entries:</span><br><span class="line">  :a =&gt; <span class="string">"A"</span></span><br><span class="line">  :b =&gt; <span class="string">"B"</span></span><br><span class="line"></span><br><span class="line">julia&gt; b = <span class="built_in">Dict</span>(:c =&gt; <span class="string">"C"</span>, :d =&gt; <span class="string">"D"</span>)</span><br><span class="line"><span class="built_in">Dict</span>&#123;<span class="built_in">Symbol</span>,<span class="built_in">String</span>&#125; with <span class="number">2</span> entries:</span><br><span class="line">  :d =&gt; <span class="string">"D"</span></span><br><span class="line">  :c =&gt; <span class="string">"C"</span></span><br><span class="line"></span><br><span class="line">julia&gt; merge(a, b)</span><br><span class="line"><span class="built_in">Dict</span>&#123;<span class="built_in">Symbol</span>,<span class="built_in">String</span>&#125; with <span class="number">4</span> entries:</span><br><span class="line">  :a =&gt; <span class="string">"A"</span></span><br><span class="line">  :b =&gt; <span class="string">"B"</span></span><br><span class="line">  :d =&gt; <span class="string">"D"</span></span><br><span class="line">  :c =&gt; <span class="string">"C"</span></span><br></pre></td></tr></table></figure>
+<p><code>merge</code> 可以將兩個 <code>Dict</code> 合併起來，並且產生一個新的 <code>Dict</code>。</p>
+<p>有另一個函式 <code>merge!</code> 可以支援 in-place 版本的合併。</p>
+<figure class="highlight julia"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line">julia&gt; a</span><br><span class="line"><span class="built_in">Dict</span>&#123;<span class="built_in">Symbol</span>,<span class="built_in">String</span>&#125; with <span class="number">2</span> entries:</span><br><span class="line">  :a =&gt; <span class="string">"A"</span></span><br><span class="line">  :b =&gt; <span class="string">"B"</span></span><br><span class="line"></span><br><span class="line">julia&gt; merge!(a, c)</span><br><span class="line"><span class="built_in">Dict</span>&#123;<span class="built_in">Symbol</span>,<span class="built_in">String</span>&#125; with <span class="number">3</span> entries:</span><br><span class="line">  :a =&gt; <span class="string">"A"</span></span><br><span class="line">  :b =&gt; <span class="string">"C"</span></span><br><span class="line">  :d =&gt; <span class="string">"D"</span></span><br><span class="line"></span><br><span class="line">julia&gt; a</span><br><span class="line"><span class="built_in">Dict</span>&#123;<span class="built_in">Symbol</span>,<span class="built_in">String</span>&#125; with <span class="number">3</span> entries:</span><br><span class="line">  :a =&gt; <span class="string">"A"</span></span><br><span class="line">  :b =&gt; <span class="string">"C"</span></span><br><span class="line">  :d =&gt; <span class="string">"D"</span></span><br></pre></td></tr></table></figure>
+<h3 id="重複的鍵（key）">重複的鍵（key）</h3>
+<p>如果要合併的兩個字典當中有重複的鍵出現的話，會發生什麼事呢？</p>
+<figure class="highlight julia"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">julia&gt; c = <span class="built_in">Dict</span>(:b =&gt; <span class="string">"C"</span>, :d =&gt; <span class="string">"D"</span>)</span><br><span class="line"><span class="built_in">Dict</span>&#123;<span class="built_in">Symbol</span>,<span class="built_in">String</span>&#125; with <span class="number">2</span> entries:</span><br><span class="line">  :b =&gt; <span class="string">"C"</span></span><br><span class="line">  :d =&gt; <span class="string">"D"</span></span><br><span class="line"></span><br><span class="line">julia&gt; merge(a, c)</span><br><span class="line"><span class="built_in">Dict</span>&#123;<span class="built_in">Symbol</span>,<span class="built_in">String</span>&#125; with <span class="number">3</span> entries:</span><br><span class="line">  :a =&gt; <span class="string">"A"</span></span><br><span class="line">  :b =&gt; <span class="string">"C"</span></span><br><span class="line">  :d =&gt; <span class="string">"D"</span></span><br></pre></td></tr></table></figure>
+<p>答案是會被後者蓋掉。</p>
+<h3 id="NamedTuple">NamedTuple</h3>
+<p><code>merge</code> 也可以用在 NamedTuple 上。</p>
+<figure class="highlight julia"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">julia&gt; a = (a=<span class="string">"A"</span>, b=<span class="string">"B"</span>)</span><br><span class="line">(a = <span class="string">"A"</span>, b = <span class="string">"B"</span>)</span><br><span class="line"></span><br><span class="line">julia&gt; b = (c=<span class="string">"C"</span>, d=<span class="string">"D"</span>)</span><br><span class="line">(c = <span class="string">"C"</span>, d = <span class="string">"D"</span>)</span><br><span class="line"></span><br><span class="line">julia&gt; merge(a, b)</span><br><span class="line">(a = <span class="string">"A"</span>, b = <span class="string">"B"</span>, c = <span class="string">"C"</span>, d = <span class="string">"D"</span>)</span><br></pre></td></tr></table></figure>
+<h2 id="mergewith-require-v1-5-and-above">mergewith (require v1.5 and above)</h2>
+<p>接下來介紹一個更好用的函式 <a href="https://docs.julialang.org/en/v1/base/collections/#Base.mergewith" target="_blank" rel="noopener">mergewith</a>。</p>
+<p>上面我們介紹的 <code>merge</code> 遇到相同的鍵，會把彼此蓋掉的行為，但有時候我們希望他們可以合併。</p>
+<p>不囉唆，我們看範例：</p>
+<figure class="highlight julia"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line">julia&gt; a = <span class="built_in">Dict</span>(:a =&gt; <span class="number">1</span>, :b =&gt; <span class="number">2</span>)</span><br><span class="line"><span class="built_in">Dict</span>&#123;<span class="built_in">Symbol</span>,<span class="built_in">Int64</span>&#125; with <span class="number">2</span> entries:</span><br><span class="line">  :a =&gt; <span class="number">1</span></span><br><span class="line">  :b =&gt; <span class="number">2</span></span><br><span class="line"></span><br><span class="line">julia&gt; c = <span class="built_in">Dict</span>(:b =&gt; <span class="number">3</span>, :d =&gt; <span class="number">4</span>)</span><br><span class="line"><span class="built_in">Dict</span>&#123;<span class="built_in">Symbol</span>,<span class="built_in">Int64</span>&#125; with <span class="number">2</span> entries:</span><br><span class="line">  :b =&gt; <span class="number">3</span></span><br><span class="line">  :d =&gt; <span class="number">4</span></span><br><span class="line"></span><br><span class="line">julia&gt; mergewith(+, a, c)</span><br><span class="line"><span class="built_in">Dict</span>&#123;<span class="built_in">Symbol</span>,<span class="built_in">Int64</span>&#125; with <span class="number">3</span> entries:</span><br><span class="line">  :a =&gt; <span class="number">1</span></span><br><span class="line">  :b =&gt; <span class="number">5</span></span><br><span class="line">  :d =&gt; <span class="number">4</span></span><br></pre></td></tr></table></figure>
+<p>我們可以指定一個 aggregate function，如果遇到相同的鍵時，就把他們的值相加起來。</p>
+<p>這個 aggregate function 可以是其他的，如此就可以處理多樣的資料。</p>
+<p><code>mergewith</code> 一樣有 in-place 版本 <code>mergewith!</code>。</p>
+<h3 id="curry-function">curry function</h3>
+<p>最神奇的是，<code>mergewith</code> 有類似 curry function 的行為。</p>
+<figure class="highlight julia"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">julia&gt; mergewith(+)(a, c)</span><br><span class="line"><span class="built_in">Dict</span>&#123;<span class="built_in">Symbol</span>,<span class="built_in">Int64</span>&#125; with <span class="number">3</span> entries:</span><br><span class="line">  :a =&gt; <span class="number">1</span></span><br><span class="line">  :b =&gt; <span class="number">5</span></span><br><span class="line">  :d =&gt; <span class="number">4</span></span><br><span class="line"></span><br><span class="line">julia&gt; mergewith(+)</span><br><span class="line"><span class="comment">#140 (generic function with 1 method)</span></span><br></pre></td></tr></table></figure>
+<p>你可以先給他一個 aggregate function，他會回傳一個匿名函式。</p>
+<p>你可以拿這個匿名函式用在其他物件上。</p>
+
+                    
+                        
+
+                    
+                    
+                        <p>
+                            <a href="/2020/08/28/merge-collections-in-julia/#post-footer" class="postShorten-excerpt_link link">
+                                留言與分享
+                            </a>
+                        </p>
+                    
+                </div>
+            
+        </div>
+        
+    </article>
+    
+    
     <article class="postShorten postShorten--thumbnailimg-right">
         <div class="postShorten-wrap">
             
@@ -712,49 +788,6 @@
                     <p>今天來跟大家介紹 iterator、generator 及 iterable 這三個東西。基本上，大家應該都有用過 for 迴圈，然而很多東西可以放在迴圈的 <code>in</code> 後方，這樣就可以將裡頭的元素一個一個取出來。但是這是怎做到的呢？</p>
                     
                         <a href="/2020/03/01/from-iterator-and-generator-to-iterable/" class="postShorten-excerpt_link link">
-                            繼續閱讀
-                        </a>
-                        
-                    
-                </div>
-            
-        </div>
-        
-    </article>
-    
-    
-    <article class="postShorten postShorten--thumbnailimg-right">
-        <div class="postShorten-wrap">
-            
-            <div class="postShorten-header">
-                <h1 class="postShorten-title">
-                    
-                        <a class="link-unstyled" href="/2020/02/10/one-way-anova-and-sum-of-squares/">
-                            One-way ANOVA and sum of squares
-                        </a>
-                    
-                </h1>
-                <div class="postShorten-meta">
-    <time datetime="2020-02-10T00:01:59+08:00">
-	
-		    2月 10, 2020
-    	
-    </time>
-    
-        <span>分類 </span>
-        
-    <a class="category-link" href="/categories/Statistics/">Statistics</a>
-
-
-    
-</div>
-
-            </div>
-            
-                <div class="postShorten-excerpt">
-                    <p><strong>An</strong>alysis <strong>o</strong>f <strong>va</strong>riance (ANOVA) starts from the analysis of variance which is caught by the model or not. If the variance is modeled, then the variance must be explained by the model, I mean of which is “caught” by the model. If it is not, variance is left unexplained as noises. These two concepts forms <strong>explained variance</strong> (or <strong>between-group variance</strong> in categorical factor) and <strong>unexplained variance</strong> (or <strong>within-group variance</strong> in categorical factor).</p>
-                    
-                        <a href="/2020/02/10/one-way-anova-and-sum-of-squares/" class="postShorten-excerpt_link link">
                             繼續閱讀
                         </a>
                         
