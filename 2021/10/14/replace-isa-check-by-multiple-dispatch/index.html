@@ -6,7 +6,7 @@
     <!-- hexo-inject:begin --><!-- hexo-inject:end --><meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="generator" content="Dream Maker">
-    <title>所有文章: 2021/10 - Dream Maker</title>
+    <title>用多重分派來取代型別檢查 - Dream Maker</title>
     <meta name="author" content="Yueh-Hua Tu">
     
         <meta name="keywords" content="machine learning,deep learning,topology,">
@@ -15,12 +15,16 @@
     
         <link rel="alternate" type="application/atom+xml" title="RSS" href="/atom.xml">
     
-    <script type="application/ld+json">{}</script>
-    <meta property="og:type" content="blog">
-<meta property="og:title" content="Dream Maker">
-<meta property="og:url" content="https://yuehhua.github.io/archives/2021/10/index.html">
+    <script type="application/ld+json">{"@context":"http://schema.org","@type":"BlogPosting","author":{"@type":"Person","name":"Yueh-Hua Tu","sameAs":["https://github.com/yuehhua/","https://www.facebook.com/a504082002","https://www.linkedin.com/in/%E5%B2%B3%E8%8F%AF-%E6%9D%9C-6a3995a0/","mailto:a504082002@gmail.com"],"image":"https://www.gravatar.com/avatar/a565749fba4782b717234da670b273fd"},"articleBody":"多重分派（multiple dispatch）是 Julia 語言中相當重要的程式典範。多重分派的例子在 Julia 的套建中相當多見，其中一個應用就是用來取代型別檢查。\n在一般的程式中有相當多的型別檢查的片段，在 Julia 中可能會寫成這樣：\n123456789function foo(x)    if x isa Int        # do something    elseif x isa String        # do another things    elseif x isa Float64        # do other things    endend\n在 Julia 中這樣寫當然是可以，但是這樣就失去了用 Julia 的優勢，可以將他用多重分派進行改寫。\n1234567891011function foo(x::Int)    # do somethingendfunction foo(x::String)    # do another thingsendfunction foo(x::Float64)    # do other thingsend\n看起來好像只是將他分成三隻函式而已，沒什麼了不起的吧？\n不不不，光是將他分成三隻函式，就足以讓 if...else 結構中的程式馬可以分別被編譯，成為效能更好的程式碼。在編譯的過程中，也由於有充足的引數型別的資訊，所以會編譯出更好的程式。\n更值得一提的是，在軟體工程上也是有好處的，他符合軟體工程的開放封閉原則，對新增功能開放、對修改現有功能關閉，要支援新的型別只需要增加新的函式，並不用去修改現有的 if...else 結構，可以避免新增功能的同時去動到舊有的功能。\n在演算法上也可以依據不同的型別做分離，可以將他看能完全不同的演算法，演算法之間不會混雜在一起。\n所以這就是善用 Julia 的多重分派來改寫型別檢查的範例。\n","dateCreated":"2021-10-14T09:50:14+08:00","dateModified":"2021-10-14T10:09:15+08:00","datePublished":"2021-10-14T09:50:14+08:00","description":"","headline":"用多重分派來取代型別檢查","image":[],"mainEntityOfPage":{"@type":"WebPage","@id":"https://yuehhua.github.io/2021/10/14/replace-isa-check-by-multiple-dispatch/"},"publisher":{"@type":"Organization","name":"Yueh-Hua Tu","sameAs":["https://github.com/yuehhua/","https://www.facebook.com/a504082002","https://www.linkedin.com/in/%E5%B2%B3%E8%8F%AF-%E6%9D%9C-6a3995a0/","mailto:a504082002@gmail.com"],"image":"https://www.gravatar.com/avatar/a565749fba4782b717234da670b273fd","logo":{"@type":"ImageObject","url":"https://www.gravatar.com/avatar/a565749fba4782b717234da670b273fd"}},"url":"https://yuehhua.github.io/2021/10/14/replace-isa-check-by-multiple-dispatch/"}</script>
+    <meta name="description" content="多重分派（multiple dispatch）是 Julia 語言中相當重要的程式典範。多重分派的例子在 Julia 的套建中相當多見，其中一個應用就是用來取代型別檢查。 在一般的程式中有相當多的型別檢查的片段，在 Julia 中可能會寫成這樣： 123456789function foo(x)    if x isa Int        # do something    elseif x i">
+<meta property="og:type" content="blog">
+<meta property="og:title" content="用多重分派來取代型別檢查">
+<meta property="og:url" content="https://yuehhua.github.io/2021/10/14/replace-isa-check-by-multiple-dispatch/index.html">
 <meta property="og:site_name" content="Dream Maker">
+<meta property="og:description" content="多重分派（multiple dispatch）是 Julia 語言中相當重要的程式典範。多重分派的例子在 Julia 的套建中相當多見，其中一個應用就是用來取代型別檢查。 在一般的程式中有相當多的型別檢查的片段，在 Julia 中可能會寫成這樣： 123456789function foo(x)    if x isa Int        # do something    elseif x i">
 <meta property="og:locale" content="zh_TW">
+<meta property="article:published_time" content="2021-10-14T01:50:14.000Z">
+<meta property="article:modified_time" content="2021-10-14T02:09:15.703Z">
 <meta property="article:author" content="Yueh-Hua Tu">
 <meta property="article:tag" content="machine learning">
 <meta property="article:tag" content="deep learning">
@@ -62,7 +66,7 @@
 
     
 
-<header id="header" data-behavior="2">
+<header id="header" data-behavior="5">
     <i id="btn-open-sidebar" class="fa fa-lg fa-bars"></i>
     <div class="header-title">
         <a class="header-title-link" href="/%20">Dream Maker</a>
@@ -80,7 +84,7 @@
             <!-- Define author's picture -->
 
 
-<nav id="sidebar" data-behavior="2">
+<nav id="sidebar" data-behavior="5">
     <div class="sidebar-container">
         
         
@@ -227,26 +231,22 @@
 </nav>
 
             
-            <div id="main" data-behavior="2"
+            <div id="main" data-behavior="5"
                  class="
                         hasCoverMetaIn
                         ">
                 
-    <section class="postShorten-group main-content-wrap">
+    <article class="post">
+        
+                
+                    <div class="post-header main-content-wrap text-left">
+    
+        <h1 class="post-title">
+            用多重分派來取代型別檢查
+        </h1>
     
     
-    <article class="postShorten postShorten--thumbnailimg-bottom">
-        <div class="postShorten-wrap">
-            
-            <div class="postShorten-header">
-                <h1 class="postShorten-title">
-                    
-                        <a class="link-unstyled" href="/2021/10/14/replace-isa-check-by-multiple-dispatch/">
-                            用多重分派來取代型別檢查
-                        </a>
-                    
-                </h1>
-                <div class="postShorten-meta">
+        <div class="post-meta">
     <time datetime="2021-10-14T09:50:14+08:00">
 	
 		    10月 14, 2021
@@ -261,10 +261,13 @@
     
 </div>
 
-            </div>
-            
-                <div class="postShorten-content">
-                    <p>多重分派（multiple dispatch）是 Julia 語言中相當重要的程式典範。多重分派的例子在 Julia 的套建中相當多見，其中一個應用就是用來取代型別檢查。</p>
+    
+</div>
+
+                        
+                            <div class="post-content markdown">
+                                <div class="main-content-wrap">
+                                    <p>多重分派（multiple dispatch）是 Julia 語言中相當重要的程式典範。多重分派的例子在 Julia 的套建中相當多見，其中一個應用就是用來取代型別檢查。</p>
 <p>在一般的程式中有相當多的型別檢查的片段，在 Julia 中可能會寫成這樣：</p>
 <figure class="highlight julia"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">function</span> foo(x)</span><br><span class="line">    <span class="keyword">if</span> x <span class="keyword">isa</span> <span class="built_in">Int</span></span><br><span class="line">        <span class="comment"># do something</span></span><br><span class="line">    <span class="keyword">elseif</span> x <span class="keyword">isa</span> <span class="built_in">String</span></span><br><span class="line">        <span class="comment"># do another things</span></span><br><span class="line">    <span class="keyword">elseif</span> x <span class="keyword">isa</span> <span class="built_in">Float64</span></span><br><span class="line">        <span class="comment"># do other things</span></span><br><span class="line">    <span class="keyword">end</span></span><br><span class="line"><span class="keyword">end</span></span><br></pre></td></tr></table></figure>
 <p>在 Julia 中這樣寫當然是可以，但是這樣就失去了用 Julia 的優勢，可以將他用多重分派進行改寫。</p>
@@ -275,92 +278,88 @@
 <p>在演算法上也可以依據不同的型別做分離，可以將他看能完全不同的演算法，演算法之間不會混雜在一起。</p>
 <p>所以這就是善用 Julia 的多重分派來改寫型別檢查的範例。</p>
 
-                    
-                        
+                                        
 
+                                </div>
+                            </div>
+                            <div id="post-footer" class="post-footer main-content-wrap">
+                                
+                                        
+                                            <div class="post-actions-wrap">
+    <nav>
+        <ul class="post-actions post-action-nav">
+            <li class="post-action">
+                
+                    <a class="post-action-btn btn btn--disabled">
+                
+                    <i class="fa fa-angle-left" aria-hidden="true"></i>
+                    <span class="hide-xs hide-sm text-small icon-ml">上一篇</span>
+                </a>
+            </li>
+            <li class="post-action">
+                
                     
-                    
-                        <p>
-                            <a href="/2021/10/14/replace-isa-check-by-multiple-dispatch/#post-footer" class="postShorten-excerpt_link link">
-                                留言與分享
-                            </a>
-                        </p>
-                    
-                </div>
+                    <a class="post-action-btn btn btn--default tooltip--top" href="/2021/10/14/parametric-return-type/" data-tooltip="參數化回傳值" aria-label="下一篇: 參數化回傳值">
+                
+                    <span class="hide-xs hide-sm text-small icon-mr">下一篇</span>
+                    <i class="fa fa-angle-right" aria-hidden="true"></i>
+                </a>
+            </li>
+        </ul>
+    </nav>
+    <ul class="post-actions post-action-share">
+        <li class="post-action hide-lg hide-md hide-sm">
+            <a class="post-action-btn btn btn--default btn-open-shareoptions" href="#btn-open-shareoptions" aria-label="Share this post">
+                <i class="fa fa-share-alt" aria-hidden="true"></i>
+            </a>
+        </li>
+        
             
-        </div>
-        
-    </article>
-    
-    
-    <article class="postShorten postShorten--thumbnailimg-bottom">
-        <div class="postShorten-wrap">
             
-            <div class="postShorten-header">
-                <h1 class="postShorten-title">
-                    
-                        <a class="link-unstyled" href="/2021/10/14/parametric-return-type/">
-                            參數化回傳值
-                        </a>
-                    
-                </h1>
-                <div class="postShorten-meta">
-    <time datetime="2021-10-14T09:30:50+08:00">
-	
-		    10月 14, 2021
-    	
-    </time>
-    
-        <span>分類 </span>
+            <li class="post-action hide-xs">
+                <a class="post-action-btn btn btn--default" target="new" href="https://www.facebook.com/sharer/sharer.php?u=https://yuehhua.github.io/2021/10/14/replace-isa-check-by-multiple-dispatch/" title="分享到 Facebook">
+                    <i class="fa fa-facebook-official" aria-hidden="true"></i>
+                </a>
+            </li>
         
-    <a class="category-link" href="/categories/My-Style/">My Style</a>, <a class="category-link" href="/categories/My-Style/Computer-Science/">Computer Science</a>, <a class="category-link" href="/categories/My-Style/Computer-Science/Julialang/">Julialang</a>
-
-
-    
-</div>
-
-            </div>
+        
             
-                <div class="postShorten-content">
-                    <p>一般我們會在函式的引數上加上參數，這樣可以讓函式去推論引數的型別，這樣有多種用途，其中之一當然是增進效能。</p>
-<figure class="highlight julia"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">julia&gt; foo(a::T) <span class="keyword">where</span> &#123;T&#125; = zero(T)</span><br><span class="line">foo (generic <span class="keyword">function</span> with <span class="number">1</span> method)</span><br><span class="line"></span><br><span class="line">julia&gt; foo(<span class="number">5</span>)</span><br><span class="line"><span class="number">0</span></span><br></pre></td></tr></table></figure>
-<p>那我們有沒有辦法對回傳值的型別做參數化呢？</p>
-<p>有的，可以這樣做。</p>
-<figure class="highlight julia"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">julia&gt; (foo(a::T)::T) <span class="keyword">where</span> &#123;T&#125; = zero(T)</span><br><span class="line">foo (generic <span class="keyword">function</span> with <span class="number">1</span> method)</span><br><span class="line"></span><br><span class="line">julia&gt; foo(<span class="number">5</span>)</span><br><span class="line"><span class="number">0</span></span><br></pre></td></tr></table></figure>
-<p>一般要標記回傳值的型別，要寫在整個 function signature 的後面，也就是</p>
-<figure class="highlight julia"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">foo(a)::<span class="built_in">Int</span></span><br></pre></td></tr></table></figure>
-<p>如果要將他標記為參數，那就需要寫成</p>
-<figure class="highlight julia"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">(foo(a)::T) <span class="keyword">where</span> &#123;T&#125;</span><br></pre></td></tr></table></figure>
-<p>這樣就寫出來啦！！</p>
-
-                    
-                        
-
-                    
-                    
-                        <p>
-                            <a href="/2021/10/14/parametric-return-type/#post-footer" class="postShorten-excerpt_link link">
-                                留言與分享
-                            </a>
-                        </p>
-                    
-                </div>
+                <li class="post-action">
+                    <a class="post-action-btn btn btn--default" href="#disqus_thread">
+                        <i class="fa fa-comment-o"></i>
+                    </a>
+                </li>
             
-        </div>
         
-    </article>
-    
-    <div class="pagination-bar">
-    <ul class="pagination">
-        
-        
-        <li class="pagination-number">第 1 頁 共 1 頁</li>
+        <li class="post-action">
+            
+                <a class="post-action-btn btn btn--default" href="#" aria-label="Back to top">
+            
+                <i class="fa fa-list" aria-hidden="true"></i>
+            </a>
+        </li>
     </ul>
 </div>
 
-</section>
 
-
+                                                
+                                                    
+                                                        
+                                                            <div id="disqus_thread">
+    <noscript>Please enable JavaScript to view the <a href="//disqus.com/?ref_noscript" target="_blank" rel="noopener">comments powered by Disqus.</a></noscript>
+</div>
+                                                                
+                                                                            
+                            </div>
+                            
+                                <script src='https://unpkg.com/mermaid@7.1.2/dist/mermaid.min.js'></script>
+                                <script>
+                                    if (window.mermaid) {
+                                        mermaid.initialize({ theme: 'forest' });
+                                    }
+                                </script>
+                                
+    </article>
 
                 <footer id="footer" class="main-content-wrap">
     <span class="copyrights">
@@ -369,6 +368,81 @@
 </footer>
 
             </div>
+            
+                <div id="bottom-bar" class="post-bottom-bar" data-behavior="5">
+                    <div class="post-actions-wrap">
+    <nav>
+        <ul class="post-actions post-action-nav">
+            <li class="post-action">
+                
+                    <a class="post-action-btn btn btn--disabled">
+                
+                    <i class="fa fa-angle-left" aria-hidden="true"></i>
+                    <span class="hide-xs hide-sm text-small icon-ml">上一篇</span>
+                </a>
+            </li>
+            <li class="post-action">
+                
+                    
+                    <a class="post-action-btn btn btn--default tooltip--top" href="/2021/10/14/parametric-return-type/" data-tooltip="參數化回傳值" aria-label="下一篇: 參數化回傳值">
+                
+                    <span class="hide-xs hide-sm text-small icon-mr">下一篇</span>
+                    <i class="fa fa-angle-right" aria-hidden="true"></i>
+                </a>
+            </li>
+        </ul>
+    </nav>
+    <ul class="post-actions post-action-share">
+        <li class="post-action hide-lg hide-md hide-sm">
+            <a class="post-action-btn btn btn--default btn-open-shareoptions" href="#btn-open-shareoptions" aria-label="Share this post">
+                <i class="fa fa-share-alt" aria-hidden="true"></i>
+            </a>
+        </li>
+        
+            
+            
+            <li class="post-action hide-xs">
+                <a class="post-action-btn btn btn--default" target="new" href="https://www.facebook.com/sharer/sharer.php?u=https://yuehhua.github.io/2021/10/14/replace-isa-check-by-multiple-dispatch/" title="分享到 Facebook">
+                    <i class="fa fa-facebook-official" aria-hidden="true"></i>
+                </a>
+            </li>
+        
+        
+            
+                <li class="post-action">
+                    <a class="post-action-btn btn btn--default" href="#disqus_thread">
+                        <i class="fa fa-comment-o"></i>
+                    </a>
+                </li>
+            
+        
+        <li class="post-action">
+            
+                <a class="post-action-btn btn btn--default" href="#" aria-label="Back to top">
+            
+                <i class="fa fa-list" aria-hidden="true"></i>
+            </a>
+        </li>
+    </ul>
+</div>
+
+
+                </div>
+                <div id="share-options-bar" class="share-options-bar" data-behavior="5">
+    <i id="btn-close-shareoptions" class="fa fa-close"></i>
+    <ul class="share-options">
+        
+            
+            
+            <li class="share-option">
+                <a class="share-option-btn" target="new" href="https://www.facebook.com/sharer/sharer.php?u=https://yuehhua.github.io/2021/10/14/replace-isa-check-by-multiple-dispatch/">
+                    <i class="fa fa-facebook-official" aria-hidden="true"></i><span>分享到 Facebook</span>
+                </a>
+            </li>
+        
+    </ul>
+</div>
+
             
         </div>
         
@@ -410,7 +484,26 @@
 
 <script src="/assets/js/script-xzfezjobyekpxrjktw5tz6muvzqfsbmo5n6atk3p5om9ulfptldi3p7cyqd8.min.js"></script>
 
-<!--SCRIPTS END--><!-- hexo-inject:begin --><!-- hexo-inject:end -->
+<!--SCRIPTS END-->
+
+
+<script>
+    var disqus_config = function () {
+        this.page.url = 'https://yuehhua.github.io/2021/10/14/replace-isa-check-by-multiple-dispatch/';
+                 
+            this.page.identifier = '2021/10/14/replace-isa-check-by-multiple-dispatch/';
+                 
+             };
+    (function () {
+        var d = document, s = d.createElement('script');
+        var disqus_shortname = 'dream-maker';
+        s.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+
+        s.setAttribute('data-timestamp', +new Date());
+        (d.head || d.body).appendChild(s);
+    })();
+</script><!-- hexo-inject:begin --><!-- hexo-inject:end -->
+
 
 
     </body>

@@ -241,6 +241,64 @@
             <div class="postShorten-header">
                 <h1 class="postShorten-title">
                     
+                        <a class="link-unstyled" href="/2021/10/14/replace-isa-check-by-multiple-dispatch/">
+                            用多重分派來取代型別檢查
+                        </a>
+                    
+                </h1>
+                <div class="postShorten-meta">
+    <time datetime="2021-10-14T09:50:14+08:00">
+	
+		    10月 14, 2021
+    	
+    </time>
+    
+        <span>分類 </span>
+        
+    <a class="category-link" href="/categories/My-Style/">My Style</a>, <a class="category-link" href="/categories/My-Style/Computer-Science/">Computer Science</a>, <a class="category-link" href="/categories/My-Style/Computer-Science/Julialang/">Julialang</a>
+
+
+    
+</div>
+
+            </div>
+            
+                <div class="postShorten-content">
+                    <p>多重分派（multiple dispatch）是 Julia 語言中相當重要的程式典範。多重分派的例子在 Julia 的套建中相當多見，其中一個應用就是用來取代型別檢查。</p>
+<p>在一般的程式中有相當多的型別檢查的片段，在 Julia 中可能會寫成這樣：</p>
+<figure class="highlight julia"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">function</span> foo(x)</span><br><span class="line">    <span class="keyword">if</span> x <span class="keyword">isa</span> <span class="built_in">Int</span></span><br><span class="line">        <span class="comment"># do something</span></span><br><span class="line">    <span class="keyword">elseif</span> x <span class="keyword">isa</span> <span class="built_in">String</span></span><br><span class="line">        <span class="comment"># do another things</span></span><br><span class="line">    <span class="keyword">elseif</span> x <span class="keyword">isa</span> <span class="built_in">Float64</span></span><br><span class="line">        <span class="comment"># do other things</span></span><br><span class="line">    <span class="keyword">end</span></span><br><span class="line"><span class="keyword">end</span></span><br></pre></td></tr></table></figure>
+<p>在 Julia 中這樣寫當然是可以，但是這樣就失去了用 Julia 的優勢，可以將他用多重分派進行改寫。</p>
+<figure class="highlight julia"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">function</span> foo(x::<span class="built_in">Int</span>)</span><br><span class="line">    <span class="comment"># do something</span></span><br><span class="line"><span class="keyword">end</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">function</span> foo(x::<span class="built_in">String</span>)</span><br><span class="line">    <span class="comment"># do another things</span></span><br><span class="line"><span class="keyword">end</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">function</span> foo(x::<span class="built_in">Float64</span>)</span><br><span class="line">    <span class="comment"># do other things</span></span><br><span class="line"><span class="keyword">end</span></span><br></pre></td></tr></table></figure>
+<p>看起來好像只是將他分成三隻函式而已，沒什麼了不起的吧？</p>
+<p>不不不，光是將他分成三隻函式，就足以讓 <code>if...else</code> 結構中的程式馬可以分別被編譯，成為效能更好的程式碼。在編譯的過程中，也由於有充足的引數型別的資訊，所以會編譯出更好的程式。</p>
+<p>更值得一提的是，在軟體工程上也是有好處的，他符合軟體工程的開放封閉原則，對新增功能開放、對修改現有功能關閉，要支援新的型別只需要增加新的函式，並不用去修改現有的 <code>if...else</code> 結構，可以避免新增功能的同時去動到舊有的功能。</p>
+<p>在演算法上也可以依據不同的型別做分離，可以將他看能完全不同的演算法，演算法之間不會混雜在一起。</p>
+<p>所以這就是善用 Julia 的多重分派來改寫型別檢查的範例。</p>
+
+                    
+                        
+
+                    
+                    
+                        <p>
+                            <a href="/2021/10/14/replace-isa-check-by-multiple-dispatch/#post-footer" class="postShorten-excerpt_link link">
+                                留言與分享
+                            </a>
+                        </p>
+                    
+                </div>
+            
+        </div>
+        
+    </article>
+    
+    
+    <article class="postShorten postShorten--thumbnailimg-bottom">
+        <div class="postShorten-wrap">
+            
+            <div class="postShorten-header">
+                <h1 class="postShorten-title">
+                    
                         <a class="link-unstyled" href="/2021/10/14/parametric-return-type/">
                             參數化回傳值
                         </a>
@@ -641,54 +699,6 @@
 <p>是否曾經疑惑過寫在 module 中的程式碼會在何時被載入呢？</p>
                     
                         <a href="/2021/01/14/julia-module-code-loading/" class="postShorten-excerpt_link link">
-                            繼續閱讀
-                        </a>
-                        
-                    
-                </div>
-            
-        </div>
-        
-    </article>
-    
-    
-    <article class="postShorten postShorten--thumbnailimg-right">
-        <div class="postShorten-wrap">
-            
-            <div class="postShorten-header">
-                <h1 class="postShorten-title">
-                    
-                        <a class="link-unstyled" href="/2021/01/09/dispatch-on-function/">
-                            依函式分派（dispatch on function）
-                        </a>
-                    
-                </h1>
-                <div class="postShorten-meta">
-    <time datetime="2021-01-09T11:51:45+08:00">
-	
-		    1月 09, 2021
-    	
-    </time>
-    
-        <span>分類 </span>
-        
-    <a class="category-link" href="/categories/My-Style/">My Style</a>, <a class="category-link" href="/categories/My-Style/Computer-Science/">Computer Science</a>, <a class="category-link" href="/categories/My-Style/Computer-Science/Julialang/">Julialang</a>
-
-
-    
-</div>
-
-            </div>
-            
-                <div class="postShorten-excerpt">
-                    <p>依函式分派（dispatch on function）算是在 Julia 語言中相當常見的一個技巧，它依賴 Julia 的多重分派機制（multiple dispatch），可以依據不同的函式有不一樣的行為。</p>
-<h2 id="舉例">舉例</h2>
-<p>在資料分析或是資料庫分析中，常常會需要對資料欄位進行聚合運算，像是加總的 <code>sum</code>、平均的 <code>avg</code> 或是計數的 <code>count</code>。他們都是用同一個欄位的資料，聚合成一個值輸出。當我們需要將資料相加時，我們會寫出以下的程式碼：</p>
-<figure class="highlight julia"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">a = [<span class="number">1</span>,<span class="number">2</span>,<span class="number">3</span>,<span class="number">4</span>,<span class="number">5</span>]</span><br><span class="line">sum(a)</span><br></pre></td></tr></table></figure>
-<p>這看起來很直觀，但往往在資料庫的設計當中，只會設計一些常用到的聚合函式（aggregate function）。</p>
-<p>那麼有沒有一個方式可以得到一個比較廣義的聚合函式呢？</p>
-                    
-                        <a href="/2021/01/09/dispatch-on-function/" class="postShorten-excerpt_link link">
                             繼續閱讀
                         </a>
                         
