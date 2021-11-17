@@ -6,7 +6,7 @@
     <!-- hexo-inject:begin --><!-- hexo-inject:end --><meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="generator" content="Dream Maker">
-    <title>用多重分派來取代型別檢查 - Dream Maker</title>
+    <title>要如何固定 Julia 執行緒中的亂數？ - Dream Maker</title>
     <meta name="author" content="Yueh-Hua Tu">
     
         <meta name="keywords" content="machine learning,deep learning,topology,">
@@ -15,16 +15,16 @@
     
         <link rel="alternate" type="application/atom+xml" title="RSS" href="/atom.xml">
     
-    <script type="application/ld+json">{"@context":"http://schema.org","@type":"BlogPosting","author":{"@type":"Person","name":"Yueh-Hua Tu","sameAs":["https://github.com/yuehhua/","https://www.facebook.com/a504082002","https://www.linkedin.com/in/%E5%B2%B3%E8%8F%AF-%E6%9D%9C-6a3995a0/","mailto:a504082002@gmail.com"],"image":"https://www.gravatar.com/avatar/a565749fba4782b717234da670b273fd"},"articleBody":"多重分派（multiple dispatch）是 Julia 語言中相當重要的程式典範。多重分派的例子在 Julia 的套建中相當多見，其中一個應用就是用來取代型別檢查。\n在一般的程式中有相當多的型別檢查的片段，在 Julia 中可能會寫成這樣：\n123456789function foo(x)    if x isa Int        # do something    elseif x isa String        # do another things    elseif x isa Float64        # do other things    endend\n在 Julia 中這樣寫當然是可以，但是這樣就失去了用 Julia 的優勢，可以將他用多重分派進行改寫。\n1234567891011function foo(x::Int)    # do somethingendfunction foo(x::String)    # do another thingsendfunction foo(x::Float64)    # do other thingsend\n看起來好像只是將他分成三隻函式而已，沒什麼了不起的吧？\n不不不，光是將他分成三隻函式，就足以讓 if...else 結構中的程式馬可以分別被編譯，成為效能更好的程式碼。在編譯的過程中，也由於有充足的引數型別的資訊，所以會編譯出更好的程式。\n更值得一提的是，在軟體工程上也是有好處的，他符合軟體工程的開放封閉原則，對新增功能開放、對修改現有功能關閉，要支援新的型別只需要增加新的函式，並不用去修改現有的 if...else 結構，可以避免新增功能的同時去動到舊有的功能。\n在演算法上也可以依據不同的型別做分離，可以將他看能完全不同的演算法，演算法之間不會混雜在一起。\n所以這就是善用 Julia 的多重分派來改寫型別檢查的範例。\n","dateCreated":"2021-10-14T09:50:14+08:00","dateModified":"2021-10-14T10:09:15+08:00","datePublished":"2021-10-14T09:50:14+08:00","description":"","headline":"用多重分派來取代型別檢查","image":[],"mainEntityOfPage":{"@type":"WebPage","@id":"https://yuehhua.github.io/2021/10/14/replace-isa-check-by-multiple-dispatch/"},"publisher":{"@type":"Organization","name":"Yueh-Hua Tu","sameAs":["https://github.com/yuehhua/","https://www.facebook.com/a504082002","https://www.linkedin.com/in/%E5%B2%B3%E8%8F%AF-%E6%9D%9C-6a3995a0/","mailto:a504082002@gmail.com"],"image":"https://www.gravatar.com/avatar/a565749fba4782b717234da670b273fd","logo":{"@type":"ImageObject","url":"https://www.gravatar.com/avatar/a565749fba4782b717234da670b273fd"}},"url":"https://yuehhua.github.io/2021/10/14/replace-isa-check-by-multiple-dispatch/"}</script>
-    <meta name="description" content="多重分派（multiple dispatch）是 Julia 語言中相當重要的程式典範。多重分派的例子在 Julia 的套建中相當多見，其中一個應用就是用來取代型別檢查。 在一般的程式中有相當多的型別檢查的片段，在 Julia 中可能會寫成這樣： 123456789function foo(x)    if x isa Int        # do something    elseif x i">
+    <script type="application/ld+json">{"@context":"http://schema.org","@type":"BlogPosting","author":{"@type":"Person","name":"Yueh-Hua Tu","sameAs":["https://github.com/yuehhua/","https://www.facebook.com/a504082002","https://www.linkedin.com/in/%E5%B2%B3%E8%8F%AF-%E6%9D%9C-6a3995a0/","mailto:a504082002@gmail.com"],"image":"https://www.gravatar.com/avatar/a565749fba4782b717234da670b273fd"},"articleBody":"一般設定 random seed 的方式則像以下的程式碼：\n12using RandomRandom.seed!(0)\n所以我們可以得出一個隨機矩陣看起來像是這樣。\n1234567julia&gt; rand(5, 5)5×5 Matrix&#123;Float64&#125;: 0.823648  0.203477   0.585812  0.655448  0.469304 0.910357  0.0423017  0.539289  0.575887  0.0623676 0.164566  0.0682693  0.260036  0.868279  0.353129 0.177329  0.361828   0.910047  0.9678    0.767602 0.27888   0.973216   0.167036  0.76769   0.043141\n如果我們要對每個執行緒都設定同樣的 random seed，那就可以在每個執行緒內直接設定即可。\n12345Threads.@threads for i in 1:5    Random.seed!(0)    tid = Threads.threadid()    println(tid, \": \", rand(5, 5))end\n所以每個執行緒內印出來的矩陣就會像這樣。\n123455: [0.8236475079774124 0.20347655804192266 0.5858115517433242 0.6554484126999125 0.46930370935301835; 0.9103565379264364 0.042301665932029664 0.5392892841426182 0.5758873948500367 0.06236755817015882; 0.16456579813368521 0.06826925550564478 0.26003585026904785 0.8682787096942046 0.35312877270491705; 0.17732884646626457 0.3618283907762174 0.910046541351011 0.9677995536192001 0.767601895961374; 0.278880109331201 0.9732164043865108 0.16703619444214968 0.7676903325581188 0.043141023329413164]2: [0.8236475079774124 0.20347655804192266 0.5858115517433242 0.6554484126999125 0.46930370935301835; 0.9103565379264364 0.042301665932029664 0.5392892841426182 0.5758873948500367 0.06236755817015882; 0.16456579813368521 0.06826925550564478 0.26003585026904785 0.8682787096942046 0.35312877270491705; 0.17732884646626457 0.3618283907762174 0.910046541351011 0.9677995536192001 0.767601895961374; 0.278880109331201 0.9732164043865108 0.16703619444214968 0.7676903325581188 0.043141023329413164]4: [0.8236475079774124 0.20347655804192266 0.5858115517433242 0.6554484126999125 0.46930370935301835; 0.9103565379264364 0.042301665932029664 0.5392892841426182 0.5758873948500367 0.06236755817015882; 0.16456579813368521 0.06826925550564478 0.26003585026904785 0.8682787096942046 0.35312877270491705; 0.17732884646626457 0.3618283907762174 0.910046541351011 0.9677995536192001 0.767601895961374; 0.278880109331201 0.9732164043865108 0.16703619444214968 0.7676903325581188 0.043141023329413164]3: [0.8236475079774124 0.20347655804192266 0.5858115517433242 0.6554484126999125 0.46930370935301835; 0.9103565379264364 0.042301665932029664 0.5392892841426182 0.5758873948500367 0.06236755817015882; 0.16456579813368521 0.06826925550564478 0.26003585026904785 0.8682787096942046 0.35312877270491705; 0.17732884646626457 0.3618283907762174 0.910046541351011 0.9677995536192001 0.767601895961374; 0.278880109331201 0.9732164043865108 0.16703619444214968 0.7676903325581188 0.043141023329413164]1: [0.8236475079774124 0.20347655804192266 0.5858115517433242 0.6554484126999125 0.46930370935301835; 0.9103565379264364 0.042301665932029664 0.5392892841426182 0.5758873948500367 0.06236755817015882; 0.16456579813368521 0.06826925550564478 0.26003585026904785 0.8682787096942046 0.35312877270491705; 0.17732884646626457 0.3618283907762174 0.910046541351011 0.9677995536192001 0.767601895961374; 0.278880109331201 0.9732164043865108 0.16703619444214968 0.7676903325581188 0.043141023329413164]\n","dateCreated":"2021-11-17T09:50:30+08:00","dateModified":"2021-11-17T09:55:02+08:00","datePublished":"2021-11-17T09:50:30+08:00","description":"","headline":"要如何固定 Julia 執行緒中的亂數？","image":[],"mainEntityOfPage":{"@type":"WebPage","@id":"https://yuehhua.github.io/2021/11/17/fix-random-numbers-in-threads/"},"publisher":{"@type":"Organization","name":"Yueh-Hua Tu","sameAs":["https://github.com/yuehhua/","https://www.facebook.com/a504082002","https://www.linkedin.com/in/%E5%B2%B3%E8%8F%AF-%E6%9D%9C-6a3995a0/","mailto:a504082002@gmail.com"],"image":"https://www.gravatar.com/avatar/a565749fba4782b717234da670b273fd","logo":{"@type":"ImageObject","url":"https://www.gravatar.com/avatar/a565749fba4782b717234da670b273fd"}},"url":"https://yuehhua.github.io/2021/11/17/fix-random-numbers-in-threads/"}</script>
+    <meta name="description" content="一般設定 random seed 的方式則像以下的程式碼： 12using RandomRandom.seed!(0) 所以我們可以得出一個隨機矩陣看起來像是這樣。 1234567julia&gt; rand(5, 5)5×5 Matrix&amp;#123;Float64&amp;#125;: 0.823648  0.203477   0.585812  0.655448  0.469304 0.910357">
 <meta property="og:type" content="blog">
-<meta property="og:title" content="用多重分派來取代型別檢查">
-<meta property="og:url" content="https://yuehhua.github.io/2021/10/14/replace-isa-check-by-multiple-dispatch/index.html">
+<meta property="og:title" content="要如何固定 Julia 執行緒中的亂數？">
+<meta property="og:url" content="https://yuehhua.github.io/2021/11/17/fix-random-numbers-in-threads/index.html">
 <meta property="og:site_name" content="Dream Maker">
-<meta property="og:description" content="多重分派（multiple dispatch）是 Julia 語言中相當重要的程式典範。多重分派的例子在 Julia 的套建中相當多見，其中一個應用就是用來取代型別檢查。 在一般的程式中有相當多的型別檢查的片段，在 Julia 中可能會寫成這樣： 123456789function foo(x)    if x isa Int        # do something    elseif x i">
+<meta property="og:description" content="一般設定 random seed 的方式則像以下的程式碼： 12using RandomRandom.seed!(0) 所以我們可以得出一個隨機矩陣看起來像是這樣。 1234567julia&gt; rand(5, 5)5×5 Matrix&amp;#123;Float64&amp;#125;: 0.823648  0.203477   0.585812  0.655448  0.469304 0.910357">
 <meta property="og:locale" content="zh_TW">
-<meta property="article:published_time" content="2021-10-14T01:50:14.000Z">
-<meta property="article:modified_time" content="2021-10-14T02:09:15.703Z">
+<meta property="article:published_time" content="2021-11-17T01:50:30.000Z">
+<meta property="article:modified_time" content="2021-11-17T01:55:02.247Z">
 <meta property="article:author" content="Yueh-Hua Tu">
 <meta property="article:tag" content="machine learning">
 <meta property="article:tag" content="deep learning">
@@ -242,14 +242,14 @@
                     <div class="post-header main-content-wrap text-left">
     
         <h1 class="post-title">
-            用多重分派來取代型別檢查
+            要如何固定 Julia 執行緒中的亂數？
         </h1>
     
     
         <div class="post-meta">
-    <time datetime="2021-10-14T09:50:14+08:00">
+    <time datetime="2021-11-17T09:50:30+08:00">
 	
-		    10月 14, 2021
+		    11月 17, 2021
     	
     </time>
     
@@ -267,16 +267,14 @@
                         
                             <div class="post-content markdown">
                                 <div class="main-content-wrap">
-                                    <p>多重分派（multiple dispatch）是 Julia 語言中相當重要的程式典範。多重分派的例子在 Julia 的套建中相當多見，其中一個應用就是用來取代型別檢查。</p>
-<p>在一般的程式中有相當多的型別檢查的片段，在 Julia 中可能會寫成這樣：</p>
-<figure class="highlight julia"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">function</span> foo(x)</span><br><span class="line">    <span class="keyword">if</span> x <span class="keyword">isa</span> <span class="built_in">Int</span></span><br><span class="line">        <span class="comment"># do something</span></span><br><span class="line">    <span class="keyword">elseif</span> x <span class="keyword">isa</span> <span class="built_in">String</span></span><br><span class="line">        <span class="comment"># do another things</span></span><br><span class="line">    <span class="keyword">elseif</span> x <span class="keyword">isa</span> <span class="built_in">Float64</span></span><br><span class="line">        <span class="comment"># do other things</span></span><br><span class="line">    <span class="keyword">end</span></span><br><span class="line"><span class="keyword">end</span></span><br></pre></td></tr></table></figure>
-<p>在 Julia 中這樣寫當然是可以，但是這樣就失去了用 Julia 的優勢，可以將他用多重分派進行改寫。</p>
-<figure class="highlight julia"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">function</span> foo(x::<span class="built_in">Int</span>)</span><br><span class="line">    <span class="comment"># do something</span></span><br><span class="line"><span class="keyword">end</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">function</span> foo(x::<span class="built_in">String</span>)</span><br><span class="line">    <span class="comment"># do another things</span></span><br><span class="line"><span class="keyword">end</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">function</span> foo(x::<span class="built_in">Float64</span>)</span><br><span class="line">    <span class="comment"># do other things</span></span><br><span class="line"><span class="keyword">end</span></span><br></pre></td></tr></table></figure>
-<p>看起來好像只是將他分成三隻函式而已，沒什麼了不起的吧？</p>
-<p>不不不，光是將他分成三隻函式，就足以讓 <code>if...else</code> 結構中的程式馬可以分別被編譯，成為效能更好的程式碼。在編譯的過程中，也由於有充足的引數型別的資訊，所以會編譯出更好的程式。</p>
-<p>更值得一提的是，在軟體工程上也是有好處的，他符合軟體工程的開放封閉原則，對新增功能開放、對修改現有功能關閉，要支援新的型別只需要增加新的函式，並不用去修改現有的 <code>if...else</code> 結構，可以避免新增功能的同時去動到舊有的功能。</p>
-<p>在演算法上也可以依據不同的型別做分離，可以將他看能完全不同的演算法，演算法之間不會混雜在一起。</p>
-<p>所以這就是善用 Julia 的多重分派來改寫型別檢查的範例。</p>
+                                    <p>一般設定 random seed 的方式則像以下的程式碼：</p>
+<figure class="highlight julia"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">using</span> Random</span><br><span class="line">Random.seed!(<span class="number">0</span>)</span><br></pre></td></tr></table></figure>
+<p>所以我們可以得出一個隨機矩陣看起來像是這樣。</p>
+<figure class="highlight julia"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">julia&gt; rand(<span class="number">5</span>, <span class="number">5</span>)</span><br><span class="line"><span class="number">5</span>×<span class="number">5</span> <span class="built_in">Matrix</span>&#123;<span class="built_in">Float64</span>&#125;:</span><br><span class="line"> <span class="number">0.823648</span>  <span class="number">0.203477</span>   <span class="number">0.585812</span>  <span class="number">0.655448</span>  <span class="number">0.469304</span></span><br><span class="line"> <span class="number">0.910357</span>  <span class="number">0.0423017</span>  <span class="number">0.539289</span>  <span class="number">0.575887</span>  <span class="number">0.0623676</span></span><br><span class="line"> <span class="number">0.164566</span>  <span class="number">0.0682693</span>  <span class="number">0.260036</span>  <span class="number">0.868279</span>  <span class="number">0.353129</span></span><br><span class="line"> <span class="number">0.177329</span>  <span class="number">0.361828</span>   <span class="number">0.910047</span>  <span class="number">0.9678</span>    <span class="number">0.767602</span></span><br><span class="line"> <span class="number">0.27888</span>   <span class="number">0.973216</span>   <span class="number">0.167036</span>  <span class="number">0.76769</span>   <span class="number">0.043141</span></span><br></pre></td></tr></table></figure>
+<p>如果我們要對每個執行緒都設定同樣的 random seed，那就可以在每個執行緒內直接設定即可。</p>
+<figure class="highlight julia"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">Threads.<span class="meta">@threads</span> <span class="keyword">for</span> i <span class="keyword">in</span> <span class="number">1</span>:<span class="number">5</span></span><br><span class="line">    Random.seed!(<span class="number">0</span>)</span><br><span class="line">    tid = Threads.threadid()</span><br><span class="line">    println(tid, <span class="string">": "</span>, rand(<span class="number">5</span>, <span class="number">5</span>))</span><br><span class="line"><span class="keyword">end</span></span><br></pre></td></tr></table></figure>
+<p>所以每個執行緒內印出來的矩陣就會像這樣。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">5: [0.8236475079774124 0.20347655804192266 0.5858115517433242 0.6554484126999125 0.46930370935301835; 0.9103565379264364 0.042301665932029664 0.5392892841426182 0.5758873948500367 0.06236755817015882; 0.16456579813368521 0.06826925550564478 0.26003585026904785 0.8682787096942046 0.35312877270491705; 0.17732884646626457 0.3618283907762174 0.910046541351011 0.9677995536192001 0.767601895961374; 0.278880109331201 0.9732164043865108 0.16703619444214968 0.7676903325581188 0.043141023329413164]</span><br><span class="line">2: [0.8236475079774124 0.20347655804192266 0.5858115517433242 0.6554484126999125 0.46930370935301835; 0.9103565379264364 0.042301665932029664 0.5392892841426182 0.5758873948500367 0.06236755817015882; 0.16456579813368521 0.06826925550564478 0.26003585026904785 0.8682787096942046 0.35312877270491705; 0.17732884646626457 0.3618283907762174 0.910046541351011 0.9677995536192001 0.767601895961374; 0.278880109331201 0.9732164043865108 0.16703619444214968 0.7676903325581188 0.043141023329413164]</span><br><span class="line">4: [0.8236475079774124 0.20347655804192266 0.5858115517433242 0.6554484126999125 0.46930370935301835; 0.9103565379264364 0.042301665932029664 0.5392892841426182 0.5758873948500367 0.06236755817015882; 0.16456579813368521 0.06826925550564478 0.26003585026904785 0.8682787096942046 0.35312877270491705; 0.17732884646626457 0.3618283907762174 0.910046541351011 0.9677995536192001 0.767601895961374; 0.278880109331201 0.9732164043865108 0.16703619444214968 0.7676903325581188 0.043141023329413164]</span><br><span class="line">3: [0.8236475079774124 0.20347655804192266 0.5858115517433242 0.6554484126999125 0.46930370935301835; 0.9103565379264364 0.042301665932029664 0.5392892841426182 0.5758873948500367 0.06236755817015882; 0.16456579813368521 0.06826925550564478 0.26003585026904785 0.8682787096942046 0.35312877270491705; 0.17732884646626457 0.3618283907762174 0.910046541351011 0.9677995536192001 0.767601895961374; 0.278880109331201 0.9732164043865108 0.16703619444214968 0.7676903325581188 0.043141023329413164]</span><br><span class="line">1: [0.8236475079774124 0.20347655804192266 0.5858115517433242 0.6554484126999125 0.46930370935301835; 0.9103565379264364 0.042301665932029664 0.5392892841426182 0.5758873948500367 0.06236755817015882; 0.16456579813368521 0.06826925550564478 0.26003585026904785 0.8682787096942046 0.35312877270491705; 0.17732884646626457 0.3618283907762174 0.910046541351011 0.9677995536192001 0.767601895961374; 0.278880109331201 0.9732164043865108 0.16703619444214968 0.7676903325581188 0.043141023329413164]</span><br></pre></td></tr></table></figure>
 
                                         
 
@@ -290,8 +288,7 @@
         <ul class="post-actions post-action-nav">
             <li class="post-action">
                 
-                    
-                    <a class="post-action-btn btn btn--default tooltip--top" href="/2021/11/17/fix-random-numbers-in-threads/" data-tooltip="要如何固定 Julia 執行緒中的亂數？" aria-label="上一篇: 要如何固定 Julia 執行緒中的亂數？">
+                    <a class="post-action-btn btn btn--disabled">
                 
                     <i class="fa fa-angle-left" aria-hidden="true"></i>
                     <span class="hide-xs hide-sm text-small icon-ml">上一篇</span>
@@ -300,7 +297,7 @@
             <li class="post-action">
                 
                     
-                    <a class="post-action-btn btn btn--default tooltip--top" href="/2021/10/14/parametric-return-type/" data-tooltip="參數化回傳值" aria-label="下一篇: 參數化回傳值">
+                    <a class="post-action-btn btn btn--default tooltip--top" href="/2021/10/14/replace-isa-check-by-multiple-dispatch/" data-tooltip="用多重分派來取代型別檢查" aria-label="下一篇: 用多重分派來取代型別檢查">
                 
                     <span class="hide-xs hide-sm text-small icon-mr">下一篇</span>
                     <i class="fa fa-angle-right" aria-hidden="true"></i>
@@ -318,7 +315,7 @@
             
             
             <li class="post-action hide-xs">
-                <a class="post-action-btn btn btn--default" target="new" href="https://www.facebook.com/sharer/sharer.php?u=https://yuehhua.github.io/2021/10/14/replace-isa-check-by-multiple-dispatch/" title="分享到 Facebook">
+                <a class="post-action-btn btn btn--default" target="new" href="https://www.facebook.com/sharer/sharer.php?u=https://yuehhua.github.io/2021/11/17/fix-random-numbers-in-threads/" title="分享到 Facebook">
                     <i class="fa fa-facebook-official" aria-hidden="true"></i>
                 </a>
             </li>
@@ -376,8 +373,7 @@
         <ul class="post-actions post-action-nav">
             <li class="post-action">
                 
-                    
-                    <a class="post-action-btn btn btn--default tooltip--top" href="/2021/11/17/fix-random-numbers-in-threads/" data-tooltip="要如何固定 Julia 執行緒中的亂數？" aria-label="上一篇: 要如何固定 Julia 執行緒中的亂數？">
+                    <a class="post-action-btn btn btn--disabled">
                 
                     <i class="fa fa-angle-left" aria-hidden="true"></i>
                     <span class="hide-xs hide-sm text-small icon-ml">上一篇</span>
@@ -386,7 +382,7 @@
             <li class="post-action">
                 
                     
-                    <a class="post-action-btn btn btn--default tooltip--top" href="/2021/10/14/parametric-return-type/" data-tooltip="參數化回傳值" aria-label="下一篇: 參數化回傳值">
+                    <a class="post-action-btn btn btn--default tooltip--top" href="/2021/10/14/replace-isa-check-by-multiple-dispatch/" data-tooltip="用多重分派來取代型別檢查" aria-label="下一篇: 用多重分派來取代型別檢查">
                 
                     <span class="hide-xs hide-sm text-small icon-mr">下一篇</span>
                     <i class="fa fa-angle-right" aria-hidden="true"></i>
@@ -404,7 +400,7 @@
             
             
             <li class="post-action hide-xs">
-                <a class="post-action-btn btn btn--default" target="new" href="https://www.facebook.com/sharer/sharer.php?u=https://yuehhua.github.io/2021/10/14/replace-isa-check-by-multiple-dispatch/" title="分享到 Facebook">
+                <a class="post-action-btn btn btn--default" target="new" href="https://www.facebook.com/sharer/sharer.php?u=https://yuehhua.github.io/2021/11/17/fix-random-numbers-in-threads/" title="分享到 Facebook">
                     <i class="fa fa-facebook-official" aria-hidden="true"></i>
                 </a>
             </li>
@@ -437,7 +433,7 @@
             
             
             <li class="share-option">
-                <a class="share-option-btn" target="new" href="https://www.facebook.com/sharer/sharer.php?u=https://yuehhua.github.io/2021/10/14/replace-isa-check-by-multiple-dispatch/">
+                <a class="share-option-btn" target="new" href="https://www.facebook.com/sharer/sharer.php?u=https://yuehhua.github.io/2021/11/17/fix-random-numbers-in-threads/">
                     <i class="fa fa-facebook-official" aria-hidden="true"></i><span>分享到 Facebook</span>
                 </a>
             </li>
@@ -491,9 +487,9 @@
 
 <script>
     var disqus_config = function () {
-        this.page.url = 'https://yuehhua.github.io/2021/10/14/replace-isa-check-by-multiple-dispatch/';
+        this.page.url = 'https://yuehhua.github.io/2021/11/17/fix-random-numbers-in-threads/';
                  
-            this.page.identifier = '2021/10/14/replace-isa-check-by-multiple-dispatch/';
+            this.page.identifier = '2021/11/17/fix-random-numbers-in-threads/';
                  
              };
     (function () {

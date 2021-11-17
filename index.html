@@ -240,6 +240,62 @@
             <div class="postShorten-header">
                 <h1 class="postShorten-title">
                     
+                        <a class="link-unstyled" href="/2021/11/17/fix-random-numbers-in-threads/">
+                            要如何固定 Julia 執行緒中的亂數？
+                        </a>
+                    
+                </h1>
+                <div class="postShorten-meta">
+    <time datetime="2021-11-17T09:50:30+08:00">
+	
+		    11月 17, 2021
+    	
+    </time>
+    
+        <span>分類 </span>
+        
+    <a class="category-link" href="/categories/My-Style/">My Style</a>, <a class="category-link" href="/categories/My-Style/Computer-Science/">Computer Science</a>, <a class="category-link" href="/categories/My-Style/Computer-Science/Julialang/">Julialang</a>
+
+
+    
+</div>
+
+            </div>
+            
+                <div class="postShorten-content">
+                    <p>一般設定 random seed 的方式則像以下的程式碼：</p>
+<figure class="highlight julia"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">using</span> Random</span><br><span class="line">Random.seed!(<span class="number">0</span>)</span><br></pre></td></tr></table></figure>
+<p>所以我們可以得出一個隨機矩陣看起來像是這樣。</p>
+<figure class="highlight julia"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">julia&gt; rand(<span class="number">5</span>, <span class="number">5</span>)</span><br><span class="line"><span class="number">5</span>×<span class="number">5</span> <span class="built_in">Matrix</span>&#123;<span class="built_in">Float64</span>&#125;:</span><br><span class="line"> <span class="number">0.823648</span>  <span class="number">0.203477</span>   <span class="number">0.585812</span>  <span class="number">0.655448</span>  <span class="number">0.469304</span></span><br><span class="line"> <span class="number">0.910357</span>  <span class="number">0.0423017</span>  <span class="number">0.539289</span>  <span class="number">0.575887</span>  <span class="number">0.0623676</span></span><br><span class="line"> <span class="number">0.164566</span>  <span class="number">0.0682693</span>  <span class="number">0.260036</span>  <span class="number">0.868279</span>  <span class="number">0.353129</span></span><br><span class="line"> <span class="number">0.177329</span>  <span class="number">0.361828</span>   <span class="number">0.910047</span>  <span class="number">0.9678</span>    <span class="number">0.767602</span></span><br><span class="line"> <span class="number">0.27888</span>   <span class="number">0.973216</span>   <span class="number">0.167036</span>  <span class="number">0.76769</span>   <span class="number">0.043141</span></span><br></pre></td></tr></table></figure>
+<p>如果我們要對每個執行緒都設定同樣的 random seed，那就可以在每個執行緒內直接設定即可。</p>
+<figure class="highlight julia"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">Threads.<span class="meta">@threads</span> <span class="keyword">for</span> i <span class="keyword">in</span> <span class="number">1</span>:<span class="number">5</span></span><br><span class="line">    Random.seed!(<span class="number">0</span>)</span><br><span class="line">    tid = Threads.threadid()</span><br><span class="line">    println(tid, <span class="string">": "</span>, rand(<span class="number">5</span>, <span class="number">5</span>))</span><br><span class="line"><span class="keyword">end</span></span><br></pre></td></tr></table></figure>
+<p>所以每個執行緒內印出來的矩陣就會像這樣。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">5: [0.8236475079774124 0.20347655804192266 0.5858115517433242 0.6554484126999125 0.46930370935301835; 0.9103565379264364 0.042301665932029664 0.5392892841426182 0.5758873948500367 0.06236755817015882; 0.16456579813368521 0.06826925550564478 0.26003585026904785 0.8682787096942046 0.35312877270491705; 0.17732884646626457 0.3618283907762174 0.910046541351011 0.9677995536192001 0.767601895961374; 0.278880109331201 0.9732164043865108 0.16703619444214968 0.7676903325581188 0.043141023329413164]</span><br><span class="line">2: [0.8236475079774124 0.20347655804192266 0.5858115517433242 0.6554484126999125 0.46930370935301835; 0.9103565379264364 0.042301665932029664 0.5392892841426182 0.5758873948500367 0.06236755817015882; 0.16456579813368521 0.06826925550564478 0.26003585026904785 0.8682787096942046 0.35312877270491705; 0.17732884646626457 0.3618283907762174 0.910046541351011 0.9677995536192001 0.767601895961374; 0.278880109331201 0.9732164043865108 0.16703619444214968 0.7676903325581188 0.043141023329413164]</span><br><span class="line">4: [0.8236475079774124 0.20347655804192266 0.5858115517433242 0.6554484126999125 0.46930370935301835; 0.9103565379264364 0.042301665932029664 0.5392892841426182 0.5758873948500367 0.06236755817015882; 0.16456579813368521 0.06826925550564478 0.26003585026904785 0.8682787096942046 0.35312877270491705; 0.17732884646626457 0.3618283907762174 0.910046541351011 0.9677995536192001 0.767601895961374; 0.278880109331201 0.9732164043865108 0.16703619444214968 0.7676903325581188 0.043141023329413164]</span><br><span class="line">3: [0.8236475079774124 0.20347655804192266 0.5858115517433242 0.6554484126999125 0.46930370935301835; 0.9103565379264364 0.042301665932029664 0.5392892841426182 0.5758873948500367 0.06236755817015882; 0.16456579813368521 0.06826925550564478 0.26003585026904785 0.8682787096942046 0.35312877270491705; 0.17732884646626457 0.3618283907762174 0.910046541351011 0.9677995536192001 0.767601895961374; 0.278880109331201 0.9732164043865108 0.16703619444214968 0.7676903325581188 0.043141023329413164]</span><br><span class="line">1: [0.8236475079774124 0.20347655804192266 0.5858115517433242 0.6554484126999125 0.46930370935301835; 0.9103565379264364 0.042301665932029664 0.5392892841426182 0.5758873948500367 0.06236755817015882; 0.16456579813368521 0.06826925550564478 0.26003585026904785 0.8682787096942046 0.35312877270491705; 0.17732884646626457 0.3618283907762174 0.910046541351011 0.9677995536192001 0.767601895961374; 0.278880109331201 0.9732164043865108 0.16703619444214968 0.7676903325581188 0.043141023329413164]</span><br></pre></td></tr></table></figure>
+
+                    
+                        
+
+                    
+                    
+                        <p>
+                            <a href="/2021/11/17/fix-random-numbers-in-threads/#post-footer" class="postShorten-excerpt_link link">
+                                留言與分享
+                            </a>
+                        </p>
+                    
+                </div>
+            
+        </div>
+        
+    </article>
+    
+    
+    <article class="postShorten postShorten--thumbnailimg-bottom">
+        <div class="postShorten-wrap">
+            
+            <div class="postShorten-header">
+                <h1 class="postShorten-title">
+                    
                         <a class="link-unstyled" href="/2021/10/14/replace-isa-check-by-multiple-dispatch/">
                             用多重分派來取代型別檢查
                         </a>
@@ -654,50 +710,6 @@
 <figure class="highlight julia"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line">julia&gt; xs = rand(<span class="number">10</span>)</span><br><span class="line"><span class="number">10</span>-element <span class="built_in">Array</span>&#123;<span class="built_in">Float64</span>,<span class="number">1</span>&#125;:</span><br><span class="line"> <span class="number">0.8261912048684596</span></span><br><span class="line"> <span class="number">0.4466692353358077</span></span><br><span class="line"> <span class="number">0.6337754306737924</span></span><br><span class="line"> <span class="number">0.1297961522759261</span></span><br><span class="line"> <span class="number">0.4699412442087936</span></span><br><span class="line"> <span class="number">0.6194816490253636</span></span><br><span class="line"> <span class="number">0.8258926319092839</span></span><br><span class="line"> <span class="number">0.05094839501664228</span></span><br><span class="line"> <span class="number">0.21008570113108194</span></span><br><span class="line"> <span class="number">0.16250331333741275</span></span><br><span class="line"></span><br><span class="line">julia&gt; <span class="keyword">function</span> average(xs::<span class="built_in">Array</span>&#123;<span class="built_in">Float64</span>,<span class="number">1</span>&#125;)</span><br><span class="line">           <span class="keyword">return</span> sum(xs)/length(xs)</span><br><span class="line">       <span class="keyword">end</span></span><br><span class="line">average (generic <span class="keyword">function</span> with <span class="number">1</span> method)</span><br><span class="line"></span><br><span class="line">julia&gt; average(xs)</span><br><span class="line"><span class="number">0.4375284957782564</span></span><br></pre></td></tr></table></figure>
                     
                         <a href="/2021/03/19/use-of-numerical-type-in-parametric-functions-in-julia/" class="postShorten-excerpt_link link">
-                            繼續閱讀
-                        </a>
-                        
-                    
-                </div>
-            
-        </div>
-        
-    </article>
-    
-    
-    <article class="postShorten postShorten--thumbnailimg-right">
-        <div class="postShorten-wrap">
-            
-            <div class="postShorten-header">
-                <h1 class="postShorten-title">
-                    
-                        <a class="link-unstyled" href="/2021/01/14/julia-module-code-loading/">
-                            Julia冷知識-你知道模組中的程式碼是何時被執行的嗎
-                        </a>
-                    
-                </h1>
-                <div class="postShorten-meta">
-    <time datetime="2021-01-14T11:50:26+08:00">
-	
-		    1月 14, 2021
-    	
-    </time>
-    
-        <span>分類 </span>
-        
-    <a class="category-link" href="/categories/My-Style/">My Style</a>, <a class="category-link" href="/categories/My-Style/Computer-Science/">Computer Science</a>, <a class="category-link" href="/categories/My-Style/Computer-Science/Julialang/">Julialang</a>
-
-
-    
-</div>
-
-            </div>
-            
-                <div class="postShorten-excerpt">
-                    <figure class="highlight julia"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">module</span> Foo</span><br><span class="line"></span><br><span class="line"><span class="comment"># Some code here</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">function</span> __init__()</span><br><span class="line">    <span class="comment"># Some code here too</span></span><br><span class="line"><span class="keyword">end</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">end</span></span><br></pre></td></tr></table></figure>
-<p>是否曾經疑惑過寫在 module 中的程式碼會在何時被載入呢？</p>
-                    
-                        <a href="/2021/01/14/julia-module-code-loading/" class="postShorten-excerpt_link link">
                             繼續閱讀
                         </a>
                         

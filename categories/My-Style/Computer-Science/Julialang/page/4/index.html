@@ -241,6 +241,70 @@
             <div class="postShorten-header">
                 <h1 class="postShorten-title">
                     
+                        <a class="link-unstyled" href="/2019/09/06/inline-functions-in-julia/">
+                            Julia 中的行內函式（inline functions）
+                        </a>
+                    
+                </h1>
+                <div class="postShorten-meta">
+    <time datetime="2019-09-06T10:34:58+08:00">
+	
+		    9月 06, 2019
+    	
+    </time>
+    
+        <span>分類 </span>
+        
+    <a class="category-link" href="/categories/My-Style/">My Style</a>, <a class="category-link" href="/categories/My-Style/Computer-Science/">Computer Science</a>, <a class="category-link" href="/categories/My-Style/Computer-Science/Julialang/">Julialang</a>
+
+
+    
+</div>
+
+            </div>
+            
+                <div class="postShorten-content">
+                    <p>剛好看到一些跟編譯器相關的議題，所以來紀錄一下。</p>
+<p>在一些語言中會有行內函式（inline function）的設計，使用的話一般會讓程式的效能變好。</p>
+<p>最知名應該是 C 跟 C++ 的 <code>inline</code>。</p>
+<p>Inline function 會在編譯時期直接將函式內容展開到程式碼中，不過展開與否是由編譯器決定的，<code>inline</code> 的標記只是告訴編譯器這個函式可以成為 inline function。</p>
+<p><a href="https://en.wikipedia.org/wiki/Inline_expansion" target="_blank" rel="noopener">Inline expansion</a> 就是編譯時期會由編譯器執行的一個動作，看起來與 macro expansion 相似，但不同的是 macro expansion 是在前處理（preprocessing）時期做的，會直接展開在原始碼裡頭，而 inline expansion 則是在編譯時期做的，會在呼叫位點（call site）直接展開。</p>
+<p>展開後編譯器便可以進行最佳化，執行時，就不需要做函式呼叫，也不會在 function stack 上多配置空間。一般使用在短小的函式上會有好處，在巨大的函式上使用不一定會有好處。然而過多的 inline function 反而可能造成過多的指令快取的消耗，造成反效果。</p>
+<p>在 Julia 中，編譯器會自動偵測哪些函式可以被展開，會自動做 inline expansion。一般短小的函式會自動被編譯器判定要 inline，不過也可以由程式設計師自己指定哪些巨大函式可以 inline，可以參考[文件]](<a href="https://docs.julialang.org/en/v1.2/base/base/#Base.@inline" target="_blank" rel="noopener">https://docs.julialang.org/en/v1.2/base/base/#Base.@inline</a>)。</p>
+<p>除了 <code>@inline</code> 以外，還有 <code>@noinline</code>。為了避免過多的 inline 反而傷害效能，也可以標記一些短小的函式不要 inline。</p>
+<p>範例：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">@inline function bigfunc(x)</span><br><span class="line">    ...</span><br><span class="line">end</span><br></pre></td></tr></table></figure>
+<h2 id="Julia-什麼時候-inline-expansion？">Julia 什麼時候 inline expansion？</h2>
+<p>我們來實驗看看，以下有兩個函式，<code>foo</code> 跟 <code>bar</code>。其中讓 <code>foo</code> 為 inline。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br></pre></td><td class="code"><pre><span class="line">julia&gt; @inline foo(x) &#x3D; 3x</span><br><span class="line">foo (generic function with 1 method)</span><br><span class="line"></span><br><span class="line">julia&gt; bar(x) &#x3D; foo(x)^2</span><br><span class="line">bar (generic function with 1 method)</span><br><span class="line"></span><br><span class="line">julia&gt; bar(5)</span><br><span class="line">225</span><br><span class="line"></span><br><span class="line">julia&gt; @code_lowered bar(5)</span><br><span class="line">CodeInfo(</span><br><span class="line">1 ─ %1 &#x3D; Main.foo(x)</span><br><span class="line">│   %2 &#x3D; Core.apply_type(Base.Val, 2)</span><br><span class="line">│   %3 &#x3D; (%2)()</span><br><span class="line">│   %4 &#x3D; Base.literal_pow(Main.:^, %1, %3)</span><br><span class="line">└──      return %4</span><br><span class="line">)</span><br><span class="line"></span><br><span class="line">julia&gt; @code_typed bar(5)</span><br><span class="line">CodeInfo(</span><br><span class="line">1 ─ %1 &#x3D; Base.mul_int(3, x)::Int64</span><br><span class="line">│   %2 &#x3D; Base.mul_int(%1, %1)::Int64</span><br><span class="line">└──      return %2</span><br><span class="line">) &#x3D;&gt; Int64</span><br></pre></td></tr></table></figure>
+<p>你會發現在 lower 的階段仍保留有 <code>foo</code> 的函式呼叫的過程，但是到了 typed 的階段就已經剩下計算的部份了。</p>
+<p>所以其實在進入 LLVMIR 以前就已經先做完 inline expansion 了。</p>
+<p>相關技術：<a href="https://en.wikipedia.org/wiki/Inline_caching" target="_blank" rel="noopener">Inline caching</a></p>
+
+                    
+                        
+
+                    
+                    
+                        <p>
+                            <a href="/2019/09/06/inline-functions-in-julia/#post-footer" class="postShorten-excerpt_link link">
+                                留言與分享
+                            </a>
+                        </p>
+                    
+                </div>
+            
+        </div>
+        
+    </article>
+    
+    
+    <article class="postShorten postShorten--thumbnailimg-bottom">
+        <div class="postShorten-wrap">
+            
+            <div class="postShorten-header">
+                <h1 class="postShorten-title">
+                    
                         <a class="link-unstyled" href="/2019/05/06/operate-value-in-julia-parametric-type/">
                             運算 Julia 參數型別上的值
                         </a>
