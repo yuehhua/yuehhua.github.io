@@ -26,8 +26,8 @@
 <meta property="article:published_time" content="2018-10-17T14:36:06.000Z">
 <meta property="article:modified_time" content="2018-10-19T15:26:36.709Z">
 <meta property="article:author" content="Yueh-Hua Tu">
-<meta property="article:tag" content="machine learning">
 <meta property="article:tag" content="deep learning">
+<meta property="article:tag" content="machine learning">
 <meta property="article:tag" content="topology">
 <meta name="twitter:card" content="summary">
     
@@ -54,10 +54,30 @@
 
         ga('create', 'UA-119690895-1', 'auto');
         ga('send', 'pageview');
-    </script><!-- hexo-inject:begin --><!-- hexo-inject:end -->
+    </script>
     
     
-</head>
+    
+        <script>
+            window.MathJax = {
+                tex: {
+                    inlineMath: [['$', '$'], ['\\(', '\\)']],
+                    displayMath: [['$$', '$$'], ['\\[', '\\]']],
+                    processEscapes: true,
+                    tags: 'ams'
+                },
+                options: {
+                    skipHtmlTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+                }
+            };
+        </script>
+        <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+    
+<!-- hexo injector head_end start -->
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.12.0/dist/katex.min.css">
+
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/hexo-math@4.0.0/dist/style.css">
+<!-- hexo injector head_end end --><!-- hexo-inject:begin --><!-- hexo-inject:end --></head>
 
     <body>
         <!-- hexo-inject:begin --><!-- hexo-inject:end --><div id="blog">
@@ -69,7 +89,7 @@
 <header id="header" data-behavior="5">
     <i id="btn-open-sidebar" class="fa fa-lg fa-bars"></i>
     <div class="header-title">
-        <a class="header-title-link" href="/%20">Dream Maker</a>
+        <a class="header-title-link" href="/">Dream Maker</a>
     </div>
     
         
@@ -93,7 +113,7 @@
                 <li class="sidebar-button">
                     
                         <a  class="sidebar-button-link "
-                             href="/%20"
+                             href="/"
                             
                             title="首頁"
                         >
@@ -269,7 +289,7 @@
                                 <div class="main-content-wrap">
                                     <p>既然前一篇提到學習特徵是一件重要的事，那麼我們就來講講 autoencoder 吧！</p>
 <p>Autoencoder 就是一個 unsupervised 方法，試圖學習出可以用的特徵。雖然不少人可能會說他是一個壓縮的方法或是一個降維的方法，其實他都是。</p>
-<a id="more"></a>
+<span id="more"></span>
 <p>Autoencoder 就是希望給一個 input ，經過轉換之後會成為一個新的、維度比較低的向量，並且可以再由這個向量透過轉換還原成原本的 input。既然低維的向量可以還原成 input 的樣子，那代表他含有足夠的資訊可以還原，所以你可以把他看成是一種壓縮或是降維。我想強調的是，autoencoder 可以將一個 input 的樣子轉換成一個新的表示方式，我們就可以用新的視角來看待他。</p>
 <h2 id="模型">模型</h2>
 <p>Autoencoder 算是一個非常簡單的模型，他就是將資料向量經過一個轉換過後成為新的向量，在讓新的向量經過轉換過後還原成原本的向量。</p>
@@ -352,13 +372,13 @@ $$</p>
                                                     
                                                         
                                                             <div id="disqus_thread">
-    <noscript>Please enable JavaScript to view the <a href="//disqus.com/?ref_noscript" target="_blank" rel="noopener">comments powered by Disqus.</a></noscript>
+    <noscript>Please enable JavaScript to view the <a href="//disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
 </div>
                                                                 
                                                                             
                             </div>
                             
-                                <script src='https://unpkg.com/mermaid@7.1.2/dist/mermaid.min.js'></script>
+                                <script src='https://unpkg.com/mermaid@10.9.1/dist/mermaid.min.js'></script>
                                 <script>
                                     if (window.mermaid) {
                                         mermaid.initialize({ theme: 'forest' });
@@ -369,7 +389,7 @@ $$</p>
 
                 <footer id="footer" class="main-content-wrap">
     <span class="copyrights">
-        Copyrights &copy; 2021 Yueh-Hua Tu. All Rights Reserved.
+        Copyrights &copy; 2026 Yueh-Hua Tu. All Rights Reserved.
     </span>
 </footer>
 
@@ -509,24 +529,7 @@ $$</p>
         s.setAttribute('data-timestamp', +new Date());
         (d.head || d.body).appendChild(s);
     })();
-</script><!-- hexo-inject:begin --><!-- Begin: Injected MathJax -->
-<script type="text/x-mathjax-config">
-  MathJax.Hub.Config({"tex2jax":{"inlineMath":[["$","$"],["\\(","\\)"]],"skipTags":["script","noscript","style","textarea","pre","code"],"processEscapes":true},"TeX":{"equationNumbers":{"autoNumber":"AMS"}}});
-</script>
-
-<script type="text/x-mathjax-config">
-  MathJax.Hub.Queue(function() {
-    var all = MathJax.Hub.getAllJax(), i;
-    for(i=0; i < all.length; i += 1) {
-      all[i].SourceElement().parentNode.className += ' has-jax';
-    }
-  });
-</script>
-
-<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.6/latest.js?config=TeX-AMS-MML_HTMLorMML">
-</script>
-<!-- End: Injected MathJax -->
-<!-- hexo-inject:end -->
+</script><!-- hexo-inject:begin --><!-- hexo-inject:end -->
 
 
 

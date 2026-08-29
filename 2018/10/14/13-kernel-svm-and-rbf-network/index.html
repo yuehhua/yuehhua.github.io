@@ -27,8 +27,8 @@
 <meta property="article:published_time" content="2018-10-13T16:18:55.000Z">
 <meta property="article:modified_time" content="2018-10-15T07:08:15.501Z">
 <meta property="article:author" content="Yueh-Hua Tu">
-<meta property="article:tag" content="machine learning">
 <meta property="article:tag" content="deep learning">
+<meta property="article:tag" content="machine learning">
 <meta property="article:tag" content="topology">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:image" content="https://yuehhua.github.io/images/rbf_network.svg">
@@ -56,10 +56,30 @@
 
         ga('create', 'UA-119690895-1', 'auto');
         ga('send', 'pageview');
-    </script><!-- hexo-inject:begin --><!-- hexo-inject:end -->
+    </script>
     
     
-</head>
+    
+        <script>
+            window.MathJax = {
+                tex: {
+                    inlineMath: [['$', '$'], ['\\(', '\\)']],
+                    displayMath: [['$$', '$$'], ['\\[', '\\]']],
+                    processEscapes: true,
+                    tags: 'ams'
+                },
+                options: {
+                    skipHtmlTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+                }
+            };
+        </script>
+        <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+    
+<!-- hexo injector head_end start -->
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.12.0/dist/katex.min.css">
+
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/hexo-math@4.0.0/dist/style.css">
+<!-- hexo injector head_end end --><!-- hexo-inject:begin --><!-- hexo-inject:end --></head>
 
     <body>
         <!-- hexo-inject:begin --><!-- hexo-inject:end --><div id="blog">
@@ -71,7 +91,7 @@
 <header id="header" data-behavior="5">
     <i id="btn-open-sidebar" class="fa fa-lg fa-bars"></i>
     <div class="header-title">
-        <a class="header-title-link" href="/%20">Dream Maker</a>
+        <a class="header-title-link" href="/">Dream Maker</a>
     </div>
     
         
@@ -95,7 +115,7 @@
                 <li class="sidebar-button">
                     
                         <a  class="sidebar-button-link "
-                             href="/%20"
+                             href="/"
                             
                             title="首頁"
                         >
@@ -273,7 +293,7 @@
 <p>可能有的人會覺得我怎麼不放神經網路的圖，看數學式子看的很痛苦。</p>
 <p>是的，我的確沒打算放圖。一來神經網路的圖在各大網站或是 google 上遍地都是我實在沒有必要再放一張，二來因為這個模型的核心根本不是哪些圖，那些圖只是幫助理解，理解之後就都是看數學式了，再回去看圖就太小兒科了。</p>
 <p>神經網路的概念在於將多個模型串接起來，也就是前面提到的堆疊的概念。</p>
-<a id="more"></a>
+<span id="more"></span>
 <h2 id="處理流程">處理流程</h2>
 <p>堆疊的概念其實跟傳統的機器學習處理流程有點像。</p>
 <p>機器學習的處理流程大概就跟做料理很像。</p>
@@ -385,13 +405,13 @@ $$</p>
                                                     
                                                         
                                                             <div id="disqus_thread">
-    <noscript>Please enable JavaScript to view the <a href="//disqus.com/?ref_noscript" target="_blank" rel="noopener">comments powered by Disqus.</a></noscript>
+    <noscript>Please enable JavaScript to view the <a href="//disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
 </div>
                                                                 
                                                                             
                             </div>
                             
-                                <script src='https://unpkg.com/mermaid@7.1.2/dist/mermaid.min.js'></script>
+                                <script src='https://unpkg.com/mermaid@10.9.1/dist/mermaid.min.js'></script>
                                 <script>
                                     if (window.mermaid) {
                                         mermaid.initialize({ theme: 'forest' });
@@ -402,7 +422,7 @@ $$</p>
 
                 <footer id="footer" class="main-content-wrap">
     <span class="copyrights">
-        Copyrights &copy; 2021 Yueh-Hua Tu. All Rights Reserved.
+        Copyrights &copy; 2026 Yueh-Hua Tu. All Rights Reserved.
     </span>
 </footer>
 
@@ -542,24 +562,7 @@ $$</p>
         s.setAttribute('data-timestamp', +new Date());
         (d.head || d.body).appendChild(s);
     })();
-</script><!-- hexo-inject:begin --><!-- Begin: Injected MathJax -->
-<script type="text/x-mathjax-config">
-  MathJax.Hub.Config({"tex2jax":{"inlineMath":[["$","$"],["\\(","\\)"]],"skipTags":["script","noscript","style","textarea","pre","code"],"processEscapes":true},"TeX":{"equationNumbers":{"autoNumber":"AMS"}}});
-</script>
-
-<script type="text/x-mathjax-config">
-  MathJax.Hub.Queue(function() {
-    var all = MathJax.Hub.getAllJax(), i;
-    for(i=0; i < all.length; i += 1) {
-      all[i].SourceElement().parentNode.className += ' has-jax';
-    }
-  });
-</script>
-
-<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.6/latest.js?config=TeX-AMS-MML_HTMLorMML">
-</script>
-<!-- End: Injected MathJax -->
-<!-- hexo-inject:end -->
+</script><!-- hexo-inject:begin --><!-- hexo-inject:end -->
 
 
 

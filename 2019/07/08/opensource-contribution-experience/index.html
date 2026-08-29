@@ -26,8 +26,8 @@
 <meta property="article:published_time" content="2019-07-08T14:08:04.000Z">
 <meta property="article:modified_time" content="2019-09-06T03:19:49.032Z">
 <meta property="article:author" content="Yueh-Hua Tu">
-<meta property="article:tag" content="machine learning">
 <meta property="article:tag" content="deep learning">
+<meta property="article:tag" content="machine learning">
 <meta property="article:tag" content="topology">
 <meta name="twitter:card" content="summary">
     
@@ -54,10 +54,30 @@
 
         ga('create', 'UA-119690895-1', 'auto');
         ga('send', 'pageview');
-    </script><!-- hexo-inject:begin --><!-- hexo-inject:end -->
+    </script>
     
     
-</head>
+    
+        <script>
+            window.MathJax = {
+                tex: {
+                    inlineMath: [['$', '$'], ['\\(', '\\)']],
+                    displayMath: [['$$', '$$'], ['\\[', '\\]']],
+                    processEscapes: true,
+                    tags: 'ams'
+                },
+                options: {
+                    skipHtmlTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+                }
+            };
+        </script>
+        <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+    
+<!-- hexo injector head_end start -->
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.12.0/dist/katex.min.css">
+
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/hexo-math@4.0.0/dist/style.css">
+<!-- hexo injector head_end end --><!-- hexo-inject:begin --><!-- hexo-inject:end --></head>
 
     <body>
         <!-- hexo-inject:begin --><!-- hexo-inject:end --><div id="blog">
@@ -69,7 +89,7 @@
 <header id="header" data-behavior="5">
     <i id="btn-open-sidebar" class="fa fa-lg fa-bars"></i>
     <div class="header-title">
-        <a class="header-title-link" href="/%20">Dream Maker</a>
+        <a class="header-title-link" href="/">Dream Maker</a>
     </div>
     
         
@@ -93,7 +113,7 @@
                 <li class="sidebar-button">
                     
                         <a  class="sidebar-button-link "
-                             href="/%20"
+                             href="/"
                             
                             title="首頁"
                         >
@@ -269,7 +289,7 @@
                                 <div class="main-content-wrap">
                                     <p>來分享一下最近貢獻開源專案的小心得，雖然我自己貢獻開源專案的次數跟時間不是很多，不過一個 PR 可以產生不少文字跟討論算是值得紀錄一下的。</p>
 <p>我自己在 Julia 的一個統計相關的專案上發了一個 PR，希望補齊在標準化上的一些功能，並且可以支援一維的陣列標準化。</p>
-<a id="more"></a>
+<span id="more"></span>
 <p>起初，我只想用最簡單、直接的方式可以相容於原本的 API，並且達到我想要的功能。</p>
 <p>後來專案的審查者希望我將較為底層的功能一起做調整，在不是很情願的情形下，我提出了我認為比較好的修改方案。畢竟動下去等於是整個架構要重新改掉了。</p>
 <p>幾次的來回討論以及確認目標後，我確實需要把這部份的功能全部打掉重做。</p>
@@ -366,13 +386,13 @@
                                                     
                                                         
                                                             <div id="disqus_thread">
-    <noscript>Please enable JavaScript to view the <a href="//disqus.com/?ref_noscript" target="_blank" rel="noopener">comments powered by Disqus.</a></noscript>
+    <noscript>Please enable JavaScript to view the <a href="//disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
 </div>
                                                                 
                                                                             
                             </div>
                             
-                                <script src='https://unpkg.com/mermaid@7.1.2/dist/mermaid.min.js'></script>
+                                <script src='https://unpkg.com/mermaid@10.9.1/dist/mermaid.min.js'></script>
                                 <script>
                                     if (window.mermaid) {
                                         mermaid.initialize({ theme: 'forest' });
@@ -383,7 +403,7 @@
 
                 <footer id="footer" class="main-content-wrap">
     <span class="copyrights">
-        Copyrights &copy; 2021 Yueh-Hua Tu. All Rights Reserved.
+        Copyrights &copy; 2026 Yueh-Hua Tu. All Rights Reserved.
     </span>
 </footer>
 

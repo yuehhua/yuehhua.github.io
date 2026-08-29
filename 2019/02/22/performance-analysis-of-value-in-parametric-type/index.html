@@ -15,19 +15,19 @@
     
         <link rel="alternate" type="application/atom+xml" title="RSS" href="/atom.xml">
     
-    <script type="application/ld+json">{"@context":"http://schema.org","@type":"BlogPosting","author":{"@type":"Person","name":"Yueh-Hua Tu","sameAs":["https://github.com/yuehhua/","https://www.facebook.com/a504082002","https://www.linkedin.com/in/%E5%B2%B3%E8%8F%AF-%E6%9D%9C-6a3995a0/","mailto:a504082002@gmail.com"],"image":"https://www.gravatar.com/avatar/a565749fba4782b717234da670b273fd"},"articleBody":"我在使用的時候有注意到在參數化型別中使用值的方式與傳統封裝的方式有效能上的差異。\n所以我就做了一些測試。\n在參數化型別中使用值：\n123struct A&#123;T&#125;end\n傳統型別封裝：\n123struct B    x::Int64end\n全文出現的程式碼為實際測試程式碼\n因為 Julia 有提供好用的 @code_llvm 及 @code_native 來觀察一行程式碼實際被轉換成 LLVM 或是組合語言的時候會產生多少行的程式碼，藉此我們可以用低階程式碼來評估是否有效率。程式碼的行數愈少是越有效率的。\n建立\n我們來測試一個物件被建立需要多少行的程式碼。\nA - LLVM\n1@code_llvm A&#123;5&#125;()\n1234567;  @ REPL[1]:3 within `Type'define nonnull %jl_value_t addrspace(10)* @japi1_Type_12238(%jl_value_t addrspace(10)*, %jl_value_t addrspace(10)**, i32) #0 &#123;top:  %3 = alloca %jl_value_t addrspace(10)**, align 8  store volatile %jl_value_t addrspace(10)** %1, %jl_value_t addrspace(10)*** %3, align 8  ret %jl_value_t addrspace(10)* addrspacecast (%jl_value_t* inttoptr (i64 140407726014496 to %jl_value_t*) to %jl_value_t addrspace(10)*)&#125;\nB - LLVM\n1@code_llvm B(5)\n123456;  @ REPL[1]:2 within `Type'define &#123; i64 &#125; @julia_Type_12221(%jl_value_t addrspace(10)*, i64) &#123;top:  %.fca.0.insert = insertvalue &#123; i64 &#125; undef, i64 %1, 0  ret &#123; i64 &#125; %.fca.0.insert&#125;\nA - Assembly\n1@code_native A&#123;5&#125;()\n12345; ┌ @ REPL[1]:3 within &#96;Type&#39;\tmovq\t%rsi, -8(%rsp)\tmovabsq\t$140407726014496, %rax  # imm &#x3D; 0x7FB338A20020\tretq; └\nB - Assembly\n1@code_native B(5)\n12345; ┌ @ REPL[1]:2 within &#96;Type&#39;\tmovq\t%rsi, %rax\tretq\tnopw\t%cs:(%rax,%rax); └\n取值\n接著測試從物件當中取值出來的效能。\n定義取值的方法：\n12get_value(::A&#123;T&#125;) where &#123;T&#125; = Tget_value(b::B) = b.x\n事先建立好物件：\n12a = A&#123;5&#125;()b = B(5)\nA - LLVM\n1@code_llvm get_value(a)\n12345;  @ REPL[8]:1 within `get_value'define i64 @julia_get_value_12274() &#123;top:  ret i64 5&#125;\nB - LLVM\n1@code_llvm get_value(b)\n123456789;  @ REPL[5]:1 within `get_value'define i64 @julia_get_value_12630(&#123; i64 &#125; addrspace(11)* nocapture nonnull readonly dereferenceable(8)) &#123;top:; ┌ @ sysimg.jl:18 within `getproperty'   %1 = getelementptr inbounds &#123; i64 &#125;, &#123; i64 &#125; addrspace(11)* %0, i64 0, i32 0; └  %2 = load i64, i64 addrspace(11)* %1, align 8  ret i64 %2&#125;\nA - Assembly\n1@code_native get_value(a)\n12345; ┌ @ REPL[8]:1 within &#96;get_value&#39;\tmovl\t$5, %eax\tretq\tnopw\t%cs:(%rax,%rax); └\nB - Assembly\n1@code_native get_value(b)\n12345; ┌ @ REPL[5]:1 within &#96;get_value&#39;\tmovq\t(%rdi), %rax\tretq\tnopw\t%cs:(%rax,%rax); └\n給大家參考。\n","dateCreated":"2019-02-22T12:24:37+08:00","dateModified":"2019-09-06T11:20:20+08:00","datePublished":"2019-02-22T12:24:37+08:00","description":"","headline":"在參數化型別中使用值的效能分析","image":[],"mainEntityOfPage":{"@type":"WebPage","@id":"https://yuehhua.github.io/2019/02/22/performance-analysis-of-value-in-parametric-type/"},"publisher":{"@type":"Organization","name":"Yueh-Hua Tu","sameAs":["https://github.com/yuehhua/","https://www.facebook.com/a504082002","https://www.linkedin.com/in/%E5%B2%B3%E8%8F%AF-%E6%9D%9C-6a3995a0/","mailto:a504082002@gmail.com"],"image":"https://www.gravatar.com/avatar/a565749fba4782b717234da670b273fd","logo":{"@type":"ImageObject","url":"https://www.gravatar.com/avatar/a565749fba4782b717234da670b273fd"}},"url":"https://yuehhua.github.io/2019/02/22/performance-analysis-of-value-in-parametric-type/"}</script>
-    <meta name="description" content="我在使用的時候有注意到在參數化型別中使用值的方式與傳統封裝的方式有效能上的差異。 所以我就做了一些測試。 在參數化型別中使用值： 123struct A&amp;#123;T&amp;#125;end 傳統型別封裝： 123struct B    x::Int64end 全文出現的程式碼為實際測試程式碼 因為 Julia 有提供好用的 @code_llvm 及 @code_native 來觀察一行程式碼實際被轉換">
+    <script type="application/ld+json">{"@context":"http://schema.org","@type":"BlogPosting","author":{"@type":"Person","name":"Yueh-Hua Tu","sameAs":["https://github.com/yuehhua/","https://www.facebook.com/a504082002","https://www.linkedin.com/in/%E5%B2%B3%E8%8F%AF-%E6%9D%9C-6a3995a0/","mailto:a504082002@gmail.com"],"image":"https://www.gravatar.com/avatar/a565749fba4782b717234da670b273fd"},"articleBody":"我在使用的時候有注意到在參數化型別中使用值的方式與傳統封裝的方式有效能上的差異。\n所以我就做了一些測試。\n在參數化型別中使用值：\n123struct A&#123;T&#125;end\n傳統型別封裝：\n123struct B    x::Int64end\n全文出現的程式碼為實際測試程式碼\n因為 Julia 有提供好用的 @code_llvm 及 @code_native 來觀察一行程式碼實際被轉換成 LLVM 或是組合語言的時候會產生多少行的程式碼，藉此我們可以用低階程式碼來評估是否有效率。程式碼的行數愈少是越有效率的。\n建立\n我們來測試一個物件被建立需要多少行的程式碼。\nA - LLVM\n1@code_llvm A&#123;5&#125;()\n1234567;  @ REPL[1]:3 within `Type&#x27;define nonnull %jl_value_t addrspace(10)* @japi1_Type_12238(%jl_value_t addrspace(10)*, %jl_value_t addrspace(10)**, i32) #0 &#123;top:  %3 = alloca %jl_value_t addrspace(10)**, align 8  store volatile %jl_value_t addrspace(10)** %1, %jl_value_t addrspace(10)*** %3, align 8  ret %jl_value_t addrspace(10)* addrspacecast (%jl_value_t* inttoptr (i64 140407726014496 to %jl_value_t*) to %jl_value_t addrspace(10)*)&#125;\nB - LLVM\n1@code_llvm B(5)\n123456;  @ REPL[1]:2 within `Type&#x27;define &#123; i64 &#125; @julia_Type_12221(%jl_value_t addrspace(10)*, i64) &#123;top:  %.fca.0.insert = insertvalue &#123; i64 &#125; undef, i64 %1, 0  ret &#123; i64 &#125; %.fca.0.insert&#125;\nA - Assembly\n1@code_native A&#123;5&#125;()\n12345; ┌ @ REPL[1]:3 within `Type&#x27;\tmovq\t%rsi, -8(%rsp)\tmovabsq\t$140407726014496, %rax  # imm = 0x7FB338A20020\tretq; └\nB - Assembly\n1@code_native B(5)\n12345; ┌ @ REPL[1]:2 within `Type&#x27;\tmovq\t%rsi, %rax\tretq\tnopw\t%cs:(%rax,%rax); └\n取值\n接著測試從物件當中取值出來的效能。\n定義取值的方法：\n12get_value(::A&#123;T&#125;) where &#123;T&#125; = Tget_value(b::B) = b.x\n事先建立好物件：\n12a = A&#123;5&#125;()b = B(5)\nA - LLVM\n1@code_llvm get_value(a)\n12345;  @ REPL[8]:1 within `get_value&#x27;define i64 @julia_get_value_12274() &#123;top:  ret i64 5&#125;\nB - LLVM\n1@code_llvm get_value(b)\n123456789;  @ REPL[5]:1 within `get_value&#x27;define i64 @julia_get_value_12630(&#123; i64 &#125; addrspace(11)* nocapture nonnull readonly dereferenceable(8)) &#123;top:; ┌ @ sysimg.jl:18 within `getproperty&#x27;   %1 = getelementptr inbounds &#123; i64 &#125;, &#123; i64 &#125; addrspace(11)* %0, i64 0, i32 0; └  %2 = load i64, i64 addrspace(11)* %1, align 8  ret i64 %2&#125;\nA - Assembly\n1@code_native get_value(a)\n12345; ┌ @ REPL[8]:1 within `get_value&#x27;\tmovl\t$5, %eax\tretq\tnopw\t%cs:(%rax,%rax); └\nB - Assembly\n1@code_native get_value(b)\n12345; ┌ @ REPL[5]:1 within `get_value&#x27;\tmovq\t(%rdi), %rax\tretq\tnopw\t%cs:(%rax,%rax); └\n給大家參考。\n","dateCreated":"2019-02-22T12:24:37+08:00","dateModified":"2019-09-06T11:20:20+08:00","datePublished":"2019-02-22T12:24:37+08:00","description":"","headline":"在參數化型別中使用值的效能分析","image":[],"mainEntityOfPage":{"@type":"WebPage","@id":"https://yuehhua.github.io/2019/02/22/performance-analysis-of-value-in-parametric-type/"},"publisher":{"@type":"Organization","name":"Yueh-Hua Tu","sameAs":["https://github.com/yuehhua/","https://www.facebook.com/a504082002","https://www.linkedin.com/in/%E5%B2%B3%E8%8F%AF-%E6%9D%9C-6a3995a0/","mailto:a504082002@gmail.com"],"image":"https://www.gravatar.com/avatar/a565749fba4782b717234da670b273fd","logo":{"@type":"ImageObject","url":"https://www.gravatar.com/avatar/a565749fba4782b717234da670b273fd"}},"url":"https://yuehhua.github.io/2019/02/22/performance-analysis-of-value-in-parametric-type/"}</script>
+    <meta name="description" content="我在使用的時候有注意到在參數化型別中使用值的方式與傳統封裝的方式有效能上的差異。 所以我就做了一些測試。 在參數化型別中使用值： 123struct A&#123;T&#125;end 傳統型別封裝： 123struct B    x::Int64end 全文出現的程式碼為實際測試程式碼 因為 Julia 有提供好用的 @code_llvm 及 @code_native 來觀察一行程式碼實際被轉換">
 <meta property="og:type" content="blog">
 <meta property="og:title" content="在參數化型別中使用值的效能分析">
 <meta property="og:url" content="https://yuehhua.github.io/2019/02/22/performance-analysis-of-value-in-parametric-type/index.html">
 <meta property="og:site_name" content="Dream Maker">
-<meta property="og:description" content="我在使用的時候有注意到在參數化型別中使用值的方式與傳統封裝的方式有效能上的差異。 所以我就做了一些測試。 在參數化型別中使用值： 123struct A&amp;#123;T&amp;#125;end 傳統型別封裝： 123struct B    x::Int64end 全文出現的程式碼為實際測試程式碼 因為 Julia 有提供好用的 @code_llvm 及 @code_native 來觀察一行程式碼實際被轉換">
+<meta property="og:description" content="我在使用的時候有注意到在參數化型別中使用值的方式與傳統封裝的方式有效能上的差異。 所以我就做了一些測試。 在參數化型別中使用值： 123struct A&#123;T&#125;end 傳統型別封裝： 123struct B    x::Int64end 全文出現的程式碼為實際測試程式碼 因為 Julia 有提供好用的 @code_llvm 及 @code_native 來觀察一行程式碼實際被轉換">
 <meta property="og:locale" content="zh_TW">
 <meta property="article:published_time" content="2019-02-22T04:24:37.000Z">
 <meta property="article:modified_time" content="2019-09-06T03:20:20.510Z">
 <meta property="article:author" content="Yueh-Hua Tu">
-<meta property="article:tag" content="machine learning">
 <meta property="article:tag" content="deep learning">
+<meta property="article:tag" content="machine learning">
 <meta property="article:tag" content="topology">
 <meta name="twitter:card" content="summary">
     
@@ -54,10 +54,30 @@
 
         ga('create', 'UA-119690895-1', 'auto');
         ga('send', 'pageview');
-    </script><!-- hexo-inject:begin --><!-- hexo-inject:end -->
+    </script>
     
     
-</head>
+    
+        <script>
+            window.MathJax = {
+                tex: {
+                    inlineMath: [['$', '$'], ['\\(', '\\)']],
+                    displayMath: [['$$', '$$'], ['\\[', '\\]']],
+                    processEscapes: true,
+                    tags: 'ams'
+                },
+                options: {
+                    skipHtmlTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+                }
+            };
+        </script>
+        <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+    
+<!-- hexo injector head_end start -->
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.12.0/dist/katex.min.css">
+
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/hexo-math@4.0.0/dist/style.css">
+<!-- hexo injector head_end end --><!-- hexo-inject:begin --><!-- hexo-inject:end --></head>
 
     <body>
         <!-- hexo-inject:begin --><!-- hexo-inject:end --><div id="blog">
@@ -69,7 +89,7 @@
 <header id="header" data-behavior="5">
     <i id="btn-open-sidebar" class="fa fa-lg fa-bars"></i>
     <div class="header-title">
-        <a class="header-title-link" href="/%20">Dream Maker</a>
+        <a class="header-title-link" href="/">Dream Maker</a>
     </div>
     
         
@@ -93,7 +113,7 @@
                 <li class="sidebar-button">
                     
                         <a  class="sidebar-button-link "
-                             href="/%20"
+                             href="/"
                             
                             title="首頁"
                         >
@@ -279,16 +299,16 @@
 <p>我們來測試一個物件被建立需要多少行的程式碼。</p>
 <h3 id="A-LLVM">A - LLVM</h3>
 <figure class="highlight julia"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@code_llvm</span> A&#123;<span class="number">5</span>&#125;()</span><br></pre></td></tr></table></figure>
-<figure class="highlight llvm"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">;  @ REPL[1]:3 within `Type'</span></span><br><span class="line"><span class="comment">define nonnull %jl_value_t addrspace(10)* @japi1_Type_12238(%jl_value_t addrspace(10)*, %jl_value_t addrspace(10)**, i32) #0 &#123;</span></span><br><span class="line"><span class="comment">top:</span></span><br><span class="line"><span class="comment">  %3 = alloca %jl_value_t addrspace(10)**, align 8</span></span><br><span class="line"><span class="comment">  store volatile %jl_value_t addrspace(10)** %1, %jl_value_t addrspace(10)*** %3, align 8</span></span><br><span class="line"><span class="comment">  ret %jl_value_t addrspace(10)* addrspacecast (%jl_value_t* inttoptr (i64 140407726014496 to %jl_value_t*) to %jl_value_t addrspace(10)*)</span></span><br><span class="line"><span class="comment">&#125;</span></span><br></pre></td></tr></table></figure>
+<figure class="highlight llvm"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">;  @ REPL[1]:3 within `Type&#x27;</span></span><br><span class="line"><span class="keyword">define</span> nonnull <span class="variable">%jl_value_t</span> <span class="keyword">addrspace</span>(<span class="number">10</span>)* <span class="title">@japi1_Type_12238</span>(<span class="variable">%jl_value_t</span> <span class="keyword">addrspace</span>(<span class="number">10</span>)*<span class="punctuation">,</span> <span class="variable">%jl_value_t</span> <span class="keyword">addrspace</span>(<span class="number">10</span>)**<span class="punctuation">,</span> <span class="type">i32</span>) <span class="variable">#0</span> &#123;</span><br><span class="line"><span class="symbol">top:</span></span><br><span class="line">  <span class="variable">%3</span> <span class="operator">=</span> <span class="keyword">alloca</span> <span class="variable">%jl_value_t</span> <span class="keyword">addrspace</span>(<span class="number">10</span>)**<span class="punctuation">,</span> <span class="keyword">align</span> <span class="number">8</span></span><br><span class="line">  <span class="keyword">store</span> <span class="keyword">volatile</span> <span class="variable">%jl_value_t</span> <span class="keyword">addrspace</span>(<span class="number">10</span>)** <span class="variable">%1</span><span class="punctuation">,</span> <span class="variable">%jl_value_t</span> <span class="keyword">addrspace</span>(<span class="number">10</span>)*** <span class="variable">%3</span><span class="punctuation">,</span> <span class="keyword">align</span> <span class="number">8</span></span><br><span class="line">  <span class="keyword">ret</span> <span class="variable">%jl_value_t</span> <span class="keyword">addrspace</span>(<span class="number">10</span>)* <span class="keyword">addrspacecast</span> (<span class="variable">%jl_value_t</span>* <span class="keyword">inttoptr</span> (<span class="type">i64</span> <span class="number">140407726014496</span> <span class="keyword">to</span> <span class="variable">%jl_value_t</span>*) <span class="keyword">to</span> <span class="variable">%jl_value_t</span> <span class="keyword">addrspace</span>(<span class="number">10</span>)*)</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 <h3 id="B-LLVM">B - LLVM</h3>
 <figure class="highlight julia"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@code_llvm</span> B(<span class="number">5</span>)</span><br></pre></td></tr></table></figure>
-<figure class="highlight llvm"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">;  @ REPL[1]:2 within `Type'</span></span><br><span class="line"><span class="comment">define &#123; i64 &#125; @julia_Type_12221(%jl_value_t addrspace(10)*, i64) &#123;</span></span><br><span class="line"><span class="comment">top:</span></span><br><span class="line"><span class="comment">  %.fca.0.insert = insertvalue &#123; i64 &#125; undef, i64 %1, 0</span></span><br><span class="line"><span class="comment">  ret &#123; i64 &#125; %.fca.0.insert</span></span><br><span class="line"><span class="comment">&#125;</span></span><br></pre></td></tr></table></figure>
+<figure class="highlight llvm"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">;  @ REPL[1]:2 within `Type&#x27;</span></span><br><span class="line"><span class="keyword">define</span> &#123; <span class="type">i64</span> &#125; <span class="title">@julia_Type_12221</span>(<span class="variable">%jl_value_t</span> <span class="keyword">addrspace</span>(<span class="number">10</span>)*<span class="punctuation">,</span> <span class="type">i64</span>) &#123;</span><br><span class="line"><span class="symbol">top:</span></span><br><span class="line">  <span class="variable">%.fca.0.insert</span> <span class="operator">=</span> <span class="keyword">insertvalue</span> &#123; <span class="type">i64</span> &#125; <span class="keyword">undef</span><span class="punctuation">,</span> <span class="type">i64</span> <span class="variable">%1</span><span class="punctuation">,</span> <span class="number">0</span></span><br><span class="line">  <span class="keyword">ret</span> &#123; <span class="type">i64</span> &#125; <span class="variable">%.fca.0.insert</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 <h3 id="A-Assembly">A - Assembly</h3>
 <figure class="highlight julia"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@code_native</span> A&#123;<span class="number">5</span>&#125;()</span><br></pre></td></tr></table></figure>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">; ┌ @ REPL[1]:3 within &#96;Type&#39;</span><br><span class="line">	movq	%rsi, -8(%rsp)</span><br><span class="line">	movabsq	$140407726014496, %rax  # imm &#x3D; 0x7FB338A20020</span><br><span class="line">	retq</span><br><span class="line">; └</span><br></pre></td></tr></table></figure>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">; ┌ @ REPL[1]:3 within `Type&#x27;</span><br><span class="line">	movq	%rsi, -8(%rsp)</span><br><span class="line">	movabsq	$140407726014496, %rax  # imm = 0x7FB338A20020</span><br><span class="line">	retq</span><br><span class="line">; └</span><br></pre></td></tr></table></figure>
 <h3 id="B-Assembly">B - Assembly</h3>
 <figure class="highlight julia"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@code_native</span> B(<span class="number">5</span>)</span><br></pre></td></tr></table></figure>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">; ┌ @ REPL[1]:2 within &#96;Type&#39;</span><br><span class="line">	movq	%rsi, %rax</span><br><span class="line">	retq</span><br><span class="line">	nopw	%cs:(%rax,%rax)</span><br><span class="line">; └</span><br></pre></td></tr></table></figure>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">; ┌ @ REPL[1]:2 within `Type&#x27;</span><br><span class="line">	movq	%rsi, %rax</span><br><span class="line">	retq</span><br><span class="line">	nopw	%cs:(%rax,%rax)</span><br><span class="line">; └</span><br></pre></td></tr></table></figure>
 <h2 id="取值">取值</h2>
 <p>接著測試從物件當中取值出來的效能。</p>
 <p>定義取值的方法：</p>
@@ -297,16 +317,16 @@
 <figure class="highlight julia"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">a = A&#123;<span class="number">5</span>&#125;()</span><br><span class="line">b = B(<span class="number">5</span>)</span><br></pre></td></tr></table></figure>
 <h3 id="A-LLVM-2">A - LLVM</h3>
 <figure class="highlight julia"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@code_llvm</span> get_value(a)</span><br></pre></td></tr></table></figure>
-<figure class="highlight llvm"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">;  @ REPL[8]:1 within `get_value'</span></span><br><span class="line"><span class="comment">define i64 @julia_get_value_12274() &#123;</span></span><br><span class="line"><span class="comment">top:</span></span><br><span class="line"><span class="comment">  ret i64 5</span></span><br><span class="line"><span class="comment">&#125;</span></span><br></pre></td></tr></table></figure>
+<figure class="highlight llvm"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">;  @ REPL[8]:1 within `get_value&#x27;</span></span><br><span class="line"><span class="keyword">define</span> <span class="type">i64</span> <span class="title">@julia_get_value_12274</span>() &#123;</span><br><span class="line"><span class="symbol">top:</span></span><br><span class="line">  <span class="keyword">ret</span> <span class="type">i64</span> <span class="number">5</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 <h3 id="B-LLVM-2">B - LLVM</h3>
 <figure class="highlight julia"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@code_llvm</span> get_value(b)</span><br></pre></td></tr></table></figure>
-<figure class="highlight llvm"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">;  @ REPL[5]:1 within `get_value'</span></span><br><span class="line"><span class="comment">define i64 @julia_get_value_12630(&#123; i64 &#125; addrspace(11)* nocapture nonnull readonly dereferenceable(8)) &#123;</span></span><br><span class="line"><span class="comment">top:</span></span><br><span class="line"><span class="comment">; ┌ @ sysimg.jl:18 within `getproperty'</span></span><br><span class="line"><span class="comment">   %1 = getelementptr inbounds &#123; i64 &#125;, &#123; i64 &#125; addrspace(11)* %0, i64 0, i32 0</span></span><br><span class="line"><span class="comment">; └</span></span><br><span class="line"><span class="comment">  %2 = load i64, i64 addrspace(11)* %1, align 8</span></span><br><span class="line"><span class="comment">  ret i64 %2</span></span><br><span class="line"><span class="comment">&#125;</span></span><br></pre></td></tr></table></figure>
+<figure class="highlight llvm"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">;  @ REPL[5]:1 within `get_value&#x27;</span></span><br><span class="line"><span class="keyword">define</span> <span class="type">i64</span> <span class="title">@julia_get_value_12630</span>(&#123; <span class="type">i64</span> &#125; <span class="keyword">addrspace</span>(<span class="number">11</span>)* <span class="keyword">nocapture</span> nonnull <span class="keyword">readonly</span> dereferenceable(<span class="number">8</span>)) &#123;</span><br><span class="line"><span class="symbol">top:</span></span><br><span class="line"><span class="comment">; ┌ @ sysimg.jl:18 within `getproperty&#x27;</span></span><br><span class="line">   <span class="variable">%1</span> <span class="operator">=</span> <span class="keyword">getelementptr</span> <span class="keyword">inbounds</span> &#123; <span class="type">i64</span> &#125;<span class="punctuation">,</span> &#123; <span class="type">i64</span> &#125; <span class="keyword">addrspace</span>(<span class="number">11</span>)* <span class="variable">%0</span><span class="punctuation">,</span> <span class="type">i64</span> <span class="number">0</span><span class="punctuation">,</span> <span class="type">i32</span> <span class="number">0</span></span><br><span class="line"><span class="comment">; └</span></span><br><span class="line">  <span class="variable">%2</span> <span class="operator">=</span> <span class="keyword">load</span> <span class="type">i64</span><span class="punctuation">,</span> <span class="type">i64</span> <span class="keyword">addrspace</span>(<span class="number">11</span>)* <span class="variable">%1</span><span class="punctuation">,</span> <span class="keyword">align</span> <span class="number">8</span></span><br><span class="line">  <span class="keyword">ret</span> <span class="type">i64</span> <span class="variable">%2</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 <h3 id="A-Assembly-2">A - Assembly</h3>
 <figure class="highlight julia"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@code_native</span> get_value(a)</span><br></pre></td></tr></table></figure>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">; ┌ @ REPL[8]:1 within &#96;get_value&#39;</span><br><span class="line">	movl	$5, %eax</span><br><span class="line">	retq</span><br><span class="line">	nopw	%cs:(%rax,%rax)</span><br><span class="line">; └</span><br></pre></td></tr></table></figure>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">; ┌ @ REPL[8]:1 within `get_value&#x27;</span><br><span class="line">	movl	$5, %eax</span><br><span class="line">	retq</span><br><span class="line">	nopw	%cs:(%rax,%rax)</span><br><span class="line">; └</span><br></pre></td></tr></table></figure>
 <h3 id="B-Assembly-2">B - Assembly</h3>
 <figure class="highlight julia"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@code_native</span> get_value(b)</span><br></pre></td></tr></table></figure>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">; ┌ @ REPL[5]:1 within &#96;get_value&#39;</span><br><span class="line">	movq	(%rdi), %rax</span><br><span class="line">	retq</span><br><span class="line">	nopw	%cs:(%rax,%rax)</span><br><span class="line">; └</span><br></pre></td></tr></table></figure>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">; ┌ @ REPL[5]:1 within `get_value&#x27;</span><br><span class="line">	movq	(%rdi), %rax</span><br><span class="line">	retq</span><br><span class="line">	nopw	%cs:(%rax,%rax)</span><br><span class="line">; └</span><br></pre></td></tr></table></figure>
 <p>給大家參考。</p>
 
                                         
@@ -378,13 +398,13 @@
                                                     
                                                         
                                                             <div id="disqus_thread">
-    <noscript>Please enable JavaScript to view the <a href="//disqus.com/?ref_noscript" target="_blank" rel="noopener">comments powered by Disqus.</a></noscript>
+    <noscript>Please enable JavaScript to view the <a href="//disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
 </div>
                                                                 
                                                                             
                             </div>
                             
-                                <script src='https://unpkg.com/mermaid@7.1.2/dist/mermaid.min.js'></script>
+                                <script src='https://unpkg.com/mermaid@10.9.1/dist/mermaid.min.js'></script>
                                 <script>
                                     if (window.mermaid) {
                                         mermaid.initialize({ theme: 'forest' });
@@ -395,7 +415,7 @@
 
                 <footer id="footer" class="main-content-wrap">
     <span class="copyrights">
-        Copyrights &copy; 2021 Yueh-Hua Tu. All Rights Reserved.
+        Copyrights &copy; 2026 Yueh-Hua Tu. All Rights Reserved.
     </span>
 </footer>
 
@@ -535,24 +555,7 @@
         s.setAttribute('data-timestamp', +new Date());
         (d.head || d.body).appendChild(s);
     })();
-</script><!-- hexo-inject:begin --><!-- Begin: Injected MathJax -->
-<script type="text/x-mathjax-config">
-  MathJax.Hub.Config({"tex2jax":{"inlineMath":[["$","$"],["\\(","\\)"]],"skipTags":["script","noscript","style","textarea","pre","code"],"processEscapes":true},"TeX":{"equationNumbers":{"autoNumber":"AMS"}}});
-</script>
-
-<script type="text/x-mathjax-config">
-  MathJax.Hub.Queue(function() {
-    var all = MathJax.Hub.getAllJax(), i;
-    for(i=0; i < all.length; i += 1) {
-      all[i].SourceElement().parentNode.className += ' has-jax';
-    }
-  });
-</script>
-
-<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.6/latest.js?config=TeX-AMS-MML_HTMLorMML">
-</script>
-<!-- End: Injected MathJax -->
-<!-- hexo-inject:end -->
+</script><!-- hexo-inject:begin --><!-- hexo-inject:end -->
 
 
 

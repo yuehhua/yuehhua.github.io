@@ -34,8 +34,8 @@
 <meta property="article:published_time" content="2018-10-19T14:34:55.000Z">
 <meta property="article:modified_time" content="2018-10-19T14:34:55.385Z">
 <meta property="article:author" content="Yueh-Hua Tu">
-<meta property="article:tag" content="machine learning">
 <meta property="article:tag" content="deep learning">
+<meta property="article:tag" content="machine learning">
 <meta property="article:tag" content="topology">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:image" content="https://ccjou.files.wordpress.com/2009/09/svd32.jpg?w=400&amp;h=300">
@@ -63,10 +63,30 @@
 
         ga('create', 'UA-119690895-1', 'auto');
         ga('send', 'pageview');
-    </script><!-- hexo-inject:begin --><!-- hexo-inject:end -->
+    </script>
     
     
-</head>
+    
+        <script>
+            window.MathJax = {
+                tex: {
+                    inlineMath: [['$', '$'], ['\\(', '\\)']],
+                    displayMath: [['$$', '$$'], ['\\[', '\\]']],
+                    processEscapes: true,
+                    tags: 'ams'
+                },
+                options: {
+                    skipHtmlTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+                }
+            };
+        </script>
+        <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+    
+<!-- hexo injector head_end start -->
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.12.0/dist/katex.min.css">
+
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/hexo-math@4.0.0/dist/style.css">
+<!-- hexo injector head_end end --><!-- hexo-inject:begin --><!-- hexo-inject:end --></head>
 
     <body>
         <!-- hexo-inject:begin --><!-- hexo-inject:end --><div id="blog">
@@ -78,7 +98,7 @@
 <header id="header" data-behavior="5">
     <i id="btn-open-sidebar" class="fa fa-lg fa-bars"></i>
     <div class="header-title">
-        <a class="header-title-link" href="/%20">Dream Maker</a>
+        <a class="header-title-link" href="/">Dream Maker</a>
     </div>
     
         
@@ -102,7 +122,7 @@
                 <li class="sidebar-button">
                     
                         <a  class="sidebar-button-link "
-                             href="/%20"
+                             href="/"
                             
                             title="首頁"
                         >
@@ -280,9 +300,9 @@
 <h2 id="先談談線性轉換">先談談線性轉換</h2>
 <p>談 activation function 之前先要談談線性轉換。</p>
 <p>有上到比較後面的線性代數的同學，應該有爬過 SVD 這座高山。</p>
-<p>推薦可以看周老師的線代啟示錄 <a href="https://ccjou.wordpress.com/2009/09/01/%E5%A5%87%E7%95%B0%E5%80%BC%E5%88%86%E8%A7%A3-svd/" target="_blank" rel="noopener">奇異值分解 (SVD)</a></p>
+<p>推薦可以看周老師的線代啟示錄 <a href="https://ccjou.wordpress.com/2009/09/01/%E5%A5%87%E7%95%B0%E5%80%BC%E5%88%86%E8%A7%A3-svd/">奇異值分解 (SVD)</a></p>
 <p>我們可以知道一個矩陣可以被看成線性轉換，而矩陣這個線性轉換可以被分解成 3 個矩陣：</p>
-<a id="more"></a>
+<span id="more"></span>
 <p>$$<br>
 A = U \Sigma V^T<br>
 $$</p>
@@ -323,7 +343,7 @@ $$</p>
 <p>ReLU 就是工匠手上那把彫刻刀，他會把第一象限以外的部份削掉。看起來就會像朱銘大師的作品這樣：</p>
 <p><img src="http://digitalarchives.artcenter.ncku.edu.tw/walkncku_cht/image/a51d2-dsc_7226.jpg" alt=""></p>
 <blockquote>
-<p>圖來自 <a href="http://digitalarchives.artcenter.ncku.edu.tw/walkncku_cht/" target="_blank" rel="noopener">漫遊‧藝術網＠成大校園</a></p>
+<p>圖來自 <a href="http://digitalarchives.artcenter.ncku.edu.tw/walkncku_cht/">漫遊‧藝術網＠成大校園</a></p>
 </blockquote>
 <p>原諒我私心用成大的雕塑品當範例。XD</p>
 <p>ReLU 會將不重要的部份削掉，剩下重要的特徵接續後面的特徵萃取。</p>
@@ -431,13 +451,13 @@ $$</p>
                                                     
                                                         
                                                             <div id="disqus_thread">
-    <noscript>Please enable JavaScript to view the <a href="//disqus.com/?ref_noscript" target="_blank" rel="noopener">comments powered by Disqus.</a></noscript>
+    <noscript>Please enable JavaScript to view the <a href="//disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
 </div>
                                                                 
                                                                             
                             </div>
                             
-                                <script src='https://unpkg.com/mermaid@7.1.2/dist/mermaid.min.js'></script>
+                                <script src='https://unpkg.com/mermaid@10.9.1/dist/mermaid.min.js'></script>
                                 <script>
                                     if (window.mermaid) {
                                         mermaid.initialize({ theme: 'forest' });
@@ -448,7 +468,7 @@ $$</p>
 
                 <footer id="footer" class="main-content-wrap">
     <span class="copyrights">
-        Copyrights &copy; 2021 Yueh-Hua Tu. All Rights Reserved.
+        Copyrights &copy; 2026 Yueh-Hua Tu. All Rights Reserved.
     </span>
 </footer>
 
@@ -588,24 +608,7 @@ $$</p>
         s.setAttribute('data-timestamp', +new Date());
         (d.head || d.body).appendChild(s);
     })();
-</script><!-- hexo-inject:begin --><!-- Begin: Injected MathJax -->
-<script type="text/x-mathjax-config">
-  MathJax.Hub.Config({"tex2jax":{"inlineMath":[["$","$"],["\\(","\\)"]],"skipTags":["script","noscript","style","textarea","pre","code"],"processEscapes":true},"TeX":{"equationNumbers":{"autoNumber":"AMS"}}});
-</script>
-
-<script type="text/x-mathjax-config">
-  MathJax.Hub.Queue(function() {
-    var all = MathJax.Hub.getAllJax(), i;
-    for(i=0; i < all.length; i += 1) {
-      all[i].SourceElement().parentNode.className += ' has-jax';
-    }
-  });
-</script>
-
-<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.6/latest.js?config=TeX-AMS-MML_HTMLorMML">
-</script>
-<!-- End: Injected MathJax -->
-<!-- hexo-inject:end -->
+</script><!-- hexo-inject:begin --><!-- hexo-inject:end -->
 
 
 

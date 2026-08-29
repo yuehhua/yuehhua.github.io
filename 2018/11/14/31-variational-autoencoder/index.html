@@ -36,8 +36,8 @@
 <meta property="article:published_time" content="2018-11-14T08:34:28.000Z">
 <meta property="article:modified_time" content="2019-01-01T14:04:26.947Z">
 <meta property="article:author" content="Yueh-Hua Tu">
-<meta property="article:tag" content="machine learning">
 <meta property="article:tag" content="deep learning">
+<meta property="article:tag" content="machine learning">
 <meta property="article:tag" content="topology">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:image" content="https://yuehhua.github.io/images/autoencoder1.svg">
@@ -65,10 +65,30 @@
 
         ga('create', 'UA-119690895-1', 'auto');
         ga('send', 'pageview');
-    </script><!-- hexo-inject:begin --><!-- hexo-inject:end -->
+    </script>
     
     
-</head>
+    
+        <script>
+            window.MathJax = {
+                tex: {
+                    inlineMath: [['$', '$'], ['\\(', '\\)']],
+                    displayMath: [['$$', '$$'], ['\\[', '\\]']],
+                    processEscapes: true,
+                    tags: 'ams'
+                },
+                options: {
+                    skipHtmlTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+                }
+            };
+        </script>
+        <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+    
+<!-- hexo injector head_end start -->
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.12.0/dist/katex.min.css">
+
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/hexo-math@4.0.0/dist/style.css">
+<!-- hexo injector head_end end --><!-- hexo-inject:begin --><!-- hexo-inject:end --></head>
 
     <body>
         <!-- hexo-inject:begin --><!-- hexo-inject:end --><div id="blog">
@@ -80,7 +100,7 @@
 <header id="header" data-behavior="5">
     <i id="btn-open-sidebar" class="fa fa-lg fa-bars"></i>
     <div class="header-title">
-        <a class="header-title-link" href="/%20">Dream Maker</a>
+        <a class="header-title-link" href="/">Dream Maker</a>
     </div>
     
         
@@ -104,7 +124,7 @@
                 <li class="sidebar-button">
                     
                         <a  class="sidebar-button-link "
-                             href="/%20"
+                             href="/"
                             
                             title="首頁"
                         >
@@ -282,7 +302,7 @@
 <p>你也可以說他是一種降維的方法或是有損壓縮的方法。</p>
 <p>基本上就是透過一個線性轉換將原來的特徵，映射到比較低維度的特徵空間上。</p>
 <p><img src="/images/autoencoder1.svg" alt=""></p>
-<a id="more"></a>
+<span id="more"></span>
 <p>圖中就是一個基本的 autoencoder 的樣子，而中間的 hidden layer 就是我們希望的特徵萃取結果。</p>
 <p>我們希望所萃取到的特徵，可以被 <strong>還原</strong> 成原本圖形的樣子。他就會是類似壓縮跟解壓縮的概念。</p>
 <p><img src="/images/autoencoder2.svg" alt=""></p>
@@ -344,7 +364,7 @@ $$</p>
 <h3 id="Reparametrization-trick">Reparametrization trick</h3>
 <p><img src="/images/1606.05908.svg" alt=""></p>
 <blockquote>
-<p>圖片來自 <a href="https://arxiv.org/abs/1606.05908" target="_blank" rel="noopener">Tutorial on Variational Autoencoders</a></p>
+<p>圖片來自 <a href="https://arxiv.org/abs/1606.05908">Tutorial on Variational Autoencoders</a></p>
 </blockquote>
 <p>左圖就是原本的抽樣的模型。要讓模型可以進行 gradient descent，這時候作者做了重新參數化的技巧，這樣的技巧就如同將抽樣的動作抽離出來，就如同右圖那樣。</p>
 <p>重新參數化技巧是從標準常態分佈當中去隨機抽樣，抽樣的結果將他乘上標準差，並且加上平均值，這樣就可以模擬從隱藏層的分佈抽樣的動作。但是這並非重新參數化技巧的巧妙之處，巧妙之處是在於重新參數化之後，就可以將抽樣這個動作從反向傳遞（backpropagation）的路徑上移除，這樣子我們就可以輕鬆的做訓練了！</p>
@@ -421,13 +441,13 @@ $$</p>
                                                     
                                                         
                                                             <div id="disqus_thread">
-    <noscript>Please enable JavaScript to view the <a href="//disqus.com/?ref_noscript" target="_blank" rel="noopener">comments powered by Disqus.</a></noscript>
+    <noscript>Please enable JavaScript to view the <a href="//disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
 </div>
                                                                 
                                                                             
                             </div>
                             
-                                <script src='https://unpkg.com/mermaid@7.1.2/dist/mermaid.min.js'></script>
+                                <script src='https://unpkg.com/mermaid@10.9.1/dist/mermaid.min.js'></script>
                                 <script>
                                     if (window.mermaid) {
                                         mermaid.initialize({ theme: 'forest' });
@@ -438,7 +458,7 @@ $$</p>
 
                 <footer id="footer" class="main-content-wrap">
     <span class="copyrights">
-        Copyrights &copy; 2021 Yueh-Hua Tu. All Rights Reserved.
+        Copyrights &copy; 2026 Yueh-Hua Tu. All Rights Reserved.
     </span>
 </footer>
 
@@ -578,24 +598,7 @@ $$</p>
         s.setAttribute('data-timestamp', +new Date());
         (d.head || d.body).appendChild(s);
     })();
-</script><!-- hexo-inject:begin --><!-- Begin: Injected MathJax -->
-<script type="text/x-mathjax-config">
-  MathJax.Hub.Config({"tex2jax":{"inlineMath":[["$","$"],["\\(","\\)"]],"skipTags":["script","noscript","style","textarea","pre","code"],"processEscapes":true},"TeX":{"equationNumbers":{"autoNumber":"AMS"}}});
-</script>
-
-<script type="text/x-mathjax-config">
-  MathJax.Hub.Queue(function() {
-    var all = MathJax.Hub.getAllJax(), i;
-    for(i=0; i < all.length; i += 1) {
-      all[i].SourceElement().parentNode.className += ' has-jax';
-    }
-  });
-</script>
-
-<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.6/latest.js?config=TeX-AMS-MML_HTMLorMML">
-</script>
-<!-- End: Injected MathJax -->
-<!-- hexo-inject:end -->
+</script><!-- hexo-inject:begin --><!-- hexo-inject:end -->
 
 
 

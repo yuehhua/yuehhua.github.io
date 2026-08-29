@@ -26,8 +26,8 @@
 <meta property="article:published_time" content="2017-06-04T16:33:00.000Z">
 <meta property="article:modified_time" content="2019-01-25T14:51:32.598Z">
 <meta property="article:author" content="Yueh-Hua Tu">
-<meta property="article:tag" content="machine learning">
 <meta property="article:tag" content="deep learning">
+<meta property="article:tag" content="machine learning">
 <meta property="article:tag" content="topology">
 <meta name="twitter:card" content="summary">
     
@@ -54,10 +54,30 @@
 
         ga('create', 'UA-119690895-1', 'auto');
         ga('send', 'pageview');
-    </script><!-- hexo-inject:begin --><!-- hexo-inject:end -->
+    </script>
     
     
-</head>
+    
+        <script>
+            window.MathJax = {
+                tex: {
+                    inlineMath: [['$', '$'], ['\\(', '\\)']],
+                    displayMath: [['$$', '$$'], ['\\[', '\\]']],
+                    processEscapes: true,
+                    tags: 'ams'
+                },
+                options: {
+                    skipHtmlTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+                }
+            };
+        </script>
+        <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+    
+<!-- hexo injector head_end start -->
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.12.0/dist/katex.min.css">
+
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/hexo-math@4.0.0/dist/style.css">
+<!-- hexo injector head_end end --><!-- hexo-inject:begin --><!-- hexo-inject:end --></head>
 
     <body>
         <!-- hexo-inject:begin --><!-- hexo-inject:end --><div id="blog">
@@ -69,7 +89,7 @@
 <header id="header" data-behavior="5">
     <i id="btn-open-sidebar" class="fa fa-lg fa-bars"></i>
     <div class="header-title">
-        <a class="header-title-link" href="/%20">Dream Maker</a>
+        <a class="header-title-link" href="/">Dream Maker</a>
     </div>
     
         
@@ -93,7 +113,7 @@
                 <li class="sidebar-button">
                     
                         <a  class="sidebar-button-link "
-                             href="/%20"
+                             href="/"
                             
                             title="首頁"
                         >
@@ -289,7 +309,7 @@
 <p>看完之後應該會很傻眼，既然沒有封裝，然後又不帶方法，那這樣要怎麼實現物件導向呢？</p>
 <h2 id="Julia-的型別系統">Julia 的型別系統</h2>
 <p>概念上來說，Julia會藉由兩種型別來建立型別階層（type hierarchy）：抽象型別跟複合型別</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">abstract type Number end</span><br><span class="line">abstract type Complex &lt;: Number end</span><br><span class="line">abstract type Real &lt;: Number end</span><br><span class="line"></span><br><span class="line">struct Integer &lt;: Real</span><br><span class="line">    x</span><br><span class="line">end</span><br></pre></td></tr></table></figure>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">abstract type Number end</span><br><span class="line">abstract type Complex &lt;: Number end</span><br><span class="line">abstract type Real &lt;: Number end</span><br><span class="line"></span><br><span class="line">struct Integer &lt;: Real</span><br><span class="line">    x</span><br><span class="line">end</span><br></pre></td></tr></table></figure>
 <p>以上宣告了 3 個抽象型別以及一個複合型別。</p>
 <p>抽象型別只有一行宣告，也就是說明這代表什麼樣的概念，他不具有欄位。</p>
 <p><code>&lt;:</code> 代表的是 <strong>is subtype of</strong>，<code>abstract type Complex &lt;: Number end</code>代表的是<code>Complex</code>是<code>Number</code>的子型別。</p>
@@ -310,10 +330,10 @@
 <p>Julia設計上很聰明，他會告訴函式去執行擁有跟參數型別相同排列組合的那個實作。</p>
 <p>這也就是多重分派了，他不依賴單一的型別去判斷，而是所有的參數型別的組合！</p>
 <p>所以當你宣告了一個像這樣的函式：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">function foo(a, b, c)</span><br><span class="line">    ....</span><br><span class="line">end</span><br></pre></td></tr></table></figure>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">function foo(a, b, c)</span><br><span class="line">    ....</span><br><span class="line">end</span><br></pre></td></tr></table></figure>
 <p>他會接受<em>任意的3個參數</em>，當沒宣告參數型別時就自動是<code>Any</code>。</p>
 <p>那以下這個狀況：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">function foo(a::Int64, b)</span><br><span class="line">    ....</span><br><span class="line">end</span><br></pre></td></tr></table></figure>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">function foo(a::Int64, b)</span><br><span class="line">    ....</span><br><span class="line">end</span><br></pre></td></tr></table></figure>
 <p>就只接受<em>第一個參數型別是<code>Int64</code></em>，而輸入<em>兩個參數</em>的情況了。</p>
 <h2 id="OOP-in-Julia">OOP in Julia</h2>
 <p>以這樣的type system以及多重分派作為建構物件導向的核心機制。</p>
@@ -417,13 +437,13 @@
                                                     
                                                         
                                                             <div id="disqus_thread">
-    <noscript>Please enable JavaScript to view the <a href="//disqus.com/?ref_noscript" target="_blank" rel="noopener">comments powered by Disqus.</a></noscript>
+    <noscript>Please enable JavaScript to view the <a href="//disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
 </div>
                                                                 
                                                                             
                             </div>
                             
-                                <script src='https://unpkg.com/mermaid@7.1.2/dist/mermaid.min.js'></script>
+                                <script src='https://unpkg.com/mermaid@10.9.1/dist/mermaid.min.js'></script>
                                 <script>
                                     if (window.mermaid) {
                                         mermaid.initialize({ theme: 'forest' });
@@ -434,7 +454,7 @@
 
                 <footer id="footer" class="main-content-wrap">
     <span class="copyrights">
-        Copyrights &copy; 2021 Yueh-Hua Tu. All Rights Reserved.
+        Copyrights &copy; 2026 Yueh-Hua Tu. All Rights Reserved.
     </span>
 </footer>
 

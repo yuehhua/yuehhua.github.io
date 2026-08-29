@@ -16,18 +16,18 @@
         <link rel="alternate" type="application/atom+xml" title="RSS" href="/atom.xml">
     
     <script type="application/ld+json">{"@context":"http://schema.org","@type":"BlogPosting","author":{"@type":"Person","name":"Yueh-Hua Tu","sameAs":["https://github.com/yuehhua/","https://www.facebook.com/a504082002","https://www.linkedin.com/in/%E5%B2%B3%E8%8F%AF-%E6%9D%9C-6a3995a0/","mailto:a504082002@gmail.com"],"image":"https://www.gravatar.com/avatar/a565749fba4782b717234da670b273fd"},"articleBody":"之前介紹過將值放在參數型別上。\n今天來介紹一下如何可以做到類似運算的效果。\n12345struct A&#123;T&#125;enda1 = A&#123;5&#125;()a2 = A&#123;3&#125;()\n在一些應用場景上會希望將參數欄位上的值做運算，例如加總。\n這時候我們可以這樣做：\n123456import Base:+function +(::A&#123;T&#125;, ::A&#123;S&#125;) where &#123;T, S&#125;\tx = T + S\treturn A&#123;x&#125;()end\n如此一來，就可以簡單搞定囉！\n1println(a1 + a2)\n1A&#123;8&#125;()","dateCreated":"2019-05-06T13:56:52+08:00","dateModified":"2019-09-06T11:19:59+08:00","datePublished":"2019-05-06T13:56:52+08:00","description":"","headline":"運算 Julia 參數型別上的值","image":[],"mainEntityOfPage":{"@type":"WebPage","@id":"https://yuehhua.github.io/2019/05/06/operate-value-in-julia-parametric-type/"},"publisher":{"@type":"Organization","name":"Yueh-Hua Tu","sameAs":["https://github.com/yuehhua/","https://www.facebook.com/a504082002","https://www.linkedin.com/in/%E5%B2%B3%E8%8F%AF-%E6%9D%9C-6a3995a0/","mailto:a504082002@gmail.com"],"image":"https://www.gravatar.com/avatar/a565749fba4782b717234da670b273fd","logo":{"@type":"ImageObject","url":"https://www.gravatar.com/avatar/a565749fba4782b717234da670b273fd"}},"url":"https://yuehhua.github.io/2019/05/06/operate-value-in-julia-parametric-type/"}</script>
-    <meta name="description" content="之前介紹過將值放在參數型別上。 今天來介紹一下如何可以做到類似運算的效果。 12345struct A&amp;#123;T&amp;#125;enda1 &#x3D; A&amp;#123;5&amp;#125;()a2 &#x3D; A&amp;#123;3&amp;#125;() 在一些應用場景上會希望將參數欄位上的值做運算，例如加總。 這時候我們可以這樣做： 123456import Base:+function +(::A&amp;#123;T&amp;#125;, :">
+    <meta name="description" content="之前介紹過將值放在參數型別上。 今天來介紹一下如何可以做到類似運算的效果。 12345struct A&#123;T&#125;enda1 &#x3D; A&#123;5&#125;()a2 &#x3D; A&#123;3&#125;() 在一些應用場景上會希望將參數欄位上的值做運算，例如加總。 這時候我們可以這樣做： 123456import Base:+function +(::A&#123;T&#125;, :">
 <meta property="og:type" content="blog">
 <meta property="og:title" content="運算 Julia 參數型別上的值">
 <meta property="og:url" content="https://yuehhua.github.io/2019/05/06/operate-value-in-julia-parametric-type/index.html">
 <meta property="og:site_name" content="Dream Maker">
-<meta property="og:description" content="之前介紹過將值放在參數型別上。 今天來介紹一下如何可以做到類似運算的效果。 12345struct A&amp;#123;T&amp;#125;enda1 &#x3D; A&amp;#123;5&amp;#125;()a2 &#x3D; A&amp;#123;3&amp;#125;() 在一些應用場景上會希望將參數欄位上的值做運算，例如加總。 這時候我們可以這樣做： 123456import Base:+function +(::A&amp;#123;T&amp;#125;, :">
+<meta property="og:description" content="之前介紹過將值放在參數型別上。 今天來介紹一下如何可以做到類似運算的效果。 12345struct A&#123;T&#125;enda1 &#x3D; A&#123;5&#125;()a2 &#x3D; A&#123;3&#125;() 在一些應用場景上會希望將參數欄位上的值做運算，例如加總。 這時候我們可以這樣做： 123456import Base:+function +(::A&#123;T&#125;, :">
 <meta property="og:locale" content="zh_TW">
 <meta property="article:published_time" content="2019-05-06T05:56:52.000Z">
 <meta property="article:modified_time" content="2019-09-06T03:19:59.125Z">
 <meta property="article:author" content="Yueh-Hua Tu">
-<meta property="article:tag" content="machine learning">
 <meta property="article:tag" content="deep learning">
+<meta property="article:tag" content="machine learning">
 <meta property="article:tag" content="topology">
 <meta name="twitter:card" content="summary">
     
@@ -54,10 +54,30 @@
 
         ga('create', 'UA-119690895-1', 'auto');
         ga('send', 'pageview');
-    </script><!-- hexo-inject:begin --><!-- hexo-inject:end -->
+    </script>
     
     
-</head>
+    
+        <script>
+            window.MathJax = {
+                tex: {
+                    inlineMath: [['$', '$'], ['\\(', '\\)']],
+                    displayMath: [['$$', '$$'], ['\\[', '\\]']],
+                    processEscapes: true,
+                    tags: 'ams'
+                },
+                options: {
+                    skipHtmlTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+                }
+            };
+        </script>
+        <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+    
+<!-- hexo injector head_end start -->
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.12.0/dist/katex.min.css">
+
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/hexo-math@4.0.0/dist/style.css">
+<!-- hexo injector head_end end --><!-- hexo-inject:begin --><!-- hexo-inject:end --></head>
 
     <body>
         <!-- hexo-inject:begin --><!-- hexo-inject:end --><div id="blog">
@@ -69,7 +89,7 @@
 <header id="header" data-behavior="5">
     <i id="btn-open-sidebar" class="fa fa-lg fa-bars"></i>
     <div class="header-title">
-        <a class="header-title-link" href="/%20">Dream Maker</a>
+        <a class="header-title-link" href="/">Dream Maker</a>
     </div>
     
         
@@ -93,7 +113,7 @@
                 <li class="sidebar-button">
                     
                         <a  class="sidebar-button-link "
-                             href="/%20"
+                             href="/"
                             
                             title="首頁"
                         >
@@ -345,13 +365,13 @@
                                                     
                                                         
                                                             <div id="disqus_thread">
-    <noscript>Please enable JavaScript to view the <a href="//disqus.com/?ref_noscript" target="_blank" rel="noopener">comments powered by Disqus.</a></noscript>
+    <noscript>Please enable JavaScript to view the <a href="//disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
 </div>
                                                                 
                                                                             
                             </div>
                             
-                                <script src='https://unpkg.com/mermaid@7.1.2/dist/mermaid.min.js'></script>
+                                <script src='https://unpkg.com/mermaid@10.9.1/dist/mermaid.min.js'></script>
                                 <script>
                                     if (window.mermaid) {
                                         mermaid.initialize({ theme: 'forest' });
@@ -362,7 +382,7 @@
 
                 <footer id="footer" class="main-content-wrap">
     <span class="copyrights">
-        Copyrights &copy; 2021 Yueh-Hua Tu. All Rights Reserved.
+        Copyrights &copy; 2026 Yueh-Hua Tu. All Rights Reserved.
     </span>
 </footer>
 

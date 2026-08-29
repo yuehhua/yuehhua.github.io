@@ -15,7 +15,7 @@
     
         <link rel="alternate" type="application/atom+xml" title="RSS" href="/atom.xml">
     
-    <script type="application/ld+json">{"@context":"http://schema.org","@type":"BlogPosting","author":{"@type":"Person","name":"Yueh-Hua Tu","sameAs":["https://github.com/yuehhua/","https://www.facebook.com/a504082002","https://www.linkedin.com/in/%E5%B2%B3%E8%8F%AF-%E6%9D%9C-6a3995a0/","mailto:a504082002@gmail.com"],"image":"https://www.gravatar.com/avatar/a565749fba4782b717234da670b273fd"},"articleBody":"我們來回顧一下 SVM 模型。\n\n$$\n\\begin{align}\n\\mathop{\\arg\\min}_{\\mathbf{w}, b, \\boldsymbol{\\xi}} &amp;\\ \\ \\ \\\n\\frac{1}{2} \\mathbf{w}^T\\mathbf{w} + C \\sum _{n=1}^N \\xi_n \\\\\n\\text{subject to} &amp;\\ \\ \\ \\\n\\forall i, y_i (\\mathbf{w}^T\\mathbf{x_i} + b) \\ge 1 - \\xi_n \\\\\n\\text{ } &amp;\\ \\ \\ \\\n\\forall n, \\xi_n \\ge 0\n\\end{align}\n$$\n他可以被進一步轉成\n$$\n\\begin{align}\n\\mathop{\\arg\\min}_{\\mathbf{w}, b} &amp;\\ \\ \\ \\\n\\frac{1}{2} \\mathbf{w}^T\\mathbf{w} + C \\sum _{n=1}^N max(1 - y_i (\\mathbf{w}^T\\mathbf{x_i} + b), 0) \\\\\n\\end{align}\n$$\n在 SVM 的陳述當中，有沒有發現 $\\frac{1}{2} \\mathbf{w}^T\\mathbf{w}$ 這部份看起來跟 $l_2$ regularization 一樣。後半部份是跟誤差有關。\n如果分類分對的話，$y_i (\\mathbf{w}^T\\mathbf{x_i} + b)$ 就會是大於等於 1，這樣的話後面整項計算起來就會是 0。\n如果分類分對但是離線太近的話，$y_i (\\mathbf{w}^T\\mathbf{x_i} + b)$ 就會是小於 1，這樣後面整項會是一個小於 1 的值，代表離線太近了，算是些微的誤差。\n如果分類都分錯，$y_i (\\mathbf{w}^T\\mathbf{x_i} + b)$ 根本就是負值，後面整項會是一個大於 1 的值，代表離線太遠了，算是很大的誤差。\nHinge error\n這樣的誤差計算方式稱為 hinge error，也就是：\n$$\nE(y, \\hat{y}) = max(1 - y\\hat{y}, 0)\n$$\n$l_2$ -regularized linear model\n所以我們根本可以把模型看成是一個 $l_2$ -regularized 的線性模型。\n$$\n\\mathop{\\arg\\min}_{\\mathbf{w}, b} \\frac{1}{2} \\mathbf{w}^T\\mathbf{w} + C \\sum _{n=1}^N E(y, \\hat{y})\n$$\n不懂 regulariztion 的朋友請左轉 我之前寫過的鐵人文章。\n基本上，你想把誤差函數換成其他的東西都可以，像是變成 kernel $l_2$ -regularized linear regression (kernel ridge regression)。\n$$\ny = \\mathbf{w}^T\\phi(\\mathbf{x}) + b \\\\\nE(y, \\hat{y}) = \\frac{1}{N} (y - \\hat{y})^2 \\\\\n\\mathop{\\arg\\min}_{\\mathbf{w}, b} \\frac{1}{2} \\mathbf{w}^T\\mathbf{w} + C \\sum _{n=1}^N E(y, \\hat{y})\n$$\n或是你想要 kernel $l_2$ -regularized logistic regression。\n$$\ny = \\mathbf{w}^T\\phi(\\mathbf{x}) + b \\\\\nE(y, \\hat{y}) = \\frac{1}{N} log(1 + exp(-y\\hat{y})) \\\\\n\\mathop{\\arg\\min}_{\\mathbf{w}, b} \\frac{1}{2} \\mathbf{w}^T\\mathbf{w} + C \\sum _{n=1}^N E(y, \\hat{y})\n$$\n整理\n\n\n\n\nhinge error\nleast square error\n\n\n\n\nregression\nSVR ($\\epsilon$-insensitive error)\nkernel ridge regression\n\n\n\n$$ \\mathop{\\arg\\min} \\frac{1}{2} \\mathbf{w}^T\\mathbf{w} + C\\sum _{i=1}^N (\\xi_i + \\xi_i’) $$\n$$ \\mathop{\\arg\\min} \\frac{1}{N} \\sum _{i=1}^N (\\mathbf{w}^T\\phi(\\mathbf{x}_i) + b - y_i)^2 + \\frac{\\lambda}{2} \\mathbf{w}^T\\mathbf{w} $$\n\n\nclassification\nsoft-margin SVM\nLSSVM\n\n\n\n$$ \\mathop{\\arg\\min} \\frac{1}{2} \\mathbf{w}^T\\mathbf{w} + C\\sum _{i=1}^N \\xi_i $$\n$$ \\mathop{\\arg\\min} \\frac{1}{2} \\mathbf{w}^T\\mathbf{w} + C\\sum _{i=1}^N (1 - y_i(\\mathbf{w}^T\\phi(\\mathbf{x}_i) + b))^2 $$\n\n\n\nSVR:\n$$\n\\xi_i = max(y_i - (\\mathbf{w}^T\\phi(\\mathbf{x}_i) + b) - \\epsilon, 0) \\\\\n\\xi_i’ = max((\\mathbf{w}^T\\phi(\\mathbf{x}_i) + b) - y_i - \\epsilon, 0)\n$$\nsoft-margin SVM：\n$$\n\\xi_i = max(1 - y_i(\\mathbf{w}^T\\phi(\\mathbf{x}_i) + b), 0)\n$$\nRepresenter theorem\n","dateCreated":"2018-10-08T23:06:37+08:00","dateModified":"2019-01-18T09:59:36+08:00","datePublished":"2018-10-08T23:06:37+08:00","description":"我們來回顧一下 SVM 模型。","headline":"08 l2-regularized 線性模型","image":[],"mainEntityOfPage":{"@type":"WebPage","@id":"https://yuehhua.github.io/2018/10/08/08-l2-regularized-linear-model/"},"publisher":{"@type":"Organization","name":"Yueh-Hua Tu","sameAs":["https://github.com/yuehhua/","https://www.facebook.com/a504082002","https://www.linkedin.com/in/%E5%B2%B3%E8%8F%AF-%E6%9D%9C-6a3995a0/","mailto:a504082002@gmail.com"],"image":"https://www.gravatar.com/avatar/a565749fba4782b717234da670b273fd","logo":{"@type":"ImageObject","url":"https://www.gravatar.com/avatar/a565749fba4782b717234da670b273fd"}},"url":"https://yuehhua.github.io/2018/10/08/08-l2-regularized-linear-model/"}</script>
+    <script type="application/ld+json">{"@context":"http://schema.org","@type":"BlogPosting","author":{"@type":"Person","name":"Yueh-Hua Tu","sameAs":["https://github.com/yuehhua/","https://www.facebook.com/a504082002","https://www.linkedin.com/in/%E5%B2%B3%E8%8F%AF-%E6%9D%9C-6a3995a0/","mailto:a504082002@gmail.com"],"image":"https://www.gravatar.com/avatar/a565749fba4782b717234da670b273fd"},"articleBody":"我們來回顧一下 SVM 模型。\n\n$$\n\\begin{align}\n\\mathop{\\arg\\min}_{\\mathbf{w}, b, \\boldsymbol{\\xi}} &amp;\\ \\ \\ \\ \n\\frac{1}{2} \\mathbf{w}^T\\mathbf{w} + C \\sum _{n=1}^N \\xi_n \\\\\n\\text{subject to} &amp;\\ \\ \\ \\ \n\\forall i, y_i (\\mathbf{w}^T\\mathbf{x_i} + b) \\ge 1 - \\xi_n \\\\\n\\text{ } &amp;\\ \\ \\ \\ \n\\forall n, \\xi_n \\ge 0\n\\end{align}\n$$\n他可以被進一步轉成\n$$\n\\begin{align}\n\\mathop{\\arg\\min}_{\\mathbf{w}, b} &amp;\\ \\ \\ \\ \n\\frac{1}{2} \\mathbf{w}^T\\mathbf{w} + C \\sum _{n=1}^N max(1 - y_i (\\mathbf{w}^T\\mathbf{x_i} + b), 0) \\\\\n\\end{align}\n$$\n在 SVM 的陳述當中，有沒有發現 $\\frac{1}{2} \\mathbf{w}^T\\mathbf{w}$ 這部份看起來跟 $l_2$ regularization 一樣。後半部份是跟誤差有關。\n如果分類分對的話，$y_i (\\mathbf{w}^T\\mathbf{x_i} + b)$ 就會是大於等於 1，這樣的話後面整項計算起來就會是 0。\n如果分類分對但是離線太近的話，$y_i (\\mathbf{w}^T\\mathbf{x_i} + b)$ 就會是小於 1，這樣後面整項會是一個小於 1 的值，代表離線太近了，算是些微的誤差。\n如果分類都分錯，$y_i (\\mathbf{w}^T\\mathbf{x_i} + b)$ 根本就是負值，後面整項會是一個大於 1 的值，代表離線太遠了，算是很大的誤差。\nHinge error\n這樣的誤差計算方式稱為 hinge error，也就是：\n$$\nE(y, \\hat{y}) = max(1 - y\\hat{y}, 0)\n$$\n$l_2$ -regularized linear model\n所以我們根本可以把模型看成是一個 $l_2$ -regularized 的線性模型。\n$$\n\\mathop{\\arg\\min}_{\\mathbf{w}, b} \\frac{1}{2} \\mathbf{w}^T\\mathbf{w} + C \\sum _{n=1}^N E(y, \\hat{y})\n$$\n不懂 regulariztion 的朋友請左轉 我之前寫過的鐵人文章。\n基本上，你想把誤差函數換成其他的東西都可以，像是變成 kernel $l_2$ -regularized linear regression (kernel ridge regression)。\n$$\ny = \\mathbf{w}^T\\phi(\\mathbf{x}) + b \\\\\nE(y, \\hat{y}) = \\frac{1}{N} (y - \\hat{y})^2 \\\\\n\\mathop{\\arg\\min}_{\\mathbf{w}, b} \\frac{1}{2} \\mathbf{w}^T\\mathbf{w} + C \\sum _{n=1}^N E(y, \\hat{y})\n$$\n或是你想要 kernel $l_2$ -regularized logistic regression。\n$$\ny = \\mathbf{w}^T\\phi(\\mathbf{x}) + b \\\\\nE(y, \\hat{y}) = \\frac{1}{N} log(1 + exp(-y\\hat{y})) \\\\\n\\mathop{\\arg\\min}_{\\mathbf{w}, b} \\frac{1}{2} \\mathbf{w}^T\\mathbf{w} + C \\sum _{n=1}^N E(y, \\hat{y})\n$$\n整理\n\n\n\n\nhinge error\nleast square error\n\n\n\n\nregression\nSVR ($\\epsilon$-insensitive error)\nkernel ridge regression\n\n\n\n$$ \\mathop{\\arg\\min} \\frac{1}{2} \\mathbf{w}^T\\mathbf{w} + C\\sum _{i=1}^N (\\xi_i + \\xi_i’) $$\n$$ \\mathop{\\arg\\min} \\frac{1}{N} \\sum _{i=1}^N (\\mathbf{w}^T\\phi(\\mathbf{x}_i) + b - y_i)^2 + \\frac{\\lambda}{2} \\mathbf{w}^T\\mathbf{w} $$\n\n\nclassification\nsoft-margin SVM\nLSSVM\n\n\n\n$$ \\mathop{\\arg\\min} \\frac{1}{2} \\mathbf{w}^T\\mathbf{w} + C\\sum _{i=1}^N \\xi_i $$\n$$ \\mathop{\\arg\\min} \\frac{1}{2} \\mathbf{w}^T\\mathbf{w} + C\\sum _{i=1}^N (1 - y_i(\\mathbf{w}^T\\phi(\\mathbf{x}_i) + b))^2 $$\n\n\n\nSVR:\n$$\n\\xi_i = max(y_i - (\\mathbf{w}^T\\phi(\\mathbf{x}_i) + b) - \\epsilon, 0) \\\\\n\\xi_i’ = max((\\mathbf{w}^T\\phi(\\mathbf{x}_i) + b) - y_i - \\epsilon, 0)\n$$\nsoft-margin SVM：\n$$\n\\xi_i = max(1 - y_i(\\mathbf{w}^T\\phi(\\mathbf{x}_i) + b), 0)\n$$\nRepresenter theorem\n","dateCreated":"2018-10-08T23:06:37+08:00","dateModified":"2019-01-18T09:59:36+08:00","datePublished":"2018-10-08T23:06:37+08:00","description":"我們來回顧一下 SVM 模型。","headline":"08 l2-regularized 線性模型","image":[],"mainEntityOfPage":{"@type":"WebPage","@id":"https://yuehhua.github.io/2018/10/08/08-l2-regularized-linear-model/"},"publisher":{"@type":"Organization","name":"Yueh-Hua Tu","sameAs":["https://github.com/yuehhua/","https://www.facebook.com/a504082002","https://www.linkedin.com/in/%E5%B2%B3%E8%8F%AF-%E6%9D%9C-6a3995a0/","mailto:a504082002@gmail.com"],"image":"https://www.gravatar.com/avatar/a565749fba4782b717234da670b273fd","logo":{"@type":"ImageObject","url":"https://www.gravatar.com/avatar/a565749fba4782b717234da670b273fd"}},"url":"https://yuehhua.github.io/2018/10/08/08-l2-regularized-linear-model/"}</script>
     <meta name="description" content="我們來回顧一下 SVM 模型。">
 <meta property="og:type" content="blog">
 <meta property="og:title" content="08 l2-regularized 線性模型">
@@ -26,8 +26,8 @@
 <meta property="article:published_time" content="2018-10-08T15:06:37.000Z">
 <meta property="article:modified_time" content="2019-01-18T01:59:36.260Z">
 <meta property="article:author" content="Yueh-Hua Tu">
-<meta property="article:tag" content="machine learning">
 <meta property="article:tag" content="deep learning">
+<meta property="article:tag" content="machine learning">
 <meta property="article:tag" content="topology">
 <meta name="twitter:card" content="summary">
     
@@ -54,10 +54,30 @@
 
         ga('create', 'UA-119690895-1', 'auto');
         ga('send', 'pageview');
-    </script><!-- hexo-inject:begin --><!-- hexo-inject:end -->
+    </script>
     
     
-</head>
+    
+        <script>
+            window.MathJax = {
+                tex: {
+                    inlineMath: [['$', '$'], ['\\(', '\\)']],
+                    displayMath: [['$$', '$$'], ['\\[', '\\]']],
+                    processEscapes: true,
+                    tags: 'ams'
+                },
+                options: {
+                    skipHtmlTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+                }
+            };
+        </script>
+        <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+    
+<!-- hexo injector head_end start -->
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.12.0/dist/katex.min.css">
+
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/hexo-math@4.0.0/dist/style.css">
+<!-- hexo injector head_end end --><!-- hexo-inject:begin --><!-- hexo-inject:end --></head>
 
     <body>
         <!-- hexo-inject:begin --><!-- hexo-inject:end --><div id="blog">
@@ -69,7 +89,7 @@
 <header id="header" data-behavior="5">
     <i id="btn-open-sidebar" class="fa fa-lg fa-bars"></i>
     <div class="header-title">
-        <a class="header-title-link" href="/%20">Dream Maker</a>
+        <a class="header-title-link" href="/">Dream Maker</a>
     </div>
     
         
@@ -93,7 +113,7 @@
                 <li class="sidebar-button">
                     
                         <a  class="sidebar-button-link "
-                             href="/%20"
+                             href="/"
                             
                             title="首頁"
                         >
@@ -268,21 +288,21 @@
                             <div class="post-content markdown">
                                 <div class="main-content-wrap">
                                     <p>我們來回顧一下 SVM 模型。</p>
-<a id="more"></a>
+<span id="more"></span>
 <p>$$<br>
 \begin{align}<br>
-\mathop{\arg\min}_{\mathbf{w}, b, \boldsymbol{\xi}} &amp;\ \ \ \<br>
+\mathop{\arg\min}_{\mathbf{w}, b, \boldsymbol{\xi}} &amp;\ \ \ \ <br>
 \frac{1}{2} \mathbf{w}^T\mathbf{w} + C \sum _{n=1}^N \xi_n \\<br>
-\text{subject to} &amp;\ \ \ \<br>
+\text{subject to} &amp;\ \ \ \ <br>
 \forall i, y_i (\mathbf{w}^T\mathbf{x_i} + b) \ge 1 - \xi_n \\<br>
-\text{ } &amp;\ \ \ \<br>
+\text{ } &amp;\ \ \ \ <br>
 \forall n, \xi_n \ge 0<br>
 \end{align}<br>
 $$</p>
 <p>他可以被進一步轉成</p>
 <p>$$<br>
 \begin{align}<br>
-\mathop{\arg\min}_{\mathbf{w}, b} &amp;\ \ \ \<br>
+\mathop{\arg\min}_{\mathbf{w}, b} &amp;\ \ \ \ <br>
 \frac{1}{2} \mathbf{w}^T\mathbf{w} + C \sum _{n=1}^N max(1 - y_i (\mathbf{w}^T\mathbf{x_i} + b), 0) \\<br>
 \end{align}<br>
 $$</p>
@@ -300,7 +320,7 @@ $$</p>
 <p>$$<br>
 \mathop{\arg\min}_{\mathbf{w}, b} \frac{1}{2} \mathbf{w}^T\mathbf{w} + C \sum _{n=1}^N E(y, \hat{y})<br>
 $$</p>
-<p>不懂 regulariztion 的朋友請左轉 <a href="https://ithelp.ithome.com.tw/articles/10186405" target="_blank" rel="noopener">我之前寫過的鐵人文章</a>。</p>
+<p>不懂 regulariztion 的朋友請左轉 <a href="https://ithelp.ithome.com.tw/articles/10186405">我之前寫過的鐵人文章</a>。</p>
 <p>基本上，你想把誤差函數換成其他的東西都可以，像是變成 kernel $l_2$ -regularized linear regression (kernel ridge regression)。</p>
 <p>$$<br>
 y = \mathbf{w}^T\phi(\mathbf{x}) + b \\<br>
@@ -425,13 +445,13 @@ $$</p>
                                                     
                                                         
                                                             <div id="disqus_thread">
-    <noscript>Please enable JavaScript to view the <a href="//disqus.com/?ref_noscript" target="_blank" rel="noopener">comments powered by Disqus.</a></noscript>
+    <noscript>Please enable JavaScript to view the <a href="//disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
 </div>
                                                                 
                                                                             
                             </div>
                             
-                                <script src='https://unpkg.com/mermaid@7.1.2/dist/mermaid.min.js'></script>
+                                <script src='https://unpkg.com/mermaid@10.9.1/dist/mermaid.min.js'></script>
                                 <script>
                                     if (window.mermaid) {
                                         mermaid.initialize({ theme: 'forest' });
@@ -442,7 +462,7 @@ $$</p>
 
                 <footer id="footer" class="main-content-wrap">
     <span class="copyrights">
-        Copyrights &copy; 2021 Yueh-Hua Tu. All Rights Reserved.
+        Copyrights &copy; 2026 Yueh-Hua Tu. All Rights Reserved.
     </span>
 </footer>
 
@@ -582,24 +602,7 @@ $$</p>
         s.setAttribute('data-timestamp', +new Date());
         (d.head || d.body).appendChild(s);
     })();
-</script><!-- hexo-inject:begin --><!-- Begin: Injected MathJax -->
-<script type="text/x-mathjax-config">
-  MathJax.Hub.Config({"tex2jax":{"inlineMath":[["$","$"],["\\(","\\)"]],"skipTags":["script","noscript","style","textarea","pre","code"],"processEscapes":true},"TeX":{"equationNumbers":{"autoNumber":"AMS"}}});
-</script>
-
-<script type="text/x-mathjax-config">
-  MathJax.Hub.Queue(function() {
-    var all = MathJax.Hub.getAllJax(), i;
-    for(i=0; i < all.length; i += 1) {
-      all[i].SourceElement().parentNode.className += ' has-jax';
-    }
-  });
-</script>
-
-<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.6/latest.js?config=TeX-AMS-MML_HTMLorMML">
-</script>
-<!-- End: Injected MathJax -->
-<!-- hexo-inject:end -->
+</script><!-- hexo-inject:begin --><!-- hexo-inject:end -->
 
 
 

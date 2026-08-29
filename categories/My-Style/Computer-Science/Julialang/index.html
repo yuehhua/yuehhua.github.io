@@ -22,8 +22,8 @@
 <meta property="og:site_name" content="Dream Maker">
 <meta property="og:locale" content="zh_TW">
 <meta property="article:author" content="Yueh-Hua Tu">
-<meta property="article:tag" content="machine learning">
 <meta property="article:tag" content="deep learning">
+<meta property="article:tag" content="machine learning">
 <meta property="article:tag" content="topology">
 <meta name="twitter:card" content="summary">
     
@@ -50,10 +50,30 @@
 
         ga('create', 'UA-119690895-1', 'auto');
         ga('send', 'pageview');
-    </script><!-- hexo-inject:begin --><!-- hexo-inject:end -->
+    </script>
     
     
-</head>
+    
+        <script>
+            window.MathJax = {
+                tex: {
+                    inlineMath: [['$', '$'], ['\\(', '\\)']],
+                    displayMath: [['$$', '$$'], ['\\[', '\\]']],
+                    processEscapes: true,
+                    tags: 'ams'
+                },
+                options: {
+                    skipHtmlTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+                }
+            };
+        </script>
+        <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+    
+<!-- hexo injector head_end start -->
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.12.0/dist/katex.min.css">
+
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/hexo-math@4.0.0/dist/style.css">
+<!-- hexo injector head_end end --><!-- hexo-inject:begin --><!-- hexo-inject:end --></head>
 
     <body>
         <!-- hexo-inject:begin --><!-- hexo-inject:end --><div id="blog">
@@ -65,7 +85,7 @@
 <header id="header" data-behavior="2">
     <i id="btn-open-sidebar" class="fa fa-lg fa-bars"></i>
     <div class="header-title">
-        <a class="header-title-link" href="/%20">Dream Maker</a>
+        <a class="header-title-link" href="/">Dream Maker</a>
     </div>
     
         
@@ -89,7 +109,7 @@
                 <li class="sidebar-button">
                     
                         <a  class="sidebar-button-link "
-                             href="/%20"
+                             href="/"
                             
                             title="首頁"
                         >
@@ -269,9 +289,9 @@
 <p>所以我們可以得出一個隨機矩陣看起來像是這樣。</p>
 <figure class="highlight julia"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">julia&gt; rand(<span class="number">5</span>, <span class="number">5</span>)</span><br><span class="line"><span class="number">5</span>×<span class="number">5</span> <span class="built_in">Matrix</span>&#123;<span class="built_in">Float64</span>&#125;:</span><br><span class="line"> <span class="number">0.823648</span>  <span class="number">0.203477</span>   <span class="number">0.585812</span>  <span class="number">0.655448</span>  <span class="number">0.469304</span></span><br><span class="line"> <span class="number">0.910357</span>  <span class="number">0.0423017</span>  <span class="number">0.539289</span>  <span class="number">0.575887</span>  <span class="number">0.0623676</span></span><br><span class="line"> <span class="number">0.164566</span>  <span class="number">0.0682693</span>  <span class="number">0.260036</span>  <span class="number">0.868279</span>  <span class="number">0.353129</span></span><br><span class="line"> <span class="number">0.177329</span>  <span class="number">0.361828</span>   <span class="number">0.910047</span>  <span class="number">0.9678</span>    <span class="number">0.767602</span></span><br><span class="line"> <span class="number">0.27888</span>   <span class="number">0.973216</span>   <span class="number">0.167036</span>  <span class="number">0.76769</span>   <span class="number">0.043141</span></span><br></pre></td></tr></table></figure>
 <p>如果我們要對每個執行緒都設定同樣的 random seed，那就可以在每個執行緒內直接設定即可。</p>
-<figure class="highlight julia"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">Threads.<span class="meta">@threads</span> <span class="keyword">for</span> i <span class="keyword">in</span> <span class="number">1</span>:<span class="number">5</span></span><br><span class="line">    Random.seed!(<span class="number">0</span>)</span><br><span class="line">    tid = Threads.threadid()</span><br><span class="line">    println(tid, <span class="string">": "</span>, rand(<span class="number">5</span>, <span class="number">5</span>))</span><br><span class="line"><span class="keyword">end</span></span><br></pre></td></tr></table></figure>
+<figure class="highlight julia"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">Threads.<span class="meta">@threads</span> <span class="keyword">for</span> i <span class="keyword">in</span> <span class="number">1</span>:<span class="number">5</span></span><br><span class="line">    Random.seed!(<span class="number">0</span>)</span><br><span class="line">    tid = Threads.threadid()</span><br><span class="line">    println(tid, <span class="string">&quot;: &quot;</span>, rand(<span class="number">5</span>, <span class="number">5</span>))</span><br><span class="line"><span class="keyword">end</span></span><br></pre></td></tr></table></figure>
 <p>所以每個執行緒內印出來的矩陣就會像這樣。</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">5: [0.8236475079774124 0.20347655804192266 0.5858115517433242 0.6554484126999125 0.46930370935301835; 0.9103565379264364 0.042301665932029664 0.5392892841426182 0.5758873948500367 0.06236755817015882; 0.16456579813368521 0.06826925550564478 0.26003585026904785 0.8682787096942046 0.35312877270491705; 0.17732884646626457 0.3618283907762174 0.910046541351011 0.9677995536192001 0.767601895961374; 0.278880109331201 0.9732164043865108 0.16703619444214968 0.7676903325581188 0.043141023329413164]</span><br><span class="line">2: [0.8236475079774124 0.20347655804192266 0.5858115517433242 0.6554484126999125 0.46930370935301835; 0.9103565379264364 0.042301665932029664 0.5392892841426182 0.5758873948500367 0.06236755817015882; 0.16456579813368521 0.06826925550564478 0.26003585026904785 0.8682787096942046 0.35312877270491705; 0.17732884646626457 0.3618283907762174 0.910046541351011 0.9677995536192001 0.767601895961374; 0.278880109331201 0.9732164043865108 0.16703619444214968 0.7676903325581188 0.043141023329413164]</span><br><span class="line">4: [0.8236475079774124 0.20347655804192266 0.5858115517433242 0.6554484126999125 0.46930370935301835; 0.9103565379264364 0.042301665932029664 0.5392892841426182 0.5758873948500367 0.06236755817015882; 0.16456579813368521 0.06826925550564478 0.26003585026904785 0.8682787096942046 0.35312877270491705; 0.17732884646626457 0.3618283907762174 0.910046541351011 0.9677995536192001 0.767601895961374; 0.278880109331201 0.9732164043865108 0.16703619444214968 0.7676903325581188 0.043141023329413164]</span><br><span class="line">3: [0.8236475079774124 0.20347655804192266 0.5858115517433242 0.6554484126999125 0.46930370935301835; 0.9103565379264364 0.042301665932029664 0.5392892841426182 0.5758873948500367 0.06236755817015882; 0.16456579813368521 0.06826925550564478 0.26003585026904785 0.8682787096942046 0.35312877270491705; 0.17732884646626457 0.3618283907762174 0.910046541351011 0.9677995536192001 0.767601895961374; 0.278880109331201 0.9732164043865108 0.16703619444214968 0.7676903325581188 0.043141023329413164]</span><br><span class="line">1: [0.8236475079774124 0.20347655804192266 0.5858115517433242 0.6554484126999125 0.46930370935301835; 0.9103565379264364 0.042301665932029664 0.5392892841426182 0.5758873948500367 0.06236755817015882; 0.16456579813368521 0.06826925550564478 0.26003585026904785 0.8682787096942046 0.35312877270491705; 0.17732884646626457 0.3618283907762174 0.910046541351011 0.9677995536192001 0.767601895961374; 0.278880109331201 0.9732164043865108 0.16703619444214968 0.7676903325581188 0.043141023329413164]</span><br></pre></td></tr></table></figure>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">5: [0.8236475079774124 0.20347655804192266 0.5858115517433242 0.6554484126999125 0.46930370935301835; 0.9103565379264364 0.042301665932029664 0.5392892841426182 0.5758873948500367 0.06236755817015882; 0.16456579813368521 0.06826925550564478 0.26003585026904785 0.8682787096942046 0.35312877270491705; 0.17732884646626457 0.3618283907762174 0.910046541351011 0.9677995536192001 0.767601895961374; 0.278880109331201 0.9732164043865108 0.16703619444214968 0.7676903325581188 0.043141023329413164]</span><br><span class="line">2: [0.8236475079774124 0.20347655804192266 0.5858115517433242 0.6554484126999125 0.46930370935301835; 0.9103565379264364 0.042301665932029664 0.5392892841426182 0.5758873948500367 0.06236755817015882; 0.16456579813368521 0.06826925550564478 0.26003585026904785 0.8682787096942046 0.35312877270491705; 0.17732884646626457 0.3618283907762174 0.910046541351011 0.9677995536192001 0.767601895961374; 0.278880109331201 0.9732164043865108 0.16703619444214968 0.7676903325581188 0.043141023329413164]</span><br><span class="line">4: [0.8236475079774124 0.20347655804192266 0.5858115517433242 0.6554484126999125 0.46930370935301835; 0.9103565379264364 0.042301665932029664 0.5392892841426182 0.5758873948500367 0.06236755817015882; 0.16456579813368521 0.06826925550564478 0.26003585026904785 0.8682787096942046 0.35312877270491705; 0.17732884646626457 0.3618283907762174 0.910046541351011 0.9677995536192001 0.767601895961374; 0.278880109331201 0.9732164043865108 0.16703619444214968 0.7676903325581188 0.043141023329413164]</span><br><span class="line">3: [0.8236475079774124 0.20347655804192266 0.5858115517433242 0.6554484126999125 0.46930370935301835; 0.9103565379264364 0.042301665932029664 0.5392892841426182 0.5758873948500367 0.06236755817015882; 0.16456579813368521 0.06826925550564478 0.26003585026904785 0.8682787096942046 0.35312877270491705; 0.17732884646626457 0.3618283907762174 0.910046541351011 0.9677995536192001 0.767601895961374; 0.278880109331201 0.9732164043865108 0.16703619444214968 0.7676903325581188 0.043141023329413164]</span><br><span class="line">1: [0.8236475079774124 0.20347655804192266 0.5858115517433242 0.6554484126999125 0.46930370935301835; 0.9103565379264364 0.042301665932029664 0.5392892841426182 0.5758873948500367 0.06236755817015882; 0.16456579813368521 0.06826925550564478 0.26003585026904785 0.8682787096942046 0.35312877270491705; 0.17732884646626457 0.3618283907762174 0.910046541351011 0.9677995536192001 0.767601895961374; 0.278880109331201 0.9732164043865108 0.16703619444214968 0.7676903325581188 0.043141023329413164]</span><br></pre></td></tr></table></figure>
 
                     
                         
@@ -613,7 +633,7 @@
                 <div class="postShorten-excerpt">
                     <!-- toc -->
 <p>在 v1.6 版中，Julia 有大幅度的效能提昇，效能提昇的部份著重在於預編譯（precompilation）以及編譯的效能改進，而 v1.6 版將成為下一個長期支援（long-term support, LTS）的版本。</p>
-<p>根據<a href="https://julialang.org/blog/2021/03/julia-1.6-highlights/" target="_blank" rel="noopener">官方部落格</a>，本次版本更新引進了眾多新的技術，包含 parallel precompilation、消除重複編譯、降低編譯器的 latency、加速二進位檔案的載入，以及改善 stacktrace 的格式等等重大的功能。那我們就來詳細看看有哪些更新吧！</p>
+<p>根據<a href="https://julialang.org/blog/2021/03/julia-1.6-highlights/">官方部落格</a>，本次版本更新引進了眾多新的技術，包含 parallel precompilation、消除重複編譯、降低編譯器的 latency、加速二進位檔案的載入，以及改善 stacktrace 的格式等等重大的功能。那我們就來詳細看看有哪些更新吧！</p>
                     
                         <a href="/2021/04/04/julia-v1-6-release/" class="postShorten-excerpt_link link">
                             繼續閱讀
@@ -742,7 +762,7 @@
 
                 <footer id="footer" class="main-content-wrap">
     <span class="copyrights">
-        Copyrights &copy; 2021 Yueh-Hua Tu. All Rights Reserved.
+        Copyrights &copy; 2026 Yueh-Hua Tu. All Rights Reserved.
     </span>
 </footer>
 
