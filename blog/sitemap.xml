@@ -2,6 +2,15 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   
   <url>
+    <loc>https://yuehhua.github.io/blog/2018/10/03/03-from-linear-regression-to-perceptron/</loc>
+    
+    <lastmod>2026-09-02</lastmod>
+    
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  
+  <url>
     <loc>https://yuehhua.github.io/blog/2013/12/05/mbti-again/</loc>
     
     <lastmod>2026-09-02</lastmod>
@@ -192,15 +201,6 @@
   
   <url>
     <loc>https://yuehhua.github.io/blog/2018/07/21/why-rnn/</loc>
-    
-    <lastmod>2026-09-02</lastmod>
-    
-    <changefreq>monthly</changefreq>
-    <priority>0.6</priority>
-  </url>
-  
-  <url>
-    <loc>https://yuehhua.github.io/blog/2026/09/02/03-from-linear-regression-to-perceptron/</loc>
     
     <lastmod>2026-09-02</lastmod>
     
