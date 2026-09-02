@@ -1,0 +1,595 @@
+
+<!DOCTYPE html>
+<html lang="zh-tw,en,default">
+    
+<head>
+    <!-- hexo-inject:begin --><!-- hexo-inject:end --><meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="generator" content="Dream Maker">
+    <title>05 從 maximum-margin classifier 到 kernel SVM - Dream Maker</title>
+    <meta name="author" content="Yueh-Hua Tu">
+    
+        <meta name="keywords" content="machine learning,deep learning,topology,">
+    
+    
+    
+        <link rel="alternate" type="application/atom+xml" title="RSS" href="/blog/atom.xml">
+    
+    <script type="application/ld+json">{"@context":"http://schema.org","@type":"BlogPosting","author":{"@type":"Person","name":"Yueh-Hua Tu","sameAs":["https://github.com/yuehhua/","https://www.facebook.com/a504082002","https://www.linkedin.com/in/%E5%B2%B3%E8%8F%AF-%E6%9D%9C-6a3995a0/","mailto:a504082002@gmail.com"],"image":"https://www.gravatar.com/avatar/a565749fba4782b717234da670b273fd"},"articleBody":"注意：整篇文章極度數學高能！！\n沒有把前一篇文章看完的朋友別擔心，我們會在開頭先回顧一下。在一番數學技巧的替換過後，我們的 maximum-margin classifier 會被化成一個最佳化問題。這個最佳化問題可以用二次規劃（quadratic programming, QP）來解。\n\n$$\n\\begin{align}\n\\mathop{\\arg\\min}_{\\mathbf{w}, b} &amp;\\ \\ \\ \\ \n\\frac{1}{2} \\mathbf{w}^T\\mathbf{w} \\\\\n\\text{subject to} &amp;\\ \\ \\ \\ \n\\forall i, y_i (\\mathbf{w}^T\\mathbf{x_i} + b) \\ge 1\n\\end{align}\n$$\n當模型被轉化成一個最佳化問題之後，你還有什麼不滿的？ 問題都解決了嗎？\n當然還沒有阿！雖然說我們解決了前面的第二個缺點，但是第一個缺點還是在啊！\n那如果資料不是線性可分的話，是不是支援非線性的分類問題就可以了？\n非線性轉換\n那問題簡單！既然這個分類器只能處理線性問題，那就把所有非線性問題透過一個轉換變成線性問題不就可以了？\n當然用講的比較簡單…\n我們就先假設有個非線性轉換，可以把原本的非線性資料 $\\mathbf{x_i}$ 轉成線性資料 $\\mathbf{z_i}$：\n$$\n\\mathbf{z_i} = \\phi(\\mathbf{x_i})\n$$\n然後再把線性資料塞進模型裡不就得了？\n$$\n\\begin{align}\n\\mathop{\\arg\\min}_{\\mathbf{w}, b} &amp;\\ \\ \\ \\ \n\\frac{1}{2} \\mathbf{w}^T\\mathbf{w} \\\n\\text{subject to} &amp;\\ \\ \\ \\ \n\\forall i, y_i (\\mathbf{w}^T\\mathbf{z_i} + b) \\ge 1\n\\end{align}\n$$\n嗯…可是瑞凡，你知道要放到 QP 裏面算之前，要先計算出 $[\\mathbf{z_i}^T\\mathbf{z_j}]$，也就是把資料經過一個非線性轉換過後，還需要將每個資料向量兩兩之間內積，得到一整個矩陣才行。\n計算這所有的組合可是非常花時間（$O(N^2)$）的好嗎！！尤其你的資料點很多的時候，大數據都算不下去了。\nKernel method\n我們先來看一下比較簡單的非線性轉換好了，假設是二次多項式的轉換。\n我們想像中的二次多項式應該是 $\\phi_2(x) = (1, x, x^2)$，這邊有三項，可是廣義的二次多項式會有：\n$$\n\\mathbf{z} = \\phi_2(\\mathbf{x}) = (1, x_1, x_2, \\dots, x_d, \\\nx_1^2, x_1x_2, \\dots, x_1x_d, \\\nx_2x_1, x_2^2, \\dots, x_2x_d, \\\n\\dots, x_d^2)\n$$\n有一個常數項、d 個一次項跟 $d + \\frac{1}{2} d(d+1)$ 個二次項，如果這個向量內積的話，乘法的時間複雜度就有 $O(d^2)$ 了。\n然後再讓 $\\mathbf{z_i}$ 跟 $\\mathbf{z_j}$ 兩兩內積，利用內積的交換性扣掉一些不用算的，好歹也需要算 $N + \\frac{1}{2} N(N+1)$ 次內積，是 $O(N^2)$。\n總共應該會有 $O(d^2N^2)$。\n\n註：d 為資料維度，N 為資料筆數\n\n有沒有什麼方法可以降低這個時間呢？\n我們把內積的部份拿出來看看。\n$$\n\\phi_2(\\mathbf{x})^T\\phi_2(\\mathbf{x’}) = 1 + \\sum_{i=1}^{d} x_ix_i’ + \\sum_{i=1}^{d} \\sum_{j=1}^{d} x_ix_jx_i’x_j’\n$$\n咦！是不是可以進一步整理成這樣。\n$$\n\\phi_2(\\mathbf{x})^T\\phi_2(\\mathbf{x’}) = 1 + \\sum_{i=1}^{d} x_ix_i’ + \\sum_{i=1}^{d} x_ix_i’ \\sum_{j=1}^{d} x_jx_j’ \\\\\n= 1 + \\mathbf{x}^T\\mathbf{x’} + (\\mathbf{x}^T\\mathbf{x’})(\\mathbf{x}^T\\mathbf{x’}) \\\\\n= 1 + \\mathbf{x}^T\\mathbf{x’} + (\\mathbf{x}^T\\mathbf{x’})^2\n$$\n這樣的話需要多少時間複雜度呢？掐指一算，$\\mathbf{x}^T\\mathbf{x’}$ 需要 $O(d)$，$\\phi_2(\\mathbf{x})^T\\phi_2(\\mathbf{x’})$ 總共需要 $O(d) + 1$！\n大大降低了！！\n所以我們就把這樣的方法稱為 kernel method，並且定義 $K_\\phi(\\mathbf{x}, \\mathbf{x’}) = \\phi(\\mathbf{x})^T\\phi(\\mathbf{x’})$。\n不過大家常用的是比較廣義的版本：\n$$\nK_2(\\mathbf{x}, \\mathbf{x’}) = 1 + 2 \\mathbf{x}^T\\mathbf{x’} + (\\mathbf{x}^T\\mathbf{x’})^2 = (1 + \\mathbf{x}^T\\mathbf{x’})^2\n$$\n然後使用者通常會想要細緻控制 kernel 的強度，所以會引入一個參數：\n$$\nK_2(\\mathbf{x}, \\mathbf{x’}) = 1 + 2 \\gamma \\mathbf{x}^T\\mathbf{x’} + \\gamma^2 (\\mathbf{x}^T\\mathbf{x’})^2 = (1 + \\gamma \\mathbf{x}^T\\mathbf{x’})^2\n$$\n我們來看一下用起來的效果如何？\n\n\npicture from coursera, 《機器學習技法》 - 林軒田\n\n無限維度 kernel\n既然可以有二次的那是不是到 M 次都可以？那有沒有無限次的呢？\n有！\n他長成這樣：\n$$\nK(x, x’) = exp(-(x - x’)^2)\n$$\n嗯？你不要騙我！你以為擺到次方項就可以變成無限維度？\n那就來證明一下啦-~~\n$$\n= exp(-x^2 + 2xx’ - x’^2) \\\\\n= exp(-x^2) exp(-x’^2) exp(2xx’) \\\\\n= exp(-x^2) exp(-x’^2) (\\sum_{i=0}^{\\infty} \\frac{(2xx’)^i}{i})\\text{ (Taylor expansion)}\n$$\n透過泰勒展開式展開之後我們就看到無限維度的影子了，再進一步簡化。\n$$\n= \\sum_{i=0}^{\\infty} \\big ( exp(-x^2) exp(-x’^2) \\frac{2^i}{i} x^i x’^i) \\big ) \\\\\n= \\sum_{i=0}^{\\infty} \\big ( exp(-x^2) exp(-x’^2) \\frac{\\sqrt{2^i}}{i} \\frac{\\sqrt{2^i}}{i} x^i x’^i) \\big ) \\\\\n= \\sum_{i=0}^{\\infty} \\big ( \\frac{\\sqrt{2^i}}{i} x^i exp(-x^2) \\big ) \\sum_{i=0}^{\\infty} \\big ( \\frac{\\sqrt{2^i}}{i} x’^i exp(-x’^2)) \\big ) \\\\\n= \\phi(x)^T\\phi(x’)\n$$\n我們的無限維度非線性轉換就完成啦！\n$$\n\\phi(x) = exp(-x^2) \\cdot \\big ( 1, \\frac{\\sqrt{2}}{1} x, \\frac{\\sqrt{2^2}}{2} x^2, \\dots, \\big )\n$$\n所以這種 kernel 叫作 Gaussian kernel，使用上也是有個參數可以調整強度。\n$$\nK(\\mathbf{x}, \\mathbf{x’}) = exp(- \\gamma \\left\\lVert \\mathbf{x} - \\mathbf{x’} \\right\\rVert ^2), \\gamma \\gt 0\n$$\n在現在的支持向量機（Support vector machine, SVM）預設是會使用 Gaussian kernel 的，這就是這個模型強大的祕密！\n","dateCreated":"2018-10-05T23:07:15+08:00","dateModified":"2026-09-02T12:02:26+08:00","datePublished":"2018-10-05T23:07:15+08:00","description":"注意：整篇文章極度數學高能！！\n沒有把前一篇文章看完的朋友別擔心，我們會在開頭先回顧一下。在一番數學技巧的替換過後，我們的 maximum-margin classifier 會被化成一個最佳化問題。這個最佳化問題可以用二次規劃（quadratic programming, QP）來解。","headline":"05 從 maximum-margin classifier 到 kernel SVM","image":[],"mainEntityOfPage":{"@type":"WebPage","@id":"https://yuehhua.github.io/blog/2018/10/05/05-from-max-margin-classifier-to-kernel-svm/"},"publisher":{"@type":"Organization","name":"Yueh-Hua Tu","sameAs":["https://github.com/yuehhua/","https://www.facebook.com/a504082002","https://www.linkedin.com/in/%E5%B2%B3%E8%8F%AF-%E6%9D%9C-6a3995a0/","mailto:a504082002@gmail.com"],"image":"https://www.gravatar.com/avatar/a565749fba4782b717234da670b273fd","logo":{"@type":"ImageObject","url":"https://www.gravatar.com/avatar/a565749fba4782b717234da670b273fd"}},"url":"https://yuehhua.github.io/blog/2018/10/05/05-from-max-margin-classifier-to-kernel-svm/"}</script>
+    <meta name="description" content="注意：整篇文章極度數學高能！！ 沒有把前一篇文章看完的朋友別擔心，我們會在開頭先回顧一下。在一番數學技巧的替換過後，我們的 maximum-margin classifier 會被化成一個最佳化問題。這個最佳化問題可以用二次規劃（quadratic programming, QP）來解。">
+<meta property="og:type" content="blog">
+<meta property="og:title" content="05 從 maximum-margin classifier 到 kernel SVM">
+<meta property="og:url" content="https://yuehhua.github.io/blog/2018/10/05/05-from-max-margin-classifier-to-kernel-svm/index.html">
+<meta property="og:site_name" content="Dream Maker">
+<meta property="og:description" content="注意：整篇文章極度數學高能！！ 沒有把前一篇文章看完的朋友別擔心，我們會在開頭先回顧一下。在一番數學技巧的替換過後，我們的 maximum-margin classifier 會被化成一個最佳化問題。這個最佳化問題可以用二次規劃（quadratic programming, QP）來解。">
+<meta property="og:locale" content="zh_TW">
+<meta property="og:image" content="https://yuehhua.github.io/images/poly2_kernel.svg">
+<meta property="article:published_time" content="2018-10-05T15:07:15.000Z">
+<meta property="article:modified_time" content="2026-09-02T04:02:26.116Z">
+<meta property="article:author" content="Yueh-Hua Tu">
+<meta property="article:tag" content="deep learning">
+<meta property="article:tag" content="machine learning">
+<meta property="article:tag" content="topology">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://yuehhua.github.io/images/poly2_kernel.svg">
+    
+    
+        
+    
+    
+    
+    
+    
+    <!--STYLES-->
+    
+<link rel="stylesheet" href="/blog/assets/css/style-3frockyt2j28isvdztjchy5nhkz8tjki9ermufc1ckptmvjdftux94m2ahub.min.css">
+
+    <!--STYLES END-->
+    
+    <script type="text/javascript">
+        (function (i, s, o, g, r, a, m) {
+        i['GoogleAnalyticsObject'] = r; i[r] = i[r] || function () {
+            (i[r].q = i[r].q || []).push(arguments)
+        }, i[r].l = 1 * new Date(); a = s.createElement(o),
+            m = s.getElementsByTagName(o)[0]; a.async = 1; a.src = g; m.parentNode.insertBefore(a, m)
+        })(window, document, 'script', '//www.google-analytics.com/analytics.js', 'ga');
+
+        ga('create', 'UA-119690895-1', 'auto');
+        ga('send', 'pageview');
+    </script>
+    
+    
+    
+        <script>
+            window.MathJax = {
+                tex: {
+                    inlineMath: [['$', '$'], ['\\(', '\\)']],
+                    displayMath: [['$$', '$$'], ['\\[', '\\]']],
+                    processEscapes: true,
+                    tags: 'ams'
+                },
+                options: {
+                    skipHtmlTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+                }
+            };
+        </script>
+        <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+    
+<!-- hexo injector head_end start -->
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.12.0/dist/katex.min.css">
+
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/hexo-math@4.0.0/dist/style.css">
+<!-- hexo injector head_end end --><!-- hexo-inject:begin --><!-- hexo-inject:end --></head>
+
+    <body>
+        <!-- hexo-inject:begin --><!-- hexo-inject:end --><div id="blog">
+            <!-- Define author's picture -->
+
+
+    
+
+<header id="header" data-behavior="5">
+    <i id="btn-open-sidebar" class="fa fa-lg fa-bars"></i>
+    <div class="header-title">
+        <a class="header-title-link" href="/blog/">Dream Maker</a>
+    </div>
+    
+        
+            <a  class="header-right-picture "
+                href="#about">
+        
+        
+        </a>
+    
+</header>
+
+            <!-- Define author's picture -->
+
+
+<nav id="sidebar" data-behavior="5">
+    <div class="sidebar-container">
+        
+        
+            <ul class="sidebar-buttons">
+            
+                <li class="sidebar-button">
+                    
+                        <a  class="sidebar-button-link "
+                             href="/blog/"
+                            
+                            title="首頁"
+                        >
+                    
+                        <i class="sidebar-button-icon fa fa-home" aria-hidden="true"></i>
+                        <span class="sidebar-button-desc">首頁</span>
+                    </a>
+            </li>
+            
+                <li class="sidebar-button">
+                    
+                        <a  class="sidebar-button-link "
+                             href="/blog/all-categories"
+                            
+                            title="分類"
+                        >
+                    
+                        <i class="sidebar-button-icon fa fa-bookmark" aria-hidden="true"></i>
+                        <span class="sidebar-button-desc">分類</span>
+                    </a>
+            </li>
+            
+                <li class="sidebar-button">
+                    
+                        <a  class="sidebar-button-link "
+                             href="/blog/all-tags"
+                            
+                            title="標籤"
+                        >
+                    
+                        <i class="sidebar-button-icon fa fa-tags" aria-hidden="true"></i>
+                        <span class="sidebar-button-desc">標籤</span>
+                    </a>
+            </li>
+            
+                <li class="sidebar-button">
+                    
+                        <a  class="sidebar-button-link "
+                             href="/blog/all-archives"
+                            
+                            title="所有文章"
+                        >
+                    
+                        <i class="sidebar-button-icon fa fa-archive" aria-hidden="true"></i>
+                        <span class="sidebar-button-desc">所有文章</span>
+                    </a>
+            </li>
+            
+                <li class="sidebar-button">
+                    
+                        <a  class="sidebar-button-link open-algolia-search"
+                             href="#search"
+                            
+                            title="搜尋"
+                        >
+                    
+                        <i class="sidebar-button-icon fa fa-search" aria-hidden="true"></i>
+                        <span class="sidebar-button-desc">搜尋</span>
+                    </a>
+            </li>
+            
+                <li class="sidebar-button">
+                    
+                        <a  class="sidebar-button-link "
+                             href="#about"
+                            
+                            title="關於"
+                        >
+                    
+                        <i class="sidebar-button-icon fa fa-question" aria-hidden="true"></i>
+                        <span class="sidebar-button-desc">關於</span>
+                    </a>
+            </li>
+            
+        </ul>
+        
+            <ul class="sidebar-buttons">
+            
+                <li class="sidebar-button">
+                    
+                        <a  class="sidebar-button-link " href="https://github.com/yuehhua/" target="_blank" rel="noopener" title="GitHub">
+                    
+                        <i class="sidebar-button-icon fab fa-github" aria-hidden="true"></i>
+                        <span class="sidebar-button-desc">GitHub</span>
+                    </a>
+            </li>
+            
+                <li class="sidebar-button">
+                    
+                        <a  class="sidebar-button-link " href="https://www.facebook.com/a504082002" target="_blank" rel="noopener" title="Facebook">
+                    
+                        <i class="sidebar-button-icon fab fa-facebook" aria-hidden="true"></i>
+                        <span class="sidebar-button-desc">Facebook</span>
+                    </a>
+            </li>
+            
+                <li class="sidebar-button">
+                    
+                        <a  class="sidebar-button-link " href="https://www.linkedin.com/in/%E5%B2%B3%E8%8F%AF-%E6%9D%9C-6a3995a0/" target="_blank" rel="noopener" title="LinkedIn">
+                    
+                        <i class="sidebar-button-icon fab fa-linkedin" aria-hidden="true"></i>
+                        <span class="sidebar-button-desc">LinkedIn</span>
+                    </a>
+            </li>
+            
+                <li class="sidebar-button">
+                    
+                        <a  class="sidebar-button-link " href="mailto:a504082002@gmail.com" target="_blank" rel="noopener" title="Email">
+                    
+                        <i class="sidebar-button-icon fab fa-envelope" aria-hidden="true"></i>
+                        <span class="sidebar-button-desc">Email</span>
+                    </a>
+            </li>
+            
+        </ul>
+        
+            <ul class="sidebar-buttons">
+            
+                <li class="sidebar-button">
+                    
+                        <a  class="sidebar-button-link "
+                             href="/blog/atom.xml"
+                            
+                            title="Atom"
+                        >
+                    
+                        <i class="sidebar-button-icon fa fa-rss" aria-hidden="true"></i>
+                        <span class="sidebar-button-desc">Atom</span>
+                    </a>
+            </li>
+            
+        </ul>
+        
+    </div>
+</nav>
+
+            
+            <div id="main" data-behavior="5"
+                 class="
+                        hasCoverMetaIn
+                        ">
+                
+    <article class="post">
+        
+                
+                    <div class="post-header main-content-wrap text-left">
+    
+        <h1 class="post-title">
+            05 從 maximum-margin classifier 到 kernel SVM
+        </h1>
+    
+    
+        <div class="post-meta">
+    <time datetime="2018-10-05T23:07:15+08:00">
+	
+		    10月 05, 2018
+    	
+    </time>
+    
+        <span>分類 </span>
+        
+    <a class="category-link" href="/blog/categories/Machine-Learning/">Machine Learning</a>, <a class="category-link" href="/blog/categories/Machine-Learning/%E6%A9%9F%E5%99%A8%E5%AD%B8%E7%BF%92%E6%A8%A1%E5%9E%8B%E5%9C%96%E6%9B%B8%E9%A4%A8%EF%BC%9A%E5%BE%9E%E5%82%B3%E7%B5%B1%E6%A8%A1%E5%9E%8B%E5%88%B0%E6%B7%B1%E5%BA%A6%E5%AD%B8%E7%BF%92/">機器學習模型圖書館：從傳統模型到深度學習</a>
+
+
+    
+</div>
+
+    
+</div>
+
+                        
+                            <div class="post-content markdown">
+                                <div class="main-content-wrap">
+                                    <p>注意：整篇文章極度數學高能！！</p>
+<p>沒有把前一篇文章看完的朋友別擔心，我們會在開頭先回顧一下。在一番數學技巧的替換過後，我們的 maximum-margin classifier 會被化成一個最佳化問題。這個最佳化問題可以用二次規劃（quadratic programming, QP）來解。</p>
+<span id="more"></span>
+<p>$$<br>
+\begin{align}<br>
+\mathop{\arg\min}_{\mathbf{w}, b} &amp;\ \ \ \ <br>
+\frac{1}{2} \mathbf{w}^T\mathbf{w} \\<br>
+\text{subject to} &amp;\ \ \ \ <br>
+\forall i, y_i (\mathbf{w}^T\mathbf{x_i} + b) \ge 1<br>
+\end{align}<br>
+$$</p>
+<p>當模型被轉化成一個最佳化問題之後，<s>你還有什麼不滿的？</s> 問題都解決了嗎？</p>
+<p>當然還沒有阿！雖然說我們解決了前面的第二個缺點，但是第一個缺點還是在啊！</p>
+<p>那如果資料不是線性可分的話，是不是支援非線性的分類問題就可以了？</p>
+<h2 id="非線性轉換">非線性轉換</h2>
+<p>那問題簡單！既然這個分類器只能處理線性問題，那就把所有非線性問題透過一個轉換變成線性問題不就可以了？</p>
+<p>當然用講的比較簡單…</p>
+<p>我們就先假設有個非線性轉換，可以把原本的非線性資料 $\mathbf{x_i}$ 轉成線性資料 $\mathbf{z_i}$：</p>
+<p>$$<br>
+\mathbf{z_i} = \phi(\mathbf{x_i})<br>
+$$</p>
+<p>然後再把線性資料塞進模型裡不就得了？</p>
+<p>$$<br>
+\begin{align}<br>
+\mathop{\arg\min}_{\mathbf{w}, b} &amp;\ \ \ \ <br>
+\frac{1}{2} \mathbf{w}^T\mathbf{w} \<br>
+\text{subject to} &amp;\ \ \ \ <br>
+\forall i, y_i (\mathbf{w}^T\mathbf{z_i} + b) \ge 1<br>
+\end{align}<br>
+$$</p>
+<p>嗯…可是瑞凡，你知道要放到 QP 裏面算之前，要先計算出 $[\mathbf{z_i}^T\mathbf{z_j}]$，也就是把資料經過一個非線性轉換過後，還需要將每個資料向量兩兩之間內積，得到一整個矩陣才行。</p>
+<p>計算這所有的組合可是非常花時間（$O(N^2)$）的好嗎！！尤其你的資料點很多的時候，大數據都算不下去了。</p>
+<h2 id="Kernel-method">Kernel method</h2>
+<p>我們先來看一下比較簡單的非線性轉換好了，假設是二次多項式的轉換。</p>
+<p>我們想像中的二次多項式應該是 $\phi_2(x) = (1, x, x^2)$，這邊有三項，可是廣義的二次多項式會有：</p>
+<p>$$<br>
+\mathbf{z} = \phi_2(\mathbf{x}) = (1, x_1, x_2, \dots, x_d, \<br>
+x_1^2, x_1x_2, \dots, x_1x_d, \<br>
+x_2x_1, x_2^2, \dots, x_2x_d, \<br>
+\dots, x_d^2)<br>
+$$</p>
+<p>有一個常數項、d 個一次項跟 $d + \frac{1}{2} d(d+1)$ 個二次項，如果這個向量內積的話，乘法的時間複雜度就有 $O(d^2)$ 了。</p>
+<p>然後再讓 $\mathbf{z_i}$ 跟 $\mathbf{z_j}$ 兩兩內積，利用內積的交換性扣掉一些不用算的，好歹也需要算 $N + \frac{1}{2} N(N+1)$ 次內積，是 $O(N^2)$。</p>
+<p>總共應該會有 $O(d^2N^2)$。</p>
+<blockquote>
+<p>註：d 為資料維度，N 為資料筆數</p>
+</blockquote>
+<p>有沒有什麼方法可以降低這個時間呢？</p>
+<p>我們把內積的部份拿出來看看。</p>
+<p>$$<br>
+\phi_2(\mathbf{x})^T\phi_2(\mathbf{x’}) = 1 + \sum_{i=1}^{d} x_ix_i’ + \sum_{i=1}^{d} \sum_{j=1}^{d} x_ix_jx_i’x_j’<br>
+$$</p>
+<p>咦！是不是可以進一步整理成這樣。</p>
+<p>$$<br>
+\phi_2(\mathbf{x})^T\phi_2(\mathbf{x’}) = 1 + \sum_{i=1}^{d} x_ix_i’ + \sum_{i=1}^{d} x_ix_i’ \sum_{j=1}^{d} x_jx_j’ \\<br>
+= 1 + \mathbf{x}^T\mathbf{x’} + (\mathbf{x}^T\mathbf{x’})(\mathbf{x}^T\mathbf{x’}) \\<br>
+= 1 + \mathbf{x}^T\mathbf{x’} + (\mathbf{x}^T\mathbf{x’})^2<br>
+$$</p>
+<p>這樣的話需要多少時間複雜度呢？掐指一算，$\mathbf{x}^T\mathbf{x’}$ 需要 $O(d)$，$\phi_2(\mathbf{x})^T\phi_2(\mathbf{x’})$ 總共需要 $O(d) + 1$！</p>
+<p>大大降低了！！</p>
+<p>所以我們就把這樣的方法稱為 kernel method，並且定義 $K_\phi(\mathbf{x}, \mathbf{x’}) = \phi(\mathbf{x})^T\phi(\mathbf{x’})$。</p>
+<p>不過大家常用的是比較廣義的版本：</p>
+<p>$$<br>
+K_2(\mathbf{x}, \mathbf{x’}) = 1 + 2 \mathbf{x}^T\mathbf{x’} + (\mathbf{x}^T\mathbf{x’})^2 = (1 + \mathbf{x}^T\mathbf{x’})^2<br>
+$$</p>
+<p>然後使用者通常會想要細緻控制 kernel 的強度，所以會引入一個參數：</p>
+<p>$$<br>
+K_2(\mathbf{x}, \mathbf{x’}) = 1 + 2 \gamma \mathbf{x}^T\mathbf{x’} + \gamma^2 (\mathbf{x}^T\mathbf{x’})^2 = (1 + \gamma \mathbf{x}^T\mathbf{x’})^2<br>
+$$</p>
+<p>我們來看一下用起來的效果如何？</p>
+<p><img src="/images/poly2_kernel.svg" alt=""></p>
+<blockquote>
+<p>picture from coursera, 《機器學習技法》 - 林軒田</p>
+</blockquote>
+<h2 id="無限維度-kernel">無限維度 kernel</h2>
+<p>既然可以有二次的那是不是到 M 次都可以？那有沒有無限次的呢？</p>
+<p>有！</p>
+<p>他長成這樣：</p>
+<p>$$<br>
+K(x, x’) = exp(-(x - x’)^2)<br>
+$$</p>
+<p>嗯？你不要騙我！你以為擺到次方項就可以變成無限維度？</p>
+<p>那就來證明一下啦-~~</p>
+<p>$$<br>
+= exp(-x^2 + 2xx’ - x’^2) \\<br>
+= exp(-x^2) exp(-x’^2) exp(2xx’) \\<br>
+= exp(-x^2) exp(-x’^2) (\sum_{i=0}^{\infty} \frac{(2xx’)^i}{i})\text{ (Taylor expansion)}<br>
+$$</p>
+<p>透過泰勒展開式展開之後我們就看到無限維度的影子了，再進一步簡化。</p>
+<p>$$<br>
+= \sum_{i=0}^{\infty} \big ( exp(-x^2) exp(-x’^2) \frac{2^i}{i} x^i x’^i) \big ) \\<br>
+= \sum_{i=0}^{\infty} \big ( exp(-x^2) exp(-x’^2) \frac{\sqrt{2^i}}{i} \frac{\sqrt{2^i}}{i} x^i x’^i) \big ) \\<br>
+= \sum_{i=0}^{\infty} \big ( \frac{\sqrt{2^i}}{i} x^i exp(-x^2) \big ) \sum_{i=0}^{\infty} \big ( \frac{\sqrt{2^i}}{i} x’^i exp(-x’^2)) \big ) \\<br>
+= \phi(x)^T\phi(x’)<br>
+$$</p>
+<p>我們的無限維度非線性轉換就完成啦！</p>
+<p>$$<br>
+\phi(x) = exp(-x^2) \cdot \big ( 1, \frac{\sqrt{2}}{1} x, \frac{\sqrt{2^2}}{2} x^2, \dots, \big )<br>
+$$</p>
+<p>所以這種 kernel 叫作 Gaussian kernel，使用上也是有個參數可以調整強度。</p>
+<p>$$<br>
+K(\mathbf{x}, \mathbf{x’}) = exp(- \gamma \left\lVert \mathbf{x} - \mathbf{x’} \right\rVert ^2), \gamma \gt 0<br>
+$$</p>
+<p>在現在的支持向量機（Support vector machine, SVM）預設是會使用 Gaussian kernel 的，這就是這個模型強大的祕密！</p>
+
+                                        
+
+                                </div>
+                            </div>
+                            <div id="post-footer" class="post-footer main-content-wrap">
+                                
+                                        
+                                            <div class="post-actions-wrap">
+    <nav>
+        <ul class="post-actions post-action-nav">
+            <li class="post-action">
+                
+                    
+                    <a class="post-action-btn btn btn--default tooltip--top" href="/blog/2018/10/06/06-from-hard-margin-svm-to-soft-margin-svm/" data-tooltip="06 從 hard-margin SVM 到 soft-margin SVM" aria-label="上一篇: 06 從 hard-margin SVM 到 soft-margin SVM">
+                
+                    <i class="fa fa-angle-left" aria-hidden="true"></i>
+                    <span class="hide-xs hide-sm text-small icon-ml">上一篇</span>
+                </a>
+            </li>
+            <li class="post-action">
+                
+                    
+                    <a class="post-action-btn btn btn--default tooltip--top" href="/blog/2018/10/04/04-from-perceptron-to-max-margin-classifier/" data-tooltip="04 從感知器到 maximum-margin classifier" aria-label="下一篇: 04 從感知器到 maximum-margin classifier">
+                
+                    <span class="hide-xs hide-sm text-small icon-mr">下一篇</span>
+                    <i class="fa fa-angle-right" aria-hidden="true"></i>
+                </a>
+            </li>
+        </ul>
+    </nav>
+    <ul class="post-actions post-action-share">
+        <li class="post-action hide-lg hide-md hide-sm">
+            <a class="post-action-btn btn btn--default btn-open-shareoptions" href="#btn-open-shareoptions" aria-label="Share this post">
+                <i class="fa fa-share-alt" aria-hidden="true"></i>
+            </a>
+        </li>
+        
+            
+            
+            <li class="post-action hide-xs">
+                <a class="post-action-btn btn btn--default" target="new" href="https://www.facebook.com/sharer/sharer.php?u=https://yuehhua.github.io/blog/2018/10/05/05-from-max-margin-classifier-to-kernel-svm/" title="分享到 Facebook">
+                    <i class="fa fa-facebook-official" aria-hidden="true"></i>
+                </a>
+            </li>
+        
+        
+            
+        
+        <li class="post-action">
+            
+                <a class="post-action-btn btn btn--default" href="#" aria-label="Back to top">
+            
+                <i class="fa fa-list" aria-hidden="true"></i>
+            </a>
+        </li>
+    </ul>
+</div>
+
+
+                                                
+                                                    
+                                                        
+                                                                            
+                            </div>
+                            
+                                <script src='https://unpkg.com/mermaid@10.9.1/dist/mermaid.min.js'></script>
+                                <script>
+                                    if (window.mermaid) {
+                                        mermaid.initialize({ theme: 'forest' });
+                                    }
+                                </script>
+                                
+    </article>
+
+                <footer id="footer" class="main-content-wrap">
+    <span class="copyrights">
+        Copyrights &copy; 2026 Yueh-Hua Tu. All Rights Reserved.
+    </span>
+</footer>
+
+            </div>
+            
+                <div id="bottom-bar" class="post-bottom-bar" data-behavior="5">
+                    <div class="post-actions-wrap">
+    <nav>
+        <ul class="post-actions post-action-nav">
+            <li class="post-action">
+                
+                    
+                    <a class="post-action-btn btn btn--default tooltip--top" href="/blog/2018/10/06/06-from-hard-margin-svm-to-soft-margin-svm/" data-tooltip="06 從 hard-margin SVM 到 soft-margin SVM" aria-label="上一篇: 06 從 hard-margin SVM 到 soft-margin SVM">
+                
+                    <i class="fa fa-angle-left" aria-hidden="true"></i>
+                    <span class="hide-xs hide-sm text-small icon-ml">上一篇</span>
+                </a>
+            </li>
+            <li class="post-action">
+                
+                    
+                    <a class="post-action-btn btn btn--default tooltip--top" href="/blog/2018/10/04/04-from-perceptron-to-max-margin-classifier/" data-tooltip="04 從感知器到 maximum-margin classifier" aria-label="下一篇: 04 從感知器到 maximum-margin classifier">
+                
+                    <span class="hide-xs hide-sm text-small icon-mr">下一篇</span>
+                    <i class="fa fa-angle-right" aria-hidden="true"></i>
+                </a>
+            </li>
+        </ul>
+    </nav>
+    <ul class="post-actions post-action-share">
+        <li class="post-action hide-lg hide-md hide-sm">
+            <a class="post-action-btn btn btn--default btn-open-shareoptions" href="#btn-open-shareoptions" aria-label="Share this post">
+                <i class="fa fa-share-alt" aria-hidden="true"></i>
+            </a>
+        </li>
+        
+            
+            
+            <li class="post-action hide-xs">
+                <a class="post-action-btn btn btn--default" target="new" href="https://www.facebook.com/sharer/sharer.php?u=https://yuehhua.github.io/blog/2018/10/05/05-from-max-margin-classifier-to-kernel-svm/" title="分享到 Facebook">
+                    <i class="fa fa-facebook-official" aria-hidden="true"></i>
+                </a>
+            </li>
+        
+        
+            
+        
+        <li class="post-action">
+            
+                <a class="post-action-btn btn btn--default" href="#" aria-label="Back to top">
+            
+                <i class="fa fa-list" aria-hidden="true"></i>
+            </a>
+        </li>
+    </ul>
+</div>
+
+
+                </div>
+                <div id="share-options-bar" class="share-options-bar" data-behavior="5">
+    <i id="btn-close-shareoptions" class="fa fa-close"></i>
+    <ul class="share-options">
+        
+            
+            
+            <li class="share-option">
+                <a class="share-option-btn" target="new" href="https://www.facebook.com/sharer/sharer.php?u=https://yuehhua.github.io/blog/2018/10/05/05-from-max-margin-classifier-to-kernel-svm/">
+                    <i class="fa fa-facebook-official" aria-hidden="true"></i><span>分享到 Facebook</span>
+                </a>
+            </li>
+        
+    </ul>
+</div>
+
+            
+        </div>
+        
+
+
+<div id="about">
+    <div id="about-card">
+        <div id="about-btn-close">
+            <i class="fa fa-remove"></i>
+        </div>
+        
+            <h4 id="about-card-name">Yueh-Hua Tu</h4>
+        
+            <div id="about-card-bio"><p>目標是計算生物學家！</br>Systems Biology, Computational Biology, Machine Learning</br>Julia Taiwan 發起人</p>
+</div>
+        
+        
+            <div id="about-card-job">
+                <i class="fa fa-briefcase"></i>
+                <br/>
+                <p>研發替代役研究助理</p>
+
+            </div>
+        
+        
+            <div id="about-card-location">
+                <i class="fa fa-map-marker"></i>
+                <br/>
+                Taiwan
+            </div>
+        
+    </div>
+</div>
+
+        
+        
+<div id="cover" style="background-image:url('/blog/assets/images/cover.jpg');"></div>
+        <!--SCRIPTS-->
+
+<script src="/blog/assets/js/script-xzfezjobyekpxrjktw5tz6muvzqfsbmo5n6atk3p5om9ulfptldi3p7cyqd8.min.js"></script>
+
+<!--SCRIPTS END--><!-- hexo-inject:begin --><!-- hexo-inject:end -->
+
+
+
+
+    </body>
+</html>

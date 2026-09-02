@@ -1,0 +1,859 @@
+
+<!DOCTYPE html>
+<html lang="zh-tw,en,default">
+    
+<head>
+    <!-- hexo-inject:begin --><!-- hexo-inject:end --><meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="generator" content="Dream Maker">
+    <title>所有文章 - Dream Maker</title>
+    <meta name="author" content="Yueh-Hua Tu">
+    
+        <meta name="keywords" content="machine learning,deep learning,topology,">
+    
+    
+    
+        <link rel="alternate" type="application/atom+xml" title="RSS" href="/blog/atom.xml">
+    
+    <script type="application/ld+json">{}</script>
+    <meta property="og:type" content="blog">
+<meta property="og:title" content="Dream Maker">
+<meta property="og:url" content="https://yuehhua.github.io/blog/archives/page/3/index.html">
+<meta property="og:site_name" content="Dream Maker">
+<meta property="og:locale" content="zh_TW">
+<meta property="article:author" content="Yueh-Hua Tu">
+<meta property="article:tag" content="deep learning">
+<meta property="article:tag" content="machine learning">
+<meta property="article:tag" content="topology">
+<meta name="twitter:card" content="summary">
+    
+    
+        
+    
+    
+    
+    
+    
+    <!--STYLES-->
+    
+<link rel="stylesheet" href="/blog/assets/css/style-3frockyt2j28isvdztjchy5nhkz8tjki9ermufc1ckptmvjdftux94m2ahub.min.css">
+
+    <!--STYLES END-->
+    
+    <script type="text/javascript">
+        (function (i, s, o, g, r, a, m) {
+        i['GoogleAnalyticsObject'] = r; i[r] = i[r] || function () {
+            (i[r].q = i[r].q || []).push(arguments)
+        }, i[r].l = 1 * new Date(); a = s.createElement(o),
+            m = s.getElementsByTagName(o)[0]; a.async = 1; a.src = g; m.parentNode.insertBefore(a, m)
+        })(window, document, 'script', '//www.google-analytics.com/analytics.js', 'ga');
+
+        ga('create', 'UA-119690895-1', 'auto');
+        ga('send', 'pageview');
+    </script>
+    
+    
+    
+        <script>
+            window.MathJax = {
+                tex: {
+                    inlineMath: [['$', '$'], ['\\(', '\\)']],
+                    displayMath: [['$$', '$$'], ['\\[', '\\]']],
+                    processEscapes: true,
+                    tags: 'ams'
+                },
+                options: {
+                    skipHtmlTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+                }
+            };
+        </script>
+        <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+    
+<!-- hexo injector head_end start -->
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.12.0/dist/katex.min.css">
+
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/hexo-math@4.0.0/dist/style.css">
+<!-- hexo injector head_end end --><!-- hexo-inject:begin --><!-- hexo-inject:end --></head>
+
+    <body>
+        <!-- hexo-inject:begin --><!-- hexo-inject:end --><div id="blog">
+            <!-- Define author's picture -->
+
+
+    
+
+<header id="header" data-behavior="2">
+    <i id="btn-open-sidebar" class="fa fa-lg fa-bars"></i>
+    <div class="header-title">
+        <a class="header-title-link" href="/blog/">Dream Maker</a>
+    </div>
+    
+        
+            <a  class="header-right-picture "
+                href="#about">
+        
+        
+        </a>
+    
+</header>
+
+            <!-- Define author's picture -->
+
+
+<nav id="sidebar" data-behavior="2">
+    <div class="sidebar-container">
+        
+        
+            <ul class="sidebar-buttons">
+            
+                <li class="sidebar-button">
+                    
+                        <a  class="sidebar-button-link "
+                             href="/blog/"
+                            
+                            title="首頁"
+                        >
+                    
+                        <i class="sidebar-button-icon fa fa-home" aria-hidden="true"></i>
+                        <span class="sidebar-button-desc">首頁</span>
+                    </a>
+            </li>
+            
+                <li class="sidebar-button">
+                    
+                        <a  class="sidebar-button-link "
+                             href="/blog/all-categories"
+                            
+                            title="分類"
+                        >
+                    
+                        <i class="sidebar-button-icon fa fa-bookmark" aria-hidden="true"></i>
+                        <span class="sidebar-button-desc">分類</span>
+                    </a>
+            </li>
+            
+                <li class="sidebar-button">
+                    
+                        <a  class="sidebar-button-link "
+                             href="/blog/all-tags"
+                            
+                            title="標籤"
+                        >
+                    
+                        <i class="sidebar-button-icon fa fa-tags" aria-hidden="true"></i>
+                        <span class="sidebar-button-desc">標籤</span>
+                    </a>
+            </li>
+            
+                <li class="sidebar-button">
+                    
+                        <a  class="sidebar-button-link "
+                             href="/blog/all-archives"
+                            
+                            title="所有文章"
+                        >
+                    
+                        <i class="sidebar-button-icon fa fa-archive" aria-hidden="true"></i>
+                        <span class="sidebar-button-desc">所有文章</span>
+                    </a>
+            </li>
+            
+                <li class="sidebar-button">
+                    
+                        <a  class="sidebar-button-link open-algolia-search"
+                             href="#search"
+                            
+                            title="搜尋"
+                        >
+                    
+                        <i class="sidebar-button-icon fa fa-search" aria-hidden="true"></i>
+                        <span class="sidebar-button-desc">搜尋</span>
+                    </a>
+            </li>
+            
+                <li class="sidebar-button">
+                    
+                        <a  class="sidebar-button-link "
+                             href="#about"
+                            
+                            title="關於"
+                        >
+                    
+                        <i class="sidebar-button-icon fa fa-question" aria-hidden="true"></i>
+                        <span class="sidebar-button-desc">關於</span>
+                    </a>
+            </li>
+            
+        </ul>
+        
+            <ul class="sidebar-buttons">
+            
+                <li class="sidebar-button">
+                    
+                        <a  class="sidebar-button-link " href="https://github.com/yuehhua/" target="_blank" rel="noopener" title="GitHub">
+                    
+                        <i class="sidebar-button-icon fab fa-github" aria-hidden="true"></i>
+                        <span class="sidebar-button-desc">GitHub</span>
+                    </a>
+            </li>
+            
+                <li class="sidebar-button">
+                    
+                        <a  class="sidebar-button-link " href="https://www.facebook.com/a504082002" target="_blank" rel="noopener" title="Facebook">
+                    
+                        <i class="sidebar-button-icon fab fa-facebook" aria-hidden="true"></i>
+                        <span class="sidebar-button-desc">Facebook</span>
+                    </a>
+            </li>
+            
+                <li class="sidebar-button">
+                    
+                        <a  class="sidebar-button-link " href="https://www.linkedin.com/in/%E5%B2%B3%E8%8F%AF-%E6%9D%9C-6a3995a0/" target="_blank" rel="noopener" title="LinkedIn">
+                    
+                        <i class="sidebar-button-icon fab fa-linkedin" aria-hidden="true"></i>
+                        <span class="sidebar-button-desc">LinkedIn</span>
+                    </a>
+            </li>
+            
+                <li class="sidebar-button">
+                    
+                        <a  class="sidebar-button-link " href="mailto:a504082002@gmail.com" target="_blank" rel="noopener" title="Email">
+                    
+                        <i class="sidebar-button-icon fab fa-envelope" aria-hidden="true"></i>
+                        <span class="sidebar-button-desc">Email</span>
+                    </a>
+            </li>
+            
+        </ul>
+        
+            <ul class="sidebar-buttons">
+            
+                <li class="sidebar-button">
+                    
+                        <a  class="sidebar-button-link "
+                             href="/blog/atom.xml"
+                            
+                            title="Atom"
+                        >
+                    
+                        <i class="sidebar-button-icon fa fa-rss" aria-hidden="true"></i>
+                        <span class="sidebar-button-desc">Atom</span>
+                    </a>
+            </li>
+            
+        </ul>
+        
+    </div>
+</nav>
+
+            
+            <div id="main" data-behavior="2"
+                 class="
+                        hasCoverMetaIn
+                        ">
+                
+    <section class="postShorten-group main-content-wrap">
+    
+    
+    <article class="postShorten postShorten--thumbnailimg-right">
+        <div class="postShorten-wrap">
+            
+            <div class="postShorten-header">
+                <h1 class="postShorten-title">
+                    
+                        <a class="link-unstyled" href="/blog/2020/09/06/how-to-use-async-sync-in-julia/">
+                            在 Julia 怎麼用 async 跟 sync
+                        </a>
+                    
+                </h1>
+                <div class="postShorten-meta">
+    <time datetime="2020-09-06T17:43:04+08:00">
+	
+		    9月 06, 2020
+    	
+    </time>
+    
+        <span>分類 </span>
+        
+    <a class="category-link" href="/blog/categories/My-Style/">My Style</a>, <a class="category-link" href="/blog/categories/My-Style/Computer-Science/">Computer Science</a>, <a class="category-link" href="/blog/categories/My-Style/Computer-Science/Julialang/">Julialang</a>
+
+
+    
+</div>
+
+            </div>
+            
+                <div class="postShorten-excerpt">
+                    <p>這個問題在官方文件中並沒有詳細記載，所以覺得值得紀錄一下。</p>
+<p>查閱 <code>@async</code> 的文件會講說，他會用一個 <code>Task</code> 把後面的表達式包裝起來，並且將他掛到排程器的佇列（queue）中。意思就是將表達式包裝成一個任務，並放到佇列中等待 CPU 核心的資源來執行他。</p>
+                    
+                        <a href="/blog/2020/09/06/how-to-use-async-sync-in-julia/" class="postShorten-excerpt_link link">
+                            繼續閱讀
+                        </a>
+                        
+                    
+                </div>
+            
+        </div>
+        
+    </article>
+    
+    
+    <article class="postShorten postShorten--thumbnailimg-bottom">
+        <div class="postShorten-wrap">
+            
+            <div class="postShorten-header">
+                <h1 class="postShorten-title">
+                    
+                        <a class="link-unstyled" href="/blog/2020/09/06/linux-system-noise-cancellation/">
+                            Linux 系統降噪
+                        </a>
+                    
+                </h1>
+                <div class="postShorten-meta">
+    <time datetime="2020-09-06T17:22:33+08:00">
+	
+		    9月 06, 2020
+    	
+    </time>
+    
+</div>
+
+            </div>
+            
+                <div class="postShorten-content">
+                    <p>之前在 Linux 上測試麥克風，發現錄製的時候總會把背景雜訊給錄進去，會在有人講話的同時聽到雜音。</p>
+<p>我用的是 OBS 來做桌面錄製，所以自然想用 OBS 來做音訊的降噪。在 OBS 裡有噪音閥及噪音抑制，似乎噪音閥的效果比較明顯，但是講話聲音背後仍有雜音。</p>
+<p>這時候在網路上找了一下，發現可以用系統 pulseaudio 的驅動來做降噪，只是要特別設定開啟，預設是不會開啟的。試了之後效果超好，在這邊紀錄一下。</p>
+<h2 id="步驟">步驟</h2>
+<p>首先，編輯以下檔案</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo nano /etc/pulse/default.pa</span><br></pre></td></tr></table></figure>
+<p>把以下這行加到檔案中，建議可以加到有個 Echo Cancellation 的地方：</p>
+<p>load-module module-echo-cancel</p>
+<p>重載 PulseAudio (pulseaudio -k) 就可以囉！</p>
+<p>Ref: <a href="https://askubuntu.com/questions/18958/realtime-noise-removal-with-pulseaudio">https://askubuntu.com/questions/18958/realtime-noise-removal-with-pulseaudio</a></p>
+
+                    
+                        
+
+                    
+                    
+                        <p>
+                            <a href="/blog/2020/09/06/linux-system-noise-cancellation/#post-footer" class="postShorten-excerpt_link link">
+                                留言與分享
+                            </a>
+                        </p>
+                    
+                </div>
+            
+        </div>
+        
+    </article>
+    
+    
+    <article class="postShorten postShorten--thumbnailimg-right">
+        <div class="postShorten-wrap">
+            
+            <div class="postShorten-header">
+                <h1 class="postShorten-title">
+                    
+                        <a class="link-unstyled" href="/blog/2020/09/06/expression-problem-in-julia/">
+                            Julia 中的表達問題（Expression problem in Julia）
+                        </a>
+                    
+                </h1>
+                <div class="postShorten-meta">
+    <time datetime="2020-09-06T17:19:52+08:00">
+	
+		    9月 06, 2020
+    	
+    </time>
+    
+        <span>分類 </span>
+        
+    <a class="category-link" href="/blog/categories/My-Style/">My Style</a>, <a class="category-link" href="/blog/categories/My-Style/Computer-Science/">Computer Science</a>, <a class="category-link" href="/blog/categories/My-Style/Computer-Science/Julialang/">Julialang</a>
+
+
+    
+</div>
+
+            </div>
+            
+                <div class="postShorten-excerpt">
+                    <p>本篇文章是啟發自 <a href="https://eli.thegreenplace.net/2016/the-expression-problem-and-its-solutions">The Expression Problem and its solutions</a>，當中談論的是在撰寫程式的過程中，所採用的程式典範不同，會在程式表達上遇到不同程度的困難，稱之為表達問題（expression problem）。</p>
+                    
+                        <a href="/blog/2020/09/06/expression-problem-in-julia/" class="postShorten-excerpt_link link">
+                            繼續閱讀
+                        </a>
+                        
+                    
+                </div>
+            
+        </div>
+        
+    </article>
+    
+    
+    <article class="postShorten postShorten--thumbnailimg-bottom">
+        <div class="postShorten-wrap">
+            
+            <div class="postShorten-header">
+                <h1 class="postShorten-title">
+                    
+                        <a class="link-unstyled" href="/blog/2020/08/28/merge-collections-in-julia/">
+                            在 Julia 中如何合併集合容器
+                        </a>
+                    
+                </h1>
+                <div class="postShorten-meta">
+    <time datetime="2020-08-28T22:37:43+08:00">
+	
+		    8月 28, 2020
+    	
+    </time>
+    
+        <span>分類 </span>
+        
+    <a class="category-link" href="/blog/categories/My-Style/">My Style</a>, <a class="category-link" href="/blog/categories/My-Style/Computer-Science/">Computer Science</a>, <a class="category-link" href="/blog/categories/My-Style/Computer-Science/Julialang/">Julialang</a>
+
+
+    
+</div>
+
+            </div>
+            
+                <div class="postShorten-content">
+                    <p>我們都知道要將兩個 <code>Array</code> 接起來要用 <code>append!</code>，要將兩個 <code>Set</code> 合併起來要用 <code>union!</code>，但要將 <code>Dict</code> 合併起來要用什麼呢？</p>
+<p>答案是 <a href="https://docs.julialang.org/en/v1/base/collections/#Base.merge">merge</a>！</p>
+<h2 id="merge">merge</h2>
+<p>廢話不多說，我們看範例：</p>
+<figure class="highlight julia"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line">julia&gt; a = <span class="built_in">Dict</span>(:a =&gt; <span class="string">&quot;A&quot;</span>, :b =&gt; <span class="string">&quot;B&quot;</span>)</span><br><span class="line"><span class="built_in">Dict</span>&#123;<span class="built_in">Symbol</span>,<span class="built_in">String</span>&#125; with <span class="number">2</span> entries:</span><br><span class="line">  :a =&gt; <span class="string">&quot;A&quot;</span></span><br><span class="line">  :b =&gt; <span class="string">&quot;B&quot;</span></span><br><span class="line"></span><br><span class="line">julia&gt; b = <span class="built_in">Dict</span>(:c =&gt; <span class="string">&quot;C&quot;</span>, :d =&gt; <span class="string">&quot;D&quot;</span>)</span><br><span class="line"><span class="built_in">Dict</span>&#123;<span class="built_in">Symbol</span>,<span class="built_in">String</span>&#125; with <span class="number">2</span> entries:</span><br><span class="line">  :d =&gt; <span class="string">&quot;D&quot;</span></span><br><span class="line">  :c =&gt; <span class="string">&quot;C&quot;</span></span><br><span class="line"></span><br><span class="line">julia&gt; merge(a, b)</span><br><span class="line"><span class="built_in">Dict</span>&#123;<span class="built_in">Symbol</span>,<span class="built_in">String</span>&#125; with <span class="number">4</span> entries:</span><br><span class="line">  :a =&gt; <span class="string">&quot;A&quot;</span></span><br><span class="line">  :b =&gt; <span class="string">&quot;B&quot;</span></span><br><span class="line">  :d =&gt; <span class="string">&quot;D&quot;</span></span><br><span class="line">  :c =&gt; <span class="string">&quot;C&quot;</span></span><br></pre></td></tr></table></figure>
+<p><code>merge</code> 可以將兩個 <code>Dict</code> 合併起來，並且產生一個新的 <code>Dict</code>。</p>
+<p>有另一個函式 <code>merge!</code> 可以支援 in-place 版本的合併。</p>
+<figure class="highlight julia"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line">julia&gt; a</span><br><span class="line"><span class="built_in">Dict</span>&#123;<span class="built_in">Symbol</span>,<span class="built_in">String</span>&#125; with <span class="number">2</span> entries:</span><br><span class="line">  :a =&gt; <span class="string">&quot;A&quot;</span></span><br><span class="line">  :b =&gt; <span class="string">&quot;B&quot;</span></span><br><span class="line"></span><br><span class="line">julia&gt; merge!(a, c)</span><br><span class="line"><span class="built_in">Dict</span>&#123;<span class="built_in">Symbol</span>,<span class="built_in">String</span>&#125; with <span class="number">3</span> entries:</span><br><span class="line">  :a =&gt; <span class="string">&quot;A&quot;</span></span><br><span class="line">  :b =&gt; <span class="string">&quot;C&quot;</span></span><br><span class="line">  :d =&gt; <span class="string">&quot;D&quot;</span></span><br><span class="line"></span><br><span class="line">julia&gt; a</span><br><span class="line"><span class="built_in">Dict</span>&#123;<span class="built_in">Symbol</span>,<span class="built_in">String</span>&#125; with <span class="number">3</span> entries:</span><br><span class="line">  :a =&gt; <span class="string">&quot;A&quot;</span></span><br><span class="line">  :b =&gt; <span class="string">&quot;C&quot;</span></span><br><span class="line">  :d =&gt; <span class="string">&quot;D&quot;</span></span><br></pre></td></tr></table></figure>
+<h3 id="重複的鍵（key）">重複的鍵（key）</h3>
+<p>如果要合併的兩個字典當中有重複的鍵出現的話，會發生什麼事呢？</p>
+<figure class="highlight julia"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">julia&gt; c = <span class="built_in">Dict</span>(:b =&gt; <span class="string">&quot;C&quot;</span>, :d =&gt; <span class="string">&quot;D&quot;</span>)</span><br><span class="line"><span class="built_in">Dict</span>&#123;<span class="built_in">Symbol</span>,<span class="built_in">String</span>&#125; with <span class="number">2</span> entries:</span><br><span class="line">  :b =&gt; <span class="string">&quot;C&quot;</span></span><br><span class="line">  :d =&gt; <span class="string">&quot;D&quot;</span></span><br><span class="line"></span><br><span class="line">julia&gt; merge(a, c)</span><br><span class="line"><span class="built_in">Dict</span>&#123;<span class="built_in">Symbol</span>,<span class="built_in">String</span>&#125; with <span class="number">3</span> entries:</span><br><span class="line">  :a =&gt; <span class="string">&quot;A&quot;</span></span><br><span class="line">  :b =&gt; <span class="string">&quot;C&quot;</span></span><br><span class="line">  :d =&gt; <span class="string">&quot;D&quot;</span></span><br></pre></td></tr></table></figure>
+<p>答案是會被後者蓋掉。</p>
+<h3 id="NamedTuple">NamedTuple</h3>
+<p><code>merge</code> 也可以用在 NamedTuple 上。</p>
+<figure class="highlight julia"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">julia&gt; a = (a=<span class="string">&quot;A&quot;</span>, b=<span class="string">&quot;B&quot;</span>)</span><br><span class="line">(a = <span class="string">&quot;A&quot;</span>, b = <span class="string">&quot;B&quot;</span>)</span><br><span class="line"></span><br><span class="line">julia&gt; b = (c=<span class="string">&quot;C&quot;</span>, d=<span class="string">&quot;D&quot;</span>)</span><br><span class="line">(c = <span class="string">&quot;C&quot;</span>, d = <span class="string">&quot;D&quot;</span>)</span><br><span class="line"></span><br><span class="line">julia&gt; merge(a, b)</span><br><span class="line">(a = <span class="string">&quot;A&quot;</span>, b = <span class="string">&quot;B&quot;</span>, c = <span class="string">&quot;C&quot;</span>, d = <span class="string">&quot;D&quot;</span>)</span><br></pre></td></tr></table></figure>
+<h2 id="mergewith-require-v1-5-and-above">mergewith (require v1.5 and above)</h2>
+<p>接下來介紹一個更好用的函式 <a href="https://docs.julialang.org/en/v1/base/collections/#Base.mergewith">mergewith</a>。</p>
+<p>上面我們介紹的 <code>merge</code> 遇到相同的鍵，會把彼此蓋掉的行為，但有時候我們希望他們可以合併。</p>
+<p>不囉唆，我們看範例：</p>
+<figure class="highlight julia"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line">julia&gt; a = <span class="built_in">Dict</span>(:a =&gt; <span class="number">1</span>, :b =&gt; <span class="number">2</span>)</span><br><span class="line"><span class="built_in">Dict</span>&#123;<span class="built_in">Symbol</span>,<span class="built_in">Int64</span>&#125; with <span class="number">2</span> entries:</span><br><span class="line">  :a =&gt; <span class="number">1</span></span><br><span class="line">  :b =&gt; <span class="number">2</span></span><br><span class="line"></span><br><span class="line">julia&gt; c = <span class="built_in">Dict</span>(:b =&gt; <span class="number">3</span>, :d =&gt; <span class="number">4</span>)</span><br><span class="line"><span class="built_in">Dict</span>&#123;<span class="built_in">Symbol</span>,<span class="built_in">Int64</span>&#125; with <span class="number">2</span> entries:</span><br><span class="line">  :b =&gt; <span class="number">3</span></span><br><span class="line">  :d =&gt; <span class="number">4</span></span><br><span class="line"></span><br><span class="line">julia&gt; mergewith(+, a, c)</span><br><span class="line"><span class="built_in">Dict</span>&#123;<span class="built_in">Symbol</span>,<span class="built_in">Int64</span>&#125; with <span class="number">3</span> entries:</span><br><span class="line">  :a =&gt; <span class="number">1</span></span><br><span class="line">  :b =&gt; <span class="number">5</span></span><br><span class="line">  :d =&gt; <span class="number">4</span></span><br></pre></td></tr></table></figure>
+<p>我們可以指定一個 aggregate function，如果遇到相同的鍵時，就把他們的值相加起來。</p>
+<p>這個 aggregate function 可以是其他的，如此就可以處理多樣的資料。</p>
+<p><code>mergewith</code> 一樣有 in-place 版本 <code>mergewith!</code>。</p>
+<h3 id="curry-function">curry function</h3>
+<p>最神奇的是，<code>mergewith</code> 有類似 curry function 的行為。</p>
+<figure class="highlight julia"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">julia&gt; mergewith(+)(a, c)</span><br><span class="line"><span class="built_in">Dict</span>&#123;<span class="built_in">Symbol</span>,<span class="built_in">Int64</span>&#125; with <span class="number">3</span> entries:</span><br><span class="line">  :a =&gt; <span class="number">1</span></span><br><span class="line">  :b =&gt; <span class="number">5</span></span><br><span class="line">  :d =&gt; <span class="number">4</span></span><br><span class="line"></span><br><span class="line">julia&gt; mergewith(+)</span><br><span class="line"><span class="comment">#140 (generic function with 1 method)</span></span><br></pre></td></tr></table></figure>
+<p>你可以先給他一個 aggregate function，他會回傳一個匿名函式。</p>
+<p>你可以拿這個匿名函式用在其他物件上。</p>
+
+                    
+                        
+
+                    
+                    
+                        <p>
+                            <a href="/blog/2020/08/28/merge-collections-in-julia/#post-footer" class="postShorten-excerpt_link link">
+                                留言與分享
+                            </a>
+                        </p>
+                    
+                </div>
+            
+        </div>
+        
+    </article>
+    
+    
+    <article class="postShorten postShorten--thumbnailimg-right">
+        <div class="postShorten-wrap">
+            
+            <div class="postShorten-header">
+                <h1 class="postShorten-title">
+                    
+                        <a class="link-unstyled" href="/blog/2020/08/07/julia-v1-5-release/">
+                            Julia v1.5 釋出
+                        </a>
+                    
+                </h1>
+                <div class="postShorten-meta">
+    <time datetime="2020-08-07T11:06:29+08:00">
+	
+		    8月 07, 2020
+    	
+    </time>
+    
+        <span>分類 </span>
+        
+    <a class="category-link" href="/blog/categories/My-Style/">My Style</a>, <a class="category-link" href="/blog/categories/My-Style/Computer-Science/">Computer Science</a>, <a class="category-link" href="/blog/categories/My-Style/Computer-Science/Julialang/">Julialang</a>
+
+
+    
+</div>
+
+            </div>
+            
+                <div class="postShorten-excerpt">
+                    <!-- toc -->
+<p>在新的 1.5 版是主要對記憶體的配置方式有改進，有最佳化記憶體布局（memory layout）。</p>
+                    
+                        <a href="/blog/2020/08/07/julia-v1-5-release/" class="postShorten-excerpt_link link">
+                            繼續閱讀
+                        </a>
+                        
+                    
+                </div>
+            
+        </div>
+        
+    </article>
+    
+    
+    <article class="postShorten postShorten--thumbnailimg-right">
+        <div class="postShorten-wrap">
+            
+            <div class="postShorten-header">
+                <h1 class="postShorten-title">
+                    
+                        <a class="link-unstyled" href="/blog/2020/05/23/the-truth/">
+                            真理
+                        </a>
+                    
+                </h1>
+                <div class="postShorten-meta">
+    <time datetime="2020-05-23T12:55:01+08:00">
+	
+		    5月 23, 2020
+    	
+    </time>
+    
+        <span>分類 </span>
+        
+    <a class="category-link" href="/blog/categories/My-Style/">My Style</a>, <a class="category-link" href="/blog/categories/My-Style/Believe%E3%80%82Think%E3%80%82Soul/">Believe。Think。Soul</a>
+
+
+    
+</div>
+
+            </div>
+            
+                <div class="postShorten-excerpt">
+                    <p>今天意外看到一段話，出處應該是《不用數字的研究 ：質性研究的思辯脈絡》一書。</p>
+<blockquote>
+<p><strong>“To achieve enlightenment, our political systems must relinquish their claims on truth, justice and freedom and have to replace them with the search for truth, justice, freedom and reason.”</strong><br>
+– Immanuel Kant</p>
+</blockquote>
+                    
+                        <a href="/blog/2020/05/23/the-truth/" class="postShorten-excerpt_link link">
+                            繼續閱讀
+                        </a>
+                        
+                    
+                </div>
+            
+        </div>
+        
+    </article>
+    
+    
+    <article class="postShorten postShorten--thumbnailimg-bottom">
+        <div class="postShorten-wrap">
+            
+            <div class="postShorten-header">
+                <h1 class="postShorten-title">
+                    
+                        <a class="link-unstyled" href="/blog/2020/04/11/composable-the-key-feature-in-julia/">
+                            可組合性（Composable）：Julia 語言的重要特性
+                        </a>
+                    
+                </h1>
+                <div class="postShorten-meta">
+    <time datetime="2020-04-11T13:43:24+08:00">
+	
+		    4月 11, 2020
+    	
+    </time>
+    
+        <span>分類 </span>
+        
+    <a class="category-link" href="/blog/categories/My-Style/">My Style</a>, <a class="category-link" href="/blog/categories/My-Style/Computer-Science/">Computer Science</a>, <a class="category-link" href="/blog/categories/My-Style/Computer-Science/Julialang/">Julialang</a>
+
+
+    
+</div>
+
+            </div>
+            
+                <div class="postShorten-content">
+                    <p>其實是受到 Julia 核心開發者之一 Lyndon White 的<a href="https://white.ucc.asn.au/2020/02/09/whycompositionaljulia.html">文章</a>的啟發來撰寫本文的。</p>
+<p>文章有 <a href="https://mp.weixin.qq.com/s/4_Sbi8q5EZDjHj6ouM1Ydg">CSDNnews 簡中翻譯</a>。</p>
+<p>本文並非以上文章的繁中版本，而是本人的一些心得及觀察。</p>
+<h2 id="載入套件">載入套件</h2>
+<p>比較深入了解 Julia 的朋友，會了解到這個語言的設計與其他語言的不同，像是 <code>using</code>。</p>
+<p>當我們使用 <code>using</code> 來載入套件的時候，會發現有不少存在在 <code>Base</code> 中的函式是可以使用的。像是 <code>length</code> 可以用來取得陣列的長度，當你載入 DataStructures.jl 時，你同樣可以用 <code>length</code> 來取得 <code>Stack</code> 及 <code>Queue</code> 的長度。</p>
+<p>或者是原文中的例子。使用者可以使用 <a href="https://github.com/invenia/NamedDims.jl">NamedDims.jl</a> 來為你的陣列的維度命名，而你的陣列需要使用 <a href="https://github.com/JuliaGPU/CuArrays.jl">CuArrays.jl</a> 送到 CUDA，這時候你不需要一個可以為 CUDA array 命名的套件來達成這件事。</p>
+<p>你會發現在 Julia 語言中似乎不存在套件跟套件之間的差別，或是套件跟標準函式庫之間的區別。這是由於在 Julia 中對於命名空間（namespace）的概念較為薄弱，Julia 各模組之間仍然存在著命名空間，但是 Julia 在 <code>using</code> 時會將這些命名空間去除。這在工程上或許不是一個好的典範，因為會造成命名空間的汙染（namespace pollution）。反過來說，它促使人們相互溝通及協調，來提供更好的套件之間的可組合性。</p>
+<p>在其他語言中，常常會告訴你，使用某個套件只需要載入你需要的部份，像是 <code>using Foo: bar, baz</code>，然而 Julia 並不去特別強調這點，<code>using Foo</code> 會載入套件開發者有導出的部份。如果有兩個套件都提供了 <code>predict</code> 來支援他們的模型，這邊借原文的例子再次說明：</p>
+<figure class="highlight julia"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">using</span> Foo</span><br><span class="line"><span class="keyword">using</span> Bar</span><br><span class="line">training_data, test_data = ...</span><br><span class="line">mbar = BarModel(training_data)</span><br><span class="line">mfoo = FooModel(training_data)</span><br><span class="line">evaluate(predict(mbar), test_data)</span><br><span class="line">evaluate(predict(mfoo), test_data)</span><br></pre></td></tr></table></figure>
+<p>這兩個 <code>predict</code> 分別來自雙方套件的各自定義及實作。</p>
+<figure class="highlight julia"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">Bar.predict(mbar)</span><br><span class="line">Foo.predict(mfoo)</span><br></pre></td></tr></table></figure>
+<p>如此使用者便可以無縫地使用同樣一個介面 <code>predict</code>，而功能來自兩個不同的套件。</p>
+<p>這樣的特性大概會有人聯想到介面（interface）。然而，Julia 並不明顯使用介面來規範開發者，Julia 隱含地使用鴨子定型（duck typing）。</p>
+<p>在載入套件之後，Julia 允許使用者不冠上套件名稱來使用這些函式，像 <code>Bar.predict</code>，你可以自由地使用 <code>predict</code> 即可。總是會有套件之間的命名衝突，當衝突發生的時候，就是開發者需要負起責任彼此溝通及協調的時候。不過使用者仍然可以以 <code>Bar.predict</code> 的方式使用套件，只是每次載入套件的時候都會有警告。</p>
+<figure class="highlight julia"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">julia&gt; <span class="keyword">using</span> Plots</span><br><span class="line"></span><br><span class="line">julia&gt; <span class="keyword">using</span> Gadfly</span><br><span class="line"></span><br><span class="line">julia&gt; plot</span><br><span class="line">WARNING: both Gadfly and Plots <span class="keyword">export</span> <span class="string">&quot;plot&quot;</span>; uses of it <span class="keyword">in</span> <span class="keyword">module</span> Main must be qualified</span><br><span class="line">ERROR: <span class="built_in">UndefVarError</span>: plot not defined</span><br></pre></td></tr></table></figure>
+<h2 id="鴨子定型及多重分派">鴨子定型及多重分派</h2>
+<p>在原文中提到鴨子定型及多重分派是成就 Julia 成為一個可組合（composable）語言的基石。我個人也認為可組合是 Julia 提供最重要的特性之一，但卻鮮少被人提及。多數人仍然熱衷於語言效能及開發便利性。</p>
+<p>鴨子定型的一個很好的比喻是，當一個東西會呱呱叫的時候，那麼他就是鴨子。當一個 <code>bar(x)</code> 可以呼叫時，我不需要去檢查 <code>x</code> 的型別為何，我就直接使用就是了。這樣會構成一種隱性的介面。</p>
+<p>當我需要提供一個矩陣相乘的功能時，我會寫以下程式碼：</p>
+<figure class="highlight julia"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">function</span> multiply(A, B)</span><br><span class="line">    C = zeros(size(A, <span class="number">1</span>), size(B, <span class="number">2</span>))</span><br><span class="line">    A = A&#x27;</span><br><span class="line">    <span class="keyword">for</span> i = <span class="number">1</span>:size(C, <span class="number">1</span>)</span><br><span class="line">        <span class="keyword">for</span> i = <span class="number">1</span>:size(C, <span class="number">2</span>)</span><br><span class="line">            <span class="keyword">for</span> k = <span class="number">1</span>:size(A, <span class="number">2</span>)</span><br><span class="line">                C[i, j] = sum(A[:, k] .* B[:, k])</span><br><span class="line">            <span class="keyword">end</span></span><br><span class="line">        <span class="keyword">end</span></span><br><span class="line">    <span class="keyword">end</span></span><br><span class="line">    <span class="keyword">return</span> C</span><br><span class="line"><span class="keyword">end</span></span><br></pre></td></tr></table></figure>
+<p>這可以用在一般的矩陣，但如果今天我有自定義的一個新的矩陣呢？</p>
+<figure class="highlight julia"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">struct</span> NewArray</span><br><span class="line">    ...</span><br><span class="line"><span class="keyword">end</span></span><br></pre></td></tr></table></figure>
+<p>在上述的 <code>multiply</code> 中我只需要檢查 <code>NewArray</code> 是否提供相關的介面即可。像是裡頭用到了 <code>size</code>、<code>A[:, k]</code> 及 <code>sum</code>。我只需要支援這些介面的實作即可，如此，Julia 就可以以鴨子定型的方式，讓 <code>multiply</code> 接受 <code>NewArray</code> 了。</p>
+<p>對於不同的型別需要有不同的行為，這在一般的物件導向語言中稱之為多型。多型在多數物件導向典範中使用的是單一分派（single dispatch），然而 Julia 也支援多型，但是以多重分派（multiple dispatch）的方式支援。因此，廣義而言，Julia 支援物件導向的方式是多重分派，卻不是典型的、語法上的封裝、繼承及（單一分派）多型。</p>
+<p>多重分派，可以在需要更細緻行為定義時幫上忙。當 <code>NewArray</code> 支援 <code>sum</code>：</p>
+<figure class="highlight julia"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sum(::NewArray) = ...</span><br></pre></td></tr></table></figure>
+<p>這是單一分派的方式，也可以有多重分派的方式。</p>
+<figure class="highlight julia"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sum(::NewArray, ::<span class="built_in">Array</span>) = ...</span><br></pre></td></tr></table></figure>
+<p>不過這樣只支援 <code>Array</code> 這個特定型別。或是我們可以乾脆這樣做。</p>
+<figure class="highlight julia"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sum(::NewArray, ::<span class="built_in">AbstractArray</span>) = ...</span><br></pre></td></tr></table></figure>
+<p>這樣只要是 <code>AbstractArray</code> 的子型別都可以接受。</p>
+<h2 id="總結">總結</h2>
+<p>以上種種的特性成為了可組合性的基石。一個具有可組合性的語言能夠成為各種東西。Julia 的個別的套件都不俱備所有的定義，需要依賴 Julia 語言及標準函式庫的介面及實作。</p>
+<p>例如當 Julia 中載入了深度學習框架，那它，連同語言本身，就是一個完整支援深度學習功能的引擎。當同時載入了資料庫與深度學習相關套件，那它就成為了支援深度學習功能的 DBMS。當載入了科學計算及機器學習套件，那它就會變成一個強大的數值計算引擎。以 Julia 的可組合性出發，來打造各式各樣不同的引擎，就像一個單純的編輯器搭配有豐富的外掛（plug-in）一樣。這樣衍生出的生態帶來了各式各樣不同的可能性，也讓套件的 reusability 提升到最高的境界。</p>
+
+                    
+                        
+
+                    
+                    
+                        <p>
+                            <a href="/blog/2020/04/11/composable-the-key-feature-in-julia/#post-footer" class="postShorten-excerpt_link link">
+                                留言與分享
+                            </a>
+                        </p>
+                    
+                </div>
+            
+        </div>
+        
+    </article>
+    
+    
+    <article class="postShorten postShorten--thumbnailimg-right">
+        <div class="postShorten-wrap">
+            
+            <div class="postShorten-header">
+                <h1 class="postShorten-title">
+                    
+                        <a class="link-unstyled" href="/blog/2020/04/10/julia-property/">
+                            讓 Julia 像 Python 一樣擁有物件 property
+                        </a>
+                    
+                </h1>
+                <div class="postShorten-meta">
+    <time datetime="2020-04-10T10:56:41+08:00">
+	
+		    4月 10, 2020
+    	
+    </time>
+    
+        <span>分類 </span>
+        
+    <a class="category-link" href="/blog/categories/My-Style/">My Style</a>, <a class="category-link" href="/blog/categories/My-Style/Computer-Science/">Computer Science</a>, <a class="category-link" href="/blog/categories/My-Style/Computer-Science/Julialang/">Julialang</a>
+
+
+    
+</div>
+
+            </div>
+            
+                <div class="postShorten-excerpt">
+                    <p>Julia 的物件都有屬性，但這需要寫在型別中事先定義。但如果要為沒有任何屬性的型別增加屬性要怎麼做？</p>
+<p>Julia 的屬性存取是來自 <code>Base.getproperty</code> 及 <code>Base.setproperty!</code> 兩個方法。</p>
+                    
+                        <a href="/blog/2020/04/10/julia-property/" class="postShorten-excerpt_link link">
+                            繼續閱讀
+                        </a>
+                        
+                    
+                </div>
+            
+        </div>
+        
+    </article>
+    
+    
+    <article class="postShorten postShorten--thumbnailimg-right">
+        <div class="postShorten-wrap">
+            
+            <div class="postShorten-header">
+                <h1 class="postShorten-title">
+                    
+                        <a class="link-unstyled" href="/blog/2020/04/10/julia-multithread-setup/">
+                            設定 Julia 多執行緒
+                        </a>
+                    
+                </h1>
+                <div class="postShorten-meta">
+    <time datetime="2020-04-10T10:19:55+08:00">
+	
+		    4月 10, 2020
+    	
+    </time>
+    
+        <span>分類 </span>
+        
+    <a class="category-link" href="/blog/categories/My-Style/">My Style</a>, <a class="category-link" href="/blog/categories/My-Style/Computer-Science/">Computer Science</a>, <a class="category-link" href="/blog/categories/My-Style/Computer-Science/Julialang/">Julialang</a>
+
+
+    
+</div>
+
+            </div>
+            
+                <div class="postShorten-excerpt">
+                    <p>Julia 從 v1.3 起支援多執行緒（multithreading）。</p>
+<p>這邊文章要來教大家如何在 Julia 啟動時，自動配置多執行緒。</p>
+                    
+                        <a href="/blog/2020/04/10/julia-multithread-setup/" class="postShorten-excerpt_link link">
+                            繼續閱讀
+                        </a>
+                        
+                    
+                </div>
+            
+        </div>
+        
+    </article>
+    
+    
+    <article class="postShorten postShorten--thumbnailimg-right">
+        <div class="postShorten-wrap">
+            
+            <div class="postShorten-header">
+                <h1 class="postShorten-title">
+                    
+                        <a class="link-unstyled" href="/blog/2020/04/10/compile-julia-package/">
+                            編譯 Julia 套件來避免過長的載入時間
+                        </a>
+                    
+                </h1>
+                <div class="postShorten-meta">
+    <time datetime="2020-04-10T10:06:04+08:00">
+	
+		    4月 10, 2020
+    	
+    </time>
+    
+        <span>分類 </span>
+        
+    <a class="category-link" href="/blog/categories/My-Style/">My Style</a>, <a class="category-link" href="/blog/categories/My-Style/Computer-Science/">Computer Science</a>, <a class="category-link" href="/blog/categories/My-Style/Computer-Science/Julialang/">Julialang</a>
+
+
+    
+</div>
+
+            </div>
+            
+                <div class="postShorten-excerpt">
+                    <p>Julia 有優異的效能，但是它的 JIT 讓套件的載入時間（<code>using</code>）過於冗長。</p>
+<p>Julia JIT 會在套件載入時期以及第一次使用函式時期進行編譯，若是有編譯完成的版本，便可以直接使用，避免編譯時間。儘管 Julia 將程式碼進行編譯，得到了絕佳的執行時間，但是套件載入的第一次編譯時間成為了大家的痛點。</p>
+<p>為了解決這樣的痛點，開發者社群做了不少努力，主要是 PackageCompiler.jl 套件，讓套件可以預先進行編譯，而後來也補充了不少 binary package 來支援套件編譯。</p>
+<p>PackageCompiler.jl 套件可以將 Julia 程式碼編譯成可執行檔以及動態函式庫（.so），支援套件編譯成動態函式庫，以及增量編譯（incremental compilation）。</p>
+<p>近期 PackageCompiler.jl 套件正式發佈 v1.0，正式成熟可以使用了！本文將會介紹如何將套件編譯成動態函式庫，並且在啟動時載入，來避免過長的載入及編譯時間。</p>
+                    
+                        <a href="/blog/2020/04/10/compile-julia-package/" class="postShorten-excerpt_link link">
+                            繼續閱讀
+                        </a>
+                        
+                    
+                </div>
+            
+        </div>
+        
+    </article>
+    
+    <div class="pagination-bar">
+    <ul class="pagination">
+        
+          <li class="pagination-prev">
+            <a class="btn btn--default btn--small" href="/blog/archives/page/2/">
+              <i class="fa fa-angle-left text-base icon-mr"></i>
+              <span>上一頁</span>
+            </a>
+          </li>
+        
+        
+          <li class="pagination-next">
+            <a class="btn btn--default btn--small" href="/blog/archives/page/4/">
+              <span>下一頁</span>
+              <i class="fa fa-angle-right text-base icon-ml"></i>
+            </a>
+          </li>
+        
+        <li class="pagination-number">第 3 頁 共 13 頁</li>
+    </ul>
+</div>
+
+</section>
+
+
+
+                <footer id="footer" class="main-content-wrap">
+    <span class="copyrights">
+        Copyrights &copy; 2026 Yueh-Hua Tu. All Rights Reserved.
+    </span>
+</footer>
+
+            </div>
+            
+        </div>
+        
+
+
+<div id="about">
+    <div id="about-card">
+        <div id="about-btn-close">
+            <i class="fa fa-remove"></i>
+        </div>
+        
+            <h4 id="about-card-name">Yueh-Hua Tu</h4>
+        
+            <div id="about-card-bio"><p>目標是計算生物學家！</br>Systems Biology, Computational Biology, Machine Learning</br>Julia Taiwan 發起人</p>
+</div>
+        
+        
+            <div id="about-card-job">
+                <i class="fa fa-briefcase"></i>
+                <br/>
+                <p>研發替代役研究助理</p>
+
+            </div>
+        
+        
+            <div id="about-card-location">
+                <i class="fa fa-map-marker"></i>
+                <br/>
+                Taiwan
+            </div>
+        
+    </div>
+</div>
+
+        
+        
+<div id="cover" style="background-image:url('/blog/assets/images/cover.jpg');"></div>
+        <!--SCRIPTS-->
+
+<script src="/blog/assets/js/script-xzfezjobyekpxrjktw5tz6muvzqfsbmo5n6atk3p5om9ulfptldi3p7cyqd8.min.js"></script>
+
+<!--SCRIPTS END--><!-- hexo-inject:begin --><!-- hexo-inject:end -->
+
+
+    </body>
+</html>

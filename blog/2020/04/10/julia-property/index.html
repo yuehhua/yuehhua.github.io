@@ -1,0 +1,499 @@
+
+<!DOCTYPE html>
+<html lang="zh-tw,en,default">
+    
+<head>
+    <!-- hexo-inject:begin --><!-- hexo-inject:end --><meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="generator" content="Dream Maker">
+    <title>讓 Julia 像 Python 一樣擁有物件 property - Dream Maker</title>
+    <meta name="author" content="Yueh-Hua Tu">
+    
+        <meta name="keywords" content="machine learning,deep learning,topology,">
+    
+    
+    
+        <link rel="alternate" type="application/atom+xml" title="RSS" href="/blog/atom.xml">
+    
+    <script type="application/ld+json">{"@context":"http://schema.org","@type":"BlogPosting","author":{"@type":"Person","name":"Yueh-Hua Tu","sameAs":["https://github.com/yuehhua/","https://www.facebook.com/a504082002","https://www.linkedin.com/in/%E5%B2%B3%E8%8F%AF-%E6%9D%9C-6a3995a0/","mailto:a504082002@gmail.com"],"image":"https://www.gravatar.com/avatar/a565749fba4782b717234da670b273fd"},"articleBody":"Julia 的物件都有屬性，但這需要寫在型別中事先定義。但如果要為沒有任何屬性的型別增加屬性要怎麼做？\nJulia 的屬性存取是來自 Base.getproperty 及 Base.setproperty! 兩個方法。\n\n如果我們這樣定義。\n123julia&gt; struct Foo endjulia&gt; Base.getproperty(::Foo, x::Symbol) = &quot;$x&quot;\n來測試不同的 property。\n12345678julia&gt; foo = Foo()Foo()julia&gt; foo.a&quot;a&quot;julia&gt; foo.x&quot;x&quot;\n以及設定的部份。\n1234567julia&gt; Base.setproperty!(::Foo, x::Symbol, v) = nothingjulia&gt; foo.a = 11julia&gt; foo.b = 11\n不過要注意的是，如果對本身就有屬性的型別增加 Base.getproperty 及 Base.setproperty! 兩個方法，會去更動到原先的屬性存取行為喔！這邊要注意一下。\n","dateCreated":"2020-04-10T10:56:41+08:00","dateModified":"2020-04-10T10:56:41+08:00","datePublished":"2020-04-10T10:56:41+08:00","description":"Julia 的物件都有屬性，但這需要寫在型別中事先定義。但如果要為沒有任何屬性的型別增加屬性要怎麼做？\nJulia 的屬性存取是來自 Base.getproperty 及 Base.setproperty! 兩個方法。","headline":"讓 Julia 像 Python 一樣擁有物件 property","image":[],"mainEntityOfPage":{"@type":"WebPage","@id":"https://yuehhua.github.io/blog/2020/04/10/julia-property/"},"publisher":{"@type":"Organization","name":"Yueh-Hua Tu","sameAs":["https://github.com/yuehhua/","https://www.facebook.com/a504082002","https://www.linkedin.com/in/%E5%B2%B3%E8%8F%AF-%E6%9D%9C-6a3995a0/","mailto:a504082002@gmail.com"],"image":"https://www.gravatar.com/avatar/a565749fba4782b717234da670b273fd","logo":{"@type":"ImageObject","url":"https://www.gravatar.com/avatar/a565749fba4782b717234da670b273fd"}},"url":"https://yuehhua.github.io/blog/2020/04/10/julia-property/"}</script>
+    <meta name="description" content="Julia 的物件都有屬性，但這需要寫在型別中事先定義。但如果要為沒有任何屬性的型別增加屬性要怎麼做？ Julia 的屬性存取是來自 Base.getproperty 及 Base.setproperty! 兩個方法。">
+<meta property="og:type" content="blog">
+<meta property="og:title" content="讓 Julia 像 Python 一樣擁有物件 property">
+<meta property="og:url" content="https://yuehhua.github.io/blog/2020/04/10/julia-property/index.html">
+<meta property="og:site_name" content="Dream Maker">
+<meta property="og:description" content="Julia 的物件都有屬性，但這需要寫在型別中事先定義。但如果要為沒有任何屬性的型別增加屬性要怎麼做？ Julia 的屬性存取是來自 Base.getproperty 及 Base.setproperty! 兩個方法。">
+<meta property="og:locale" content="zh_TW">
+<meta property="article:published_time" content="2020-04-10T02:56:41.000Z">
+<meta property="article:modified_time" content="2020-04-10T02:56:41.889Z">
+<meta property="article:author" content="Yueh-Hua Tu">
+<meta property="article:tag" content="deep learning">
+<meta property="article:tag" content="machine learning">
+<meta property="article:tag" content="topology">
+<meta name="twitter:card" content="summary">
+    
+    
+        
+    
+    
+    
+    
+    
+    <!--STYLES-->
+    
+<link rel="stylesheet" href="/blog/assets/css/style-3frockyt2j28isvdztjchy5nhkz8tjki9ermufc1ckptmvjdftux94m2ahub.min.css">
+
+    <!--STYLES END-->
+    
+    <script type="text/javascript">
+        (function (i, s, o, g, r, a, m) {
+        i['GoogleAnalyticsObject'] = r; i[r] = i[r] || function () {
+            (i[r].q = i[r].q || []).push(arguments)
+        }, i[r].l = 1 * new Date(); a = s.createElement(o),
+            m = s.getElementsByTagName(o)[0]; a.async = 1; a.src = g; m.parentNode.insertBefore(a, m)
+        })(window, document, 'script', '//www.google-analytics.com/analytics.js', 'ga');
+
+        ga('create', 'UA-119690895-1', 'auto');
+        ga('send', 'pageview');
+    </script>
+    
+    
+    
+        <script>
+            window.MathJax = {
+                tex: {
+                    inlineMath: [['$', '$'], ['\\(', '\\)']],
+                    displayMath: [['$$', '$$'], ['\\[', '\\]']],
+                    processEscapes: true,
+                    tags: 'ams'
+                },
+                options: {
+                    skipHtmlTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+                }
+            };
+        </script>
+        <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+    
+<!-- hexo injector head_end start -->
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.12.0/dist/katex.min.css">
+
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/hexo-math@4.0.0/dist/style.css">
+<!-- hexo injector head_end end --><!-- hexo-inject:begin --><!-- hexo-inject:end --></head>
+
+    <body>
+        <!-- hexo-inject:begin --><!-- hexo-inject:end --><div id="blog">
+            <!-- Define author's picture -->
+
+
+    
+
+<header id="header" data-behavior="5">
+    <i id="btn-open-sidebar" class="fa fa-lg fa-bars"></i>
+    <div class="header-title">
+        <a class="header-title-link" href="/blog/">Dream Maker</a>
+    </div>
+    
+        
+            <a  class="header-right-picture "
+                href="#about">
+        
+        
+        </a>
+    
+</header>
+
+            <!-- Define author's picture -->
+
+
+<nav id="sidebar" data-behavior="5">
+    <div class="sidebar-container">
+        
+        
+            <ul class="sidebar-buttons">
+            
+                <li class="sidebar-button">
+                    
+                        <a  class="sidebar-button-link "
+                             href="/blog/"
+                            
+                            title="首頁"
+                        >
+                    
+                        <i class="sidebar-button-icon fa fa-home" aria-hidden="true"></i>
+                        <span class="sidebar-button-desc">首頁</span>
+                    </a>
+            </li>
+            
+                <li class="sidebar-button">
+                    
+                        <a  class="sidebar-button-link "
+                             href="/blog/all-categories"
+                            
+                            title="分類"
+                        >
+                    
+                        <i class="sidebar-button-icon fa fa-bookmark" aria-hidden="true"></i>
+                        <span class="sidebar-button-desc">分類</span>
+                    </a>
+            </li>
+            
+                <li class="sidebar-button">
+                    
+                        <a  class="sidebar-button-link "
+                             href="/blog/all-tags"
+                            
+                            title="標籤"
+                        >
+                    
+                        <i class="sidebar-button-icon fa fa-tags" aria-hidden="true"></i>
+                        <span class="sidebar-button-desc">標籤</span>
+                    </a>
+            </li>
+            
+                <li class="sidebar-button">
+                    
+                        <a  class="sidebar-button-link "
+                             href="/blog/all-archives"
+                            
+                            title="所有文章"
+                        >
+                    
+                        <i class="sidebar-button-icon fa fa-archive" aria-hidden="true"></i>
+                        <span class="sidebar-button-desc">所有文章</span>
+                    </a>
+            </li>
+            
+                <li class="sidebar-button">
+                    
+                        <a  class="sidebar-button-link open-algolia-search"
+                             href="#search"
+                            
+                            title="搜尋"
+                        >
+                    
+                        <i class="sidebar-button-icon fa fa-search" aria-hidden="true"></i>
+                        <span class="sidebar-button-desc">搜尋</span>
+                    </a>
+            </li>
+            
+                <li class="sidebar-button">
+                    
+                        <a  class="sidebar-button-link "
+                             href="#about"
+                            
+                            title="關於"
+                        >
+                    
+                        <i class="sidebar-button-icon fa fa-question" aria-hidden="true"></i>
+                        <span class="sidebar-button-desc">關於</span>
+                    </a>
+            </li>
+            
+        </ul>
+        
+            <ul class="sidebar-buttons">
+            
+                <li class="sidebar-button">
+                    
+                        <a  class="sidebar-button-link " href="https://github.com/yuehhua/" target="_blank" rel="noopener" title="GitHub">
+                    
+                        <i class="sidebar-button-icon fab fa-github" aria-hidden="true"></i>
+                        <span class="sidebar-button-desc">GitHub</span>
+                    </a>
+            </li>
+            
+                <li class="sidebar-button">
+                    
+                        <a  class="sidebar-button-link " href="https://www.facebook.com/a504082002" target="_blank" rel="noopener" title="Facebook">
+                    
+                        <i class="sidebar-button-icon fab fa-facebook" aria-hidden="true"></i>
+                        <span class="sidebar-button-desc">Facebook</span>
+                    </a>
+            </li>
+            
+                <li class="sidebar-button">
+                    
+                        <a  class="sidebar-button-link " href="https://www.linkedin.com/in/%E5%B2%B3%E8%8F%AF-%E6%9D%9C-6a3995a0/" target="_blank" rel="noopener" title="LinkedIn">
+                    
+                        <i class="sidebar-button-icon fab fa-linkedin" aria-hidden="true"></i>
+                        <span class="sidebar-button-desc">LinkedIn</span>
+                    </a>
+            </li>
+            
+                <li class="sidebar-button">
+                    
+                        <a  class="sidebar-button-link " href="mailto:a504082002@gmail.com" target="_blank" rel="noopener" title="Email">
+                    
+                        <i class="sidebar-button-icon fab fa-envelope" aria-hidden="true"></i>
+                        <span class="sidebar-button-desc">Email</span>
+                    </a>
+            </li>
+            
+        </ul>
+        
+            <ul class="sidebar-buttons">
+            
+                <li class="sidebar-button">
+                    
+                        <a  class="sidebar-button-link "
+                             href="/blog/atom.xml"
+                            
+                            title="Atom"
+                        >
+                    
+                        <i class="sidebar-button-icon fa fa-rss" aria-hidden="true"></i>
+                        <span class="sidebar-button-desc">Atom</span>
+                    </a>
+            </li>
+            
+        </ul>
+        
+    </div>
+</nav>
+
+            
+            <div id="main" data-behavior="5"
+                 class="
+                        hasCoverMetaIn
+                        ">
+                
+    <article class="post">
+        
+                
+                    <div class="post-header main-content-wrap text-left">
+    
+        <h1 class="post-title">
+            讓 Julia 像 Python 一樣擁有物件 property
+        </h1>
+    
+    
+        <div class="post-meta">
+    <time datetime="2020-04-10T10:56:41+08:00">
+	
+		    4月 10, 2020
+    	
+    </time>
+    
+        <span>分類 </span>
+        
+    <a class="category-link" href="/blog/categories/My-Style/">My Style</a>, <a class="category-link" href="/blog/categories/My-Style/Computer-Science/">Computer Science</a>, <a class="category-link" href="/blog/categories/My-Style/Computer-Science/Julialang/">Julialang</a>
+
+
+    
+</div>
+
+    
+</div>
+
+                        
+                            <div class="post-content markdown">
+                                <div class="main-content-wrap">
+                                    <p>Julia 的物件都有屬性，但這需要寫在型別中事先定義。但如果要為沒有任何屬性的型別增加屬性要怎麼做？</p>
+<p>Julia 的屬性存取是來自 <code>Base.getproperty</code> 及 <code>Base.setproperty!</code> 兩個方法。</p>
+<span id="more"></span>
+<p>如果我們這樣定義。</p>
+<figure class="highlight julia"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">julia&gt; <span class="keyword">struct</span> Foo <span class="keyword">end</span></span><br><span class="line"></span><br><span class="line">julia&gt; Base.getproperty(::Foo, x::<span class="built_in">Symbol</span>) = <span class="string">&quot;<span class="variable">$x</span>&quot;</span></span><br></pre></td></tr></table></figure>
+<p>來測試不同的 property。</p>
+<figure class="highlight julia"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">julia&gt; foo = Foo()</span><br><span class="line">Foo()</span><br><span class="line"></span><br><span class="line">julia&gt; foo.a</span><br><span class="line"><span class="string">&quot;a&quot;</span></span><br><span class="line"></span><br><span class="line">julia&gt; foo.x</span><br><span class="line"><span class="string">&quot;x&quot;</span></span><br></pre></td></tr></table></figure>
+<p>以及設定的部份。</p>
+<figure class="highlight julia"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">julia&gt; Base.setproperty!(::Foo, x::<span class="built_in">Symbol</span>, v) = <span class="literal">nothing</span></span><br><span class="line"></span><br><span class="line">julia&gt; foo.a = <span class="number">1</span></span><br><span class="line"><span class="number">1</span></span><br><span class="line"></span><br><span class="line">julia&gt; foo.b = <span class="number">1</span></span><br><span class="line"><span class="number">1</span></span><br></pre></td></tr></table></figure>
+<p>不過要注意的是，如果對本身就有屬性的型別增加 <code>Base.getproperty</code> 及 <code>Base.setproperty!</code> 兩個方法，會去更動到原先的屬性存取行為喔！這邊要注意一下。</p>
+
+                                        
+
+                                </div>
+                            </div>
+                            <div id="post-footer" class="post-footer main-content-wrap">
+                                
+                                        
+                                            <div class="post-actions-wrap">
+    <nav>
+        <ul class="post-actions post-action-nav">
+            <li class="post-action">
+                
+                    
+                    <a class="post-action-btn btn btn--default tooltip--top" href="/blog/2020/04/11/composable-the-key-feature-in-julia/" data-tooltip="可組合性（Composable）：Julia 語言的重要特性" aria-label="上一篇: 可組合性（Composable）：Julia 語言的重要特性">
+                
+                    <i class="fa fa-angle-left" aria-hidden="true"></i>
+                    <span class="hide-xs hide-sm text-small icon-ml">上一篇</span>
+                </a>
+            </li>
+            <li class="post-action">
+                
+                    
+                    <a class="post-action-btn btn btn--default tooltip--top" href="/blog/2020/04/10/julia-multithread-setup/" data-tooltip="設定 Julia 多執行緒" aria-label="下一篇: 設定 Julia 多執行緒">
+                
+                    <span class="hide-xs hide-sm text-small icon-mr">下一篇</span>
+                    <i class="fa fa-angle-right" aria-hidden="true"></i>
+                </a>
+            </li>
+        </ul>
+    </nav>
+    <ul class="post-actions post-action-share">
+        <li class="post-action hide-lg hide-md hide-sm">
+            <a class="post-action-btn btn btn--default btn-open-shareoptions" href="#btn-open-shareoptions" aria-label="Share this post">
+                <i class="fa fa-share-alt" aria-hidden="true"></i>
+            </a>
+        </li>
+        
+            
+            
+            <li class="post-action hide-xs">
+                <a class="post-action-btn btn btn--default" target="new" href="https://www.facebook.com/sharer/sharer.php?u=https://yuehhua.github.io/blog/2020/04/10/julia-property/" title="分享到 Facebook">
+                    <i class="fa fa-facebook-official" aria-hidden="true"></i>
+                </a>
+            </li>
+        
+        
+            
+        
+        <li class="post-action">
+            
+                <a class="post-action-btn btn btn--default" href="#" aria-label="Back to top">
+            
+                <i class="fa fa-list" aria-hidden="true"></i>
+            </a>
+        </li>
+    </ul>
+</div>
+
+
+                                                
+                                                    
+                                                        
+                                                                            
+                            </div>
+                            
+                                <script src='https://unpkg.com/mermaid@10.9.1/dist/mermaid.min.js'></script>
+                                <script>
+                                    if (window.mermaid) {
+                                        mermaid.initialize({ theme: 'forest' });
+                                    }
+                                </script>
+                                
+    </article>
+
+                <footer id="footer" class="main-content-wrap">
+    <span class="copyrights">
+        Copyrights &copy; 2026 Yueh-Hua Tu. All Rights Reserved.
+    </span>
+</footer>
+
+            </div>
+            
+                <div id="bottom-bar" class="post-bottom-bar" data-behavior="5">
+                    <div class="post-actions-wrap">
+    <nav>
+        <ul class="post-actions post-action-nav">
+            <li class="post-action">
+                
+                    
+                    <a class="post-action-btn btn btn--default tooltip--top" href="/blog/2020/04/11/composable-the-key-feature-in-julia/" data-tooltip="可組合性（Composable）：Julia 語言的重要特性" aria-label="上一篇: 可組合性（Composable）：Julia 語言的重要特性">
+                
+                    <i class="fa fa-angle-left" aria-hidden="true"></i>
+                    <span class="hide-xs hide-sm text-small icon-ml">上一篇</span>
+                </a>
+            </li>
+            <li class="post-action">
+                
+                    
+                    <a class="post-action-btn btn btn--default tooltip--top" href="/blog/2020/04/10/julia-multithread-setup/" data-tooltip="設定 Julia 多執行緒" aria-label="下一篇: 設定 Julia 多執行緒">
+                
+                    <span class="hide-xs hide-sm text-small icon-mr">下一篇</span>
+                    <i class="fa fa-angle-right" aria-hidden="true"></i>
+                </a>
+            </li>
+        </ul>
+    </nav>
+    <ul class="post-actions post-action-share">
+        <li class="post-action hide-lg hide-md hide-sm">
+            <a class="post-action-btn btn btn--default btn-open-shareoptions" href="#btn-open-shareoptions" aria-label="Share this post">
+                <i class="fa fa-share-alt" aria-hidden="true"></i>
+            </a>
+        </li>
+        
+            
+            
+            <li class="post-action hide-xs">
+                <a class="post-action-btn btn btn--default" target="new" href="https://www.facebook.com/sharer/sharer.php?u=https://yuehhua.github.io/blog/2020/04/10/julia-property/" title="分享到 Facebook">
+                    <i class="fa fa-facebook-official" aria-hidden="true"></i>
+                </a>
+            </li>
+        
+        
+            
+        
+        <li class="post-action">
+            
+                <a class="post-action-btn btn btn--default" href="#" aria-label="Back to top">
+            
+                <i class="fa fa-list" aria-hidden="true"></i>
+            </a>
+        </li>
+    </ul>
+</div>
+
+
+                </div>
+                <div id="share-options-bar" class="share-options-bar" data-behavior="5">
+    <i id="btn-close-shareoptions" class="fa fa-close"></i>
+    <ul class="share-options">
+        
+            
+            
+            <li class="share-option">
+                <a class="share-option-btn" target="new" href="https://www.facebook.com/sharer/sharer.php?u=https://yuehhua.github.io/blog/2020/04/10/julia-property/">
+                    <i class="fa fa-facebook-official" aria-hidden="true"></i><span>分享到 Facebook</span>
+                </a>
+            </li>
+        
+    </ul>
+</div>
+
+            
+        </div>
+        
+
+
+<div id="about">
+    <div id="about-card">
+        <div id="about-btn-close">
+            <i class="fa fa-remove"></i>
+        </div>
+        
+            <h4 id="about-card-name">Yueh-Hua Tu</h4>
+        
+            <div id="about-card-bio"><p>目標是計算生物學家！</br>Systems Biology, Computational Biology, Machine Learning</br>Julia Taiwan 發起人</p>
+</div>
+        
+        
+            <div id="about-card-job">
+                <i class="fa fa-briefcase"></i>
+                <br/>
+                <p>研發替代役研究助理</p>
+
+            </div>
+        
+        
+            <div id="about-card-location">
+                <i class="fa fa-map-marker"></i>
+                <br/>
+                Taiwan
+            </div>
+        
+    </div>
+</div>
+
+        
+        
+<div id="cover" style="background-image:url('/blog/assets/images/cover.jpg');"></div>
+        <!--SCRIPTS-->
+
+<script src="/blog/assets/js/script-xzfezjobyekpxrjktw5tz6muvzqfsbmo5n6atk3p5om9ulfptldi3p7cyqd8.min.js"></script>
+
+<!--SCRIPTS END--><!-- hexo-inject:begin --><!-- hexo-inject:end -->
+
+
+
+
+    </body>
+</html>

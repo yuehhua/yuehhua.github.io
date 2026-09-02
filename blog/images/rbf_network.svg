@@ -1,0 +1,476 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN" "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd">
+<svg version="1.2" width="81.01mm" height="61.01mm" viewBox="1850 1750 8101 6101" preserveAspectRatio="xMidYMid" fill-rule="evenodd" stroke-width="28.222" stroke-linejoin="round" xmlns="http://www.w3.org/2000/svg" xmlns:ooo="http://xml.openoffice.org/svg/export" xmlns:xlink="http://www.w3.org/1999/xlink" xmlns:presentation="http://sun.com/xmlns/staroffice/presentation" xmlns:smil="http://www.w3.org/2001/SMIL20/" xmlns:anim="urn:oasis:names:tc:opendocument:xmlns:animation:1.0" xml:space="preserve">
+ <defs class="ClipPathGroup">
+  <clipPath id="presentation_clip_path" clipPathUnits="userSpaceOnUse">
+   <rect x="1850" y="1750" width="8101" height="6101"/>
+  </clipPath>
+  <clipPath id="presentation_clip_path_shrink" clipPathUnits="userSpaceOnUse">
+   <rect x="1858" y="1756" width="8085" height="6089"/>
+  </clipPath>
+ </defs>
+ <defs>
+  <font id="EmbeddedFont_1" horiz-adv-x="2048">
+   <font-face font-family="Liberation Serif embedded" units-per-em="2048" font-weight="normal" font-style="normal" ascent="1826" descent="450"/>
+   <missing-glyph horiz-adv-x="2048" d="M 0,0 L 2047,0 2047,2047 0,2047 0,0 Z"/>
+   <glyph unicode="4" horiz-adv-x="980" d="M 810,295 L 810,0 638,0 638,295 40,295 40,428 695,1348 810,1348 810,438 992,438 992,295 810,295 Z M 638,1113 L 633,1113 153,438 638,438 638,1113 Z"/>
+   <glyph unicode="3" horiz-adv-x="875" d="M 944,365 C 944,244 903,150 820,82 737,14 620,-20 469,-20 342,-20 222,-6 109,23 L 98,305 164,305 209,117 C 235,102 272,90 320,79 367,68 412,63 453,63 558,63 635,87 685,135 735,183 760,263 760,375 760,463 737,530 691,576 645,621 574,646 477,651 L 334,659 334,741 477,750 C 552,754 608,777 644,820 680,863 698,927 698,1014 698,1104 679,1170 640,1211 601,1252 538,1272 453,1272 418,1272 381,1267 342,1258 303,1248 269,1235 240,1219 L 205,1055 139,1055 139,1313 C 205,1330 262,1342 310,1348 358,1353 406,1356 453,1356 740,1356 883,1246 883,1026 883,933 858,860 807,805 756,750 683,715 590,702 711,688 801,653 858,598 915,542 944,464 944,365 Z"/>
+   <glyph unicode="2" horiz-adv-x="848" d="M 911,0 L 90,0 90,147 276,316 C 395,421 483,505 539,570 595,635 635,701 660,770 684,839 696,917 696,1006 696,1093 676,1159 637,1204 598,1249 533,1272 444,1272 409,1272 372,1267 335,1258 298,1248 265,1235 236,1219 L 201,1055 135,1055 135,1313 C 256,1342 359,1356 444,1356 591,1356 701,1326 775,1265 848,1204 885,1117 885,1006 885,931 871,861 842,795 813,728 768,662 708,597 648,531 549,439 410,321 351,270 288,215 221,154 L 911,154 911,0 Z"/>
+   <glyph unicode="1" horiz-adv-x="742" d="M 627,80 L 901,53 901,0 180,0 180,53 455,80 455,1174 184,1077 184,1130 575,1352 627,1352 627,80 Z"/>
+  </font>
+ </defs>
+ <defs>
+  <font id="EmbeddedFont_2" horiz-adv-x="2048">
+   <font-face font-family="Liberation Serif embedded" units-per-em="2048" font-weight="normal" font-style="italic" ascent="1826" descent="450"/>
+   <missing-glyph horiz-adv-x="2048" d="M 0,0 L 2047,0 2047,2047 0,2047 0,0 Z"/>
+   <glyph unicode="x" horiz-adv-x="927" d="M 142,84 C 142,65 156,52 184,45 L 176,0 -9,0 C -20,9 -25,23 -25,43 -25,62 -14,85 7,112 28,139 63,176 112,221 L 385,475 213,870 106,895 114,940 362,940 507,582 631,700 C 674,741 704,773 721,796 738,819 747,839 747,856 747,863 744,869 738,874 732,879 715,886 688,895 L 696,940 873,940 C 887,929 894,915 894,897 894,858 848,794 756,707 L 542,506 734,66 850,45 842,0 586,0 419,400 248,236 C 211,201 185,172 168,149 151,126 142,104 142,84 Z"/>
+   <glyph unicode="w" horiz-adv-x="1324" d="M 900,-20 L 834,-20 710,599 392,-20 322,-20 151,870 49,895 57,940 302,940 433,233 742,834 817,834 939,229 1136,618 C 1174,694 1193,757 1193,807 1193,832 1186,851 1172,866 1158,881 1143,890 1127,895 L 1135,940 1325,940 C 1342,925 1351,904 1351,877 1351,832 1323,758 1268,657 L 900,-20 Z"/>
+  </font>
+ </defs>
+ <defs>
+  <font id="EmbeddedFont_3" horiz-adv-x="2048">
+   <font-face font-family="OpenSymbol embedded" units-per-em="2048" font-weight="normal" font-style="italic" ascent="1402" descent="450"/>
+   <missing-glyph horiz-adv-x="2048" d="M 0,0 L 2047,0 2047,2047 0,2047 0,0 Z"/>
+   <glyph unicode="μ" horiz-adv-x="1007" d="M 451,310 C 415,213 400,148 407,114 414,79 443,62 494,62 575,62 662,118 756,229 849,340 928,480 992,650 L 1090,912 1269,912 1019,245 C 996,183 985,137 987,107 989,77 1005,62 1033,62 1064,62 1093,77 1119,107 1146,136 1170,179 1191,235 L 1200,258 1234,258 C 1232,254 1231,249 1229,244 1227,239 1224,230 1220,218 1192,143 1154,86 1108,45 1061,4 1009,-16 952,-16 885,-16 846,13 833,70 820,127 836,214 879,331 880,334 879,335 877,336 874,337 871,335 870,332 793,211 719,123 646,68 574,12 499,-16 420,-16 361,-16 319,2 294,37 269,72 261,123 272,191 272,194 271,195 268,195 265,195 263,194 262,191 255,178 247,158 238,132 205,45 192,-49 197,-150 203,-251 202,-311 195,-330 186,-355 171,-375 151,-390 132,-404 109,-411 84,-411 55,-411 37,-400 32,-380 27,-358 34,-323 53,-273 57,-261 72,-224 98,-162 124,-100 147,-42 168,13 186,62 211,132 243,221 274,310 298,375 313,415 L 499,912 677,912 451,310 Z"/>
+  </font>
+ </defs>
+ <defs class="TextShapeIndex">
+  <g ooo:slide="id1" ooo:id-list="id3 id4 id5 id6 id7 id8 id9 id10 id11 id12 id13 id14 id15 id16 id17 id18 id19 id20 id21 id22 id23 id24 id25 id26 id27 id28 id29 id30 id31 id32 id33 id34 id35 id36 id37 id38 id39 id40 id41 id42 id43 id44 id45 id46 id47 id48"/>
+ </defs>
+ <defs class="EmbeddedBulletChars">
+  <g id="bullet-char-template-57356" transform="scale(0.00048828125,-0.00048828125)">
+   <path d="M 580,1141 L 1163,571 580,0 -4,571 580,1141 Z"/>
+  </g>
+  <g id="bullet-char-template-57354" transform="scale(0.00048828125,-0.00048828125)">
+   <path d="M 8,1128 L 1137,1128 1137,0 8,0 8,1128 Z"/>
+  </g>
+  <g id="bullet-char-template-10146" transform="scale(0.00048828125,-0.00048828125)">
+   <path d="M 174,0 L 602,739 174,1481 1456,739 174,0 Z M 1358,739 L 309,1346 659,739 1358,739 Z"/>
+  </g>
+  <g id="bullet-char-template-10132" transform="scale(0.00048828125,-0.00048828125)">
+   <path d="M 2015,739 L 1276,0 717,0 1260,543 174,543 174,936 1260,936 717,1481 1274,1481 2015,739 Z"/>
+  </g>
+  <g id="bullet-char-template-10007" transform="scale(0.00048828125,-0.00048828125)">
+   <path d="M 0,-2 C -7,14 -16,27 -25,37 L 356,567 C 262,823 215,952 215,954 215,979 228,992 255,992 264,992 276,990 289,987 310,991 331,999 354,1012 L 381,999 492,748 772,1049 836,1024 860,1049 C 881,1039 901,1025 922,1006 886,937 835,863 770,784 769,783 710,716 594,584 L 774,223 C 774,196 753,168 711,139 L 727,119 C 717,90 699,76 672,76 641,76 570,178 457,381 L 164,-76 C 142,-110 111,-127 72,-127 30,-127 9,-110 8,-76 1,-67 -2,-52 -2,-32 -2,-23 -1,-13 0,-2 Z"/>
+  </g>
+  <g id="bullet-char-template-10004" transform="scale(0.00048828125,-0.00048828125)">
+   <path d="M 285,-33 C 182,-33 111,30 74,156 52,228 41,333 41,471 41,549 55,616 82,672 116,743 169,778 240,778 293,778 328,747 346,684 L 369,508 C 377,444 397,411 428,410 L 1163,1116 C 1174,1127 1196,1133 1229,1133 1271,1133 1292,1118 1292,1087 L 1292,965 C 1292,929 1282,901 1262,881 L 442,47 C 390,-6 338,-33 285,-33 Z"/>
+  </g>
+  <g id="bullet-char-template-9679" transform="scale(0.00048828125,-0.00048828125)">
+   <path d="M 813,0 C 632,0 489,54 383,161 276,268 223,411 223,592 223,773 276,916 383,1023 489,1130 632,1184 813,1184 992,1184 1136,1130 1245,1023 1353,916 1407,772 1407,592 1407,412 1353,268 1245,161 1136,54 992,0 813,0 Z"/>
+  </g>
+  <g id="bullet-char-template-8226" transform="scale(0.00048828125,-0.00048828125)">
+   <path d="M 346,457 C 273,457 209,483 155,535 101,586 74,649 74,723 74,796 101,859 155,911 209,963 273,989 346,989 419,989 480,963 531,910 582,859 608,796 608,723 608,648 583,586 532,535 482,483 420,457 346,457 Z"/>
+  </g>
+  <g id="bullet-char-template-8211" transform="scale(0.00048828125,-0.00048828125)">
+   <path d="M -4,459 L 1135,459 1135,606 -4,606 -4,459 Z"/>
+  </g>
+  <g id="bullet-char-template-61548" transform="scale(0.00048828125,-0.00048828125)">
+   <path d="M 173,740 C 173,903 231,1043 346,1159 462,1274 601,1332 765,1332 928,1332 1067,1274 1183,1159 1299,1043 1357,903 1357,740 1357,577 1299,437 1183,322 1067,206 928,148 765,148 601,148 462,206 346,322 231,437 173,577 173,740 Z"/>
+  </g>
+ </defs>
+ <defs class="TextEmbeddedBitmaps"/>
+ <g class="SlideGroup">
+  <g>
+   <g id="container-id1">
+    <g id="id1" class="Slide" clip-path="url(#presentation_clip_path)">
+     <g class="Page">
+      <g class="com.sun.star.drawing.CustomShape">
+       <g id="id3">
+        <rect class="BoundingBox" stroke="none" fill="none" x="1850" y="1750" width="1301" height="1301"/>
+        <path fill="none" stroke="rgb(51,51,51)" stroke-width="100" stroke-linejoin="round" d="M 2500,1800 C 2840,1800 3100,2060 3100,2400 3100,2740 2840,3000 2500,3000 2160,3000 1900,2740 1900,2400 1900,2060 2160,1800 2500,1800 Z"/>
+       </g>
+      </g>
+      <g class="com.sun.star.drawing.CustomShape">
+       <g id="id4">
+        <rect class="BoundingBox" stroke="none" fill="none" x="1850" y="3350" width="1301" height="1301"/>
+        <path fill="none" stroke="rgb(51,51,51)" stroke-width="100" stroke-linejoin="round" d="M 2500,3400 C 2840,3400 3100,3660 3100,4000 3100,4340 2840,4600 2500,4600 2160,4600 1900,4340 1900,4000 1900,3660 2160,3400 2500,3400 Z"/>
+       </g>
+      </g>
+      <g class="com.sun.star.drawing.CustomShape">
+       <g id="id5">
+        <rect class="BoundingBox" stroke="none" fill="none" x="1850" y="4950" width="1301" height="1301"/>
+        <path fill="none" stroke="rgb(51,51,51)" stroke-width="100" stroke-linejoin="round" d="M 2500,5000 C 2840,5000 3100,5260 3100,5600 3100,5940 2840,6200 2500,6200 2160,6200 1900,5940 1900,5600 1900,5260 2160,5000 2500,5000 Z"/>
+       </g>
+      </g>
+      <g class="com.sun.star.drawing.CustomShape">
+       <g id="id6">
+        <rect class="BoundingBox" stroke="none" fill="none" x="1850" y="6550" width="1301" height="1301"/>
+        <path fill="none" stroke="rgb(51,51,51)" stroke-width="100" stroke-linejoin="round" d="M 2500,6600 C 2840,6600 3100,6860 3100,7200 3100,7540 2840,7800 2500,7800 2160,7800 1900,7540 1900,7200 1900,6860 2160,6600 2500,6600 Z"/>
+       </g>
+      </g>
+      <g class="com.sun.star.drawing.CustomShape">
+       <g id="id7">
+        <rect class="BoundingBox" stroke="none" fill="none" x="5150" y="1751" width="1302" height="1301"/>
+        <path fill="none" stroke="rgb(51,51,51)" stroke-width="100" stroke-linejoin="round" d="M 5800,1801 C 6140,1801 6400,2061 6400,2401 6400,2741 6140,3001 5800,3001 5460,3001 5200,2741 5200,2401 5200,2061 5460,1801 5800,1801 Z"/>
+       </g>
+      </g>
+      <g class="com.sun.star.drawing.CustomShape">
+       <g id="id8">
+        <rect class="BoundingBox" stroke="none" fill="none" x="5150" y="3351" width="1302" height="1301"/>
+        <path fill="none" stroke="rgb(51,51,51)" stroke-width="100" stroke-linejoin="round" d="M 5800,3401 C 6140,3401 6400,3661 6400,4001 6400,4341 6140,4601 5800,4601 5460,4601 5200,4341 5200,4001 5200,3661 5460,3401 5800,3401 Z"/>
+       </g>
+      </g>
+      <g class="com.sun.star.drawing.CustomShape">
+       <g id="id9">
+        <rect class="BoundingBox" stroke="none" fill="none" x="5150" y="4951" width="1302" height="1301"/>
+        <path fill="none" stroke="rgb(51,51,51)" stroke-width="100" stroke-linejoin="round" d="M 5800,5001 C 6140,5001 6400,5261 6400,5601 6400,5941 6140,6201 5800,6201 5460,6201 5200,5941 5200,5601 5200,5261 5460,5001 5800,5001 Z"/>
+       </g>
+      </g>
+      <g class="com.sun.star.drawing.CustomShape">
+       <g id="id10">
+        <rect class="BoundingBox" stroke="none" fill="none" x="5150" y="6551" width="1302" height="1301"/>
+        <path fill="none" stroke="rgb(51,51,51)" stroke-width="100" stroke-linejoin="round" d="M 5800,6601 C 6140,6601 6400,6861 6400,7201 6400,7541 6140,7801 5800,7801 5460,7801 5200,7541 5200,7201 5200,6861 5460,6601 5800,6601 Z"/>
+       </g>
+      </g>
+      <g class="com.sun.star.drawing.CustomShape">
+       <g id="id11">
+        <rect class="BoundingBox" stroke="none" fill="none" x="8651" y="4051" width="1302" height="1301"/>
+        <path fill="none" stroke="rgb(51,51,51)" stroke-width="100" stroke-linejoin="round" d="M 9301,4101 C 9641,4101 9901,4361 9901,4701 9901,5041 9641,5301 9301,5301 8961,5301 8701,5041 8701,4701 8701,4361 8961,4101 9301,4101 Z"/>
+       </g>
+      </g>
+      <g class="OLE2">
+       <g id="id12">
+        <rect class="BoundingBox" stroke="none" fill="none" x="2237" y="2170" width="564" height="531"/>
+        <defs>
+         <clipPath id="clip_path_1" clipPathUnits="userSpaceOnUse">
+          <path d="M 2249,2170 L 2805,2170 2805,2699 2249,2699 2249,2170 Z"/>
+         </clipPath>
+        </defs>
+        <g clip-path="url(#clip_path_1)">
+         <text class="TextShape"><tspan class="TextParagraph" font-family="Liberation Serif, serif" font-size="422px" font-style="italic" font-weight="400"><tspan class="TextPosition" x="2369" y="2540"><tspan fill="rgb(0,0,0)" stroke="none">x</tspan></tspan></tspan></text>
+         <text class="TextShape"><tspan class="TextParagraph" font-family="Liberation Serif, serif" font-size="253px" font-weight="400"><tspan class="TextPosition" x="2581" y="2646"><tspan fill="rgb(0,0,0)" stroke="none">1</tspan></tspan></tspan></text>
+        </g>
+       </g>
+      </g>
+      <g class="OLE2">
+       <g id="id13">
+        <rect class="BoundingBox" stroke="none" fill="none" x="2238" y="3770" width="568" height="531"/>
+        <defs>
+         <clipPath id="clip_path_2" clipPathUnits="userSpaceOnUse">
+          <path d="M 2249,3757 L 2805,3757 2805,4313 2249,4313 2249,3757 Z"/>
+         </clipPath>
+        </defs>
+        <g clip-path="url(#clip_path_2)">
+         <text class="TextShape"><tspan class="TextParagraph" font-family="Liberation Serif, serif" font-size="422px" font-style="italic" font-weight="400"><tspan class="TextPosition" x="2370" y="4140"><tspan fill="rgb(0,0,0)" stroke="none">x</tspan></tspan></tspan></text>
+         <text class="TextShape"><tspan class="TextParagraph" font-family="Liberation Serif, serif" font-size="253px" font-weight="400"><tspan class="TextPosition" x="2582" y="4246"><tspan fill="rgb(0,0,0)" stroke="none">2</tspan></tspan></tspan></text>
+        </g>
+       </g>
+      </g>
+      <g class="OLE2">
+       <g id="id14">
+        <rect class="BoundingBox" stroke="none" fill="none" x="2239" y="5370" width="573" height="531"/>
+        <defs>
+         <clipPath id="clip_path_3" clipPathUnits="userSpaceOnUse">
+          <path d="M 2249,5371 L 2805,5371 2805,5900 2249,5900 2249,5371 Z"/>
+         </clipPath>
+        </defs>
+        <g clip-path="url(#clip_path_3)">
+         <text class="TextShape"><tspan class="TextParagraph" font-family="Liberation Serif, serif" font-size="422px" font-style="italic" font-weight="400"><tspan class="TextPosition" x="2371" y="5740"><tspan fill="rgb(0,0,0)" stroke="none">x</tspan></tspan></tspan></text>
+         <text class="TextShape"><tspan class="TextParagraph" font-family="Liberation Serif, serif" font-size="253px" font-weight="400"><tspan class="TextPosition" x="2583" y="5846"><tspan fill="rgb(0,0,0)" stroke="none">3</tspan></tspan></tspan></text>
+        </g>
+       </g>
+      </g>
+      <g class="OLE2">
+       <g id="id15">
+        <rect class="BoundingBox" stroke="none" fill="none" x="2240" y="6970" width="585" height="531"/>
+        <defs>
+         <clipPath id="clip_path_4" clipPathUnits="userSpaceOnUse">
+          <path d="M 2249,6959 L 2831,6959 2831,7488 2249,7488 2249,6959 Z"/>
+         </clipPath>
+        </defs>
+        <g clip-path="url(#clip_path_4)">
+         <text class="TextShape"><tspan class="TextParagraph" font-family="Liberation Serif, serif" font-size="422px" font-style="italic" font-weight="400"><tspan class="TextPosition" x="2372" y="7340"><tspan fill="rgb(0,0,0)" stroke="none">x</tspan></tspan></tspan></text>
+         <text class="TextShape"><tspan class="TextParagraph" font-family="Liberation Serif, serif" font-size="253px" font-weight="400"><tspan class="TextPosition" x="2584" y="7446"><tspan fill="rgb(0,0,0)" stroke="none">4</tspan></tspan></tspan></text>
+        </g>
+       </g>
+      </g>
+      <g class="com.sun.star.drawing.ConnectorShape">
+       <g id="id16">
+        <rect class="BoundingBox" stroke="none" fill="none" x="3099" y="2250" width="2102" height="302"/>
+        <path fill="none" stroke="rgb(0,0,0)" d="M 3100,2400 L 4770,2401"/>
+        <path fill="rgb(0,0,0)" stroke="none" d="M 5200,2401 L 4750,2251 4750,2551 5200,2401 Z"/>
+       </g>
+      </g>
+      <g class="com.sun.star.drawing.ConnectorShape">
+       <g id="id17">
+        <rect class="BoundingBox" stroke="none" fill="none" x="3099" y="2251" width="2102" height="302"/>
+        <path fill="none" stroke="rgb(0,0,0)" d="M 3100,2401 L 4770,2402"/>
+        <path fill="rgb(0,0,0)" stroke="none" d="M 5200,2402 L 4750,2252 4750,2552 5200,2402 Z"/>
+       </g>
+      </g>
+      <g class="com.sun.star.drawing.ConnectorShape">
+       <g id="id18">
+        <rect class="BoundingBox" stroke="none" fill="none" x="3099" y="2400" width="2277" height="4377"/>
+        <path fill="none" stroke="rgb(0,0,0)" d="M 3100,2401 L 5177,6394"/>
+        <path fill="rgb(0,0,0)" stroke="none" d="M 5375,6776 L 5300,6308 5034,6446 5375,6776 Z"/>
+       </g>
+      </g>
+      <g class="com.sun.star.drawing.ConnectorShape">
+       <g id="id19">
+        <rect class="BoundingBox" stroke="none" fill="none" x="3099" y="2400" width="2102" height="3202"/>
+        <path fill="none" stroke="rgb(0,0,0)" d="M 3100,2401 L 4964,5241"/>
+        <path fill="rgb(0,0,0)" stroke="none" d="M 5200,5601 L 5079,5142 4828,5307 5200,5601 Z"/>
+       </g>
+      </g>
+      <g class="com.sun.star.drawing.ConnectorShape">
+       <g id="id20">
+        <rect class="BoundingBox" stroke="none" fill="none" x="3099" y="3850" width="2102" height="302"/>
+        <path fill="none" stroke="rgb(0,0,0)" d="M 3100,4000 L 4770,4001"/>
+        <path fill="rgb(0,0,0)" stroke="none" d="M 5200,4001 L 4750,3851 4750,4151 5200,4001 Z"/>
+       </g>
+      </g>
+      <g class="com.sun.star.drawing.ConnectorShape">
+       <g id="id21">
+        <rect class="BoundingBox" stroke="none" fill="none" x="3099" y="2400" width="2102" height="1602"/>
+        <path fill="none" stroke="rgb(0,0,0)" d="M 3100,2401 L 4858,3740"/>
+        <path fill="rgb(0,0,0)" stroke="none" d="M 5200,4001 L 4933,3609 4751,3848 5200,4001 Z"/>
+       </g>
+      </g>
+      <g class="com.sun.star.drawing.ConnectorShape">
+       <g id="id22">
+        <rect class="BoundingBox" stroke="none" fill="none" x="6399" y="4701" width="2303" height="902"/>
+        <path fill="none" stroke="rgb(0,0,0)" d="M 6400,5601 L 8301,4858"/>
+        <path fill="rgb(0,0,0)" stroke="none" d="M 8701,4701 L 8227,4725 8337,5005 8701,4701 Z"/>
+       </g>
+      </g>
+      <g class="com.sun.star.drawing.ConnectorShape">
+       <g id="id23">
+        <rect class="BoundingBox" stroke="none" fill="none" x="3099" y="7050" width="2102" height="302"/>
+        <path fill="none" stroke="rgb(0,0,0)" d="M 3100,7200 L 4770,7201"/>
+        <path fill="rgb(0,0,0)" stroke="none" d="M 5200,7201 L 4750,7051 4750,7351 5200,7201 Z"/>
+       </g>
+      </g>
+      <g class="com.sun.star.drawing.ConnectorShape">
+       <g id="id24">
+        <rect class="BoundingBox" stroke="none" fill="none" x="3099" y="5601" width="2102" height="1601"/>
+        <path fill="none" stroke="rgb(0,0,0)" d="M 3100,7200 L 4858,5861"/>
+        <path fill="rgb(0,0,0)" stroke="none" d="M 5200,5601 L 4751,5754 4933,5993 5200,5601 Z"/>
+       </g>
+      </g>
+      <g class="com.sun.star.drawing.ConnectorShape">
+       <g id="id25">
+        <rect class="BoundingBox" stroke="none" fill="none" x="3099" y="4001" width="2102" height="3201"/>
+        <path fill="none" stroke="rgb(0,0,0)" d="M 3100,7200 L 4964,4360"/>
+        <path fill="rgb(0,0,0)" stroke="none" d="M 5200,4001 L 4828,4295 5078,4460 5200,4001 Z"/>
+       </g>
+      </g>
+      <g class="com.sun.star.drawing.ConnectorShape">
+       <g id="id26">
+        <rect class="BoundingBox" stroke="none" fill="none" x="3099" y="5450" width="2102" height="302"/>
+        <path fill="none" stroke="rgb(0,0,0)" d="M 3100,5600 L 4770,5601"/>
+        <path fill="rgb(0,0,0)" stroke="none" d="M 5200,5601 L 4750,5451 4750,5751 5200,5601 Z"/>
+       </g>
+      </g>
+      <g class="com.sun.star.drawing.ConnectorShape">
+       <g id="id27">
+        <rect class="BoundingBox" stroke="none" fill="none" x="3099" y="4001" width="2102" height="1601"/>
+        <path fill="none" stroke="rgb(0,0,0)" d="M 3100,5600 L 4858,4261"/>
+        <path fill="rgb(0,0,0)" stroke="none" d="M 5200,4001 L 4751,4154 4933,4393 5200,4001 Z"/>
+       </g>
+      </g>
+      <g class="com.sun.star.drawing.ConnectorShape">
+       <g id="id28">
+        <rect class="BoundingBox" stroke="none" fill="none" x="3099" y="5599" width="2102" height="1603"/>
+        <path fill="none" stroke="rgb(0,0,0)" d="M 3100,5600 L 4858,6940"/>
+        <path fill="rgb(0,0,0)" stroke="none" d="M 5200,7201 L 4933,6809 4751,7047 5200,7201 Z"/>
+       </g>
+      </g>
+      <g class="com.sun.star.drawing.ConnectorShape">
+       <g id="id29">
+        <rect class="BoundingBox" stroke="none" fill="none" x="3099" y="2402" width="2102" height="3200"/>
+        <path fill="none" stroke="rgb(0,0,0)" d="M 3100,5600 L 4964,2761"/>
+        <path fill="rgb(0,0,0)" stroke="none" d="M 5200,2402 L 4828,2696 5078,2860 5200,2402 Z"/>
+       </g>
+      </g>
+      <g class="com.sun.star.drawing.ConnectorShape">
+       <g id="id30">
+        <rect class="BoundingBox" stroke="none" fill="none" x="3099" y="2402" width="2102" height="1600"/>
+        <path fill="none" stroke="rgb(0,0,0)" d="M 3100,4000 L 4858,2662"/>
+        <path fill="rgb(0,0,0)" stroke="none" d="M 5200,2402 L 4751,2555 4933,2794 5200,2402 Z"/>
+       </g>
+      </g>
+      <g class="com.sun.star.drawing.ConnectorShape">
+       <g id="id31">
+        <rect class="BoundingBox" stroke="none" fill="none" x="3099" y="3999" width="2102" height="1603"/>
+        <path fill="none" stroke="rgb(0,0,0)" d="M 3100,4000 L 4858,5340"/>
+        <path fill="rgb(0,0,0)" stroke="none" d="M 5200,5601 L 4933,5209 4751,5447 5200,5601 Z"/>
+       </g>
+      </g>
+      <g class="com.sun.star.drawing.ConnectorShape">
+       <g id="id32">
+        <rect class="BoundingBox" stroke="none" fill="none" x="3099" y="3999" width="2102" height="3203"/>
+        <path fill="none" stroke="rgb(0,0,0)" d="M 3100,4000 L 4964,6841"/>
+        <path fill="rgb(0,0,0)" stroke="none" d="M 5200,7201 L 5079,6742 4828,6907 5200,7201 Z"/>
+       </g>
+      </g>
+      <g class="com.sun.star.drawing.ConnectorShape">
+       <g id="id33">
+        <rect class="BoundingBox" stroke="none" fill="none" x="6399" y="4000" width="2303" height="715"/>
+        <path fill="none" stroke="rgb(0,0,0)" d="M 6400,4001 L 8290,4576"/>
+        <path fill="rgb(0,0,0)" stroke="none" d="M 8701,4701 L 8314,4427 8227,4714 8701,4701 Z"/>
+       </g>
+      </g>
+      <g class="com.sun.star.drawing.ConnectorShape">
+       <g id="id34">
+        <rect class="BoundingBox" stroke="none" fill="none" x="3099" y="2826" width="2277" height="4376"/>
+        <path fill="none" stroke="rgb(0,0,0)" d="M 3100,7200 L 5177,3207"/>
+        <path fill="rgb(0,0,0)" stroke="none" d="M 5375,2826 L 5034,3156 5300,3294 5375,2826 Z"/>
+       </g>
+      </g>
+      <g class="com.sun.star.drawing.ConnectorShape">
+       <g id="id35">
+        <rect class="BoundingBox" stroke="none" fill="none" x="6399" y="2400" width="2303" height="2302"/>
+        <path fill="none" stroke="rgb(0,0,0)" d="M 6400,2401 L 8397,4397"/>
+        <path fill="rgb(0,0,0)" stroke="none" d="M 8701,4701 L 8489,4277 8277,4489 8701,4701 Z"/>
+       </g>
+      </g>
+      <g class="com.sun.star.drawing.ConnectorShape">
+       <g id="id36">
+        <rect class="BoundingBox" stroke="none" fill="none" x="6399" y="4701" width="2303" height="2502"/>
+        <path fill="none" stroke="rgb(0,0,0)" d="M 6400,7201 L 8410,5017"/>
+        <path fill="rgb(0,0,0)" stroke="none" d="M 8701,4701 L 8286,4931 8507,5134 8701,4701 Z"/>
+       </g>
+      </g>
+      <g class="com.sun.star.drawing.OpenBezierShape">
+       <g id="id37">
+        <rect class="BoundingBox" stroke="none" fill="none" x="5274" y="2074" width="1053" height="652"/>
+        <path fill="none" stroke="rgb(128,128,128)" stroke-width="50" stroke-linejoin="round" d="M 5300,2698 C 5451,2656 5482,2656 5573,2484 5725,1972 5876,1972 6027,2484 6093,2705 6299,2704 6300,2698"/>
+       </g>
+      </g>
+      <g class="com.sun.star.drawing.OpenBezierShape">
+       <g id="id38">
+        <rect class="BoundingBox" stroke="none" fill="none" x="5274" y="3675" width="1053" height="652"/>
+        <path fill="none" stroke="rgb(128,128,128)" stroke-width="50" stroke-linejoin="round" d="M 5300,4299 C 5451,4257 5482,4257 5573,4085 5725,3573 5876,3573 6027,4085 6093,4306 6299,4305 6300,4299"/>
+       </g>
+      </g>
+      <g class="com.sun.star.drawing.OpenBezierShape">
+       <g id="id39">
+        <rect class="BoundingBox" stroke="none" fill="none" x="5274" y="5276" width="1053" height="652"/>
+        <path fill="none" stroke="rgb(128,128,128)" stroke-width="50" stroke-linejoin="round" d="M 5300,5900 C 5451,5858 5482,5858 5573,5686 5725,5174 5876,5174 6027,5686 6093,5907 6299,5906 6300,5900"/>
+       </g>
+      </g>
+      <g class="com.sun.star.drawing.OpenBezierShape">
+       <g id="id40">
+        <rect class="BoundingBox" stroke="none" fill="none" x="5274" y="6877" width="1053" height="652"/>
+        <path fill="none" stroke="rgb(128,128,128)" stroke-width="50" stroke-linejoin="round" d="M 5300,7501 C 5451,7459 5482,7459 5573,7287 5725,6775 5876,6775 6027,7287 6093,7508 6299,7507 6300,7501"/>
+       </g>
+      </g>
+      <g class="OLE2">
+       <g id="id41">
+        <rect class="BoundingBox" stroke="none" fill="none" x="5540" y="7270" width="607" height="361"/>
+        <defs>
+         <clipPath id="clip_path_5" clipPathUnits="userSpaceOnUse">
+          <path d="M 5530,7276 L 6138,7276 6138,7620 5530,7620 5530,7276 Z"/>
+         </clipPath>
+        </defs>
+        <g clip-path="url(#clip_path_5)">
+         <text class="TextShape"><tspan class="TextParagraph" font-family="OpenSymbol" font-size="422px" font-style="italic" font-weight="400"><tspan class="TextPosition" x="5646" y="7482"><tspan fill="rgb(0,0,0)" stroke="none">μ</tspan></tspan></tspan></text>
+         <text class="TextShape"><tspan class="TextParagraph" font-family="Liberation Serif, serif" font-size="253px" font-weight="400"><tspan class="TextPosition" x="5910" y="7588"><tspan fill="rgb(0,0,0)" stroke="none">4</tspan></tspan></tspan></text>
+        </g>
+       </g>
+      </g>
+      <g class="OLE2">
+       <g id="id42">
+        <rect class="BoundingBox" stroke="none" fill="none" x="5540" y="5670" width="595" height="361"/>
+        <defs>
+         <clipPath id="clip_path_6" clipPathUnits="userSpaceOnUse">
+          <path d="M 5530,5662 L 6138,5662 6138,6033 5530,6033 5530,5662 Z"/>
+         </clipPath>
+        </defs>
+        <g clip-path="url(#clip_path_6)">
+         <text class="TextShape"><tspan class="TextParagraph" font-family="OpenSymbol" font-size="422px" font-style="italic" font-weight="400"><tspan class="TextPosition" x="5646" y="5882"><tspan fill="rgb(0,0,0)" stroke="none">μ</tspan></tspan></tspan></text>
+         <text class="TextShape"><tspan class="TextParagraph" font-family="Liberation Serif, serif" font-size="253px" font-weight="400"><tspan class="TextPosition" x="5910" y="5988"><tspan fill="rgb(0,0,0)" stroke="none">3</tspan></tspan></tspan></text>
+        </g>
+       </g>
+      </g>
+      <g class="OLE2">
+       <g id="id43">
+        <rect class="BoundingBox" stroke="none" fill="none" x="5540" y="4070" width="590" height="361"/>
+        <defs>
+         <clipPath id="clip_path_7" clipPathUnits="userSpaceOnUse">
+          <path d="M 5530,4075 L 6138,4075 6138,4419 5530,4419 5530,4075 Z"/>
+         </clipPath>
+        </defs>
+        <g clip-path="url(#clip_path_7)">
+         <text class="TextShape"><tspan class="TextParagraph" font-family="OpenSymbol" font-size="422px" font-style="italic" font-weight="400"><tspan class="TextPosition" x="5646" y="4282"><tspan fill="rgb(0,0,0)" stroke="none">μ</tspan></tspan></tspan></text>
+         <text class="TextShape"><tspan class="TextParagraph" font-family="Liberation Serif, serif" font-size="253px" font-weight="400"><tspan class="TextPosition" x="5910" y="4388"><tspan fill="rgb(0,0,0)" stroke="none">2</tspan></tspan></tspan></text>
+        </g>
+       </g>
+      </g>
+      <g class="OLE2">
+       <g id="id44">
+        <rect class="BoundingBox" stroke="none" fill="none" x="5540" y="2470" width="586" height="361"/>
+        <defs>
+         <clipPath id="clip_path_8" clipPathUnits="userSpaceOnUse">
+          <path d="M 5530,2461 L 6112,2461 6112,2831 5530,2831 5530,2461 Z"/>
+         </clipPath>
+        </defs>
+        <g clip-path="url(#clip_path_8)">
+         <text class="TextShape"><tspan class="TextParagraph" font-family="OpenSymbol" font-size="422px" font-style="italic" font-weight="400"><tspan class="TextPosition" x="5646" y="2682"><tspan fill="rgb(0,0,0)" stroke="none">μ</tspan></tspan></tspan></text>
+         <text class="TextShape"><tspan class="TextParagraph" font-family="Liberation Serif, serif" font-size="253px" font-weight="400"><tspan class="TextPosition" x="5910" y="2788"><tspan fill="rgb(0,0,0)" stroke="none">1</tspan></tspan></tspan></text>
+        </g>
+       </g>
+      </g>
+      <g class="OLE2">
+       <g id="id45">
+        <rect class="BoundingBox" stroke="none" fill="none" x="6941" y="2670" width="641" height="531"/>
+        <defs>
+         <clipPath id="clip_path_9" clipPathUnits="userSpaceOnUse">
+          <path d="M 6932,2672 L 7594,2672 7594,3201 6932,3201 6932,2672 Z"/>
+         </clipPath>
+        </defs>
+        <g clip-path="url(#clip_path_9)">
+         <text class="TextShape"><tspan class="TextParagraph" font-family="Liberation Serif, serif" font-size="422px" font-style="italic" font-weight="400"><tspan class="TextPosition" x="7047" y="3040"><tspan fill="rgb(0,0,0)" stroke="none">w</tspan></tspan></tspan></text>
+         <text class="TextShape"><tspan class="TextParagraph" font-family="Liberation Serif, serif" font-size="253px" font-weight="400"><tspan class="TextPosition" x="7364" y="3146"><tspan fill="rgb(0,0,0)" stroke="none">1</tspan></tspan></tspan></text>
+        </g>
+       </g>
+      </g>
+      <g class="OLE2">
+       <g id="id46">
+        <rect class="BoundingBox" stroke="none" fill="none" x="6941" y="3770" width="645" height="531"/>
+        <defs>
+         <clipPath id="clip_path_10" clipPathUnits="userSpaceOnUse">
+          <path d="M 6932,3757 L 7594,3757 7594,4313 6932,4313 6932,3757 Z"/>
+         </clipPath>
+        </defs>
+        <g clip-path="url(#clip_path_10)">
+         <text class="TextShape"><tspan class="TextParagraph" font-family="Liberation Serif, serif" font-size="422px" font-style="italic" font-weight="400"><tspan class="TextPosition" x="7047" y="4140"><tspan fill="rgb(0,0,0)" stroke="none">w</tspan></tspan></tspan></text>
+         <text class="TextShape"><tspan class="TextParagraph" font-family="Liberation Serif, serif" font-size="253px" font-weight="400"><tspan class="TextPosition" x="7364" y="4246"><tspan fill="rgb(0,0,0)" stroke="none">2</tspan></tspan></tspan></text>
+        </g>
+       </g>
+      </g>
+      <g class="OLE2">
+       <g id="id47">
+        <rect class="BoundingBox" stroke="none" fill="none" x="6941" y="4670" width="650" height="531"/>
+        <defs>
+         <clipPath id="clip_path_11" clipPathUnits="userSpaceOnUse">
+          <path d="M 6932,4683 L 7594,4683 7594,5212 6932,5212 6932,4683 Z"/>
+         </clipPath>
+        </defs>
+        <g clip-path="url(#clip_path_11)">
+         <text class="TextShape"><tspan class="TextParagraph" font-family="Liberation Serif, serif" font-size="422px" font-style="italic" font-weight="400"><tspan class="TextPosition" x="7047" y="5040"><tspan fill="rgb(0,0,0)" stroke="none">w</tspan></tspan></tspan></text>
+         <text class="TextShape"><tspan class="TextParagraph" font-family="Liberation Serif, serif" font-size="253px" font-weight="400"><tspan class="TextPosition" x="7364" y="5146"><tspan fill="rgb(0,0,0)" stroke="none">3</tspan></tspan></tspan></text>
+        </g>
+       </g>
+      </g>
+      <g class="OLE2">
+       <g id="id48">
+        <rect class="BoundingBox" stroke="none" fill="none" x="6941" y="5670" width="662" height="531"/>
+        <defs>
+         <clipPath id="clip_path_12" clipPathUnits="userSpaceOnUse">
+          <path d="M 6932,5662 L 7594,5662 7594,6191 6932,6191 6932,5662 Z"/>
+         </clipPath>
+        </defs>
+        <g clip-path="url(#clip_path_12)">
+         <text class="TextShape"><tspan class="TextParagraph" font-family="Liberation Serif, serif" font-size="422px" font-style="italic" font-weight="400"><tspan class="TextPosition" x="7047" y="6040"><tspan fill="rgb(0,0,0)" stroke="none">w</tspan></tspan></tspan></text>
+         <text class="TextShape"><tspan class="TextParagraph" font-family="Liberation Serif, serif" font-size="253px" font-weight="400"><tspan class="TextPosition" x="7364" y="6146"><tspan fill="rgb(0,0,0)" stroke="none">4</tspan></tspan></tspan></text>
+        </g>
+       </g>
+      </g>
+     </g>
+    </g>
+   </g>
+  </g>
+ </g>
+</svg>

@@ -1,0 +1,506 @@
+
+<!DOCTYPE html>
+<html lang="zh-tw,en,default">
+    
+<head>
+    <!-- hexo-inject:begin --><!-- hexo-inject:end --><meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="generator" content="Dream Maker">
+    <title>在 Julia 對設定物件欄位增加檢查 - setproperty 與 setfield - Dream Maker</title>
+    <meta name="author" content="Yueh-Hua Tu">
+    
+        <meta name="keywords" content="machine learning,deep learning,topology,">
+    
+    
+    
+        <link rel="alternate" type="application/atom+xml" title="RSS" href="/blog/atom.xml">
+    
+    <script type="application/ld+json">{"@context":"http://schema.org","@type":"BlogPosting","author":{"@type":"Person","name":"Yueh-Hua Tu","sameAs":["https://github.com/yuehhua/","https://www.facebook.com/a504082002","https://www.linkedin.com/in/%E5%B2%B3%E8%8F%AF-%E6%9D%9C-6a3995a0/","mailto:a504082002@gmail.com"],"image":"https://www.gravatar.com/avatar/a565749fba4782b717234da670b273fd"},"articleBody":"在 Julia 中存取物件的欄位的時候，設計者會想要對於存取的過程中加上一些檢查，這個想法是來自於傳統物件導向 getter/setter 的概念。\n例如，在自己設計的物件當中有兩個矩陣，這兩個矩陣可以讓使用者隨意更新，但是需要保證這兩個矩陣的維度是一致的。這個時候就需要在使用者更新矩陣的時候加入檢查，以確保兩個矩陣之間的維度是一致的，如果檢查不通過，可能會跳例外或者是不讓矩陣被更新。\n\n那如果要在 Julia 中，存取物件時加入檢查的程式碼，要怎麼辦呢？\nJulia 提供了兩個 setter 來提供設定物件的欄位：setproperty! 跟 setfield!\nsetfield! 是屬於內部的 API，這個不能覆寫，所以我們要用的是 setproperty!。\nsetproperty! 的 API 可以藉由查詢文件得知：\n1setproperty!(value, name::Symbol, x)\n也就是當你在呼叫 a.b = c 其實就會去呼叫 setproperty!(a, :b, c)。\n依據上述的例子，我們可以示範以下程式碼：\n12345678910111213141516171819202122mutable struct Foo    A::Matrix    B::Matrixendfunction setproperty!(obj::Foo, name::Symbol, x)    if name == :A        if size(obj.B) == size(x)            setfield!(obj, name, x)        else            throw(DimensionMismatch())        end    elseif name == :B        if size(obj.A) == size(x)            setfield!(obj, name, x)        else            throw(DimensionMismatch())        end    else        setfield!(obj, name, x)    endend\n這邊有幾點需要特別注意，第一是語言中的 setproperty! 第一個參數是 Any 型別，所以第一個參數一定要指定自己的型別是什麼，不然會跟語言本身的衝突。\n第二個參數吃進來的是 Symbol 型別，這個也要指定，不然會發生 ambiguous 的狀況。\n第三個參數為了廣義，所以是 Any 型別。\n函式裡頭要區分開不同的欄位，這邊用 if-else 處理。想要用多重分派的機制處理的也是可以，但會比較麻煩，而且用到 Val() 會有效能降低的現象。\n通過檢查後，要真正設定物件欄位，這邊用 setfield!(obj, name, x) 是比較好的作法。如果呼叫 obj.A = x，則會去呼叫 setproperty!(obj, :A, x)，就會變成無限遞迴呼叫了，所以 = 跟 setproperty! 在這邊都沒辦法用。\n最後，我們把要檢查的欄位都處理好之後，我們不想要動到其他的欄位設定的行為，那就讓其他的欄位都用 setfield!(obj, name, x) 處理掉吧！\n","dateCreated":"2020-10-12T11:50:07+08:00","dateModified":"2020-10-12T11:52:42+08:00","datePublished":"2020-10-12T11:50:07+08:00","description":"在 Julia 中存取物件的欄位的時候，設計者會想要對於存取的過程中加上一些檢查，這個想法是來自於傳統物件導向 getter/setter 的概念。\n例如，在自己設計的物件當中有兩個矩陣，這兩個矩陣可以讓使用者隨意更新，但是需要保證這兩個矩陣的維度是一致的。這個時候就需要在使用者更新矩陣的時候加入檢查，以確保兩個矩陣之間的維度是一致的，如果檢查不通過，可能會跳例外或者是不讓矩陣被更新。","headline":"在 Julia 對設定物件欄位增加檢查 - setproperty 與 setfield","image":[],"mainEntityOfPage":{"@type":"WebPage","@id":"https://yuehhua.github.io/blog/2020/10/12/julia-setproperty-setfield/"},"publisher":{"@type":"Organization","name":"Yueh-Hua Tu","sameAs":["https://github.com/yuehhua/","https://www.facebook.com/a504082002","https://www.linkedin.com/in/%E5%B2%B3%E8%8F%AF-%E6%9D%9C-6a3995a0/","mailto:a504082002@gmail.com"],"image":"https://www.gravatar.com/avatar/a565749fba4782b717234da670b273fd","logo":{"@type":"ImageObject","url":"https://www.gravatar.com/avatar/a565749fba4782b717234da670b273fd"}},"url":"https://yuehhua.github.io/blog/2020/10/12/julia-setproperty-setfield/"}</script>
+    <meta name="description" content="在 Julia 中存取物件的欄位的時候，設計者會想要對於存取的過程中加上一些檢查，這個想法是來自於傳統物件導向 getter&#x2F;setter 的概念。 例如，在自己設計的物件當中有兩個矩陣，這兩個矩陣可以讓使用者隨意更新，但是需要保證這兩個矩陣的維度是一致的。這個時候就需要在使用者更新矩陣的時候加入檢查，以確保兩個矩陣之間的維度是一致的，如果檢查不通過，可能會跳例外或者是不讓矩陣被更新。">
+<meta property="og:type" content="blog">
+<meta property="og:title" content="在 Julia 對設定物件欄位增加檢查 - setproperty 與 setfield">
+<meta property="og:url" content="https://yuehhua.github.io/blog/2020/10/12/julia-setproperty-setfield/index.html">
+<meta property="og:site_name" content="Dream Maker">
+<meta property="og:description" content="在 Julia 中存取物件的欄位的時候，設計者會想要對於存取的過程中加上一些檢查，這個想法是來自於傳統物件導向 getter&#x2F;setter 的概念。 例如，在自己設計的物件當中有兩個矩陣，這兩個矩陣可以讓使用者隨意更新，但是需要保證這兩個矩陣的維度是一致的。這個時候就需要在使用者更新矩陣的時候加入檢查，以確保兩個矩陣之間的維度是一致的，如果檢查不通過，可能會跳例外或者是不讓矩陣被更新。">
+<meta property="og:locale" content="zh_TW">
+<meta property="article:published_time" content="2020-10-12T03:50:07.000Z">
+<meta property="article:modified_time" content="2020-10-12T03:52:42.354Z">
+<meta property="article:author" content="Yueh-Hua Tu">
+<meta property="article:tag" content="deep learning">
+<meta property="article:tag" content="machine learning">
+<meta property="article:tag" content="topology">
+<meta name="twitter:card" content="summary">
+    
+    
+        
+    
+    
+    
+    
+    
+    <!--STYLES-->
+    
+<link rel="stylesheet" href="/blog/assets/css/style-3frockyt2j28isvdztjchy5nhkz8tjki9ermufc1ckptmvjdftux94m2ahub.min.css">
+
+    <!--STYLES END-->
+    
+    <script type="text/javascript">
+        (function (i, s, o, g, r, a, m) {
+        i['GoogleAnalyticsObject'] = r; i[r] = i[r] || function () {
+            (i[r].q = i[r].q || []).push(arguments)
+        }, i[r].l = 1 * new Date(); a = s.createElement(o),
+            m = s.getElementsByTagName(o)[0]; a.async = 1; a.src = g; m.parentNode.insertBefore(a, m)
+        })(window, document, 'script', '//www.google-analytics.com/analytics.js', 'ga');
+
+        ga('create', 'UA-119690895-1', 'auto');
+        ga('send', 'pageview');
+    </script>
+    
+    
+    
+        <script>
+            window.MathJax = {
+                tex: {
+                    inlineMath: [['$', '$'], ['\\(', '\\)']],
+                    displayMath: [['$$', '$$'], ['\\[', '\\]']],
+                    processEscapes: true,
+                    tags: 'ams'
+                },
+                options: {
+                    skipHtmlTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+                }
+            };
+        </script>
+        <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+    
+<!-- hexo injector head_end start -->
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.12.0/dist/katex.min.css">
+
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/hexo-math@4.0.0/dist/style.css">
+<!-- hexo injector head_end end --><!-- hexo-inject:begin --><!-- hexo-inject:end --></head>
+
+    <body>
+        <!-- hexo-inject:begin --><!-- hexo-inject:end --><div id="blog">
+            <!-- Define author's picture -->
+
+
+    
+
+<header id="header" data-behavior="5">
+    <i id="btn-open-sidebar" class="fa fa-lg fa-bars"></i>
+    <div class="header-title">
+        <a class="header-title-link" href="/blog/">Dream Maker</a>
+    </div>
+    
+        
+            <a  class="header-right-picture "
+                href="#about">
+        
+        
+        </a>
+    
+</header>
+
+            <!-- Define author's picture -->
+
+
+<nav id="sidebar" data-behavior="5">
+    <div class="sidebar-container">
+        
+        
+            <ul class="sidebar-buttons">
+            
+                <li class="sidebar-button">
+                    
+                        <a  class="sidebar-button-link "
+                             href="/blog/"
+                            
+                            title="首頁"
+                        >
+                    
+                        <i class="sidebar-button-icon fa fa-home" aria-hidden="true"></i>
+                        <span class="sidebar-button-desc">首頁</span>
+                    </a>
+            </li>
+            
+                <li class="sidebar-button">
+                    
+                        <a  class="sidebar-button-link "
+                             href="/blog/all-categories"
+                            
+                            title="分類"
+                        >
+                    
+                        <i class="sidebar-button-icon fa fa-bookmark" aria-hidden="true"></i>
+                        <span class="sidebar-button-desc">分類</span>
+                    </a>
+            </li>
+            
+                <li class="sidebar-button">
+                    
+                        <a  class="sidebar-button-link "
+                             href="/blog/all-tags"
+                            
+                            title="標籤"
+                        >
+                    
+                        <i class="sidebar-button-icon fa fa-tags" aria-hidden="true"></i>
+                        <span class="sidebar-button-desc">標籤</span>
+                    </a>
+            </li>
+            
+                <li class="sidebar-button">
+                    
+                        <a  class="sidebar-button-link "
+                             href="/blog/all-archives"
+                            
+                            title="所有文章"
+                        >
+                    
+                        <i class="sidebar-button-icon fa fa-archive" aria-hidden="true"></i>
+                        <span class="sidebar-button-desc">所有文章</span>
+                    </a>
+            </li>
+            
+                <li class="sidebar-button">
+                    
+                        <a  class="sidebar-button-link open-algolia-search"
+                             href="#search"
+                            
+                            title="搜尋"
+                        >
+                    
+                        <i class="sidebar-button-icon fa fa-search" aria-hidden="true"></i>
+                        <span class="sidebar-button-desc">搜尋</span>
+                    </a>
+            </li>
+            
+                <li class="sidebar-button">
+                    
+                        <a  class="sidebar-button-link "
+                             href="#about"
+                            
+                            title="關於"
+                        >
+                    
+                        <i class="sidebar-button-icon fa fa-question" aria-hidden="true"></i>
+                        <span class="sidebar-button-desc">關於</span>
+                    </a>
+            </li>
+            
+        </ul>
+        
+            <ul class="sidebar-buttons">
+            
+                <li class="sidebar-button">
+                    
+                        <a  class="sidebar-button-link " href="https://github.com/yuehhua/" target="_blank" rel="noopener" title="GitHub">
+                    
+                        <i class="sidebar-button-icon fab fa-github" aria-hidden="true"></i>
+                        <span class="sidebar-button-desc">GitHub</span>
+                    </a>
+            </li>
+            
+                <li class="sidebar-button">
+                    
+                        <a  class="sidebar-button-link " href="https://www.facebook.com/a504082002" target="_blank" rel="noopener" title="Facebook">
+                    
+                        <i class="sidebar-button-icon fab fa-facebook" aria-hidden="true"></i>
+                        <span class="sidebar-button-desc">Facebook</span>
+                    </a>
+            </li>
+            
+                <li class="sidebar-button">
+                    
+                        <a  class="sidebar-button-link " href="https://www.linkedin.com/in/%E5%B2%B3%E8%8F%AF-%E6%9D%9C-6a3995a0/" target="_blank" rel="noopener" title="LinkedIn">
+                    
+                        <i class="sidebar-button-icon fab fa-linkedin" aria-hidden="true"></i>
+                        <span class="sidebar-button-desc">LinkedIn</span>
+                    </a>
+            </li>
+            
+                <li class="sidebar-button">
+                    
+                        <a  class="sidebar-button-link " href="mailto:a504082002@gmail.com" target="_blank" rel="noopener" title="Email">
+                    
+                        <i class="sidebar-button-icon fab fa-envelope" aria-hidden="true"></i>
+                        <span class="sidebar-button-desc">Email</span>
+                    </a>
+            </li>
+            
+        </ul>
+        
+            <ul class="sidebar-buttons">
+            
+                <li class="sidebar-button">
+                    
+                        <a  class="sidebar-button-link "
+                             href="/blog/atom.xml"
+                            
+                            title="Atom"
+                        >
+                    
+                        <i class="sidebar-button-icon fa fa-rss" aria-hidden="true"></i>
+                        <span class="sidebar-button-desc">Atom</span>
+                    </a>
+            </li>
+            
+        </ul>
+        
+    </div>
+</nav>
+
+            
+            <div id="main" data-behavior="5"
+                 class="
+                        hasCoverMetaIn
+                        ">
+                
+    <article class="post">
+        
+                
+                    <div class="post-header main-content-wrap text-left">
+    
+        <h1 class="post-title">
+            在 Julia 對設定物件欄位增加檢查 - setproperty 與 setfield
+        </h1>
+    
+    
+        <div class="post-meta">
+    <time datetime="2020-10-12T11:50:07+08:00">
+	
+		    10月 12, 2020
+    	
+    </time>
+    
+        <span>分類 </span>
+        
+    <a class="category-link" href="/blog/categories/My-Style/">My Style</a>, <a class="category-link" href="/blog/categories/My-Style/Computer-Science/">Computer Science</a>, <a class="category-link" href="/blog/categories/My-Style/Computer-Science/Julialang/">Julialang</a>
+
+
+    
+</div>
+
+    
+</div>
+
+                        
+                            <div class="post-content markdown">
+                                <div class="main-content-wrap">
+                                    <p>在 Julia 中存取物件的欄位的時候，設計者會想要對於存取的過程中加上一些檢查，這個想法是來自於傳統物件導向 getter/setter 的概念。</p>
+<p>例如，在自己設計的物件當中有兩個矩陣，這兩個矩陣可以讓使用者隨意更新，但是需要保證這兩個矩陣的維度是一致的。這個時候就需要在使用者更新矩陣的時候加入檢查，以確保兩個矩陣之間的維度是一致的，如果檢查不通過，可能會跳例外或者是不讓矩陣被更新。</p>
+<span id="more"></span>
+<p>那如果要在 Julia 中，存取物件時加入檢查的程式碼，要怎麼辦呢？</p>
+<p>Julia 提供了兩個 setter 來提供設定物件的欄位：<code>setproperty!</code> 跟 <code>setfield!</code></p>
+<p><code>setfield!</code> 是屬於內部的 API，這個不能覆寫，所以我們要用的是 <code>setproperty!</code>。</p>
+<p><code>setproperty!</code> 的 API 可以藉由查詢文件得知：</p>
+<figure class="highlight julia"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">setproperty!(value, name::<span class="built_in">Symbol</span>, x)</span><br></pre></td></tr></table></figure>
+<p>也就是當你在呼叫 <code>a.b = c</code> 其實就會去呼叫 <code>setproperty!(a, :b, c)</code>。</p>
+<p>依據上述的例子，我們可以示範以下程式碼：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br></pre></td><td class="code"><pre><span class="line">mutable struct Foo</span><br><span class="line">    A::Matrix</span><br><span class="line">    B::Matrix</span><br><span class="line">end</span><br><span class="line"></span><br><span class="line">function setproperty!(obj::Foo, name::Symbol, x)</span><br><span class="line">    if name == :A</span><br><span class="line">        if size(obj.B) == size(x)</span><br><span class="line">            setfield!(obj, name, x)</span><br><span class="line">        else</span><br><span class="line">            throw(DimensionMismatch())</span><br><span class="line">        end</span><br><span class="line">    elseif name == :B</span><br><span class="line">        if size(obj.A) == size(x)</span><br><span class="line">            setfield!(obj, name, x)</span><br><span class="line">        else</span><br><span class="line">            throw(DimensionMismatch())</span><br><span class="line">        end</span><br><span class="line">    else</span><br><span class="line">        setfield!(obj, name, x)</span><br><span class="line">    end</span><br><span class="line">end</span><br></pre></td></tr></table></figure>
+<p>這邊有幾點需要特別注意，第一是語言中的 <code>setproperty!</code> 第一個參數是 <code>Any</code> 型別，所以第一個參數一定要指定自己的型別是什麼，不然會跟語言本身的衝突。</p>
+<p>第二個參數吃進來的是 <code>Symbol</code> 型別，這個也要指定，不然會發生 ambiguous 的狀況。</p>
+<p>第三個參數為了廣義，所以是 <code>Any</code> 型別。</p>
+<p>函式裡頭要區分開不同的欄位，這邊用 if-else 處理。想要用多重分派的機制處理的也是可以，但會比較麻煩，而且用到 <code>Val()</code> 會有效能降低的現象。</p>
+<p>通過檢查後，要真正設定物件欄位，這邊用 <code>setfield!(obj, name, x)</code> 是比較好的作法。如果呼叫 <code>obj.A = x</code>，則會去呼叫 <code>setproperty!(obj, :A, x)</code>，就會變成無限遞迴呼叫了，所以 <code>=</code> 跟 <code>setproperty!</code> 在這邊都沒辦法用。</p>
+<p>最後，我們把要檢查的欄位都處理好之後，我們不想要動到其他的欄位設定的行為，那就讓其他的欄位都用 <code>setfield!(obj, name, x)</code> 處理掉吧！</p>
+
+                                        
+
+                                </div>
+                            </div>
+                            <div id="post-footer" class="post-footer main-content-wrap">
+                                
+                                        
+                                            <div class="post-actions-wrap">
+    <nav>
+        <ul class="post-actions post-action-nav">
+            <li class="post-action">
+                
+                    
+                    <a class="post-action-btn btn btn--default tooltip--top" href="/blog/2020/10/19/use-threads-lock-in-julia/" data-tooltip="在 Julia 使用多執行緒跑平行運算 - threads 及 lock 的使用" aria-label="上一篇: 在 Julia 使用多執行緒跑平行運算 - threads 及 lock 的使用">
+                
+                    <i class="fa fa-angle-left" aria-hidden="true"></i>
+                    <span class="hide-xs hide-sm text-small icon-ml">上一篇</span>
+                </a>
+            </li>
+            <li class="post-action">
+                
+                    
+                    <a class="post-action-btn btn btn--default tooltip--top" href="/blog/2020/10/12/linear-regression-with-mle/" data-tooltip="Linear Regression with Maximum Likelihood Estimation" aria-label="下一篇: Linear Regression with Maximum Likelihood Estimation">
+                
+                    <span class="hide-xs hide-sm text-small icon-mr">下一篇</span>
+                    <i class="fa fa-angle-right" aria-hidden="true"></i>
+                </a>
+            </li>
+        </ul>
+    </nav>
+    <ul class="post-actions post-action-share">
+        <li class="post-action hide-lg hide-md hide-sm">
+            <a class="post-action-btn btn btn--default btn-open-shareoptions" href="#btn-open-shareoptions" aria-label="Share this post">
+                <i class="fa fa-share-alt" aria-hidden="true"></i>
+            </a>
+        </li>
+        
+            
+            
+            <li class="post-action hide-xs">
+                <a class="post-action-btn btn btn--default" target="new" href="https://www.facebook.com/sharer/sharer.php?u=https://yuehhua.github.io/blog/2020/10/12/julia-setproperty-setfield/" title="分享到 Facebook">
+                    <i class="fa fa-facebook-official" aria-hidden="true"></i>
+                </a>
+            </li>
+        
+        
+            
+        
+        <li class="post-action">
+            
+                <a class="post-action-btn btn btn--default" href="#" aria-label="Back to top">
+            
+                <i class="fa fa-list" aria-hidden="true"></i>
+            </a>
+        </li>
+    </ul>
+</div>
+
+
+                                                
+                                                    
+                                                        
+                                                                            
+                            </div>
+                            
+                                <script src='https://unpkg.com/mermaid@10.9.1/dist/mermaid.min.js'></script>
+                                <script>
+                                    if (window.mermaid) {
+                                        mermaid.initialize({ theme: 'forest' });
+                                    }
+                                </script>
+                                
+    </article>
+
+                <footer id="footer" class="main-content-wrap">
+    <span class="copyrights">
+        Copyrights &copy; 2026 Yueh-Hua Tu. All Rights Reserved.
+    </span>
+</footer>
+
+            </div>
+            
+                <div id="bottom-bar" class="post-bottom-bar" data-behavior="5">
+                    <div class="post-actions-wrap">
+    <nav>
+        <ul class="post-actions post-action-nav">
+            <li class="post-action">
+                
+                    
+                    <a class="post-action-btn btn btn--default tooltip--top" href="/blog/2020/10/19/use-threads-lock-in-julia/" data-tooltip="在 Julia 使用多執行緒跑平行運算 - threads 及 lock 的使用" aria-label="上一篇: 在 Julia 使用多執行緒跑平行運算 - threads 及 lock 的使用">
+                
+                    <i class="fa fa-angle-left" aria-hidden="true"></i>
+                    <span class="hide-xs hide-sm text-small icon-ml">上一篇</span>
+                </a>
+            </li>
+            <li class="post-action">
+                
+                    
+                    <a class="post-action-btn btn btn--default tooltip--top" href="/blog/2020/10/12/linear-regression-with-mle/" data-tooltip="Linear Regression with Maximum Likelihood Estimation" aria-label="下一篇: Linear Regression with Maximum Likelihood Estimation">
+                
+                    <span class="hide-xs hide-sm text-small icon-mr">下一篇</span>
+                    <i class="fa fa-angle-right" aria-hidden="true"></i>
+                </a>
+            </li>
+        </ul>
+    </nav>
+    <ul class="post-actions post-action-share">
+        <li class="post-action hide-lg hide-md hide-sm">
+            <a class="post-action-btn btn btn--default btn-open-shareoptions" href="#btn-open-shareoptions" aria-label="Share this post">
+                <i class="fa fa-share-alt" aria-hidden="true"></i>
+            </a>
+        </li>
+        
+            
+            
+            <li class="post-action hide-xs">
+                <a class="post-action-btn btn btn--default" target="new" href="https://www.facebook.com/sharer/sharer.php?u=https://yuehhua.github.io/blog/2020/10/12/julia-setproperty-setfield/" title="分享到 Facebook">
+                    <i class="fa fa-facebook-official" aria-hidden="true"></i>
+                </a>
+            </li>
+        
+        
+            
+        
+        <li class="post-action">
+            
+                <a class="post-action-btn btn btn--default" href="#" aria-label="Back to top">
+            
+                <i class="fa fa-list" aria-hidden="true"></i>
+            </a>
+        </li>
+    </ul>
+</div>
+
+
+                </div>
+                <div id="share-options-bar" class="share-options-bar" data-behavior="5">
+    <i id="btn-close-shareoptions" class="fa fa-close"></i>
+    <ul class="share-options">
+        
+            
+            
+            <li class="share-option">
+                <a class="share-option-btn" target="new" href="https://www.facebook.com/sharer/sharer.php?u=https://yuehhua.github.io/blog/2020/10/12/julia-setproperty-setfield/">
+                    <i class="fa fa-facebook-official" aria-hidden="true"></i><span>分享到 Facebook</span>
+                </a>
+            </li>
+        
+    </ul>
+</div>
+
+            
+        </div>
+        
+
+
+<div id="about">
+    <div id="about-card">
+        <div id="about-btn-close">
+            <i class="fa fa-remove"></i>
+        </div>
+        
+            <h4 id="about-card-name">Yueh-Hua Tu</h4>
+        
+            <div id="about-card-bio"><p>目標是計算生物學家！</br>Systems Biology, Computational Biology, Machine Learning</br>Julia Taiwan 發起人</p>
+</div>
+        
+        
+            <div id="about-card-job">
+                <i class="fa fa-briefcase"></i>
+                <br/>
+                <p>研發替代役研究助理</p>
+
+            </div>
+        
+        
+            <div id="about-card-location">
+                <i class="fa fa-map-marker"></i>
+                <br/>
+                Taiwan
+            </div>
+        
+    </div>
+</div>
+
+        
+        
+<div id="cover" style="background-image:url('/blog/assets/images/cover.jpg');"></div>
+        <!--SCRIPTS-->
+
+<script src="/blog/assets/js/script-xzfezjobyekpxrjktw5tz6muvzqfsbmo5n6atk3p5om9ulfptldi3p7cyqd8.min.js"></script>
+
+<!--SCRIPTS END--><!-- hexo-inject:begin --><!-- hexo-inject:end -->
+
+
+
+
+    </body>
+</html>

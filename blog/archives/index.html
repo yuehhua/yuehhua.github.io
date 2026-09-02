@@ -1,0 +1,812 @@
+
+<!DOCTYPE html>
+<html lang="zh-tw,en,default">
+    
+<head>
+    <!-- hexo-inject:begin --><!-- hexo-inject:end --><meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="generator" content="Dream Maker">
+    <title>所有文章 - Dream Maker</title>
+    <meta name="author" content="Yueh-Hua Tu">
+    
+        <meta name="keywords" content="machine learning,deep learning,topology,">
+    
+    
+    
+        <link rel="alternate" type="application/atom+xml" title="RSS" href="/blog/atom.xml">
+    
+    <script type="application/ld+json">{}</script>
+    <meta property="og:type" content="blog">
+<meta property="og:title" content="Dream Maker">
+<meta property="og:url" content="https://yuehhua.github.io/blog/archives/index.html">
+<meta property="og:site_name" content="Dream Maker">
+<meta property="og:locale" content="zh_TW">
+<meta property="article:author" content="Yueh-Hua Tu">
+<meta property="article:tag" content="deep learning">
+<meta property="article:tag" content="machine learning">
+<meta property="article:tag" content="topology">
+<meta name="twitter:card" content="summary">
+    
+    
+        
+    
+    
+    
+    
+    
+    <!--STYLES-->
+    
+<link rel="stylesheet" href="/blog/assets/css/style-3frockyt2j28isvdztjchy5nhkz8tjki9ermufc1ckptmvjdftux94m2ahub.min.css">
+
+    <!--STYLES END-->
+    
+    <script type="text/javascript">
+        (function (i, s, o, g, r, a, m) {
+        i['GoogleAnalyticsObject'] = r; i[r] = i[r] || function () {
+            (i[r].q = i[r].q || []).push(arguments)
+        }, i[r].l = 1 * new Date(); a = s.createElement(o),
+            m = s.getElementsByTagName(o)[0]; a.async = 1; a.src = g; m.parentNode.insertBefore(a, m)
+        })(window, document, 'script', '//www.google-analytics.com/analytics.js', 'ga');
+
+        ga('create', 'UA-119690895-1', 'auto');
+        ga('send', 'pageview');
+    </script>
+    
+    
+    
+        <script>
+            window.MathJax = {
+                tex: {
+                    inlineMath: [['$', '$'], ['\\(', '\\)']],
+                    displayMath: [['$$', '$$'], ['\\[', '\\]']],
+                    processEscapes: true,
+                    tags: 'ams'
+                },
+                options: {
+                    skipHtmlTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+                }
+            };
+        </script>
+        <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+    
+<!-- hexo injector head_end start -->
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.12.0/dist/katex.min.css">
+
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/hexo-math@4.0.0/dist/style.css">
+<!-- hexo injector head_end end --><!-- hexo-inject:begin --><!-- hexo-inject:end --></head>
+
+    <body>
+        <!-- hexo-inject:begin --><!-- hexo-inject:end --><div id="blog">
+            <!-- Define author's picture -->
+
+
+    
+
+<header id="header" data-behavior="2">
+    <i id="btn-open-sidebar" class="fa fa-lg fa-bars"></i>
+    <div class="header-title">
+        <a class="header-title-link" href="/blog/">Dream Maker</a>
+    </div>
+    
+        
+            <a  class="header-right-picture "
+                href="#about">
+        
+        
+        </a>
+    
+</header>
+
+            <!-- Define author's picture -->
+
+
+<nav id="sidebar" data-behavior="2">
+    <div class="sidebar-container">
+        
+        
+            <ul class="sidebar-buttons">
+            
+                <li class="sidebar-button">
+                    
+                        <a  class="sidebar-button-link "
+                             href="/blog/"
+                            
+                            title="首頁"
+                        >
+                    
+                        <i class="sidebar-button-icon fa fa-home" aria-hidden="true"></i>
+                        <span class="sidebar-button-desc">首頁</span>
+                    </a>
+            </li>
+            
+                <li class="sidebar-button">
+                    
+                        <a  class="sidebar-button-link "
+                             href="/blog/all-categories"
+                            
+                            title="分類"
+                        >
+                    
+                        <i class="sidebar-button-icon fa fa-bookmark" aria-hidden="true"></i>
+                        <span class="sidebar-button-desc">分類</span>
+                    </a>
+            </li>
+            
+                <li class="sidebar-button">
+                    
+                        <a  class="sidebar-button-link "
+                             href="/blog/all-tags"
+                            
+                            title="標籤"
+                        >
+                    
+                        <i class="sidebar-button-icon fa fa-tags" aria-hidden="true"></i>
+                        <span class="sidebar-button-desc">標籤</span>
+                    </a>
+            </li>
+            
+                <li class="sidebar-button">
+                    
+                        <a  class="sidebar-button-link "
+                             href="/blog/all-archives"
+                            
+                            title="所有文章"
+                        >
+                    
+                        <i class="sidebar-button-icon fa fa-archive" aria-hidden="true"></i>
+                        <span class="sidebar-button-desc">所有文章</span>
+                    </a>
+            </li>
+            
+                <li class="sidebar-button">
+                    
+                        <a  class="sidebar-button-link open-algolia-search"
+                             href="#search"
+                            
+                            title="搜尋"
+                        >
+                    
+                        <i class="sidebar-button-icon fa fa-search" aria-hidden="true"></i>
+                        <span class="sidebar-button-desc">搜尋</span>
+                    </a>
+            </li>
+            
+                <li class="sidebar-button">
+                    
+                        <a  class="sidebar-button-link "
+                             href="#about"
+                            
+                            title="關於"
+                        >
+                    
+                        <i class="sidebar-button-icon fa fa-question" aria-hidden="true"></i>
+                        <span class="sidebar-button-desc">關於</span>
+                    </a>
+            </li>
+            
+        </ul>
+        
+            <ul class="sidebar-buttons">
+            
+                <li class="sidebar-button">
+                    
+                        <a  class="sidebar-button-link " href="https://github.com/yuehhua/" target="_blank" rel="noopener" title="GitHub">
+                    
+                        <i class="sidebar-button-icon fab fa-github" aria-hidden="true"></i>
+                        <span class="sidebar-button-desc">GitHub</span>
+                    </a>
+            </li>
+            
+                <li class="sidebar-button">
+                    
+                        <a  class="sidebar-button-link " href="https://www.facebook.com/a504082002" target="_blank" rel="noopener" title="Facebook">
+                    
+                        <i class="sidebar-button-icon fab fa-facebook" aria-hidden="true"></i>
+                        <span class="sidebar-button-desc">Facebook</span>
+                    </a>
+            </li>
+            
+                <li class="sidebar-button">
+                    
+                        <a  class="sidebar-button-link " href="https://www.linkedin.com/in/%E5%B2%B3%E8%8F%AF-%E6%9D%9C-6a3995a0/" target="_blank" rel="noopener" title="LinkedIn">
+                    
+                        <i class="sidebar-button-icon fab fa-linkedin" aria-hidden="true"></i>
+                        <span class="sidebar-button-desc">LinkedIn</span>
+                    </a>
+            </li>
+            
+                <li class="sidebar-button">
+                    
+                        <a  class="sidebar-button-link " href="mailto:a504082002@gmail.com" target="_blank" rel="noopener" title="Email">
+                    
+                        <i class="sidebar-button-icon fab fa-envelope" aria-hidden="true"></i>
+                        <span class="sidebar-button-desc">Email</span>
+                    </a>
+            </li>
+            
+        </ul>
+        
+            <ul class="sidebar-buttons">
+            
+                <li class="sidebar-button">
+                    
+                        <a  class="sidebar-button-link "
+                             href="/blog/atom.xml"
+                            
+                            title="Atom"
+                        >
+                    
+                        <i class="sidebar-button-icon fa fa-rss" aria-hidden="true"></i>
+                        <span class="sidebar-button-desc">Atom</span>
+                    </a>
+            </li>
+            
+        </ul>
+        
+    </div>
+</nav>
+
+            
+            <div id="main" data-behavior="2"
+                 class="
+                        hasCoverMetaIn
+                        ">
+                
+    <section class="postShorten-group main-content-wrap">
+    
+    
+    <article class="postShorten postShorten--thumbnailimg-right">
+        <div class="postShorten-wrap">
+            
+            <div class="postShorten-header">
+                <h1 class="postShorten-title">
+                    
+                        <a class="link-unstyled" href="/blog/2026/09/02/03-from-linear-regression-to-perceptron/">
+                            03 從線性迴歸到感知器
+                        </a>
+                    
+                </h1>
+                <div class="postShorten-meta">
+    <time datetime="2026-09-02T12:02:26+08:00">
+	
+		    9月 02, 2026
+    	
+    </time>
+    
+        <span>分類 </span>
+        
+    <a class="category-link" href="/blog/categories/Machine-Learning/">Machine Learning</a>, <a class="category-link" href="/blog/categories/Machine-Learning/%E6%A9%9F%E5%99%A8%E5%AD%B8%E7%BF%92%E6%A8%A1%E5%9E%8B%E5%9C%96%E6%9B%B8%E9%A4%A8%EF%BC%9A%E5%BE%9E%E5%82%B3%E7%B5%B1%E6%A8%A1%E5%9E%8B%E5%88%B0%E6%B7%B1%E5%BA%A6%E5%AD%B8%E7%BF%92/">機器學習模型圖書館：從傳統模型到深度學習</a>
+
+
+    
+</div>
+
+            </div>
+            
+                <div class="postShorten-excerpt">
+                    <p>感知器（perceptron）是在 1957 年就被發明出來的的模型，對電腦的發展或是人工智慧來說都是非常早期的。</p>
+<p>感知器模型他是一個二元分類的分類器，他解的是分類問題。相對我們前面的線性迴歸解的是迴歸問題，兩者在問題的定義上有根本性的不一樣，那他們兩個有什麼關聯性呢？</p>
+                    
+                        <a href="/blog/2026/09/02/03-from-linear-regression-to-perceptron/" class="postShorten-excerpt_link link">
+                            繼續閱讀
+                        </a>
+                        
+                    
+                </div>
+            
+        </div>
+        
+    </article>
+    
+    
+    <article class="postShorten postShorten--thumbnailimg-bottom">
+        <div class="postShorten-wrap">
+            
+            <div class="postShorten-header">
+                <h1 class="postShorten-title">
+                    
+                        <a class="link-unstyled" href="/blog/2021/11/17/fix-random-numbers-in-threads/">
+                            要如何固定 Julia 執行緒中的亂數？
+                        </a>
+                    
+                </h1>
+                <div class="postShorten-meta">
+    <time datetime="2021-11-17T09:50:30+08:00">
+	
+		    11月 17, 2021
+    	
+    </time>
+    
+        <span>分類 </span>
+        
+    <a class="category-link" href="/blog/categories/My-Style/">My Style</a>, <a class="category-link" href="/blog/categories/My-Style/Computer-Science/">Computer Science</a>, <a class="category-link" href="/blog/categories/My-Style/Computer-Science/Julialang/">Julialang</a>
+
+
+    
+</div>
+
+            </div>
+            
+                <div class="postShorten-content">
+                    <p>一般設定 random seed 的方式則像以下的程式碼：</p>
+<figure class="highlight julia"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">using</span> Random</span><br><span class="line">Random.seed!(<span class="number">0</span>)</span><br></pre></td></tr></table></figure>
+<p>所以我們可以得出一個隨機矩陣看起來像是這樣。</p>
+<figure class="highlight julia"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">julia&gt; rand(<span class="number">5</span>, <span class="number">5</span>)</span><br><span class="line"><span class="number">5</span>×<span class="number">5</span> <span class="built_in">Matrix</span>&#123;<span class="built_in">Float64</span>&#125;:</span><br><span class="line"> <span class="number">0.823648</span>  <span class="number">0.203477</span>   <span class="number">0.585812</span>  <span class="number">0.655448</span>  <span class="number">0.469304</span></span><br><span class="line"> <span class="number">0.910357</span>  <span class="number">0.0423017</span>  <span class="number">0.539289</span>  <span class="number">0.575887</span>  <span class="number">0.0623676</span></span><br><span class="line"> <span class="number">0.164566</span>  <span class="number">0.0682693</span>  <span class="number">0.260036</span>  <span class="number">0.868279</span>  <span class="number">0.353129</span></span><br><span class="line"> <span class="number">0.177329</span>  <span class="number">0.361828</span>   <span class="number">0.910047</span>  <span class="number">0.9678</span>    <span class="number">0.767602</span></span><br><span class="line"> <span class="number">0.27888</span>   <span class="number">0.973216</span>   <span class="number">0.167036</span>  <span class="number">0.76769</span>   <span class="number">0.043141</span></span><br></pre></td></tr></table></figure>
+<p>如果我們要對每個執行緒都設定同樣的 random seed，那就可以在每個執行緒內直接設定即可。</p>
+<figure class="highlight julia"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">Threads.<span class="meta">@threads</span> <span class="keyword">for</span> i <span class="keyword">in</span> <span class="number">1</span>:<span class="number">5</span></span><br><span class="line">    Random.seed!(<span class="number">0</span>)</span><br><span class="line">    tid = Threads.threadid()</span><br><span class="line">    println(tid, <span class="string">&quot;: &quot;</span>, rand(<span class="number">5</span>, <span class="number">5</span>))</span><br><span class="line"><span class="keyword">end</span></span><br></pre></td></tr></table></figure>
+<p>所以每個執行緒內印出來的矩陣就會像這樣。</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">5: [0.8236475079774124 0.20347655804192266 0.5858115517433242 0.6554484126999125 0.46930370935301835; 0.9103565379264364 0.042301665932029664 0.5392892841426182 0.5758873948500367 0.06236755817015882; 0.16456579813368521 0.06826925550564478 0.26003585026904785 0.8682787096942046 0.35312877270491705; 0.17732884646626457 0.3618283907762174 0.910046541351011 0.9677995536192001 0.767601895961374; 0.278880109331201 0.9732164043865108 0.16703619444214968 0.7676903325581188 0.043141023329413164]</span><br><span class="line">2: [0.8236475079774124 0.20347655804192266 0.5858115517433242 0.6554484126999125 0.46930370935301835; 0.9103565379264364 0.042301665932029664 0.5392892841426182 0.5758873948500367 0.06236755817015882; 0.16456579813368521 0.06826925550564478 0.26003585026904785 0.8682787096942046 0.35312877270491705; 0.17732884646626457 0.3618283907762174 0.910046541351011 0.9677995536192001 0.767601895961374; 0.278880109331201 0.9732164043865108 0.16703619444214968 0.7676903325581188 0.043141023329413164]</span><br><span class="line">4: [0.8236475079774124 0.20347655804192266 0.5858115517433242 0.6554484126999125 0.46930370935301835; 0.9103565379264364 0.042301665932029664 0.5392892841426182 0.5758873948500367 0.06236755817015882; 0.16456579813368521 0.06826925550564478 0.26003585026904785 0.8682787096942046 0.35312877270491705; 0.17732884646626457 0.3618283907762174 0.910046541351011 0.9677995536192001 0.767601895961374; 0.278880109331201 0.9732164043865108 0.16703619444214968 0.7676903325581188 0.043141023329413164]</span><br><span class="line">3: [0.8236475079774124 0.20347655804192266 0.5858115517433242 0.6554484126999125 0.46930370935301835; 0.9103565379264364 0.042301665932029664 0.5392892841426182 0.5758873948500367 0.06236755817015882; 0.16456579813368521 0.06826925550564478 0.26003585026904785 0.8682787096942046 0.35312877270491705; 0.17732884646626457 0.3618283907762174 0.910046541351011 0.9677995536192001 0.767601895961374; 0.278880109331201 0.9732164043865108 0.16703619444214968 0.7676903325581188 0.043141023329413164]</span><br><span class="line">1: [0.8236475079774124 0.20347655804192266 0.5858115517433242 0.6554484126999125 0.46930370935301835; 0.9103565379264364 0.042301665932029664 0.5392892841426182 0.5758873948500367 0.06236755817015882; 0.16456579813368521 0.06826925550564478 0.26003585026904785 0.8682787096942046 0.35312877270491705; 0.17732884646626457 0.3618283907762174 0.910046541351011 0.9677995536192001 0.767601895961374; 0.278880109331201 0.9732164043865108 0.16703619444214968 0.7676903325581188 0.043141023329413164]</span><br></pre></td></tr></table></figure>
+
+                    
+                        
+
+                    
+                    
+                        <p>
+                            <a href="/blog/2021/11/17/fix-random-numbers-in-threads/#post-footer" class="postShorten-excerpt_link link">
+                                留言與分享
+                            </a>
+                        </p>
+                    
+                </div>
+            
+        </div>
+        
+    </article>
+    
+    
+    <article class="postShorten postShorten--thumbnailimg-bottom">
+        <div class="postShorten-wrap">
+            
+            <div class="postShorten-header">
+                <h1 class="postShorten-title">
+                    
+                        <a class="link-unstyled" href="/blog/2021/10/14/replace-isa-check-by-multiple-dispatch/">
+                            用多重分派來取代型別檢查
+                        </a>
+                    
+                </h1>
+                <div class="postShorten-meta">
+    <time datetime="2021-10-14T09:50:14+08:00">
+	
+		    10月 14, 2021
+    	
+    </time>
+    
+        <span>分類 </span>
+        
+    <a class="category-link" href="/blog/categories/My-Style/">My Style</a>, <a class="category-link" href="/blog/categories/My-Style/Computer-Science/">Computer Science</a>, <a class="category-link" href="/blog/categories/My-Style/Computer-Science/Julialang/">Julialang</a>
+
+
+    
+</div>
+
+            </div>
+            
+                <div class="postShorten-content">
+                    <p>多重分派（multiple dispatch）是 Julia 語言中相當重要的程式典範。多重分派的例子在 Julia 的套建中相當多見，其中一個應用就是用來取代型別檢查。</p>
+<p>在一般的程式中有相當多的型別檢查的片段，在 Julia 中可能會寫成這樣：</p>
+<figure class="highlight julia"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">function</span> foo(x)</span><br><span class="line">    <span class="keyword">if</span> x <span class="keyword">isa</span> <span class="built_in">Int</span></span><br><span class="line">        <span class="comment"># do something</span></span><br><span class="line">    <span class="keyword">elseif</span> x <span class="keyword">isa</span> <span class="built_in">String</span></span><br><span class="line">        <span class="comment"># do another things</span></span><br><span class="line">    <span class="keyword">elseif</span> x <span class="keyword">isa</span> <span class="built_in">Float64</span></span><br><span class="line">        <span class="comment"># do other things</span></span><br><span class="line">    <span class="keyword">end</span></span><br><span class="line"><span class="keyword">end</span></span><br></pre></td></tr></table></figure>
+<p>在 Julia 中這樣寫當然是可以，但是這樣就失去了用 Julia 的優勢，可以將他用多重分派進行改寫。</p>
+<figure class="highlight julia"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">function</span> foo(x::<span class="built_in">Int</span>)</span><br><span class="line">    <span class="comment"># do something</span></span><br><span class="line"><span class="keyword">end</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">function</span> foo(x::<span class="built_in">String</span>)</span><br><span class="line">    <span class="comment"># do another things</span></span><br><span class="line"><span class="keyword">end</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">function</span> foo(x::<span class="built_in">Float64</span>)</span><br><span class="line">    <span class="comment"># do other things</span></span><br><span class="line"><span class="keyword">end</span></span><br></pre></td></tr></table></figure>
+<p>看起來好像只是將他分成三隻函式而已，沒什麼了不起的吧？</p>
+<p>不不不，光是將他分成三隻函式，就足以讓 <code>if...else</code> 結構中的程式馬可以分別被編譯，成為效能更好的程式碼。在編譯的過程中，也由於有充足的引數型別的資訊，所以會編譯出更好的程式。</p>
+<p>更值得一提的是，在軟體工程上也是有好處的，他符合軟體工程的開放封閉原則，對新增功能開放、對修改現有功能關閉，要支援新的型別只需要增加新的函式，並不用去修改現有的 <code>if...else</code> 結構，可以避免新增功能的同時去動到舊有的功能。</p>
+<p>在演算法上也可以依據不同的型別做分離，可以將他看能完全不同的演算法，演算法之間不會混雜在一起。</p>
+<p>所以這就是善用 Julia 的多重分派來改寫型別檢查的範例。</p>
+
+                    
+                        
+
+                    
+                    
+                        <p>
+                            <a href="/blog/2021/10/14/replace-isa-check-by-multiple-dispatch/#post-footer" class="postShorten-excerpt_link link">
+                                留言與分享
+                            </a>
+                        </p>
+                    
+                </div>
+            
+        </div>
+        
+    </article>
+    
+    
+    <article class="postShorten postShorten--thumbnailimg-bottom">
+        <div class="postShorten-wrap">
+            
+            <div class="postShorten-header">
+                <h1 class="postShorten-title">
+                    
+                        <a class="link-unstyled" href="/blog/2021/10/14/parametric-return-type/">
+                            參數化回傳值
+                        </a>
+                    
+                </h1>
+                <div class="postShorten-meta">
+    <time datetime="2021-10-14T09:30:50+08:00">
+	
+		    10月 14, 2021
+    	
+    </time>
+    
+        <span>分類 </span>
+        
+    <a class="category-link" href="/blog/categories/My-Style/">My Style</a>, <a class="category-link" href="/blog/categories/My-Style/Computer-Science/">Computer Science</a>, <a class="category-link" href="/blog/categories/My-Style/Computer-Science/Julialang/">Julialang</a>
+
+
+    
+</div>
+
+            </div>
+            
+                <div class="postShorten-content">
+                    <p>一般我們會在函式的引數上加上參數，這樣可以讓函式去推論引數的型別，這樣有多種用途，其中之一當然是增進效能。</p>
+<figure class="highlight julia"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">julia&gt; foo(a::T) <span class="keyword">where</span> &#123;T&#125; = zero(T)</span><br><span class="line">foo (generic <span class="keyword">function</span> with <span class="number">1</span> method)</span><br><span class="line"></span><br><span class="line">julia&gt; foo(<span class="number">5</span>)</span><br><span class="line"><span class="number">0</span></span><br></pre></td></tr></table></figure>
+<p>那我們有沒有辦法對回傳值的型別做參數化呢？</p>
+<p>有的，可以這樣做。</p>
+<figure class="highlight julia"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">julia&gt; (foo(a::T)::T) <span class="keyword">where</span> &#123;T&#125; = zero(T)</span><br><span class="line">foo (generic <span class="keyword">function</span> with <span class="number">1</span> method)</span><br><span class="line"></span><br><span class="line">julia&gt; foo(<span class="number">5</span>)</span><br><span class="line"><span class="number">0</span></span><br></pre></td></tr></table></figure>
+<p>一般要標記回傳值的型別，要寫在整個 function signature 的後面，也就是</p>
+<figure class="highlight julia"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">foo(a)::<span class="built_in">Int</span></span><br></pre></td></tr></table></figure>
+<p>如果要將他標記為參數，那就需要寫成</p>
+<figure class="highlight julia"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">(foo(a)::T) <span class="keyword">where</span> &#123;T&#125;</span><br></pre></td></tr></table></figure>
+<p>這樣就寫出來啦！！</p>
+
+                    
+                        
+
+                    
+                    
+                        <p>
+                            <a href="/blog/2021/10/14/parametric-return-type/#post-footer" class="postShorten-excerpt_link link">
+                                留言與分享
+                            </a>
+                        </p>
+                    
+                </div>
+            
+        </div>
+        
+    </article>
+    
+    
+    <article class="postShorten postShorten--thumbnailimg-right">
+        <div class="postShorten-wrap">
+            
+            <div class="postShorten-header">
+                <h1 class="postShorten-title">
+                    
+                        <a class="link-unstyled" href="/blog/2021/05/25/how-to-use-julia-debugger/">
+                            要怎麼用 Julia debugger？
+                        </a>
+                    
+                </h1>
+                <div class="postShorten-meta">
+    <time datetime="2021-05-25T16:27:28+08:00">
+	
+		    5月 25, 2021
+    	
+    </time>
+    
+        <span>分類 </span>
+        
+    <a class="category-link" href="/blog/categories/My-Style/">My Style</a>, <a class="category-link" href="/blog/categories/My-Style/Computer-Science/">Computer Science</a>, <a class="category-link" href="/blog/categories/My-Style/Computer-Science/Julialang/">Julialang</a>
+
+
+    
+</div>
+
+            </div>
+            
+                <div class="postShorten-excerpt">
+                    <p>有鑑於 Debugger.jl 的說明文件有點難懂，就自己來寫一篇教學。</p>
+<p>Debugger.jl 是在 Julia 上，由官方開發及維護的除錯器（debugger），debugger 如同其他語言的 debugger 一樣，可以預先設定斷點（breakpoint）、在丟出例外（exception）時停下來、逐行執行及檢查變數等等功能。這篇文章會示範最基礎的 debugger 的用法。</p>
+                    
+                        <a href="/blog/2021/05/25/how-to-use-julia-debugger/" class="postShorten-excerpt_link link">
+                            繼續閱讀
+                        </a>
+                        
+                    
+                </div>
+            
+        </div>
+        
+    </article>
+    
+    
+    <article class="postShorten postShorten--thumbnailimg-right">
+        <div class="postShorten-wrap">
+            
+            <div class="postShorten-header">
+                <h1 class="postShorten-title">
+                    
+                        <a class="link-unstyled" href="/blog/2021/05/22/namespace-in-julia/">
+                            Julia 的命名空間
+                        </a>
+                    
+                </h1>
+                <div class="postShorten-meta">
+    <time datetime="2021-05-22T00:37:40+08:00">
+	
+		    5月 22, 2021
+    	
+    </time>
+    
+        <span>分類 </span>
+        
+    <a class="category-link" href="/blog/categories/My-Style/">My Style</a>, <a class="category-link" href="/blog/categories/My-Style/Computer-Science/">Computer Science</a>, <a class="category-link" href="/blog/categories/My-Style/Computer-Science/Julialang/">Julialang</a>
+
+
+    
+</div>
+
+            </div>
+            
+                <div class="postShorten-excerpt">
+                    <p>基本上，我們知道 Julia 的命名空間的概念不是很強，命名空間的概念是由模組（module）所建構的。</p>
+<p>介紹模組前先要介紹幾個比較基本的語法：<code>using</code>、<code>import</code> 跟 <code>include</code>。</p>
+                    
+                        <a href="/blog/2021/05/22/namespace-in-julia/" class="postShorten-excerpt_link link">
+                            繼續閱讀
+                        </a>
+                        
+                    
+                </div>
+            
+        </div>
+        
+    </article>
+    
+    
+    <article class="postShorten postShorten--thumbnailimg-right">
+        <div class="postShorten-wrap">
+            
+            <div class="postShorten-header">
+                <h1 class="postShorten-title">
+                    
+                        <a class="link-unstyled" href="/blog/2021/04/19/corresponding-packages-in-julia-and-python/">
+                            Python 與 Julia 相對應的套件
+                        </a>
+                    
+                </h1>
+                <div class="postShorten-meta">
+    <time datetime="2021-04-19T11:16:56+08:00">
+	
+		    4月 19, 2021
+    	
+    </time>
+    
+        <span>分類 </span>
+        
+    <a class="category-link" href="/blog/categories/My-Style/">My Style</a>, <a class="category-link" href="/blog/categories/My-Style/Computer-Science/">Computer Science</a>, <a class="category-link" href="/blog/categories/My-Style/Computer-Science/Julialang/">Julialang</a>
+
+
+    
+</div>
+
+            </div>
+            
+                <div class="postShorten-excerpt">
+                    <p>最近有遇到業界的工程師對 Julia 有點好奇，提了一些問題。</p>
+<p>在 Python 到 Julia 的轉換路上，常常不知道原本在 Python 用慣的套件，在 Julia 中要去哪裡找？</p>
+                    
+                        <a href="/blog/2021/04/19/corresponding-packages-in-julia-and-python/" class="postShorten-excerpt_link link">
+                            繼續閱讀
+                        </a>
+                        
+                    
+                </div>
+            
+        </div>
+        
+    </article>
+    
+    
+    <article class="postShorten postShorten--thumbnailimg-right">
+        <div class="postShorten-wrap">
+            
+            <div class="postShorten-header">
+                <h1 class="postShorten-title">
+                    
+                        <a class="link-unstyled" href="/blog/2021/04/04/julia-package-version/">
+                            Julia 的版本與套件版本
+                        </a>
+                    
+                </h1>
+                <div class="postShorten-meta">
+    <time datetime="2021-04-04T01:20:56+08:00">
+	
+		    4月 04, 2021
+    	
+    </time>
+    
+        <span>分類 </span>
+        
+    <a class="category-link" href="/blog/categories/My-Style/">My Style</a>, <a class="category-link" href="/blog/categories/My-Style/Computer-Science/">Computer Science</a>, <a class="category-link" href="/blog/categories/My-Style/Computer-Science/Julialang/">Julialang</a>
+
+
+    
+</div>
+
+            </div>
+            
+                <div class="postShorten-excerpt">
+                    <p>常常開發者會需要在，使用者使用不同的語言版本或是套件版本，做不同的處置，有可能是安裝不同的函式庫，或是設定不同的參數。這時候要在程式中自動取得目前的語言版本或是特定套件的版本就很重要。Julia 語言本身就有內建版本字串可以使用，它可以用來比較版本的差異或是大小。</p>
+                    
+                        <a href="/blog/2021/04/04/julia-package-version/" class="postShorten-excerpt_link link">
+                            繼續閱讀
+                        </a>
+                        
+                    
+                </div>
+            
+        </div>
+        
+    </article>
+    
+    
+    <article class="postShorten postShorten--thumbnailimg-right">
+        <div class="postShorten-wrap">
+            
+            <div class="postShorten-header">
+                <h1 class="postShorten-title">
+                    
+                        <a class="link-unstyled" href="/blog/2021/04/04/julia-v1-6-release/">
+                            Julia v1.6 釋出！新功能介紹！
+                        </a>
+                    
+                </h1>
+                <div class="postShorten-meta">
+    <time datetime="2021-04-04T01:04:33+08:00">
+	
+		    4月 04, 2021
+    	
+    </time>
+    
+        <span>分類 </span>
+        
+    <a class="category-link" href="/blog/categories/My-Style/">My Style</a>, <a class="category-link" href="/blog/categories/My-Style/Computer-Science/">Computer Science</a>, <a class="category-link" href="/blog/categories/My-Style/Computer-Science/Julialang/">Julialang</a>
+
+
+    
+</div>
+
+            </div>
+            
+                <div class="postShorten-excerpt">
+                    <!-- toc -->
+<p>在 v1.6 版中，Julia 有大幅度的效能提昇，效能提昇的部份著重在於預編譯（precompilation）以及編譯的效能改進，而 v1.6 版將成為下一個長期支援（long-term support, LTS）的版本。</p>
+<p>根據<a href="https://julialang.org/blog/2021/03/julia-1.6-highlights/">官方部落格</a>，本次版本更新引進了眾多新的技術，包含 parallel precompilation、消除重複編譯、降低編譯器的 latency、加速二進位檔案的載入，以及改善 stacktrace 的格式等等重大的功能。那我們就來詳細看看有哪些更新吧！</p>
+                    
+                        <a href="/blog/2021/04/04/julia-v1-6-release/" class="postShorten-excerpt_link link">
+                            繼續閱讀
+                        </a>
+                        
+                    
+                </div>
+            
+        </div>
+        
+    </article>
+    
+    
+    <article class="postShorten postShorten--thumbnailimg-right">
+        <div class="postShorten-wrap">
+            
+            <div class="postShorten-header">
+                <h1 class="postShorten-title">
+                    
+                        <a class="link-unstyled" href="/blog/2021/03/28/the-future-of-julialang/">
+                            Julia 語言的未來性
+                        </a>
+                    
+                </h1>
+                <div class="postShorten-meta">
+    <time datetime="2021-03-28T22:51:51+08:00">
+	
+		    3月 28, 2021
+    	
+    </time>
+    
+        <span>分類 </span>
+        
+    <a class="category-link" href="/blog/categories/My-Style/">My Style</a>, <a class="category-link" href="/blog/categories/My-Style/Computer-Science/">Computer Science</a>, <a class="category-link" href="/blog/categories/My-Style/Computer-Science/Julialang/">Julialang</a>
+
+
+    
+</div>
+
+            </div>
+            
+                <div class="postShorten-excerpt">
+                    <a data-fancybox data-src="/images/covers/Nyvq2juw4_o-unsplash.jpg">
+	<img src="/images/covers/Nyvq2juw4_o-unsplash.jpg" alt="" />
+</a>
+<!-- toc -->
+<p>Julia 作為一個新興的語言，他有眾多的優點，他不僅執行快速，而且像 python 一樣，是動態語言非常容易上手好寫。Julia 本身的套件管理系統也具有足夠高的再現性（reproducible），並且自動安裝內含編譯過的函式庫檔案。作為一個泛用性以及開源的程式語言，這些特色帶來許多優點。</p>
+<p>隨著今日科學社群不斷的擴大，科學計算與數值計算相關的軟體也不斷的發展，Julia 作為一個以科學計算為目的的語言，不僅融合了現代的科學計算工具、新穎的演算法、優異的性能，以及平易近人的語法。由於 Julia 優異的語法設計，搭配多重分派以及型別系統，讓獨到的即時編譯（just-in-time compilation）變得自然，型別推斷讓 Julia 的速度得以提升。</p>
+                    
+                        <a href="/blog/2021/03/28/the-future-of-julialang/" class="postShorten-excerpt_link link">
+                            繼續閱讀
+                        </a>
+                        
+                    
+                </div>
+            
+        </div>
+        
+    </article>
+    
+    <div class="pagination-bar">
+    <ul class="pagination">
+        
+        
+          <li class="pagination-next">
+            <a class="btn btn--default btn--small" href="/blog/archives/page/2/">
+              <span>下一頁</span>
+              <i class="fa fa-angle-right text-base icon-ml"></i>
+            </a>
+          </li>
+        
+        <li class="pagination-number">第 1 頁 共 13 頁</li>
+    </ul>
+</div>
+
+</section>
+
+
+
+                <footer id="footer" class="main-content-wrap">
+    <span class="copyrights">
+        Copyrights &copy; 2026 Yueh-Hua Tu. All Rights Reserved.
+    </span>
+</footer>
+
+            </div>
+            
+        </div>
+        
+
+
+<div id="about">
+    <div id="about-card">
+        <div id="about-btn-close">
+            <i class="fa fa-remove"></i>
+        </div>
+        
+            <h4 id="about-card-name">Yueh-Hua Tu</h4>
+        
+            <div id="about-card-bio"><p>目標是計算生物學家！</br>Systems Biology, Computational Biology, Machine Learning</br>Julia Taiwan 發起人</p>
+</div>
+        
+        
+            <div id="about-card-job">
+                <i class="fa fa-briefcase"></i>
+                <br/>
+                <p>研發替代役研究助理</p>
+
+            </div>
+        
+        
+            <div id="about-card-location">
+                <i class="fa fa-map-marker"></i>
+                <br/>
+                Taiwan
+            </div>
+        
+    </div>
+</div>
+
+        
+        
+<div id="cover" style="background-image:url('/blog/assets/images/cover.jpg');"></div>
+        <!--SCRIPTS-->
+
+<script src="/blog/assets/js/script-xzfezjobyekpxrjktw5tz6muvzqfsbmo5n6atk3p5om9ulfptldi3p7cyqd8.min.js"></script>
+
+<!--SCRIPTS END--><!-- hexo-inject:begin --><!-- hexo-inject:end -->
+
+
+    </body>
+</html>

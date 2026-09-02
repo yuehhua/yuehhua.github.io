@@ -1,0 +1,497 @@
+
+<!DOCTYPE html>
+<html lang="zh-tw,en,default">
+    
+<head>
+    <!-- hexo-inject:begin --><!-- hexo-inject:end --><meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="generator" content="Dream Maker">
+    <title>要如何固定 Julia 執行緒中的亂數？ - Dream Maker</title>
+    <meta name="author" content="Yueh-Hua Tu">
+    
+        <meta name="keywords" content="machine learning,deep learning,topology,">
+    
+    
+    
+        <link rel="alternate" type="application/atom+xml" title="RSS" href="/blog/atom.xml">
+    
+    <script type="application/ld+json">{"@context":"http://schema.org","@type":"BlogPosting","author":{"@type":"Person","name":"Yueh-Hua Tu","sameAs":["https://github.com/yuehhua/","https://www.facebook.com/a504082002","https://www.linkedin.com/in/%E5%B2%B3%E8%8F%AF-%E6%9D%9C-6a3995a0/","mailto:a504082002@gmail.com"],"image":"https://www.gravatar.com/avatar/a565749fba4782b717234da670b273fd"},"articleBody":"一般設定 random seed 的方式則像以下的程式碼：\n12using RandomRandom.seed!(0)\n所以我們可以得出一個隨機矩陣看起來像是這樣。\n1234567julia&gt; rand(5, 5)5×5 Matrix&#123;Float64&#125;: 0.823648  0.203477   0.585812  0.655448  0.469304 0.910357  0.0423017  0.539289  0.575887  0.0623676 0.164566  0.0682693  0.260036  0.868279  0.353129 0.177329  0.361828   0.910047  0.9678    0.767602 0.27888   0.973216   0.167036  0.76769   0.043141\n如果我們要對每個執行緒都設定同樣的 random seed，那就可以在每個執行緒內直接設定即可。\n12345Threads.@threads for i in 1:5    Random.seed!(0)    tid = Threads.threadid()    println(tid, &quot;: &quot;, rand(5, 5))end\n所以每個執行緒內印出來的矩陣就會像這樣。\n123455: [0.8236475079774124 0.20347655804192266 0.5858115517433242 0.6554484126999125 0.46930370935301835; 0.9103565379264364 0.042301665932029664 0.5392892841426182 0.5758873948500367 0.06236755817015882; 0.16456579813368521 0.06826925550564478 0.26003585026904785 0.8682787096942046 0.35312877270491705; 0.17732884646626457 0.3618283907762174 0.910046541351011 0.9677995536192001 0.767601895961374; 0.278880109331201 0.9732164043865108 0.16703619444214968 0.7676903325581188 0.043141023329413164]2: [0.8236475079774124 0.20347655804192266 0.5858115517433242 0.6554484126999125 0.46930370935301835; 0.9103565379264364 0.042301665932029664 0.5392892841426182 0.5758873948500367 0.06236755817015882; 0.16456579813368521 0.06826925550564478 0.26003585026904785 0.8682787096942046 0.35312877270491705; 0.17732884646626457 0.3618283907762174 0.910046541351011 0.9677995536192001 0.767601895961374; 0.278880109331201 0.9732164043865108 0.16703619444214968 0.7676903325581188 0.043141023329413164]4: [0.8236475079774124 0.20347655804192266 0.5858115517433242 0.6554484126999125 0.46930370935301835; 0.9103565379264364 0.042301665932029664 0.5392892841426182 0.5758873948500367 0.06236755817015882; 0.16456579813368521 0.06826925550564478 0.26003585026904785 0.8682787096942046 0.35312877270491705; 0.17732884646626457 0.3618283907762174 0.910046541351011 0.9677995536192001 0.767601895961374; 0.278880109331201 0.9732164043865108 0.16703619444214968 0.7676903325581188 0.043141023329413164]3: [0.8236475079774124 0.20347655804192266 0.5858115517433242 0.6554484126999125 0.46930370935301835; 0.9103565379264364 0.042301665932029664 0.5392892841426182 0.5758873948500367 0.06236755817015882; 0.16456579813368521 0.06826925550564478 0.26003585026904785 0.8682787096942046 0.35312877270491705; 0.17732884646626457 0.3618283907762174 0.910046541351011 0.9677995536192001 0.767601895961374; 0.278880109331201 0.9732164043865108 0.16703619444214968 0.7676903325581188 0.043141023329413164]1: [0.8236475079774124 0.20347655804192266 0.5858115517433242 0.6554484126999125 0.46930370935301835; 0.9103565379264364 0.042301665932029664 0.5392892841426182 0.5758873948500367 0.06236755817015882; 0.16456579813368521 0.06826925550564478 0.26003585026904785 0.8682787096942046 0.35312877270491705; 0.17732884646626457 0.3618283907762174 0.910046541351011 0.9677995536192001 0.767601895961374; 0.278880109331201 0.9732164043865108 0.16703619444214968 0.7676903325581188 0.043141023329413164]\n","dateCreated":"2021-11-17T09:50:30+08:00","dateModified":"2021-11-17T09:55:02+08:00","datePublished":"2021-11-17T09:50:30+08:00","description":"","headline":"要如何固定 Julia 執行緒中的亂數？","image":[],"mainEntityOfPage":{"@type":"WebPage","@id":"https://yuehhua.github.io/blog/2021/11/17/fix-random-numbers-in-threads/"},"publisher":{"@type":"Organization","name":"Yueh-Hua Tu","sameAs":["https://github.com/yuehhua/","https://www.facebook.com/a504082002","https://www.linkedin.com/in/%E5%B2%B3%E8%8F%AF-%E6%9D%9C-6a3995a0/","mailto:a504082002@gmail.com"],"image":"https://www.gravatar.com/avatar/a565749fba4782b717234da670b273fd","logo":{"@type":"ImageObject","url":"https://www.gravatar.com/avatar/a565749fba4782b717234da670b273fd"}},"url":"https://yuehhua.github.io/blog/2021/11/17/fix-random-numbers-in-threads/"}</script>
+    <meta name="description" content="一般設定 random seed 的方式則像以下的程式碼： 12using RandomRandom.seed!(0) 所以我們可以得出一個隨機矩陣看起來像是這樣。 1234567julia&gt; rand(5, 5)5×5 Matrix&#123;Float64&#125;: 0.823648  0.203477   0.585812  0.655448  0.469304 0.910357">
+<meta property="og:type" content="blog">
+<meta property="og:title" content="要如何固定 Julia 執行緒中的亂數？">
+<meta property="og:url" content="https://yuehhua.github.io/blog/2021/11/17/fix-random-numbers-in-threads/index.html">
+<meta property="og:site_name" content="Dream Maker">
+<meta property="og:description" content="一般設定 random seed 的方式則像以下的程式碼： 12using RandomRandom.seed!(0) 所以我們可以得出一個隨機矩陣看起來像是這樣。 1234567julia&gt; rand(5, 5)5×5 Matrix&#123;Float64&#125;: 0.823648  0.203477   0.585812  0.655448  0.469304 0.910357">
+<meta property="og:locale" content="zh_TW">
+<meta property="article:published_time" content="2021-11-17T01:50:30.000Z">
+<meta property="article:modified_time" content="2021-11-17T01:55:02.247Z">
+<meta property="article:author" content="Yueh-Hua Tu">
+<meta property="article:tag" content="deep learning">
+<meta property="article:tag" content="machine learning">
+<meta property="article:tag" content="topology">
+<meta name="twitter:card" content="summary">
+    
+    
+        
+    
+    
+    
+    
+    
+    <!--STYLES-->
+    
+<link rel="stylesheet" href="/blog/assets/css/style-3frockyt2j28isvdztjchy5nhkz8tjki9ermufc1ckptmvjdftux94m2ahub.min.css">
+
+    <!--STYLES END-->
+    
+    <script type="text/javascript">
+        (function (i, s, o, g, r, a, m) {
+        i['GoogleAnalyticsObject'] = r; i[r] = i[r] || function () {
+            (i[r].q = i[r].q || []).push(arguments)
+        }, i[r].l = 1 * new Date(); a = s.createElement(o),
+            m = s.getElementsByTagName(o)[0]; a.async = 1; a.src = g; m.parentNode.insertBefore(a, m)
+        })(window, document, 'script', '//www.google-analytics.com/analytics.js', 'ga');
+
+        ga('create', 'UA-119690895-1', 'auto');
+        ga('send', 'pageview');
+    </script>
+    
+    
+    
+        <script>
+            window.MathJax = {
+                tex: {
+                    inlineMath: [['$', '$'], ['\\(', '\\)']],
+                    displayMath: [['$$', '$$'], ['\\[', '\\]']],
+                    processEscapes: true,
+                    tags: 'ams'
+                },
+                options: {
+                    skipHtmlTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+                }
+            };
+        </script>
+        <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+    
+<!-- hexo injector head_end start -->
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.12.0/dist/katex.min.css">
+
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/hexo-math@4.0.0/dist/style.css">
+<!-- hexo injector head_end end --><!-- hexo-inject:begin --><!-- hexo-inject:end --></head>
+
+    <body>
+        <!-- hexo-inject:begin --><!-- hexo-inject:end --><div id="blog">
+            <!-- Define author's picture -->
+
+
+    
+
+<header id="header" data-behavior="5">
+    <i id="btn-open-sidebar" class="fa fa-lg fa-bars"></i>
+    <div class="header-title">
+        <a class="header-title-link" href="/blog/">Dream Maker</a>
+    </div>
+    
+        
+            <a  class="header-right-picture "
+                href="#about">
+        
+        
+        </a>
+    
+</header>
+
+            <!-- Define author's picture -->
+
+
+<nav id="sidebar" data-behavior="5">
+    <div class="sidebar-container">
+        
+        
+            <ul class="sidebar-buttons">
+            
+                <li class="sidebar-button">
+                    
+                        <a  class="sidebar-button-link "
+                             href="/blog/"
+                            
+                            title="首頁"
+                        >
+                    
+                        <i class="sidebar-button-icon fa fa-home" aria-hidden="true"></i>
+                        <span class="sidebar-button-desc">首頁</span>
+                    </a>
+            </li>
+            
+                <li class="sidebar-button">
+                    
+                        <a  class="sidebar-button-link "
+                             href="/blog/all-categories"
+                            
+                            title="分類"
+                        >
+                    
+                        <i class="sidebar-button-icon fa fa-bookmark" aria-hidden="true"></i>
+                        <span class="sidebar-button-desc">分類</span>
+                    </a>
+            </li>
+            
+                <li class="sidebar-button">
+                    
+                        <a  class="sidebar-button-link "
+                             href="/blog/all-tags"
+                            
+                            title="標籤"
+                        >
+                    
+                        <i class="sidebar-button-icon fa fa-tags" aria-hidden="true"></i>
+                        <span class="sidebar-button-desc">標籤</span>
+                    </a>
+            </li>
+            
+                <li class="sidebar-button">
+                    
+                        <a  class="sidebar-button-link "
+                             href="/blog/all-archives"
+                            
+                            title="所有文章"
+                        >
+                    
+                        <i class="sidebar-button-icon fa fa-archive" aria-hidden="true"></i>
+                        <span class="sidebar-button-desc">所有文章</span>
+                    </a>
+            </li>
+            
+                <li class="sidebar-button">
+                    
+                        <a  class="sidebar-button-link open-algolia-search"
+                             href="#search"
+                            
+                            title="搜尋"
+                        >
+                    
+                        <i class="sidebar-button-icon fa fa-search" aria-hidden="true"></i>
+                        <span class="sidebar-button-desc">搜尋</span>
+                    </a>
+            </li>
+            
+                <li class="sidebar-button">
+                    
+                        <a  class="sidebar-button-link "
+                             href="#about"
+                            
+                            title="關於"
+                        >
+                    
+                        <i class="sidebar-button-icon fa fa-question" aria-hidden="true"></i>
+                        <span class="sidebar-button-desc">關於</span>
+                    </a>
+            </li>
+            
+        </ul>
+        
+            <ul class="sidebar-buttons">
+            
+                <li class="sidebar-button">
+                    
+                        <a  class="sidebar-button-link " href="https://github.com/yuehhua/" target="_blank" rel="noopener" title="GitHub">
+                    
+                        <i class="sidebar-button-icon fab fa-github" aria-hidden="true"></i>
+                        <span class="sidebar-button-desc">GitHub</span>
+                    </a>
+            </li>
+            
+                <li class="sidebar-button">
+                    
+                        <a  class="sidebar-button-link " href="https://www.facebook.com/a504082002" target="_blank" rel="noopener" title="Facebook">
+                    
+                        <i class="sidebar-button-icon fab fa-facebook" aria-hidden="true"></i>
+                        <span class="sidebar-button-desc">Facebook</span>
+                    </a>
+            </li>
+            
+                <li class="sidebar-button">
+                    
+                        <a  class="sidebar-button-link " href="https://www.linkedin.com/in/%E5%B2%B3%E8%8F%AF-%E6%9D%9C-6a3995a0/" target="_blank" rel="noopener" title="LinkedIn">
+                    
+                        <i class="sidebar-button-icon fab fa-linkedin" aria-hidden="true"></i>
+                        <span class="sidebar-button-desc">LinkedIn</span>
+                    </a>
+            </li>
+            
+                <li class="sidebar-button">
+                    
+                        <a  class="sidebar-button-link " href="mailto:a504082002@gmail.com" target="_blank" rel="noopener" title="Email">
+                    
+                        <i class="sidebar-button-icon fab fa-envelope" aria-hidden="true"></i>
+                        <span class="sidebar-button-desc">Email</span>
+                    </a>
+            </li>
+            
+        </ul>
+        
+            <ul class="sidebar-buttons">
+            
+                <li class="sidebar-button">
+                    
+                        <a  class="sidebar-button-link "
+                             href="/blog/atom.xml"
+                            
+                            title="Atom"
+                        >
+                    
+                        <i class="sidebar-button-icon fa fa-rss" aria-hidden="true"></i>
+                        <span class="sidebar-button-desc">Atom</span>
+                    </a>
+            </li>
+            
+        </ul>
+        
+    </div>
+</nav>
+
+            
+            <div id="main" data-behavior="5"
+                 class="
+                        hasCoverMetaIn
+                        ">
+                
+    <article class="post">
+        
+                
+                    <div class="post-header main-content-wrap text-left">
+    
+        <h1 class="post-title">
+            要如何固定 Julia 執行緒中的亂數？
+        </h1>
+    
+    
+        <div class="post-meta">
+    <time datetime="2021-11-17T09:50:30+08:00">
+	
+		    11月 17, 2021
+    	
+    </time>
+    
+        <span>分類 </span>
+        
+    <a class="category-link" href="/blog/categories/My-Style/">My Style</a>, <a class="category-link" href="/blog/categories/My-Style/Computer-Science/">Computer Science</a>, <a class="category-link" href="/blog/categories/My-Style/Computer-Science/Julialang/">Julialang</a>
+
+
+    
+</div>
+
+    
+</div>
+
+                        
+                            <div class="post-content markdown">
+                                <div class="main-content-wrap">
+                                    <p>一般設定 random seed 的方式則像以下的程式碼：</p>
+<figure class="highlight julia"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">using</span> Random</span><br><span class="line">Random.seed!(<span class="number">0</span>)</span><br></pre></td></tr></table></figure>
+<p>所以我們可以得出一個隨機矩陣看起來像是這樣。</p>
+<figure class="highlight julia"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">julia&gt; rand(<span class="number">5</span>, <span class="number">5</span>)</span><br><span class="line"><span class="number">5</span>×<span class="number">5</span> <span class="built_in">Matrix</span>&#123;<span class="built_in">Float64</span>&#125;:</span><br><span class="line"> <span class="number">0.823648</span>  <span class="number">0.203477</span>   <span class="number">0.585812</span>  <span class="number">0.655448</span>  <span class="number">0.469304</span></span><br><span class="line"> <span class="number">0.910357</span>  <span class="number">0.0423017</span>  <span class="number">0.539289</span>  <span class="number">0.575887</span>  <span class="number">0.0623676</span></span><br><span class="line"> <span class="number">0.164566</span>  <span class="number">0.0682693</span>  <span class="number">0.260036</span>  <span class="number">0.868279</span>  <span class="number">0.353129</span></span><br><span class="line"> <span class="number">0.177329</span>  <span class="number">0.361828</span>   <span class="number">0.910047</span>  <span class="number">0.9678</span>    <span class="number">0.767602</span></span><br><span class="line"> <span class="number">0.27888</span>   <span class="number">0.973216</span>   <span class="number">0.167036</span>  <span class="number">0.76769</span>   <span class="number">0.043141</span></span><br></pre></td></tr></table></figure>
+<p>如果我們要對每個執行緒都設定同樣的 random seed，那就可以在每個執行緒內直接設定即可。</p>
+<figure class="highlight julia"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">Threads.<span class="meta">@threads</span> <span class="keyword">for</span> i <span class="keyword">in</span> <span class="number">1</span>:<span class="number">5</span></span><br><span class="line">    Random.seed!(<span class="number">0</span>)</span><br><span class="line">    tid = Threads.threadid()</span><br><span class="line">    println(tid, <span class="string">&quot;: &quot;</span>, rand(<span class="number">5</span>, <span class="number">5</span>))</span><br><span class="line"><span class="keyword">end</span></span><br></pre></td></tr></table></figure>
+<p>所以每個執行緒內印出來的矩陣就會像這樣。</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">5: [0.8236475079774124 0.20347655804192266 0.5858115517433242 0.6554484126999125 0.46930370935301835; 0.9103565379264364 0.042301665932029664 0.5392892841426182 0.5758873948500367 0.06236755817015882; 0.16456579813368521 0.06826925550564478 0.26003585026904785 0.8682787096942046 0.35312877270491705; 0.17732884646626457 0.3618283907762174 0.910046541351011 0.9677995536192001 0.767601895961374; 0.278880109331201 0.9732164043865108 0.16703619444214968 0.7676903325581188 0.043141023329413164]</span><br><span class="line">2: [0.8236475079774124 0.20347655804192266 0.5858115517433242 0.6554484126999125 0.46930370935301835; 0.9103565379264364 0.042301665932029664 0.5392892841426182 0.5758873948500367 0.06236755817015882; 0.16456579813368521 0.06826925550564478 0.26003585026904785 0.8682787096942046 0.35312877270491705; 0.17732884646626457 0.3618283907762174 0.910046541351011 0.9677995536192001 0.767601895961374; 0.278880109331201 0.9732164043865108 0.16703619444214968 0.7676903325581188 0.043141023329413164]</span><br><span class="line">4: [0.8236475079774124 0.20347655804192266 0.5858115517433242 0.6554484126999125 0.46930370935301835; 0.9103565379264364 0.042301665932029664 0.5392892841426182 0.5758873948500367 0.06236755817015882; 0.16456579813368521 0.06826925550564478 0.26003585026904785 0.8682787096942046 0.35312877270491705; 0.17732884646626457 0.3618283907762174 0.910046541351011 0.9677995536192001 0.767601895961374; 0.278880109331201 0.9732164043865108 0.16703619444214968 0.7676903325581188 0.043141023329413164]</span><br><span class="line">3: [0.8236475079774124 0.20347655804192266 0.5858115517433242 0.6554484126999125 0.46930370935301835; 0.9103565379264364 0.042301665932029664 0.5392892841426182 0.5758873948500367 0.06236755817015882; 0.16456579813368521 0.06826925550564478 0.26003585026904785 0.8682787096942046 0.35312877270491705; 0.17732884646626457 0.3618283907762174 0.910046541351011 0.9677995536192001 0.767601895961374; 0.278880109331201 0.9732164043865108 0.16703619444214968 0.7676903325581188 0.043141023329413164]</span><br><span class="line">1: [0.8236475079774124 0.20347655804192266 0.5858115517433242 0.6554484126999125 0.46930370935301835; 0.9103565379264364 0.042301665932029664 0.5392892841426182 0.5758873948500367 0.06236755817015882; 0.16456579813368521 0.06826925550564478 0.26003585026904785 0.8682787096942046 0.35312877270491705; 0.17732884646626457 0.3618283907762174 0.910046541351011 0.9677995536192001 0.767601895961374; 0.278880109331201 0.9732164043865108 0.16703619444214968 0.7676903325581188 0.043141023329413164]</span><br></pre></td></tr></table></figure>
+
+                                        
+
+                                </div>
+                            </div>
+                            <div id="post-footer" class="post-footer main-content-wrap">
+                                
+                                        
+                                            <div class="post-actions-wrap">
+    <nav>
+        <ul class="post-actions post-action-nav">
+            <li class="post-action">
+                
+                    
+                    <a class="post-action-btn btn btn--default tooltip--top" href="/blog/2026/09/02/03-from-linear-regression-to-perceptron/" data-tooltip="03 從線性迴歸到感知器" aria-label="上一篇: 03 從線性迴歸到感知器">
+                
+                    <i class="fa fa-angle-left" aria-hidden="true"></i>
+                    <span class="hide-xs hide-sm text-small icon-ml">上一篇</span>
+                </a>
+            </li>
+            <li class="post-action">
+                
+                    
+                    <a class="post-action-btn btn btn--default tooltip--top" href="/blog/2021/10/14/replace-isa-check-by-multiple-dispatch/" data-tooltip="用多重分派來取代型別檢查" aria-label="下一篇: 用多重分派來取代型別檢查">
+                
+                    <span class="hide-xs hide-sm text-small icon-mr">下一篇</span>
+                    <i class="fa fa-angle-right" aria-hidden="true"></i>
+                </a>
+            </li>
+        </ul>
+    </nav>
+    <ul class="post-actions post-action-share">
+        <li class="post-action hide-lg hide-md hide-sm">
+            <a class="post-action-btn btn btn--default btn-open-shareoptions" href="#btn-open-shareoptions" aria-label="Share this post">
+                <i class="fa fa-share-alt" aria-hidden="true"></i>
+            </a>
+        </li>
+        
+            
+            
+            <li class="post-action hide-xs">
+                <a class="post-action-btn btn btn--default" target="new" href="https://www.facebook.com/sharer/sharer.php?u=https://yuehhua.github.io/blog/2021/11/17/fix-random-numbers-in-threads/" title="分享到 Facebook">
+                    <i class="fa fa-facebook-official" aria-hidden="true"></i>
+                </a>
+            </li>
+        
+        
+            
+        
+        <li class="post-action">
+            
+                <a class="post-action-btn btn btn--default" href="#" aria-label="Back to top">
+            
+                <i class="fa fa-list" aria-hidden="true"></i>
+            </a>
+        </li>
+    </ul>
+</div>
+
+
+                                                
+                                                    
+                                                        
+                                                                            
+                            </div>
+                            
+                                <script src='https://unpkg.com/mermaid@10.9.1/dist/mermaid.min.js'></script>
+                                <script>
+                                    if (window.mermaid) {
+                                        mermaid.initialize({ theme: 'forest' });
+                                    }
+                                </script>
+                                
+    </article>
+
+                <footer id="footer" class="main-content-wrap">
+    <span class="copyrights">
+        Copyrights &copy; 2026 Yueh-Hua Tu. All Rights Reserved.
+    </span>
+</footer>
+
+            </div>
+            
+                <div id="bottom-bar" class="post-bottom-bar" data-behavior="5">
+                    <div class="post-actions-wrap">
+    <nav>
+        <ul class="post-actions post-action-nav">
+            <li class="post-action">
+                
+                    
+                    <a class="post-action-btn btn btn--default tooltip--top" href="/blog/2026/09/02/03-from-linear-regression-to-perceptron/" data-tooltip="03 從線性迴歸到感知器" aria-label="上一篇: 03 從線性迴歸到感知器">
+                
+                    <i class="fa fa-angle-left" aria-hidden="true"></i>
+                    <span class="hide-xs hide-sm text-small icon-ml">上一篇</span>
+                </a>
+            </li>
+            <li class="post-action">
+                
+                    
+                    <a class="post-action-btn btn btn--default tooltip--top" href="/blog/2021/10/14/replace-isa-check-by-multiple-dispatch/" data-tooltip="用多重分派來取代型別檢查" aria-label="下一篇: 用多重分派來取代型別檢查">
+                
+                    <span class="hide-xs hide-sm text-small icon-mr">下一篇</span>
+                    <i class="fa fa-angle-right" aria-hidden="true"></i>
+                </a>
+            </li>
+        </ul>
+    </nav>
+    <ul class="post-actions post-action-share">
+        <li class="post-action hide-lg hide-md hide-sm">
+            <a class="post-action-btn btn btn--default btn-open-shareoptions" href="#btn-open-shareoptions" aria-label="Share this post">
+                <i class="fa fa-share-alt" aria-hidden="true"></i>
+            </a>
+        </li>
+        
+            
+            
+            <li class="post-action hide-xs">
+                <a class="post-action-btn btn btn--default" target="new" href="https://www.facebook.com/sharer/sharer.php?u=https://yuehhua.github.io/blog/2021/11/17/fix-random-numbers-in-threads/" title="分享到 Facebook">
+                    <i class="fa fa-facebook-official" aria-hidden="true"></i>
+                </a>
+            </li>
+        
+        
+            
+        
+        <li class="post-action">
+            
+                <a class="post-action-btn btn btn--default" href="#" aria-label="Back to top">
+            
+                <i class="fa fa-list" aria-hidden="true"></i>
+            </a>
+        </li>
+    </ul>
+</div>
+
+
+                </div>
+                <div id="share-options-bar" class="share-options-bar" data-behavior="5">
+    <i id="btn-close-shareoptions" class="fa fa-close"></i>
+    <ul class="share-options">
+        
+            
+            
+            <li class="share-option">
+                <a class="share-option-btn" target="new" href="https://www.facebook.com/sharer/sharer.php?u=https://yuehhua.github.io/blog/2021/11/17/fix-random-numbers-in-threads/">
+                    <i class="fa fa-facebook-official" aria-hidden="true"></i><span>分享到 Facebook</span>
+                </a>
+            </li>
+        
+    </ul>
+</div>
+
+            
+        </div>
+        
+
+
+<div id="about">
+    <div id="about-card">
+        <div id="about-btn-close">
+            <i class="fa fa-remove"></i>
+        </div>
+        
+            <h4 id="about-card-name">Yueh-Hua Tu</h4>
+        
+            <div id="about-card-bio"><p>目標是計算生物學家！</br>Systems Biology, Computational Biology, Machine Learning</br>Julia Taiwan 發起人</p>
+</div>
+        
+        
+            <div id="about-card-job">
+                <i class="fa fa-briefcase"></i>
+                <br/>
+                <p>研發替代役研究助理</p>
+
+            </div>
+        
+        
+            <div id="about-card-location">
+                <i class="fa fa-map-marker"></i>
+                <br/>
+                Taiwan
+            </div>
+        
+    </div>
+</div>
+
+        
+        
+<div id="cover" style="background-image:url('/blog/assets/images/cover.jpg');"></div>
+        <!--SCRIPTS-->
+
+<script src="/blog/assets/js/script-xzfezjobyekpxrjktw5tz6muvzqfsbmo5n6atk3p5om9ulfptldi3p7cyqd8.min.js"></script>
+
+<!--SCRIPTS END--><!-- hexo-inject:begin --><!-- hexo-inject:end -->
+
+
+
+
+    </body>
+</html>

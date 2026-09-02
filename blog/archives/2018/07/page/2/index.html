@@ -1,0 +1,844 @@
+
+<!DOCTYPE html>
+<html lang="zh-tw,en,default">
+    
+<head>
+    <!-- hexo-inject:begin --><!-- hexo-inject:end --><meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="generator" content="Dream Maker">
+    <title>所有文章: 2018/7 - Dream Maker</title>
+    <meta name="author" content="Yueh-Hua Tu">
+    
+        <meta name="keywords" content="machine learning,deep learning,topology,">
+    
+    
+    
+        <link rel="alternate" type="application/atom+xml" title="RSS" href="/blog/atom.xml">
+    
+    <script type="application/ld+json">{}</script>
+    <meta property="og:type" content="blog">
+<meta property="og:title" content="Dream Maker">
+<meta property="og:url" content="https://yuehhua.github.io/blog/archives/2018/07/page/2/index.html">
+<meta property="og:site_name" content="Dream Maker">
+<meta property="og:locale" content="zh_TW">
+<meta property="article:author" content="Yueh-Hua Tu">
+<meta property="article:tag" content="deep learning">
+<meta property="article:tag" content="machine learning">
+<meta property="article:tag" content="topology">
+<meta name="twitter:card" content="summary">
+    
+    
+        
+    
+    
+    
+    
+    
+    <!--STYLES-->
+    
+<link rel="stylesheet" href="/blog/assets/css/style-3frockyt2j28isvdztjchy5nhkz8tjki9ermufc1ckptmvjdftux94m2ahub.min.css">
+
+    <!--STYLES END-->
+    
+    <script type="text/javascript">
+        (function (i, s, o, g, r, a, m) {
+        i['GoogleAnalyticsObject'] = r; i[r] = i[r] || function () {
+            (i[r].q = i[r].q || []).push(arguments)
+        }, i[r].l = 1 * new Date(); a = s.createElement(o),
+            m = s.getElementsByTagName(o)[0]; a.async = 1; a.src = g; m.parentNode.insertBefore(a, m)
+        })(window, document, 'script', '//www.google-analytics.com/analytics.js', 'ga');
+
+        ga('create', 'UA-119690895-1', 'auto');
+        ga('send', 'pageview');
+    </script>
+    
+    
+    
+        <script>
+            window.MathJax = {
+                tex: {
+                    inlineMath: [['$', '$'], ['\\(', '\\)']],
+                    displayMath: [['$$', '$$'], ['\\[', '\\]']],
+                    processEscapes: true,
+                    tags: 'ams'
+                },
+                options: {
+                    skipHtmlTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+                }
+            };
+        </script>
+        <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+    
+<!-- hexo injector head_end start -->
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.12.0/dist/katex.min.css">
+
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/hexo-math@4.0.0/dist/style.css">
+<!-- hexo injector head_end end --><!-- hexo-inject:begin --><!-- hexo-inject:end --></head>
+
+    <body>
+        <!-- hexo-inject:begin --><!-- hexo-inject:end --><div id="blog">
+            <!-- Define author's picture -->
+
+
+    
+
+<header id="header" data-behavior="2">
+    <i id="btn-open-sidebar" class="fa fa-lg fa-bars"></i>
+    <div class="header-title">
+        <a class="header-title-link" href="/blog/">Dream Maker</a>
+    </div>
+    
+        
+            <a  class="header-right-picture "
+                href="#about">
+        
+        
+        </a>
+    
+</header>
+
+            <!-- Define author's picture -->
+
+
+<nav id="sidebar" data-behavior="2">
+    <div class="sidebar-container">
+        
+        
+            <ul class="sidebar-buttons">
+            
+                <li class="sidebar-button">
+                    
+                        <a  class="sidebar-button-link "
+                             href="/blog/"
+                            
+                            title="首頁"
+                        >
+                    
+                        <i class="sidebar-button-icon fa fa-home" aria-hidden="true"></i>
+                        <span class="sidebar-button-desc">首頁</span>
+                    </a>
+            </li>
+            
+                <li class="sidebar-button">
+                    
+                        <a  class="sidebar-button-link "
+                             href="/blog/all-categories"
+                            
+                            title="分類"
+                        >
+                    
+                        <i class="sidebar-button-icon fa fa-bookmark" aria-hidden="true"></i>
+                        <span class="sidebar-button-desc">分類</span>
+                    </a>
+            </li>
+            
+                <li class="sidebar-button">
+                    
+                        <a  class="sidebar-button-link "
+                             href="/blog/all-tags"
+                            
+                            title="標籤"
+                        >
+                    
+                        <i class="sidebar-button-icon fa fa-tags" aria-hidden="true"></i>
+                        <span class="sidebar-button-desc">標籤</span>
+                    </a>
+            </li>
+            
+                <li class="sidebar-button">
+                    
+                        <a  class="sidebar-button-link "
+                             href="/blog/all-archives"
+                            
+                            title="所有文章"
+                        >
+                    
+                        <i class="sidebar-button-icon fa fa-archive" aria-hidden="true"></i>
+                        <span class="sidebar-button-desc">所有文章</span>
+                    </a>
+            </li>
+            
+                <li class="sidebar-button">
+                    
+                        <a  class="sidebar-button-link open-algolia-search"
+                             href="#search"
+                            
+                            title="搜尋"
+                        >
+                    
+                        <i class="sidebar-button-icon fa fa-search" aria-hidden="true"></i>
+                        <span class="sidebar-button-desc">搜尋</span>
+                    </a>
+            </li>
+            
+                <li class="sidebar-button">
+                    
+                        <a  class="sidebar-button-link "
+                             href="#about"
+                            
+                            title="關於"
+                        >
+                    
+                        <i class="sidebar-button-icon fa fa-question" aria-hidden="true"></i>
+                        <span class="sidebar-button-desc">關於</span>
+                    </a>
+            </li>
+            
+        </ul>
+        
+            <ul class="sidebar-buttons">
+            
+                <li class="sidebar-button">
+                    
+                        <a  class="sidebar-button-link " href="https://github.com/yuehhua/" target="_blank" rel="noopener" title="GitHub">
+                    
+                        <i class="sidebar-button-icon fab fa-github" aria-hidden="true"></i>
+                        <span class="sidebar-button-desc">GitHub</span>
+                    </a>
+            </li>
+            
+                <li class="sidebar-button">
+                    
+                        <a  class="sidebar-button-link " href="https://www.facebook.com/a504082002" target="_blank" rel="noopener" title="Facebook">
+                    
+                        <i class="sidebar-button-icon fab fa-facebook" aria-hidden="true"></i>
+                        <span class="sidebar-button-desc">Facebook</span>
+                    </a>
+            </li>
+            
+                <li class="sidebar-button">
+                    
+                        <a  class="sidebar-button-link " href="https://www.linkedin.com/in/%E5%B2%B3%E8%8F%AF-%E6%9D%9C-6a3995a0/" target="_blank" rel="noopener" title="LinkedIn">
+                    
+                        <i class="sidebar-button-icon fab fa-linkedin" aria-hidden="true"></i>
+                        <span class="sidebar-button-desc">LinkedIn</span>
+                    </a>
+            </li>
+            
+                <li class="sidebar-button">
+                    
+                        <a  class="sidebar-button-link " href="mailto:a504082002@gmail.com" target="_blank" rel="noopener" title="Email">
+                    
+                        <i class="sidebar-button-icon fab fa-envelope" aria-hidden="true"></i>
+                        <span class="sidebar-button-desc">Email</span>
+                    </a>
+            </li>
+            
+        </ul>
+        
+            <ul class="sidebar-buttons">
+            
+                <li class="sidebar-button">
+                    
+                        <a  class="sidebar-button-link "
+                             href="/blog/atom.xml"
+                            
+                            title="Atom"
+                        >
+                    
+                        <i class="sidebar-button-icon fa fa-rss" aria-hidden="true"></i>
+                        <span class="sidebar-button-desc">Atom</span>
+                    </a>
+            </li>
+            
+        </ul>
+        
+    </div>
+</nav>
+
+            
+            <div id="main" data-behavior="2"
+                 class="
+                        hasCoverMetaIn
+                        ">
+                
+    <section class="postShorten-group main-content-wrap">
+    
+    
+    <article class="postShorten postShorten--thumbnailimg-right">
+        <div class="postShorten-wrap">
+            
+            <div class="postShorten-header">
+                <h1 class="postShorten-title">
+                    
+                        <a class="link-unstyled" href="/blog/2018/07/22/01-set-theory/">
+                            Set theory (集合論)
+                        </a>
+                    
+                </h1>
+                <div class="postShorten-meta">
+    <time datetime="2018-07-22T00:19:48+08:00">
+	
+		    7月 22, 2018
+    	
+    </time>
+    
+        <span>分類 </span>
+        
+    <a class="category-link" href="/blog/categories/Topology/">Topology</a>
+
+
+    
+</div>
+
+            </div>
+            
+                <div class="postShorten-excerpt">
+                    <p>先以集合論開始切入，集合論是以後各門數學相關學科的根基，也就是很多數學的分支都會定義在集合論上。</p>
+<p>在數學上，集合就是一群不重複的物件（object）或是元素（element）。像我們可以定義<strong>一個set A當中的elements有a、b、c</strong>，寫成：</p>
+<p>$$<br>
+A = \{ a, b, c \}<br>
+$$</p>
+                    
+                        <a href="/blog/2018/07/22/01-set-theory/" class="postShorten-excerpt_link link">
+                            繼續閱讀
+                        </a>
+                        
+                    
+                </div>
+            
+        </div>
+        
+    </article>
+    
+    
+    <article class="postShorten postShorten--thumbnailimg-right">
+        <div class="postShorten-wrap">
+            
+            <div class="postShorten-header">
+                <h1 class="postShorten-title">
+                    
+                        <a class="link-unstyled" href="/blog/2018/07/21/04-reference/">
+                            Reference commands
+                        </a>
+                    
+                </h1>
+                <div class="postShorten-meta">
+    <time datetime="2018-07-21T22:59:51+08:00">
+	
+		    7月 21, 2018
+    	
+    </time>
+    
+        <span>分類 </span>
+        
+    <a class="category-link" href="/blog/categories/Docker/">Docker</a>
+
+
+    
+</div>
+
+            </div>
+            
+                <div class="postShorten-excerpt">
+                    <pre><code>attach    Attach to a running container
+build     Build an image from a Dockerfile
+commit    Create a new image from a container's changes
+cp        Copy files/folders from the containers filesystem to the host path
+diff      Inspect changes on a container's filesystem
+events    Get real time events from the server
+export    Stream the contents of a container as a tar archive
+history   Show the history of an image
+images    List images
+import    Create a new filesystem image from the contents of a tarball
+info      Display system-wide information
+inspect   Return low-level information on a container
+kill      Kill a running container
+load      Load an image from a tar archive
+login     Register or Login to the docker registry server
+logs      Fetch the logs of a container
+port      Lookup the public-facing port which is NAT-ed to PRIVATE_PORT
+pause     Pause all processes within a container
+ps        List containers
+pull      Pull an image or a repository from the docker registry server
+push      Push an image or a repository to the docker registry server
+restart   Restart a running container
+rm        Remove one or more containers
+rmi       Remove one or more images
+run       Run a command in a new container
+save      Save an image to a tar archive
+search    Search for an image in the docker index
+start     Start a stopped container
+stop      Stop a running container
+tag       Tag an image into a repository
+top       Lookup the running processes of a container
+unpause   Unpause a paused container
+version   Show the docker version information
+wait      Block until a container stops, then print its exit code
+</code></pre>
+<h2 id="Docker-Commands-Diagram"><strong>Docker Commands Diagram</strong></h2>
+<p><img src="https://raw.githubusercontent.com/philipz/docker_practice/master/_images/cmd_logic.png" alt="Docker Commands Diagram"></p>
+                    
+                        <a href="/blog/2018/07/21/04-reference/" class="postShorten-excerpt_link link">
+                            繼續閱讀
+                        </a>
+                        
+                    
+                </div>
+            
+        </div>
+        
+    </article>
+    
+    
+    <article class="postShorten postShorten--thumbnailimg-bottom">
+        <div class="postShorten-wrap">
+            
+            <div class="postShorten-header">
+                <h1 class="postShorten-title">
+                    
+                        <a class="link-unstyled" href="/blog/2018/07/21/03-recommend/">
+                            Recommended docker apps
+                        </a>
+                    
+                </h1>
+                <div class="postShorten-meta">
+    <time datetime="2018-07-21T22:58:45+08:00">
+	
+		    7月 21, 2018
+    	
+    </time>
+    
+        <span>分類 </span>
+        
+    <a class="category-link" href="/blog/categories/Docker/">Docker</a>
+
+
+    
+</div>
+
+            </div>
+            
+                <div class="postShorten-content">
+                    <span id="more"></span>
+<pre><code>docker pull sequenceiq/hadoop-ubuntu
+docker pull nginx  # official repos
+docker pull php  # official repos
+docker pull dockerfile/java
+docker pull dockerfile/python
+docker pull pypy  # official repos
+docker pull rocker/rstudio:latest
+</code></pre>
+
+                    
+                        
+
+                    
+                    
+                        <p>
+                            <a href="/blog/2018/07/21/03-recommend/#post-footer" class="postShorten-excerpt_link link">
+                                留言與分享
+                            </a>
+                        </p>
+                    
+                </div>
+            
+        </div>
+        
+    </article>
+    
+    
+    <article class="postShorten postShorten--thumbnailimg-right">
+        <div class="postShorten-wrap">
+            
+            <div class="postShorten-header">
+                <h1 class="postShorten-title">
+                    
+                        <a class="link-unstyled" href="/blog/2018/07/21/02-dockerfiles/">
+                            Writing a Dockerfile
+                        </a>
+                    
+                </h1>
+                <div class="postShorten-meta">
+    <time datetime="2018-07-21T22:49:48+08:00">
+	
+		    7月 21, 2018
+    	
+    </time>
+    
+        <span>分類 </span>
+        
+    <a class="category-link" href="/blog/categories/Docker/">Docker</a>
+
+
+    
+</div>
+
+            </div>
+            
+                <div class="postShorten-excerpt">
+                    <p>We already know how to get a image and modify it, then share it through Docker Hub. It can be more portable and easy to customize. Just write a script in Dockerfile, and then use <code>docker build</code> to build an image following the script in Dockerfile!</p>
+                    
+                        <a href="/blog/2018/07/21/02-dockerfiles/" class="postShorten-excerpt_link link">
+                            繼續閱讀
+                        </a>
+                        
+                    
+                </div>
+            
+        </div>
+        
+    </article>
+    
+    
+    <article class="postShorten postShorten--thumbnailimg-right">
+        <div class="postShorten-wrap">
+            
+            <div class="postShorten-header">
+                <h1 class="postShorten-title">
+                    
+                        <a class="link-unstyled" href="/blog/2018/07/21/01-basic-commands/">
+                            Basic commands
+                        </a>
+                    
+                </h1>
+                <div class="postShorten-meta">
+    <time datetime="2018-07-21T22:48:11+08:00">
+	
+		    7月 21, 2018
+    	
+    </time>
+    
+        <span>分類 </span>
+        
+    <a class="category-link" href="/blog/categories/Docker/">Docker</a>
+
+
+    
+</div>
+
+            </div>
+            
+                <div class="postShorten-excerpt">
+                    <!-- toc -->
+<p>Usage:  <code>[sudo] docker [command] [flags] [arguments] ..</code></p>
+                    
+                        <a href="/blog/2018/07/21/01-basic-commands/" class="postShorten-excerpt_link link">
+                            繼續閱讀
+                        </a>
+                        
+                    
+                </div>
+            
+        </div>
+        
+    </article>
+    
+    
+    <article class="postShorten postShorten--thumbnailimg-right">
+        <div class="postShorten-wrap">
+            
+            <div class="postShorten-header">
+                <h1 class="postShorten-title">
+                    
+                        <a class="link-unstyled" href="/blog/2018/07/21/mindset/">
+                            Mindset（中譯：心態致勝）
+                        </a>
+                    
+                </h1>
+                <div class="postShorten-meta">
+    <time datetime="2018-07-21T22:46:01+08:00">
+	
+		    7月 21, 2018
+    	
+    </time>
+    
+        <span>分類 </span>
+        
+    <a class="category-link" href="/blog/categories/Psychology/">Psychology</a>, <a class="category-link" href="/blog/categories/Psychology/Book/">Book</a>
+
+
+    
+</div>
+
+            </div>
+            
+                <div class="postShorten-excerpt">
+                    <p><img src="https://im1.book.com.tw/image/getImage?i=https://www.books.com.tw/img/001/074/84/0010748470.jpg&amp;v=58d4f5ad&amp;w=348&amp;h=348" alt="心態致勝：全新成功心理學"></p>
+<blockquote>
+<p>圖片取自博客來</p>
+</blockquote>
+<p>今天看到書的前三分之一，但是忍不住要來跟大家分享書中的內容。這本看名字跟外表很容易被埋沒那些講成功的商業書籍中，但是這本可是史丹佛大學的心理學權威 Dr. Carol Dweck 的研究成果阿！他也有在 TED 發表過演講，是很值得看的一本書！</p>
+                    
+                        <a href="/blog/2018/07/21/mindset/" class="postShorten-excerpt_link link">
+                            繼續閱讀
+                        </a>
+                        
+                    
+                </div>
+            
+        </div>
+        
+    </article>
+    
+    
+    <article class="postShorten postShorten--thumbnailimg-bottom">
+        <div class="postShorten-wrap">
+            
+            <div class="postShorten-header">
+                <h1 class="postShorten-title">
+                    
+                        <a class="link-unstyled" href="/blog/2018/07/21/about/">
+                            About me
+                        </a>
+                    
+                </h1>
+                <div class="postShorten-meta">
+    <time datetime="2018-07-21T22:38:00+08:00">
+	
+		    7月 21, 2018
+    	
+    </time>
+    
+</div>
+
+            </div>
+            
+                <div class="postShorten-content">
+                    <h2 id="杜岳華">杜岳華</h2>
+<p>Yueh-Hua Tu</p>
+<p>兼俱科學家與工程師思維</p>
+<p>熱愛數學、科學、生物學、電腦科學</p>
+<p>專業是Computational Biology, Systems Biology, Network Biology</p>
+<p>我要成為生醫資料科學家！</p>
+<h3 id="學歷：">學歷：</h3>
+<ul>
+<li>國立陽明大學 生物醫學資訊所 碩士 第1名畢業</li>
+<li>國立成功大學 醫學檢驗生物技術學系 學士</li>
+<li>國立成功大學 資訊工程學系 學士</li>
+</ul>
+
+                    
+                        
+
+                    
+                    
+                        <p>
+                            <a href="/blog/2018/07/21/about/#post-footer" class="postShorten-excerpt_link link">
+                                留言與分享
+                            </a>
+                        </p>
+                    
+                </div>
+            
+        </div>
+        
+    </article>
+    
+    
+    <article class="postShorten postShorten--thumbnailimg-right">
+        <div class="postShorten-wrap">
+            
+            <div class="postShorten-header">
+                <h1 class="postShorten-title">
+                    
+                        <a class="link-unstyled" href="/blog/2018/07/21/why-rnn/">
+                            RNN 的意義
+                        </a>
+                    
+                </h1>
+                <div class="postShorten-meta">
+    <time datetime="2018-07-21T22:21:30+08:00">
+	
+		    7月 21, 2018
+    	
+    </time>
+    
+        <span>分類 </span>
+        
+    <a class="category-link" href="/blog/categories/Deep-Learning/">Deep Learning</a>
+
+
+    
+</div>
+
+            </div>
+            
+                <div class="postShorten-excerpt">
+                    <!-- toc -->
+<p>今天又是個長長的故事。</p>
+<p>上次我們講完在空間上，我們可以知道資料的區域性，並且利用 convolution 來萃取特徵。</p>
+<p>這次我們來講時間，其實不一定要是&quot;時間&quot;序列資料，只要是有先後順序的資料就可以。</p>
+<p>在時間序列分析及統計的領域中，我們有基礎的馬可夫模型（Markov chain）。</p>
+                    
+                        <a href="/blog/2018/07/21/why-rnn/" class="postShorten-excerpt_link link">
+                            繼續閱讀
+                        </a>
+                        
+                    
+                </div>
+            
+        </div>
+        
+    </article>
+    
+    
+    <article class="postShorten postShorten--thumbnailimg-right">
+        <div class="postShorten-wrap">
+            
+            <div class="postShorten-header">
+                <h1 class="postShorten-title">
+                    
+                        <a class="link-unstyled" href="/blog/2018/07/21/why-cnn/">
+                            CNN 的意義
+                        </a>
+                    
+                </h1>
+                <div class="postShorten-meta">
+    <time datetime="2018-07-21T22:19:44+08:00">
+	
+		    7月 21, 2018
+    	
+    </time>
+    
+        <span>分類 </span>
+        
+    <a class="category-link" href="/blog/categories/Deep-Learning/">Deep Learning</a>
+
+
+    
+</div>
+
+            </div>
+            
+                <div class="postShorten-excerpt">
+                    <!-- toc -->
+<p>前面大致介紹完了 Deep learning 跟 MLP 的設計，我們接下來介紹在影像處理上的重要技術。</p>
+<p>Convolutional neural network，顧名思義，他是一種神經網路架構，裡頭包含著 convolution 的運算。</p>
+<p>那為什麼 convolution 這麼重要，重要到要放在名稱上呢？</p>
+                    
+                        <a href="/blog/2018/07/21/why-cnn/" class="postShorten-excerpt_link link">
+                            繼續閱讀
+                        </a>
+                        
+                    
+                </div>
+            
+        </div>
+        
+    </article>
+    
+    
+    <article class="postShorten postShorten--thumbnailimg-right">
+        <div class="postShorten-wrap">
+            
+            <div class="postShorten-header">
+                <h1 class="postShorten-title">
+                    
+                        <a class="link-unstyled" href="/blog/2018/07/21/why-mlp/">
+                            Multi-Layer Preceptron 的意義
+                        </a>
+                    
+                </h1>
+                <div class="postShorten-meta">
+    <time datetime="2018-07-21T22:15:58+08:00">
+	
+		    7月 21, 2018
+    	
+    </time>
+    
+        <span>分類 </span>
+        
+    <a class="category-link" href="/blog/categories/Deep-Learning/">Deep Learning</a>
+
+
+    
+</div>
+
+            </div>
+            
+                <div class="postShorten-excerpt">
+                    <!-- toc -->
+<p>在前一篇講完了 deep learning 的意義之後我們來更具體一點講 multi-layer perceptron (MLP)。</p>
+<p>最簡單的版本莫過於 linear MLP，不過不太會有人去用他，其實只是每層 layer 的 activation function 都是採用 identity。你可以想像他是有很多的線性轉換所疊起來的模型。</p>
+                    
+                        <a href="/blog/2018/07/21/why-mlp/" class="postShorten-excerpt_link link">
+                            繼續閱讀
+                        </a>
+                        
+                    
+                </div>
+            
+        </div>
+        
+    </article>
+    
+    <div class="pagination-bar">
+    <ul class="pagination">
+        
+          <li class="pagination-prev">
+            <a class="btn btn--default btn--small" href="/blog/archives/2018/07/">
+              <i class="fa fa-angle-left text-base icon-mr"></i>
+              <span>上一頁</span>
+            </a>
+          </li>
+        
+        
+          <li class="pagination-next">
+            <a class="btn btn--default btn--small" href="/blog/archives/2018/07/page/3/">
+              <span>下一頁</span>
+              <i class="fa fa-angle-right text-base icon-ml"></i>
+            </a>
+          </li>
+        
+        <li class="pagination-number">第 2 頁 共 3 頁</li>
+    </ul>
+</div>
+
+</section>
+
+
+
+                <footer id="footer" class="main-content-wrap">
+    <span class="copyrights">
+        Copyrights &copy; 2026 Yueh-Hua Tu. All Rights Reserved.
+    </span>
+</footer>
+
+            </div>
+            
+        </div>
+        
+
+
+<div id="about">
+    <div id="about-card">
+        <div id="about-btn-close">
+            <i class="fa fa-remove"></i>
+        </div>
+        
+            <h4 id="about-card-name">Yueh-Hua Tu</h4>
+        
+            <div id="about-card-bio"><p>目標是計算生物學家！</br>Systems Biology, Computational Biology, Machine Learning</br>Julia Taiwan 發起人</p>
+</div>
+        
+        
+            <div id="about-card-job">
+                <i class="fa fa-briefcase"></i>
+                <br/>
+                <p>研發替代役研究助理</p>
+
+            </div>
+        
+        
+            <div id="about-card-location">
+                <i class="fa fa-map-marker"></i>
+                <br/>
+                Taiwan
+            </div>
+        
+    </div>
+</div>
+
+        
+        
+<div id="cover" style="background-image:url('/blog/assets/images/cover.jpg');"></div>
+        <!--SCRIPTS-->
+
+<script src="/blog/assets/js/script-xzfezjobyekpxrjktw5tz6muvzqfsbmo5n6atk3p5om9ulfptldi3p7cyqd8.min.js"></script>
+
+<!--SCRIPTS END--><!-- hexo-inject:begin --><!-- hexo-inject:end -->
+
+
+    </body>
+</html>
