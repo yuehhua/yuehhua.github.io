@@ -1,0 +1,80 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 900" width="800" height="900">
+  <title>ISB Lab AI Agent mascot</title>
+  <defs>
+    <radialGradient id="glow" cx="50%" cy="42%" r="60%">
+      <stop offset="0%" stop-color="#e7f5ff" stop-opacity="0.9" />
+      <stop offset="100%" stop-color="#e7f5ff" stop-opacity="0" />
+    </radialGradient>
+  </defs>
+
+  <!-- soft ambient glow behind the whole scene -->
+  <circle cx="400" cy="420" r="360" fill="url(#glow)" />
+
+  <!-- connecting lines: agent -> memory / discovery / teaching -->
+  <path d="M 345 385 Q 220 285 152 205" fill="none" stroke="#40a02b" stroke-width="3" stroke-dasharray="2 9" stroke-linecap="round" opacity="0.55" />
+  <path d="M 460 385 Q 585 285 655 212" fill="none" stroke="#1971c2" stroke-width="3" stroke-dasharray="2 9" stroke-linecap="round" opacity="0.55" />
+  <path d="M 468 485 Q 565 525 636 550" fill="none" stroke="#40a02b" stroke-width="3" stroke-dasharray="2 9" stroke-linecap="round" opacity="0.55" />
+
+  <!-- node: memory system (top-left) -->
+  <circle cx="140" cy="182" r="64" fill="#f2faf4" stroke="#40a02b" stroke-width="4" />
+  <ellipse cx="140" cy="163" rx="26" ry="10" fill="#40a02b" />
+  <rect x="114" y="163" width="52" height="32" fill="#40a02b" />
+  <ellipse cx="140" cy="195" rx="26" ry="10" fill="#2b8a3e" />
+  <path d="M 114 179 Q 140 189 166 179" fill="none" stroke="#f2faf4" stroke-width="2" opacity="0.7" />
+
+  <!-- node: automated discovery (top-right) -->
+  <circle cx="658" cy="172" r="64" fill="#e7f5ff" stroke="#1971c2" stroke-width="4" />
+  <rect x="650" y="140" width="10" height="17" fill="#1971c2" />
+  <path d="M 646 152 L 664 152 L 680 197 Q 683 208 670 208 L 640 208 Q 627 208 630 197 Z" fill="#1971c2" />
+  <circle cx="652" cy="190" r="4" fill="#40a02b" />
+  <circle cx="663" cy="196" r="3" fill="#40a02b" />
+  <circle cx="658" cy="182" r="2.5" fill="#f2faf4" />
+
+  <!-- node: course assistant / teaching (bottom-right) -->
+  <circle cx="648" cy="562" r="64" fill="#f2faf4" stroke="#40a02b" stroke-width="4" />
+  <path d="M 614 556 L 648 541 L 682 556 L 648 571 Z" fill="#40a02b" />
+  <rect x="632" y="562" width="32" height="12" rx="4" fill="#2b8a3e" />
+  <line x1="678" y1="558" x2="691" y2="580" stroke="#2b8a3e" stroke-width="3" stroke-linecap="round" />
+  <circle cx="692" cy="583" r="4" fill="#2b8a3e" />
+
+  <!-- ground shadow -->
+  <ellipse cx="400" cy="655" rx="145" ry="20" fill="#16283c" opacity="0.08" />
+
+  <!-- agent: waving arm -->
+  <path d="M 512 362 Q 588 330 582 268" fill="none" stroke="#1971c2" stroke-width="30" stroke-linecap="round" />
+  <circle cx="583" cy="260" r="22" fill="#1971c2" />
+  <path d="M 610 232 Q 622 238 628 250" fill="none" stroke="#74c0fc" stroke-width="5" stroke-linecap="round" opacity="0.8" />
+  <path d="M 625 210 Q 640 218 648 232" fill="none" stroke="#74c0fc" stroke-width="5" stroke-linecap="round" opacity="0.6" />
+
+  <!-- agent: resting arm -->
+  <path d="M 288 368 Q 245 405 250 458" fill="none" stroke="#1971c2" stroke-width="30" stroke-linecap="round" />
+  <circle cx="251" cy="462" r="20" fill="#1971c2" />
+
+  <!-- agent: body -->
+  <rect x="270" y="322" width="260" height="278" rx="72" fill="#1971c2" />
+  <rect x="338" y="380" width="124" height="92" rx="20" fill="#ffffff" />
+  <circle cx="400" cy="426" r="12" fill="#40a02b" />
+  <rect x="356" y="446" width="16" height="8" rx="4" fill="#74c0fc" />
+  <rect x="380" y="446" width="16" height="8" rx="4" fill="#74c0fc" />
+  <rect x="404" y="446" width="16" height="8" rx="4" fill="#74c0fc" />
+  <rect x="428" y="446" width="16" height="8" rx="4" fill="#74c0fc" />
+
+  <!-- agent: head -->
+  <rect x="288" y="152" width="224" height="168" rx="56" fill="#ffffff" stroke="#0b57a4" stroke-width="8" />
+  <circle cx="311" cy="262" r="9" fill="#40a02b" opacity="0.35" />
+  <circle cx="489" cy="262" r="9" fill="#40a02b" opacity="0.35" />
+
+  <!-- eyes -->
+  <rect x="330" y="205" width="50" height="58" rx="18" fill="#0b57a4" />
+  <rect x="420" y="205" width="50" height="58" rx="18" fill="#0b57a4" />
+  <circle cx="346" cy="222" r="7" fill="#ffffff" />
+  <circle cx="436" cy="222" r="7" fill="#ffffff" />
+
+  <!-- smile -->
+  <path d="M 368 278 Q 400 300 432 278" fill="none" stroke="#0b57a4" stroke-width="9" stroke-linecap="round" />
+
+  <!-- antenna -->
+  <line x1="400" y1="152" x2="400" y2="112" stroke="#0b57a4" stroke-width="10" stroke-linecap="round" />
+  <circle cx="400" cy="97" r="24" fill="#40a02b" opacity="0.25" />
+  <circle cx="400" cy="97" r="14" fill="#40a02b" />
+</svg>
